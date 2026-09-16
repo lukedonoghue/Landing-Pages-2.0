@@ -1,12 +1,22 @@
 /** Local release utilities and read-only Cloudflare identity inspection. */
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdirSync, renameSync, unlinkSync, existsSync, lstatSync, fstatSync, openSync, closeSync, fsyncSync } from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createHash, randomUUID, pbkdf2Sync, timingSafeEqual } from 'node:crypto';
 
 export const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 export const SHA = /^[a-f0-9]{64}$/;
 export const hash = value => createHash('sha256').update(value).digest('hex');
+export function currentSourceFingerprint(root) {
+  const here=path.dirname(fileURLToPath(import.meta.url));
+  const checker=[path.join(here,'check_gates.py'),path.resolve(here,'../../../scripts/check_gates.py')].find(existsSync);
+  if(!checker)throw new Error('The source evidence helper is missing. Restore the reviewed helpers before verification.');
+  const code='import sys;from pathlib import Path;sys.path.insert(0,sys.argv[1]);import check_gates;print(check_gates.source_snapshot(Path(sys.argv[2]))["source_fingerprint"])';
+  const result=spawnSync(process.env.FUNNEL_PYTHON||'python3',['-c',code,path.dirname(checker),root],{encoding:'utf8',timeout:30000,maxBuffer:1024*1024});
+  if(result.status!==0 || !SHA.test(result.stdout.trim()))throw new Error('The current project source cannot be checked. Preserve its evidence and restore the supported local tools.');
+  return result.stdout.trim();
+}
 export function read(file) { try { return JSON.parse(readFileSync(file, 'utf8')); } catch { throw new Error('A required local release/configuration JSON file is missing or invalid. Inspect it privately; no contents were echoed.'); } }
 export function inside(root, value, privateAllowed = false) {
   const file = path.resolve(root, value), relative = path.relative(root, file);

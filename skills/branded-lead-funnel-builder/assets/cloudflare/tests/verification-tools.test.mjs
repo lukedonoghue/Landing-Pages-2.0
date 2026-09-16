@@ -95,6 +95,7 @@ test('WebKit waits for a delayed image even when decode rejects, and still rejec
   } finally { release(); await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 });
 test('live test writes require explicit authorization and a synthetic fixture', () => {
+  for(const key of ['read-only','allow-test-lead','cleanup-test-lead','resume-journey'])assert.throws(()=>testRunOptions({[key]:'false'},fixture),/booleans/);
   assert.deepEqual(testRunOptions({}, fixture), { readOnly: true });
   assert.throws(() => testRunOptions({ 'allow-test-lead': true, 'read-only': true }, fixture));
   assert.throws(() => testRunOptions({ 'cleanup-test-lead': true }, fixture));

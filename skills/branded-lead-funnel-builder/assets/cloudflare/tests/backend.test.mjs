@@ -134,6 +134,19 @@ test('stage version prevents lost updates, notes persist, list search is literal
   assert.equal((await jsonCall('/api/admin/leads?q=%25')).body.total, 0);
   assert.equal((await call('/api/admin/leads?limit=999999')).status, 400);
 });
+test('note request identifiers make lost-response and concurrent retries idempotent', async () => {
+  const request_id=crypto.randomUUID();const route='/api/admin/leads/'+firstLead+'/notes';
+  const body={body:'Synthetic recoverable note',request_id};
+  const replies=await Promise.all([jsonCall(route,{method:'POST',body}),jsonCall(route,{method:'POST',body})]);
+  assert.ok(replies.every(reply=>reply.status===201));assert.ok(replies.every(reply=>reply.body.note.id===request_id));
+  assert.equal((await db.prepare('SELECT COUNT(*) AS count FROM notes WHERE id=?').bind(request_id).first()).count,1);
+  assert.equal((await db.prepare('SELECT COUNT(*) AS count FROM activity WHERE id=?').bind('note:'+request_id).first()).count,1);
+  assert.equal((await jsonCall(route,{method:'POST',body:{...body,body:'Changed note'}})).status,409);
+  const other=await db.prepare('SELECT id FROM leads WHERE id<>? LIMIT 1').bind(firstLead).first();assert.ok(other);
+  assert.equal((await jsonCall('/api/admin/leads/'+other.id+'/notes',{method:'POST',body})).status,409);
+  assert.equal((await jsonCall(route,{method:'POST',body:{...body,request_id:'invalid'}})).status,400);
+});
+
 test('analytics respects consent, DNT/GPC, deduplicates visits and counts converted visitors', async () => {
   const visitor1 = crypto.randomUUID(); const visitor2 = crypto.randomUUID();
   const visit = { event_id: crypto.randomUUID(), visitor_id: visitor1, path: '/', analytics_consent: true };

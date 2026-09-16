@@ -19,6 +19,7 @@ Continue the actual authorized work from `next_action` and the concrete `blocker
 - Current QA reports are reused. A changed source, failed report or damaged artifact still blocks readiness. Resume never replaces a recorded failure with an older green candidate. Old reports for a different snapshot cannot satisfy the new one.
 - Once local checks pass, the view distinguishes publishing setup, final publishing review and eligibility for the approved publish. It does not claim credential or remote-account verification merely from local files.
 - Guarded release progress distinguishes incomplete publication, validated saved live verification and local changes made after the verified release. Local status never claims it just queried Cloudflare. The publisher's `--resume` checks provider/runtime identity and resumes that release without blindly uploading again. See [guided publishing](guided-publishing.md#retained-releases-and-interrupted-publishing) for exact recovery boundaries. A legacy deployment record alone remains insufficient.
+- A supported interrupted verification continues the same journey and private request. It can retry a lost acknowledgement with the original idempotency key, retain completed browser proof, reconcile an already-applied stage, avoid duplicate notes and finish interrupted cleanup. Reports preserve each run. Source/fixture/identity changes, missing private payloads, concurrent edits and the three-run limit remain visible blockers; a new request ID is not a recovery workaround.
 - Fictional demo projects stay in their explicit local-only stage and never request client approval or become publishable through this helper.
 
 ## Preserve meaningful failures or interruptions
@@ -39,4 +40,4 @@ Updates to workflow records use an exclusive local lock and atomic replacement. 
 
 ## Current boundary
 
-This version preserves local progress, reuses actual QA evidence and guides the next agent action. Remote operation reconciliation, immutable release evidence and restart-safe publishing/verification are still engineering work. Until those land, record uncertain external work and inspect its actual outcome; do not infer that a missing local success record means the remote operation failed or should be repeated.
+This version includes local progress/QA reuse, sealed release evidence, guarded upload inspection and supported partial-journey recovery. Setup journals, explicit replacement of unresolved releases, uncertain migration/origin/legacy reconciliation, reporting-day/exhausted-budget recovery and the real Cloudflare pilot remain unfinished. Preserve uncertain external work and inspect its outcome; a missing local success record never proves that an operation failed or should be repeated with new IDs.
