@@ -71,10 +71,10 @@ Use README-BOHDAN.md for remaining engineering details. Fixed/mitigated items ar
 
 ### Verification
 
-The bounded collection helper actually fetched the official Cloudflare Workers and Netlify platform pages into an ignored local pilot directory. A separate agent read those saved sources, prepared a grounded copy-only brief and anchored reference analysis, then ran preparation and relocation checks. The primary reference remained explicit even with zero curated matches, relocation produced identical context, edited relocated evidence was rejected, and all nine library files remained unchanged. This was a text/context exercise, not a visual design review, client copy approval or publication.
+The bounded collection helper actually fetched the official [Cloudflare Workers](https://www.cloudflare.com/developer-platform/products/workers/) and [Netlify platform](https://www.netlify.com/platform/) pages into an ignored local pilot directory. A separate agent read those saved sources, prepared a grounded copy-only brief and anchored reference analysis, then ran preparation and relocation checks. The primary reference remained explicit even with zero curated matches, relocation produced identical context, edited relocated evidence was rejected, and all nine library files remained unchanged. This was a text/context exercise, not a visual design review, client copy approval or publication.
 
 The actual local demo completed 72 browser checks and 28 form/CRM checks, and its new local_journey report was successfully recorded and independently validated against the receipt, event, HTTP and dashboard artifacts. The marker still prevents demo publication.
 
 The combined local regression command passed **222 tests**: 65 repository Python, 19 evidence-gate, 40 image and 98 application tests. A controlled real WebKit test covers a delayed image whose decode method rejects early and a truly broken image.
 
-Fresh GitHub CI is being run for this code batch. Approved-copy-to-rendered-output parity (B10), complete stage/resume orchestration and the remaining live/account/human acceptance items are still open.
+[GitHub run 35140605873](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35140605873) passed at code revision ffbc86c, including the fresh generated local demo and automatic recording of its local_journey evidence. Both skill installations have been synchronized. Approved-copy-to-rendered-output parity (B10), complete stage/resume orchestration and the remaining live/account/human acceptance items are still open.
