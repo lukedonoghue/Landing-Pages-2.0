@@ -47,7 +47,7 @@ python3 scripts/dev.py reset-demo
 ~~~
 
 - check runs the repository's Python and application regressions and rejects skipped application tests. From an installed skill without the repository, its output explicitly identifies the narrower installed-skill suite scope.
-- verify-demo creates its own loopback-only server and stops it afterward. It runs Chromium/WebKit and a real local form-to-D1-backed-CRM journey, then renders every PDF page and checks key extracted text.
+- verify-demo creates its own loopback-only server and stops it afterward. It runs Chromium/WebKit and a real local form-to-D1-backed-CRM journey, captures actual desktop/mobile wording without submitting another lead, compares page/modal/thank-you/PDF against the authored synthetic master, records both release gates, then renders every PDF page. These fixture checks are never human copy approval.
 - --full adds the nine-viewport layout matrix and three mobile Lighthouse runs.
 - Reports and screenshots remain under the demo's build directory. No Cloudflare account is needed.
 - The tests create a synthetic visit/contact that remains in local historical metrics. A soft-deleted contact would not remove that history.
@@ -55,6 +55,8 @@ python3 scripts/dev.py reset-demo
 - Stop the demo server before reset. The quickstart lock prevents concurrent serve, verification and reset operations managed by this helper.
 
 Creation refuses to overwrite an unrelated nonempty directory. Re-running demo on its own complete scaffold resumes dependency/PDF/database setup and preserves existing source edits. If source generation itself was interrupted before its required files were complete, choose a new directory; the incomplete files are retained.
+
+Demos created before the rendered-copy helper was added need a new demo directory. Verification detects the missing contract/helper before starting the server or adding a test lead; it does not overwrite old source or data.
 
 The fictional demo is explicitly blocked by the publication approval checker and remote setup. Automatic GitHub deployment is disabled for this beta. Use a new real client project and its actual approvals for a live page.
 

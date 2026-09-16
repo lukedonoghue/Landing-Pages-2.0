@@ -107,6 +107,17 @@ class OnboardingTests(unittest.TestCase):
                     quickstart.reset_demo(project,'unused-node')
                 setup.assert_not_called()
 
+    def test_older_demo_without_copy_contract_fails_before_start_or_form_writes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project=write_demo_sources(Path(tmp)/'demo')
+            original=(project/'public/index.html').read_bytes()
+            (project/'build/page-copy.json').unlink()
+            with patch('quickstart.demo_server') as server, patch('quickstart.ensure_ready') as ready:
+                with self.assertRaisesRegex(ValueError,'new demo directory'):
+                    quickstart.verify_demo(project,'unused-node')
+                server.assert_not_called();ready.assert_not_called()
+            self.assertEqual((project/'public/index.html').read_bytes(),original)
+
 
 if __name__ == "__main__":
     unittest.main()

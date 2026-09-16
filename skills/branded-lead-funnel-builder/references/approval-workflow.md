@@ -28,7 +28,7 @@ The publish approval is bound to the source fingerprint used by the current hand
 
 ## Evidence helpers
 
-After a current `check_gates.py snapshot`, run `workflow.py record-copy-evidence` and `record-image-evidence`, then record their generated reports with the gate checker. Complete-workflow projects require copy, image, browser, visual, performance, compatibility and applicable brochure evidence. Complete Worker funnels additionally require recorded local_journey evidence from the actual browser-to-D1-backed-CRM verifier before final publication approval; a read-only check cannot satisfy it.
+After a current `check_gates.py snapshot`, run `workflow.py record-copy-evidence` and `record-image-evidence`, then record their generated reports with the gate checker. Complete-workflow projects require copy, image, browser, visual, performance, compatibility and applicable brochure evidence. Complete Worker funnels additionally require [rendered_copy evidence](rendered-copy.md) comparing the canonical approved wording with the actual page/modal/thank-you/PDF, and recorded local_journey evidence from the actual browser-to-D1-backed-CRM verifier before final publication approval; a read-only check cannot satisfy it.
 
 ## Limits and tests
 

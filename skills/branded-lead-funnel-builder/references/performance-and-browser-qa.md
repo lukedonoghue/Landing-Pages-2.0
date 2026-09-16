@@ -131,3 +131,7 @@ npm run verify:live -- --url https://actual-worker.account.workers.dev --allow-r
 When the journey and identity checks succeed, the tool emits `crm.json`, `tracking.json`, and `deployment.json` for their evidence gates. The main result also requires `fully_verified: true`. A read-only result is `pass_with_warnings`, `fully_verified: false`, and `readiness: "public-checks-only"`; it never emits successful CRM/tracking/deployment subgate files. An upload alone is not a completed launch. A missing account login, DNS/certificate problem, unavailable target URL, broken resource, or failed receipt must be stated as an exact incomplete step.
 
 If a custom domain is connected after testing workers.dev, repeat the live checks on that domain. Cross-origin cookies, paths, TLS, and redirects must be checked on the destination visitors will actually use. Keep GitHub optional for the deployed application; the site, API, lead database, analytics and admin panel remain on Cloudflare.
+
+## Rendered wording
+
+Run the required [rendered-copy capture and comparison](rendered-copy.md) against the same snapshot for complete Worker funnels. It is read-only by default and complements the actual submission journey. The synthetic quickstart demo captures, compares and records this gate automatically.
