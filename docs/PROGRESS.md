@@ -150,3 +150,26 @@ An independent agent exercised a fresh scaffold/checkpoint and a relocated copy 
 ### Remaining scope
 
 This is the local progress/resumption layer of B18, not its full completion. Setup/deployment/verification operation journals, reliable remote retries, immutable release evidence, running version/database reconciliation and current-credential handling remain in B03/B04/B18. The existing publisher must not be blindly rerun to refresh a status. Portable handoff and the remaining live/human acceptance requirements also remain open. The full goal stays active.
+
+## Guarded publishing and release evidence — 16 September 2026
+
+### Implemented
+
+- The publisher freezes the reviewed source, linked handoff artifacts, canonical copy and sanitized actual approval provenance into a sealed per-release package. Live snapshots and CRM/tracking/deployment reports are separate; historical QA is never relabeled as fresh live evidence.
+- New-release prerequisites check current private credentials, synthetic fixture/selectors, actual Chromium availability, non-skipped tests and pinned Wrangler before remote mutation. First-deployment secrets join the code upload; later releases retain existing remote secrets and check current owner login first.
+- Durable release phases and a real process lock support resumption. An uncertain upload is inspected for the original release marker, version and D1 binding instead of uploaded again. Runtime metadata is checked before credentials and after the journey.
+- Completed journeys recover missing derived report writes without another form submission. Possibly submitted leads retain their request key/receipt and block repetition. A changed active version cannot inherit an older version's verification even when its release/source markers are unchanged.
+- Workflow progress now recognizes validated saved release proof and newer unpublished source changes. Local status explicitly does not query Cloudflare; the guarded publisher's resume performs that check.
+- Bohdan's B03/B04/B18 notes and the publishing/resumption guides describe implemented behavior and the remaining boundaries.
+
+### Verification
+
+The combined local command passed **319 regression tests**: 118 repository Python, 19 evidence, 40 image, 18 catalogue and 124 application tests, with no application skips. Added coverage includes actual OS-lock inheritance after parent interruption, archive relocation/sealing, live/handoff separation, evidence reconstruction and tampering, initial upload/secret ordering, missing browser, current private credential references, provider/runtime mismatch and bounded recovery. Cloudflare responses and approval preconditions in publishing protocol tests are explicitly synthetic; these are not launch evidence.
+
+An independent offline forward test found and confirmed fixes for three defects: verified resume resetting the compatibility summary to pending, a replacement active version reusing older proof, and interrupted derived-report writes stranding a completed journey. Its seven final scenarios passed without provider/account calls or canonical-source edits.
+
+A fresh generated demo (`.development/release-pilot`) passed 72 browser checks, 28 real local form/CRM checks, 118 layout checks and three PDF renders. Mobile Lighthouse median: 100, LCP about 930 ms, CLS 0, TBT 0. The demo resumed with valid report reuse and remained nonpublishable. Representative desktop page, short mobile modal and thank-you captures were inspected; this was not a complete client visual approval. Wrangler's local dry-run built the Worker/assets and recognized D1, assets and version-metadata bindings. No account deployment occurred.
+
+### Still open
+
+B03/B04/B18 are **partial**, not closed. Remaining work includes receipt-based continuation after partial live journeys, explicit superseding of failed/read-only releases, setup journals, uncertain migration/origin/legacy reconciliation, automatic current-password handoff after CLI recovery and actual deployed rotation/recovery acceptance. B07 portable distribution, the real authorized Cloudflare pilot, privacy/retention work, exact image-route acceptance and first-time human sessions also remain open. No existing client page was deployed and no paid image request was made. The development goal stays active.

@@ -4,6 +4,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { atomic, runtimeIdentity } from './release-tools.mjs';
 import { parseArgs, checkedTarget, sameOriginUrl, loadFixture, makeReport, check, finish, writeReport, artifact, fillSteps } from './browser-compat.mjs';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -76,6 +77,9 @@ export async function runLiveVerify(args, runtime = {}) {
   // A read-only or failed attempt must not leave successful derived reports from
   // an earlier attempt under the same output path. Use distinct --out paths for history.
   for (const name of ['local-journey.json', 'crm.json', 'tracking.json', 'deployment.json']) rmSync(path.join(out, name), { force: true });
+  const attempt = { schema_version: 1, started_at: new Date().toISOString(), form_attempted: false, request_key: null, receipt: null };
+  const saveAttempt = () => atomic(path.join(out, 'attempt.json'), attempt); saveAttempt();
+  const runtimeProof = {}; let identity;
   const trace = [], eventTrace = []; let browser, anonymous, admin, createdId, phase = 'public-checks';
   let deployment;
   try {
@@ -85,6 +89,15 @@ export async function runLiveVerify(args, runtime = {}) {
       report.warnings.push('Read-only verification is partial. No form, administrator login, stored receipt, or analytics correlation was tested.');
       report.readiness = 'public-checks-only';
       return writeReport(finish(report), out);
+    }
+    phase = 'release-identity';
+    if (!target.local) {
+      if (!args.identity) throw new Error('A guarded release identity is required before sending administrator credentials.');
+      identity = JSON.parse(readFileSync(args.identity, 'utf8'));
+      if (identity.evidence_source !== 'cloudflare-wrangler-deployments-and-version-api' || identity.source_fingerprint !== report.source_fingerprint || identity.url !== target.url.origin || !UUID.test(identity.release_id || '') || !UUID.test(identity.database_id || '')) throw new Error('The identity evidence does not match this release snapshot.');
+      runtimeProof.before = await runtimeIdentity(target.url.origin, identity, runtime.fetch || fetch);
+      report.deployment_identity = identity;
+      report.artifacts.push(artifact(args.identity, 'deployment_identity', args['project-root']));
     }
     phase = 'administrator-login';
     const auth = credentials(args, runtime.env || process.env);
@@ -125,12 +138,17 @@ export async function runLiveVerify(args, runtime = {}) {
     let capturedReceipt, submitted;
     // Read the real Worker acknowledgement before the page navigates away.
     // A response-body read after navigation can race Chromium's request disposal.
-    await page.route('**/api/leads', async route => {
+    await page.route('**/api/leads*', async route => {
+      if (new URL(route.request().url()).pathname !== '/api/leads' || route.request().method() !== 'POST') { await route.continue(); return; }
       if (new URL(route.request().url()).origin !== target.url.origin) { await route.abort('blockedbyclient'); return; }
       submitted = route.request().postDataJSON();
+      attempt.form_attempted = true;
+      attempt.request_key = typeof submitted.idempotency_key === 'string' ? submitted.idempotency_key : null;
+      saveAttempt(); // Durable before the first actual request; no contact fields are retained.
       const accepted = await route.fetch({ maxRedirects: 0 });
       const body = await accepted.body();
       try { capturedReceipt = JSON.parse(body.toString()); } catch {}
+      if (capturedReceipt?.ok && UUID.test(capturedReceipt.lead_id || '') && UUID.test(capturedReceipt.receipt_id || '')) { attempt.receipt = { lead_id: capturedReceipt.lead_id, receipt_id: capturedReceipt.receipt_id }; saveAttempt(); }
       await route.fulfill({ response: accepted, body });
     });
     const capturedVisits = [];
@@ -201,6 +219,10 @@ export async function runLiveVerify(args, runtime = {}) {
     report.synthetic_impact = { visits: 1, leads: 1, historical_metrics_retain_test: true, lead_id: createdId };
     await adminRequest('/api/auth/logout', 'POST', {});
     report.journey_assertions.logout = check(report, 'Administrator logout revokes the session', (await admin.request.get(new URL('/api/admin/leads', target.url).href)).status() === 401);
+    if (identity) {
+      runtimeProof.after = await runtimeIdentity(target.url.origin, identity, runtime.fetch || fetch);
+      check(report, 'Running release identity is unchanged after the journey', true);
+    }
     report.observations = receiptProof;
     report.fully_verified = report.failures.length === 0 && (target.local || !!deployment);
     report.readiness = report.fully_verified ? (target.local ? 'local-journey-verified' : 'live-journey-verified') : 'incomplete';
@@ -212,6 +234,8 @@ export async function runLiveVerify(args, runtime = {}) {
     // Best-effort logout also runs on failed journeys; never leave a verification session active.
     if (admin) { try { await admin.request.post(new URL('/api/auth/logout', target.url).href, { headers: { Origin: target.url.origin }, data: {} }); } catch {} }
     await browser?.close();
+    attempt.finished_at = new Date().toISOString(); attempt.stage = phase; saveAttempt();
+    if (identity) { const identityFile = path.join(out, 'runtime-identity.json'); atomic(identityFile, runtimeProof); report.artifacts.push(artifact(identityFile, 'runtime_identity', args['project-root'])); }
     for (const [file, type, data] of [['http-trace.json', 'http_trace', trace], ['event-trace.json', 'event_trace', eventTrace]]) {
       const destination = path.join(out, file); writeFileSync(destination, JSON.stringify(data, null, 2) + '\n'); report.artifacts.push(artifact(destination, type, args['project-root']));
     }

@@ -46,8 +46,8 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | --- | --- | --- | --- | --- |
 | Disabled for beta | B01 | P1 if enabled | Make optional GitHub deployment use the release safeguards | Mitigated; guarded automation still deferred |
 | [x] | B02 | P1 | Require the local form-to-CRM journey before publication | Implemented; actual local receipt/visit/CRM/reporting gate verified |
-| [ ] | B03 | P1 | Finish live evidence registration, release status and deployed identity checks | Integration gap |
-| [ ] | B04 | P1 | Validate publishing prerequisites early and handle changed passwords | Confirmed defects |
+| Partial | B03 | P1 | Finish live evidence registration, release status and deployed identity checks | Guarded release/evidence implemented; pilot and partial-journey recovery remain |
+| Partial | B04 | P1 | Validate publishing prerequisites early and handle changed passwords | Early checks/current references implemented; real redeploy acceptance remains |
 | [x] | B05 | P1 | Fix first-use CLI session-revocation race | Fixed; first-use and rotated-account race regression passed |
 | [ ] | B06 | P2 | Make owner username changes consistent and persistent | Confirmed defect |
 | [ ] | B07 | P1 for handoff | Make generated-project ZIPs resumable without invalidating evidence | Reproduced defect |
@@ -61,7 +61,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | [ ] | B15 | P1 before promising erasure | Complete retention and permanent personal-data removal | Missing operation / decision |
 | [x] | B16 | P2 | Run a reproducible complete generated funnel in CI | Implemented; fresh Linux CI passed the full local journey |
 | Local profile ready | B17 | P2 | Add a dependency doctor and complete clean-machine setup | macOS/Linux local tools verified; account/agent capabilities remain separate |
-| Local layer | B18 | P2 | Make workflow progress and safe resumption durable | In progress: local state/QA reuse implemented; remote recovery remains |
+| Partial | B18 | P2 | Make workflow progress and safe resumption durable | Local state plus guarded release journal; full remote reconciliation remains |
 | [ ] | B19 | P1 before live claims | Run the first controlled Cloudflare deployment | Live verification |
 | [ ] | B20 | P2 | Rehearse remote backup, restore and recovery | Live verification |
 | [ ] | B21 | P2 | Validate physical mobile behavior and deployed performance | Live verification |
@@ -97,31 +97,31 @@ The skill instructs the agent to test the real local submission journey. However
 
 ### B03 — Complete the live evidence and publication-state lifecycle
 
-**P1 · Integration gap**
+**P1 · Partial implementation; live acceptance remains**
 
-The publish driver creates a live snapshot and runs the journey verifier, but does not register the emitted CRM/tracking/deployment reports or run the complete live gate check. It creates a deployment record with verification_pending set to true and never clears it. The general workflow status still only reports copy approval or design/QA.
+The guarded publisher now seals reviewed source/handoff evidence and actual approval scope per release, keeps separate live snapshots/reports, validates CRM/tracking/deployment artifacts and records prepared, migrated, uploaded, verification-failed and verified states. Completed result files regenerate missing derived reports after interruption. The compatibility summary clears verification_pending after valid complete evidence. Progress distinguishes saved verification from current provider inspection and newer unpublished local changes.
 
-Deployment identity is also taken from a supplied record: the verifier checks URL origin and database-ID format, but does not independently reconcile the running build/version and actual Worker database binding. Health currently proves database connectivity, not revision identity.
+Identity comes from pinned Wrangler deployment/version inspection (account, Worker, fully active version and actual D1 binding), matched against runtime release/version/source markers before credentials and after the journey. A replacement version preserving source/release variables cannot reuse older verification. Offline protocol and actual local runtime tests cover this behavior; account/API compatibility still needs B19.
 
-**Work:** Preserve pre-publish evidence separately from live evidence, record a durable uploaded/verification-failed/verified outcome, register the appropriate reports and reconcile the actual deployed version/binding. Define which pre-publish quality evidence can legitimately accompany a verified identical deployed revision. Do not relabel handoff screenshots as fresh live screenshots to satisfy the checker.
+**Remaining:** real authorized pilot; receipt-based continuation after partial form/CRM verification; explicit replacement of failed releases and frozen read-only scope; legacy release migration and uncertain origin/migration reconciliation. Preserve history and never blindly resubmit/redeploy.
 
-**Done when:** A successful controlled publish has a coherent final status and valid release evidence; interrupted/failed verification can resume without another deployment; stale/wrong revision or database metadata is detected; historical approval evidence remains intact.
+**Done when:** a controlled publish has coherent final status and valid release evidence; interrupted verification resumes without another deployment or duplicate lead; wrong revision/database is detected; historical approval evidence stays intact.
 
-**Files:** [publish completion](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/publish.mjs#L40), [live record validation](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/live-verify.mjs#L87), [report emission](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/live-verify.mjs#L212), [gate recording](skills/branded-lead-funnel-builder/scripts/check_gates.py#L282), [health endpoint](skills/branded-lead-funnel-builder/assets/cloudflare/src/worker.js#L31).
+**Files:** [driver](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/publish-driver.mjs), [sealed evidence](skills/branded-lead-funnel-builder/scripts/release_state.py), [provider/runtime inspection](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/release-tools.mjs), [verifier](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/live-verify.mjs).
 
-### B04 — Detect missing verification prerequisites before publishing
+### B04 — Detect verification prerequisites before publishing
 
-**P1 · Confirmed defects**
+**P1 · Partial implementation; rotation/recovery redeploy acceptance remains**
 
-Publishing checks whether fixture/password files exist, but invalid fixture content, malformed credentials and missing Chromium can be discovered only after remote migrations and deployment. Local application tests can skip browser coverage; the publishing driver does not reject skipped tests as the repository CI does.
+New-release checks now validate current credential structure, fixture schema and actual selector parsing, launch Chromium, require complete non-skipped application tests and check pinned Wrangler before remote mutation. Invalid target overrides are rejected before inspection, including resume. Initial secret/password mismatch blocks migrations; secrets join the first upload rather than a later bulk call.
 
-After an Account password change or recovery, the default production password file can also be stale. The new D1 password remains valid; deployment does not reset it. The problem is that the subsequent live verifier defaults to the original password and fails after making remote changes.
+The publisher accepts current private credential/password files and saves a private reference. It checks login/session for existing guarded deployments before migration/upload and retains remote secrets on later releases. After UI or CLI rotation, provide the new private reference; the bootstrap file is not automatically updated.
 
-**Work:** Validate fixture schema/selectors, credential structure, required tool/browser availability and test execution before mutation. Establish a secure current-credential handoff/reference. For an existing deployment, check current login where appropriate before redeployment. Do not store replacement plaintext credentials in source control.
+**Remaining:** automatically update the private reference after confirmed CLI recovery; test both rotation paths through actual deployed verification; verify resumed pre-upload operations handle changed local runtime/credentials as clearly as a first attempt.
 
-**Done when:** Invalid prerequisites cause no remote mutations. Redeployment after both UI password rotation and CLI recovery verifies using the current credential. Missing browsers cannot produce a green release via skipped tests.
+**Done when:** invalid prerequisites cause no remote mutations; redeployment after UI rotation and CLI recovery verifies using current credentials; missing browsers cannot produce a green release through skipped tests.
 
-**Files:** [publish preconditions/order](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/publish.mjs#L12), [late fixture/auth/browser checks](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/live-verify.mjs#L69), [password rotation](skills/branded-lead-funnel-builder/assets/cloudflare/src/admin-operations.js#L14), [recovery output](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/admin-account.mjs#L38).
+**Files:** [preconditions](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/publish-driver.mjs), [credential helpers](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/release-tools.mjs), [password rotation](skills/branded-lead-funnel-builder/assets/cloudflare/src/admin-operations.js), [recovery output](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/admin-account.mjs).
 
 ### B05 — CLI session revocation has a first-use race
 
@@ -305,7 +305,9 @@ Requirements are spread across helpers: Python, Node, browser engines, Firecrawl
 
 **Update:** `workflow.py status/resume` now derives research, drafting, editorial review, actual approval, design/image, QA and publishing-readiness stages from current evidence. Resume registers existing valid unregistered local reports, retains failures and exact-revision approvals, and stores atomic progress/checkpoints with a local lock. Pending image requests and uncertain external checkpoints remain visible; the helper never executes those actions. It distinguishes uploaded/unverified from validated legacy live checks and deliberately does not claim release completion. A relocated actual demo retained its validated browser/performance/copy/local-journey evidence and stayed nonpublishable. See [resumption guide](skills/branded-lead-funnel-builder/references/resuming-work.md).
 
-**Still required:** integrate authoritative operation journals and guarded retries into setup/publish/live verification, preserve immutable handoff versus live release evidence, reconcile real Worker/database identity, and recover interrupted verification without blind external repeats. B03/B04 and the remaining B18 criteria are not closed by a status view.
+**Publishing update:** durable sealed-release journals, a process lock, control-plane/runtime identity checks, separate handoff/live evidence and bounded recovery are implemented. Lost upload responses are inspected rather than reuploaded; completed journeys recover interrupted report serialization. Possibly submitted leads are preserved and blocked from repetition. Local status validates saved release proof without claiming a live query.
+
+**Still required:** setup journals, receipt-based continuation after partial journeys, explicit superseding of failed/read-only releases, uncertain migration/origin/legacy reconciliation and the real interruption pilot. B03/B04/B18 remain partial until these acceptance cases pass.
 
 Original finding:
 
