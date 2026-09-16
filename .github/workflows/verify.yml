@@ -99,3 +99,30 @@ jobs:
           path: skills/branded-lead-funnel-builder/assets/cloudflare/node-test-results.tap
           if-no-files-found: ignore
           retention-days: 14
+      - name: Install PDF and image build tools
+        working-directory: .
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y webp poppler-utils
+          python -m pip install -r skills/branded-lead-funnel-builder/requirements-build.txt
+      - name: Generate a fresh fictional local project
+        working-directory: .
+        run: python scripts/dev.py demo
+      - name: Verify the actual generated page, PDF, local D1 and CRM
+        working-directory: .
+        run: python scripts/dev.py verify-demo --full
+      - name: Keep only the synthetic verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fictional-local-funnel-evidence
+          include-hidden-files: true
+          path: |
+            .development/demo/build/demo-verification.json
+            .development/demo/build/browser-compat/
+            .development/demo/build/live-verification/
+            .development/demo/build/layout/
+            .development/demo/build/performance/
+            .development/demo/build/pdf/
+          if-no-files-found: ignore
+          retention-days: 14
