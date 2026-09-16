@@ -206,8 +206,14 @@ def render_document(copy,include_evidence=True):
         lines.extend(['## Section: '+s['id'],'','### '+s.get('headline',''),''] if include_evidence else ['## '+s.get('headline',''),''])
         show({k:v for k,v in s.items() if k not in ('id','headline')})
         if include_evidence and s.get('claim_ids'):lines.extend(['Evidence IDs: '+', '.join(s['claim_ids']),''])
-    for key in ('modal','thank_you','brochure'):
-        if key in copy:lines.extend(['## '+key.replace('_',' ').title(),'']);show(copy[key])
+    for key in ('modal','thank_you','brochure','interface_text'):
+        if key in copy:
+            lines.extend(['## '+key.replace('_',' ').title(),''])
+            value=copy[key]
+            if key=='brochure' and isinstance(value,dict) and value.get('approved_asset'):
+                show({k:v for k,v in value.items() if k!='approved_asset'})
+                lines.extend(['Review the supplied brochure unchanged: '+value['approved_asset'].get('path',''),''])
+            else:show(value)
     return '\n'.join(lines).rstrip()+'\n'
 
 def audit(copy_path,brief_path,context_path,review_path=None):
@@ -257,19 +263,37 @@ def audit(copy_path,brief_path,context_path,review_path=None):
             if cid not in claims or not claims[cid].get('approved'):failures.append('Unapproved or unknown claim '+cid+' in '+sid)
         if sid=='faq':
             if not s.get('questions') or any(not q.get('question') or not q.get('answer') for q in s.get('questions',[])):failures.append('FAQ needs complete questions and answers')
-    required_components=brief.get('required_components',['page'] if brief.get('output_mode')=='copy_only' else ['page','modal','thank_you'])
+    required_components=list(brief.get('required_components',['page'] if brief.get('output_mode')=='copy_only' else ['page','modal','thank_you']))
+    if brief.get('output_mode')!='copy_only' and (root/'funnel.json').is_file():
+        funnel=read(root/'funnel.json')
+        if funnel.get('quality',{}).get('complete_workflow') and funnel.get('catalogue',{}).get('enabled',True):required_components.append('brochure')
     for component in ('modal','thank_you','brochure'):
         if component not in copy:
             if component in required_components:failures.append('Missing '+component)
             continue
         if component=='brochure':
             if not copy[component].get('cover_promise') or not copy[component].get('delivery'):failures.append('Incomplete brochure promise or delivery wording')
+            asset=copy[component].get('approved_asset')
+            if asset:
+                try:
+                    path=project_file(root,asset['path'],True)
+                    if asset.get('origin')!='supplied' or path.suffix.lower()!='.pdf' or not path.read_bytes().startswith(b'%PDF-') or sha(path)!=asset.get('sha256'):
+                        failures.append('Supplied brochure asset must be the inspected unchanged PDF')
+                    if copy[component].get('text'):failures.append('Choose full brochure text or an unchanged supplied asset, not both')
+                except (OSError,ValueError,KeyError,TypeError):failures.append('Supplied brochure asset is missing or outside the project')
+            else:
+                def complete_text(value):
+                    if isinstance(value,str):return bool(value.strip())
+                    if isinstance(value,list):return bool(value) and all(complete_text(x) for x in value)
+                    if isinstance(value,dict):return bool(value) and all(complete_text(x) for x in value.values())
+                    return False
+                if not complete_text(copy[component].get('text')):failures.append('Complete brochure.text is required before copy approval')
             continue
         if copy[component].get('follow_up_promise')!=brief['follow_up_promise']:failures.append('Follow-up mismatch in '+component)
     if 'modal' in copy and copy['modal'].get('submit_label')!=brief['primary_cta']:failures.append('Modal submit label differs from primary CTA')
     # Only customer-facing fields are scanned; evidence IDs and metadata are not rendered copy.
     visible=[]
-    skip={'id','claim_ids','source_ids','cta_role','evidence','notes'}
+    skip={'id','claim_ids','source_ids','cta_role','evidence','notes','approved_asset'}
     def visit(v):
         if isinstance(v,str):visible.append(v)
         elif isinstance(v,list):

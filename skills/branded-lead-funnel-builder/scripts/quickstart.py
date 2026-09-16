@@ -244,6 +244,9 @@ def demo_server(project, node, port=None):
 
 def verify_demo(project, node, full=False):
     project = assert_demo(project)
+    required = ['build/page-copy.json', 'scripts/copy_parity.py', 'scripts/capture-rendered-copy.mjs']
+    if any(not (project / name).is_file() for name in required):
+        raise ValueError('This demo predates rendered-copy verification or has missing evidence. Generate a new demo directory with the current skill; existing source and local data were preserved.')
     ensure_ready(node, project)
     with demo_server(project, node) as (url, _):
         run([sys.executable, project / "scripts/check_gates.py", "snapshot", project, "--mode", "handoff"],
@@ -257,6 +260,11 @@ def verify_demo(project, node, full=False):
             project, node, "Actual local form-to-CRM journey", env)
         run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "local_journey",
              "--report", "build/live-verification/local-journey.json"], project, node, "Local journey release evidence")
+        run([node, "scripts/capture-rendered-copy.mjs", "--url", url, "--fixture", "test-fixture.json", "--project-root", "."],
+            project, node, "Rendered copy capture without form writes")
+        run([sys.executable, "scripts/copy_parity.py", "."], project, node, "Page and brochure copy comparison")
+        run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "rendered_copy",
+             "--report", "build/rendered-copy/result.json"], project, node, "Rendered copy release evidence")
         if full:
             run([node, "scripts/measure_funnel.mjs", url, "--out", "build/layout/result.json",
                  "--project-root", ".", "--mode", "handoff", "--thank-you", "/thank-you.html"],
@@ -278,6 +286,7 @@ def verify_demo(project, node, full=False):
         raise ValueError("Local integration is incomplete; inspect the reports.")
     result = {"status": "pass", "scope": "synthetic local integration only",
               "local_journey_gate": "recorded",
+              "rendered_copy_gate": "recorded",
               "browser_checks": len(compat["checks"]), "journey_checks": len(journey["checks"]),
               "full_layout_and_performance": full, "pdf_pages_rendered": len(list(pdf_dir.glob("page-*.png"))),
               "visual_review": "pending actual agent inspection; screenshots alone are not approval",

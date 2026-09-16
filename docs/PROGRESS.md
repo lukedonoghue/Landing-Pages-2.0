@@ -78,3 +78,26 @@ The actual local demo completed 72 browser checks and 28 form/CRM checks, and it
 The combined local regression command passed **222 tests**: 65 repository Python, 19 evidence-gate, 40 image and 98 application tests. A controlled real WebKit test covers a delayed image whose decode method rejects early and a truly broken image.
 
 [GitHub run 35140605873](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35140605873) passed at code revision ffbc86c, including the fresh generated local demo and automatic recording of its local_journey evidence. Both skill installations have been synchronized. Approved-copy-to-rendered-output parity (B10), complete stage/resume orchestration and the remaining live/account/human acceptance items are still open.
+
+
+## Approved wording through assembly — 16 September 2026
+
+### Implemented
+
+- B10: complete Worker funnels require a rendered_copy gate for page, modal, thank-you and brochure wording. It compares actual 1440px/390px browser states with the canonical master, recomputes the result when recording/checking a gate, and rejects stale source, master, capture or PDF artifacts.
+- The capture opens native disclosures, supports reviewed custom interaction selectors, reads every form step, checks the visible brochure link and compares the served PDF bytes with the local asset. Its default mode sends zero form/analytics writes. Authored placeholders/options are included, while entered values are excluded.
+- Full new brochure text is part of the copy review before approval. A genuinely supplied final PDF can instead be approved as an inspected immutable asset. Neither comparison nor a fictional fixture creates a user approval.
+- Added the operating guide and automatic capture/comparison/recording to the synthetic quickstart. Older demos missing the new contract are detected before starting a server or adding a lead, with existing files/data preserved.
+- Typography normalization supports case, whitespace, inline emphasis and common smart punctuation. Only recognized page-number lines/suffixes are excluded; additional prices, percentages and claims still fail.
+
+### Executed verification
+
+The new generated local demo passed 72 Chromium/WebKit checks, 28 real form-to-CRM checks, 118 layout checks, all three PDF renders and the new recorded copy comparison. The original run exposed a footer/page-number extraction case, which was corrected narrowly and regression-tested. The three PDF pages and representative desktop/mobile page, modal and thank-you screenshots were inspected: complete, readable wording and usable controls; the short-height modal scrolls. This remains a fictional deterministic test design, not a completed client design.
+
+An independent agent rehearsed the documented path in an isolated copy on a static loopback server. All 12 captured states and the three-page served PDF matched. Adding an unsupported guaranteed-price claim caused comparison and gate recording to fail at both widths; stale evidence also failed. No lead was submitted. That rehearsal did not verify CRM delivery or human approval. It identified missing command arguments in the report and omitted placeholder/option wording; both were addressed with an additional real-browser regression.
+
+The final combined local regression command passed **245 tests**: 83 repository Python, 19 evidence-gate, 40 image and 103 application tests, with no application skips. Fresh CI acceptance is pending the repository push. No Cloudflare client deployment, paid image request or real user approval was performed in this batch.
+
+### Remaining scope
+
+B10 catches text drift; it does not fix B12's PDF overflow/truncation generator, prove raster-image text or every dynamic variant, or replace semantic/visual review. Durable stage/resume state, portable project handoff, the remaining publishing/account/privacy controls and live/human acceptance remain open. The goal stays active.

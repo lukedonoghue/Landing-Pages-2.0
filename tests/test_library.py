@@ -88,6 +88,18 @@ class LibraryTests(unittest.TestCase):
  def test_explicitly_requested_brochure_is_checked(self):
   self.brief['required_components']=['page','brochure'];self.save(self.b,self.brief);m.prepare(LIB,self.b,self.ctx,3)
   self.assertIn('Missing brochure',self.audit()['failures'])
+ def test_brochure_full_text_is_reviewed_before_approval(self):
+  self.copy['brochure']=dict(cover_promise='Your storage guide',delivery='Download after your request')
+  self.save(self.c,self.copy);self.assertIn('Complete brochure.text is required before copy approval',self.audit()['failures'])
+  self.copy['brochure']['text']=['Your storage guide','The estimate follows a site review.'];self.save(self.c,self.copy)
+  self.assertEqual(self.audit()['automated_status'],'pass')
+  self.assertIn('The estimate follows a site review.',m.render_document(self.copy,include_evidence=False))
+ def test_supplied_pdf_must_exist_and_remain_unchanged(self):
+  pdf=self.root/'supplied.pdf';pdf.write_bytes(b'%PDF-synthetic')
+  self.copy['brochure']=dict(cover_promise='Your supplied guide',delivery='Download after request',approved_asset=dict(origin='supplied',path='supplied.pdf',sha256=m.sha(pdf)))
+  self.save(self.c,self.copy);self.assertEqual(self.audit()['automated_status'],'pass')
+  shown=m.render_document(self.copy,include_evidence=False);self.assertIn('supplied.pdf',shown);self.assertNotIn(m.sha(pdf),shown)
+  pdf.write_bytes(b'%PDF-changed');self.assertEqual(self.audit()['automated_status'],'blocked')
  def test_no_matching_job_does_not_return_audience_only_examples(self):
   self.assertEqual(m.select(LIB,dict(audience='B2C',sector='unrelated xyz',offer_type='unknown xyz',intent='unknown xyz')),[])
  def test_empty_brief_and_duplicate_claims_are_rejected(self):

@@ -74,13 +74,14 @@ def write_demo_sources(project):
     page = page.replace("Service one", data["services"][0]).replace("Service two", data["services"][1])
     page = page.replace("Replace this starter with your approved client content.", "Fictional local demonstration. Do not enter real customer information.")
     page = page.replace("<body>", '<body><aside class="demo-notice">Local demonstration · fictional business and data · publishing disabled</aside>')
+    page = page.replace('<p data-form-error', '<p>'+html.escape(data['follow_up'])+'</p><p data-form-error')
     page = page.replace("<!-- Copy and adapt the fields only after the form schema is approved. -->",
                         '<section class="demo-guide"><img src="/assets/brochure/cover-600.webp" width="600" height="777" loading="lazy" alt="Cover of the fictional project guide"><div><h2>Your project guide</h2><p>Explore the complete page, form, PDF, CRM and reporting using fictional local data.</p></div></section>')
     page_path.write_text(page)
     thank_you = project / "public/thank-you.html"
     thank_you.write_text(thank_you.read_text().replace(
         "If you've submitted a request, our team will use the details you provided to follow up.",
-        "Your fictional enquiry is saved in the local CRM. Download the guide below."))
+        "Your fictional enquiry is saved in the local CRM. Download the guide below. "+html.escape(data['follow_up'])))
     privacy = project / "public/privacy.html"
     privacy.write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Local demo privacy</title><link rel="stylesheet" href="/styles.css"><main class="support"><h1>Fictional local demo</h1><p>Use synthetic contact details only. This demo stores test enquiries and optional visitor measurements in a local database. No advertising provider or notification destination is configured.</p><p>This is not a privacy policy for a real business. Create a new client project and supply its actual policy before publishing.</p><a href="/">Back to the demonstration</a></main></html>')
     with (project / "public/styles.css").open("a") as output:
@@ -105,6 +106,33 @@ def write_demo_sources(project):
                 "follow_up_promise": data["follow_up"]}
     }
     write_json(project / "build/demo-catalogue.json", catalogue)
+    # Authored synthetic contract, never scraped from output and never a user approval.
+    master = {
+        "h1": data['headline'], "primary_cta": data['cta'],
+        "sections": [
+            {"id": "hero", "headline": "A clearer start", "body": data['body'], "micro": "A useful guide. A conversation about your project."},
+            {"id": "benefits", "headline": "Know what matters before you begin.",
+             "body": "Explore your service options, see how the process works, and bring your questions to a conversation with our team.",
+             "items": [{"number": "01", "headline": "Understand your options", "body": "Find the approach that fits what you want to achieve."},
+                       {"number": "02", "headline": "Prepare for the process", "body": "Learn what information makes the first conversation useful."},
+                       {"number": "03", "headline": "Choose your next step", "body": "Discuss your needs before making a commitment."}]},
+            {"id": "guide", "headline": "Your project guide", "body": "Explore the complete page, form, PDF, CRM and reporting using fictional local data."}
+        ],
+        "modal": {"submit_label": data['cta'], "follow_up_promise": data['follow_up']},
+        "thank_you": {"eyebrow": "Your next step", "headline": "Here is your project guide.",
+                      "body": "Your fictional enquiry is saved in the local CRM. Download the guide below.",
+                      "follow_up_promise": data['follow_up'], "download_label": "Download your project guide"},
+        "brochure": {"cover_promise": catalogue['cover']['headline'], "delivery": "Download after a fictional enquiry is saved.",
+                     "text": [catalogue['cover']['eyebrow'], catalogue['cover']['headline'], data['body'], catalogue['cover']['label'],
+                              catalogue['process']['headline'], catalogue['process']['summary'], "OUR PROCESS",
+                              *[f"{i:02d} {s['title']} {s['body']}" for i,s in enumerate(steps,1)],
+                              catalogue['cta']['eyebrow'], catalogue['cta']['headline'], catalogue['cta']['body'],
+                              *[f"{i} {s['title']} {s['body']}" for i,s in enumerate(steps,1)],
+                              data['cta'], data['follow_up'], catalogue['brand']['footer']]},
+        "interface_text": ["Local demonstration · fictional business and data · publishing disabled",
+                           "Fictional local demonstration. Do not enter real customer information."]
+    }
+    write_json(project / 'build/page-copy.json', master)
     (project / ".gitignore").write_text((project / ".gitignore").read_text() + "\n.landing-pages-demo.json\n")
     (project / "DEMO-README.md").write_text(
         "# Fictional local demonstration\n\nGenerated from the installed skill. Publishing and remote setup are disabled.\n"

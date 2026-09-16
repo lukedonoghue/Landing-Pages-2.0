@@ -53,7 +53,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | [ ] | B07 | P1 for handoff | Make generated-project ZIPs resumable without invalidating evidence | Reproduced defect |
 | [x] | B08 | P1 for handoff | Make research evidence portable across machines/directories | Fixed for newly prepared contexts; relocated legacy contexts need a truthful refresh |
 | [x] | B09 | P1 | Support a new external reference page without editing the global library | Implemented; real capture, independent preparation and relocation verified |
-| [ ] | B10 | P1 | Enforce approved-copy parity across page, modal, thank-you and PDF | Integration gap |
+| [x] | B10 | P1 | Enforce approved-copy parity across page, modal, thank-you and PDF | Implemented; real desktop/mobile/PDF capture and drift rejection verified |
 | [ ] | B11 | P1 when generating | Resolve the exact image-model path and run it once | Live verification / default-path gap |
 | [ ] | B12 | P2 | Prevent brochure truncation, overflow and silent missing assets | Confirmed limitations |
 | [x] | B13 | P1 for ad tracking | Deduplicate conversion events by receipt, including lost-response retries | Fixed for recent receipts in the browser session; provider adapter deduplication remains B23 |
@@ -189,7 +189,11 @@ The structured copy preparation helper rejects a primary reference URL unless it
 
 ### B10 — Bind rendered wording to the approved copy
 
-**P1 · Integration gap**
+**P1 · Implemented and locally verified**
+
+**Update:** Complete Worker releases require `rendered_copy` evidence. The capture reads actual desktop/mobile landing, all modal steps, thank-you and served PDF; the gate recomputes comparison against the canonical master and checks source/artifact freshness. Full generated-brochure text is required before copy approval; genuinely supplied PDFs remain byte-bound. Actual browser regressions cover disclosures, hidden mobile qualifiers and zero POSTs in read-only mode. The generated demo passes the comparison and existing full local journey. Visual/editorial review remains required; B12's generator limitations remain open. See [the operating guide](skills/branded-lead-funnel-builder/references/rendered-copy.md) and [current progress](docs/PROGRESS.md).
+
+Original finding:
 
 Copy checks validate the structured master, brief and editorial review. The page validator checks selected CTA/link conditions, but does not compare all assembled HTML/PDF wording with the approved master. The reference guide requires this comparison as agent work, without a mandatory comparison artifact. This permits assembly drift unless the reviewer catches it.
 

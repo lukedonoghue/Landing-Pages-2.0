@@ -11,9 +11,9 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from uuid import UUID
 
-VERSION = '1.1.0'
+VERSION = '1.2.0'
 STATES = {'pass', 'pass_with_warnings', 'blocked', 'not_applicable'}
-GATES = {'copy', 'performance', 'browser_compat', 'images', 'static', 'browser', 'visual', 'catalogue', 'local_journey', 'crm', 'tracking', 'deployment'}
+GATES = {'copy', 'rendered_copy', 'performance', 'browser_compat', 'images', 'static', 'browser', 'visual', 'catalogue', 'local_journey', 'crm', 'tracking', 'deployment'}
 MODES = {'preview', 'handoff', 'live'}
 EXCLUDED_DIRS = {'.secrets', '.git', 'node_modules', 'build', 'screenshots', '.wrangler', '.venv', '__pycache__', '.pytest_cache', 'coverage', 'test-results', 'playwright-report'}
 SECRET_SUFFIXES = {'.pem', '.key', '.p12', '.pfx'}
@@ -202,6 +202,23 @@ def validate_report(root, report, snapshot, gate):
             errors.append('Copy evidence needs a current executed copy-library audit')
     elif gate == 'local_journey':
         errors += local_journey_errors(root,report)
+    elif gate == 'rendered_copy':
+        try:
+            import copy_parity
+            captures = [a for a in artifacts if a.get('type') == 'rendered_copy_capture']
+            masters = [a for a in artifacts if a.get('type') == 'copy_master']
+            if len(captures) != 1 or len(masters) != 1 or masters[0].get('path') != 'build/page-copy.json':
+                raise ValueError('Rendered copy needs one actual capture and the canonical build/page-copy.json')
+            actual = copy_parity.audit(root, captures[0]['path'])
+            errors += actual['failures']
+            if actual['target'] != report.get('target') or actual['source_fingerprint'] != snapshot['source_fingerprint'] or actual['copy_sha256'] != report.get('copy_sha256'):
+                errors.append('Rendered copy report is for a different target, source or master')
+            if {a['path'] for a in actual['artifacts']} != {a.get('path') for a in artifacts}:
+                errors.append('Rendered copy report must retain every input artifact')
+            if report.get('execution', {}).get('kind') != 'automated' or report.get('execution', {}).get('exit_code') != 0:
+                errors.append('Rendered copy needs a successful executed comparison')
+        except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
+            errors.append('Rendered copy evidence is invalid: ' + str(error))
     elif gate == 'visual':
         if 'screenshot' not in kinds or not report.get('reviewer') or not report.get('observations'):
             errors.append('Visual evidence requires reviewer, specific observations, and screenshots')
@@ -257,7 +274,9 @@ def required_gates(root, mode):
     quality = config.get('quality', {})
     if quality.get('complete_workflow'):
         gates += ['copy', 'performance', 'browser_compat']
-        if mode in {'preview','handoff'} and config.get('backend',{}).get('provider')!='none':gates.append('local_journey')
+        if config.get('backend',{}).get('provider')!='none':
+            gates.append('rendered_copy')
+            if mode in {'preview','handoff'}:gates.append('local_journey')
         if config.get('images', {}).get('enabled', True): gates.append('images')
     catalogue = config.get('catalogue', {})
     if not isinstance(catalogue, dict) or catalogue.get('enabled') is not False:

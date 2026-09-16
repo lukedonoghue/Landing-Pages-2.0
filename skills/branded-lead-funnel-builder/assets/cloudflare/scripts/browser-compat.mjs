@@ -68,11 +68,12 @@ export function finish(report) {
   report.execution.exit_code = report.failures.length ? 1 : 0;
   return report;
 }
-export async function fillSteps(page, fixture, { inspectField } = {}) {
+export async function fillSteps(page, fixture, { inspectField, onStep } = {}) {
   const used = new Set();
   for (let step = 0; step < 24; step++) {
     const current = page.locator(fixture.selectors.step).filter({ visible: true }).first();
     await current.waitFor({ state: 'visible' });
+    if (onStep) await onStep(current, step);
     for (const field of await current.locator('input[name],select[name],textarea[name]').all()) {
       const name = await field.getAttribute('name');
       if (!(name in fixture.fields) || !await field.isVisible()) continue;
