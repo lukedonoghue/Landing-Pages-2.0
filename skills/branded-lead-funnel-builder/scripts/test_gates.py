@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import copy
 import check_gates as gates
 
 
@@ -46,6 +47,57 @@ class GatesTest(unittest.TestCase):
 
     def test_complete_preview_passes(self):
         self.assertEqual(self.result()['status'], 'pass')
+
+    def local_report(self):
+        # Explicit synthetic evidence for validator regression plumbing only.
+        ident='01234567-89ab-4def-8123-456789abcdef'
+        event='11234567-89ab-4def-8123-456789abcdef'
+        proof={'evidence_source':'authenticated-worker-api-backed-by-D1','database_id':'local-D1','lead_id':ident,'receipt_id':ident,'stored_receipt_id':ident,'visit_event_id':event}
+        filters={'source':'google','traffic':'paid','device':'desktop'}
+        trace=[{'path':route,'method':method,'status':200} for route,method in [('/api/leads','POST'),('/api/admin/leads/'+ident,'GET'),('/api/admin/leads/'+ident,'PATCH'),('/api/admin/leads/'+ident+'/notes','POST'),('/api/auth/logout','POST')]]
+        values={'db_receipt':proof,'http_trace':trace,'event_trace':[{'event_id':event,'linked_lead_id':ident,'analytics_consent':True,'valid_visitor_id':True,'measured':True,'dimensions':filters}],
+                'dashboard_result':{'filters':filters,'before':{'visitors':0,'conversions':0,'leads':0},'after':{'visitors':1,'conversions':1,'leads':1,'conversion_rate':100}}}
+        artifacts=[]
+        for kind,value in values.items():
+            path=self.root/'build'/f'{kind}.json';path.write_text(json.dumps(value))
+            artifacts.append({'type':kind,'path':path.relative_to(self.root).as_posix(),'sha256':gates.file_hash(path)})
+        return {'schema_version':1,'gate':'local_journey','status':'pass','executed_at':gates.now(),'source_fingerprint':self.snapshot['source_fingerprint'],
+                'tool':{'name':'synthetic validator fixture','version':'1'},'target':{'mode':'preview','url':'http://127.0.0.1:8787'},
+                'execution':{'kind':'automated','command':['synthetic-test'],'exit_code':0},'checks':{'fixture':True},'fully_verified':True,
+                'readiness':'local-journey-verified','mode':'synthetic-browser-journey','observations':proof,'artifacts':artifacts,
+                'journey_assertions':{key:True for key in ('named_login','redirect','brochure','receipt_correlation','crm_update','metrics','logout')}}
+
+    def test_complete_worker_handoff_requires_local_journey_but_static_only_does_not(self):
+        config={'quality':{'complete_workflow':True},'backend':{'provider':'cloudflare-d1'}}
+        gates.write_json(self.root/'funnel.json',config)
+        self.assertIn('local_journey',gates.required_gates(self.root,'handoff'))
+        self.assertNotIn('local_journey',gates.required_gates(self.root,'live'))
+        config['backend']['provider']='none';gates.write_json(self.root/'funnel.json',config)
+        self.assertNotIn('local_journey',gates.required_gates(self.root,'handoff'))
+
+    def test_correlated_local_journey_evidence_is_accepted(self):
+        self.assertEqual(gates.validate_report(self.root,self.local_report(),self.snapshot,'local_journey'),[])
+
+    def test_read_only_and_unexecuted_journeys_are_rejected(self):
+        report=self.local_report()
+        for key,value in [('fully_verified',False),('readiness','public-checks-only'),('mode','read-only')]:
+            changed=copy.deepcopy(report);changed[key]=value
+            self.assertTrue(gates.validate_report(self.root,changed,self.snapshot,'local_journey'))
+        report['journey_assertions']['crm_update']=False
+        self.assertTrue(gates.validate_report(self.root,report,self.snapshot,'local_journey'))
+
+    def test_local_journey_must_match_receipt_visit_and_numeric_dashboard_artifacts(self):
+        for kind,mutate in [('db_receipt',lambda d:d.update(stored_receipt_id='21234567-89ab-4def-8123-456789abcdef')),
+                            ('event_trace',lambda d:d[0].update(event_id='21234567-89ab-4def-8123-456789abcdef')),
+                            ('dashboard_result',lambda d:d['after'].update(conversion_rate=0))]:
+            report=self.local_report();artifact=next(a for a in report['artifacts'] if a['type']==kind)
+            path=self.root/artifact['path'];value=json.loads(path.read_text());mutate(value);path.write_text(json.dumps(value));artifact['sha256']=gates.file_hash(path)
+            self.assertTrue(gates.validate_report(self.root,report,self.snapshot,'local_journey'),kind)
+
+    def test_remote_or_disguised_loopback_url_is_not_local_evidence(self):
+        for url in ['https://client.example','http://127.0.0.1.attacker.example','http://user:secret@localhost','http://[bad']:
+            report=self.local_report();report['target']['url']=url
+            self.assertTrue(gates.validate_report(self.root,report,self.snapshot,'local_journey'),url)
 
     def test_public_asset_change_invalidates_all_claims(self):
         (self.root / 'public/logo.svg').write_text('<svg/>')

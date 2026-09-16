@@ -4,7 +4,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 
-export const VERSION = '2.1.0';
+export const VERSION = '2.2.0';
 export function parseArgs(argv) {
   const args = {};
   for (let i = 0; i < argv.length; i++) {
@@ -97,6 +97,18 @@ export async function fillSteps(page, fixture, { inspectField } = {}) {
   }
   throw new Error('The form did not advance through the reviewed fixture.');
 }
+export async function waitForPageImages(page, timeout = 5000) {
+  try {
+    await page.waitForFunction(() => [...document.images].filter(img => {
+      const box = img.getBoundingClientRect();
+      return box.width > 0 && box.height > 0 && getComputedStyle(img).visibility !== 'hidden';
+    }).every(img => img.complete), null, { timeout });
+  } catch { return false; }
+  return page.evaluate(() => [...document.images].filter(img => {
+    const box = img.getBoundingClientRect();
+    return box.width > 0 && box.height > 0 && getComputedStyle(img).visibility !== 'hidden';
+  }).every(img => img.complete && img.naturalWidth > 0));
+}
 export async function runBrowserCompat(args, suppliedRuntime) {
   const target = checkedTarget(args.url, args['allow-remote'] === true);
   const fixture = loadFixture(args.fixture);
@@ -142,7 +154,9 @@ export async function runBrowserCompat(args, suppliedRuntime) {
             scrollTo(0, 0);
           });
           check(report, `${label}: no horizontal overflow`, await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
-          check(report, `${label}: images load`, await page.evaluate(() => [...document.images].every(img => !img.currentSrc || (img.complete && img.naturalWidth > 0))));
+          // decode() can reject before a lazy request completes in WebKit.
+          // Wait for the real resource state and still reject broken visible images.
+          check(report, `${label}: images load`, await waitForPageImages(page));
           await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
           await page.waitForTimeout(100);
           const pageFile = path.join(out, `${engine}-${viewport.width}-page.png`);

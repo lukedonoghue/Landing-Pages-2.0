@@ -57,3 +57,24 @@ The verified source has been synchronized into both the global and project skill
 - The three first-time human acceptance sessions have not happened.
 
 Use README-BOHDAN.md for remaining engineering details. Fixed/mitigated items are identified there; unverified live capabilities remain open.
+
+## Reference handling and required local journey — 16 September 2026
+
+### Implemented
+
+- B09: bounded client/reference collection with separate roles, project-local reference analysis, source/review freshness checks and explicit primary-reference status.
+- New references do not need global library curation. If no curated example suits the actual client, preparation keeps the real brief and reports that limitation instead of forcing a different offer.
+- Reference sources cannot substantiate client claims. Reference brand leakage, unanchored lessons, changed review/source files and invalid source roles are tested.
+- B02: complete Worker funnels now require a local_journey gate before publication approval. It checks an actual loopback browser execution, named login, redirect/PDF, correlated receipt/visit, persisted CRM updates, numeric reporting evidence and logout.
+- Valid read-only/failed verification attempts cannot leave old successful derived gate files at the same output location.
+- The browser verifier now waits for real image completion when WebKit rejects decode early, while still failing broken rendered images.
+
+### Verification
+
+The bounded collection helper actually fetched the official Cloudflare Workers and Netlify platform pages into an ignored local pilot directory. A separate agent read those saved sources, prepared a grounded copy-only brief and anchored reference analysis, then ran preparation and relocation checks. The primary reference remained explicit even with zero curated matches, relocation produced identical context, edited relocated evidence was rejected, and all nine library files remained unchanged. This was a text/context exercise, not a visual design review, client copy approval or publication.
+
+The actual local demo completed 72 browser checks and 28 form/CRM checks, and its new local_journey report was successfully recorded and independently validated against the receipt, event, HTTP and dashboard artifacts. The marker still prevents demo publication.
+
+The combined local regression command passed **222 tests**: 65 repository Python, 19 evidence-gate, 40 image and 98 application tests. A controlled real WebKit test covers a delayed image whose decode method rejects early and a truly broken image.
+
+Fresh GitHub CI is being run for this code batch. Approved-copy-to-rendered-output parity (B10), complete stage/resume orchestration and the remaining live/account/human acceptance items are still open.

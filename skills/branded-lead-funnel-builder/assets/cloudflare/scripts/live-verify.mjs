@@ -1,7 +1,7 @@
 /** Browser -> accepted receipt -> authenticated CRM read -> reporting proof.
  * Live writes require --allow-remote --allow-test-lead and a reviewed synthetic fixture.
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs, checkedTarget, sameOriginUrl, loadFixture, makeReport, check, finish, writeReport, artifact, fillSteps } from './browser-compat.mjs';
@@ -70,8 +70,12 @@ export async function runLiveVerify(args, runtime = {}) {
   const fixture = loadFixture(args.fixture), options = testRunOptions(args, fixture);
   const report = makeReport('deployment', target, args);
   report.fully_verified = false; report.mode = options.readOnly ? 'read-only' : 'synthetic-browser-journey';
+  report.journey_assertions = { named_login: false, redirect: false, brochure: false, receipt_correlation: false, crm_update: false, metrics: false, logout: false };
   report.limits = ['A static/health check alone does not prove contact storage or analytics.', 'Browser screenshots are limited to public pages; admin customer data and credentials are never captured.', 'The synthetic journey creates one measured visit and lead. Removing the contact does not erase historical conversion totals.', 'Authenticated CRM reads are D1-backed API evidence, not an independent direct SQL query.'];
   const out = path.resolve(args.out || 'build/live-verification'); mkdirSync(out, { recursive: true });
+  // A read-only or failed attempt must not leave successful derived reports from
+  // an earlier attempt under the same output path. Use distinct --out paths for history.
+  for (const name of ['local-journey.json', 'crm.json', 'tracking.json', 'deployment.json']) rmSync(path.join(out, name), { force: true });
   const trace = [], eventTrace = []; let browser, anonymous, admin, createdId, phase = 'public-checks';
   let deployment;
   try {
@@ -108,7 +112,7 @@ export async function runLiveVerify(args, runtime = {}) {
       if (!response.ok()) throw new Error('An authenticated verification operation failed.');
       return response.json();
     };
-    check(report, 'Named administrator can sign in', (await adminRequest('/api/auth/session')).authenticated === true);
+    report.journey_assertions.named_login = check(report, 'Named administrator can sign in', (await adminRequest('/api/auth/session')).authenticated === true);
     const dimensions = fixture.expected_dimensions;
     const filters = new URLSearchParams({ source: dimensions.source, traffic: dimensions.traffic, device: dimensions.device, visitor_mode: 'all' });
     const metricsPath = '/api/admin/metrics?' + filters;
@@ -156,19 +160,21 @@ export async function runLiveVerify(args, runtime = {}) {
     report.receipt_id = receipt.receipt_id; report.lead_id = createdId;
     phase = 'thank-you-and-brochure';
     await page.waitForURL(url => url.pathname === fixture.thank_you_path || url.pathname === fixture.thank_you_path.replace(/\.html$/, ''));
-    check(report, 'Public form redirects to its intended thank-you page', true);
+    report.journey_assertions.redirect = check(report, 'Public form redirects to its intended thank-you page', true);
     const thankyouFile = path.join(out, 'public-thank-you.png');
     await page.screenshot({ path: thankyouFile, fullPage: true }); report.artifacts.push(artifact(thankyouFile, 'screenshot', args['project-root']));
     const link = page.locator('a[href]').filter({ visible: true }); let foundPdf = false;
     for (const candidate of await link.all()) { if (new URL(await candidate.getAttribute('href'), page.url()).pathname === fixture.pdf_path) { foundPdf = true; break; } }
     check(report, 'Thank-you page exposes the configured brochure', foundPdf);
     const pdfResponse = await anonymous.request.get(sameOriginUrl(fixture.pdf_path, target.url).href);
-    check(report, 'Brochure download works after submission', pdfResponse.ok() && new URL(pdfResponse.url()).origin === target.url.origin && (await pdfResponse.body()).subarray(0, 5).toString() === '%PDF-');
+    report.journey_assertions.brochure = check(report, 'Brochure download works after submission', pdfResponse.ok() && new URL(pdfResponse.url()).origin === target.url.origin && (await pdfResponse.body()).subarray(0, 5).toString() === '%PDF-');
     phase = 'stored-receipt-and-tracking';
     const stored = await adminRequest('/api/admin/leads/' + createdId);
     let visit;
     for (const body of capturedVisits) if (body.event_id === submitted.visit_event_id) visit = body;
-    for (const [name, passed] of Object.entries(verifyCorrelation(receipt, stored, submitted, visit, dimensions))) check(report, name, passed);
+    const correlation = verifyCorrelation(receipt, stored, submitted, visit, dimensions);
+    for (const [name, passed] of Object.entries(correlation)) check(report, name, passed);
+    report.journey_assertions.receipt_correlation = Object.values(correlation).every(Boolean);
     eventTrace.push({ analytics_consent: submitted.analytics_consent === true, valid_visitor_id: UUID.test(submitted.visitor_id || ''), event_id: visit?.event_id || null, measured: visit?.measured === true, linked_lead_id: createdId, dimensions });
     const receiptProof = { evidence_source: 'authenticated-worker-api-backed-by-D1', database_id: deployment?.database_id || 'local-D1', lead_id: createdId, receipt_id: receipt.receipt_id, stored_receipt_id: stored.lead?.receipt_id || null, visit_event_id: stored.lead?.visit_event_id || null };
     const receiptFile = path.join(out, 'stored-receipt.json'); writeFileSync(receiptFile, JSON.stringify(receiptProof, null, 2) + '\n'); report.artifacts.push(artifact(receiptFile, 'db_receipt', args['project-root']));
@@ -177,12 +183,13 @@ export async function runLiveVerify(args, runtime = {}) {
     const note = `Synthetic launch verification ${receipt.receipt_id}. Not a real customer enquiry.`;
     await adminRequest('/api/admin/leads/' + createdId + '/notes', 'POST', { body: note });
     const updated = await adminRequest('/api/admin/leads/' + createdId);
-    check(report, 'CRM stage and verification note persist', updated.lead.status === 'qualified' && updated.notes.some(item => item.body === note));
+    report.journey_assertions.crm_update = check(report, 'CRM stage and verification note persist', updated.lead.status === 'qualified' && updated.notes.some(item => item.body === note));
     phase = 'dashboard-metrics';
     const measured = await adminRequest(metricsPath);
     const totals = measured.totals;
-    check(report, 'Filtered dashboard records the measured visit and conversion', totals.visitors >= baseline.totals.visitors + 1 && totals.conversions >= baseline.totals.conversions + 1 && totals.leads >= baseline.totals.leads + 1);
-    check(report, 'Conversion calculation agrees with its filtered cohort', totals.conversions <= totals.visitors && Math.abs(totals.conversion_rate - (totals.visitors ? totals.conversions / totals.visitors * 100 : 0)) <= 0.011);
+    const cohortMatches = check(report, 'Filtered dashboard records the measured visit and conversion', totals.visitors >= baseline.totals.visitors + 1 && totals.conversions >= baseline.totals.conversions + 1 && totals.leads >= baseline.totals.leads + 1);
+    const rateMatches = check(report, 'Conversion calculation agrees with its filtered cohort', totals.conversions <= totals.visitors && Math.abs(totals.conversion_rate - (totals.visitors ? totals.conversions / totals.visitors * 100 : 0)) <= 0.011);
+    report.journey_assertions.metrics = cohortMatches && rateMatches;
     check(report, 'Public journey has no JavaScript exceptions', runtimeErrors.length === 0);
     const metricsFile = path.join(out, 'dashboard-result.json'); writeFileSync(metricsFile, JSON.stringify({ filters: dimensions, before: baseline.totals, after: totals, synthetic_impact: 'One measured test visit and lead; historical totals retain this test after contact removal.' }, null, 2) + '\n'); report.artifacts.push(artifact(metricsFile, 'dashboard_result', args['project-root']));
     if (args['cleanup-test-lead'] && !report.failures.length) {
@@ -193,7 +200,7 @@ export async function runLiveVerify(args, runtime = {}) {
     } else report.cleanup = 'retained-synthetic-contact';
     report.synthetic_impact = { visits: 1, leads: 1, historical_metrics_retain_test: true, lead_id: createdId };
     await adminRequest('/api/auth/logout', 'POST', {});
-    check(report, 'Administrator logout revokes the session', (await admin.request.get(new URL('/api/admin/leads', target.url).href)).status() === 401);
+    report.journey_assertions.logout = check(report, 'Administrator logout revokes the session', (await admin.request.get(new URL('/api/admin/leads', target.url).href)).status() === 401);
     report.observations = receiptProof;
     report.fully_verified = report.failures.length === 0 && (target.local || !!deployment);
     report.readiness = report.fully_verified ? (target.local ? 'local-journey-verified' : 'live-journey-verified') : 'incomplete';
@@ -212,6 +219,7 @@ export async function runLiveVerify(args, runtime = {}) {
     if (report.fully_verified && !target.local && !report.failures.length) {
       for (const gate of ['crm', 'tracking', 'deployment']) writeReport({ ...report, gate }, out, gate + '.json');
     }
+    if (report.fully_verified && target.local && !report.failures.length) writeReport({ ...report, gate: 'local_journey' }, out, 'local-journey.json');
   }
   return report;
 }

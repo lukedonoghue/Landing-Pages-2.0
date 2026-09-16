@@ -4,7 +4,7 @@ import { mkdtempSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'nod
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
-import { checkedTarget, sameOriginUrl, loadFixture, makeReport, parseArgs, runBrowserCompat } from '../scripts/browser-compat.mjs';
+import { checkedTarget, sameOriginUrl, loadFixture, makeReport, parseArgs, runBrowserCompat, waitForPageImages } from '../scripts/browser-compat.mjs';
 import { DEFAULT_BUDGETS, extractMetrics, budgetChecks, runPerformance, readBudgets, browserLaunchFlags } from '../scripts/performance-audit.mjs';
 import { credentials, testRunOptions, verifyCorrelation, publicChecks, runLiveVerify } from '../scripts/live-verify.mjs';
 const fixture = { synthetic: true, path: '/', thank_you_path: '/thank-you.html', pdf_path: '/guide.pdf', fields: { email: 'synthetic@example.invalid' }, selectors: { openModal: '[data-open-modal]', modal: '#lead-modal', step: '.wizard__step', next: '[data-next]', submit: '[data-submit]', closeModal: '[data-close-modal]', error: '[data-form-error]' }, query: { utm_source: 'google', utm_medium: 'cpc' }, expected_dimensions: { source: 'google', traffic: 'paid', device: 'desktop' } };
@@ -72,6 +72,28 @@ test('missing Chromium and WebKit binaries are blocked, never skipped green', as
   const report = await runBrowserCompat({ url: 'http://localhost:8787', fixture, out }, { chromium: missing, webkit: missing });
   assert.equal(report.status, 'blocked'); assert.equal(report.engines.length, 2); assert.equal(report.engines.every(row => row.status === 'blocked'), true);
 });
+test('WebKit waits for a delayed image even when decode rejects, and still rejects a broken image', async () => {
+  const { webkit } = await import('playwright-core');
+  let release; const imageReady = new Promise(resolve => { release = resolve; });
+  const server = http.createServer(async (request, response) => {
+    if (request.url === '/slow.svg') { await imageReady; response.setHeader('Content-Type', 'image/svg+xml'); response.end('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16"/></svg>'); }
+    else if (request.url === '/missing.svg') { response.statusCode = 404; response.end('missing'); }
+    else { response.setHeader('Content-Type', 'text/html'); response.end(`<img width="16" height="16" src="${request.url === '/broken' ? '/missing.svg' : '/slow.svg'}">`); }
+  });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  let browser;
+  try {
+    browser = await webkit.launch({ headless: true }); const page = await browser.newPage();
+    const url = `http://127.0.0.1:${server.address().port}`;
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.evaluate(() => { document.images[0].decode = async () => { throw new Error('Early decode rejection fixture'); }; });
+    assert.equal(await page.evaluate(() => document.images[0].complete), false);
+    setTimeout(release, 150);
+    assert.equal(await waitForPageImages(page), true);
+    await page.goto(url + '/broken', { waitUntil: 'domcontentloaded' });
+    assert.equal(await waitForPageImages(page), false);
+  } finally { release(); await browser?.close(); await new Promise(resolve => server.close(resolve)); }
+});
 test('live test writes require explicit authorization and a synthetic fixture', () => {
   assert.deepEqual(testRunOptions({}, fixture), { readOnly: true });
   assert.throws(() => testRunOptions({ 'allow-test-lead': true, 'read-only': true }, fixture));
@@ -113,11 +135,13 @@ async function serverFixture(t, options = {}) {
 }
 test('read-only live checks use real HTTP but perform no login or form writes and remain partial', async t => {
   const { target, requests } = await serverFixture(t), out = temporary(t);
+  for (const name of ['local-journey.json', 'crm.json', 'tracking.json', 'deployment.json']) writeFileSync(path.join(out, name), 'old synthetic report');
   const report = await runLiveVerify({ url: target.url.href, fixture, out, 'read-only': true }, { env: { ADMIN_USERNAME: 'not-to-send', ADMIN_PASSWORD: 'do-not-send' } });
   assert.equal(report.status, 'pass_with_warnings'); assert.equal(report.fully_verified, false); assert.equal(report.readiness, 'public-checks-only');
   assert.equal(requests.every(row => row.method === 'GET' && !row.cookie && !row.authorization), true);
   assert.equal(JSON.stringify(report).includes('do-not-send'), false);
   assert.equal(report.artifacts.some(row => row.type === 'http_trace'), true);
+  for (const name of ['local-journey.json', 'crm.json', 'tracking.json', 'deployment.json']) assert.throws(() => readFileSync(path.join(out, name)), /ENOENT/);
 });
 test('public access or a fake PDF blocks live verification', async t => {
   const { target } = await serverFixture(t, { exposed: true, brokenPdf: true });

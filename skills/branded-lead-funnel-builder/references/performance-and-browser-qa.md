@@ -96,6 +96,14 @@ Inspect the saved screenshots with ChatGPT/computer use: complete page rhythm, h
 
 ## Full local form and CRM pass
 
+Complete Worker funnels require a local_journey gate before final publishing approval. A successful local run emits build/live-verification/local-journey.json; record it against the current preview/handoff snapshot:
+
+~~~sh
+python3 scripts/check_gates.py record . --gate local_journey --report build/live-verification/local-journey.json
+~~~
+
+The checker compares the stored receipt, measured visit, request trace and dashboard cohort, and requires executed login/redirect/download/CRM-update/logout assertions. Read-only checks do not qualify. Valid new verifier attempts clear old derived gate files in the chosen output directory; use distinct --out directories to retain separate attempts, and always respect a failed command's exit status. The quickstart demo records this gate automatically but remains explicitly ineligible for publication. Static-only projects with backend.provider set to none do not require a CRM journey.
+
 Store the admin credential in a private `.secrets/admin.json` with `{ "username": "...", "password": "..." }` and file permission 0600. Alternatively use `ADMIN_USERNAME`/`ADMIN_PASSWORD` environment variables, or `ADMIN_USERNAME` with `--password-file`. Never put a password in command arguments or a tracked fixture.
 
 The full verifier checks unauthenticated routes, signs into the admin panel, then submits through the **actual anonymous public form** in a separate browser context. It accepts analytics consent, completes every form step, records the accepted receipt, follows the thank-you navigation, and verifies the advertised PDF download. It retrieves the same lead through the authenticated Worker API, requires the identical receipt and visit event ID, verifies source/device/traffic classification, changes its stage, adds a synthetic-test note, re-reads it, and checks the filtered reporting totals and conversion calculation. It verifies session revocation on logout.
