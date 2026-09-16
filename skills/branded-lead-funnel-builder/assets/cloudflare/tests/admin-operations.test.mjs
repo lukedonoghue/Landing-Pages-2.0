@@ -114,6 +114,44 @@ test('recovery and backup tools require explicit destination, protect credential
   assert.ok(recoverySql('rotate-password', encoded).includes('DELETE FROM sessions'));
 });
 
+test('CLI revocation prevents stale in-flight login for initial and rotated owners', async () => {
+  const isolated = new Miniflare({ modules: true, script: 'export default {fetch(){return new Response("isolated");}}', compatibilityDate: '2026-07-22', d1Databases: { DB: 'revocation-race' } });
+  try {
+    const raceDb = await isolated.getD1Database('DB');
+    for (const file of (await readdir(`${root}migrations`)).filter(name => name.endsWith('.sql')).sort()) await raceDb.batch(unstable_splitSqlQuery(await readFile(`${root}migrations/${file}`, 'utf8')).map(sql => raceDb.prepare(sql)));
+    const bundle = await build({ entryPoints: [`${root}src/worker.js`], bundle: true, write: false, format: 'esm', platform: 'browser', target: 'es2022' });
+    const worker = (await import('data:text/javascript;base64,' + Buffer.from(bundle.outputFiles[0].text).toString('base64'))).default;
+    for (const rotated of [false, true]) {
+      await raceDb.batch(['DELETE FROM sessions', 'DELETE FROM admin_credentials', 'DELETE FROM rate_limits'].map(sql => raceDb.prepare(sql)));
+      if (rotated) await raceDb.prepare('INSERT INTO admin_credentials(id,password_hash,version,updated_at) VALUES(1,?,5,?)').bind(encoded, '2026-09-16T00:00:00Z').run();
+      let captured; const capture = new Promise(resolve => { captured = resolve; });
+      let release; const pause = new Promise(resolve => { release = resolve; });
+      let intercept = true;
+      const env = { ADMIN_USERNAME: username, ADMIN_PASSWORD_HASH: encoded, SESSION_SECRET: 'test-only-revocation-race-session-secret', DB: {
+        batch: statements => raceDb.batch(statements),
+        prepare(sql) {
+          const statement = raceDb.prepare(sql);
+          if (intercept && sql.startsWith('SELECT password_hash,version,updated_at')) return {
+            async first() { const old = await statement.first(); intercept = false; captured(); await pause; return old; }
+          };
+          return statement;
+        }
+      } };
+      const request = () => new Request('https://site.test/api/auth/login', { method: 'POST', headers: { Origin: 'https://site.test', 'Content-Type': 'application/json', 'CF-Connecting-IP': '198.51.100.100' }, body: JSON.stringify({ username, password }) });
+      const pending = worker.fetch(request(), env, { waitUntil() {} });
+      await capture;
+      await raceDb.batch(unstable_splitSqlQuery(recoverySql('revoke-sessions')).map(sql => raceDb.prepare(sql)));
+      release();
+      assert.equal((await pending).status, 401, 'A login using the pre-revocation version must fail');
+      assert.equal((await raceDb.prepare('SELECT COUNT(*) AS count FROM sessions').first()).count, 0);
+      assert.equal((await worker.fetch(request(), env, { waitUntil() {} })).status, 200, 'The password remains valid for a new login');
+      const row = await raceDb.prepare('SELECT password_hash,version FROM admin_credentials WHERE id=1').first();
+      assert.equal(row.version, rotated ? 6 : 1);
+      if (rotated) assert.equal(row.password_hash, encoded, 'Revocation must not replace a rotated password');
+    }
+  } finally { await isolated.dispose(); }
+});
+
 test('portable D1 export creates referenced tables before inserting data and keeps triggers after data', () => {
   const sql = 'PRAGMA defer_foreign_keys=TRUE; CREATE TABLE child(id INTEGER,parent INTEGER REFERENCES parent(id)); INSERT INTO child VALUES(1,1); CREATE TABLE parent(id INTEGER PRIMARY KEY); INSERT INTO parent VALUES(1); CREATE TRIGGER observe AFTER INSERT ON parent BEGIN SELECT 1; END;';
   const output = normaliseD1Export(sql);

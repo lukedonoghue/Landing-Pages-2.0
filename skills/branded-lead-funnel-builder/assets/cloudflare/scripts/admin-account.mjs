@@ -19,9 +19,10 @@ export function accountPlan(args) {
 export function recoverySql(action, encoded) {
   if (action === 'rotate-password' && !/^pbkdf2_sha256\$100000\$[a-f0-9]{32}\$[a-f0-9]{64}$/.test(encoded || '')) throw new Error('Invalid generated credential hash.');
   if (action === 'rotate-password') return `INSERT INTO admin_credentials(id,password_hash,version,updated_at) VALUES(1,'${encoded}',1,strftime('%Y-%m-%dT%H:%M:%fZ','now')) ON CONFLICT(id) DO UPDATE SET password_hash=excluded.password_hash,version=version+1,updated_at=excluded.updated_at;\nDELETE FROM sessions;\n`;
-  // Revocation is a single SQL transaction in D1's import. Bump a stored version
-  // if present; deleting sessions immediately signs out all existing devices.
-  return 'UPDATE admin_credentials SET version=version+1 WHERE id=1;\nDELETE FROM sessions;\n';
+  // A first-use owner still needs a version row to reject an in-flight login.
+  // The empty hash retains adminCredentials' fallback to the initial Worker
+  // secret; conflict updates leave an already rotated password untouched.
+  return "INSERT INTO admin_credentials(id,password_hash,version,updated_at) VALUES(1,'',1,strftime('%Y-%m-%dT%H:%M:%fZ','now')) ON CONFLICT(id) DO UPDATE SET version=version+1;\nDELETE FROM sessions;\n";
 }
 export function runAccount(args, { run = spawnSync, log = console.log } = {}) {
   const plan = accountPlan(args);
