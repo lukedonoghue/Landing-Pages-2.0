@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Meaningful regression checks for retrieval, isolation, and stale review rejection."""
-import copy,importlib.util,json,sqlite3,tempfile,unittest
+import copy,importlib.util,json,sqlite3,tempfile,unittest,shutil
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 SKILL=ROOT.parent/'skills/branded-lead-funnel-builder'
@@ -102,6 +102,29 @@ class LibraryTests(unittest.TestCase):
   return source
  def test_real_source_excerpt_links_are_verified(self):
   self.research_fixture();m.prepare(LIB,self.b,self.ctx,3);self.assertEqual(len(m.read(self.ctx)['source_evidence']['artifacts']),1)
+ def test_prepared_project_moves_without_losing_evidence_or_review(self):
+  self.research_fixture();self.save(self.root/'funnel.json',dict(cta=self.brief['primary_cta'],follow_up_promise=self.brief['follow_up_promise']))
+  m.prepare(LIB,self.b,self.ctx,3);self.review();self.assertEqual(self.audit(True)['overall_status'],'pass')
+  with tempfile.TemporaryDirectory() as tmp:
+   moved=Path(tmp)/'moved';shutil.copytree(self.root,moved);shutil.rmtree(self.root)
+   args=[moved/'build'/p.name for p in [self.c,self.b,self.ctx,self.r]]
+   result=m.audit(*args);self.assertEqual(result['overall_status'],'pass',result)
+   (moved/'research/S001.txt').write_text('Changed after the handoff.')
+   self.assertIn('Research source changed: S001',m.audit(*args)['failures'])
+ def test_context_cannot_read_evidence_from_another_project(self):
+  self.research_fixture();m.prepare(LIB,self.b,self.ctx,3)
+  context=m.read(self.ctx);context['path_basis']='project';context['source_evidence']['manifest_path']='../another-project/sources.json';self.save(self.ctx,context);self.review()
+  self.assertTrue(any('inside the current project' in failure for failure in self.audit(True)['failures']))
+ def test_legacy_absolute_context_still_works_only_at_its_original_project(self):
+  self.research_fixture();m.prepare(LIB,self.b,self.ctx,3)
+  context=m.read(self.ctx);context.pop('path_basis',None)
+  context['source_evidence']['manifest_path']=str(self.root/'research/sources.json')
+  context['source_evidence']['artifacts'][0]['path']=str(self.root/'research/S001.txt')
+  self.save(self.ctx,context);self.review();self.assertEqual(self.audit(True)['overall_status'],'pass')
+  with tempfile.TemporaryDirectory() as tmp:
+   moved=Path(tmp)/'moved';shutil.copytree(self.root,moved)
+   result=m.audit(*[moved/'build'/p.name for p in [self.c,self.b,self.ctx,self.r]])
+   self.assertTrue(any('inside the current project' in failure for failure in result['failures']),result)
  def test_wrong_quote_cannot_use_a_valid_source_id(self):
   self.research_fixture();self.brief['claims'][0]['evidence']='We guarantee perfect results.';self.save(self.b,self.brief)
   with self.assertRaises(ValueError):m.prepare(LIB,self.b,self.ctx,3)
