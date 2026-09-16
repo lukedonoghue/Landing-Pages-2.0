@@ -204,3 +204,27 @@ This closes the implemented version-2 partial-journey path within its bounded th
 ### Fresh Linux verification and installed copies
 
 [GitHub run 35159042423](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35159042423) passed on code revision `66818bc`, including all regression jobs and the complete freshly generated local funnel. Both skill installations are checksum-verified at 140 files. This confirms fresh-machine local acceptance; no Cloudflare account deployment or real customer data was involved.
+
+## Owner identity and password recovery — 17 September 2026
+
+### Implemented
+
+- Added migration 0004 with a nullable D1 owner username and recovery-operation marker. Existing identities/passwords remain unchanged by migration; explicit identity changes override bootstrap configuration and survive Worker restarts/redeployment bindings.
+- One supported owner helper handles username changes, password resets, session revocation and resumption. It pins the account/database, shares the publishing process lock, retains a private intent before mutation and applies an expected-version change. Child commands inherit the lock; isolated tests acquire their own project's lock instead of trusting a parent project's descriptor.
+- A lost command response is reconciled by reading the operation ID, version, identity and hash back from D1. Resumption reuses the original password/intent; a newer account change prevents the pending operation from overwriting it.
+- Confirmed recovery updates the private credential reference consumed by publishing. Local and production references stay separate and are destination-bound. Rename carries a password only when it matches the authoritative hash; otherwise it records an explicit missing-current-password state.
+- Missing or corrupt old handoff files no longer disable password recovery. An explicitly supplied current-credential reference survives interrupted rename. No passwords, hashes or provider output appear in normal command output.
+- Local verification follows recovered owner credentials. An owned demo reset privately archives its old database, owner references/operations and journey request files, then returns to the initial local account. Restore guidance now applies missing migrations before using the current owner tools.
+- Updated B04/B06, setup guidance and the owner-maintenance guide. Existing sites must deploy the current Worker after the additive migration before using D1-backed username changes; a legacy Worker does not gain that behavior from migration alone.
+
+### Verification
+
+The combined local command passed **344 checks**: 120 repository Python, 19 evidence, 40 image, 18 catalogue and 147 application tests. Focused owner tests also passed after the final malformed-reference tolerance adjustment. Actual local Worker/D1 tests cover old-login/session rejection, first-use rename, UI rotation, CLI recovery, stale bootstrap settings after Worker restart, uncertain writes, interrupted private handoff, current-password loss, newer account changes and local/production isolation. The real local Wrangler recovery and SQL backup round-trip also passed, including the inherited-lock environment case.
+
+Independent review confirmed that migration/maintenance preserved seeded CRM rows and legacy login, and found two gaps: dependence on a lost old credential file and loss of an explicit credential reference on resume. Both were fixed and all three targeted independent retests passed. This used only synthetic local resources.
+
+A fresh demo was renamed to `demo-owner` and password-reset using the actual local CLI. Full verification then used its recovered private reference and passed 72 browser checks, 27 form/CRM checks, 118 layout checks and three PDF renders; Lighthouse median was 100 (LCP about 930 ms, CLS 0, TBT 0). An actual reset preserved the old private state, removed active old references/operations, and passed a new browser/form/CRM/PDF run with the initial owner. The second run intentionally did not repeat layout/performance measurements. No new client visual approval is claimed for these account/backend changes.
+
+### Still open
+
+B06's local implementation is verified; B04/B06 still need the real Cloudflare rotation/rename/redeployment acceptance in B19. Infrastructure restore/first-upload edge cases and resumed pre-upload checks remain separate. Portable distribution, privacy/retention, remaining publication reconciliation and first-time human acceptance remain unfinished. No existing client page or real account was changed, no live Cloudflare launch was performed and no paid image call was made. The development goal stays active.

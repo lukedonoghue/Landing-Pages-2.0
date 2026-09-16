@@ -49,7 +49,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | Partial | B03 | P1 | Finish live evidence registration, release status and deployed identity checks | Release/evidence and partial-journey recovery implemented; pilot and superseding remain |
 | Partial | B04 | P1 | Validate publishing prerequisites early and handle changed passwords | Early checks/current references implemented; real redeploy acceptance remains |
 | [x] | B05 | P1 | Fix first-use CLI session-revocation race | Fixed; first-use and rotated-account race regression passed |
-| [ ] | B06 | P2 | Make owner username changes consistent and persistent | Confirmed defect |
+| Local implementation | B06 | P2 | Make owner username changes consistent and persistent | D1 identity and guarded CLI implemented; live pilot remains |
 | [ ] | B07 | P1 for handoff | Make generated-project ZIPs resumable without invalidating evidence | Reproduced defect |
 | [x] | B08 | P1 for handoff | Make research evidence portable across machines/directories | Fixed for newly prepared contexts; relocated legacy contexts need a truthful refresh |
 | [x] | B09 | P1 | Support a new external reference page without editing the global library | Implemented; real capture, independent preparation and relocation verified |
@@ -117,9 +117,11 @@ Identity comes from pinned Wrangler deployment/version inspection (account, Work
 
 New-release checks now validate current credential structure, fixture schema and actual selector parsing, launch Chromium, require complete non-skipped application tests and check pinned Wrangler before remote mutation. Invalid target overrides are rejected before inspection, including resume. Initial secret/password mismatch blocks migrations; secrets join the first upload rather than a later bulk call.
 
-The publisher accepts current private credential/password files and saves a private reference. It checks login/session for existing guarded deployments before migration/upload and retains remote secrets on later releases. After UI or CLI rotation, provide the new private reference; the bootstrap file is not automatically updated.
+The publisher accepts current private credential/password files and saves a private reference. It checks login/session for existing guarded deployments before migration/upload and retains remote secrets on later releases. Confirmed CLI recovery now updates a destination-bound private reference automatically; UI password changes still need their current private file supplied because a browser cannot update the local filesystem. The bootstrap file is intentionally retained as initial configuration.
 
-**Remaining:** automatically update the private reference after confirmed CLI recovery; test both rotation paths through actual deployed verification; verify resumed pre-upload operations handle changed local runtime/credentials as clearly as a first attempt.
+**Update:** recovery keeps one sealed private intent, applies a version-checked D1 change, reconciles lost responses and updates the current reference only after readback. Local and production references are separate. Tests cover UI-rotated credentials, CLI recovery, uncertain writes, interrupted private handoff, concurrent changes and a Worker restart with stale bootstrap identity.
+
+**Remaining:** run both rotation paths through actual Cloudflare redeployment/verification; test resumed pre-upload operations and infrastructure restore/first-upload paths with changed runtime/credentials. Local acceptance is not a live account pilot.
 
 **Done when:** invalid prerequisites cause no remote mutations; redeployment after UI rotation and CLI recovery verifies using current credentials; missing browsers cannot produce a green release through skipped tests.
 
@@ -127,9 +129,9 @@ The publisher accepts current private credential/password files and saves a priv
 
 ### B05 — CLI session revocation has a first-use race
 
-**P1 · Reproduced defect**
+**P1 · Fixed; current version-checked recovery SQL retains regression coverage**
 
-The CLI revocation SQL only increments an existing credential-version row. A new owner who has never rotated their password has no such row. A login that read version zero before revocation can insert a valid session after the deletion and survive the revoke operation.
+The original CLI revocation SQL only incremented an existing credential-version row. A new owner who has never rotated their password has no such row. A login that read version zero before revocation can insert a valid session after the deletion and survive the revoke operation.
 
 This sequence was reproduced with the shipped SQL in isolated in-memory SQLite. The authenticated API revocation implementation already handles the first-use row correctly; do not rewrite it as though it has the same defect.
 
@@ -141,15 +143,17 @@ This sequence was reproduced with the shipped SQL in isolated in-memory SQLite. 
 
 ### B06 — Owner username changes need one supported procedure
 
-**P2 · Confirmed defect**
+**P2 · Implemented and locally verified; Cloudflare acceptance remains in B19**
 
-Setup directs username changes to the recovery tool, but that tool explicitly preserves the username. Documentation instead suggests changing the Worker secret. A live-secret-only change can then be overwritten by the old username in the local production configuration on the next publish.
+Migration `0004_owner_identity.sql` adds a nullable D1 owner identity and recovery operation marker without changing existing accounts. `admin-account.mjs change-username` preserves the password, advances the credential version and revokes old access. D1 becomes authoritative for the changed identity, so neither the original Worker secret nor private bootstrap configuration restores the old username on redeployment. Setup now names the supported command.
 
-**Work:** Provide one coherent identity-change procedure covering the Worker secret, local deployment configuration and session revocation. Correct the setup guidance.
+The same helper rotates passwords and revokes sessions using a pinned account/database, a private retained intent, an inherited process lock and expected-version comparison. It reads the completed operation back before updating the publisher's private current-credential reference. A lost command response or interrupted local handoff resumes the original operation; a newer account change is preserved. Missing current passwords become an explicit credential blocker. Local maintenance never overwrites the production reference.
 
-**Done when:** Changing the owner username invalidates old access, works with the new identity and survives redeployment. Passwords remain private.
+**Evidence:** actual local Worker/D1 login/session tests, a Worker restart using stale bootstrap configuration, UI password rotation followed by rename/recovery, lost-response/failure/handoff tests and the real local Wrangler recovery/backup round-trip. No actual Cloudflare redeployment has been claimed.
 
-**Files:** [setup instruction](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/setup.mjs#L25), [recovery behavior](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/admin-account.mjs#L49), [secret upload](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/publish.mjs#L21), [recovery guide](skills/branded-lead-funnel-builder/references/admin-access-and-recovery.md).
+**Done when:** the supported identity change also passes B19 on an authorized real deployed destination, with old access rejected and the new identity surviving redeployment. Preserve bootstrap files as initial configuration; do not recommend a competing manual Worker-secret rename.
+
+**Files:** [owner tool](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/admin-account.mjs), [identity migration](skills/branded-lead-funnel-builder/assets/cloudflare/migrations/0004_owner_identity.sql), [authentication](skills/branded-lead-funnel-builder/assets/cloudflare/src/security.js), [recovery guide](skills/branded-lead-funnel-builder/references/admin-access-and-recovery.md).
 
 ### B07 — Generated-project ZIP handoffs cannot reliably resume the approved workflow
 

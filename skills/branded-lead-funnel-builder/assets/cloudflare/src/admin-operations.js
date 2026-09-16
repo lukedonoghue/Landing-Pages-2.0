@@ -14,10 +14,10 @@ export async function changePassword(env, request, body) {
   const encoded = await hashPassword(body.new_password);
   // Compare-and-swap: two concurrent rotations cannot silently overwrite each other.
   const nextVersion = account.version + 1;
-  const row = await env.DB.prepare(`INSERT INTO admin_credentials(id,password_hash,version,updated_at)
-    SELECT 1,?,?,? WHERE COALESCE((SELECT version FROM admin_credentials WHERE id=1),0)=?
-    ON CONFLICT(id) DO UPDATE SET password_hash=excluded.password_hash,version=excluded.version,updated_at=excluded.updated_at
-    WHERE admin_credentials.version=? RETURNING version`).bind(encoded, nextVersion, new Date().toISOString(), account.version, account.version).first();
+  const row = await env.DB.prepare(`INSERT INTO admin_credentials(id,password_hash,version,updated_at,username)
+    SELECT 1,?,?,?,? WHERE COALESCE((SELECT version FROM admin_credentials WHERE id=1),0)=?
+    ON CONFLICT(id) DO UPDATE SET password_hash=excluded.password_hash,version=excluded.version,updated_at=excluded.updated_at,username=excluded.username,recovery_id=NULL
+    WHERE admin_credentials.version=? RETURNING version`).bind(encoded, nextVersion, new Date().toISOString(), account.username, account.version, account.version).first();
   if (!row) throw new HttpError(409, 'The account changed. Sign in again before changing its password.');
   // Session version checks already invalidate old credentials, even if cleanup fails.
   await env.DB.prepare('DELETE FROM sessions WHERE credential_version<?').bind(nextVersion).run();
@@ -28,8 +28,8 @@ export async function revokeSessions(env, request) {
   // Increase credential version too, so an in-flight login using the old version
   // cannot create a valid session after this operation.
   await env.DB.batch([
-    env.DB.prepare(`INSERT INTO admin_credentials(id,password_hash,version,updated_at) VALUES(1,?,1,?)
-      ON CONFLICT(id) DO UPDATE SET version=version+1`).bind(account.password_hash, new Date().toISOString()),
+    env.DB.prepare(`INSERT INTO admin_credentials(id,password_hash,version,updated_at,username) VALUES(1,?,1,?,?)
+      ON CONFLICT(id) DO UPDATE SET version=version+1,recovery_id=NULL`).bind(account.password_hash, account.updated_at || '', account.username),
     env.DB.prepare('DELETE FROM sessions')
   ]);
   return json({ ok: true, signed_out: true }, 200, { 'Set-Cookie': sessionCookie(request, '', 0) });

@@ -1,6 +1,6 @@
 # Named owner access, lead operations and recovery
 
-Each generated site has **one named owner account**, configured by `ADMIN_USERNAME` (username or email, 3–80 characters). This is not a multi-user team/roles system. The password is randomly generated during setup, stored in a private `.secrets/` file for handoff, and saved to the Worker only as a salted PBKDF2 hash. Authentication requires both fields; password-only access is not supported. Save the login in the client's password manager and remove unnecessary plaintext handoff copies afterward.
+Each generated site has **one named owner account**, initially configured by `ADMIN_USERNAME` (username or email, 3–80 characters), with subsequent owner identity changes retained in D1. This is not a multi-user team/roles system. The password is randomly generated during setup, stored in a private `.secrets/` file for handoff, and saved to the Worker only as a salted PBKDF2 hash. Authentication requires both fields; password-only access is not supported. Save the login in the client's password manager and remove unnecessary plaintext handoff copies afterward.
 
 ## Client experience
 
@@ -13,15 +13,36 @@ Each generated site has **one named owner account**, configured by `ADMIN_USERNA
 
 ## Lost password / rotation
 
-Recovery belongs to the Cloudflare account owner. There is deliberately no fake “email me a reset link” that depends on an unconfigured mail service. First confirm the intended generated project and Cloudflare account/database. `--dry-run` makes no remote changes.
+Recovery belongs to the Cloudflare account owner. There is no reset-email flow dependent on an unconfigured mail service. Confirm the intended project/account/database and use the existing authorized maintenance scope. The agent handles these commands; the user should not need to edit secrets manually. `--dry-run` makes no changes.
+
+The current Worker and owner-maintenance helper require migration `0004_owner_identity.sql`. For an existing generated site, install the current helpers and apply the additive migration through its reviewed update procedure before using the new authentication code. Deploy the current Worker through that reviewed update before using username changes: older Workers do not read the D1 owner-identity override. Existing owner records keep their original bootstrap identity until changed; migration does not rename or reset anyone.
 
 ```bash
 node scripts/admin-account.mjs rotate-password --remote --dry-run
-node scripts/admin-account.mjs rotate-password --remote --out .secrets/recovery-2026-09-16.txt
+node scripts/admin-account.mjs rotate-password --remote
+node scripts/admin-account.mjs change-username --remote --username new-owner
 node scripts/admin-account.mjs revoke-sessions --remote
 ```
 
-Use `--local` instead when testing. Rotation generates a new password, stores it only in the specified private file (0600), writes a new salted hash into D1 and invalidates all sessions. It never prints passwords or SQL containing credential hashes. Existing output files are not overwritten. The username stays unchanged. A failed/uncertain command retains the proposed password file: verify status before deciding whether it took effect. Username changes require changing `ADMIN_USERNAME` in the Cloudflare Worker; existing sessions using the former name then fail closed.
+Use `--local` for the isolated local database. A password reset generates one random password and saves a private operation before any database change. `--out .secrets/recovery-password.txt` optionally selects a handoff copy; existing files are never overwritten. The private operation includes the generated password, salted hash and intended credential version, so **all of `.secrets/account-recovery/` is sensitive**. It is excluded from Git, public assets and source handoffs. Provider output, hashes and passwords are never printed.
+
+A username change preserves the password and stores the normalized new identity in D1. Password/account changes advance the credential version, invalidating old sessions and in-flight old logins. A later deployment with the original valid bootstrap username/password secrets does not override the changed D1 identity/password. Keep the bootstrap configuration; do not edit `ADMIN_USERNAME` directly as a rename procedure.
+
+After an operation, the tool reads D1 back and checks the exact operation ID, version, username and password hash. Only then does it update the private current-access reference used by publishing. It checks an available password against the authoritative hash before carrying it into the renamed identity. Supply an already-current private `--credentials-file` or `--password-file` when necessary. The original credential-file reference is retained with a rename operation, so resume does not need the same option repeated. A missing or malformed old credential file does not prevent a password reset when the owner identity is known. If the current password is unavailable, the username change still completes but the reference explicitly requires a current private password; the publisher will not silently use the original bootstrap password. A browser password change cannot write local files: supply its new private credentials file for subsequent publishing/maintenance.
+
+The production pointer is `.secrets/current-admin-access.json`; local maintenance uses `.secrets/current-local-admin-access.json`. References are bound to the intended database/Worker/account. Local demo verification follows its current local reference. Resetting an owned fictional demo archives its old database and recovery/reference files privately, then returns to the initial demo account; historical operations are not reused against the reset database.
+
+## Interrupted owner maintenance
+
+Keep the saved operation UUID shown by the tool. Resume that operation on the same target:
+
+```bash
+node scripts/admin-account.mjs resume --remote --operation <saved-UUID>
+```
+
+The helper inspects before acting. If the change committed but its response or local credential handoff was lost, it completes the handoff without changing the password/version again. If the original write did not commit, a retry uses the same private intent and a compare-and-swap on its expected version. A newer UI/CLI account change blocks the old operation instead of overwriting it. Attempts are bounded at three; unavailable migrations/account access, missing/changed private state, changed destinations and exhausted attempts need the specific private diagnostic resolved.
+
+Owner maintenance shares the publishing process lock, inherited by child commands. Do not delete it while a holder is running. This local serialization and the D1 version guard address different concurrency cases; a state file alone is not evidence of a running process. Preserve unfinished private operations and current credential files until recovery/handoff is resolved. Remove unnecessary private copies later through the owner's normal secure credential handling, without leaving publishing references pointing to deleted files.
 
 ## Backup and restoration
 
@@ -36,7 +57,7 @@ node scripts/backup.mjs restore-plan --file .secrets/crm-2026-09-16.sql
 
 `export` requires explicit local/remote selection, refuses to overwrite an existing backup and sets file mode 0600. It places table schema before row inserts so foreign keys to later tables remain restorable; triggers stay after data. `verify` actually imports into an isolated temporary **local** D1 database and checks required tables/counts and foreign-key integrity. It removes only its own temporary copy. A successful SQL check is not a tested production cutover.
 
-Restore into a **new empty recovery D1 database**, never directly over the current live database. Use the same client/account, import the verified SQL with Wrangler, revoke restored sessions and rotate credentials, attach a separate preview Worker, and verify counts, leads, login and metrics. Obtain the owner's explicit confirmation of the exact production binding cutover before replacing the binding; retain the original database for rollback. `restore-plan` only prints those steps and never mutates a remote database. Follow the current official D1 recovery guidance if using Time Travel instead of a SQL backup.
+Restore into a **new empty recovery D1 database**, never directly over the current live database. Use the same client/account, import the verified SQL with Wrangler, apply current application migrations missing from that backup, revoke restored sessions and rotate credentials, attach a separate preview Worker, and verify counts, leads, login and metrics. Obtain the owner's explicit confirmation of the exact production binding cutover before replacing the binding; retain the original database for rollback. `restore-plan` only prints those steps and never mutates a remote database. Follow the current official D1 recovery guidance if using Time Travel instead of a SQL backup.
 
 ## API contract for extensions
 

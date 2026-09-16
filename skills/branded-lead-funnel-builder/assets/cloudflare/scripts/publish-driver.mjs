@@ -19,15 +19,22 @@ export function argumentsFor(argv) {
 export function access(root,args) {
   try {
     const saved=existsSync(path.join(root,'.secrets/current-admin-access.json'))?read(path.join(root,'.secrets/current-admin-access.json')):{};
+    if(saved.needs_password && !args['credentials-file'] && !args['password-file'])throw new Error('Current private password is required.');
+    let savedTarget;
+    if(saved.target){
+      const config=read(path.join(root,'wrangler.jsonc'));
+      if(saved.target.mode==='production' && saved.target.account_id===config.account_id && saved.target.worker===config.name && saved.target.database_id===config.d1_databases?.[0]?.database_id)savedTarget=saved.target;
+      else if(!args['credentials-file'])throw new Error('The saved credential reference belongs to another destination.');
+    }
     const production=existsSync(path.join(root,'.secrets/production.json'))?read(path.join(root,'.secrets/production.json')):null;
     const file=args['credentials-file'] || (!args['password-file'] && saved.credentials_file);
     const password=args['password-file'] || (!file && saved.password_file) || '.secrets/production-admin-password.txt';
     const options=file?{'credentials-file':path.resolve(root,file)}:{'password-file':path.resolve(root,password)};
-    const username=saved.username || production?.ADMIN_USERNAME || process.env.ADMIN_USERNAME;
+    const username=(!saved.target || savedTarget ? saved.username : null) || production?.ADMIN_USERNAME || process.env.ADMIN_USERNAME;
     const auth=credentials(options,{ADMIN_USERNAME:username});
     if(!/^[a-z0-9][a-z0-9._@+-]{2,79}$/i.test(auth.username.trim()) || !auth.password || auth.password.length>1024)throw new Error('invalid');
     return {auth:{username:auth.username.trim().toLowerCase(),password:auth.password},options,production,
-      reference:file?{credentials_file:path.resolve(root,file)}:{username:auth.username.trim().toLowerCase(),password_file:path.resolve(root,password)}};
+      reference:{...(file?{credentials_file:path.resolve(root,file)}:{password_file:path.resolve(root,password)}),username:auth.username.trim().toLowerCase(),...(savedTarget?{target:savedTarget}:{})}};
   } catch {throw new Error('Current private administrator credentials are missing or malformed. Use --credentials-file or --password-file; never put passwords in command arguments or project source.');}
 }
 export async function localPreconditions(root,args,auth,run) {
