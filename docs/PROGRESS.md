@@ -200,3 +200,7 @@ A freshly generated full demo passed 72 browser checks, 27 actual local form/CRM
 ### Still open
 
 This closes the implemented version-2 partial-journey path within its bounded three-run policy, not all of B03/B18. Legacy/missing private state, unfinished submissions crossing a reporting-day boundary, exhausted budgets, unconfirmed migrations/origins and replacing failed/read-only releases still need reconciliation work. Setup journals, portable distribution, account recovery handoff, privacy/retention, an authorized real Cloudflare pilot and first-time human acceptance remain open. No client page was deployed or paid image request made. The full development goal remains active.
+
+### Fresh Linux verification and installed copies
+
+[GitHub run 35159042423](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35159042423) passed on code revision `66818bc`, including all regression jobs and the complete freshly generated local funnel. Both skill installations are checksum-verified at 140 files. This confirms fresh-machine local acceptance; no Cloudflare account deployment or real customer data was involved.
