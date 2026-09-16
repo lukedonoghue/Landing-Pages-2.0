@@ -118,7 +118,8 @@ def check(node, repository=None):
     ensure_ready(node)
     suites = []
     commands = [("evidence", [sys.executable, SKILL / "scripts/test_gates.py"]),
-                ("images", [sys.executable, SKILL / "tests/test_image_workflow.py"])]
+                ("images", [sys.executable, SKILL / "tests/test_image_workflow.py"]),
+                ("catalogue", [sys.executable, SKILL / "tests/test_catalogue.py"])]
     if repository:
         repository = Path(repository).resolve()
         if (repository / "skills/branded-lead-funnel-builder").resolve() != SKILL:

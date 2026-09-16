@@ -102,7 +102,11 @@ def pdf_body(text, page_count, footer_labels=()):
         raise ValueError("PDF page boundaries do not match the captured page count.")
     cleaned = []
     for index, page in enumerate(pages, 1):
-        lines = page.splitlines()
+        # Explicit navigation labels are neutral UI, bounded by the real page count.
+        # Never discard bare in-body numbers, prices or percentages.
+        lines = [line for line in page.splitlines()
+                 if not ((match := re.fullmatch(r'page\s+(\d+)', normalize(line)))
+                         and 1 <= int(match[1]) <= page_count)]
         for end in (0, -1):
             while lines and not lines[end].strip():
                 lines.pop(end)

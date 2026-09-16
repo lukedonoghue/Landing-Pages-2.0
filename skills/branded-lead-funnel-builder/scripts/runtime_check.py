@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import importlib.metadata
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -67,6 +68,16 @@ def inspect(project=None, node=None, launch_browsers=True):
         add(package, bool(version), version or "Not installed in this Python environment",
             "Run the quickstart bootstrap, or install requirements-build.txt in a private virtual environment.")
 
+    try:
+        directory = SKILL / 'assets/pdf-fonts'
+        manifest = json.loads((directory / 'provenance.json').read_text())
+        fonts_ok = all(hashlib.sha256((directory / name).read_bytes()).hexdigest() == manifest['files'][name]
+                       for name in ('DejaVuSans.ttf','DejaVuSans-Bold.ttf','LICENSE'))
+    except (OSError,ValueError,KeyError,TypeError):
+        fonts_ok = False
+    add('Bundled PDF fonts', fonts_ok, 'Font and license hashes match' if fonts_ok else 'Font assets are missing or changed',
+        'Reinstall the complete skill including assets/pdf-fonts. Custom client fonts belong in catalogue configuration, not in the shared defaults.')
+
     code, version = probe([node, "--version"]) if node else (1, "")
     node_ok = code == 0 and supported_node(version)
     add("Node.js", node_ok, version or "Not found",
@@ -75,7 +86,8 @@ def inspect(project=None, node=None, launch_browsers=True):
     add("npm", bool(npm), "Found" if npm else "Not found", "Install npm with the supported Node runtime.")
 
     for binary, label in (("cwebp", "WebP optimizer"), ("pdftoppm", "PDF renderer"),
-                          ("pdftotext", "PDF text extraction")):
+                          ("pdftotext", "PDF text extraction"), ("pdffonts", "PDF font inspection"),
+                          ("pdftohtml", "PDF navigation inspection")):
         found = shutil.which(binary)
         add(label, bool(found), found or "Not found",
             "macOS: brew install webp poppler. Ubuntu/Debian: install webp and poppler-utils using the system package manager.")

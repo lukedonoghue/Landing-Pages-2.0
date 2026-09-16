@@ -71,6 +71,14 @@ class CopyParityTests(unittest.TestCase):
         self.capture['pdf']['text']=self.capture['pdf']['text'].replace('Example Workshop 02','Guaranteed results 02')
         self.assertFalse(self.result()['passed'])
 
+    def test_explicit_pdf_navigation_labels_are_bounded_by_actual_pages(self):
+        original = self.capture['pdf']['text']
+        self.capture['pdf']['text'] = original.replace('Plan your project.', 'Page 02\nPlan your project.')
+        self.assertTrue(self.result()['passed'], self.result())
+        for invalid in ['Page 99', 'Page 0', '99%', '$100', '99']:
+            self.capture['pdf']['text'] = original.replace('Plan your project.', invalid+'\nPlan your project.')
+            self.assertFalse(self.result()['passed'], invalid)
+
     def test_typographic_case_whitespace_and_smart_punctuation_are_supported(self):
         self.master["h1"] = "Plan your project — with care."
         for document in self.capture["documents"]:
