@@ -40,7 +40,10 @@ export function loadFixture(file) {
 export function makeReport(gate, target, args = {}) {
   let snapshot;
   if (args['project-root']) {
-    const file = path.join(path.resolve(args['project-root']), 'build/gate-snapshot.json');
+    const root = path.resolve(args['project-root']);
+    const file = path.resolve(root, args.snapshot || 'build/gate-snapshot.json');
+    const relative = path.relative(root, file);
+    if (relative.startsWith('..') || path.isAbsolute(relative) || !relative.startsWith('build' + path.sep)) throw new Error('Snapshot must be inside project build/.');
     if (!existsSync(file)) throw new Error('Create a current gate snapshot before using --project-root.');
     snapshot = JSON.parse(readFileSync(file, 'utf8'));
   }

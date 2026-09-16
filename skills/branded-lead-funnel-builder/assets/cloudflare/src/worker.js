@@ -30,7 +30,7 @@ async function route(request, env, ctx, url) {
   if (path.startsWith('/api/') && !['GET', 'HEAD'].includes(method)) enforceOrigin(request);
   if (path === '/api/health' && method === 'GET') {
     await env.DB.prepare('SELECT id FROM leads LIMIT 1').first();
-    return json({ ok: true, database: 'connected' });
+    return json({ ok: true, database: 'connected', release: { version_id: env.CF_VERSION_METADATA?.id || null, release_id: env.FUNNEL_RELEASE_ID || null, source_fingerprint: env.FUNNEL_SOURCE_FINGERPRINT || null } });
   }
   if (path === '/api/auth/login' && method === 'POST') {
     await rateLimit(env, request, 'login', 8, 900);

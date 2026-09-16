@@ -51,6 +51,9 @@ LABELS = {
     "live_checks_passed": "Live checks passed; release identity is not finalized",
     "ready_for_handoff": "Ready for the reviewed handoff",
     "demo": "Explore the fictional local demo",
+    "release_recovery": "Resume the saved publishing release",
+    "published_verified": "Published; saved live verification passed",
+    "published_with_local_changes": "Published release verified; local changes remain",
 }
 
 
@@ -211,6 +214,52 @@ def deployment_state(root):
     return result
 
 
+def guarded_release_state(root):
+    """Read sealed saved proof only; this does not contact Cloudflare or assert liveness."""
+    root = Path(root).resolve()
+    pointer = storage.read(root, "build/current-release.json")
+    if pointer is None:
+        return None
+    import release_state
+
+    ident = pointer.get("id", "")
+    result = {
+        "id": ident,
+        "evidence_scope": "saved release evidence; current provider state was not queried",
+        "verified": False,
+        "failures": [],
+    }
+    try:
+        base = release_state.directory(root, ident)
+        state = storage.read(root, (base / "state.json").relative_to(root).as_posix())
+        sealed = release_state.validate(root, ident)
+        if (
+            state.get("id") != ident
+            or state.get("source_fingerprint") != sealed["source_fingerprint"]
+        ):
+            raise ValueError("Saved release state does not match its frozen inputs.")
+        result.update(
+            phase=state.get("phase"),
+            source_fingerprint=sealed["source_fingerprint"],
+            source_current=sealed["source_fingerprint"]
+            == check_gates.source_snapshot(root)["source_fingerprint"],
+        )
+        if state.get("phase") == "verified":
+            proof = release_state.verified(root, ident)
+            result.update(verified=True, url=proof["url"], verified_at=proof["verified_at"])
+        elif state.get("phase") == "public_checks_passed":
+            result["failures"].append(
+                "Only public checks ran; the frozen approval did not authorize the controlled live lead."
+            )
+        else:
+            result["failures"].append(
+                "This release has not finished validated live verification. Preserve its attempts before resuming."
+            )
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
+        result["failures"].append("Saved release evidence cannot be validated: " + str(error))
+    return result
+
+
 def inspect(root):
     import workflow
 
@@ -293,6 +342,33 @@ def inspect(root):
             status="development_only",
         )
 
+    release = guarded_release_state(root)
+    if release:
+        report["release"] = release
+        if release["verified"]:
+            report["completed"].append("saved_live_release_verified")
+            report["warnings"].append(
+                "This status validates retained evidence only. A guarded publish --resume rechecks the actual provider/runtime identity before claiming the current destination is verified."
+            )
+            if not release["source_current"]:
+                return at(
+                    "published_with_local_changes",
+                    "Keep the verified published release. Review and test the changed local source, then use --new-release only after its actual final approval.",
+                    status="in_progress",
+                )
+            return at(
+                "published_verified",
+                "Use the saved site/admin handoff. Recheck current release identity with the guarded publisher when needed; local status does not contact the provider.",
+                status="verified_saved",
+            )
+        report["blockers"] += release["failures"]
+        return at(
+            "release_recovery",
+            "Use the guarded publisher with --resume to inspect the same saved release. It will not blindly repeat an upload or a possibly submitted lead. If it reports an uncertain submitted form or changed active version, preserve its receipt and reconcile the stated outcome before continuing.",
+            status="blocked",
+            command=["node", "scripts/publish.mjs", "--resume"],
+        )
+
     deployment = deployment_state(root)
     if deployment:
         report["deployment"] = deployment
@@ -309,7 +385,7 @@ def inspect(root):
             )
         return at(
             "deployed_unverified",
-            "Inspect the saved deployment and verification results before any retry. Do not rerun publish: it currently performs another upload. Preserve handoff evidence and confirm the running target/current credentials before continuing the authorized live verification.",
+            "Inspect this legacy deployment and verification record before any retry. The guarded publisher will block it until its origin, current version and reviewed source are reconciled into a release record; a legacy success flag is insufficient.",
             status="blocked",
         )
 

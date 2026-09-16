@@ -138,3 +138,9 @@ Before attaching reports to a release gate, make a current handoff snapshot and 
 - Lighthouse measures laboratory LCP, CLS and TBT. TBT is a responsiveness proxy, not field INP; laboratory results are not proof of real-user Core Web Vitals.
 - This integration test did not execute the optional paid image API route, deliver a real email/webhook notification, or prove a remote Cloudflare backup/restore. Those capabilities have their own explicit setup and verification requirements.
 - Unit-test approval/review fixtures only test validation rules. They cannot count as a user's approval, a real editorial assessment, or a final visual review.
+
+## Guarded publishing regression update — 16 September 2026
+
+The current local baseline is **319 passing tests** (118 repository Python, 19 evidence, 40 image, 18 catalogue, 124 application; no application skips). The fresh release-pilot demo passed the complete local journey, two-engine browser matrix, layout/performance checks and three-page PDF render. See [progress and exact limits](PROGRESS.md#guarded-publishing-and-release-evidence--16-september-2026).
+
+Publishing interruption cases use offline injected Cloudflare responses and explicitly synthetic approval/evidence fixtures. Separate tests exercise actual artifact validators, process locks, a real local Worker/D1 health endpoint and an unavailable browser. These do not establish live provider compatibility or authorization. A successful local packaging dry-run is not a deployment. B03/B04/B18/B19 remain subject to their documented remaining acceptance cases.

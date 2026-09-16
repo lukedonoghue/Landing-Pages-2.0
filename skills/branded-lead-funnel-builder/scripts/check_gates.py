@@ -130,6 +130,35 @@ def local_journey_errors(root, report):
         errors.append('Local journey evidence is incomplete or invalid: '+str(error))
     return errors
 
+def deployment_identity_errors(root, report, snapshot):
+    errors=[]
+    try:
+        artifacts=report.get('artifacts',[])
+        identities=[a for a in artifacts if a.get('type')=='deployment_identity']
+        runtimes=[a for a in artifacts if a.get('type')=='runtime_identity']
+        if len(identities)!=1 or len(runtimes)!=1:raise ValueError('Deployment needs one control-plane identity and before/after runtime identity artifact')
+        identity=read_json(resolve_inside(root,identities[0]['path']))
+        runtime=read_json(resolve_inside(root,runtimes[0]['path']))
+        if identity!=report.get('deployment_identity'):errors.append('Deployment report and identity artifact disagree')
+        if identity.get('evidence_source')!='cloudflare-wrangler-deployments-and-version-api':errors.append('Identity must come from the actual Cloudflare deployment/version inspection')
+        for key in ('release_id','version_id','database_id'):
+            if UUID(identity[key]).version not in range(1,9):errors.append('Invalid deployed '+key)
+        if not isinstance(identity.get('account_id'),str) or len(identity['account_id'])!=32 or any(c not in '0123456789abcdef' for c in identity['account_id']):errors.append('Cloudflare account identity is missing')
+        active=identity.get('active_versions',[])
+        if len(active)!=1 or active[0].get('version_id')!=identity['version_id'] or active[0].get('percentage')!=100:errors.append('Identity is not for one fully active version')
+        if identity.get('source_fingerprint')!=snapshot['source_fingerprint']:errors.append('Deployed source marker differs from reviewed release source')
+        if not identity.get('worker') or not identity.get('script_etag'):errors.append('Worker/bundle identity is incomplete')
+        if identity.get('url','').rstrip('/')!=report.get('target',{}).get('url','').rstrip('/'):errors.append('Runtime origin differs from the inspected deployment')
+        if identity.get('database_id')!=report.get('observations',{}).get('database_id'):errors.append('Live receipt was not correlated with the inspected D1 binding')
+        for when in ('before','after'):
+            observed=runtime[when]
+            if any(observed.get(key)!=identity[key] for key in ('version_id','release_id','source_fingerprint')):
+                errors.append('Running identity differs '+when+' the live journey')
+            if parsed_time(observed['observed_at'])<parsed_time(snapshot['created_at']):errors.append('Runtime identity predates the live snapshot')
+    except (OSError,ValueError,KeyError,TypeError,AttributeError) as error:
+        errors.append('Deployment identity evidence is invalid: '+str(error))
+    return errors
+
 def validate_report(root, report, snapshot, gate):
     errors = []
     if report.get('schema_version') != 1 or report.get('gate') != gate:
@@ -248,8 +277,9 @@ def validate_report(root, report, snapshot, gate):
                 errors.append('CRM evidence needs redacted HTTP and database receipt artifacts')
         elif gate == 'tracking' and not {'event_trace', 'dashboard_result'}.issubset(kinds):
             errors.append('Tracking evidence needs event and dashboard query artifacts')
-        elif gate == 'deployment' and not {'http_trace', 'deployment_record'}.issubset(kinds):
-            errors.append('Deployment evidence needs destination HTTP and deployment record artifacts')
+        elif gate == 'deployment':
+            if not {'http_trace', 'deployment_record'}.issubset(kinds):errors.append('Deployment evidence needs destination HTTP and deployment record artifacts')
+            errors += deployment_identity_errors(root,report,snapshot)
     if report.get('status') in {'pass', 'pass_with_warnings'}:
         if report.get('failures'):
             errors.append('Passing report contains failures')

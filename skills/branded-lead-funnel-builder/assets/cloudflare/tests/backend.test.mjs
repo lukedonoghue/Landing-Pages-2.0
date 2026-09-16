@@ -34,7 +34,7 @@ async function jsonCall(path, options) {
 before(async () => {
   const bundle = await build({ entryPoints: [`${root}src/worker.js`], bundle: true, write: false, format: 'esm', platform: 'browser', target: 'es2022', plugins: [{name:'isolated-test-schema',setup(builder){builder.onLoad({filter:/site-config\.json$/},async()=>({contents:await readFile(`${root}tests/fixtures/site-config.json`,'utf8'),loader:'json'}));}}] });
   mf = new Miniflare({ modules: true, script: bundle.outputFiles[0].text, compatibilityDate: '2026-07-22', d1Databases: { DB: 'crm-tests', MIGRATION_TEST: 'migration-tests' },
-    bindings: { ADMIN_USERNAME: 'owner', ADMIN_PASSWORD_HASH: hash, SESSION_SECRET: 'test-only-session-secret-with-at-least-32-bytes' },
+    bindings: { ADMIN_USERNAME: 'owner', ADMIN_PASSWORD_HASH: hash, SESSION_SECRET: 'test-only-session-secret-with-at-least-32-bytes', CF_VERSION_METADATA: { id: '11111111-1111-4111-8111-111111111111' }, FUNNEL_RELEASE_ID: '22222222-2222-4222-8222-222222222222', FUNNEL_SOURCE_FINGERPRINT: 'a'.repeat(64) },
     serviceBindings: { ASSETS: () => new Response('<html>Private admin asset</html>', { headers: { 'Content-Type': 'text/html' } }) },
     outboundService: async request => {
       const url = new URL(request.url);
@@ -55,6 +55,12 @@ before(async () => {
   }
 });
 after(async () => { await mf?.dispose(); });
+
+test('health reports only public release markers from the actual runtime binding', async () => {
+  const response = await jsonCall('/api/health', { auth: false });
+  assert.deepEqual(response.body, {ok:true,database:'connected',release:{version_id:'11111111-1111-4111-8111-111111111111',release_id:'22222222-2222-4222-8222-222222222222',source_fingerprint:'a'.repeat(64)}});
+  assert.equal(response.headers.get('Cache-Control'), 'no-store');
+});
 
 test('all CRM routes and encoded admin assets require a real session', async () => {
   for (const path of ['/api/admin/leads', '/api/admin/config', '/api/admin/webhooks', '/api/admin/metrics', '/api/admin/unknown']) assert.equal((await call(path, { auth: false })).status, 401, path);

@@ -17,7 +17,7 @@ function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'funnel-workflow-test-'));
   t.after(() => rmSync(root, {recursive:true, force:true}));
   write(root, 'package.json', {type:'module'});
-  for (const name of ['setup','preflight','publish','github']) {
+  for (const name of ['setup','preflight','publish','publish-driver','release-tools','browser-compat','live-verify','github']) {
     mkdirSync(join(root, 'scripts'), {recursive:true});
     copyFileSync(join(template, 'scripts', `${name}.mjs`), join(root, 'scripts', `${name}.mjs`));
   }
@@ -25,7 +25,11 @@ function fixture(t) {
   const checker = [join(template, 'scripts/check_gates.py'), fileURLToPath(new URL('../../../scripts/check_gates.py', import.meta.url))].find(existsSync);
   assert.ok(checker, 'Evidence checker source exists');
   copyFileSync(checker, join(root, 'scripts/check_gates.py'));
-  write(root, 'wrangler.jsonc', {name:'workflow-fixture', account_id:'a'.repeat(32), assets:{directory:'public',run_worker_first:true}, d1_databases:[{binding:'DB',database_name:'workflow-fixture-crm',database_id:'11111111-1111-1111-1111-111111111111'}]});
+  for (const name of ['release_state','workflow','workflow_storage','workflow_progress','copy_library','image_workflow','copy_parity']) {
+    const source=[join(template, 'scripts', name+'.py'),fileURLToPath(new URL('../../../scripts/'+name+'.py',import.meta.url))].find(existsSync);
+    assert.ok(source);copyFileSync(source,join(root,'scripts',name+'.py'));
+  }
+  write(root, 'wrangler.jsonc', {name:'workflow-fixture', account_id:'a'.repeat(32), assets:{directory:'public',run_worker_first:true}, version_metadata:{binding:'CF_VERSION_METADATA'}, d1_databases:[{binding:'DB',database_name:'workflow-fixture-crm',database_id:'11111111-1111-4111-8111-111111111111'}]});
   write(root, 'src/site-config.json', {name:'Workflow fixture'});
   write(root, 'funnel.json', {catalogue:{enabled:false}});
   write(root, 'public/index.html', '<!doctype html><title>Workflow fixture</title><h1>Fixture</h1>');
@@ -95,7 +99,7 @@ test('remote setup rejects the shared starter name before any Cloudflare command
 test('existing exact-name database is not silently adopted', t => {
   const root=fixture(t);
   const config=JSON.parse(readFileSync(join(root,'wrangler.jsonc')));config.d1_databases[0].database_id='00000000-0000-0000-0000-000000000000';write(root,'wrangler.jsonc',config);
-  write(root,'node_modules/wrangler/bin/wrangler.js',`if(process.argv.includes('list'))console.log(JSON.stringify([{name:'workflow-fixture-crm',uuid:'11111111-1111-1111-1111-111111111111'}]));`);
+  write(root,'node_modules/wrangler/bin/wrangler.js',`if(process.argv.includes('list'))console.log(JSON.stringify([{name:'workflow-fixture-crm',uuid:'11111111-1111-4111-8111-111111111111'}]));`);
   const result=execute(root,'setup',['--cloudflare','--account-id','a'.repeat(32),...setupScope(root)]);
   assert.notEqual(result.status,0);
   assert.match(result.stderr,/database-id/);
@@ -163,10 +167,10 @@ test('publish never sends credentials to an unrelated verification URL', t => {
   write(root,'scripts/preflight.mjs',"// The URL-target test stubs prior checks; it is not production approval.\n");
   write(root,'tests/backend.test.mjs',"import test from 'node:test';test('synthetic prior-check fixture',()=>{});\n");
   write(root,'test-fixture.json',{});
-  write(root,'scripts/live-verify.mjs',"import {writeFileSync} from 'node:fs';writeFileSync('verification-contacted.txt','should never run');");
-  write(root,'node_modules/wrangler/bin/wrangler.js',"if(process.argv[2]==='deploy')console.log('https://workflow-fixture.account.workers.dev');");
+  write(root,'node_modules/wrangler/bin/wrangler.js',"import {appendFileSync} from 'node:fs';appendFileSync('wrangler-calls.log',JSON.stringify(process.argv.slice(2)));if(process.argv[2]==='deploy')console.log('https://workflow-fixture.account.workers.dev');");
   const result=execute(root,'publish',['--url','https://unrelated.example']);
   assert.notEqual(result.status,0);
-  assert.match(result.stderr,/not a configured custom domain|Credentials were not sent/);
+  assert.match(result.stderr,/not a reviewed custom domain|No credentials were sent/);
   assert.equal(existsSync(join(root,'verification-contacted.txt')),false);
+  assert.equal(existsSync(join(root,'wrangler-calls.log')),false);
 });
