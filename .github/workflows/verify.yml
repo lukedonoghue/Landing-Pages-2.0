@@ -124,5 +124,6 @@ jobs:
             .development/demo/build/layout/
             .development/demo/build/performance/
             .development/demo/build/pdf/
+            .development/demo/build/rendered-copy/
           if-no-files-found: ignore
           retention-days: 14
