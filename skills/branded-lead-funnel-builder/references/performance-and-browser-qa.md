@@ -116,21 +116,19 @@ Full verification creates a synthetic contact and visit. Use `--allow-test-lead`
 
 Only continue after the user's final publishing approval and the current local checks have passed. A request to prepare this reusable skill does not authorize publishing a client page.
 
-After the publishing driver provisions/deploys the approved site, capture the actual destination and database binding in a local deployment record:
+Use the [guarded publishing flow](guided-publishing.md#retained-releases-and-interrupted-publishing). `npm run publish` freezes the reviewed handoff evidence before mutation, inspects the actual Cloudflare deployment/version and D1 binding, then invokes live verification with a separate release snapshot and identity artifact. Do not construct a success/identity record manually or replace the root handoff snapshot with a live one.
 
-```json
-{"url":"https://actual-worker.account.workers.dev","database_id":"actual-D1-UUID","worker":"actual-worker","version_id":"actual-deployed-version-if-returned"}
-```
-
-Create a **live** snapshot, then run:
+For an interrupted guarded release, use:
 
 ```sh
-npm run verify:live -- --url https://actual-worker.account.workers.dev --allow-remote --allow-test-lead --fixture test-fixture.json --credentials-file .secrets/admin.json --deployment-record build/deployment-record.json --project-root .
+npm run publish -- --resume --credentials-file /private/path/current-owner.json
 ```
 
-When the journey and identity checks succeed, the tool emits `crm.json`, `tracking.json`, and `deployment.json` for their evidence gates. The main result also requires `fully_verified: true`. A read-only result is `pass_with_warnings`, `fully_verified: false`, and `readiness: "public-checks-only"`; it never emits successful CRM/tracking/deployment subgate files. An upload alone is not a completed launch. A missing account login, DNS/certificate problem, unavailable target URL, broken resource, or failed receipt must be stated as an exact incomplete step.
+The publisher correlates the running version with its inspected identity before sending credentials and after the journey. It validates the emitted CRM/tracking/deployment artifact set and commits final release proof only when all three pass with `fully_verified: true`. A read-only outcome remains `public-checks-only`; an upload alone is incomplete. `workflow.py status .` validates saved proof locally and states that it has not queried the current provider.
 
-If a custom domain is connected after testing workers.dev, repeat the live checks on that domain. Cross-origin cookies, paths, TLS, and redirects must be checked on the destination visitors will actually use. Keep GitHub optional for the deployed application; the site, API, lead database, analytics and admin panel remain on Cloudflare.
+Possibly submitted leads retain request/receipt checkpoints and are not repeated. Partial post-submission continuation, uncertain migrations/origins and replacement of unresolved releases still require the reconciliation work documented in the publishing guide. Never bypass this by directly rerunning the raw remote verifier. Low-level verifier flags are for diagnosed, already-authorized work, not an alternative publishing path.
+
+Configure the intended custom domain before final QA/approval when possible. Adding it later changes the reviewed destination/configuration and requires a newly reviewed release, including tests on the address visitors will actually use. Domain verification does not inherit a workers.dev result. Keep GitHub optional; the site, API, lead database, analytics and admin remain on Cloudflare.
 
 ## Rendered wording
 
