@@ -53,6 +53,8 @@ def check_copy_approval(root, allow_fixture=False):
     return {**current,'status':'blocked' if failures else current['status'],'failures':failures}
 
 def check_publish_approval(root):
+    if read(root/'funnel.json').get('development_fixture'):
+        return {'status':'blocked','failures':['Fictional development fixtures cannot be published. Start a new client project.']}
     if not read(root/'funnel.json').get('quality',{}).get('complete_workflow'):
         return {'status':'blocked','failures':['Complete workflow verification is required before publishing.']}
     copy_result = check_copy_approval(root)

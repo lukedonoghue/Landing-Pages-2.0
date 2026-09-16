@@ -36,6 +36,7 @@ try {
   const [nodeMajor,nodeMinor]=process.versions.node.split('.').map(Number);
   if(nodeMajor<22||(nodeMajor===22&&nodeMinor<19)) throw new Error('Use Node.js 22.19 or newer, then npm ci.');
   if(!existsSync('node_modules/wrangler/bin/wrangler.js')) throw new Error('Run npm ci first.');
+  if(args.includes('--cloudflare') && existsSync('funnel.json') && JSON.parse(readFileSync('funnel.json','utf8')).development_fixture === true) throw new Error('Fictional development fixtures cannot use remote setup. Start a new client project.');
   let config=readConfig();
   const site=option('--site');
   if(site){

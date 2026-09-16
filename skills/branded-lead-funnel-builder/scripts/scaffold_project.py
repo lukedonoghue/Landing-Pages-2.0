@@ -95,7 +95,7 @@ def main() -> int:
 
     if not args.static_only:
         template = skill_root / "assets" / "cloudflare"
-        excluded = {"node_modules", ".wrangler", ".secrets", ".git", "build", "screenshots", "__pycache__"}
+        excluded = {"node_modules", ".wrangler", ".secrets", ".git", ".venv", ".development", "build", "screenshots", "__pycache__"}
         for source in sorted(template.rglob("*")):
             relative = source.relative_to(template)
             if relative.parts[0] == ".github" and not args.with_github:

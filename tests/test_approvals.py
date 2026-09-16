@@ -47,5 +47,11 @@ class ApprovalTests(unittest.TestCase):
         with self.assertRaises(ValueError):workflow.record(self.root,'copy','','test-only')
     def test_fixture_publish_is_always_rejected(self):
         with self.assertRaises(ValueError):workflow.record(self.root,'publish','Synthetic fixture','test-only',fixture=True)
+    def test_development_project_cannot_be_published(self):
+        config=json.loads((self.root/'funnel.json').read_text());config['development_fixture']=True
+        (self.root/'funnel.json').write_text(json.dumps(config))
+        result=workflow.check_publish_approval(self.root)
+        self.assertEqual(result['status'],'blocked')
+        self.assertIn('Fictional development fixtures',result['failures'][0])
 
 if __name__=='__main__':unittest.main()

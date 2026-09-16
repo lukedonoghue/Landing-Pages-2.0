@@ -7,6 +7,8 @@
 
 **Execution plan:** [Self-guided beta milestones](docs/SELF-GUIDED-BETA-PLAN.md) groups this backlog into a staged release plan centered on a new user's ability to finish unaided. The supported environment is a pending product decision, not an assumed compatibility promise.
 
+**Progress update:** [The active development record](docs/PROGRESS.md) tracks fixes after this audit. B05 and the browser-session portion of B13 are fixed and locally tested. B01 is mitigated by disabling optional automatic client deployment. B16/B17 now have working local onboarding/demo tools; full acceptance remains tracked separately. The detailed findings below preserve the original audit context.
+
 ## What we are trying to finish
 
 A user supplies a client website, optionally a reference page, service/audience description and offer. The agent researches, drafts and reviews copy, gets **copy approval**, builds the design and images, tests and iterates the complete funnel, gets **final publishing approval**, then guides publication to Cloudflare.
@@ -42,11 +44,11 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 
 | Done | ID | Priority | Work | Classification |
 | --- | --- | --- | --- | --- |
-| [ ] | B01 | P1 if enabled | Make optional GitHub deployment use the release safeguards | Confirmed defect |
+| Disabled for beta | B01 | P1 if enabled | Make optional GitHub deployment use the release safeguards | Mitigated; guarded automation still deferred |
 | [ ] | B02 | P1 | Require the local form-to-CRM journey before publication | Integration gap |
 | [ ] | B03 | P1 | Finish live evidence registration, release status and deployed identity checks | Integration gap |
 | [ ] | B04 | P1 | Validate publishing prerequisites early and handle changed passwords | Confirmed defects |
-| [ ] | B05 | P1 | Fix first-use CLI session-revocation race | Reproduced defect |
+| [x] | B05 | P1 | Fix first-use CLI session-revocation race | Fixed; first-use and rotated-account race regression passed |
 | [ ] | B06 | P2 | Make owner username changes consistent and persistent | Confirmed defect |
 | [ ] | B07 | P1 for handoff | Make generated-project ZIPs resumable without invalidating evidence | Reproduced defect |
 | [ ] | B08 | P1 for handoff | Make research evidence portable across machines/directories | Reproduced defect |
@@ -54,7 +56,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | [ ] | B10 | P1 | Enforce approved-copy parity across page, modal, thank-you and PDF | Integration gap |
 | [ ] | B11 | P1 when generating | Resolve the exact image-model path and run it once | Live verification / default-path gap |
 | [ ] | B12 | P2 | Prevent brochure truncation, overflow and silent missing assets | Confirmed limitations |
-| [ ] | B13 | P1 for ad tracking | Deduplicate conversion events by receipt, including lost-response retries | Reproduced defect |
+| [x] | B13 | P1 for ad tracking | Deduplicate conversion events by receipt, including lost-response retries | Fixed for recent receipts in the browser session; provider adapter deduplication remains B23 |
 | [ ] | B14 | P1 | Add persistent privacy choices and define attribution-consent behavior | Missing UI / decision |
 | [ ] | B15 | P1 before promising erasure | Complete retention and permanent personal-data removal | Missing operation / decision |
 | [ ] | B16 | P2 | Run a reproducible complete generated funnel in CI | Coverage gap |

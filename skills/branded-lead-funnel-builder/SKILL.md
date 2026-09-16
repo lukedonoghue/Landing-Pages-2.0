@@ -42,6 +42,8 @@ The two planned approval checkpoints are mandatory for a complete funnel. A writ
 
 ## Start with the input contract
 
+On a first complete-funnel installation or missing local-build-tool error, follow [references/first-run.md](references/first-run.md). Use the portable local doctor and quickstart helpers to identify the actual missing capability, select a supported runtime, and resolve local dependencies. Handle these commands for the user. Copy-only requests do not require installing the CRM/PDF runtime. The fictional local demo is available for learning and verification; its fixture data and approvals never authorize a client publication. A local-tools pass is distinct from research, image-model, visual-review and Cloudflare account capability.
+
 Read [references/intake-schema.md](references/intake-schema.md). Research before asking optional questions; ask only when a missing choice materially changes the offer, form, follow-up promise, or external integration.
 
 Keep these authority boundaries:
