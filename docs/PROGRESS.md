@@ -145,7 +145,7 @@ The fresh generated demo passed 72 browser checks, 28 real local form/CRM checks
 
 An independent agent exercised a fresh scaffold/checkpoint and a relocated copy of that actually verified demo using the documented installed-helper path. It confirmed current source/evidence hashes, no approval creation, no remote actions and preservation of existing files. Its feedback exposed a matching blocked checkpoint only appearing in a secondary field; it now appears in the top-level blocked status/reasons while remaining explicitly an operator note. The copied demo kept valid browser/performance/copy/journey evidence and accurately retained missing client review gates; demo status does not claim a client release is ready.
 
-Fresh CI and installation synchronization are recorded after publishing this batch.
+[GitHub run 35151867088](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35151867088) passed at revision ad371b1, including the actual generated demo and its resume step. Both installed skill copies match all 132 distributed files. The installed helper also inspected the verified demo successfully and now lists its individually verified local gates in the completed-work summary.
 
 ### Remaining scope
 
