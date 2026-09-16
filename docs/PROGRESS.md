@@ -232,3 +232,26 @@ B06's local implementation is verified; B04/B06 still need the real Cloudflare r
 ### Fresh Linux verification and distribution
 
 [GitHub run 35161627115](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35161627115) passed on code revision `651bb45`, including all regression jobs and the complete newly generated local funnel. Both skill installations are checksum-verified at 142 files. This is fresh-machine local verification of the updated account/runtime flow, not a Cloudflare account deployment or owner cutover.
+
+## Portable Worker handoff implementation — 17 September 2026
+
+### Implemented
+
+- Version-2 ZIPs place unchanged project source beneath `project/`, with wrapper instructions and a manifest outside the source fingerprint. Fixtures, image plans, canonical copy inputs, research and catalogue authoring assets retain relative paths.
+- The collector follows declared evidence links and includes standard unregistered reports, so an interruption between producing and registering QA does not lose that work. Public journey journals/results retain their linked evidence; private request bodies, credentials and runtime databases stay out.
+- Approval messages/unrelated workflow fields become minimal hash/provenance records. Publication approvals and active deployment pointers become historical data. Extraction marks publication context pending, and the publisher blocks provider calls until current scope is reconciled from an actual user instruction. Existing valid authorization should be reused, not requested again.
+- Integrity verification covers file inventory, hashes, source identity, safe relative paths, regular-file permissions, collisions, size limits and consistent scope labels. Extraction uses a new directory; failed packaging preserves previous output. Recognized credential/export/database content is rejected. Catalogue inputs that still rely on original absolute asset paths fail explicitly.
+- History survives another export. Packaging keeps unfinished work explicitly unfinished. It does not perform a deployment, authenticate the sender, transfer live customer data, or recreate private recovery state.
+- The full fictional demo now performs an automatic in-progress ZIP/extract round trip. Newly executed browser/layout/performance reports are explicitly registered, avoiding stale manifest entries on repeated demo checks.
+
+### Verification
+
+The combined local suite passed **360 checks**: 135 repository Python, 19 evidence, 40 image, 18 catalogue and 148 application tests. The 15 new handoff cases cover relocation with the original source directory unavailable, real copy-audit preservation, reviewed-format protocol fixtures, private-data exclusion, source/evidence drift, unregistered QA, repeated transfer, unsafe/corrupt ZIPs and previous-file preservation. A publisher regression proves an imported pending context makes zero runner/provider calls.
+
+Independent review transferred the actual fictional demo, retained valid source/QA with original-path access denied, and tested second transfers, archive swaps, unsafe paths and publication boundaries. It found a misleading reviewed-scope label and loss of an unregistered performance report; both were fixed and independently retested. The recipient now registers the transferred real performance report. No remaining defect appeared in those tested cases.
+
+A new full demo passed 72 browser checks, 27 local form/CRM checks, 118 layout checks, three PDF renders and the automatic archive/extract check. Lighthouse median was 100 (LCP about 929 ms, CLS 0, TBT 0). Its source fingerprint and verified gates survived extraction. It remained a nonpublishable **in-progress** fictional handoff, with incomplete editorial/visual/catalogue-review gates visible. Synthetic validator-passing fixtures do not constitute real creative review.
+
+### Still open
+
+B07's core format and integrity/resumption behavior are implemented. Its full acceptance still requires a genuinely fully reviewed fictional creative build to be transferred and resumed on another supported machine. Private access, live database restoration and unresolved account operations remain separate secure/reconciled handovers. The legacy static-only ZIP path has not gained Worker workflow portability. Remaining privacy/retention, publication reconciliation, real Cloudflare and first-time-human acceptance work stays open. No client page was deployed and no real approval or paid image call was invented. The goal remains active.

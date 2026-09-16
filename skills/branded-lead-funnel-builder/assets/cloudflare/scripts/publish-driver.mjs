@@ -66,6 +66,8 @@ export async function localPreconditions(root,args,auth,run) {
 }
 export async function publish(root,args,runtime={}) {
   root=path.resolve(root);
+  const imported=path.join(root,'build/handoff-import.json');
+  if(existsSync(imported) && read(imported).publication_context_pending)throw new Error('This imported handoff needs its current user/account scope reconciled before any publishing or live recovery. Retained publication history is not authorization.');
   const lockFd=runtime.lockFd ?? checkLock(root);
   const run=runtime.run || localRunner(root,lockFd);
   const python=args.python||process.env.FUNNEL_PYTHON||'python3';

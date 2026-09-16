@@ -16,6 +16,7 @@ import subprocess
 import sys
 import time
 import uuid
+import tempfile
 from urllib.error import URLError
 from urllib.request import urlopen
 
@@ -276,6 +277,8 @@ def verify_demo(project, node, full=False):
             project, node, "Source snapshot")
         run([node, "scripts/browser-compat.mjs", "--url", url, "--fixture", "test-fixture.json", "--project-root", "."],
             project, node, "Chromium and WebKit journey")
+        run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "browser_compat",
+             "--report", "build/browser-compat/result.json"], project, node, "Record the newly executed browser checks")
         env = local_env(node)
         env["ADMIN_USERNAME"] = owner
         run([node, "scripts/live-verify.mjs", "--url", url, "--fixture", "test-fixture.json", "--allow-test-lead",
@@ -292,9 +295,13 @@ def verify_demo(project, node, full=False):
             run([node, "scripts/measure_funnel.mjs", url, "--out", "build/layout/result.json",
                  "--project-root", ".", "--mode", "handoff", "--thank-you", "/thank-you.html"],
                 project, node, "Nine-viewport layout verification")
+            run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "browser",
+                 "--report", "build/layout/result.json"], project, node, "Record the newly measured layout")
             ci_profile = ['--isolated-ci-fixture'] if os.environ.get('CI') == 'true' else []
             run([node, "scripts/performance-audit.mjs", "--url", url, "--project-root", ".", *ci_profile],
                 project, node, "Mobile performance audit")
+            run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "performance",
+                 "--report", "build/performance/result.json"], project, node, "Record the newly measured performance")
     pdf_dir = project / "build/pdf"
     pdf_dir.mkdir(exist_ok=True)
     pdf = project / "public/assets/brochure/catalogue.pdf"
@@ -311,7 +318,20 @@ def verify_demo(project, node, full=False):
                               "Resume the verified local demo from its existing reports"))
     if progress.get('stage') != 'demo' or progress.get('publication') != 'disabled':
         raise ValueError('The fictional demo lost its workflow/publication boundary.')
+    import portable_handoff
+    with tempfile.TemporaryDirectory(prefix='funnel-handoff-smoke-') as temporary:
+        archive = Path(temporary) / 'demo.zip'
+        exported = portable_handoff.export_bundle(project, archive, 'Fictional portability test', in_progress=True)
+        imported = portable_handoff.extract_archive(archive, Path(temporary) / 'receiver')
+        if exported['source_fingerprint'] != imported['source_fingerprint']:
+            raise ValueError('The portable demo changed its source identity.')
+        import check_gates
+        extracted_gates = check_gates.check(Path(imported['project']), 'handoff', Path(imported['project']) / 'build/gates.json')
+        for gate in ('local_journey', 'rendered_copy', 'browser_compat'):
+            if extracted_gates.get('gates', {}).get(gate, {}).get('status') not in {'pass','pass_with_warnings'}:
+                raise ValueError('The portable demo lost current evidence: ' + gate)
     result = {"status": "pass", "scope": "synthetic local integration only",
+              "handoff_roundtrip": "in-progress archive extracted with identical source and retained verified gates; not publishing approval",
               "workflow_stage": progress['stage'],
               "reused_reports": progress['registered_existing_reports'],
               "local_journey_gate": "recorded",

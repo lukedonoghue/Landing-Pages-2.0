@@ -152,3 +152,7 @@ The new local baseline is **331 passing regressions** (136 application tests, no
 ## Owner maintenance update — 17 September 2026
 
 The current local baseline is **344 passing checks**, including 147 application tests with no skips. New coverage uses real local Worker/D1 authentication plus the local Wrangler CLI, verifies username persistence, password recovery, current private references, uncertain/resumed operations and CRM preservation. A fresh generated demo completed its full journey after rename/reset; a later owned demo reset preserved private historical state and completed a fresh journey with the initial owner. [Evidence and limits](PROGRESS.md#owner-identity-and-password-recovery--17-september-2026) keep this distinct from the still-unperformed Cloudflare account pilot.
+
+## Portable handoff update — 17 September 2026
+
+The local baseline is **360 passing checks**, including 15 handoff regressions and a publisher import-context guard. The fresh full demo additionally exports, verifies and extracts an in-progress archive while retaining source identity and validated QA. Independent testing confirmed actual report resumption with original-path access denied. [Evidence and limits](PROGRESS.md#portable-worker-handoff-implementation--17-september-2026) explicitly distinguish those results from the outstanding fully reviewed creative handoff and live-account acceptance.
