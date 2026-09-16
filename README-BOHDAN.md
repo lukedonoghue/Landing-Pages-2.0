@@ -5,6 +5,8 @@
 **Code reviewed:** [2f0de96](https://github.com/lukedonoghue/Landing-Pages-2.0/tree/2f0de9602088f5a01c193f64de58ef5f9e2bfbd9)  
 **Purpose:** An actionable backlog of fixes, missing integration work, and live acceptance checks. This audit changed documentation only; unchecked items below remain open.
 
+**Execution plan:** [Self-guided beta milestones](docs/SELF-GUIDED-BETA-PLAN.md) groups this backlog into a staged release plan centered on a new user's ability to finish unaided. The supported environment is a pending product decision, not an assumed compatibility promise.
+
 ## What we are trying to finish
 
 A user supplies a client website, optionally a reference page, service/audience description and offer. The agent researches, drafts and reviews copy, gets **copy approval**, builds the design and images, tests and iterates the complete funnel, gets **final publishing approval**, then guides publication to Cloudflare.
@@ -403,4 +405,3 @@ For each item:
 - Mark an item complete only after its acceptance condition passes. A configured endpoint, uploaded Worker or mocked provider response alone does not prove a working live integration.
 
 This file is a work plan for Bohdan. It does not itself authorize deploying an existing client page, changing client DNS, restoring over production data or sending live test leads.
-
