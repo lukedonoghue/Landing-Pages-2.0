@@ -105,6 +105,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y webp poppler-utils
           python -m pip install -r skills/branded-lead-funnel-builder/requirements-build.txt
+      - name: Verify actual brochure content and layout
+        working-directory: .
+        run: python skills/branded-lead-funnel-builder/tests/test_catalogue.py
       - name: Generate a fresh fictional local project
         working-directory: .
         run: python scripts/dev.py demo
