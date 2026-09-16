@@ -45,14 +45,14 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | Done | ID | Priority | Work | Classification |
 | --- | --- | --- | --- | --- |
 | Disabled for beta | B01 | P1 if enabled | Make optional GitHub deployment use the release safeguards | Mitigated; guarded automation still deferred |
-| [ ] | B02 | P1 | Require the local form-to-CRM journey before publication | Integration gap |
+| [x] | B02 | P1 | Require the local form-to-CRM journey before publication | Implemented; actual local receipt/visit/CRM/reporting gate verified |
 | [ ] | B03 | P1 | Finish live evidence registration, release status and deployed identity checks | Integration gap |
 | [ ] | B04 | P1 | Validate publishing prerequisites early and handle changed passwords | Confirmed defects |
 | [x] | B05 | P1 | Fix first-use CLI session-revocation race | Fixed; first-use and rotated-account race regression passed |
 | [ ] | B06 | P2 | Make owner username changes consistent and persistent | Confirmed defect |
 | [ ] | B07 | P1 for handoff | Make generated-project ZIPs resumable without invalidating evidence | Reproduced defect |
 | [x] | B08 | P1 for handoff | Make research evidence portable across machines/directories | Fixed for newly prepared contexts; relocated legacy contexts need a truthful refresh |
-| [ ] | B09 | P1 | Support a new external reference page without editing the global library | Integration gap |
+| [x] | B09 | P1 | Support a new external reference page without editing the global library | Implemented; real capture, independent preparation and relocation verified |
 | [ ] | B10 | P1 | Enforce approved-copy parity across page, modal, thank-you and PDF | Integration gap |
 | [ ] | B11 | P1 when generating | Resolve the exact image-model path and run it once | Live verification / default-path gap |
 | [ ] | B12 | P2 | Prevent brochure truncation, overflow and silent missing assets | Confirmed limitations |

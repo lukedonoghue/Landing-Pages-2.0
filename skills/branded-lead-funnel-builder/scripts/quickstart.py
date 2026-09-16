@@ -255,6 +255,8 @@ def verify_demo(project, node, full=False):
         run([node, "scripts/live-verify.mjs", "--url", url, "--fixture", "test-fixture.json", "--allow-test-lead",
              "--password-file", ".secrets/local-admin-password.txt", "--project-root", "."],
             project, node, "Actual local form-to-CRM journey", env)
+        run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "local_journey",
+             "--report", "build/live-verification/local-journey.json"], project, node, "Local journey release evidence")
         if full:
             run([node, "scripts/measure_funnel.mjs", url, "--out", "build/layout/result.json",
                  "--project-root", ".", "--mode", "handoff", "--thank-you", "/thank-you.html"],
@@ -275,6 +277,7 @@ def verify_demo(project, node, full=False):
     if compat["status"] != "pass" or journey.get("fully_verified") is not True:
         raise ValueError("Local integration is incomplete; inspect the reports.")
     result = {"status": "pass", "scope": "synthetic local integration only",
+              "local_journey_gate": "recorded",
               "browser_checks": len(compat["checks"]), "journey_checks": len(journey["checks"]),
               "full_layout_and_performance": full, "pdf_pages_rendered": len(list(pdf_dir.glob("page-*.png"))),
               "visual_review": "pending actual agent inspection; screenshots alone are not approval",

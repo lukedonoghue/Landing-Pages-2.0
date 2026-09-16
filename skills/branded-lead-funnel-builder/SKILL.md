@@ -177,6 +177,8 @@ ChatGPT/Codex must actually view the captured desktop, mobile, modal, thank-you,
 
 For the backend, run `npm test` in the generated project. Then test the real local Worker/D1 route: visitor → form → receipt → stored contact → CRM stage change/note → reporting. Confirm unauthorized admin/API requests fail. Do not substitute a mocked UI or direct thank-you navigation for this test. The harness blocks write requests by default; separate controlled functional tests must explicitly use an isolated local database or an authorized live test lead.
 
+For complete Worker funnels, record the successful local verifier's local-journey.json as the local_journey gate. Final publication approval is blocked without current receipt, visit, CRM operation and dashboard evidence. Read-only checks never satisfy this requirement. The guide in performance-and-browser-qa.md contains the exact recording command.
+
 Use only these gate states: `pass`, `pass_with_warnings`, `blocked`, or `not_applicable`. Never record `pass` while named required evidence is missing.
 
 Before the final publish approval, present the finished page, brochure, form, thank-you page and admin experience with concise test results and any remaining limitations. Explicitly include whether a controlled live test lead is authorized in that approval. `workflow.py check-publish` must pass before `npm run publish`; both user approvals and the current copy, image, performance, browser and visual evidence are required.
