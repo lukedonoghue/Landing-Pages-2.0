@@ -6,6 +6,10 @@ For a website-to-copy trial, use [copy-only-test.md](copy-only-test.md). Set `ou
 
 ## Select evidence and examples
 
+New writer contexts store required research, manifest and funnel-contract paths relative to the project. Keep the brief's source_manifest project-relative as well. An unchanged project can be moved to another directory or machine and retain its content/review hashes; editing relocated evidence still invalidates the audit.
+
+Legacy contexts with absolute paths remain readable only inside their original project. After moving a legacy project, copy its actual research files, re-run context preparation and perform the real editorial freshness review. Do not merely overwrite hashes or read evidence from the old project's location. Unchanged customer-facing copy and offer do not need a new user approval just because supporting metadata was refreshed.
+
 Read `copy-doctrine.md`. Create `build/client-copy-brief.json` with: `client_name`, `service`, `audience`, `sector`, `offer_type`, `intent`, `primary_cta`, `follow_up_promise`, `required_sections`, `claims`, and optional `buyer_job`, `style`, `primary_reference_url`, `forbidden_claims`.
 
 Each claim has `id`, `text`, `source`, `evidence`, `approved` and relevant `qualifiers`. Keep the full claim ledger and underlying research alongside this brief. `approved` means permitted for this draft; it is not a substitute for examining the source. Operational promises supplied directly by the user can use the user's dated instruction as evidence. Unknown facts stay unknown.
