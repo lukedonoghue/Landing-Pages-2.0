@@ -55,7 +55,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | [x] | B09 | P1 | Support a new external reference page without editing the global library | Implemented; real capture, independent preparation and relocation verified |
 | [x] | B10 | P1 | Enforce approved-copy parity across page, modal, thank-you and PDF | Implemented; real desktop/mobile/PDF capture and drift rejection verified |
 | [ ] | B11 | P1 when generating | Resolve the exact image-model path and run it once | Live verification / default-path gap |
-| [ ] | B12 | P2 | Prevent brochure truncation, overflow and silent missing assets | Confirmed limitations |
+| [x] | B12 | P2 | Prevent brochure truncation, overflow and silent missing assets | Implemented; measured layouts, pagination and actionable failures verified |
 | [x] | B13 | P1 for ad tracking | Deduplicate conversion events by receipt, including lost-response retries | Fixed for recent receipts in the browser session; provider adapter deduplication remains B23 |
 | [ ] | B14 | P1 | Add persistent privacy choices and define attribution-consent behavior | Missing UI / decision |
 | [ ] | B15 | P1 before promising erasure | Complete retention and permanent personal-data removal | Missing operation / decision |
@@ -219,7 +219,11 @@ Native generation worked in the local exercise and produced an actual image. Its
 
 ### B12 — Brochure generation must preserve approved content
 
-**P2 · Confirmed implementation limits**
+**P2 · Implemented with explicit layout/language limits**
+
+**Update:** The builder no longer slices names/summaries, adds ellipses or drops excess items. It measures text, wraps within readable limits, paginates contents/process/CTA lists and writes atomically. Fixed compositions that cannot fit return the exact field and an action while preserving the existing PDF. Named missing/corrupt images are errors; intentional colour-only sections are explicit. Bundled font coverage is checked, unsupported shaping is rejected truthfully, and the region is printed. Contents rows now link to the correct service pages. An independent 13-page fixture preserved all 111 supplied customer-text fields after its review exposed and we fixed the omitted region. QR contrast and contents-label contrast were also corrected. See [the workflow](skills/branded-lead-funnel-builder/references/catalogue-workflow.md), [real-PDF regressions](skills/branded-lead-funnel-builder/tests/test_catalogue.py) and [progress](docs/PROGRESS.md).
+
+Original finding:
 
 The PDF builder truncates wrapped text with ellipses, slices some summaries to a fixed character count and draws some headings without measuring their width. Fixed positions limit service/process density. Missing images can silently become solid blocks.
 
@@ -227,7 +231,7 @@ The PDF builder truncates wrapped text with ellipses, slices some summaries to a
 
 **Done when:** Tests cover long service names/CTAs, long qualifiers, many services/steps, Unicode names and missing images. Extracted PDF text preserves approved content; all rendered pages remain readable without clipping or overlap.
 
-**Files:** [text truncation](skills/branded-lead-funnel-builder/scripts/build_catalogue.py#L118), [service summaries/layout](skills/branded-lead-funnel-builder/scripts/build_catalogue.py#L208), [process layout](skills/branded-lead-funnel-builder/scripts/build_catalogue.py#L288).
+**Files:** [measured PDF builder](skills/branded-lead-funnel-builder/scripts/build_catalogue.py), [catalogue regressions](skills/branded-lead-funnel-builder/tests/test_catalogue.py), [font provenance and license](skills/branded-lead-funnel-builder/assets/pdf-fonts/provenance.json).
 
 ### B13 — Conversion-event deduplication must use the receipt
 

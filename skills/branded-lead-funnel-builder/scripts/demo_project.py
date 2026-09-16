@@ -97,12 +97,12 @@ def write_demo_sources(project):
                   "phone_uri": "", "website": "", "contact_url": "",
                   "colors": {"primary": "#183D35", "secondary": "#245347", "accent": "#D4DDAB", "paper": "#F5F3E9"}},
         "cover": {"eyebrow": "FICTIONAL PROJECT GUIDE", "headline": "A clear start.\nA better plan.",
-                  "body": data["body"], "label": "LOCAL DEMONSTRATION", "image": ""},
+                  "body": data["body"], "label": "LOCAL DEMONSTRATION", "image": "", "image_mode": "none"},
         "proof_pillars": [], "services": [],
-        "process": {"headline": "Explore the complete journey.", "summary": "This guide is a deterministic software test fixture, not an offer from a real company.", "image": "", "steps": steps},
+        "process": {"headline": "Explore the complete journey.", "summary": "This guide is a deterministic software test fixture, not an offer from a real company.", "image": "", "image_mode": "none", "steps": steps},
         "cta": {"eyebrow": "YOUR NEXT STEP", "headline": "Try the complete local journey.",
                 "body": "Explore the page, submit a fictional enquiry, then find the same receipt in the CRM.",
-                "action_label": data["cta"], "image": "", "steps": steps,
+                "action_label": data["cta"], "image": "", "image_mode": "none", "steps": steps,
                 "follow_up_promise": data["follow_up"]}
     }
     write_json(project / "build/demo-catalogue.json", catalogue)

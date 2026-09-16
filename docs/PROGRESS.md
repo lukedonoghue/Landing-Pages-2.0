@@ -101,3 +101,26 @@ The final combined local regression command passed **245 tests**: 83 repository 
 ### Remaining scope
 
 B10 catches text drift; it does not fix B12's PDF overflow/truncation generator, prove raster-image text or every dynamic variant, or replace semantic/visual review. Durable stage/resume state, portable project handoff, the remaining publishing/account/privacy controls and live/human acceptance remain open. The goal stays active.
+
+
+## Brochure content and layout reliability — 16 September 2026
+
+### Implemented
+
+- B12: replaced silent truncation, fixed-character slicing and discarded list entries with measured text areas, bounded readable font sizes, automatic contents/process/CTA-step pagination, or a field-specific actionable failure. A failed build leaves the existing PDF untouched; successful replacement is atomic.
+- Named missing/corrupt images and logos are errors. Deliberate colour-only sections explicitly use `image_mode: none`; typography normalization no longer alters asset filenames. Delivery instructions cannot silently disappear behind contact rows.
+- Bundled DejaVu Sans regular/bold from the official 2.37 release, with the original license, download provenance and file hashes. The local doctor verifies those assets. Many Latin/Greek/Cyrillic names survive actual PDF extraction; missing glyphs and unsupported shaping receive explicit errors. This does not claim universal language support.
+- Complete business names and service regions are preserved. Contents references account for pagination and now link to the matching service pages. Corrected a faint contents label and added a white QR quiet zone on dark panels.
+- Added real-PDF regressions to the unified local checks. Explicit standalone `Page N` navigation labels are treated as neutral PDF UI only within the actual page count; arbitrary bare numbers, prices and percentages remain subject to copy comparison.
+
+### Executed verification
+
+The combined local command passed **264 tests**: 84 repository Python, 19 evidence, 40 image, 18 catalogue and 103 application tests. Catalogue regressions actually generate/extract PDFs, check all word bounds and overlaps, verify contents destinations, preserve long qualifiers/Unicode names, and exercise missing assets, overflow and previous-output protection. QR contrast is checked on a real rasterized page.
+
+The six-page example was rendered and inspected. An independent agent used an unchanged, supplied fictional configuration to build and individually inspect a 13-page brochure. Its initial review found the missing region and low-contrast contents label. After correction, all **111/111 supplied customer-text fields** remained present; the seven encoded links resolved to the correct physical service pages. Changed pages were inspected again, and unchanged pages had identical rendered PNG hashes. It noted sparse image-free/continuation layouts and no outline-sidebar tree as refinement opportunities, not missing-copy blockers. Encoded navigation was verified; no claim is made about manual testing in every PDF viewer.
+
+The refreshed complete local demo passed 72 browser checks, 28 actual form/CRM checks, 118 layout checks, all three PDF renders, and recorded rendered_copy/local_journey gates. No client page was deployed, no paid image request was made, and no user approval was invented. Fresh CI acceptance and installation synchronization are recorded after publishing this batch.
+
+### Remaining scope
+
+Fixed-composition overflows still require the agent to adjust a project-specific layout while keeping the approved wording. Complex-script shaping needs an appropriate renderer and its own visual review. Final client PDFs still require inspection of every page and comparison with the canonical approved master. The remaining image-route acceptance, durable workflow/resume, portable handoff, Cloudflare controls and live/human beta acceptance remain open; the goal stays active.

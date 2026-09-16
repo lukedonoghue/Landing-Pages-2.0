@@ -58,6 +58,8 @@ Creation refuses to overwrite an unrelated nonempty directory. Re-running demo o
 
 Demos created before the rendered-copy helper was added need a new demo directory. Verification detects the missing contract/helper before starting the server or adding a test lead; it does not overwrite old source or data.
 
+Older catalogue configurations with blank image paths need an explicit `image_mode: "none"` for intentional colour-only sections. Named missing images block generation and preserve the previous PDF. The agent can inspect/migrate its fictional demo configuration or create a new demo directory; existing client copy/assets must not be overwritten.
+
 The fictional demo is explicitly blocked by the publication approval checker and remote setup. Automatic GitHub deployment is disabled for this beta. Use a new real client project and its actual approvals for a live page.
 
 ## Limits
