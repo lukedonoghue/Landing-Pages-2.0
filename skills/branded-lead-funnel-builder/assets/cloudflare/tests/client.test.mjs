@@ -56,6 +56,33 @@ test('repeat consent actions preserve this navigation event and visitor without 
   assert.equal(new Set(state.requests.map(request => request.body.visitor_id)).size, 1);
   assert.equal(resumed.visit_event_id, initial.visit_event_id); assert.equal(resumed.visitor_id, initial.visitor_id);
 });
+test('accepted receipts emit once even when the first response is an idempotent retry', () => {
+  const state = tracker({ mode: 'essential' });
+  const receipt = { ok: true, lead_id: 'lead', receipt_id: 'retry-receipt', duplicate: true };
+  state.funnel.accepted(receipt);
+  assert.equal(state.environment.dataLayer?.length, 1, 'The first confirmed retry receipt must emit');
+  state.funnel.accepted({ ...receipt, duplicate: false });
+  state.funnel.accepted(receipt);
+  assert.equal(state.environment.dataLayer?.length, 1);
+  assert.equal(state.environment.dataLayer[0].receipt_id, receipt.receipt_id);
+  const resumed = tracker({ mode: 'essential', sharedMemory: state.memory, measure: false });
+  assert.equal(resumed.environment.dataLayer, undefined, 'Loading a thank-you page emits nothing');
+  resumed.funnel.accepted(receipt);
+  assert.equal(resumed.environment.dataLayer, undefined, 'The session remembers an emitted receipt');
+});
+test('repeated ordinary receipts deduplicate and distinct committed leads remain measurable', () => {
+  const state = tracker({ mode: 'essential' });
+  for (const id of ['one', 'one', 'two', 'two']) state.funnel.accepted({ ok: true, lead_id: id, receipt_id: id, duplicate: false });
+  assert.deepEqual(Array.from(state.environment.dataLayer, event => event.receipt_id), ['one', 'two']);
+});
+test('receipt deduplication works without browser storage and rejects uncommitted responses', () => {
+  const state = tracker({ mode: 'essential', blockedStorage: true });
+  for (const result of [null, {}, { ok: false, lead_id: 'a', receipt_id: 'a' }, { ok: true, receipt_id: 'a' }]) state.funnel.accepted(result);
+  assert.equal(state.environment.dataLayer, undefined);
+  const receipt = { ok: true, lead_id: 'lead', receipt_id: 'stored-receipt', duplicate: true };
+  state.funnel.accepted(receipt); state.funnel.accepted(receipt);
+  assert.equal(state.environment.dataLayer.length, 1);
+});
 test('a direct navigation records current source independently from retained paid lead attribution', async () => {
   const paid = tracker({ mode: 'essential', referrer: '' }); const first = await paid.funnel.context();
   const direct = tracker({ mode: 'essential', url: 'https://site.test/?email=discard#secret', referrer: '', sharedMemory: paid.memory });

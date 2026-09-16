@@ -29,7 +29,22 @@
     setConsent(value){consent=value===true;set('localStorage','analytics_consent',consent);if(consent)visit();else{try{localStorage.removeItem(prefix+'visitor_id');}catch{memory.delete('visitor_id');}}},
     hasConsent:allowed,
     async context(){let timer;try{await Promise.race([visitPromise,new Promise(resolve=>{timer=setTimeout(resolve,1500);})]);}finally{clearTimeout(timer);}return {visitor_id:visitor(),...(allowed()&&visitRecorded?{visit_event_id:visitEventId}:{}),analytics_consent:allowed(),landing_page:clean(location.href),referrer:document.referrer?clean(document.referrer):'',attribution:{first_touch:get('sessionStorage','first_touch',touch),latest_touch:get('sessionStorage','latest_touch',touch)}};},
-    accepted(result){set('sessionStorage','receipt',{receipt_id:result.receipt_id,created_at:Date.now()});if(!allowed()||result.duplicate)return;try{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'lead_accepted',receipt_id:result.receipt_id});}catch{}},
+    accepted(result) {
+      if (result?.ok !== true || typeof result.lead_id !== 'string' || !result.lead_id || typeof result.receipt_id !== 'string' || !result.receipt_id || result.receipt_id.length > 128) return;
+      const receiptId = result.receipt_id;
+      set('sessionStorage', 'receipt', { receipt_id: receiptId, created_at: Date.now() });
+      if (!allowed()) return;
+      const stored = get('sessionStorage', 'emitted_receipts', []);
+      const emitted = Array.isArray(stored) ? stored.filter(id => typeof id === 'string') : [];
+      if (emitted.includes(receiptId)) return;
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'lead_accepted', receipt_id: receiptId });
+        // Server idempotency can be true on the first response the browser sees.
+        // Keep a bounded session history; provider adapters also dedupe by receipt.
+        set('sessionStorage', 'emitted_receipts', [...emitted.slice(-199), receiptId]);
+      } catch {}
+    },
     receipt(){return get('sessionStorage','receipt');}
   };
   document.querySelectorAll('[data-analytics-consent]').forEach(button=>button.addEventListener('click',()=>{window.LeadFunnel.setConsent(button.dataset.analyticsConsent==='accept');button.closest('[data-consent-banner]')?.setAttribute('hidden','');}));
