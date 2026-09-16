@@ -228,3 +228,7 @@ A fresh demo was renamed to `demo-owner` and password-reset using the actual loc
 ### Still open
 
 B06's local implementation is verified; B04/B06 still need the real Cloudflare rotation/rename/redeployment acceptance in B19. Infrastructure restore/first-upload edge cases and resumed pre-upload checks remain separate. Portable distribution, privacy/retention, remaining publication reconciliation and first-time human acceptance remain unfinished. No existing client page or real account was changed, no live Cloudflare launch was performed and no paid image call was made. The development goal stays active.
+
+### Fresh Linux verification and distribution
+
+[GitHub run 35161627115](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35161627115) passed on code revision `651bb45`, including all regression jobs and the complete newly generated local funnel. Both skill installations are checksum-verified at 142 files. This is fresh-machine local verification of the updated account/runtime flow, not a Cloudflare account deployment or owner cutover.
