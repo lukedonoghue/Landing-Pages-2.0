@@ -6,6 +6,8 @@ For a website-to-copy trial, use [copy-only-test.md](copy-only-test.md). Set `ou
 
 ## Select evidence and examples
 
+For an arbitrary supplied reference, follow [project-reference.md](project-reference.md). Capture it with --reference, inspect its actual persuasive lessons, and keep it project-local. It does not need global library curation before it can guide this project. Curated examples supplement the supplied primary reference; when none fits, keep the real brief and use client evidence plus the copy doctrine.
+
 New writer contexts store required research, manifest and funnel-contract paths relative to the project. Keep the brief's source_manifest project-relative as well. An unchanged project can be moved to another directory or machine and retain its content/review hashes; editing relocated evidence still invalidates the audit.
 
 Legacy contexts with absolute paths remain readable only inside their original project. After moving a legacy project, copy its actual research files, re-run context preparation and perform the real editorial freshness review. Do not merely overwrite hashes or read evidence from the old project's location. Unchanged customer-facing copy and offer do not need a new user approval just because supporting metadata was refreshed.
@@ -24,7 +26,7 @@ python3 scripts/copy_library.py prepare \
   --out /absolute/project/build/copy-context.json
 ```
 
-The helper chooses up to three curated references using offer, audience, intent, sector and source-family diversity. An explicit reference is prioritized when it is eligible. It excludes holdout families, error pages, unreviewed candidates and OCR. Read the returned selection reasons. If the examples do not fit, correct the classification or deliberately curate another example; do not silently pretend the closest match is a good match.
+The helper chooses up to three curated supporting examples using offer, audience, intent, sector and source-family diversity. An inspected project-local primary reference takes precedence; an already eligible curated reference can also be selected directly. Bundled retrieval excludes holdout families, error pages, unreviewed candidates and OCR. Read the returned selection reasons. If no suitable example matches the actual client, the result explicitly warns and keeps the real brief; use client evidence, the inspected primary reference if supplied, and the copy doctrine. Do not change the business or offer merely to retrieve an example. Broader library curation is optional maintenance, not a prerequisite for a new client project.
 
 Suitable field vocabulary includes `B2C`, `B2B`, `B2C/B2B`; offers such as `brochure_quote`, `consultation`, `demo`, `menu_quote`, `pricing_booking`; intents such as `planned_project`, `urgent_service`, `complex_project`, `high_anxiety`, `alternative_aware`. Free text is also supported. Use words that describe the actual offer.
 
