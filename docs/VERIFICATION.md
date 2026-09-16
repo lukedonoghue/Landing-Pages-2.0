@@ -1,5 +1,7 @@
 # Verification record
 
+For subsequent development results and the reproducible quickstart demo, see [Development progress](PROGRESS.md). The sections below retain the original release baseline.
+
 This document distinguishes reusable-tool regression tests, an actual local generated funnel, and a live Cloudflare deployment. The integrated local run below completed on **16 September 2026**. The final combined fictional build was subsequently tested with the reviewed copy, responsive generated illustration and regenerated four-page PDF; results are recorded below. It remains a local test fixture, not a user-approved production site.
 
 ## Actual integrated local funnel

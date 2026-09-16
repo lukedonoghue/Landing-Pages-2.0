@@ -6,6 +6,8 @@ A reusable, research-led funnel-building skill: client website → approved copy
 
 **Next release:** [Self-guided beta plan](docs/SELF-GUIDED-BETA-PLAN.md) defines the end-user journey, proposed scope, implementation milestones, and the first-time-user tests required before sharing the skill more widely.
 
+**Current work:** [Development progress](docs/PROGRESS.md) records implemented improvements, new verification results, and remaining acceptance work.
+
 ## What it builds
 
 - A branded responsive landing page, accessible multistep form, brochure PDF and thank-you page.
@@ -36,6 +38,19 @@ After account connection and project setup, the user says **“Publish to Cloudf
 The publish command requires current quality evidence and the actual final approval. Full post-deployment verification also requires authorization for a controlled synthetic test lead and private admin credentials. Upload success alone is not launch verification.
 
 ## Development and verification
+
+Start with [CONTRIBUTING.md](CONTRIBUTING.md) and the [portable first-run guide](skills/branded-lead-funnel-builder/references/first-run.md). The quickstart can check tools, install local dependencies, generate a fictional page/CRM/PDF demo, verify it end to end, and preserve/reset its local state. It never deploys to Cloudflare.
+
+```sh
+python3 scripts/dev.py doctor
+python3 scripts/dev.py bootstrap
+python3 scripts/dev.py check
+python3 scripts/dev.py demo
+python3 scripts/dev.py verify-demo --full
+python3 scripts/dev.py serve
+```
+
+Use Node 24; pass `--node /path/to/node` if the supported runtime is not on PATH. The original individual regression commands remain available:
 
 ```sh
 python3 -m unittest discover -s tests -p 'test_*.py'

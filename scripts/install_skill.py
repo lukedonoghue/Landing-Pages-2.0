@@ -14,7 +14,7 @@ def main():
     source=Path(__file__).resolve().parents[1]/'skills/branded-lead-funnel-builder'
     target=args.destination or Path(os.environ.get('CODEX_HOME',str(Path.home()/'.codex')))/'skills/branded-lead-funnel-builder'
     target=target.expanduser().resolve()
-    skip={'node_modules','.wrangler','.git','.secrets','__pycache__','build','screenshots'}
+    skip={'node_modules','.wrangler','.git','.secrets','.venv','.development','__pycache__','build','screenshots'}
     files=[p for p in source.rglob('*') if p.is_file() and not any(x in skip for x in p.relative_to(source).parts) and not p.name.startswith(('.env','.dev.vars'))]
     if target.exists():
         backup=Path(tempfile.mkdtemp(prefix='landing-pages-skill-backup-'))/target.name

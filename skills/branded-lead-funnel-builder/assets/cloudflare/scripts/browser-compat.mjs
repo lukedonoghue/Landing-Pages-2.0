@@ -127,7 +127,20 @@ export async function runBrowserCompat(args, suppliedRuntime) {
         try {
           const response = await page.goto(sameOriginUrl(fixture.path, target.url).href, { waitUntil: 'networkidle' });
           check(report, `${label}: public page loads`, response?.ok() === true);
-          await page.evaluate(async () => { await document.fonts.ready; const imgs = [...document.images]; await Promise.all(imgs.map(img => img.decode().catch(() => {}))); });
+          await page.evaluate(async () => {
+            const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+            document.documentElement.style.scrollBehavior = 'auto';
+            await Promise.race([document.fonts.ready, delay(3000)]);
+            // WebKit may leave decode() pending for an off-screen lazy image.
+            // Exercise normal scrolling first, then bound the decode wait. The
+            // following loaded-image check still rejects any unresolved asset.
+            for (let y = 0, end = Math.min(document.documentElement.scrollHeight, 35000); y < end; y += Math.max(200, innerHeight * 0.7)) {
+              scrollTo(0, y);
+              await delay(50);
+            }
+            await Promise.race([Promise.all([...document.images].map(img => img.decode().catch(() => {}))), delay(5000)]);
+            scrollTo(0, 0);
+          });
           check(report, `${label}: no horizontal overflow`, await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
           check(report, `${label}: images load`, await page.evaluate(() => [...document.images].every(img => !img.currentSrc || (img.complete && img.naturalWidth > 0))));
           await page.evaluate(() => scrollTo(0, document.body.scrollHeight));

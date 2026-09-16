@@ -71,6 +71,18 @@ test('preflight accepts a complete integrity fixture and blocks a changed artifa
   assert.match(result.stdout+result.stderr,/Artifact hash mismatch|stale/i);
 });
 
+test('fictional demos reject remote setup before configuration or Cloudflare changes', t => {
+  const root = fixture(t);
+  write(root, 'funnel.json', { development_fixture: true });
+  const before = readFileSync(join(root, 'wrangler.jsonc'), 'utf8');
+  const result = execute(root, 'setup', ['--cloudflare', '--site', 'must-not-create', ...setupScope(root)]);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr + result.stdout, /Fictional development fixtures/);
+  assert.equal(readFileSync(join(root, 'wrangler.jsonc'), 'utf8'), before);
+  assert.equal(existsSync(join(root, 'wrangler-calls.log')), false);
+  assert.equal(existsSync(join(root, '.secrets/production.json')), false);
+});
+
 test('remote setup rejects the shared starter name before any Cloudflare command', t => {
   const root=fixture(t);
   const config=JSON.parse(readFileSync(join(root,'wrangler.jsonc')));config.name='branded-lead-funnel';write(root,'wrangler.jsonc',config);
