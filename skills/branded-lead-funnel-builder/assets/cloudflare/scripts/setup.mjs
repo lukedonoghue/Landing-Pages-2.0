@@ -22,7 +22,7 @@ const credentials=(kind)=>{
   const filename=`.secrets/${kind}.json`;
   const username=(option('--admin-username') || 'owner').trim().toLowerCase();
   if(!/^[a-z0-9][a-z0-9._@+-]{2,79}$/.test(username))throw new Error('Admin username must be 3–80 letters, numbers or email characters.');
-  if(existsSync(filename)){const existing=JSON.parse(readFileSync(filename,'utf8'));if(!existing.ADMIN_USERNAME){existing.ADMIN_USERNAME=username;writeFileSync(filename,JSON.stringify(existing,null,2)+'\n',{mode:0o600});}else if(option('--admin-username')&&existing.ADMIN_USERNAME!==username)throw new Error('Use the owner recovery tool to change a configured admin identity.');return existing;}
+  if(existsSync(filename)){const existing=JSON.parse(readFileSync(filename,'utf8'));if(!existing.ADMIN_USERNAME){existing.ADMIN_USERNAME=username;writeFileSync(filename,JSON.stringify(existing,null,2)+'\n',{mode:0o600});}else if(option('--admin-username')&&existing.ADMIN_USERNAME!==username)throw new Error(`Use npm run admin -- change-username --${kind==='production'?'remote':'local'} --username <new-owner>. Setup preserves the original bootstrap identity.`);return existing;}
   const password=randomBytes(24).toString('base64url');
   const salt=randomBytes(16).toString('hex');
   const hash=pbkdf2Sync(password,Buffer.from(salt,'hex'),100000,32,'sha256').toString('hex');

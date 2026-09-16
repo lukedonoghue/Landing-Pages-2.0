@@ -244,12 +244,32 @@ def demo_server(project, node, port=None):
                         process.wait()
 
 
+def local_verification_access(project):
+    """Resolve private local recovery references without exposing their values."""
+    reference = project / '.secrets/current-local-admin-access.json'
+    setup = project / '.secrets/local.json'
+    initial = json.loads(setup.read_text()) if setup.is_file() else {'ADMIN_USERNAME': 'owner'}
+    if not reference.is_file():
+        return ['--password-file', '.secrets/local-admin-password.txt'], initial['ADMIN_USERNAME']
+    value = json.loads(reference.read_text())
+    config = json.loads((project / 'wrangler.jsonc').read_text())
+    target = value.get('target', {})
+    if value.get('needs_password') or target.get('mode') != 'local' or target.get('worker') != config.get('name') or target.get('database_id') != config['d1_databases'][0]['database_id']:
+        raise ValueError('Current local owner credentials are missing or belong to another database. Resolve the private access reference before verification.')
+    key = 'credentials_file' if value.get('credentials_file') else 'password_file'
+    file = (project / value[key]).resolve()
+    if not file.is_file():
+        raise ValueError('The current local owner credential file is missing. Preserve the recovery operation and restore its private handoff.')
+    return ['--' + key.replace('_', '-'), str(file)], value.get('username') or initial['ADMIN_USERNAME']
+
+
 def verify_demo(project, node, full=False):
     project = assert_demo(project)
     required = ['build/page-copy.json', 'scripts/copy_parity.py', 'scripts/capture-rendered-copy.mjs']
     if any(not (project / name).is_file() for name in required):
         raise ValueError('This demo predates rendered-copy verification or has missing evidence. Generate a new demo directory with the current skill; existing source and local data were preserved.')
     ensure_ready(node, project)
+    access_args, owner = local_verification_access(project)
     journey_output = 'build/live-verification/' + uuid.uuid4().hex
     with demo_server(project, node) as (url, _):
         run([sys.executable, project / "scripts/check_gates.py", "snapshot", project, "--mode", "handoff"],
@@ -257,9 +277,9 @@ def verify_demo(project, node, full=False):
         run([node, "scripts/browser-compat.mjs", "--url", url, "--fixture", "test-fixture.json", "--project-root", "."],
             project, node, "Chromium and WebKit journey")
         env = local_env(node)
-        env["ADMIN_USERNAME"] = "owner"
+        env["ADMIN_USERNAME"] = owner
         run([node, "scripts/live-verify.mjs", "--url", url, "--fixture", "test-fixture.json", "--allow-test-lead",
-             "--password-file", ".secrets/local-admin-password.txt", "--project-root", ".", "--out", journey_output],
+             *access_args, "--project-root", ".", "--out", journey_output],
             project, node, "Actual local form-to-CRM journey", env)
         run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "local_journey",
              "--report", journey_output + "/local-journey.json"], project, node, "Local journey release evidence")
@@ -310,10 +330,19 @@ def reset_demo(project, node):
     with demo_lock(project):
         state = project / ".wrangler/state"
         backup = None
+        private_state = [project / '.secrets/current-local-admin-access.json', project / '.secrets/account-recovery', project / '.secrets/journeys']
+        if any(item.is_symlink() for item in private_state):
+            raise ValueError('Private demo recovery paths must not be symlinks. Preserve them for inspection before reset.')
         if state.exists():
             backup = project / ".secrets/demo-backups" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
             backup.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
             shutil.move(str(state), str(backup))
+        for item in private_state:
+            if item.exists():
+                if backup is None:
+                    backup = project / '.secrets/demo-backups' / datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
+                    backup.mkdir(parents=True, mode=0o700)
+                shutil.move(str(item), str(backup / item.name))
         setup_database(project, node)
     return {"status": "ready", "previous_local_state_preserved": str(backup) if backup else None,
             "scope": "owned fictional local database only"}

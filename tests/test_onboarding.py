@@ -18,6 +18,37 @@ from demo_project import assert_demo, seed_sql, write_demo_sources
 
 
 class OnboardingTests(unittest.TestCase):
+    def test_local_verification_uses_recovered_access_and_blocks_another_database(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = write_demo_sources(Path(tmp) / 'demo')
+            private = project / '.secrets'; private.mkdir(exist_ok=True)
+            config = json.loads((project / 'wrangler.jsonc').read_text())
+            credential = private / 'current.json'; credential.write_text(json.dumps({'username': 'new-owner', 'password': 'synthetic-only'}))
+            value = {'username': 'new-owner', 'credentials_file': '.secrets/current.json', 'target': {'mode': 'local', 'worker': config['name'], 'database_id': config['d1_databases'][0]['database_id']}}
+            reference = private / 'current-local-admin-access.json'; reference.write_text(json.dumps(value))
+            args, owner = quickstart.local_verification_access(project)
+            self.assertEqual(owner, 'new-owner'); self.assertEqual(args, ['--credentials-file', str(credential.resolve())])
+            value['target']['database_id'] = 'another'; reference.write_text(json.dumps(value))
+            with self.assertRaisesRegex(ValueError, 'another database'): quickstart.local_verification_access(project)
+
+    def test_demo_reset_preserves_and_retires_old_owner_recovery_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = write_demo_sources(Path(tmp) / 'demo')
+            private = project / '.secrets'; (private / 'account-recovery/operation').mkdir(parents=True)
+            (private / 'account-recovery/operation/state.json').write_text('synthetic retained operation')
+            (private / 'journeys/journey').mkdir(parents=True)
+            (private / 'journeys/journey/submission.json').write_text('synthetic private request')
+            reference = private / 'current-local-admin-access.json'; reference.write_text('synthetic old reference')
+            with patch('quickstart.setup_database') as setup:
+                result = quickstart.reset_demo(project, 'unused-node')
+            saved = Path(result['previous_local_state_preserved'])
+            self.assertEqual((saved / 'current-local-admin-access.json').read_text(), 'synthetic old reference')
+            self.assertEqual((saved / 'account-recovery/operation/state.json').read_text(), 'synthetic retained operation')
+            self.assertFalse(reference.exists()); self.assertFalse((private / 'account-recovery').exists())
+            self.assertEqual((saved / 'journeys/journey/submission.json').read_text(), 'synthetic private request')
+            self.assertFalse((private / 'journeys').exists())
+            setup.assert_called_once()
+
     def test_local_command_timeout_is_bounded_and_preserves_existing_files(self):
         with tempfile.TemporaryDirectory() as tmp:
             existing=Path(tmp)/'keep.txt';existing.write_text('preserve')

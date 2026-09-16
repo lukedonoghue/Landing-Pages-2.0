@@ -148,3 +148,7 @@ Publishing interruption cases use offline injected Cloudflare responses and expl
 ## Partial journey recovery update — 16 September 2026
 
 The new local baseline is **331 passing regressions** (136 application tests, no skips). Nine actual loopback browser/Worker/D1 recovery cases and an independent eight-case review cover partial response/state loss, true process termination, retained evidence, cleanup and safe conflict handling. The fresh full demo passed 72 browser checks, 27 journey checks, 118 layout checks and three PDF renders. [Detailed evidence and remaining boundaries](PROGRESS.md#resuming-partial-verification-journeys--16-september-2026) distinguish synthetic local acceptance from the unperformed Cloudflare account pilot.
+
+## Owner maintenance update — 17 September 2026
+
+The current local baseline is **344 passing checks**, including 147 application tests with no skips. New coverage uses real local Worker/D1 authentication plus the local Wrangler CLI, verifies username persistence, password recovery, current private references, uncertain/resumed operations and CRM preservation. A fresh generated demo completed its full journey after rename/reset; a later owned demo reset preserved private historical state and completed a fresh journey with the initial owner. [Evidence and limits](PROGRESS.md#owner-identity-and-password-recovery--17-september-2026) keep this distinct from the still-unperformed Cloudflare account pilot.

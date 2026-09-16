@@ -110,8 +110,8 @@ test('recovery and backup tools require explicit destination, protect credential
   runBackup(['export', '--remote', '--out', '.secrets/test.sql', '--dry-run'], { run, log: x => logs.push(x) });
   runBackup(['verify', '--file', '.secrets/test.sql', '--dry-run'], { run, log: x => logs.push(x) });
   assert.equal(calls, 0); assert.ok(logs.some(x => x.includes('LOCAL')));
-  assert.throws(() => recoverySql('rotate-password', "malicious' SQL"), /Invalid/);
-  assert.ok(recoverySql('rotate-password', encoded).includes('DELETE FROM sessions'));
+  assert.throws(() => recoverySql({action:'rotate-password',password_hash:"malicious' SQL"}), /Invalid/);
+  assert.ok(recoverySql({action:'rotate-password',password_hash:encoded,username:null,expected_version:0,id:crypto.randomUUID()}).includes('DELETE FROM sessions'));
 });
 
 test('CLI revocation prevents stale in-flight login for initial and rotated owners', async () => {
@@ -140,7 +140,7 @@ test('CLI revocation prevents stale in-flight login for initial and rotated owne
       const request = () => new Request('https://site.test/api/auth/login', { method: 'POST', headers: { Origin: 'https://site.test', 'Content-Type': 'application/json', 'CF-Connecting-IP': '198.51.100.100' }, body: JSON.stringify({ username, password }) });
       const pending = worker.fetch(request(), env, { waitUntil() {} });
       await capture;
-      await raceDb.batch(unstable_splitSqlQuery(recoverySql('revoke-sessions')).map(sql => raceDb.prepare(sql)));
+      await raceDb.batch(unstable_splitSqlQuery(recoverySql({action:'revoke-sessions',password_hash:rotated?encoded:'',username:null,expected_version:rotated?5:0,id:crypto.randomUUID()})).map(sql => raceDb.prepare(sql)));
       release();
       assert.equal((await pending).status, 401, 'A login using the pre-revocation version must fail');
       assert.equal((await raceDb.prepare('SELECT COUNT(*) AS count FROM sessions').first()).count, 0);
@@ -165,16 +165,26 @@ test('real local D1 backup round-trip restores seeded records and recovery comma
   const execute = promisify(execFile);
   try {
     await mkdir(path.join(fixture, 'scripts'));
-    for (const script of ['backup.mjs', 'admin-account.mjs']) await cp(path.join(root, 'scripts', script), path.join(fixture, 'scripts', script));
+    for (const script of ['backup.mjs', 'admin-account.mjs', 'release-tools.mjs']) await cp(path.join(root, 'scripts', script), path.join(fixture, 'scripts', script));
     await cp(path.join(root, 'migrations'), path.join(fixture, 'migrations'), { recursive: true });
+    for (const name of ['release_state','workflow','workflow_storage','workflow_progress','copy_library','image_workflow','copy_parity','check_gates']) {
+      const candidates=[path.join(root,'scripts',name+'.py'),path.resolve(root,'../../scripts',name+'.py')];
+      let source;for(const item of candidates){try{await stat(item);source=item;break;}catch{}}
+      assert.ok(source);await cp(source,path.join(fixture,'scripts',name+'.py'));
+    }
+    await mkdir(path.join(fixture,'.secrets'),{recursive:true});
+    await writeFile(path.join(fixture,'.secrets/local.json'),JSON.stringify({ADMIN_USERNAME:username,ADMIN_PASSWORD_HASH:encoded}),{mode:0o600});
+
     await symlink(path.join(root, 'node_modules'), path.join(fixture, 'node_modules'), 'junction');
     await writeFile(path.join(fixture, 'wrangler.jsonc'), JSON.stringify({ name: 'isolated-backup-test', compatibility_date: '2026-07-22', d1_databases: [{ binding: 'DB', database_name: 'isolated-backup-test', database_id: '22222222-2222-2222-2222-222222222222', migrations_dir: 'migrations' }] }));
-    const invoke = args => execute(process.execPath, args, { cwd: fixture, maxBuffer: 4 * 1024 * 1024 });
+    // A publishing preflight may pass its own lock environment into tests. The
+    // isolated client's account CLI must acquire its own lock, not use that FD.
+    const invoke = args => execute(process.execPath, args, { cwd: fixture, env:{...process.env,FUNNEL_PUBLISH_LOCK_FD:'3'}, maxBuffer: 4 * 1024 * 1024 });
     const cli = path.join(fixture, 'node_modules/wrangler/bin/wrangler.js');
     await invoke([cli, 'd1', 'migrations', 'apply', 'DB', '--local']);
     await writeFile(path.join(fixture, 'seed.sql'), "INSERT INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,name,form_name,form_data,attribution,landing_page) VALUES('restore-check','receipt','key','hash','2026-09-16','2026-09-16','2026-09-16','Synthetic','enquiry','{}','{}','/'); INSERT INTO notes(id,lead_id,body,created_at) VALUES('note','restore-check','Synthetic note','2026-09-16');");
     await invoke([cli, 'd1', 'execute', 'DB', '--local', '--file', 'seed.sql', '--yes']);
-    const recovery = await invoke(['scripts/admin-account.mjs', 'rotate-password', '--local']);
+    const recovery = await invoke(['scripts/admin-account.mjs', 'rotate-password', '--local', '--out', '.secrets/local-recovery-password.txt']);
     assert.ok(!recovery.stdout.includes('pbkdf2_sha256'));
     await invoke(['scripts/admin-account.mjs', 'revoke-sessions', '--local']);
     await invoke(['scripts/backup.mjs', 'export', '--local', '--out', '.secrets/backup.sql']);

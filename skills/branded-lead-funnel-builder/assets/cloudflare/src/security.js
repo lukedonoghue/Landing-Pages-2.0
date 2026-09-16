@@ -23,8 +23,9 @@ export function adminUsername(env) {
   return username;
 }
 export async function adminCredentials(env) {
-  const username = adminUsername(env);
-  const stored = await env.DB.prepare('SELECT password_hash,version,updated_at FROM admin_credentials WHERE id=1').first();
+  const bootstrapUsername = adminUsername(env);
+  const stored = await env.DB.prepare('SELECT password_hash,version,updated_at,username FROM admin_credentials WHERE id=1').first();
+  const username = stored?.username == null ? bootstrapUsername : adminUsername({ ADMIN_USERNAME: stored.username });
   return { username, password_hash: stored?.password_hash || env.ADMIN_PASSWORD_HASH, version: stored?.version || 0, updated_at: stored?.updated_at || null };
 }
 export async function hashPassword(password) {
