@@ -1,0 +1,835 @@
+[
+  {
+    "id": "outcome_first",
+    "title": "Lead with the buyer’s useful result",
+    "when_to_use": "Most high-intent service pages",
+    "recipe": "Name the action or result the buyer wants, then the relevant service and context.",
+    "client_evidence_needed": "Evidence that the service can reasonably help with this outcome.",
+    "avoid": "Do not replace clarity with vague transformation or promise a guaranteed end result.",
+    "evidence": [
+      {
+        "source_id": "e692f81bc571",
+        "anchor": "Designed For Optimal Organized Storage",
+        "role": "hero"
+      },
+      {
+        "source_id": "6901811d0e03",
+        "anchor": "Focus On Growing Your Business",
+        "role": "hero"
+      },
+      {
+        "source_id": "d03d7c74e81b",
+        "anchor": "Enjoy Your Own Event!",
+        "role": "benefit"
+      },
+      {
+        "source_id": "3a8361448cc4",
+        "anchor": "Improve Your Business Operations",
+        "role": "benefit"
+      },
+      {
+        "source_id": "ad411dff85b4",
+        "anchor": "Cut Your Energy Bill",
+        "role": "selected_pattern"
+      },
+      {
+        "source_id": "be3edf56d95f",
+        "anchor": "Cut Your Energy Bill",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "83bd65374dd3",
+        "anchor": "Keep Your Home Cool On Hot Summer Days",
+        "role": "variant_or_contrast"
+      }
+    ],
+    "supporting_source_count": 7,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "tangible_offer",
+    "title": "Make the next action worth taking",
+    "when_to_use": "All conversion pages",
+    "recipe": "Action + named deliverable + necessary next-step detail. Choose the deliverable the business actually supplies.",
+    "client_evidence_needed": "Actual brochure, estimate, menu, candidate shortlist, consultation or assessment and its delivery terms.",
+    "avoid": "Do not invent a lead magnet, free offer, price or turnaround to imitate a reference.",
+    "evidence": [
+      {
+        "source_id": "6aebe071e132",
+        "anchor": "Request Brochure & Pricing",
+        "role": "offer"
+      },
+      {
+        "source_id": "6407faf8c130",
+        "anchor": "Request Catalogue & Pricing",
+        "role": "offer"
+      },
+      {
+        "source_id": "2a202c3d942a",
+        "anchor": "View Sharepoint Services & Pricing",
+        "role": "offer"
+      },
+      {
+        "source_id": "997606fcd746",
+        "anchor": "Download Our Design Portfolio",
+        "role": "offer"
+      },
+      {
+        "source_id": "6901811d0e03",
+        "anchor": "Business Accounting Pricing Guide",
+        "role": "offer"
+      },
+      {
+        "source_id": "d03d7c74e81b",
+        "anchor": "View Menus & Request Pricing Now",
+        "role": "offer"
+      },
+      {
+        "source_id": "80684303f3fc",
+        "anchor": "Get Vetted Writers Now",
+        "role": "offer"
+      },
+      {
+        "source_id": "0fd7657c9d5a",
+        "anchor": "View Our Full Range Of Stone Products",
+        "role": "offer"
+      },
+      {
+        "source_id": "cf6498650a49",
+        "anchor": "Up Front Security Guard Pricing & Service Details",
+        "role": "offer"
+      },
+      {
+        "source_id": "766cb77f27fd",
+        "anchor": "Roofing Services Brochure",
+        "role": "offer"
+      },
+      {
+        "source_id": "26203e4d9e7a",
+        "anchor": "Roller Shutter Service List & Pricing",
+        "role": "offer"
+      },
+      {
+        "source_id": "5551b2b3ecc0",
+        "anchor": "Download Our Wedding Venue Brochure",
+        "role": "offer"
+      },
+      {
+        "source_id": "44afb05bc1a2",
+        "anchor": "Request Enrolment Details & Pricing",
+        "role": "offer"
+      },
+      {
+        "source_id": "e79a567d6d94",
+        "anchor": "Get Our Stand-Up Desk Brochure Now",
+        "role": "offer"
+      },
+      {
+        "source_id": "914f02f3cbe7",
+        "anchor": "Get Your Free 30-minute Case Evaluation",
+        "role": "offer"
+      },
+      {
+        "source_id": "807da93a42e8",
+        "anchor": "Up Front Job Pricing Over The Phone",
+        "role": "selected_pattern"
+      },
+      {
+        "source_id": "ec1fccbfeee4",
+        "anchor": "Bird Proofing Brochure & Pricing",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "e784bb2b5ea6",
+        "anchor": "Request Brochure & Pricing",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "ff0570ad9a93",
+        "anchor": "Bird Proofing Brochure And Pricing",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "31efa09aa964",
+        "anchor": "Roofing Services Brochure And Pricing",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "dffbc9afafb9",
+        "anchor": "Browse Our Menus",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "b7e5b13a0295",
+        "anchor": "View Our Menu Guides",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "1a01c77901e9",
+        "anchor": "Request Enrolment Details & Pricing",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "518cea22bf81",
+        "anchor": "Request Production Details & Pricing",
+        "role": "selected_pattern"
+      },
+      {
+        "source_id": "960a78aa1555",
+        "anchor": "See Package Pricing",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "a982415203cd",
+        "anchor": "View Pricing & Enter",
+        "role": "variant_or_contrast"
+      }
+    ],
+    "supporting_source_count": 26,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "mechanism_to_benefit",
+    "title": "Explain why the benefit is plausible",
+    "when_to_use": "Service method and product explanation",
+    "recipe": "Capability or method → what it changes → why that matters to this buyer.",
+    "client_evidence_needed": "Source describing the actual method and the limits of its effect.",
+    "avoid": "Do not use a technical name as proof by itself or infer efficacy from marketing language.",
+    "evidence": [
+      {
+        "source_id": "6aebe071e132",
+        "anchor": "It allows rainwater to filter through",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "6407faf8c130",
+        "anchor": "we use your existing carcasses",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "997606fcd746",
+        "anchor": "meticulous project management",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "e40d7cf09468",
+        "anchor": "eliminates manual entry or data retrieval",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "4bc93cc2fce1",
+        "anchor": "we act as your local HR department",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "0fd7657c9d5a",
+        "anchor": "we design, cut and install",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "092cbf71f611",
+        "anchor": "install barriers that prevent pests",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "cf6498650a49",
+        "anchor": "hourly GPS monitoring and reporting",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "766cb77f27fd",
+        "anchor": "high tech membrane sealant",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "4b5be850829d",
+        "anchor": "What is Invisalign?",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "e90c694424c1",
+        "anchor": "precision micro compressor technology",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "5c1105cafc7d",
+        "anchor": "pre-vetted",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "3702095e7f37",
+        "anchor": "high tech membrane sealant",
+        "role": "variant_or_contrast"
+      }
+    ],
+    "supporting_source_count": 13,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "feature_consequence",
+    "title": "Finish the feature with a practical consequence",
+    "when_to_use": "Service cards, product benefits, differentiators",
+    "recipe": "For each capability answer: which task becomes easier, which problem is reduced, or what can the buyer now do?",
+    "client_evidence_needed": "Verified capability and a reasonable, qualified consequence.",
+    "avoid": "Do not add speed, savings, safety or certainty beyond the evidence.",
+    "evidence": [
+      {
+        "source_id": "6407faf8c130",
+        "anchor": "easy access those heavy pans",
+        "role": "benefit"
+      },
+      {
+        "source_id": "2a202c3d942a",
+        "anchor": "User Experience Focus To Improve Site Efficiency",
+        "role": "benefit"
+      },
+      {
+        "source_id": "e40d7cf09468",
+        "anchor": "Manage, Store & Centralise All AP Documents In One Place",
+        "role": "benefit"
+      },
+      {
+        "source_id": "e40d7cf09468",
+        "anchor": "Simplify Invoice Approval",
+        "role": "benefit"
+      },
+      {
+        "source_id": "4cdc50e2f126",
+        "anchor": "Delivered & Collected From Your Doorstep",
+        "role": "benefit"
+      },
+      {
+        "source_id": "80684303f3fc",
+        "anchor": "Save Time And Money On Hiring A Writer",
+        "role": "benefit"
+      },
+      {
+        "source_id": "e90c694424c1",
+        "anchor": "keep in your glove box",
+        "role": "benefit"
+      },
+      {
+        "source_id": "8f2b536b6c98",
+        "anchor": "Systemize and standardize your documentation processes",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "ed3aa69a8136",
+        "anchor": "Effortless Paperwork, Seamless Experience",
+        "role": "selected_pattern"
+      }
+    ],
+    "supporting_source_count": 8,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "decision_steps",
+    "title": "Explain the next decisions and responsibilities",
+    "when_to_use": "How-it-works section",
+    "recipe": "Start action → decision or assessment → delivery; use as many steps as the real process needs.",
+    "client_evidence_needed": "Actual business workflow, customer responsibilities and next contact.",
+    "avoid": "Do not force three steps or describe internal administration that does not help the buyer.",
+    "evidence": [
+      {
+        "source_id": "6aebe071e132",
+        "anchor": "Determine The Perfect Mesh For Your Home",
+        "role": "process"
+      },
+      {
+        "source_id": "4bc834795895",
+        "anchor": "Evaluate & Choose The Right ERP",
+        "role": "process"
+      },
+      {
+        "source_id": "4cdc50e2f126",
+        "anchor": "Once You've Moved & Unpacked",
+        "role": "process"
+      },
+      {
+        "source_id": "80684303f3fc",
+        "anchor": "You Interview Top Candidates",
+        "role": "process"
+      },
+      {
+        "source_id": "766cb77f27fd",
+        "anchor": "What Happens Next: Our Proven Process",
+        "role": "process"
+      },
+      {
+        "source_id": "5f1c35a2129a",
+        "anchor": "Meet your Attorney",
+        "role": "process"
+      },
+      {
+        "source_id": "ec124570f497",
+        "anchor": "Choose, Configure & Integrate",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "534ce4d455e7",
+        "anchor": "at every stage",
+        "role": "selected_pattern"
+      }
+    ],
+    "supporting_source_count": 8,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "risk_reduction",
+    "title": "Answer a specific buying risk",
+    "when_to_use": "Near offer, process and objections",
+    "recipe": "Name the uncertainty and explain the concrete policy, process or evidence that addresses it.",
+    "client_evidence_needed": "Documented pricing terms, service scope, migration plan, cancellation rule, support or other relevant fact.",
+    "avoid": "Do not create a guarantee, a no-risk promise or universal no-obligation claim.",
+    "evidence": [
+      {
+        "source_id": "997606fcd746",
+        "anchor": "Full Control Of The Process",
+        "role": "benefit"
+      },
+      {
+        "source_id": "6901811d0e03",
+        "anchor": "Flat Monthly Fee",
+        "role": "risk"
+      },
+      {
+        "source_id": "4bc834795895",
+        "anchor": "WITHOUT Migration Issues Or Costly Downtime",
+        "role": "risk"
+      },
+      {
+        "source_id": "1516e89f335d",
+        "anchor": "Fast Migration From IT Glue",
+        "role": "risk"
+      },
+      {
+        "source_id": "bdb9ca16f2eb",
+        "anchor": "100% Free Qualification Screening",
+        "role": "offer"
+      },
+      {
+        "source_id": "78feaaf69fdf",
+        "anchor": "Up Front Pricing & No Surprises",
+        "role": "variant_or_contrast"
+      }
+    ],
+    "supporting_source_count": 6,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "adjacent_proof",
+    "title": "Put proof beside the claim it supports",
+    "when_to_use": "Hero, service benefits, process and final offer",
+    "recipe": "Choose a short attributed experience that answers the current objection; preserve original meaning.",
+    "client_evidence_needed": "Matching original review, customer, service context, and source.",
+    "avoid": "Do not turn a one-off experience into a universal promise or mix reviewer identities.",
+    "evidence": [
+      {
+        "source_id": "2a202c3d942a",
+        "anchor": "Antonio Morino",
+        "role": "proof"
+      },
+      {
+        "source_id": "f8bc2ce28b06",
+        "anchor": "Why Choose Melo Property Claims",
+        "role": "variant_or_contrast"
+      }
+    ],
+    "supporting_source_count": 2,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "alternative_fit",
+    "title": "Write to an actual comparison decision",
+    "when_to_use": "Alternative-aware traffic and service-method comparisons",
+    "recipe": "Name the options the buyer is considering and the criteria that determine a suitable choice.",
+    "client_evidence_needed": "Evidence about each compared option, with dates and matching scope.",
+    "avoid": "Do not invent competitor weaknesses or assume every visitor knows the competitor.",
+    "evidence": [
+      {
+        "source_id": "1516e89f335d",
+        "anchor": "Looking For A Better Value Alternative to IT Glue?",
+        "role": "hero"
+      },
+      {
+        "source_id": "14506cfc4c88",
+        "anchor": "You don't have to buy the newest model",
+        "role": "selected_pattern"
+      }
+    ],
+    "supporting_source_count": 2,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "explain_comparison",
+    "title": "Let the reader inspect the comparison",
+    "when_to_use": "Pricing, alternatives, product evaluation",
+    "recipe": "Use relevant like-for-like dimensions and supported values; explain limitations or missing evidence.",
+    "client_evidence_needed": "Comparable current specifications, terms and source attribution.",
+    "avoid": "Do not use empty competitor cells or unsourced preference percentages as proof.",
+    "evidence": [
+      {
+        "source_id": "1516e89f335d",
+        "anchor": "SEE FULL FEATURE COMPARISON",
+        "role": "proof"
+      },
+      {
+        "source_id": "3318eef2d4d9",
+        "anchor": "Meno Complex vs The Competition",
+        "role": "comparison"
+      }
+    ],
+    "supporting_source_count": 2,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "audience_situation",
+    "title": "Recognize the situation that brought the buyer here",
+    "when_to_use": "Hero eyebrow or opening sentence",
+    "recipe": "Name a specific project, event, trigger or problem that the service addresses.",
+    "client_evidence_needed": "Client audience context or clearly labelled research inference.",
+    "avoid": "Do not assume private circumstances or add emotionally charged details without grounding.",
+    "evidence": [
+      {
+        "source_id": "4bc93cc2fce1",
+        "anchor": "Looking To Expand Your Business Operations To Asia?",
+        "role": "hero"
+      },
+      {
+        "source_id": "1f69b9c67623",
+        "anchor": "Struggling To Keep Track Of Your IT Documentation?",
+        "role": "selected_pattern"
+      }
+    ],
+    "supporting_source_count": 2,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "fit_options",
+    "title": "Help the buyer recognize the right fit",
+    "when_to_use": "Services, use cases, FAQs, product selection",
+    "recipe": "Offer distinct use cases or methods, explain who each suits, and retain exclusions.",
+    "client_evidence_needed": "Service boundaries, options, eligibility and selection process.",
+    "avoid": "Do not broaden the business’s service area or capabilities for market coverage.",
+    "evidence": [
+      {
+        "source_id": "d03d7c74e81b",
+        "anchor": "Some Of Our Available Menus",
+        "role": "scope"
+      },
+      {
+        "source_id": "7ddeba11d55d",
+        "anchor": "a flexible space for work and play",
+        "role": "fit"
+      },
+      {
+        "source_id": "e79a567d6d94",
+        "anchor": "set up to fit your needs",
+        "role": "mechanism"
+      },
+      {
+        "source_id": "4b5be850829d",
+        "anchor": "Am I a good candidate for Invisalign?",
+        "role": "fit"
+      },
+      {
+        "source_id": "a0783c79e5c7",
+        "anchor": "See If Your Situation Is A Good Fit",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "cd440e3cffc7",
+        "anchor": "repair or replace your boiler",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "7ee03c811f78",
+        "anchor": "standalone centerpiece",
+        "role": "selected_pattern"
+      }
+    ],
+    "supporting_source_count": 7,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "future_state",
+    "title": "Make a desired after-state imaginable",
+    "when_to_use": "Planned projects, events, design and career offers",
+    "recipe": "Describe a concrete use or experience the buyer is working toward, then connect it to the service.",
+    "client_evidence_needed": "Supported service outcomes and buyer priorities.",
+    "avoid": "Do not promise financial appreciation, employment, health or emotional outcomes without support.",
+    "evidence": [
+      {
+        "source_id": "7ddeba11d55d",
+        "anchor": "Stunning Light-Filled Indoor Space",
+        "role": "hero"
+      },
+      {
+        "source_id": "5551b2b3ecc0",
+        "anchor": "Brings Your Storybook Wedding To Life",
+        "role": "hero"
+      },
+      {
+        "source_id": "44afb05bc1a2",
+        "anchor": "Kickstart Your Career As A Commercial Pilot",
+        "role": "hero"
+      }
+    ],
+    "supporting_source_count": 3,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "benefit_stack",
+    "title": "Group distinct benefits without repetition",
+    "when_to_use": "Multi-use products and concise hero support",
+    "recipe": "Select two or three genuinely different consequences; explain each later where needed.",
+    "client_evidence_needed": "A separate basis for every benefit.",
+    "avoid": "Do not turn a headline into a list of every objection or repeat synonyms as new benefits.",
+    "evidence": [
+      {
+        "source_id": "26203e4d9e7a",
+        "anchor": "Control Outside Noise",
+        "role": "hero"
+      }
+    ],
+    "supporting_source_count": 1,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "problem_specificity",
+    "title": "Name the actual problem clearly",
+    "when_to_use": "Urgent services and high-intent local search",
+    "recipe": "Service/problem + relevant place or audience + an accurate next step.",
+    "client_evidence_needed": "Scope, service area and genuine availability.",
+    "avoid": "Do not invent emergency coverage, instant response or permanent resolution.",
+    "evidence": [
+      {
+        "source_id": "092cbf71f611",
+        "anchor": "Eliminate Bugs, Termites & Rodents",
+        "role": "hero"
+      },
+      {
+        "source_id": "19f63b217b06",
+        "anchor": "BEAT THE HEAT WITH HVAC SERVICES",
+        "role": "hero"
+      },
+      {
+        "source_id": "4656f273b82b",
+        "anchor": "Water Damage Restoration & Cleanup",
+        "role": "selected_pattern"
+      },
+      {
+        "source_id": "38ffada9fba2",
+        "anchor": "some rooms hot and some rooms cold",
+        "role": "selected_pattern"
+      }
+    ],
+    "supporting_source_count": 4,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "brand_variation",
+    "title": "Let personality follow the client",
+    "when_to_use": "Distinctive brands and lighter purchase contexts",
+    "recipe": "Use a restrained phrase or motif grounded in the brand while keeping the offer clear.",
+    "client_evidence_needed": "Client-approved tone or repeated source-brand cues.",
+    "avoid": "Do not make every business humorous or import another brand’s promotion.",
+    "evidence": [
+      {
+        "source_id": "19f63b217b06",
+        "anchor": "FREE SUNGLASSES",
+        "role": "brand"
+      }
+    ],
+    "supporting_source_count": 1,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "named_process",
+    "title": "Organize a real method into a clear explanation",
+    "when_to_use": "Complex advisory services",
+    "recipe": "Use the client’s actual named method or describe its steps plainly. Explain what each achieves.",
+    "client_evidence_needed": "A real documented process and the actual naming rights/context.",
+    "avoid": "Do not invent proprietary methods, credentials or branded frameworks to imply expertise.",
+    "evidence": [
+      {
+        "source_id": "914f02f3cbe7",
+        "anchor": "My Bowen 3-Step Strategy",
+        "role": "mechanism"
+      }
+    ],
+    "supporting_source_count": 1,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "empathetic_opening",
+    "title": "Acknowledge concern without increasing fear",
+    "when_to_use": "Sensitive consultations and personal decisions",
+    "recipe": "Recognize uncertainty, explain the service calmly, and make the first conversation understandable.",
+    "client_evidence_needed": "Audience research and the professional scope of the service.",
+    "avoid": "Do not diagnose, stigmatize, promise recovery or intensify distress to drive response.",
+    "evidence": [
+      {
+        "source_id": "9db61c7bad1f",
+        "anchor": "You're Not Alone",
+        "role": "hero"
+      },
+      {
+        "source_id": "3318eef2d4d9",
+        "anchor": "Feel like yourself again",
+        "role": "hero"
+      },
+      {
+        "source_id": "7a0036d927fe",
+        "anchor": "It's Hard to Ask for Help",
+        "role": "selected_pattern"
+      },
+      {
+        "source_id": "7b4c84dfd640",
+        "anchor": "Struggling with difficult emotions",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "133e37505bd1",
+        "anchor": "safe and supported",
+        "role": "variant_or_contrast"
+      }
+    ],
+    "supporting_source_count": 5,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "consultation_value",
+    "title": "Explain what the first conversation accomplishes",
+    "when_to_use": "Consultation and case-evaluation offers",
+    "recipe": "State what will be discussed, what the visitor can learn, who they will meet and what happens afterward.",
+    "client_evidence_needed": "Actual consultation duration, cost, format, participants and scope.",
+    "avoid": "Do not call a sales conversation an assessment or promise expert advice it will not provide.",
+    "evidence": [
+      {
+        "source_id": "9db61c7bad1f",
+        "anchor": "What happens in the free consult?",
+        "role": "process"
+      },
+      {
+        "source_id": "5f1c35a2129a",
+        "anchor": "What happens in your free 15-minute consult?",
+        "role": "process"
+      },
+      {
+        "source_id": "864a562e2975",
+        "anchor": "Insurance Claim Review",
+        "role": "selected_pattern"
+      },
+      {
+        "source_id": "55e833aff575",
+        "anchor": "Diagnosis Of Your IT Issue",
+        "role": "selected_pattern"
+      }
+    ],
+    "supporting_source_count": 4,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "qualification_offer",
+    "title": "Offer an assessment when fit is uncertain",
+    "when_to_use": "Eligibility-led services",
+    "recipe": "Invite the visitor to check suitability and explain the assessment path.",
+    "client_evidence_needed": "Valid eligibility process and accurately described limits.",
+    "avoid": "Do not imply the visitor qualifies or will be approved before assessment.",
+    "evidence": [
+      {
+        "source_id": "bdb9ca16f2eb",
+        "anchor": "See if you qualify",
+        "role": "offer"
+      }
+    ],
+    "supporting_source_count": 1,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "foreign_client_check",
+    "title": "Reject stale names and service fragments",
+    "when_to_use": "Every adaptation and final review",
+    "recipe": "Compare every brand, service, location, number and testimonial with the current client brief.",
+    "client_evidence_needed": "The current client facts and traceable source records.",
+    "avoid": "Never assume repeated source text is correct merely because the design looks finished.",
+    "evidence": [
+      {
+        "source_id": "e692f81bc571",
+        "anchor": "on all kitchen makeovers",
+        "role": "negative"
+      },
+      {
+        "source_id": "8ddcbcbf2910",
+        "anchor": "Why Choose Our Regenerative Therapy Over Surgery?",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "1badfd219901",
+        "anchor": "[Melbourne]",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "69266672a1fc",
+        "anchor": "[Melbourne]",
+        "role": "variant_or_contrast"
+      }
+    ],
+    "supporting_source_count": 4,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  },
+  {
+    "id": "generic_copy_rejection",
+    "title": "Replace interchangeable marketing language",
+    "when_to_use": "Headline and sentence editing",
+    "recipe": "Replace an abstract aspiration with a concrete buyer job, deliverable, service mechanism or supported result.",
+    "client_evidence_needed": "Specific facts from the business and customer research.",
+    "avoid": "Do not substitute another vague slogan or remove useful brand character.",
+    "evidence": [
+      {
+        "source_id": "3a8361448cc4",
+        "anchor": "Ready to empower your financial journey?",
+        "role": "negative"
+      },
+      {
+        "source_id": "15c7714eb4d6",
+        "anchor": "Clinically Proven Treatment",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "8cb50c97d98c",
+        "anchor": "Add YEARS To The Lifespan",
+        "role": "variant_or_contrast"
+      },
+      {
+        "source_id": "e30b100ad623",
+        "anchor": "Two ways to win",
+        "role": "variant_or_contrast"
+      }
+    ],
+    "supporting_source_count": 4,
+    "status": "editorial_rule_supported_by_selected_examples",
+    "performance_claim": "none"
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "client_website": "https://client.example",
+  "allowed_hosts": ["client.example"],
+  "generation_budget": {
+    "max_assets": 3,
+    "max_attempts_per_asset": 2,
+    "max_total_attempts": 6
+  },
+  "inventory": [],
+  "generation_attempts": [],
+  "assets": [
+    {
+      "id": "hero-client-project",
+      "section": "Hero",
+      "purpose": "Show the real service and setting described in the approved headline",
+      "role": "Primary service photograph; above the fold",
+      "trust_class": "client-proof",
+      "required": true,
+      "allow_generation": false,
+      "alt": "Replace with a factual description of the actual supplied image",
+      "placement": {
+        "desktop": {"aspect_ratio": "16:9", "focal_point": [0.65, 0.5]},
+        "mobile": {"aspect_ratio": "4:5", "focal_point": [0.65, 0.5]}
+      },
+      "max_bytes": {"desktop": 240000, "mobile": 120000},
+      "stage": "planned"
+    },
+    {
+      "id": "service-process-illustration",
+      "section": "How it works",
+      "purpose": "Explain the service process without depicting an actual client result",
+      "role": "Supporting editorial illustration",
+      "trust_class": "illustrative",
+      "required": false,
+      "allow_generation": true,
+      "generation": {
+        "mode": "native",
+        "requested_model": "gpt-image-2.5-sunburst",
+        "authorization_evidence": "",
+        "allow_unverified_native_model": false,
+        "model_exception_evidence": "",
+        "allow_source_fallback": true
+      },
+      "alt": "Replace with the actual explanatory subject after selecting the final image",
+      "placement": {
+        "desktop": {"aspect_ratio": "4:3", "focal_point": [0.5, 0.5]},
+        "mobile": {"aspect_ratio": "4:3", "focal_point": [0.5, 0.5]}
+      },
+      "max_bytes": {"desktop": 180000, "mobile": 90000},
+      "stage": "planned"
+    }
+  ],
+  "events": []
+}

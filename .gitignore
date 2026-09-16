@@ -1,0 +1,13 @@
+**/node_modules/
+**/.wrangler/
+**/.secrets/
+**/.dev.vars*
+**/.env*
+**/__pycache__/
+**/.DS_Store
+**/build/
+**/screenshots/
+.verification/
+dist/
+backups/
+*.zip
