@@ -259,7 +259,8 @@ def verify_demo(project, node, full=False):
             run([node, "scripts/measure_funnel.mjs", url, "--out", "build/layout/result.json",
                  "--project-root", ".", "--mode", "handoff", "--thank-you", "/thank-you.html"],
                 project, node, "Nine-viewport layout verification")
-            run([node, "scripts/performance-audit.mjs", "--url", url, "--project-root", "."],
+            ci_profile = ['--isolated-ci-fixture'] if os.environ.get('CI') == 'true' else []
+            run([node, "scripts/performance-audit.mjs", "--url", url, "--project-root", ".", *ci_profile],
                 project, node, "Mobile performance audit")
     pdf_dir = project / "build/pdf"
     pdf_dir.mkdir(exist_ok=True)

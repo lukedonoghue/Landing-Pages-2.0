@@ -63,6 +63,8 @@ If the production page is a different path, configure it in `allowedPaths` and t
 
 ## Performance pass
 
+The quickstart's generated synthetic demo uses an explicit --isolated-ci-fixture browser profile when running under CI. Hosted Linux runners may restrict Chromium's user-namespace sandbox; this profile uses the isolated fixture runner's container-compatible flags. It is rejected for remote URLs, ordinary client projects, or a missing CI environment. Normal client audits retain the launcher's default sandbox behavior. Reports record the selected profile and a redacted failure stage/code; missing numerical measurements still block the gate.
+
 Lighthouse performs three mobile lab runs with simulated mobile network conditions and 4x CPU slowdown. The median must meet these defaults:
 
 | Measurement | Budget |
