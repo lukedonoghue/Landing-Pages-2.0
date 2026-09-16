@@ -109,7 +109,7 @@ def main() -> int:
                 if args.client and target.suffix == ".html" and relative.parts[0] == "public":
                     target.write_text(target.read_text().replace("Your business", html.escape(args.client)))
                 created.append(str(relative))
-        for name in ("check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "validate_funnel.py", "workflow.py", "copy_library.py", "image_workflow.py", "optimize_images.py"):
+        for name in ("check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "validate_funnel.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "copy_library.py", "image_workflow.py", "optimize_images.py"):
             source = skill_root / "scripts" / name
             target = root / "scripts" / name
             if source.exists() and not target.exists():
@@ -125,6 +125,10 @@ def main() -> int:
         write_if_missing(root / "START-HERE.md", """# Your Cloudflare funnel
 
 Your public page, brochure, admin CRM, API, leads and visitor/conversion records are published together on Cloudflare. Workers serves the application and D1 stores the data. GitHub, Supabase, Netlify and a separate analytics account are not required.
+
+## Resume work
+
+Ask the agent to run `python3 scripts/workflow.py resume .` and continue from the reported evidence and next action. This reuses existing valid local checks; it does not publish or create a new image request. An uncertain external operation must be inspected before any retry.
 
 ## Build and preview
 

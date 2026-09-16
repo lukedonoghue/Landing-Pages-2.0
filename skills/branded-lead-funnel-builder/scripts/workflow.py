@@ -15,6 +15,8 @@ import sys
 import check_gates
 import copy_library
 import image_workflow
+import workflow_storage
+import workflow_progress
 
 COPY_FILES = {
     'copy': 'build/page-copy.json', 'brief': 'build/client-copy-brief.json',
@@ -26,10 +28,9 @@ def read(path): return json.loads(path.read_text())
 def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
 def state_path(root): return root / 'build/workflow.json'
 def load(root):
-    return read(state_path(root)) if state_path(root).exists() else {'schema_version': 1, 'approvals': {}}
+    return workflow_storage.read(root, 'build/workflow.json', {'schema_version': 1, 'approvals': {}})
 def save(root, state):
-    path = state_path(root); path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(state, indent=2) + '\n')
+    workflow_storage.write(root, 'build/workflow.json', state)
 
 def copy_state(root):
     paths = {key: root / value for key, value in COPY_FILES.items()}
@@ -69,26 +70,34 @@ def check_publish_approval(root):
     return {'status':'blocked' if failures else gates['status'],'source_fingerprint':current,'failures':failures,'warnings':gates.get('warnings',[])}
 
 def record(root, kind, message, message_id, fixture=False, allow_test_lead=False):
-    if not message.strip() or not message_id.strip(): raise ValueError('Record the actual user approval message and its conversation/message reference.')
-    if fixture and kind == 'publish': raise ValueError('Fixture approvals can never authorize publishing.')
-    if kind == 'copy': current = copy_state(root)
-    else:
-        copy_result = check_copy_approval(root)
-        if copy_result['status'] == 'blocked': raise ValueError('; '.join(copy_result['failures']))
-        current = check_gates.check(root,'handoff',root/'build/gates.json')
-    if current['status'] == 'blocked': raise ValueError('; '.join(current['failures']))
-    fingerprint = current.get('fingerprint') or current['source_fingerprint']
-    state = load(root)
-    state.setdefault('approvals',{})[kind] = {'actor':'fixture' if fixture else 'user','message':message.strip(),'message_id':message_id.strip(),'approved_at':now(),'fingerprint':fingerprint,'allow_test_lead':bool(kind=='publish' and allow_test_lead)}
-    if kind == 'copy': state['approvals'].pop('publish',None)
-    save(root,state)
-    return {'status':'pass','recorded':kind,'actor':'fixture' if fixture else 'user','fingerprint':fingerprint,'next':'design' if kind=='copy' else 'publish'}
+    with workflow_storage.lock(root):
+        if not message.strip() or not message_id.strip(): raise ValueError('Record the actual user approval message and its conversation/message reference.')
+        if fixture and kind == 'publish': raise ValueError('Fixture approvals can never authorize publishing.')
+        if kind == 'copy': current = copy_state(root)
+        else:
+            copy_result = check_copy_approval(root)
+            if copy_result['status'] == 'blocked': raise ValueError('; '.join(copy_result['failures']))
+            current = check_gates.check(root,'handoff',root/'build/gates.json')
+        if current['status'] == 'blocked': raise ValueError('; '.join(current['failures']))
+        fingerprint = current.get('fingerprint') or current['source_fingerprint']
+        state = load(root)
+        previous_copy = state.get('approvals',{}).get('copy',{})
+        state.setdefault('approvals',{})[kind] = {'actor':'fixture' if fixture else 'user','message':message.strip(),'message_id':message_id.strip(),'approved_at':now(),'fingerprint':fingerprint,'allow_test_lead':bool(kind=='publish' and allow_test_lead)}
+        if kind == 'copy' and (fixture or previous_copy.get('actor')!='user' or previous_copy.get('fingerprint')!=fingerprint):
+            state['approvals'].pop('publish',None)
+        save(root,state)
+        return {'status':'pass','recorded':kind,'actor':'fixture' if fixture else 'user','fingerprint':fingerprint,'next':'design' if kind=='copy' else 'publish'}
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command',required=True)
-    for name in ['status','check-copy','check-publish','record-copy-evidence','record-image-evidence','approve-copy','approve-publish']:
+    for name in ['status','resume','checkpoint','check-copy','check-publish','record-copy-evidence','record-image-evidence','approve-copy','approve-publish']:
         p=sub.add_parser(name);p.add_argument('project_root',type=Path)
+        if name=='checkpoint':
+            p.add_argument('--stage',choices=sorted(workflow_progress.STAGES),required=True)
+            p.add_argument('--event',choices=['started','blocked','resolved'],required=True)
+            p.add_argument('--summary',required=True,help='Short redacted operator note; never credentials or customer data')
+            p.add_argument('--artifact',action='append',default=[])
         if name.startswith('approve'):
             p.add_argument('--message-file',type=Path,required=True,help='File containing the real user approval; no invented or self-review approvals')
             p.add_argument('--message-id',required=True)
@@ -97,7 +106,9 @@ def main():
         if name=='check-copy':p.add_argument('--allow-fixture',action='store_true')
     args=parser.parse_args();root=args.project_root.expanduser().resolve()
     try:
-        if args.command=='record-image-evidence':
+        if args.command=='resume':result=workflow_progress.resume(root)
+        elif args.command=='checkpoint':result={'status':'pass','checkpoint':workflow_progress.checkpoint(root,args.stage,args.event,args.summary,args.artifact)}
+        elif args.command=='record-image-evidence':
             plan_path=root/'image-plan.json';plan=read(plan_path)
             evaluated=image_workflow.gate(plan,root)
             snapshot=read(root/'build/gate-snapshot.json')
@@ -123,11 +134,10 @@ def main():
         elif args.command.startswith('approve'):
             result=record(root,args.command.removeprefix('approve-'),args.message_file.read_text(),args.message_id,getattr(args,'fixture',False),getattr(args,'allow_test_lead',False))
         else:
-            copy_result=check_copy_approval(root)
-            result={'status':'pass','stage':'awaiting_copy_approval' if copy_result['status']=='blocked' else 'design_and_qa','copy':copy_result,'approvals':load(root).get('approvals',{}),'limits':'Approval records preserve the user instruction and exact revision; they are not identity verification.'}
+            result=workflow_progress.inspect(root)
         print(json.dumps(result,indent=2))
         return 1 if result['status']=='blocked' else 0
-    except (OSError,ValueError,KeyError) as error:
+    except (OSError,ValueError,KeyError,TypeError,AttributeError) as error:
         print(json.dumps({'status':'blocked','failures':[str(error)]},indent=2));return 1
 
 if __name__=='__main__':sys.exit(main())

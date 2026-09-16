@@ -124,3 +124,29 @@ The refreshed complete local demo passed 72 browser checks, 28 actual form/CRM c
 ### Remaining scope
 
 Fixed-composition overflows still require the agent to adjust a project-specific layout while keeping the approved wording. Complex-script shaping needs an appropriate renderer and its own visual review. Final client PDFs still require inspection of every page and comparison with the canonical approved master. The remaining image-route acceptance, durable workflow/resume, portable handoff, Cloudflare controls and live/human beta acceptance remain open; the goal stays active.
+
+
+## Durable local progress and resumption — 16 September 2026
+
+### Implemented
+
+- Added evidence-derived `workflow.py status` and local-bookkeeping `resume`, distinguishing research, drafting, editorial review, actual copy approval, design/images, local QA, publishing setup and final review. A status label cannot bypass evidence or approval checks.
+- Resume reuses existing successful unregistered reports only when they validate against the current handoff snapshot. It preserves current failed entries instead of substituting an older green report. It does not generate imagery, provision, publish, authenticate or submit a lead.
+- Added persistent redacted work checkpoints and observations under build/progress.json, with atomic writes and a local update lock. Concurrent writers retain their events; failed writes, symlinked storage and unsupported history cannot silently replace the current record. Raw approval-message text is omitted from the progress view.
+- Pending image attempts and unresolved external checkpoints stay visible. A saved start is explicitly not process liveness. An external checkpoint resolution needs a current artifact of the actual inspection; the note itself never becomes QA or approval proof.
+- Unchanged copy approval can be recorded again without deleting an existing final approval record. Material changes and fixture approvals still invalidate publication eligibility.
+- Uploaded/unverified and validated legacy live-check reports are distinct from completion. Actual deployed release identity and guarded remote recovery are still incomplete and are stated as such.
+
+### Verification
+
+The combined local command passed **285 tests**: 105 repository Python, 19 evidence, 40 image, 18 catalogue and 103 application tests. The new cases cover actual file-based stage changes, retained approvals, pending generation, valid/stale/failed report reuse, concurrent checkpoint writes, atomic failure recovery, relocation-safe paths, secret/symlink boundaries and refusal to promote bare deployment success flags.
+
+The fresh generated demo passed 72 browser checks, 28 real local form/CRM checks, 118 layout checks and all three PDF renders. Its resume command reused the existing browser, compatibility and performance reports, retained local_journey/rendered_copy gates, and correctly remained in the nonpublishable demo stage. No user approval was synthesized.
+
+An independent agent exercised a fresh scaffold/checkpoint and a relocated copy of that actually verified demo using the documented installed-helper path. It confirmed current source/evidence hashes, no approval creation, no remote actions and preservation of existing files. Its feedback exposed a matching blocked checkpoint only appearing in a secondary field; it now appears in the top-level blocked status/reasons while remaining explicitly an operator note. The copied demo kept valid browser/performance/copy/journey evidence and accurately retained missing client review gates; demo status does not claim a client release is ready.
+
+Fresh CI and installation synchronization are recorded after publishing this batch.
+
+### Remaining scope
+
+This is the local progress/resumption layer of B18, not its full completion. Setup/deployment/verification operation journals, reliable remote retries, immutable release evidence, running version/database reconciliation and current-credential handling remain in B03/B04/B18. The existing publisher must not be blindly rerun to refresh a status. Portable handoff and the remaining live/human acceptance requirements also remain open. The full goal stays active.

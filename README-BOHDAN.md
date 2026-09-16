@@ -61,7 +61,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | [ ] | B15 | P1 before promising erasure | Complete retention and permanent personal-data removal | Missing operation / decision |
 | [x] | B16 | P2 | Run a reproducible complete generated funnel in CI | Implemented; fresh Linux CI passed the full local journey |
 | Local profile ready | B17 | P2 | Add a dependency doctor and complete clean-machine setup | macOS/Linux local tools verified; account/agent capabilities remain separate |
-| [ ] | B18 | P2 | Add reliable stage/resume status | Integration gap |
+| Local layer | B18 | P2 | Make workflow progress and safe resumption durable | In progress: local state/QA reuse implemented; remote recovery remains |
 | [ ] | B19 | P1 before live claims | Run the first controlled Cloudflare deployment | Live verification |
 | [ ] | B20 | P2 | Rehearse remote backup, restore and recovery | Live verification |
 | [ ] | B21 | P2 | Validate physical mobile behavior and deployed performance | Live verification |
@@ -301,7 +301,13 @@ Requirements are spread across helpers: Python, Node, browser engines, Firecrawl
 
 ### B18 — Make progress and safe resumption durable
 
-**P2 · Integration gap**
+**P2 · In progress — local resumption implemented; remote recovery remains**
+
+**Update:** `workflow.py status/resume` now derives research, drafting, editorial review, actual approval, design/image, QA and publishing-readiness stages from current evidence. Resume registers existing valid unregistered local reports, retains failures and exact-revision approvals, and stores atomic progress/checkpoints with a local lock. Pending image requests and uncertain external checkpoints remain visible; the helper never executes those actions. It distinguishes uploaded/unverified from validated legacy live checks and deliberately does not claim release completion. A relocated actual demo retained its validated browser/performance/copy/local-journey evidence and stayed nonpublishable. See [resumption guide](skills/branded-lead-funnel-builder/references/resuming-work.md).
+
+**Still required:** integrate authoritative operation journals and guarded retries into setup/publish/live verification, preserve immutable handoff versus live release evidence, reconcile real Worker/database identity, and recover interrupted verification without blind external repeats. B03/B04 and the remaining B18 criteria are not closed by a status view.
+
+Original finding:
 
 The status helper only distinguishes waiting for copy approval from design/QA. It does not report pending image generation, failed review, awaiting final approval, uploaded-but-unverified or complete. Several scripts work correctly independently, but the agent must reconstruct the overall state.
 

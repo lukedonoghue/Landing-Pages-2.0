@@ -47,6 +47,15 @@ class ApprovalTests(unittest.TestCase):
         with self.assertRaises(ValueError):workflow.record(self.root,'copy','','test-only')
     def test_fixture_publish_is_always_rejected(self):
         with self.assertRaises(ValueError):workflow.record(self.root,'publish','Synthetic fixture','test-only',fixture=True)
+    def test_repeating_same_copy_approval_preserves_existing_final_record(self):
+        workflow.record(self.root,'copy','Synthetic protocol approval','test-only')
+        state=workflow.load(self.root)
+        # Synthetic stored record only; this does not make its missing QA valid.
+        state['approvals']['publish']={'actor':'user','fingerprint':'synthetic-release'}
+        workflow.save(self.root,state)
+        workflow.record(self.root,'copy','The same synthetic copy is approved again','test-only-repeat')
+        self.assertEqual(workflow.load(self.root)['approvals']['publish']['fingerprint'],'synthetic-release')
+        self.assertEqual(workflow.check_publish_approval(self.root)['status'],'blocked')
     def test_development_project_cannot_be_published(self):
         config=json.loads((self.root/'funnel.json').read_text());config['development_fixture']=True
         (self.root/'funnel.json').write_text(json.dumps(config))

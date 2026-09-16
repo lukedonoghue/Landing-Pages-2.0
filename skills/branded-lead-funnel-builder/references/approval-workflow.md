@@ -30,6 +30,10 @@ The publish approval is bound to the source fingerprint used by the current hand
 
 After a current `check_gates.py snapshot`, run `workflow.py record-copy-evidence` and `record-image-evidence`, then record their generated reports with the gate checker. Complete-workflow projects require copy, image, browser, visual, performance, compatibility and applicable brochure evidence. Complete Worker funnels additionally require [rendered_copy evidence](rendered-copy.md) comparing the canonical approved wording with the actual page/modal/thank-you/PDF, and recorded local_journey evidence from the actual browser-to-D1-backed-CRM verifier before final publication approval; a read-only check cannot satisfy it.
 
+## Resuming
+
+Use [resuming-work.md](resuming-work.md) at the start of a resumed task. It derives current stages and preserves exact-revision approvals; re-registering unchanged copy approval no longer deletes an existing final approval record. Material changes and fixture approvals still invalidate publication eligibility. Operator checkpoints and a local status view cannot replace either real approval.
+
 ## Limits and tests
 
 These records are an audit trail, not identity authentication. An agent must only record an approval the user actually supplied. Tests can use `approve-copy --fixture`; it is visibly marked and never authorizes publication. Do not put synthetic approvals in real projects or describe test fixtures as user-approved client work.
