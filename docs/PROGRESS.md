@@ -173,3 +173,7 @@ A fresh generated demo (`.development/release-pilot`) passed 72 browser checks, 
 ### Still open
 
 B03/B04/B18 are **partial**, not closed. Remaining work includes receipt-based continuation after partial live journeys, explicit superseding of failed/read-only releases, setup journals, uncertain migration/origin/legacy reconciliation, automatic current-password handoff after CLI recovery and actual deployed rotation/recovery acceptance. B07 portable distribution, the real authorized Cloudflare pilot, privacy/retention work, exact image-route acceptance and first-time human sessions also remain open. No existing client page was deployed and no paid image request was made. The development goal stays active.
+
+### Fresh Linux verification and distribution
+
+[GitHub run 35157137154](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35157137154) passed on the published code revision `1bfd65b`, including the regression suites and a newly generated local funnel with its actual PDF, D1, CRM, browser and performance checks. Both skill installations were synchronized and checksum-verified (136 files each). The older manual live-record guide now routes through guarded publishing as well. This is fresh-machine local acceptance, not a real Cloudflare account pilot.
