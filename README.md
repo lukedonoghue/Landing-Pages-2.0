@@ -2,6 +2,8 @@
 
 A reusable, research-led funnel-building skill: client website → approved copy → design and images → verified page, brochure, form and CRM → guided Cloudflare publishing.
 
+**For Bohdan:** [Implementation handoff and remaining work](README-BOHDAN.md) lists the prioritized fixes, exact source files, acceptance tests, and live checks still needed before client rollout. It separates confirmed defects from optional integrations and unverified external setup.
+
 ## What it builds
 
 - A branded responsive landing page, accessible multistep form, brochure PDF and thank-you page.
