@@ -1,0 +1,39 @@
+.date-toolbar{gap:10px}
+.performance-filter{position:relative;font-variant-numeric:tabular-nums;flex:none}
+.filter-trigger{min-height:44px;padding:10px 13px;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e2e3e9;border-radius:9px;font-size:13px;color:#55516e;box-shadow:0 1px 2px #25234304}
+.filter-trigger>svg{height:18px;width:18px;color:#8d87a7}
+.filter-trigger>svg circle{fill:#fff}
+.filter-trigger[aria-expanded=true],.filter-trigger:hover{background:#f9f8fd}
+.filter-count{min-width:18px;padding:1px 5px;background:#eeeaff;color:#6558bf;border-radius:4px;font-size:10px;font-weight:650}
+.filter-popover{position:absolute;right:0;top:calc(100% + 9px);width:355px;max-width:calc(100vw - 36px);padding:16px 18px;background:#fff;border:1px solid #e6e3ed;border-radius:10px;box-shadow:0 14px 35px #25233e1c,0 3px 9px #25233e08;z-index:35;color:#424048;overflow:auto}
+.filter-popover-heading{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:650;margin-bottom:8px}
+.filter-popover-heading button{font-size:11px;color:#7f72a7;min-height:32px;padding:4px 0 4px 12px}
+.filter-row{display:grid;grid-template-columns:60px minmax(0,1fr);gap:9px;align-items:center;margin:14px 0;font-size:12px}
+.filter-segments{display:flex;border:1px solid #dedce4;border-radius:4px;overflow:hidden;width:max-content;max-width:100%}
+.filter-segments button{min-height:34px;padding:7px 11px;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.01em;white-space:nowrap;border-right:1px solid #e8e6ed;color:#807c88;transition:background .12s,color .12s}
+.filter-segments button:last-child{border-right:0}
+.filter-segments button:hover{background:#f8f7fc}
+.filter-segments button[aria-pressed=true]{background:#f0edf9;color:#51486e}
+.filter-segments button:focus-visible{outline:2px solid #8677d6;outline-offset:-2px}
+.filter-row select{font-size:12px;padding:7px 10px;min-height:36px;border-color:#dedce4;color:#575165;width:100%}
+.filter-help{font-size:10px;line-height:1.6;color:#938c9f;border-top:1px solid #f0edf5;padding-top:12px;margin-top:14px}
+.filter-summary{margin:-10px 0 18px;color:#88818f;font-size:11px;text-align:right;min-height:18px}
+.metric-coverage{font-size:11px;color:#756b56;background:#faf7ef;border:1px solid #ece4ce;border-radius:6px;padding:10px 13px;margin-bottom:16px}
+.metric-lifetime{display:block;font-size:11px;font-weight:450;color:#7f8581;letter-spacing:0;margin-top:6px;line-height:1.4}
+.performance-heading{align-items:center}
+.performance-title{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.performance-title h2{font-size:1.06rem;letter-spacing:-.01em}
+.chart-mode{display:inline-flex;border:1px solid #dedce4;border-radius:4px;overflow:hidden}
+.chart-mode button{min-height:32px;min-width:57px;padding:7px 12px;font-size:10px;text-transform:uppercase;letter-spacing:.03em;color:#8c8791;border-right:1px solid #dedce4}
+.chart-mode button:last-child{border-right:0}
+.chart-mode button[aria-pressed=true]{background:#f4f3f8;color:#49434f}
+.chart-mode button:focus-visible{outline:2px solid #8576cd;outline-offset:-2px}
+.performance-heading .chart-legend{font-size:11px;max-width:none}
+.performance-heading .visitor-key{background:#e9e9f6}
+.performance-heading .conversion-key{background:#aaafda}
+.source-filter-label select{min-width:130px}
+@media(max-width:900px){.lead-toolbar{flex-wrap:wrap}.lead-toolbar .search-field{flex-basis:100%;max-width:none}}
+@media(max-width:620px){.date-toolbar{display:grid;grid-template-columns:auto minmax(0,1fr);width:100%}.range-trigger{font-size:11px;gap:6px;padding:10px}.range-trigger .range-chevron{display:none}.filter-trigger{padding:10px;font-size:12px}.filter-popover{position:fixed;left:18px;right:18px;top:auto;width:auto;max-width:none;margin-top:9px;max-height:calc(100dvh - 120px)}.filter-row{grid-template-columns:60px minmax(0,1fr)}.filter-segments button{min-height:40px;padding:8px 10px;font-size:10px}.filter-row select{font-size:16px;min-height:40px}.filter-help{font-size:11px}.filter-summary{font-size:10px;text-align:left;margin-top:-6px}.performance-title{justify-content:space-between;gap:12px;width:100%}.performance-heading .chart-legend{margin-top:14px}.source-filter-label select{min-width:0}.lead-toolbar{grid-template-columns:1fr 1fr}.lead-toolbar .filter-label{min-width:0}.lead-toolbar .button{width:100%}.metric-value{font-size:1.85rem}.metric-lifetime{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.filter-popover *{transition:none!important}}
+
+@media(max-width:620px){.range-popover{width:calc(100vw - 36px)}}

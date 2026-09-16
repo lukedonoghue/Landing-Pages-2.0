@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Lead workspace</title>
+  <link rel="stylesheet" href="/admin/style.css">
+  <link rel="stylesheet" href="/admin/date-range.css">
+  <link rel="stylesheet" href="/admin/traffic-filters.css">
+  <link rel="stylesheet" href="/admin/account.css">
+  <link rel="stylesheet" href="/admin/performance-chart.css">
+  <script type="module" src="/admin/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="workspace">
+    <aside class="sidebar">
+      <a class="brand" href="/admin/" aria-label="Lead workspace home"><span id="brand-mark" class="brand-mark" aria-hidden="true">↗</span><span><strong id="brand-name">Lead workspace</strong><small>YOUR GROWTH, IN VIEW</small></span></a>
+      <nav aria-label="Workspace">
+        <button class="nav-item active" data-view="overview" aria-current="page"><span aria-hidden="true">◫</span> Overview</button>
+        <button class="nav-item" data-view="pipeline"><span aria-hidden="true">▥</span> Pipeline</button>
+        <button class="nav-item" data-view="leads"><span aria-hidden="true">≡</span> All leads</button>
+        <button class="nav-item" data-view="connections"><span aria-hidden="true">⌁</span> Connections</button>
+        <button class="nav-item" data-view="account"><span aria-hidden="true">⚙</span> Account <span id="new-lead-badge" class="new-lead-badge" hidden></span></button>
+      </nav>
+      <div class="sidebar-bottom"><a href="/" target="_blank" rel="noopener">View landing page <span aria-hidden="true">↗</span></a><button id="logout" class="quiet">Sign out</button><span class="private-note">Private workspace</span></div>
+    </aside>
+    <main id="main" tabindex="-1">
+      <header class="page-header"><div><p class="eyebrow">LEAD WORKSPACE</p><h1 id="page-title">A clear view of your growth.</h1><p id="page-description" class="muted">See who arrives, who enquires, and what happens next.</p></div><div class="header-meta"><span class="status-dot" aria-hidden="true"></span><span id="timezone-label">Loading workspace…</span></div></header>
+      <div id="global-error" class="notice error" role="alert" hidden></div>
+      <section id="overview-panel" aria-label="Performance overview">
+        <div class="date-toolbar">
+          <div id="performance-filter" class="performance-filter">
+            <button id="filter-trigger" class="filter-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filter-popover">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/><circle cx="7" cy="5" r="2"/><circle cx="13" cy="10" r="2"/><circle cx="8" cy="15" r="2"/></svg>
+              Filters <span id="filter-count" class="filter-count" hidden></span>
+            </button>
+            <div id="filter-popover" class="filter-popover" role="dialog" aria-label="Performance filters" hidden>
+              <div class="filter-popover-heading"><span>Filter performance</span><button id="reset-filters" type="button">Reset</button></div>
+              <div class="filter-row"><span id="visitor-filter-label">Visitors</span><div class="filter-segments" role="group" aria-labelledby="visitor-filter-label"><button type="button" data-filter="visitor_mode" data-value="all" aria-label="All visits, including repeat visits" aria-pressed="false">All</button><button type="button" data-filter="visitor_mode" data-value="unique" aria-pressed="true">Unique</button></div></div>
+              <div class="filter-row"><span id="device-filter-label">Device</span><div class="filter-segments" role="group" aria-labelledby="device-filter-label"><button type="button" data-filter="device" data-value="all" aria-pressed="true">All</button><button type="button" data-filter="device" data-value="desktop" aria-pressed="false">Desktop</button><button type="button" data-filter="device" data-value="mobile" aria-pressed="false">Mobile</button></div></div>
+              <div class="filter-row"><span id="traffic-filter-label">Traffic</span><div class="filter-segments" role="group" aria-labelledby="traffic-filter-label"><button type="button" data-filter="traffic" data-value="blended" aria-pressed="true">Blended</button><button type="button" data-filter="traffic" data-value="paid" aria-pressed="false">Paid</button><button type="button" data-filter="traffic" data-value="organic" aria-pressed="false">Organic</button></div></div>
+              <div class="filter-row"><label for="traffic-source">Source</label><select id="traffic-source" aria-label="Performance traffic source"><option value="all">All sources</option><option value="google">Google</option><option value="facebook">Facebook</option><option value="instagram">Instagram</option><option value="microsoft">Microsoft / Bing</option><option value="direct">Direct</option><option value="other">Other sources</option><option value="unknown">Unknown / historical</option></select></div>
+              <p class="filter-help">Changes apply immediately. All includes repeat visits; Unique counts each browser once per day.</p>
+            </div>
+          </div>
+          <div id="date-filter" class="range-picker">
+            <input type="hidden" id="date-from"><input type="hidden" id="date-to">
+            <button type="button" class="range-trigger" data-range-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="range-popover" disabled>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4.5" width="14" height="13" rx="2"/><path d="M6 2.5v4M14 2.5v4M3 8.5h14M6.5 11h1M10 11h1M13.5 11h1M6.5 14h1M10 14h1"/></svg>
+              <span data-range-label>Loading dates…</span>
+              <svg class="range-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+            </button>
+            <div id="range-popover" class="range-popover" data-range-popover role="dialog" aria-label="Choose a date range" hidden>
+              <div class="range-presets" data-range-presets aria-label="Date range presets"></div>
+              <div class="range-calendar">
+                <div class="range-navigation">
+                  <div class="range-month-nav">
+                    <button type="button" data-range-prev-month aria-label="Previous month">‹</button><span data-range-month></span><button type="button" data-range-next-month aria-label="Next month">›</button>
+                  </div>
+                  <div class="range-year-nav">
+                    <button type="button" data-range-prev-year aria-label="Previous year">‹</button><span data-range-year></span><button type="button" data-range-next-year aria-label="Next year">›</button>
+                  </div>
+                </div>
+                <div class="range-weekdays" aria-hidden="true"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div>
+                <div class="range-grid" data-range-grid role="grid" aria-label="Calendar. Choose the start and end dates." aria-multiselectable="true"></div>
+                <p class="range-caption" data-range-caption role="status" aria-live="polite"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p id="filter-summary" class="filter-summary" aria-live="polite"></p>
+        <p id="metric-coverage" class="metric-coverage" hidden></p>
+        <div id="metrics-status" class="notice" role="status">Loading performance…</div>
+        <div id="metric-cards" class="metrics-grid" hidden></div>
+        <div id="metrics-content" hidden>
+          <section class="panel trend-panel">
+            <div class="panel-heading performance-heading"><div class="performance-title"><h2>Performance</h2><div class="chart-mode" role="group" aria-label="Chart display"><button type="button" data-chart-mode="count" aria-pressed="true">Count</button><button type="button" data-chart-mode="rate" aria-pressed="false">Rate</button></div></div><div id="performance-legend" class="chart-legend"><span><i class="visitor-key"></i> Visitors</span><span><i class="conversion-key"></i> Conversions</span></div></div>
+            <div id="activity-chart" class="activity-chart"></div><p class="muted small">Hover, tap, or use the arrow keys to inspect a day. Exact daily values are below.</p>
+          </section>
+          <section class="panel"><div class="panel-heading"><div><h2>Performance by day</h2><p class="muted small">Metrics in rows. Calendar days in columns.</p></div></div><div id="daily-table" class="table-scroll" tabindex="0" role="region" aria-label="Daily performance table, scroll horizontally for all dates"></div><p id="metric-definition" class="metric-definition"></p></section>
+        </div>
+      </section>
+      <section id="leads-panel" aria-label="Lead management" hidden>
+        <form id="lead-filter" class="lead-toolbar"><label class="search-field"><span class="sr-only">Search name, email or phone</span><span aria-hidden="true">⌕</span><input type="search" id="lead-search" placeholder="Search name, email or phone" autocomplete="off"></label><label class="filter-label"><span class="sr-only">Filter by stage</span><select id="stage-filter"><option value="">All stages</option></select></label><label class="filter-label source-filter-label"><span class="sr-only">Filter leads by traffic source</span><select id="lead-source" aria-label="Lead traffic source"><option value="all">All sources</option><option value="google">Google</option><option value="facebook">Facebook</option><option value="instagram">Instagram</option><option value="microsoft">Microsoft / Bing</option><option value="direct">Direct</option><option value="other">Other sources</option><option value="unknown">Unknown / historical</option></select></label><button type="submit" class="button secondary">Search</button><button type="button" id="refresh-leads" class="button secondary">Refresh</button></form>
+        <div class="lead-summary"><p id="lead-count" class="muted small"></p><p id="board-hint" class="muted small">Drag a card to move it, or use its stage menu.</p></div>
+        <div id="leads-status" class="notice" role="status">Loading leads…</div>
+        <div id="pipeline-board" class="pipeline-board" tabindex="0" role="region" aria-label="Lead pipeline, scroll horizontally to see all stages" hidden></div>
+        <div id="lead-table" class="panel table-scroll" tabindex="0" role="region" aria-label="All leads table" hidden></div>
+        <div id="pagination" class="pagination" hidden><button id="previous-page" class="button secondary">Previous</button><p id="page-number" class="muted small"></p><button id="next-page" class="button secondary">Next</button></div>
+      </section>
+      <section id="connections-panel" aria-label="Webhook connections" hidden>
+        <div class="connection-intro"><p class="eyebrow">CONNECTED WORKFLOWS</p><h2>Keep the right tools in the loop.</h2><p class="muted">Send new enquiries to your own automation or CRM. Leads stay saved in this workspace if a delivery needs to be retried.</p></div>
+        <div class="connections-grid"><section class="panel"><div class="panel-heading"><h2>Your connections</h2><button id="refresh-webhooks" class="button secondary">Refresh</button></div><div id="webhooks-status" class="notice" role="status">Loading connections…</div><div id="webhooks-list"></div></section>
+        <section class="panel connection-form-panel"><h2>Add a webhook</h2><p class="muted small">Use an HTTPS endpoint from your automation tool.</p><form id="webhook-form"><label>Connection name<input id="webhook-name" name="name" required maxlength="80" placeholder="Sales follow-up"></label><label>Webhook URL<input id="webhook-url" name="url" type="url" required placeholder="https://…" aria-describedby="webhook-error" autocomplete="off" spellcheck="false"></label><label class="checkbox-label"><input id="webhook-enabled" type="checkbox" checked> Send new enquiries to this connection</label><div id="webhook-error" class="inline-error" role="alert"></div><button type="submit" class="button primary">Save connection</button></form></section></div>
+      </section>
+      <section id="account-panel" aria-label="Account and operations" hidden></section>
+      <footer class="workspace-footer"><span>Your next conversation starts here.</span><span id="last-updated"></span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="lead-dialog" class="lead-dialog" aria-labelledby="detail-title"><div class="dialog-header"><div><p class="eyebrow">LEAD DETAILS</p><h2 id="detail-title">Loading enquiry…</h2></div><button id="close-detail" class="icon-button" aria-label="Close lead details">×</button></div><div id="detail-content"></div></dialog>
+  <dialog id="confirm-dialog" class="confirm-dialog" aria-labelledby="confirm-title"><h2 id="confirm-title">Remove this item?</h2><p id="confirm-description" class="muted"></p><div id="confirm-error" class="inline-error" role="alert"></div><div class="confirm-actions"><button id="cancel-confirm" class="button secondary">Cancel</button><button id="accept-confirm" class="button danger">Remove</button></div></dialog>
+</body>
+</html>

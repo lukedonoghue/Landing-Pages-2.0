@@ -1,0 +1,4 @@
+interface:
+  display_name: "Branded Lead Funnel Builder"
+  short_description: "Build branded funnels with CRM and reporting"
+  default_prompt: "Use $branded-lead-funnel-builder to build a branded landing page, lightbox, catalogue, thank-you page, CRM and reporting, then test and guide a single Cloudflare publishing flow for the page, CRM, database and tracking."
