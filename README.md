@@ -4,6 +4,8 @@ A reusable, research-led funnel-building skill: client website → approved copy
 
 **For Bohdan:** [Implementation handoff and remaining work](README-BOHDAN.md) lists the prioritized fixes, exact source files, acceptance tests, and live checks still needed before client rollout. It separates confirmed defects from optional integrations and unverified external setup.
 
+**Next release:** [Self-guided beta plan](docs/SELF-GUIDED-BETA-PLAN.md) defines the end-user journey, proposed scope, implementation milestones, and the first-time-user tests required before sharing the skill more widely.
+
 ## What it builds
 
 - A branded responsive landing page, accessible multistep form, brochure PDF and thank-you page.
