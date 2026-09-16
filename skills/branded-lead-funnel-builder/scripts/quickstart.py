@@ -15,6 +15,7 @@ import socket
 import subprocess
 import sys
 import time
+import uuid
 from urllib.error import URLError
 from urllib.request import urlopen
 
@@ -249,6 +250,7 @@ def verify_demo(project, node, full=False):
     if any(not (project / name).is_file() for name in required):
         raise ValueError('This demo predates rendered-copy verification or has missing evidence. Generate a new demo directory with the current skill; existing source and local data were preserved.')
     ensure_ready(node, project)
+    journey_output = 'build/live-verification/' + uuid.uuid4().hex
     with demo_server(project, node) as (url, _):
         run([sys.executable, project / "scripts/check_gates.py", "snapshot", project, "--mode", "handoff"],
             project, node, "Source snapshot")
@@ -257,10 +259,10 @@ def verify_demo(project, node, full=False):
         env = local_env(node)
         env["ADMIN_USERNAME"] = "owner"
         run([node, "scripts/live-verify.mjs", "--url", url, "--fixture", "test-fixture.json", "--allow-test-lead",
-             "--password-file", ".secrets/local-admin-password.txt", "--project-root", "."],
+             "--password-file", ".secrets/local-admin-password.txt", "--project-root", ".", "--out", journey_output],
             project, node, "Actual local form-to-CRM journey", env)
         run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "local_journey",
-             "--report", "build/live-verification/local-journey.json"], project, node, "Local journey release evidence")
+             "--report", journey_output + "/local-journey.json"], project, node, "Local journey release evidence")
         run([node, "scripts/capture-rendered-copy.mjs", "--url", url, "--fixture", "test-fixture.json", "--project-root", "."],
             project, node, "Rendered copy capture without form writes")
         run([sys.executable, "scripts/copy_parity.py", "."], project, node, "Page and brochure copy comparison")
@@ -282,7 +284,7 @@ def verify_demo(project, node, full=False):
     if "Request your project guide" not in extracted or "Harbor Services" not in extracted:
         raise ValueError("The generated PDF did not preserve its core demo content.")
     compat = json.loads((project / "build/browser-compat/result.json").read_text())
-    journey = json.loads((project / "build/live-verification/result.json").read_text())
+    journey = json.loads((project / journey_output / "result.json").read_text())
     if compat["status"] != "pass" or journey.get("fully_verified") is not True:
         raise ValueError("Local integration is incomplete; inspect the reports.")
     progress = json.loads(run([sys.executable, "scripts/workflow.py", "resume", "."], project, node,
@@ -293,6 +295,7 @@ def verify_demo(project, node, full=False):
               "workflow_stage": progress['stage'],
               "reused_reports": progress['registered_existing_reports'],
               "local_journey_gate": "recorded",
+              "journey_report": journey_output + '/result.json',
               "rendered_copy_gate": "recorded",
               "browser_checks": len(compat["checks"]), "journey_checks": len(journey["checks"]),
               "full_layout_and_performance": full, "pdf_pages_rendered": len(list(pdf_dir.glob("page-*.png"))),

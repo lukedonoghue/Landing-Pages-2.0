@@ -115,9 +115,13 @@ def local_journey_errors(root, report):
         if not matched or matched[0].get('dimensions')!=dashboard.get('filters'):
             errors.append('Local measured visit and dashboard cohort do not match the saved lead')
         lead_path='/api/admin/leads/'+proof['lead_id']
-        required=[('/api/leads','POST'),(lead_path,'GET'),(lead_path,'PATCH'),(lead_path+'/notes','POST'),('/api/auth/logout','POST')]
+        required=[('/api/leads','POST'),(lead_path,'GET'),(lead_path+'/notes','POST'),('/api/auth/logout','POST')]
         if any(not any(isinstance(row,dict) and row.get('path')==route and row.get('method')==method and row.get('status') in (200,201) for row in trace) for route,method in required):
             errors.append('Local trace is missing a successful submission, CRM operation or logout')
+        if not any(row.get('path')==lead_path and row.get('method')=='PATCH' and row.get('status')==200 for row in trace if isinstance(row,dict)):
+            recovered=evidence('crm_recovery');intent=recovered.get('status_intent',{})
+            if recovered.get('evidence_source')!='authenticated-worker-api-backed-by-D1' or recovered.get('lead_id')!=proof['lead_id'] or intent.get('lead_id')!=proof['lead_id'] or intent.get('target')!='qualified' or not isinstance(intent.get('expected_version'),int) or intent['expected_version']<1 or recovered.get('observed_version')!=intent['expected_version']+1 or recovered.get('observed_status')!='qualified':
+                errors.append('Recovered CRM stage needs an exact-version intent and authenticated persisted-state observation')
         before,after=dashboard['before'],dashboard['after']
         values=[before[key] for key in ('visitors','conversions','leads')]+[after[key] for key in ('visitors','conversions','leads','conversion_rate')]
         if any(isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value<0 for value in values):

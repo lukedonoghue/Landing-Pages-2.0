@@ -169,15 +169,21 @@ export async function publish(root,args,runtime={}) {
       const verified=await py(['finalize',root,'--id',state.id,'--attempt',attempt]);persist('verified');atomic(inside(root,'build/deployment-record.json'),{...compat,verification_pending:false});return verified;
     }
     const checkpoint=state.attempt && existsSync(path.join(out,'attempt.json'))?read(path.join(out,'attempt.json')):null;
-    if(state.attempt && (!checkpoint || checkpoint.form_attempted))throw new Error('A prior verification may have submitted a synthetic lead. Its request/receipt is retained. Reconcile that attempt before another submission; resume has not redeployed or repeated it.');
-    if(state.attempt>=3)throw new Error('The bounded verification retry budget is exhausted; inspect the recorded failures.');
+    const resumeJourney=checkpoint?.schema_version===2;
+    if(state.attempt && !resumeJourney && (!checkpoint || checkpoint.form_attempted))throw new Error('A prior verification may have submitted a synthetic lead without a supported recovery journal. Its request/receipt is retained. Reconcile that attempt before another submission; resume has not redeployed or repeated it.');
+    if(!resumeJourney && state.attempt>=3)throw new Error('The bounded verification retry budget is exhausted; inspect the recorded failures.');
     const approval=read(path.join(base,'inputs.json')).approval;
+    if(resumeJourney && !approval.allow_test_lead)throw new Error('The frozen approval did not authorize this synthetic journey. Preserve the record and resolve its scope before recovery.');
     const login=approval.allow_test_lead?access(root,args):null;
-    state.attempt++;attempt=String(state.attempt).padStart(3,'0');out=path.join(packageRoot,'build/live',attempt);
-    atomic(path.join(out,'identity.json'),identity);atomic(path.join(out,'attempt.json'),{schema_version:1,form_attempted:false,stage:'prepared'});persist('verification_started',{attempt});
+    if(!resumeJourney){
+      state.attempt++;attempt=String(state.attempt).padStart(3,'0');out=path.join(packageRoot,'build/live',attempt);
+      atomic(path.join(out,'identity.json'),identity);atomic(path.join(out,'attempt.json'),{schema_version:1,form_attempted:false,stage:'prepared'});
+    } else sameReleaseIdentity(identity,read(path.join(out,'identity.json')));
+    persist('verification_started',{attempt,resumed_journey:resumeJourney});
     const verifyArgs={url,'allow-remote':true,fixture:path.join(packageRoot,state.fixture),'project-root':packageRoot,snapshot:'build/live/snapshot.json',out,'deployment-record':path.join(out,'identity.json'),identity:path.join(out,'identity.json')};
     if(login){Object.assign(verifyArgs,login.options,{'allow-test-lead':true});}
     else verifyArgs['read-only']=true;
+    if(resumeJourney)verifyArgs['resume-journey']=true;
     const result=await (runtime.verify||runLiveVerify)(verifyArgs,{env:{...process.env,ADMIN_USERNAME:login?.auth.username},fetch:fetcher});
     if(!approval.allow_test_lead && result.status==='pass_with_warnings' && result.readiness==='public-checks-only'){persist('public_checks_passed',{attempt});return {status:'uploaded_unverified',readiness:result.readiness,url,release_id:state.id};}
     if(!result.fully_verified){persist('verification_failed',{attempt,readiness:result.readiness||'incomplete'});throw new Error('Upload is retained, but live verification is incomplete. Resume this release after addressing the recorded failure; no second deployment is needed.');}

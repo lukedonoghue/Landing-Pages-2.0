@@ -46,7 +46,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | --- | --- | --- | --- | --- |
 | Disabled for beta | B01 | P1 if enabled | Make optional GitHub deployment use the release safeguards | Mitigated; guarded automation still deferred |
 | [x] | B02 | P1 | Require the local form-to-CRM journey before publication | Implemented; actual local receipt/visit/CRM/reporting gate verified |
-| Partial | B03 | P1 | Finish live evidence registration, release status and deployed identity checks | Guarded release/evidence implemented; pilot and partial-journey recovery remain |
+| Partial | B03 | P1 | Finish live evidence registration, release status and deployed identity checks | Release/evidence and partial-journey recovery implemented; pilot and superseding remain |
 | Partial | B04 | P1 | Validate publishing prerequisites early and handle changed passwords | Early checks/current references implemented; real redeploy acceptance remains |
 | [x] | B05 | P1 | Fix first-use CLI session-revocation race | Fixed; first-use and rotated-account race regression passed |
 | [ ] | B06 | P2 | Make owner username changes consistent and persistent | Confirmed defect |
@@ -103,7 +103,9 @@ The guarded publisher now seals reviewed source/handoff evidence and actual appr
 
 Identity comes from pinned Wrangler deployment/version inspection (account, Worker, fully active version and actual D1 binding), matched against runtime release/version/source markers before credentials and after the journey. A replacement version preserving source/release variables cannot reuse older verification. Offline protocol and actual local runtime tests cover this behavior; account/API compatibility still needs B19.
 
-**Remaining:** real authorized pilot; receipt-based continuation after partial form/CRM verification; explicit replacement of failed releases and frozen read-only scope; legacy release migration and uncertain origin/migration reconciliation. Preserve history and never blindly resubmit/redeploy.
+**Recovery update:** version-2 source-bound journey journals retain exact private synthetic requests, fixed reporting dates and per-run evidence. Lost form/visit acknowledgements reuse the same idempotency/event key; completed browser proof is retained, status updates reconcile their expected version, notes use stable IDs and cleanup can finish after the test contact was already removed. Actual source is checked before/after verification. Conflict/private-state diagnoses are redacted and actionable. Real loopback tests and independent interruption tests cover this; live Cloudflare acceptance remains separate.
+
+**Remaining:** real authorized pilot; explicit replacement of failed releases/frozen read-only scope; legacy release migration and uncertain origin/migration reconciliation. Define safe continuation after the three-run limit and reporting-day-boundary interruptions. Preserve history and never reset IDs or blindly resubmit/redeploy.
 
 **Done when:** a controlled publish has coherent final status and valid release evidence; interrupted verification resumes without another deployment or duplicate lead; wrong revision/database is detected; historical approval evidence stays intact.
 
@@ -305,9 +307,9 @@ Requirements are spread across helpers: Python, Node, browser engines, Firecrawl
 
 **Update:** `workflow.py status/resume` now derives research, drafting, editorial review, actual approval, design/image, QA and publishing-readiness stages from current evidence. Resume registers existing valid unregistered local reports, retains failures and exact-revision approvals, and stores atomic progress/checkpoints with a local lock. Pending image requests and uncertain external checkpoints remain visible; the helper never executes those actions. It distinguishes uploaded/unverified from validated legacy live checks and deliberately does not claim release completion. A relocated actual demo retained its validated browser/performance/copy/local-journey evidence and stayed nonpublishable. See [resumption guide](skills/branded-lead-funnel-builder/references/resuming-work.md).
 
-**Publishing update:** durable sealed-release journals, a process lock, control-plane/runtime identity checks, separate handoff/live evidence and bounded recovery are implemented. Lost upload responses are inspected rather than reuploaded; completed journeys recover interrupted report serialization. Possibly submitted leads are preserved and blocked from repetition. Local status validates saved release proof without claiming a live query.
+**Publishing update:** durable sealed-release journals, a process lock, control-plane/runtime identity checks, separate handoff/live evidence and bounded recovery are implemented. Lost upload responses are inspected rather than reuploaded; completed journeys recover interrupted report serialization. Supported partial journeys now resume with their retained private request and stable IDs; legacy or missing journals still block unsafe repetition. Local status validates saved release proof without claiming a live query.
 
-**Still required:** setup journals, receipt-based continuation after partial journeys, explicit superseding of failed/read-only releases, uncertain migration/origin/legacy reconciliation and the real interruption pilot. B03/B04/B18 remain partial until these acceptance cases pass.
+**Still required:** setup journals, explicit superseding of failed/read-only releases, uncertain migration/origin/legacy reconciliation, reporting-day and exhausted-budget recovery, and the real interruption pilot. B03/B04/B18 remain partial until these acceptance cases pass.
 
 Original finding:
 

@@ -153,13 +153,16 @@ export async function changeStatus(env, id, body) {
 }
 export async function addNote(env, id, body) {
   const text = cleanText(body.body, 4000, 'Note', true);
-  const noteId = crypto.randomUUID(); const now = new Date().toISOString();
+  const noteId = body.request_id === undefined ? crypto.randomUUID() : eventId(body.request_id, true);
+  const now = new Date().toISOString();
   const results = await env.DB.batch([
-    env.DB.prepare('INSERT INTO notes(id,lead_id,body,created_at) SELECT ?,id,?,? FROM leads WHERE id=? AND deleted_at IS NULL').bind(noteId, text, now, id),
-    env.DB.prepare("INSERT INTO activity(id,lead_id,event_type,description,created_at) SELECT ?,lead_id,'note_added','Note added',? FROM notes WHERE id=?").bind(`note:${noteId}`, now, noteId)
+    env.DB.prepare('INSERT OR IGNORE INTO notes(id,lead_id,body,created_at) SELECT ?,id,?,? FROM leads WHERE id=? AND deleted_at IS NULL').bind(noteId, text, now, id),
+    env.DB.prepare("INSERT OR IGNORE INTO activity(id,lead_id,event_type,description,created_at) SELECT ?,lead_id,'note_added','Note added',created_at FROM notes WHERE id=? AND lead_id=? AND body=?").bind(`note:${noteId}`, noteId, id, text)
   ]);
-  if (!results[0].meta.changes) throw new HttpError(404, 'Contact not found.');
-  return { note: { id: noteId, body: text, created_at: now } };
+  const saved = await env.DB.prepare('SELECT n.id,n.body,n.created_at,n.lead_id FROM notes n JOIN leads l ON l.id=n.lead_id WHERE n.id=? AND l.deleted_at IS NULL').bind(noteId).first();
+  if (!saved) throw new HttpError(404, 'Contact not found.');
+  if (saved.lead_id !== id || saved.body !== text) throw new HttpError(409, 'This note request was already used for different details.');
+  return { note: { id: saved.id, body: saved.body, created_at: saved.created_at }, duplicate: !results[0].meta.changes };
 }
 export async function deleteLead(env, id) {
   const now = new Date().toISOString();

@@ -244,6 +244,16 @@ def guarded_release_state(root):
             source_current=sealed["source_fingerprint"]
             == check_gates.source_snapshot(root)["source_fingerprint"],
         )
+        attempt = state.get("attempt")
+        if isinstance(attempt, int) and attempt > 0:
+            relative = f"build/releases/{ident}/package/build/live/{attempt:03d}/"
+            journal = storage.read(root, relative + "attempt.json", {})
+            result["journey"] = {
+                key: journal.get(key)
+                for key in ("schema_version", "runs", "stage", "form_attempted", "cleanup_started")
+            }
+            last = storage.read(root, relative + "result.json", {})
+            result["journey"]["recovery_code"] = last.get("recovery", {}).get("code")
         if state.get("phase") == "verified":
             proof = release_state.verified(root, ident)
             result.update(verified=True, url=proof["url"], verified_at=proof["verified_at"])
@@ -364,7 +374,7 @@ def inspect(root):
         report["blockers"] += release["failures"]
         return at(
             "release_recovery",
-            "Use the guarded publisher with --resume to inspect the same saved release. It will not blindly repeat an upload or a possibly submitted lead. If it reports an uncertain submitted form or changed active version, preserve its receipt and reconcile the stated outcome before continuing.",
+            "Use the guarded publisher with --resume to inspect the same saved release and its supported journey journal. Completed steps are reused; uncertain acknowledgements retry the exact private request and idempotency key. Preserve the receipt and follow the recorded diagnosis for a legacy journal, changed version/contact, missing private payload or exhausted recovery limit.",
             status="blocked",
             command=["node", "scripts/publish.mjs", "--resume"],
         )

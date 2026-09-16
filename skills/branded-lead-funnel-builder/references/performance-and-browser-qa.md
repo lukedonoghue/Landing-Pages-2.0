@@ -108,9 +108,21 @@ Store the admin credential in a private `.secrets/admin.json` with `{ "username"
 
 The full verifier checks unauthenticated routes, signs into the admin panel, then submits through the **actual anonymous public form** in a separate browser context. It accepts analytics consent, completes every form step, records the accepted receipt, follows the thank-you navigation, and verifies the advertised PDF download. It retrieves the same lead through the authenticated Worker API, requires the identical receipt and visit event ID, verifies source/device/traffic classification, changes its stage, adds a synthetic-test note, re-reads it, and checks the filtered reporting totals and conversion calculation. It verifies session revocation on logout.
 
-The saved proof includes receipt IDs and aggregate metrics only, not submitted contact fields, session cookies, passwords or existing CRM records. Administrator screenshots are deliberately avoided. API-backed D1 persistence is identified accurately; this is not an independent direct SQL inspection.
+Public proof includes receipt IDs and aggregate metrics only, not submitted contact fields, session cookies, passwords or existing CRM records. Version-2 recovery keeps the exact authorized synthetic request separately under private `.secrets/journeys/` files; never publish those files or substitute a new request when they are missing. Administrator screenshots are deliberately avoided. API-backed D1 persistence is identified accurately; this is not an independent direct SQL inspection.
 
 Full verification creates a synthetic contact and visit. Use `--allow-test-lead` only within the user's approved testing/publishing scope. A live test can also activate configured lead notifications/webhooks. The fixture identifies a test identity, and the CRM note identifies the run. `--cleanup-test-lead` removes **only that run's contact**, after successful verification; it never mass-deletes leads and it does not erase historical conversion totals. The report explicitly records this metric impact. If a journey fails after acceptance, use its saved lead ID to inspect the incomplete test rather than rerunning blindly.
+
+## Resume an interrupted local journey
+
+Keep the original source snapshot, fixture, output directory and `.secrets/journeys/` request files. Repeat the original local verification arguments with `--resume-journey`, including `--cleanup-test-lead` only if it was part of that original scope. Do not recreate the snapshot merely to resume it. A changed source requires reviewed new evidence rather than adopting the previous result.
+
+For example, retain the original local server origin/port and run:
+
+```sh
+npm run verify:live -- --url http://127.0.0.1:8787 --fixture test-fixture.json --allow-test-lead --credentials-file .secrets/admin.json --project-root . --out build/live-verification --resume-journey
+```
+
+This is for a local interrupted verification. Use guarded `npm run publish -- --resume` for a published release; it supplies the correct frozen package, identity, snapshot and attempt automatically. A fresh independent QA run uses a new output directory. The fictional quickstart allocates one automatically so repeated demo checks preserve previous journals.
 
 ## Guided Cloudflare publishing completion
 
@@ -126,7 +138,7 @@ npm run publish -- --resume --credentials-file /private/path/current-owner.json
 
 The publisher correlates the running version with its inspected identity before sending credentials and after the journey. It validates the emitted CRM/tracking/deployment artifact set and commits final release proof only when all three pass with `fully_verified: true`. A read-only outcome remains `public-checks-only`; an upload alone is incomplete. `workflow.py status .` validates saved proof locally and states that it has not queried the current provider.
 
-Possibly submitted leads retain request/receipt checkpoints and are not repeated. Partial post-submission continuation, uncertain migrations/origins and replacement of unresolved releases still require the reconciliation work documented in the publishing guide. Never bypass this by directly rerunning the raw remote verifier. Low-level verifier flags are for diagnosed, already-authorized work, not an alternative publishing path.
+Supported interrupted journeys retain source-bound request/receipt checkpoints. The guarded publisher resumes them with the same request key, reuses completed browser proof, and reconciles idempotent CRM operations and cleanup. Legacy or missing private state, source/identity changes, concurrent contact edits, day-boundary correlation failures and exhausted retry budgets remain explicit blocks. Uncertain migrations/origins and replacement of unresolved releases still need reconciliation. Never bypass these checks by starting a fresh remote test request. Low-level verifier flags are for diagnosed, already-authorized work, not an alternative publishing path.
 
 Configure the intended custom domain before final QA/approval when possible. Adding it later changes the reviewed destination/configuration and requires a newly reviewed release, including tests on the address visitors will actually use. Domain verification does not inherit a workers.dev result. Keep GitHub optional; the site, API, lead database, analytics and admin remain on Cloudflare.
 

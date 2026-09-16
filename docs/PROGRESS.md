@@ -177,3 +177,26 @@ B03/B04/B18 are **partial**, not closed. Remaining work includes receipt-based c
 ### Fresh Linux verification and distribution
 
 [GitHub run 35157137154](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35157137154) passed on the published code revision `1bfd65b`, including the regression suites and a newly generated local funnel with its actual PDF, D1, CRM, browser and performance checks. Both skill installations were synchronized and checksum-verified (136 files each). The older manual live-record guide now routes through guarded publishing as well. This is fresh-machine local acceptance, not a real Cloudflare account pilot.
+
+## Resuming partial verification journeys — 16 September 2026
+
+### Implemented
+
+- Version-2 journey journals bind the actual source, snapshot, fixture, origin, release identity and cleanup scope. Exact synthetic form/visit requests are kept in private files; public evidence contains hashes/IDs, redacted paths and aggregate metrics. No passwords or browser sessions are saved in the journal.
+- Lost acknowledgements retry the same original request and idempotency/event key. Completed browser redirect/brochure evidence is reused without another submission or measured visit. Reporting dates and the original baseline stay fixed.
+- CRM status recovery compares the persisted version before acting, and preserves concurrent edits. Verification notes use an optional stable request ID supported by the real backend, preventing duplicate notes/activity after lost responses or concurrent retries.
+- Cleanup retains validated receipt/CRM/reporting evidence before removing the test contact. A later run can confirm that the same contact is already removed, complete verification and preserve the historical metric impact.
+- Current source is checked before and after full verification; stale source cannot inherit an earlier browser pass. Reports provide safe, specific diagnoses for concurrent edits and missing/changed private payloads. String-valued scope flags are rejected.
+- Guarded publication resumes the existing approved journey instead of allocating another test attempt. Individual run reports are retained. Fresh independent demo QA runs use unique output directories so they preserve earlier journals.
+
+### Verification
+
+The combined local command passed **331 tests**: 118 repository Python, 19 evidence, 40 image, 18 catalogue and 136 application tests. Focused scope-flag tests passed after the final input validation adjustment. Nine added recovery cases exercise an actual loopback Chromium/Worker/D1 fixture, including lost form/visit/note/status responses, stale source, concurrent edits, cleanup and private-file tampering. Successful recovered reports pass the Python artifact/evidence validator; database queries confirm one stored lead, one measured event and one note. This fixture tests brochure routing/header behavior; PDF rendering is covered by the separate generated demo.
+
+An independent forward test passed eight targeted cases, including real SIGKILL before receipt journaling and after public browser completion. It found and confirmed fixes for stale-source false success, interrupted-cleanup recovery and missing conflict diagnoses. The agent made no canonical-source edits or external account calls.
+
+A freshly generated full demo passed 72 browser checks, 27 actual local form/CRM checks, 118 layout checks and all three real PDF renders. The local_journey and rendered_copy gates were recorded, current browser/performance evidence was reused, and the project stayed explicitly nonpublishable. Its new journey report uses a unique directory. No new full client visual approval is claimed for these backend/recovery changes.
+
+### Still open
+
+This closes the implemented version-2 partial-journey path within its bounded three-run policy, not all of B03/B18. Legacy/missing private state, unfinished submissions crossing a reporting-day boundary, exhausted budgets, unconfirmed migrations/origins and replacing failed/read-only releases still need reconciliation work. Setup journals, portable distribution, account recovery handoff, privacy/retention, an authorized real Cloudflare pilot and first-time human acceptance remain open. No client page was deployed or paid image request made. The full development goal remains active.
