@@ -54,6 +54,9 @@ def check_copy_approval(root, allow_fixture=False):
     return {**current,'status':'blocked' if failures else current['status'],'failures':failures}
 
 def check_publish_approval(root):
+    transfer = workflow_storage.read(root, 'build/handoff-import.json', {})
+    if transfer.get('publication_context_pending'):
+        return {'status':'blocked','failures':['Imported handoff history does not grant publishing authority. Reconcile the current source/account with the actual user instruction; record an existing valid approval without asking for it again.']}
     if read(root/'funnel.json').get('development_fixture'):
         return {'status':'blocked','failures':['Fictional development fixtures cannot be published. Start a new client project.']}
     if not read(root/'funnel.json').get('quality',{}).get('complete_workflow'):
@@ -86,6 +89,13 @@ def record(root, kind, message, message_id, fixture=False, allow_test_lead=False
         if kind == 'copy' and (fixture or previous_copy.get('actor')!='user' or previous_copy.get('fingerprint')!=fingerprint):
             state['approvals'].pop('publish',None)
         save(root,state)
+        if kind == 'publish':
+            transfer = workflow_storage.read(root, 'build/handoff-import.json', {})
+            if transfer:
+                transfer['publication_context_pending'] = False
+                transfer['confirmed_by_message_id'] = message_id.strip()
+                transfer['confirmed_source_fingerprint'] = fingerprint
+                workflow_storage.write(root, 'build/handoff-import.json', transfer)
         return {'status':'pass','recorded':kind,'actor':'fixture' if fixture else 'user','fingerprint':fingerprint,'next':'design' if kind=='copy' else 'publish'}
 
 def main():

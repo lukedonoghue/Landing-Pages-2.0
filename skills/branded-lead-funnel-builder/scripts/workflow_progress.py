@@ -334,6 +334,12 @@ def inspect(root):
         )
     report["completed"].append("project_created")
     report["source_fingerprint"] = check_gates.source_snapshot(root)["source_fingerprint"]
+    incoming = storage.read(root, "build/handoff-import.json")
+    if incoming:
+        report["handoff"] = {
+            key: incoming.get(key)
+            for key in ("package_id", "scope", "source_fingerprint", "publication_context_pending")
+        }
     state = workflow.load(root)
     report["approvals"] = approval_summary(state)
     report["quality"] = gate_state(root)
@@ -524,7 +530,12 @@ def inspect(root):
     if publish["status"] not in PASS:
         report["blockers"] += publish["failures"]
         if not publish["failures"] or not all(
-            item.startswith("Final publish approval is missing or stale")
+            item.startswith(
+                (
+                    "Final publish approval is missing or stale",
+                    "Imported handoff history does not grant publishing authority",
+                )
+            )
             for item in publish["failures"]
         ):
             return at(

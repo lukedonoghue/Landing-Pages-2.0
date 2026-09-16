@@ -36,6 +36,11 @@ test('verified resume preserves a completed summary without another form or uplo
   const f=fixture(t,'verified',1);const result=await publish(f.root,{resume:true},f.runtime);
   assert.equal(result.status,'verified');assert.equal(read(path.join(f.root,'build/deployment-record.json')).verification_pending,false);assert.equal(f.calls.verify,0);
 });
+test('imported publication history cannot contact a provider before current user scope is reconciled',async t=>{
+  const f=fixture(t,'verified',1);f.put('build/handoff-import.json',{publication_context_pending:true});
+  for(const args of [{},{resume:true},{'new-release':true}])await assert.rejects(publish(f.root,args,f.runtime),/current user\/account scope/);
+  assert.equal(f.calls.inspect,0);assert.equal(f.calls.verify,0);assert.deepEqual(f.calls.commands,[]);
+});
 test('active version replacement cannot reuse an older journey, even with unchanged markers',async t=>{
   const f=fixture(t,'verified',1);f.observed.version_id=other;
   await assert.rejects(publish(f.root,{resume:true},f.runtime),/active release differs/);

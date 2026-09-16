@@ -50,7 +50,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | Partial | B04 | P1 | Validate publishing prerequisites early and handle changed passwords | Early checks/current references implemented; real redeploy acceptance remains |
 | [x] | B05 | P1 | Fix first-use CLI session-revocation race | Fixed; first-use and rotated-account race regression passed |
 | Local implementation | B06 | P2 | Make owner username changes consistent and persistent | D1 identity and guarded CLI implemented; live pilot remains |
-| [ ] | B07 | P1 for handoff | Make generated-project ZIPs resumable without invalidating evidence | Reproduced defect |
+| Partial acceptance | B07 | P1 for handoff | Make generated-project ZIPs resumable without invalidating evidence | Portable format implemented; full reviewed creative handoff acceptance remains |
 | [x] | B08 | P1 for handoff | Make research evidence portable across machines/directories | Fixed for newly prepared contexts; relocated legacy contexts need a truthful refresh |
 | [x] | B09 | P1 | Support a new external reference page without editing the global library | Implemented; real capture, independent preparation and relocation verified |
 | [x] | B10 | P1 | Enforce approved-copy parity across page, modal, thank-you and PDF | Implemented; real desktop/mobile/PDF capture and drift rejection verified |
@@ -155,19 +155,21 @@ The same helper rotates passwords and revokes sessions using a pinned account/da
 
 **Files:** [owner tool](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/admin-account.mjs), [identity migration](skills/branded-lead-funnel-builder/assets/cloudflare/migrations/0004_owner_identity.sql), [authentication](skills/branded-lead-funnel-builder/assets/cloudflare/src/security.js), [recovery guide](skills/branded-lead-funnel-builder/references/admin-access-and-recovery.md).
 
-### B07 — Generated-project ZIP handoffs cannot reliably resume the approved workflow
+### B07 — Portable generated-project handoffs
 
-**P1 when handing off generated projects · Reproduced defect**
+**P1 · Core implementation verified; full creative handoff acceptance remains**
 
-The archive allowlist omits the root test fixture and the workflow approval state. It adds START-HERE.txt and FILE-MANIFEST.json, which then affect source fingerprints after extraction. A complete image gate can include the image plan through its declared artifacts, but the root allowlist does not guarantee it.
+Version-2 Worker handoffs put `project/` beneath wrapper-only instructions/manifest metadata. Source bytes/fingerprints survive extraction. The collector retains root fixtures/plans, canonical copy inputs, research, minimal approval provenance, progress, registered and standard unregistered QA, linked artifacts and nonsecret sealed release history. Catalogue inputs use local relative paths. The demo authoring configuration is retained as well.
 
-An isolated archive test confirmed fixture/approval omissions and a changed extracted fingerprint. That narrow reproduction used the explicit missing-evidence override to inspect archive inclusion; it was not represented as a fully approved handoff.
+Private runtime directories, credentials/recovery payloads, database files and raw contact/session exports are excluded or rejected. Approval-message text and unrelated workflow state are omitted. Publication approvals/pointers become historical records; imports require current user/account context before publishing. This is not a new routine permission question when the user has already supplied valid scope. Checksum/inventory checks are not sender authentication.
 
-**Work:** Define the complete portable, nonsecret project state, separate packaging metadata from release source identity, and package required fixtures/plans/evidence. Preserve the minimal approved revision/provenance needed for the audit trail, without unrelated private chat text, while distinguishing reusable copy approval from account/destination-specific publication approval.
+Verification rejects unsafe paths, symlinks, case/Unicode collisions, inconsistent reviewed labels, corrupted files, source drift and oversized archives. Extraction uses a new directory. A failed export preserves the previous output. An unfinished build can be shared with explicit `--in-progress` status; it never becomes reviewed merely through packaging.
 
-**Done when:** A fully reviewed fictional project can be zipped, extracted on another machine, audited and resumed with the expected source identity and nonsecret state. It must not inherit authority to publish to an unrelated account. No credentials or runtime databases enter the archive.
+**Evidence:** copy-audit round trip with the original directory unavailable; reviewed-path synthetic protocol regressions; actual fictional demo source/QA relocation and repeated history transfer; unregistered performance evidence consumed by recipient resume; privacy and hostile-archive tests; independent review. The full demo now automatically performs an in-progress ZIP/extract check in the existing CI flow.
 
-**Files:** [Worker packaging](skills/branded-lead-funnel-builder/scripts/package_handoff.py#L76), [archive metadata](skills/branded-lead-funnel-builder/scripts/package_handoff.py#L146), [source fingerprinting](skills/branded-lead-funnel-builder/scripts/check_gates.py#L15), [approval state](skills/branded-lead-funnel-builder/scripts/workflow.py#L27).
+**Remaining acceptance:** complete a genuinely fully reviewed fictional creative build (including its editorial, visual and catalogue reviews), transfer it to another supported machine, and execute its resumed workflow. The current real demo transfer deliberately preserves incomplete creative gates; validator-passing synthetic fixtures are not that creative acceptance. Live private credentials/data and unresolved account operations remain a separate secure/reconciled handover, linked to B18/B19/B20. The legacy static ZIP path has not gained Worker workflow portability.
+
+**Files:** [Worker packaging entry](skills/branded-lead-funnel-builder/scripts/package_handoff.py), [portable format/verifier](skills/branded-lead-funnel-builder/scripts/portable_handoff.py), [approval state](skills/branded-lead-funnel-builder/scripts/workflow.py), [handoff guide](skills/branded-lead-funnel-builder/references/qa-and-handoff.md).
 
 ### B08 — Research evidence is tied to the original filesystem location
 

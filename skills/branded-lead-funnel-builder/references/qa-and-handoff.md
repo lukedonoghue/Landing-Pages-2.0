@@ -63,17 +63,35 @@ python3 scripts/package_handoff.py \
   --client "<client name>"
 ```
 
-The generated `START-HERE.txt` must distinguish:
+For the supported Cloudflare profile, version-2 ZIPs contain:
 
-- what is included;
-- how to preview;
-- how to publish while preserving paths;
-- whether a build step exists;
-- CRM/webhook status;
-- GTM/GA4/Ads/Meta status;
-- required final-domain tests;
-- whether deployment or a real test lead occurred.
+```text
+Client-Cloudflare-Funnel/
+  START-HERE.txt
+  FILE-MANIFEST.json
+  project/                  # Open this as the actual project root
+```
 
-By default the package helper requires and includes the canonical research/copy/claim/form/QA documents, final audit JSON files, and six canonical QA screenshots under `evidence/`. It intentionally excludes mutable state, stub research, prompts, and intermediate logs that may contradict final evidence. If canonical names are not appropriate, pass `--evidence-manifest <json>` with exact project-relative paths. Missing evidence blocks packaging unless the user explicitly accepts `--allow-missing-evidence` or requests `--site-only` and receives the evidence separately.
+Wrapper instructions and checksums stay outside `project/`, so they do not change its reviewed source fingerprint. Root fixtures, image plans, copy inputs, research, progress, current QA and linked artifacts retain their paths. Standard completed-but-unregistered reports are included for resumption. Catalogue assets must use relative project-local paths; default installed-skill fonts remain a tool dependency. A fictional demo also retains its authoring configuration.
 
-Verify archive integrity and compare packaged source hashes with the project files. Do not call the archive live, deployed, or production-ready without current external proof.
+The default Worker export requires current copy and handoff quality checks. Use `--in-progress` for an unfinished build that needs collaboration; missing/stale checks remain explicitly blocked. This is an ordinary work-in-progress handoff, not a new publishing permission checkpoint. The legacy `--allow-missing-evidence` option maps to the same unfinished scope for Worker projects. `--evidence-manifest` can add exact project-relative inputs; it cannot bypass privacy/path checks.
+
+Use the installed skill's helper to verify and extract into a **new** directory:
+
+```sh
+python3 /path/to/installed-skill/scripts/portable_handoff.py verify client.zip
+python3 /path/to/installed-skill/scripts/portable_handoff.py extract client.zip --into /new/handoff
+python3 /path/to/installed-skill/scripts/workflow.py resume /new/handoff/project
+```
+
+The extractor checks inventory, hashes, source identity and applicable copy/QA evidence. It rejects traversal, symlinks, duplicate/colliding paths, inconsistent reviewed labels and oversized archives. Existing work is never overwritten. It does not execute received project code, install packages, contact an account or publish. A checksum detects corruption; it does not authenticate the sender or prove consent. Review the provenance before executing received code or installing its dependencies.
+
+Credentials, private recovery requests, runtime databases and raw lead/session exports require a separate secure handover and are excluded. The helper also rejects recognized credential values in otherwise ordinary files. Keep source free of unrelated private data; binary media and human-authored source still require the normal content/privacy review. Intermediate unrelated build logs are not automatically included.
+
+Approval messages are reduced to hashes and minimal revision/message references. Reusable copy approval remains evidence for its exact scope, never a substitute for the current user's instruction. Publication approvals and active deployment pointers become historical records. The imported project starts with pending publication context, and the guarded publisher will not contact a provider until that context is reconciled. When the actual user already authorized the same reviewed source and destination, reuse and record that real instruction without asking again; never invent approval from archive metadata. A changed account/domain/source must satisfy its current checks and scope.
+
+Publishing history and sealed nonsecret release evidence remain available for inspection across another export. An unresolved prior upload, test submission or recovery operation needs its actual outcome reconciled; do not reactivate pointers or generate new IDs merely because private files were intentionally omitted. A source ZIP is not a live database backup or a complete cross-account recovery procedure. Install local dependencies and create local credentials/database before previewing; obtain real account access separately only when publishing is requested.
+
+Write the ZIP outside the project, or under `build/`, with a `.zip` extension. Packaging uses a temporary file and validates it before replacement. Source and evidence files are not valid output targets. Packages above the documented implementation limits (20,000 files, 128 MiB per file, 1 GiB uncompressed total) require a deliberate separate handoff arrangement.
+
+The older static-only packaging mode retains its `landing-page/`, `brochure/` and `evidence/` layout. The new portable workflow guarantee applies to the Cloudflare profile; do not describe an old static ZIP as a resumable Worker project.

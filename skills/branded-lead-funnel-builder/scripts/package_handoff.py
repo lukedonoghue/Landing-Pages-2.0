@@ -77,82 +77,18 @@ def package_workers(root: Path, output: Path, args) -> int:
     """Archive the complete Worker project; never package runtime databases or credentials."""
     if args.site_only:
         raise SystemExit("A Workers CRM cannot run as a static-only ZIP. Package the complete project.")
-    checker = Path(__file__).with_name("check_gates.py")
-    result = subprocess.run([sys.executable, str(checker), "check", str(root), "--mode", "handoff"], capture_output=True, text=True)
-    if result.returncode and not args.allow_missing_evidence:
-        raise SystemExit("Handoff evidence is missing/stale. " + result.stdout + result.stderr)
-    allowed_dirs = ("public", "src", "migrations", "scripts", "tests", "docs", "research", ".github")
-    allowed_files = ("package.json", "package-lock.json", "wrangler.jsonc", "funnel.json", "START-HERE.md", ".gitignore", ".node-version")
-    candidates = [root / name for name in allowed_files if (root / name).is_file()]
-    forbidden = {"node_modules", ".wrangler", ".secrets", ".git", "__pycache__"}
-    for directory in allowed_dirs:
-        for path in (root / directory).rglob("*"):
-            if path.is_symlink():
-                raise SystemExit(f"Refusing a symlink in the handoff: {path}")
-            if path.is_file() and not any(part in forbidden for part in path.relative_to(root).parts) and not path.name.startswith((".env", ".dev.vars")):
-                candidates.append(path)
-    # Include only gate-declared evidence, rather than private runtime files in build/.
-    gates = root / "build/gates.json"
-    if gates.is_file():
-        evidence = {gates, root / "build/gate-snapshot.json"}
-        for entry in json.loads(gates.read_text()).get("gates", {}).values():
-            report = (root / entry["report"]).resolve()
-            if not report.is_relative_to(root):
-                raise SystemExit("Evidence report escapes the project root")
-            evidence.add(report)
-            for artifact in json.loads(report.read_text()).get("artifacts", []):
-                asset = (root / artifact["path"]).resolve()
-                if not asset.is_relative_to(root) or any(part in forbidden for part in asset.relative_to(root).parts):
-                    raise SystemExit("Invalid evidence artifact")
-                evidence.add(asset)
-        candidates.extend(path for path in evidence if path.is_file())
-    package_name = slugify(args.client) + "-Cloudflare-Funnel"
-    secret_values: set[bytes] = set()
-    if (root / ".secrets").is_dir():
-        for secret in (root / ".secrets").glob("*"):
-            if not secret.is_file():
-                continue
-            if secret.suffix == ".json":
-                values = json.loads(secret.read_text()).values()
-            else:
-                values = [secret.read_text().strip()]
-            secret_values.update(value.encode() for value in values if isinstance(value, str) and len(value) > 12)
-    for source in candidates:
-        if re.search(r"(?:password|credentials|secrets|private.?key)|\.(?:pem|key|p12|pfx)$", source.name, re.I):
-            raise SystemExit(f"Secret-like file cannot enter the handoff: {source.relative_to(root)}")
-        if any(value in source.read_bytes() for value in secret_values):
-            raise SystemExit(f"Credential value found in handoff source: {source.relative_to(root)}")
-    output.parent.mkdir(parents=True, exist_ok=True)
-    manifest = []
-    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
-        for source in sorted(set(candidates)):
-            name = source.relative_to(root).as_posix()
-            archive.write(source, package_name + "/" + name)
-            manifest.append({"path": name, "sha256": sha256(source)})
-        instructions = f"""{args.client} - Cloudflare Workers + D1 handoff
-
-This archive contains a complete application, not a static upload.
-Use Node.js 22+, run npm ci, npm run setup, and npm run dev for local preview.
-Follow START-HERE.md and the skill publishing guide for the intended Cloudflare account,
-database binding and workers.dev address or optional custom domain. A GitHub source backup is optional. Production credentials are supplied
-separately; secrets, local databases and real lead records are deliberately excluded.
-
-Lead delivery: {args.crm_status}
-Tracking: {args.tracking_status}
-Deployment: {args.deployment_status}
-Evidence: {'incomplete; explicit packaging override used' if result.returncode else 'current handoff gates passed'}
-Live-domain receipt, analytics and domain/TLS verification remain separate from packaging.
-"""
-        archive.writestr(package_name + "/START-HERE.txt", instructions)
-        archive.writestr(package_name + "/FILE-MANIFEST.json", json.dumps(manifest, indent=2))
-    with zipfile.ZipFile(output) as archive:
-        if archive.testzip():
-            raise SystemExit("ZIP integrity failed")
-        for entry in manifest:
-            data = archive.read(package_name + "/" + entry["path"])
-            if hashlib.sha256(data).hexdigest() != entry["sha256"]:
-                raise SystemExit("Packaged source hash mismatch")
-    print(json.dumps({"archive": str(output), "sha256": sha256(output), "files": len(manifest) + 2, "mode": "cloudflare-workers", "evidence_complete": result.returncode == 0}, indent=2))
+    import portable_handoff
+    extra = []
+    if args.evidence_manifest:
+        value = json.loads(args.evidence_manifest.read_text())
+        extra = value.get('files') if isinstance(value, dict) else value
+        if not isinstance(extra, list) or not all(isinstance(name, str) for name in extra):
+            raise SystemExit('Evidence manifest must contain project-relative file names.')
+    try:
+        result = portable_handoff.export_bundle(root, output, args.client, args.in_progress or args.allow_missing_evidence, extra)
+    except (ValueError, OSError, KeyError, TypeError) as error:
+        raise SystemExit(str(error))
+    print(json.dumps(result, indent=2))
     return 0
 
 
@@ -168,11 +104,12 @@ def main() -> int:
     parser.add_argument("--site-only", action="store_true", help="Omit docs/build/screenshots evidence")
     parser.add_argument("--evidence-manifest", type=Path, help="JSON array or {files: []} of project-relative evidence paths")
     parser.add_argument("--allow-missing-evidence", action="store_true")
+    parser.add_argument("--in-progress", action="store_true", help="Preserve an unfinished Worker project with explicit remaining QA; never marks it publishable")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
 
     root = args.project_root.expanduser().resolve()
-    output = args.output.expanduser().resolve()
+    output = args.output.expanduser().absolute()
     if output.exists() and not args.force:
         raise SystemExit(f"Output exists; pass --force to replace: {output}")
     if (root / "wrangler.jsonc").is_file() and (root / "public").is_dir():
