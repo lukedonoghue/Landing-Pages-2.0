@@ -7,7 +7,7 @@
 
 **Execution plan:** [Self-guided beta milestones](docs/SELF-GUIDED-BETA-PLAN.md) groups this backlog into a staged release plan centered on a new user's ability to finish unaided. The supported environment is a pending product decision, not an assumed compatibility promise.
 
-**Progress update:** [The active development record](docs/PROGRESS.md) tracks fixes after this audit. B05 and the browser-session portion of B13 are fixed and locally tested. B01 is mitigated by disabling optional automatic client deployment. B16/B17 now have working local onboarding/demo tools; full acceptance remains tracked separately. The detailed findings below preserve the original audit context.
+**Progress update:** [The active development record](docs/PROGRESS.md) tracks fixes after this audit. B05, B08 and the browser-session portion of B13 are fixed and tested. B01 is mitigated by disabling optional automatic client deployment. B16 now has a complete generated-funnel CI run; B17 has working local onboarding/tool checks, with agent/account capabilities still checked at their own stages. The detailed findings below preserve the original audit context.
 
 ## What we are trying to finish
 
@@ -51,7 +51,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | [x] | B05 | P1 | Fix first-use CLI session-revocation race | Fixed; first-use and rotated-account race regression passed |
 | [ ] | B06 | P2 | Make owner username changes consistent and persistent | Confirmed defect |
 | [ ] | B07 | P1 for handoff | Make generated-project ZIPs resumable without invalidating evidence | Reproduced defect |
-| [ ] | B08 | P1 for handoff | Make research evidence portable across machines/directories | Reproduced defect |
+| [x] | B08 | P1 for handoff | Make research evidence portable across machines/directories | Fixed for newly prepared contexts; relocated legacy contexts need a truthful refresh |
 | [ ] | B09 | P1 | Support a new external reference page without editing the global library | Integration gap |
 | [ ] | B10 | P1 | Enforce approved-copy parity across page, modal, thank-you and PDF | Integration gap |
 | [ ] | B11 | P1 when generating | Resolve the exact image-model path and run it once | Live verification / default-path gap |
@@ -59,8 +59,8 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | [x] | B13 | P1 for ad tracking | Deduplicate conversion events by receipt, including lost-response retries | Fixed for recent receipts in the browser session; provider adapter deduplication remains B23 |
 | [ ] | B14 | P1 | Add persistent privacy choices and define attribution-consent behavior | Missing UI / decision |
 | [ ] | B15 | P1 before promising erasure | Complete retention and permanent personal-data removal | Missing operation / decision |
-| [ ] | B16 | P2 | Run a reproducible complete generated funnel in CI | Coverage gap |
-| [ ] | B17 | P2 | Add a dependency doctor and complete clean-machine setup | Onboarding gap |
+| [x] | B16 | P2 | Run a reproducible complete generated funnel in CI | Implemented; fresh Linux CI passed the full local journey |
+| Local profile ready | B17 | P2 | Add a dependency doctor and complete clean-machine setup | macOS/Linux local tools verified; account/agent capabilities remain separate |
 | [ ] | B18 | P2 | Add reliable stage/resume status | Integration gap |
 | [ ] | B19 | P1 before live claims | Run the first controlled Cloudflare deployment | Live verification |
 | [ ] | B20 | P2 | Rehearse remote backup, restore and recovery | Live verification |
