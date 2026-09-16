@@ -36,10 +36,22 @@ A separate agent installed the skill into a new temporary location and followed 
 
 The independent agent also inspected the CRM overview/table and ran the installed-skill regression scope successfully. Its snapshot preceded the two documented guidance fixes. Servers and browser resources were closed afterward. This is an independent agent rehearsal on the development host, not the planned three first-time human beta sessions.
 
+### Follow-on portability fix
+
+B08 is now fixed for newly prepared copy contexts: research, manifest and funnel-contract evidence uses project-relative paths. Three regressions first failed on the previous implementation and now pass, covering relocation without the original directory, changed relocated evidence, and rejection of evidence pointing into a different project. Legacy absolute contexts work in their original project and receive an explicit refresh requirement after relocation. All **55 repository Python tests** passed after this change; the earlier 202-test combined run remains the onboarding baseline.
+
+### Fresh-machine CI acceptance
+
+[GitHub run 35134975849](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35134975849) passed on a fresh Ubuntu runner at code revision 946fa11. It ran **206 regressions** (55 root Python, 14 evidence, 40 image, 97 application) and generated a new fictional project from source. The generated project passed 72 browser checks, 28 real local form/CRM checks, 118 layout checks and all three PDF renders. Its mobile Lighthouse median was 100, with LCP approximately 980 ms, CLS 0 and TBT 0.
+
+The first Linux integration attempt failed at the performance-audit step. The fix added an explicit browser profile restricted to a marked synthetic loopback fixture under CI; normal client audits keep their default sandbox behavior. Redacted failure stage/code is now retained, and missing measurements still fail. The subsequent complete run passed. No live Cloudflare deployment was involved.
+
+The verified source has been synchronized into both the global and project skill installations (119 files each). The development goal remains active.
+
 ### Still open
 
 - M0's supported end-user environment decision remains provisional; these helpers provide a macOS/Linux local profile.
-- Fresh-run CI verification of the generated project is being completed with this batch. Independent installed-copy UI/journey testing passed; the owned local reset was verified to retain the prior SQLite state privately and restore exactly three seeded contacts/nine visits.
+- Independent installed-copy UI/journey testing and fresh Linux CI now pass. These do not replace first-time human beta acceptance. The owned local reset was verified to retain the prior SQLite state privately and restore exactly three seeded contacts/nine visits.
 - M2 content/reference/parity work and M3 durable orchestration/portable handoff remain open.
 - No Cloudflare client page was deployed, no paid exact-model image request was made, and no remote restore was performed.
 - The three first-time human acceptance sessions have not happened.
