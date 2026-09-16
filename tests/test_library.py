@@ -102,6 +102,51 @@ class LibraryTests(unittest.TestCase):
   return source
  def test_real_source_excerpt_links_are_verified(self):
   self.research_fixture();m.prepare(LIB,self.b,self.ctx,3);self.assertEqual(len(m.read(self.ctx)['source_evidence']['artifacts']),1)
+ def project_reference_fixture(self):
+  self.research_fixture()
+  text=self.root/'research/R001.txt';text.write_text('Reference Brand\nChoose a layout before discussing the price.\nRead the process and decide your next step.\n')
+  manifest=m.read(self.root/'research/sources.json')
+  manifest['sources'].append(dict(id='R001',role='reference',url='https://new-reference.example/offer',status='captured',text_path='research/R001.txt',sha256=m.sha(text)))
+  self.save(self.root/'research/sources.json',manifest)
+  self.brief['primary_reference_url']='https://new-reference.example/offer';self.save(self.b,self.brief)
+  review=dict(schema_version=1,source_id='R001',source_url=self.brief['primary_reference_url'],source_sha256=m.sha(text),name='Reference Brand',reviewer='Synthetic test reviewer',reviewed_at='2026-09-16T12:00:00Z',decision='use_as_reference',client_claims_allowed=False,lessons=[dict(source_excerpt='Choose a layout before discussing the price.',persuasive_job='Introduce the first buying decision.',adaptation='Explain the client service fit before asking for contact details.',caution='Do not import the reference company scope or promises.')])
+  self.save(self.root/'research/reference-review.json',review)
+  return text,review
+ def test_new_reference_is_project_local_and_does_not_change_library(self):
+  self.project_reference_fixture();before=m.sha(LIB/'library.sqlite3')
+  result=m.prepare(LIB,self.b,self.ctx,3);context=m.read(self.ctx)
+  self.assertEqual(result['primary_reference']['source_id'],'R001')
+  self.assertEqual(context['project_reference']['url'],self.brief['primary_reference_url'])
+  self.assertEqual(context['project_reference']['role'],'user_supplied_primary')
+  self.assertFalse(context['project_reference']['client_claims_allowed'])
+  self.assertEqual(m.sha(LIB/'library.sqlite3'),before)
+  self.review();self.assertEqual(self.audit(True)['overall_status'],'pass')
+ def test_reference_review_needs_actual_matching_source_excerpts(self):
+  text,review=self.project_reference_fixture();review['lessons'][0]['source_excerpt']='This quote is not on the page.'
+  self.save(self.root/'research/reference-review.json',review)
+  with self.assertRaises(ValueError):m.prepare(LIB,self.b,self.ctx,3)
+ def test_reference_cannot_supply_client_claim_evidence(self):
+  text,review=self.project_reference_fixture();self.brief['claims'][0].update(source_id='R001',evidence='Choose a layout before discussing the price.')
+  self.save(self.b,self.brief)
+  with self.assertRaisesRegex(ValueError,'reference'):m.prepare(LIB,self.b,self.ctx,3)
+ def test_changed_reference_review_invalidates_prepared_context(self):
+  text,review=self.project_reference_fixture();m.prepare(LIB,self.b,self.ctx,3);self.review()
+  review['lessons'][0]['adaptation']='A different adaptation.';self.save(self.root/'research/reference-review.json',review)
+  self.assertTrue(any('reference review changed' in x.lower() for x in self.audit(True)['failures']))
+ def test_reference_name_does_not_leak_into_client_copy(self):
+  self.project_reference_fixture();m.prepare(LIB,self.b,self.ctx,3)
+  self.copy['sections'][0]['body']='Get your service from Reference Brand.';self.save(self.c,self.copy)
+  self.assertTrue(any('Reference brand leaked' in x for x in self.audit()['failures']))
+ def test_client_research_can_proceed_without_an_irrelevant_library_example(self):
+  self.research_fixture();self.brief.update(sector='unrelated xyz',offer_type='unknown xyz',intent='unknown xyz');self.save(self.b,self.brief)
+  m.prepare(LIB,self.b,self.ctx,3);context=m.read(self.ctx)
+  self.assertEqual(context['reference_examples'],[])
+  self.assertTrue(context['selection_warnings'])
+  self.review();self.assertEqual(self.audit(True)['overall_status'],'pass_with_warnings')
+ def test_reference_requires_review_even_when_no_library_example_matches(self):
+  self.project_reference_fixture();(self.root/'research/reference-review.json').unlink()
+  self.brief.update(sector='unrelated xyz',offer_type='unknown xyz',intent='unknown xyz');self.save(self.b,self.brief)
+  with self.assertRaises(ValueError):m.prepare(LIB,self.b,self.ctx,3)
  def test_prepared_project_moves_without_losing_evidence_or_review(self):
   self.research_fixture();self.save(self.root/'funnel.json',dict(cta=self.brief['primary_cta'],follow_up_promise=self.brief['follow_up_promise']))
   m.prepare(LIB,self.b,self.ctx,3);self.review();self.assertEqual(self.audit(True)['overall_status'],'pass')

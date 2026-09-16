@@ -37,9 +37,10 @@ def choose_links(home,links,limit):
         match=next((u for u in ordered if u not in chosen and re.search(category,urlsplit(u).path,re.I)),None)
         if match:chosen.append(match)
     return (chosen+[u for u in ordered if u not in chosen])[:max(0,limit)]
-def capture(root,url,index):
-    sid=f'S{index:03d}';raw=root/'.firecrawl'/f'{sid}.json';raw.parent.mkdir(parents=True,exist_ok=True)
-    result=dict(id=sid,url=url,retrieved_at=now(),raw_path=str(raw.relative_to(root)),status='unavailable')
+def capture(root,url,index,role='client'):
+    if role not in {'client','reference'}:raise ValueError('Unknown research source role')
+    sid=f'{"R" if role=="reference" else "S"}{index:03d}';raw=root/'.firecrawl'/f'{sid}.json';raw.parent.mkdir(parents=True,exist_ok=True)
+    result=dict(id=sid,url=url,role=role,captured_via='firecrawl-cli',retrieved_at=now(),raw_path=str(raw.relative_to(root)),status='unavailable')
     try:
         run=subprocess.run(['firecrawl','scrape',url,'--format','markdown,links','--json','-o',str(raw)],capture_output=True,text=True,timeout=120)
         if run.returncode:result['error']=run.stderr[-400:];return result,[]
@@ -52,33 +53,44 @@ def capture(root,url,index):
         result.update(status='captured',text_path=str(dest.relative_to(root)),sha256=digest(dest),words=len(text.split()))
         return result,data.get('links',[])
     except (OSError,ValueError,subprocess.TimeoutExpired) as e:result['error']=str(e)[:400];return result,[]
-def collect(root,website,explicit=(),max_pages=8):
+def collect(root,website,explicit=(),max_pages=8,references=()):
     root=Path(root).resolve();url=normalized(website)
+    max_pages=min(max(int(max_pages),1),12)
+    client_pages=[normalized(value) for value in explicit]
+    if any(urlsplit(value).hostname!=urlsplit(url).hostname for value in client_pages):
+        raise ValueError('Additional client-page URLs must be on the supplied website; use --reference for an external example')
+    reference_urls=list(dict.fromkeys(normalized(value) for value in references))
+    if len(reference_urls)>3:raise ValueError('Choose at most three reference pages for one bounded collection run')
     if (root/'research/sources.json').exists():raise ValueError('Research already exists. Use a new run directory to preserve the earlier evidence.')
     root.mkdir(parents=True,exist_ok=True)
-    first,links=capture(root,url,1);records=[first]
+    first,links=capture(root,url,1);first['role']='client';records=[first]
     if first['status']!='captured':
         write(root/'research/sources.json',{'schema_version':1,'website':url,'sources':records,'status':'blocked','captured_at':now()})
         raise ValueError('Homepage could not be captured. Inspect the saved error; do not draft from missing evidence.')
     candidates=[]
-    for u in list(explicit)+choose_links(url,links,max_pages-1):
+    for u in client_pages+choose_links(url,links,max_pages-1):
         u=normalized(u)
         if urlsplit(u).hostname!=urlsplit(url).hostname:raise ValueError('Additional client-page URLs must be on the supplied website')
         if u.rstrip('/')!=url.rstrip('/') and u not in candidates:candidates.append(u)
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
         futures=[pool.submit(capture,root,u,i+2) for i,u in enumerate(candidates[:max_pages-1])]
-        records += [f.result()[0] for f in futures]
-    manifest={'schema_version':1,'project_root':str(root),'website':url,'captured_at':now(),'sources':records,'status':'ready_for_research_review','external_reviews':'not_collected_by_this_helper','industry_research':'not_collected_by_this_helper'}
+        for future in futures:
+            result=future.result()[0];result['role']='client';records.append(result)
+        # Only supplied reference pages are fetched; their links do not expand the crawl.
+        futures=[pool.submit(capture,root,u,i+1,role='reference') for i,u in enumerate(reference_urls)]
+        for future in futures:
+            result=future.result()[0];result['role']='reference';records.append(result)
+    manifest={'schema_version':2,'path_basis':'project','website':url,'reference_urls':reference_urls,'captured_at':now(),'sources':records,'status':'ready_for_research_review','external_reviews':'not_collected_by_this_helper','industry_research':'not_collected_by_this_helper'}
     write(root/'research/sources.json',manifest)
     ignore=root/'.gitignore';existing=ignore.read_text() if ignore.exists() else ''
     if '.firecrawl/' not in existing.splitlines():ignore.write_text(existing.rstrip()+'\n.firecrawl/\n')
-    lines=['# Website research index','','This is source collection, not a completed strategy or approval. Read the sources, verify the business identity, and add targeted public-review and industry research where useful.','','| ID | Page | Words | Status |','|---|---|---:|---|']
-    for r in records:lines.append(f"| {r['id']} | [{r['title'] or r['url']}]({r['url']}) | {r.get('words',0)} | {r['status']} |")
-    lines+=['','Next: create the client copy brief from inspected facts. Link each website claim to a source_id and verbatim evidence. Record audience/service/offer assumptions separately; do not invent a brochure, price, review, warranty or response time.','']
+    lines=['# Website research index','','This is source collection, not a completed strategy or approval. Client evidence and reference-page inspiration have different roles. Read the sources and verify the business identity.','','| ID | Role | Page | Words | Status |','|---|---|---|---:|---|']
+    for r in records:lines.append(f"| {r['id']} | {r['role']} | [{r.get('title') or r['url']}]({r['url']}) | {r.get('words',0)} | {r['status']} |")
+    lines+=['','Next: create the client copy brief from inspected client facts. Link each factual claim to a client source_id and verbatim evidence. Inspect the supplied reference separately and record its transferable persuasive lessons in research/reference-review.json. A reference source cannot prove a claim about the client. Unavailable references remain unresolved; do not silently replace them.','']
     (root/'research/INDEX.md').write_text('\n'.join(lines))
     return dict(project=str(root),captured=sum(r['status']=='captured' for r in records),unavailable=sum(r['status']!='captured' for r in records),manifest=str(root/'research/sources.json'))
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--website',required=True);p.add_argument('--project',required=True);p.add_argument('--page',action='append',default=[]);p.add_argument('--max-pages',type=int,default=8);a=p.parse_args()
-    try:print(json.dumps(collect(a.project,a.website,a.page,min(max(a.max_pages,1),12)),indent=2));return 0
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--website',required=True);p.add_argument('--project',required=True);p.add_argument('--page',action='append',default=[]);p.add_argument('--reference',action='append',default=[],help='Exact optional reference URL; captured separately from client claim evidence');p.add_argument('--max-pages',type=int,default=8);a=p.parse_args()
+    try:print(json.dumps(collect(a.project,a.website,a.page,min(max(a.max_pages,1),12),a.reference),indent=2));return 0
     except (ValueError,OSError) as e:print(str(e),file=sys.stderr);return 1
 if __name__=='__main__':sys.exit(main())

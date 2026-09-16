@@ -12,11 +12,13 @@ python3 scripts/copy_project.py --website '<supplied URL>' --project '<absolute 
 
 The helper uses Firecrawl and writes source files directly to disk. It inspects the home page and selects service, process, FAQ, reviews, about and other useful pages with category diversity. Use `--page '<observed service-page URL>'` for a specific supplied or discovered service. It collects source text only; it does not infer business facts or call a writing model.
 
+If the user supplied a reference on another site, use --reference with that exact URL and follow [project-reference.md](project-reference.md). Reference captures have their own role and cannot substantiate claims about the client.
+
 Read the source index and relevant text. Determine the business identity, main service, intended audience, location, actual offer, voice, permitted claims, and important objections. If a choice is unresolved, use a clearly stated reasonable assumption when it does not change the service/offer materially; otherwise ask one focused question while continuing independent research.
 
 Search for relevant public customer reviews where useful. Match the listing to the same business, phone and website. Keep exact words and names tied together. Add only targeted industry or competitor research needed to explain buying criteria, method differences or genuine differentiation. Reference-library claims are not client evidence. Record missing reviews rather than inventing proof.
 
-Record additional sources in `research/sources.json` with a unique ID, URL or supplied-source reference, retrieval date, `status: captured`, a project-relative text path, and the SHA-256 of that text file. A source from an external review page may be added after the agent inspects it; the automated website collector intentionally stays on the client domain.
+Record additional sources in `research/sources.json` with a unique ID, URL or supplied-source reference, actual capture method, retrieval date, `status: captured`, a project-relative text path, and the SHA-256 of that text file. A source from an external review page may be added after the agent inspects it. Automatic client-link discovery stays on the client domain; explicitly supplied references are captured separately with role: reference. If Firecrawl is unavailable, use an available authorized browser/web tool and save the actual observed source in this same project-local format. Do not claim a live fetch for user-supplied text or invent a captured source. A separate Firecrawl account is not required when the agent already has another working source-access tool.
 
 ## Build the brief from evidence
 

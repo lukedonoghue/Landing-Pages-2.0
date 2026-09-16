@@ -26,4 +26,31 @@ class ResearchTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as t, patch.object(m,'capture',return_value=({'id':'S001','status':'unavailable'},[])):
    with self.assertRaises(ValueError):m.collect(t,'https://example.com')
    self.assertEqual(json.loads((Path(t)/'research/sources.json').read_text())['status'],'blocked')
+
+ def test_reference_pages_are_collected_separately_without_expanding_client_crawl(self):
+  calls=[]
+  def capture(root,url,index,role='client'):
+   calls.append((url,role));sid=('R' if role=='reference' else 'S')+f'{index:03d}'
+   text=Path(root)/'research'/f'{sid}.txt';text.parent.mkdir(parents=True,exist_ok=True);text.write_text('Fictional source for bounded collection tests.')
+   return dict(id=sid,url=url,title='Synthetic source',status='captured',text_path=str(text.relative_to(root)),sha256=m.digest(text)), ['https://reference.example/do-not-follow']
+  with tempfile.TemporaryDirectory() as t, patch.object(m,'capture',side_effect=capture):
+   m.collect(t,'https://client.example',max_pages=1,references=['https://reference.example/offer'])
+   sources=json.loads((Path(t)/'research/sources.json').read_text())['sources']
+   self.assertEqual(calls,[('https://client.example/','client'),('https://reference.example/offer','reference')])
+   self.assertEqual([s['role'] for s in sources],['client','reference'])
+   self.assertEqual(sources[1]['id'],'R001')
+ def test_invalid_reference_or_client_page_fails_before_any_capture(self):
+  with tempfile.TemporaryDirectory() as t, patch.object(m,'capture') as capture:
+   with self.assertRaises(ValueError):m.collect(t,'https://client.example',references=['file:///private/data'])
+   with self.assertRaises(ValueError):m.collect(t,'https://client.example',explicit=['https://other.example/'])
+   capture.assert_not_called()
+ def test_unavailable_reference_stays_visible_and_is_not_silently_replaced(self):
+  def capture(root,url,index,role='client'):
+   return dict(id=('R' if role=='reference' else 'S')+f'{index:03d}',url=url,title='Fixture',status='unavailable' if role=='reference' else 'captured'),[]
+  with tempfile.TemporaryDirectory() as t, patch.object(m,'capture',side_effect=capture):
+   result=m.collect(t,'https://client.example',references=['https://reference.example/'])
+   self.assertEqual(result['unavailable'],1)
+   source=json.loads((Path(t)/'research/sources.json').read_text())['sources'][1]
+   self.assertEqual(source['url'],'https://reference.example/')
+   self.assertEqual(source['status'],'unavailable')
 if __name__=='__main__':unittest.main(verbosity=2)
