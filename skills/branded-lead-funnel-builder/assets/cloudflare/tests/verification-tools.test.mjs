@@ -5,10 +5,23 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
 import { checkedTarget, sameOriginUrl, loadFixture, makeReport, parseArgs, runBrowserCompat } from '../scripts/browser-compat.mjs';
-import { DEFAULT_BUDGETS, extractMetrics, budgetChecks, runPerformance, readBudgets } from '../scripts/performance-audit.mjs';
+import { DEFAULT_BUDGETS, extractMetrics, budgetChecks, runPerformance, readBudgets, browserLaunchFlags } from '../scripts/performance-audit.mjs';
 import { credentials, testRunOptions, verifyCorrelation, publicChecks, runLiveVerify } from '../scripts/live-verify.mjs';
 const fixture = { synthetic: true, path: '/', thank_you_path: '/thank-you.html', pdf_path: '/guide.pdf', fields: { email: 'synthetic@example.invalid' }, selectors: { openModal: '[data-open-modal]', modal: '#lead-modal', step: '.wizard__step', next: '[data-next]', submit: '[data-submit]', closeModal: '[data-close-modal]', error: '[data-form-error]' }, query: { utm_source: 'google', utm_medium: 'cpc' }, expected_dimensions: { source: 'google', traffic: 'paid', device: 'desktop' } };
 const temporary = t => { const dir = mkdtempSync(path.join(tmpdir(), 'funnel-verifier-')); t.after(() => rmSync(dir, { recursive: true, force: true })); return dir; };
+test('container browser flags apply only to an explicit synthetic loopback CI audit', t => {
+  const root = temporary(t), local = checkedTarget('http://127.0.0.1:8787');
+  const args = { 'project-root': root, 'isolated-ci-fixture': true };
+  writeFileSync(path.join(root, 'funnel.json'), JSON.stringify({ development_fixture: true }));
+  writeFileSync(path.join(root, '.landing-pages-demo.json'), JSON.stringify({ kind: 'synthetic-local-demo' }));
+  assert.ok(browserLaunchFlags(args, local, { CI: 'true' }).includes('--no-sandbox'));
+  assert.ok(!browserLaunchFlags({}, local, { CI: 'true' }).includes('--no-sandbox'));
+  assert.throws(() => browserLaunchFlags(args, local, {}));
+  assert.throws(() => browserLaunchFlags({ ...args, 'isolated-ci-fixture': 'false' }, local, { CI: 'true' }));
+  assert.throws(() => browserLaunchFlags(args, checkedTarget('https://client.example', true), { CI: 'true' }));
+  writeFileSync(path.join(root, 'funnel.json'), JSON.stringify({ development_fixture: false }));
+  assert.throws(() => browserLaunchFlags(args, local, { CI: 'true' }));
+});
 const lhr = (values = {}) => ({ lighthouseVersion: '13-test', categories: { performance: { score: 0.95 } }, audits: { 'largest-contentful-paint': { numericValue: 1500 }, 'cumulative-layout-shift': { numericValue: 0.02 }, 'total-blocking-time': { numericValue: 100 } }, ...values });
 
 test('verification is local-only unless HTTPS remote access is explicit', () => {

@@ -1,5 +1,5 @@
 /** Real mobile Lighthouse lab measurements. TBT is a lab proxy, never field INP. */
-import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs, checkedTarget, makeReport, artifact, check, finish, writeReport } from './browser-compat.mjs';
@@ -24,6 +24,20 @@ export function extractMetrics(lhr) {
 export function budgetChecks(metrics, budgets) {
   return Object.keys(budgets).map(key => ({ name: key, actual: metrics[key], budget: budgets[key], passed: key === 'performance' ? metrics[key] >= budgets[key] : metrics[key] <= budgets[key] }));
 }
+export function browserLaunchFlags(args, target, env = process.env) {
+  const flags = ['--headless', '--no-first-run', '--no-default-browser-check'];
+  if (!args['isolated-ci-fixture']) return flags;
+  if (args['isolated-ci-fixture'] !== true) throw new Error('Use --isolated-ci-fixture as a boolean flag.');
+  if (env.CI !== 'true' || !target.local || !args['project-root']) throw new Error('The CI browser profile requires an isolated local fixture in CI.');
+  const root = path.resolve(args['project-root']);
+  const config = JSON.parse(readFileSync(path.join(root, 'funnel.json'), 'utf8'));
+  const marker = JSON.parse(readFileSync(path.join(root, '.landing-pages-demo.json'), 'utf8'));
+  if (config.development_fixture !== true || marker.kind !== 'synthetic-local-demo') throw new Error('The CI browser profile is restricted to the generated synthetic demo.');
+  // Hosted Linux CI may disallow Chromium's user-namespace sandbox. Match the
+  // existing Playwright fixture runner only for this isolated local test. Normal
+  // client/remote audits retain the launcher's default sandbox configuration.
+  return [...flags, '--no-sandbox', '--disable-dev-shm-usage'];
+}
 const median = values => { const sorted = [...values].sort((a, b) => a - b), center = Math.floor(sorted.length / 2); return sorted.length % 2 ? sorted[center] : (sorted[center - 1] + sorted[center]) / 2; };
 export async function runPerformance(args, runtime) {
   const target = checkedTarget(args.url, args['allow-remote'] === true);
@@ -39,12 +53,15 @@ export async function runPerformance(args, runtime) {
     lighthouse = runtime?.lighthouse || (await import('lighthouse')).default;
     launch = runtime?.launch || (await import('chrome-launcher')).launch;
   } catch { check(report, 'Lighthouse dependencies are installed', false, 'Install the locked project dependencies with npm ci.'); return writeReport(finish(report), out); }
-  let chrome;
+  let chrome, phase = 'browser_launch';
   try {
     let chromePath = args['browser-executable'];
     if (!chromePath && !runtime) { try { const candidate = (await import('playwright-core')).chromium.executablePath(); if (existsSync(candidate)) chromePath = candidate; } catch {} }
-    chrome = await launch({ ...(chromePath ? { chromePath } : {}), chromeFlags: ['--headless', '--no-first-run', '--no-default-browser-check'] });
+    const chromeFlags = browserLaunchFlags(args, target, runtime?.env || process.env);
+    report.execution.isolated_ci_browser = args['isolated-ci-fixture'] === true;
+    chrome = await launch({ ...(chromePath ? { chromePath } : {}), chromeFlags });
     for (let index = 1; index <= runs; index++) {
+      phase = 'lighthouse_run';
       const result = await lighthouse(target.url.href, { port: chrome.port, output: 'json', logLevel: 'error', onlyCategories: ['performance'], formFactor: 'mobile', throttlingMethod: 'simulate',
         screenEmulation: { mobile: true, width: 390, height: 844, deviceScaleFactor: 1, disabled: false },
         throttling: { rttMs: 150, throughputKbps: 1638.4, cpuSlowdownMultiplier: 4, requestLatencyMs: 562.5, downloadThroughputKbps: 1474.56, uploadThroughputKbps: 675 },
@@ -53,6 +70,7 @@ export async function runPerformance(args, runtime) {
       writeFileSync(rawFile, JSON.stringify(result.lhr, null, 2) + '\n');
       report.artifacts.push(artifact(rawFile, 'lighthouse_json', args['project-root']));
       report.tool = { name: 'Lighthouse', version: result.lhr.lighthouseVersion || 'unknown' };
+      phase = 'read_measurements';
       report.runs.push({ run: index, ...extractMetrics(result.lhr) });
     }
     report.metrics = Object.fromEntries(Object.keys(budgets).map(key => [key, median(report.runs.map(row => row[key]))]));
@@ -62,7 +80,11 @@ export async function runPerformance(args, runtime) {
     }
     if (report.runs.some(row => budgetChecks(row, budgets).some(item => !item.passed)) && !report.failures.length) report.warnings.push('Median meets the budgets, but at least one run exceeded a budget; inspect variability in the raw reports.');
     if (runs === 1) report.warnings.push('Single run requested; repeat a three-run audit before treating a marginal score as stable.');
-  } catch { check(report, 'Lighthouse completed with numeric measurements', false, 'Check Chromium availability, the running page, and any saved raw reports.'); }
+  } catch (error) {
+    report.failure_phase = phase;
+    report.error_code = /^[A-Z0-9_]{1,40}$/.test(error?.code || '') ? error.code : 'UNSPECIFIED';
+    check(report, 'Lighthouse completed with numeric measurements', false, `Stage: ${phase}. Check Chromium availability, the running page, and any saved raw reports.`);
+  }
   finally { await chrome?.kill(); }
   return writeReport(finish(report), out);
 }
