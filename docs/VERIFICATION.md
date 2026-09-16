@@ -131,8 +131,8 @@ Before attaching reports to a release gate, make a current handoff snapshot and 
 ## Remaining boundaries
 
 - **No live Cloudflare launch is claimed here.** Account setup, deployed Worker/D1 access, workers.dev/custom-domain behavior, TLS, and production receipt/analytics verification require a separate approved publishing run.
-- **No final visual or performance sign-off is claimed here.** Final copy, images and PDF were still being refined after the integration run. The finalized build needs fresh screenshots, image/PDF review and mobile Lighthouse results.
+- The final fictional fixture received the visual, PDF and measured performance checks recorded above. This is not user approval of a real client site. Its exact native image model remains unverified, and its fixture approval cannot pass the publishing gate.
 - WebKit automation covers the Safari engine; it does not replace a physical iPhone/Safari test. Shortened mobile viewports approximate keyboard space rather than emulating an actual iOS keyboard.
 - Lighthouse measures laboratory LCP, CLS and TBT. TBT is a responsiveness proxy, not field INP; laboratory results are not proof of real-user Core Web Vitals.
-- This integration test did not make a billable image-generation request, deliver a real email/webhook notification, or prove a real Cloudflare backup/restore. Those capabilities have their own explicit setup and verification requirements.
+- This integration test did not execute the optional paid image API route, deliver a real email/webhook notification, or prove a remote Cloudflare backup/restore. Those capabilities have their own explicit setup and verification requirements.
 - Unit-test approval/review fixtures only test validation rules. They cannot count as a user's approval, a real editorial assessment, or a final visual review.

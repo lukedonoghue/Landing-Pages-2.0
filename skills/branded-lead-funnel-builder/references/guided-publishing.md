@@ -41,7 +41,7 @@ Scaffold with `scripts/scaffold_project.py <project> --client <name> --website <
 
 Set the approved client brand, form schema, offer, privacy policy and brochure, and run `npm run configure` to materialize `funnel.json` in the backend. Replace all starter content. Serve through Wrangler so tests exercise the Worker and D1, not a static-only preview.
 
-Run the skill's source/evidence gates, desktop/mobile measurement and actual visual review. The local browser flow helper is `node scripts/test-flow.mjs --url <local-url> --fixture <synthetic-form-values.json> --password-file .secrets/local-admin-password.txt --browser-executable <browser>`. It tests the form-to-CRM route without touching live customer data. Never paste passwords into logs or include them in a source handoff.
+Run the skill's source/evidence gates, desktop/mobile measurement and actual visual review. Use `npm run verify:live -- --url <local-url> --fixture test-fixture.json --allow-test-lead --password-file .secrets/local-admin-password.txt --project-root .`, with `ADMIN_USERNAME` set to the owner selected during setup. It tests the actual form-to-CRM journey against the isolated local database. See `performance-and-browser-qa.md` for the fixture format, snapshot and browser setup. Never paste passwords into logs or include them in a source handoff.
 
 `npm run deploy:check` verifies readiness: real project configuration, protected admin routes, no simulated delivery, no public credential leaks and current handoff evidence. Passing this check is not proof of a live deployment.
 
