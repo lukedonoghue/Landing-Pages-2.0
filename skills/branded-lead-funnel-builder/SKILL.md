@@ -69,6 +69,10 @@ Read [references/research-and-claims.md](references/research-and-claims.md).
 
 For public Google reviews, verify the listing using the client's exact phone and website. Keep name, rating, quote, and profile image tied to the same public review. Use an initials avatar when Google does not expose a real photograph. Recheck rating/review counts immediately before launch.
 
+## Resuming an existing build
+
+Use [references/resuming-work.md](references/resuming-work.md) and `workflow.py resume` to recover the current stage, preserved approvals, pending image attempts and reusable QA reports. Continue the actual next work. Status labels and operator checkpoints cannot grant approval, prove a running process or authorize repeating an uncertain external action. Remote publishing recovery is still a separate incomplete release path; do not rerun an upload merely to refresh its status.
+
 ## Strategy and copy gate
 
 Read [references/copy-doctrine.md](references/copy-doctrine.md), [references/copy-workflow.md](references/copy-workflow.md) and [references/copy-and-structure.md](references/copy-and-structure.md). The bundled curated reference library is part of this skill, not a separately configured database. Use `scripts/copy_project.py` for source capture and `scripts/copy_library.py` to select relevant curated examples, prepare context, render the master and audit the actual editorial review. Exclude quarantined OCR and unreviewed examples from writing instructions.

@@ -324,6 +324,26 @@ def check(root, mode, manifest_path):
             'source_fingerprint': current['source_fingerprint'], 'gates': results, 'failures': errors, 'warnings': warnings,
             'limits': ['Hashes detect changed artifacts; they do not authenticate the report author.', 'Preview and handoff do not prove live delivery or production tracking.']}
 
+def record_report(root, gate, report_path, snapshot_path='build/gate-snapshot.json', manifest_path='build/gates.json'):
+    import workflow_storage
+    if gate not in GATES:raise ValueError('Unknown quality gate')
+    root=Path(root).resolve()
+    with workflow_storage.lock(root):
+        destination=resolve_inside(root,manifest_path)
+        if destination.relative_to(root).parts[0]!='build':raise ValueError('Manifest must be under build/')
+        snapshot=read_json(resolve_inside(root,snapshot_path))
+        if source_snapshot(root)['source_fingerprint']!=snapshot['source_fingerprint']:
+            raise ValueError('Source changed since snapshot; rerun affected checks against a new snapshot')
+        path=resolve_inside(root,report_path);report=read_json(path)
+        failures=validate_report(root,report,snapshot,gate)
+        if failures:raise ValueError('; '.join(failures))
+        manifest=read_json(destination) if destination.is_file() else {}
+        if (manifest.get('snapshot',{}).get('source_fingerprint'),manifest.get('snapshot',{}).get('mode'))!=(snapshot['source_fingerprint'],snapshot['mode']):
+            manifest={'schema_version':1,'snapshot':snapshot,'gates':{}}
+        manifest['gates'][gate]={'status':report['status'],'recorded_at':now(),'report':path.relative_to(root).as_posix(),'report_sha256':file_hash(path)}
+        workflow_storage.write(root,destination.relative_to(root).as_posix(),manifest)
+        return {'status':report['status'],'gate':gate,'manifest':str(destination)}
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
@@ -354,21 +374,9 @@ def main():
         if 'build' not in manifest_path.relative_to(root).parts:
             raise ValueError('Manifest must be under build/')
         if args.command == 'record':
-            snapshot = read_json(resolve_inside(root, args.snapshot))
-            if source_snapshot(root)['source_fingerprint'] != snapshot['source_fingerprint']:
-                raise ValueError('Source changed since snapshot; rerun affected checks against a new snapshot')
-            path = resolve_inside(root, args.report)
-            report = read_json(path)
-            failures = validate_report(root, report, snapshot, args.gate)
-            if failures:
-                raise ValueError('; '.join(failures))
-            manifest = read_json(manifest_path) if manifest_path.is_file() else {}
-            if (manifest.get('snapshot', {}).get('source_fingerprint'), manifest.get('snapshot', {}).get('mode')) != (snapshot['source_fingerprint'], snapshot['mode']):
-                manifest = {'schema_version': 1, 'snapshot': snapshot, 'gates': {}}
-            manifest['gates'][args.gate] = {'status': report['status'], 'recorded_at': now(), 'report': path.relative_to(root).as_posix(), 'report_sha256': file_hash(path)}
-            write_json(manifest_path, manifest)
-            print(json.dumps({'status': report['status'], 'gate': args.gate, 'manifest': str(manifest_path)}, indent=2))
-            return 1 if report['status'] == 'blocked' else 0
+            result=record_report(root,args.gate,args.report,args.snapshot,args.manifest)
+            print(json.dumps(result,indent=2))
+            return 1 if result['status']=='blocked' else 0
         result = check(root, args.mode, manifest_path)
         print(json.dumps(result, indent=2))
         return 1 if result['status'] == 'blocked' else 0

@@ -285,7 +285,13 @@ def verify_demo(project, node, full=False):
     journey = json.loads((project / "build/live-verification/result.json").read_text())
     if compat["status"] != "pass" or journey.get("fully_verified") is not True:
         raise ValueError("Local integration is incomplete; inspect the reports.")
+    progress = json.loads(run([sys.executable, "scripts/workflow.py", "resume", "."], project, node,
+                              "Resume the verified local demo from its existing reports"))
+    if progress.get('stage') != 'demo' or progress.get('publication') != 'disabled':
+        raise ValueError('The fictional demo lost its workflow/publication boundary.')
     result = {"status": "pass", "scope": "synthetic local integration only",
+              "workflow_stage": progress['stage'],
+              "reused_reports": progress['registered_existing_reports'],
               "local_journey_gate": "recorded",
               "rendered_copy_gate": "recorded",
               "browser_checks": len(compat["checks"]), "journey_checks": len(journey["checks"]),
