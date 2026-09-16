@@ -96,7 +96,7 @@ The new generated local demo passed 72 Chromium/WebKit checks, 28 real form-to-C
 
 An independent agent rehearsed the documented path in an isolated copy on a static loopback server. All 12 captured states and the three-page served PDF matched. Adding an unsupported guaranteed-price claim caused comparison and gate recording to fail at both widths; stale evidence also failed. No lead was submitted. That rehearsal did not verify CRM delivery or human approval. It identified missing command arguments in the report and omitted placeholder/option wording; both were addressed with an additional real-browser regression.
 
-The final combined local regression command passed **245 tests**: 83 repository Python, 19 evidence-gate, 40 image and 103 application tests, with no application skips. Fresh CI acceptance is pending the repository push. No Cloudflare client deployment, paid image request or real user approval was performed in this batch.
+The final combined local regression command passed **245 tests**: 83 repository Python, 19 evidence-gate, 40 image and 103 application tests, with no application skips. [GitHub run 35145574358](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35145574358) passed on the fresh Ubuntu runner at revision 95601b2, including the actual generated funnel and recorded rendered_copy/local_journey gates. Both installed skill copies were synchronized and all 124 distributed files match the repository. No Cloudflare client deployment, paid image request or real user approval was performed in this batch.
 
 ### Remaining scope
 

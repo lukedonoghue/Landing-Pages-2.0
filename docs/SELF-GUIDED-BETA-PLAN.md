@@ -1,6 +1,6 @@
 # Plan: a self-guided Landing Pages beta
 
-**Status:** Proposed implementation plan; this document does not mark the work complete.  
+**Status:** Implementation in progress under the active goal; see [verified progress](PROGRESS.md). The beta acceptance criteria are not yet complete.
 **Planning baseline:** [37f7aac](https://github.com/lukedonoghue/Landing-Pages-2.0/tree/37f7aac)  
 **Related documents:** [Detailed engineering backlog](../README-BOHDAN.md) · [Existing verification](VERIFICATION.md)  
 **Environment decision:** Pending Luke's choice. The provisional planning assumption is one supported Codex environment, because the current implementation uses local Python/Node helpers and browser tools. This is not a claim of compatibility with every ChatGPT/agent environment. If ChatGPT support is required at launch, validate its actual available execution, browser, file, image and publishing capabilities in M0 before committing to the adapter or schedule.
