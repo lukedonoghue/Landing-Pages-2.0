@@ -7,7 +7,7 @@
 
 **Execution plan:** [Self-guided beta milestones](docs/SELF-GUIDED-BETA-PLAN.md) groups this backlog into a staged release plan centered on a new user's ability to finish unaided. The supported environment is a pending product decision, not an assumed compatibility promise.
 
-**Progress update:** [The active development record](docs/PROGRESS.md) tracks fixes after this audit. B05, B08, B14 and the browser-session portion of B13 are fixed and tested. B01 is mitigated by disabling optional automatic client deployment. B16 now has a complete generated-funnel CI run; B17 has working local onboarding/tool checks, with agent/account capabilities still checked at their own stages. The detailed findings below preserve the original audit context.
+**Progress update:** [The active development record](docs/PROGRESS.md) tracks fixes after this audit. B05, B08, B14, B15 and the browser-session portion of B13 are fixed and tested. B01 is mitigated by disabling optional automatic client deployment. B16 now has a complete generated-funnel CI run; B17 has working local onboarding/tool checks, with agent/account capabilities still checked at their own stages. The detailed findings below preserve the original audit context.
 
 ## What we are trying to finish
 
@@ -58,7 +58,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | [x] | B12 | P2 | Prevent brochure truncation, overflow and silent missing assets | Implemented; measured layouts, pagination and actionable failures verified |
 | [x] | B13 | P1 for ad tracking | Deduplicate conversion events by receipt, including lost-response retries | Fixed for recent receipts in the browser session; provider adapter deduplication remains B23 |
 | [x] | B14 | P1 | Add persistent privacy choices and define attribution-consent behavior | Implemented locally; client policy and live/physical acceptance remain |
-| [ ] | B15 | P1 before promising erasure | Complete retention and permanent personal-data removal | Missing operation / decision |
+| [x] | B15 | P1 before real leads | Complete enquiry erasure and configurable retention | Implemented locally; client periods, provider recovery history and live cutover remain separate |
 | [x] | B16 | P2 | Run a reproducible complete generated funnel in CI | Implemented; fresh Linux CI passed the full local journey |
 | Local profile ready | B17 | P2 | Add a dependency doctor and complete clean-machine setup | macOS/Linux local tools verified; account/agent capabilities remain separate |
 | Partial | B18 | P2 | Make workflow progress and safe resumption durable | Local state plus guarded release journal; full remote reconciliation remains |
@@ -271,19 +271,21 @@ Generated landing, thank-you and privacy pages now have a persistent accessible 
 
 ### B15 — Complete retention and permanent personal-data removal
 
-**P1 before promising erasure/customer-data lifecycle support · Missing operation / decision**
+**Implemented and locally verified — 17 September 2026**
 
-CRM removal currently sets deleted_at. Contact fields, form answers, notes, attribution and history remain stored. Scheduled cleanup only removes expired sessions and rate-limit rows. This limitation is already documented; soft removal is not permanent erasure.
+Account now provides an accessible erasure preview, explicit confirmation, removed-contact search, operation recovery, complete source-bound erasure-record export and configurable retention. Automatic cleanup starts off. The scheduled job rotates through configured enquiry, note/activity, campaign/referrer, visit and completed-delivery periods in bounded batches. The owner can preview the currently eligible counts and request one cleanup batch.
 
-**Work:** Keep archive/removal distinct from a deliberate authenticated erasure/anonymization operation. Define configurable retention for contacts, notes, attribution, visits and queued payloads, plus a documented backup retention process. Decide which non-identifying historical totals remain. Prevent retries from resurrecting erased records.
+Permanent enquiry erasure removes its contact fields, form data, attribution, notes, activity, notifications and outbox rows. A suppression hash blocks old submission retries from recreating it. Active delivery leases delay completion, including when a connection is removed; read-only status reports those leases accurately. Lost responses and interrupted finalization recover the accepted operation. A changed preview requires fresh review and acknowledgement. Ordinary Remove contact remains a soft removal.
 
-**Done when:** A seeded contact's unique personal-data markers disappear from the intended live records and queued deliveries; historical totals behave as specified; retention is idempotent and stays within configured scope. Document backups and payloads already delivered to optional third parties separately.
+**Reporting decision:** reports show retained records. Permanent erasure removes the enquiry and its conversion link, so historical lead/conversion totals can decrease; visit retention separately removes expired visits and their links. A dashboard warning makes this visible. No fixed client retention period or universal person-level/legal erasure claim is assumed.
 
-**Suggested implementation order:** First define whether historical anonymous totals survive erasure: current conversion queries join `leads` to `visit_events`, so simply deleting or unlinking rows changes past reports. Then implement one authenticated, retry-safe operation that clears contact/form/attribution data and notes/history, cancels queued deliveries, and keeps only the minimum replay-prevention record permitted by the chosen policy. The webhook worker reads contact details before its outbound request, so a claimed/in-flight delivery needs explicit handling; already delivered copies are a separate responsibility. Add a retention preview with exact counts before enabling any scheduled deletion, keep automatic deletion off until configured, and include backup/restore handling so erased data is not silently reintroduced.
+**Backup preparation:** the owner downloads a complete erasure record with a stable source identity and expected entry count. `backup.mjs verify --erasure-records ... --clean-output ...` cleans only an isolated temporary local restore, checks suppression relationships in both directions, verifies foreign keys, revokes sessions, disables retention/connections and pauses old delivery jobs before writing a separate private SQL file. It leaves the source database and backup unchanged. Modern source mismatch, incomplete records and conflicting IDs/keys block output. Legacy source confirmation requires actual provenance and is parsed as a strict flag. Enabling a reviewed connection later permits new deliveries only; it does not restart old jobs.
 
-**Needs:** Client retention choices; no assumed universal retention period.
+**Evidence:** real Worker/D1 transactions, authentication/origin checks, live local browser controls at desktop/390px/320px, delivery interruption and cancellation, stale previews, ambiguous-response recovery, bounded maintenance, ledger pagination, a pre-feature SQL backup round trip, cleaned re-import and negative restoration cases. Independent review reproduced and then retested the delivery, stale-preview, reverse-key, flag and restored-connection defects. See [Development progress](docs/PROGRESS.md) for final suite and clean-machine results.
 
-**Files:** [soft removal](skills/branded-lead-funnel-builder/assets/cloudflare/src/repository.js), [scheduled cleanup](skills/branded-lead-funnel-builder/assets/cloudflare/src/worker.js#L16), [data schema](skills/branded-lead-funnel-builder/assets/cloudflare/migrations/0001_crm.sql), [documented distinction](skills/branded-lead-funnel-builder/references/cloudflare-crm.md#L15).
+**Remaining:** choose the real client's periods and handling of external copies; maintain a current authentic erasure record; verify actual Cloudflare recovery-history expiry, live retention capacity and an authorized restore/cutover under B19/B20/B24. A local cleaned backup is not a completed live recovery. Physical backup/export copies and data already sent to other tools require their own documented handling.
+
+**Files:** [operator/owner guide](skills/branded-lead-funnel-builder/references/data-lifecycle.md), [transaction and retention engine](skills/branded-lead-funnel-builder/assets/cloudflare/src/data-lifecycle.js), [owner controls](skills/branded-lead-funnel-builder/assets/cloudflare/public/admin/data-lifecycle.js), [isolated backup reconciliation](skills/branded-lead-funnel-builder/assets/cloudflare/scripts/erasure-backup.mjs), [regressions](skills/branded-lead-funnel-builder/assets/cloudflare/tests/data-lifecycle.test.mjs).
 
 ### B16 — Make the full generated-funnel test reproducible in CI
 

@@ -294,3 +294,27 @@ B14 is implemented locally. The actual client must still have truthful configure
 ### Fresh Linux verification and distribution
 
 [GitHub run 35167608010](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35167608010) passed on code revision `8b0fae6`, including all regression jobs and the complete freshly generated local funnel. Both installed skill copies are checksum-verified at **146 files**. This confirms repeatable local setup and privacy behavior on macOS/Linux; it is not live Cloudflare or first-time-human acceptance. The next data-lifecycle implementation order is recorded under B15 in Bohdan's handoff.
+
+
+## Enquiry erasure, retention and backup reconciliation — 17 September 2026
+
+### Implemented
+
+- Separate owner controls distinguish soft removal from permanent enquiry erasure. Search includes removed records; previews display the target and affected record counts, with cancellation, explicit acknowledgement and keyboard/mobile support. Stale previews offer a fresh review; uncertain responses retain the same operation identity.
+- D1 transactions retain a suppression hash of the random submission key and an opaque enquiry ID, then remove contact/form/attribution data, notes, activity, notifications and delivery records. They wait for active delivery leases and can recover after an interrupted finalization, including after the original preview expires. Public form retries remain blocked without claiming that an in-progress cleanup has already physically completed.
+- Connection removal disables/hides immediately but preserves an active lease until the request finishes or expires. Dispatch rechecks the connection and contact after DNS/signing work. Status reads report the actual lease count. Explicit re-enabling allows new enquiries only and leaves old failed jobs stopped.
+- Retention starts disabled. Reviewed settings choose enquiry scope and independent periods for notes/activity, campaign/referrer details, visits and terminal delivery history. The five-minute maintenance task rotates through configured categories, with bounded enquiries/records and a measured D1-statement budget. Disabling future cleanup does not cancel an already accepted erasure.
+- Reporting is explicitly based on retained data. Erasure removes a lead's conversion link; visit retention removes expired visits and links. Historical totals can decrease, and the overview warns about that effect.
+- Complete erasure-record exports freeze their sequence boundary and count, include a persisted source identity and are kept out of public assets/source handoffs. The backup helper applies them only inside its isolated local restore, validates source identity and ID/key relationships in both directions, verifies referential integrity, revokes restored sessions, disables retention/connections and pauses old jobs before writing a new private SQL copy. The source database/backup remains intact. Pre-feature source confirmation uses a strict flag backed by actual provenance.
+
+### Review and verification
+
+Independent lifecycle review found a connection-removal cascade that concealed an active delivery, inaccurate read-only lease counts and a stale-preview button that retried an unusable request. All were fixed and independently retested, including a held delivery and cancellation before dispatch. Independent backup review found reverse ID/key mismatch acceptance, a boolean flag accepting a trailing false value and enabled restored connections. Those were fixed and retested against actual cleaned SQL re-import and a new synthetic enquiry. Original file/database preservation was checked.
+
+The combined local suite passed **403 checks**: 136 repository Python, 19 evidence, 40 image, 18 catalogue and 190 application tests, with no skips. It includes 22 data-lifecycle cases, desktop and WebKit mobile/short-screen owner flows, pre-feature backup migration/reconciliation/re-import, transaction failure and accepted-operation continuation, old-key suppression, policy conflicts, source/count checks, reverse-key rejection and paused connections. The final neutral public retry wording received a targeted browser recheck after that combined run.
+
+The complete fictional local demo again passed **96 browser checks**, **31 form/CRM/reporting checks**, **118 layout checks**, approved-copy parity, three PDF renders and the portable archive/extract check. The owner erasure/retention surfaces were inspected at desktop and mobile sizes. These checks do not give the fictional build its still-missing complete editorial/creative approval.
+
+### Still open
+
+B15's local operation and restore-preparation flow are implemented. Actual client retention periods, authentic/current record provenance, provider recovery-history expiry, copies already exported/delivered, production-scale workload and a real approved Cloudflare restore/cutover remain separate acceptance work. No real contacts, account calls, existing-client deployment or paid image requests were used. Publishing recovery/diagnostics and first-time-human acceptance also remain open; the development goal remains active.

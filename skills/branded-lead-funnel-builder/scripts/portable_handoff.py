@@ -119,7 +119,7 @@ def eligible(name):
     ):
         raise ValueError("Credential/database/export file cannot enter a handoff: " + name)
     if suffix not in {".py", ".mjs", ".js", ".ts", ".tsx", ".css", ".html", ".sql"} and re.search(
-        r"(?:^|[._-])(?:credentials?|passwords?|secrets?|private.?key|lead.?export|customer.?export|backup)(?:[._-]|$)",
+        r"(?:^|[._-])(?:credentials?|passwords?|secrets?|private.?key|lead.?export|customer.?export|erasure.?record|suppression.?record|backup)(?:[._-]|$)",
         base,
     ):
         raise ValueError("Secret/export-like file requires separate private handover: " + name)
@@ -186,6 +186,11 @@ def check_data(name, data, secrets=()):
             value = json.loads(data)
         except (ValueError, UnicodeError):
             return
+        if isinstance(value, dict) and isinstance(value.get("entries"), list) and any(
+            isinstance(entry, dict) and {"lead_id", "key_hash"} <= set(entry)
+            for entry in value["entries"]
+        ):
+            raise ValueError("Raw erasure records require a separate private handover: " + name)
         for key, item in leaves(value, Path(name).name in {"package.json", "package-lock.json"}):
             if key in SECRET_KEYS and isinstance(item, str) and item and not item.startswith("${"):
                 raise ValueError("JSON credential data requires a private handover: " + name)

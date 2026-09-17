@@ -176,6 +176,7 @@ before(async () => {
       if (scenario === 'timeout-once' && submissions.length === 1) { response.setHeader('Content-Type', 'application/json'); response.writeHead(200); response.flushHeaders(); return; }
       response.setHeader('Content-Type', 'application/json');
       if (scenario === 'stall-body') { response.writeHead(200); response.flushHeaders(); return; }
+      if (scenario === 'erased') { response.writeHead(410); response.end(JSON.stringify({error:'This enquiry was permanently erased.'}));return; }
       if (scenario === 'missing-id') { response.end(JSON.stringify({ ok: true, receipt_id: 'receipt' })); return; }
       if (scenario === 'pending') { await new Promise(resolve => setTimeout(resolve, 250)); }
       response.end(JSON.stringify({ ok: true, lead_id: 'lead', receipt_id: 'receipt', duplicate: scenario === 'timeout-once' })); return;
@@ -281,4 +282,13 @@ test('a lost response retries the same submission ID and form payload', browserO
     assert.equal(submissions.length, 2); assert.equal(submissions[0].idempotency_key, submissions[1].idempotency_key);
     assert.deepEqual(submissions[0].form_data, submissions[1].form_data); assert.ok(!('website' in submissions[0].form_data));
   } finally { await page.close(); }
+});
+
+
+test('an erased submission cannot be retried into a new contact and clears the form values',browserOptions,async()=>{
+  scenario='erased';submissions=[];const page=await preparedPage();
+  try{await page.locator('[data-submit]').click();await page.waitForFunction(()=>document.querySelector('[data-form-error]').textContent.includes('can no longer be retried'));
+    assert.equal(await page.locator('[data-submit]').isDisabled(),true);assert.equal(await page.locator('[name=email]').inputValue(),'');await page.locator('form').dispatchEvent('submit');assert.equal(submissions.length,1);
+    await page.locator('[data-close-modal]').click();await page.locator('[data-open-modal]').click();assert.match(await page.locator('[data-form-error]').textContent(),/can no longer be retried/);
+  }finally{await page.close();}
 });

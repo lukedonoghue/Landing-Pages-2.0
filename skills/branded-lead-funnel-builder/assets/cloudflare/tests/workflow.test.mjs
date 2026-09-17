@@ -116,7 +116,7 @@ test('publish refuses missing production credentials before remote mutations', t
   assert.equal(existsSync(join(root,'wrangler-calls.log')),false);
 });
 
-for (const filename of ['public/.env.local','public/private-key.pem','public/credentials.json','public/production-admin-password.txt']) {
+for (const filename of ['public/.env.local','public/private-key.pem','public/credentials.json','public/production-admin-password.txt','public/erasure-record.json']) {
   test(`preflight rejects ${filename} even without secret variable names`, t=>{
     const root=fixture(t);
     write(root,filename,'synthetic-sensitive-fixture-value');evidence(root);

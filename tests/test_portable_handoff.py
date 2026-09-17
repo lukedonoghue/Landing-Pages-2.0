@@ -157,6 +157,14 @@ class HandoffTests(unittest.TestCase):
                 self.root, self.archive, "Fixture", True, [".secrets/journeys/id/submission.json"]
             )
 
+    def test_erasure_records_cannot_enter_a_source_handoff(self):
+        storage.write(self.root, "build/innocent.json", {"entries": [{"lead_id": "opaque", "key_hash": "a" * 64}]})
+        with self.assertRaisesRegex(ValueError, "Raw erasure"):
+            bundle.export_bundle(self.root, self.archive, "Fixture", True, ["build/innocent.json"])
+        storage.write(self.root, "build/erasure-record.json", {"complete": True, "entries": []})
+        with self.assertRaisesRegex(ValueError, "separate private"):
+            bundle.export_bundle(self.root, self.archive, "Fixture", True, ["build/erasure-record.json"])
+
     def test_symlink_source_and_output_inside_source_are_rejected(self):
         (self.root / "linked.txt").symlink_to(self.root / "funnel.json")
         with self.assertRaises(ValueError):
