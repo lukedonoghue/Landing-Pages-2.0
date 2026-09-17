@@ -82,7 +82,7 @@ def main() -> int:
         "form_fields": json.loads((skill_root / "assets/cloudflare/src/site-config.json").read_text())["formFields"] if not args.static_only else [],
         "webhook_url": "" if args.static_only else "/api/leads",
         "backend": {"provider": "none" if args.static_only else "cloudflare-d1", "response_contract": "receipt-v1"},
-        "analytics": {"mode": "consent", "timezone": "UTC", "conversion": "measured visitor with accepted lead"},
+        "analytics": {"mode": "consent", "attribution_mode": "consent", "timezone": "UTC", "conversion": "measured visitor with accepted lead"},
         "tracking": {"gtm": "", "ga4": "", "google_ads": "", "meta": ""},
         "publish_target": "static-handoff" if args.static_only else "cloudflare-workers",
     }

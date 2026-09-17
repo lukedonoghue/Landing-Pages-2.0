@@ -24,7 +24,7 @@ async function site(t) {
   const root=mkdtempSync(path.join(os.tmpdir(),'real-journey-recovery-'));const requests=[];let ip=0,dropNote=false,dropStatus=false;
   cpSync(path.join(template,'src'),path.join(root,'src'),{recursive:true});copyFileSync(path.join(template,'tests/fixtures/site-config.json'),path.join(root,'src/site-config.json'));
   mkdirSync(path.join(root,'public/admin'),{recursive:true});mkdirSync(path.join(root,'public/assets/brochure'),{recursive:true});
-  for(const name of ['styles.css','login.html','login.js','login.css','funnel.js'])copyFileSync(path.join(template,'public',name),path.join(root,'public',name));
+  for(const name of ['privacy.html','styles.css','login.html','login.js','login.css','funnel.js','privacy-controls.js','privacy-controls.css'])copyFileSync(path.join(template,'public',name),path.join(root,'public',name));
   for(const name of ['index.html','thank-you.html'])copyFileSync(path.join(template,'tests/fixtures/recovery-'+name),path.join(root,'public',name));
   copyFileSync(lightbox,path.join(root,'public/script.js'));
   writeFileSync(path.join(root,'public/admin/index.html'),'<!doctype html><title>Synthetic admin destination</title>');

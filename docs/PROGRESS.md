@@ -259,3 +259,33 @@ B07's core format and integrity/resumption behavior are implemented. Its full ac
 ### Fresh Linux verification and distribution
 
 [GitHub run 35164662704](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35164662704) passed on code revision `ac6ff01`, including all regressions, the freshly generated full local funnel and its in-progress archive/extract check. Both skill installations are checksum-verified at 143 files. This is fresh-machine local portability evidence; the actual sample's unfinished creative reviews and lack of live-account verification remain explicit.
+
+
+## Revisitable privacy and explicit attribution policy — 17 September 2026
+
+### Implemented
+
+- A shared accessible Privacy choices dialog remains available from generated landing, thank-you and privacy pages. It supports keyboard/mobile use, focus containment, Escape and focus restoration; a dismissed banner can be reopened from the page footer.
+- Measurement and enquiry attribution have separate settings. `analytics.attribution_mode` supports `consent` (new default), `lead` (independent origin details) and `disabled`. The public Worker policy endpoint, actual server enforcement and visitor wording use the same configuration. Default-on measurement is described as already on, with an effective opt-out.
+- DNT/GPC overrides both optional measurement and lead-origin capture. Withdrawal clears the visitor ID and consent-gated session touches, aborts pending measurement where possible, rejects late acknowledgements and propagates across tabs. A functional allow/deny cookie lets the server discard stale optional fields. Already received data remains subject to separate retention/erasure operations.
+- Regrant creates a new browser identity, shared by existing tabs, with a distinct event per page visit. The old per-field form cache is removed. Missing/disabled attribution displays Unknown rather than falsely implying Direct.
+- Contact details and request identity remain stable during an uncertain retry, while newly disallowed optional metadata is removed. Legacy saved fingerprints still return the original receipt for the same normalized enquiry; changed contact details still conflict. Missing privacy settings do not block actual form delivery.
+- Preflight requires the privacy assets and script on all three public pages. Browser verification now opens the dialog at three sizes in Chromium and WebKit, checks focus/reachability and saves screenshots. The live/local journey checks the public policy endpoint and shared assets.
+
+### Review findings addressed
+
+Real browser checks caught keyboard focus escaping on Safari-engine Tab navigation. The dialog now owns its complete focus cycle. Independent forward QA and the expanded regression both reproduced a second issue: regrant in two tabs created separate renewed visitor IDs and inflated the unique-browser count. Successful storage removal now releases stale in-memory state, and the shared ID is seeded before the consent event wakes another tab. Independent retesting confirmed coherent visit/lead correlation and the corrected unique count.
+
+A slow-response regression also caught loss of a permitted pending visit when default-on measurement gained attribution consent. Only revocation now invalidates pending measurement; the permissive choice preserves its eventual acknowledgement. These changes were driven by actual failures, not a replacement of the configured reporting definition.
+
+### Verification
+
+The final combined local regression suite passed **377 checks**: 135 repository Python, 19 evidence, 40 image, 18 catalogue and 165 application tests, with no skips. Ten actual privacy browser/Worker cases cover desktop/mobile choice changes, cross-tab regrant and two enquiries, ambiguous accepted responses, DNT/GPC, independent attribution, disabled capture, server denial enforcement, unavailable settings and legacy receipt compatibility. Client regressions also exercise unwritable storage and late visit acknowledgements.
+
+The final source-consistent fictional demo passed **96 browser checks**, **31 form/CRM/reporting checks**, **118 layout checks**, copy parity, three PDF renders and the archive/extract round trip. Local mobile Lighthouse median was **100**, with LCP about **1360 ms**, CLS **0** and TBT **0 ms**. The current desktop/390px/320px privacy captures were inspected; the short dialog scrolls internally to keep its actions reachable. This privacy inspection does not claim the unfinished fictional build has full editorial/creative approval.
+
+Independent QA exercised a 14-case privacy matrix plus WebKit mobile and the two-tab enquiry/reporting scenario. The final exact-hash two-tab rerun confirmed the corrected identity relationships. Its four visits/two enquiries yielded two unique identity periods (before withdrawal and after regrant), with one renewed identity shared by both tabs. Evidence stays in local synthetic test artifacts; no customer data is checked in.
+
+### Remaining scope
+
+B14 is implemented locally. The actual client must still have truthful configured privacy content and a chosen attribution policy. B15 retention/permanent erasure remains open: changing a choice does not erase an accepted lead and CRM removal remains a soft delete. Live Cloudflare, physical-device, exact-image-model and first-time independent-user acceptance remain separate unfinished work. No client page was deployed, real contacts used, approval invented or paid image call made. The development goal remains active.

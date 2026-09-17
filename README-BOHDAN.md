@@ -7,7 +7,7 @@
 
 **Execution plan:** [Self-guided beta milestones](docs/SELF-GUIDED-BETA-PLAN.md) groups this backlog into a staged release plan centered on a new user's ability to finish unaided. The supported environment is a pending product decision, not an assumed compatibility promise.
 
-**Progress update:** [The active development record](docs/PROGRESS.md) tracks fixes after this audit. B05, B08 and the browser-session portion of B13 are fixed and tested. B01 is mitigated by disabling optional automatic client deployment. B16 now has a complete generated-funnel CI run; B17 has working local onboarding/tool checks, with agent/account capabilities still checked at their own stages. The detailed findings below preserve the original audit context.
+**Progress update:** [The active development record](docs/PROGRESS.md) tracks fixes after this audit. B05, B08, B14 and the browser-session portion of B13 are fixed and tested. B01 is mitigated by disabling optional automatic client deployment. B16 now has a complete generated-funnel CI run; B17 has working local onboarding/tool checks, with agent/account capabilities still checked at their own stages. The detailed findings below preserve the original audit context.
 
 ## What we are trying to finish
 
@@ -57,7 +57,7 @@ Suggested owner for implementation and technical acceptance is **Bohdan**. Luke/
 | [ ] | B11 | P1 when generating | Resolve the exact image-model path and run it once | Live verification / default-path gap |
 | [x] | B12 | P2 | Prevent brochure truncation, overflow and silent missing assets | Implemented; measured layouts, pagination and actionable failures verified |
 | [x] | B13 | P1 for ad tracking | Deduplicate conversion events by receipt, including lost-response retries | Fixed for recent receipts in the browser session; provider adapter deduplication remains B23 |
-| [ ] | B14 | P1 | Add persistent privacy choices and define attribution-consent behavior | Missing UI / decision |
+| [x] | B14 | P1 | Add persistent privacy choices and define attribution-consent behavior | Implemented locally; client policy and live/physical acceptance remain |
 | [ ] | B15 | P1 before promising erasure | Complete retention and permanent personal-data removal | Missing operation / decision |
 | [x] | B16 | P2 | Run a reproducible complete generated funnel in CI | Implemented; fresh Linux CI passed the full local journey |
 | Local profile ready | B17 | P2 | Add a dependency doctor and complete clean-machine setup | macOS/Linux local tools verified; account/agent capabilities remain separate |
@@ -257,17 +257,17 @@ Executing the shipped tracker in an isolated VM reproduced **zero events** for t
 
 ### B14 — Privacy choices must be revisitable; attribution behavior must be explicit
 
-**P1 for the missing choice UI; P2 for policy/configuration refinement**
+**Implemented and locally verified — 17 September 2026**
 
-The banner hides after a stored decision, and the shipped footer/privacy page offers no control to reopen it. A consent setter exists internally but is not reachable by the visitor after dismissal.
+Generated landing, thank-you and privacy pages now have a persistent accessible Privacy choices control. Keyboard focus stays in the dialog and returns on Escape. Withdrawal clears measurement IDs and consent-gated attribution, updates other tabs and stops future optional events; forms remain usable. An uncertain form retry retains its contact identity/receipt while removing newly disallowed metadata.
 
-Separately, first/latest attribution and click IDs are stored before optional measurement consent and included with the lead even when measurement is declined. DNT/GPC suppress visitor measurement, not this separate capture. That is a behavior requiring an explicit client choice, not a universal legal conclusion.
+`analytics.attribution_mode` makes the previous implicit boundary explicit: `consent` (new default), `lead` (independent enquiry origin details), or `disabled`. Analytics retains its own consent/default-on/disabled choice. DNT/GPC overrides both. Browser wording and server enforcement read the same Worker configuration. Missing settings fail closed for optional data; uncollected origin displays Unknown. The old per-field form cache is retired.
 
-**Work:** Add a persistent accessible privacy-choice control and document/configure the boundary between lead-origin capture and optional analytics. Ensure generated pages retain the control. If attribution requires consent for the project, gate and clear it accordingly.
+**Evidence:** actual Chromium desktop and WebKit mobile interactions, real Worker/D1 submissions, lost-response retry after withdrawal, cross-tab withdrawal, browser privacy signals, unavailable settings, legacy receipt compatibility and mode/payload tests. Preflight requires the shared controls; generated-funnel browser QA now exercises them at three sizes in both engines. The fresh fictional demo passed the complete form/CRM/reporting journey and portable handoff checks. See [the development record](docs/PROGRESS.md) for counts and limitations.
 
-**Done when:** A keyboard/mobile visitor can accept, decline, reopen, withdraw and reload; withdrawal stops future optional events and removes the measurement identifier; the form still works. Tests separately check attribution storage/payloads for accept, decline, DNT/GPC, disabled mode and withdrawal. Privacy wording matches actual behavior.
+**Remaining:** choose the actual client's policy and finish their privacy content; perform live/physical-device acceptance under B19/B21. Changing a visitor choice does not erase an already accepted lead, and soft removal is not erasure (B15). This implementation is not a universal legal conclusion.
 
-**Files:** [attribution and consent](skills/branded-lead-funnel-builder/assets/cloudflare/public/funnel.js#L9), [starter footer](skills/branded-lead-funnel-builder/assets/cloudflare/public/index.html#L57), [privacy template](skills/branded-lead-funnel-builder/assets/cloudflare/public/privacy.html).
+**Files:** [privacy/attribution client](skills/branded-lead-funnel-builder/assets/cloudflare/public/funnel.js), [accessible controls](skills/branded-lead-funnel-builder/assets/cloudflare/public/privacy-controls.js), [server enforcement](skills/branded-lead-funnel-builder/assets/cloudflare/src/security.js), [policy configuration](skills/branded-lead-funnel-builder/references/cloudflare-crm.md#visitor-privacy-and-attribution), [real browser/Worker tests](skills/branded-lead-funnel-builder/assets/cloudflare/tests/privacy.test.mjs).
 
 ### B15 — Complete retention and permanent personal-data removal
 

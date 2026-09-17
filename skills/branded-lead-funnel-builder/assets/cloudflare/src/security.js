@@ -71,9 +71,16 @@ export function reportingDay(date, timezone) {
   const f = Object.fromEntries(parts.map(p => [p.type, p.value])); return `${f.year}-${f.month}-${f.day}`;
 }
 export function privacyOptOut(request) { return request.headers.get('DNT') === '1' || request.headers.get('Sec-GPC') === '1'; }
+export function attributionAllowed(request, body, config) {
+  if (privacyOptOut(request) || body.attribution_consent === false) return false;
+  const mode = config.attributionMode || 'consent';
+  if (mode === 'lead') return true;
+  return mode === 'consent' && !privacyChoiceDenied(request) && (body.attribution_consent === true || (body.attribution_consent === undefined && body.analytics_consent === true));
+}
+export function privacyChoiceDenied(request) { return /(?:^|;\s*)funnel_privacy_choice=deny(?:;|$)/.test(request.headers.get('Cookie') || ''); }
 export async function visitorHash(env, request, body, day, config) {
-  if (['off', 'disabled'].includes(config.analyticsMode) || privacyOptOut(request)) return null;
-  if (config.analyticsMode === 'consent' && body.analytics_consent !== true) return null;
+  if (['off', 'disabled'].includes(config.analyticsMode) || privacyOptOut(request) || privacyChoiceDenied(request)) return null;
+  if (body.analytics_consent !== true) return null;
   if (typeof body.visitor_id !== 'string' || !/^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(body.visitor_id)) return null;
   return hmac(env.SESSION_SECRET, `visitor:${day}:${body.visitor_id}`);
 }

@@ -1,4 +1,4 @@
-import { HttpError, cleanText, digest, reportingDay, visitorHash } from './security.js';
+import { HttpError, cleanText, digest, reportingDay, visitorHash, attributionAllowed } from './security.js';
 import { classifyDevice, classifyTraffic, dimensionConditions, eventId, normalizeTrafficFilters, normalizeVisitAttribution } from './traffic.js';
 
 export const STATUS_IDS = ['new', 'qualified', 'engaged', 'follow_up', 'won', 'lost'];
@@ -64,7 +64,7 @@ export function serializeLead(row) {
   lead.form_data = JSON.parse(row.form_data);
   lead.attribution = JSON.parse(row.attribution);
   for (const key of attributionKeys) lead[key] = lead.attribution.latest_touch?.[key] || lead.attribution.first_touch?.[key] || '';
-  lead.source ||= lead.utm_source || (lead.referrer ? 'referral' : 'direct');
+  lead.source ||= lead.utm_source || lead.traffic_source || (lead.referrer ? 'referral' : 'unknown');
   return lead;
 }
 export async function createLead(env, request, body, config) {
@@ -73,22 +73,25 @@ export async function createLead(env, request, body, config) {
   if (!/^[A-Za-z0-9_-]{16,128}$/.test(key)) throw new HttpError(400, 'Invalid submission ID.');
   const origin = new URL(request.url).origin;
   const form = validateForm(body.form_data, config.formFields);
-  const attribution = normalizeAttribution(body.attribution, origin);
+  const keepAttribution = attributionAllowed(request, body, config);
+  const attribution = keepAttribution ? normalizeAttribution(body.attribution, origin) : {first_touch:{},latest_touch:{}};
   const page = normalizePath(body.landing_page || '/', origin, config);
-  const referrer = sanitizedUrl(body.referrer, origin);
+  const referrer = keepAttribution ? sanitizedUrl(body.referrer, origin) : '';
   const formName = cleanText(body.form_name || 'enquiry', 120, 'Form name', true);
   const requestedEvent = eventId(body.visit_event_id);
   // Analytics context is not part of the contact payload fingerprint: retain
   // receipt compatibility for pre-migration submissions and safe form retries.
-  const payloadHash = await digest(stableJson({ form, attribution, page, referrer, formName }));
-  const existing = await env.DB.prepare('SELECT id,receipt_id,payload_hash,deleted_at FROM leads WHERE idempotency_key=?').bind(key).first();
+  // Optional tracking may be withdrawn during an uncertain retry. Contact
+  // identity stays stable; retries never rewrite previously stored attribution.
+  const payloadHash = await digest(stableJson({ form, page, formName }));
+  const existing = await env.DB.prepare('SELECT id,receipt_id,payload_hash,deleted_at,form_data,landing_page,form_name FROM leads WHERE idempotency_key=?').bind(key).first();
   if (existing) return duplicateResult(existing, payloadHash);
   const now = new Date(); const timestamp = now.toISOString();
   const day = reportingDay(now, config.timezone);
   const measuredVisitor = await visitorHash(env, request, body, day, config);
   const measuredEvent = requestedEvent && measuredVisitor ? await env.DB.prepare('SELECT event_id,device,traffic_source,traffic_type FROM visit_events WHERE event_id=? AND visitor_hash=? AND reporting_day=? AND path=? AND legacy=0').bind(requestedEvent, measuredVisitor, day, page).first() : null;
   const latestTouch = Object.keys(attribution.latest_touch).length ? attribution.latest_touch : attribution.first_touch;
-  const dimensions = measuredEvent || { ...classifyTraffic(latestTouch, latestTouch.referrer || referrer, origin), device: classifyDevice(request.headers.get('User-Agent')) };
+  const dimensions = measuredEvent || (keepAttribution ? { ...classifyTraffic(latestTouch, latestTouch.referrer || referrer, origin), device: classifyDevice(request.headers.get('User-Agent')) } : {traffic_source:'unknown',traffic_type:'unknown',device:'unknown'});
   const id = crypto.randomUUID(); const receipt = crypto.randomUUID();
   const name = cleanText(form.name || [form.first_name, form.last_name].filter(Boolean).join(' '), 640, 'Name');
   const params = [id, receipt, key, payloadHash, timestamp, timestamp, day, name, form.email || '', form.phone || '', formName, JSON.stringify(form), JSON.stringify(attribution), page, referrer, measuredVisitor, measuredEvent?.event_id || null, dimensions.device, dimensions.traffic_source, dimensions.traffic_type];
@@ -98,14 +101,17 @@ export async function createLead(env, request, body, config) {
     env.DB.prepare("INSERT INTO activity(id,lead_id,event_type,to_status,description,created_at) SELECT ?,id,'created','new','Contact received',? FROM leads WHERE id=?").bind(`created:${id}`, timestamp, id),
     env.DB.prepare("INSERT INTO webhook_outbox(id,webhook_id,lead_id,next_attempt_at,created_at) SELECT lower(hex(randomblob(16))),webhooks.id,leads.id,?,? FROM webhooks CROSS JOIN leads WHERE webhooks.enabled=1 AND leads.id=?").bind(Math.floor(now.getTime() / 1000), timestamp, id)
   ]);
-  const saved = await env.DB.prepare('SELECT id,receipt_id,payload_hash,deleted_at FROM leads WHERE idempotency_key=?').bind(key).first();
+  const saved = await env.DB.prepare('SELECT id,receipt_id,payload_hash,deleted_at,form_data,landing_page,form_name FROM leads WHERE idempotency_key=?').bind(key).first();
   if (!saved) throw new HttpError(503, 'The contact could not be saved. Please try again.');
   if (saved.id !== id) return duplicateResult(saved, payloadHash);
   return { ok: true, lead_id: id, receipt_id: receipt, duplicate: false };
 }
-function duplicateResult(row, hash) {
+async function duplicateResult(row, hash) {
   if (row.deleted_at) throw new HttpError(409, 'This submission was removed. Start a new enquiry.');
-  if (row.payload_hash !== hash) throw new HttpError(409, 'This submission ID was already used for different details.');
+  // Old records used a fingerprint that included optional attribution. Compare
+  // their retained normalized contact fields instead of invalidating safe retries.
+  const storedHash = row.payload_hash === hash ? hash : await digest(stableJson({form:JSON.parse(row.form_data),page:row.landing_page,formName:row.form_name}));
+  if (storedHash !== hash) throw new HttpError(409, 'This submission ID was already used for different details.');
   return { ok: true, lead_id: row.id, receipt_id: row.receipt_id, duplicate: true };
 }
 export async function listLeads(env, url) {
@@ -184,9 +190,10 @@ export async function recordVisit(env, request, body, config) {
   const id = eventId(body.event_id, true);
   const origin = new URL(request.url).origin;
   const path = normalizePath(body.path, origin, config);
-  const attribution = normalizeVisitAttribution(body.attribution);
-  const referrer = sanitizedUrl(body.referrer, origin);
-  const dimensions = { ...classifyTraffic(attribution, referrer, origin), device: classifyDevice(request.headers.get('User-Agent')) };
+  const keepAttribution = attributionAllowed(request, body, config);
+  const attribution = keepAttribution ? normalizeVisitAttribution(body.attribution) : {};
+  const referrer = keepAttribution ? sanitizedUrl(body.referrer, origin) : '';
+  const dimensions = { ...(keepAttribution ? classifyTraffic(attribution, referrer, origin) : {traffic_source:'unknown',traffic_type:'unknown'}), device: classifyDevice(request.headers.get('User-Agent')) };
   const payloadHash = await digest(stableJson({ day, visitor, path, attribution, referrer, dimensions }));
   const inserted = await env.DB.prepare('INSERT OR IGNORE INTO visit_events(event_id,reporting_day,path,visitor_hash,created_at,payload_hash,device,traffic_source,traffic_type) VALUES(?,?,?,?,?,?,?,?,?)')
     .bind(id, day, path, visitor, now.toISOString(), payloadHash, dimensions.device, dimensions.traffic_source, dimensions.traffic_type).run();

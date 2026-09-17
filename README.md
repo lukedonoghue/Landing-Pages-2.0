@@ -12,6 +12,7 @@ A reusable, research-led funnel-building skill: client website → approved copy
 
 - A branded responsive landing page, accessible multistep form, brochure PDF and thank-you page.
 - A protected mini CRM with named owner login, pipeline, lead table, notes, source attribution, in-app notifications, CSV export and account recovery.
+- Revisitable visitor privacy choices with separately configurable campaign attribution; enquiries still work when measurement is declined.
 - Daily reporting with date presets, source/device/paid-organic filters, all/unique visits and Count/Rate charts.
 - Cloudflare Workers for the site/admin/API and D1 for leads, sessions and reporting. No Supabase, Netlify or GitHub hosting dependency.
 

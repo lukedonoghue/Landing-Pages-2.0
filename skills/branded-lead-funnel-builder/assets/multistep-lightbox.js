@@ -36,7 +36,6 @@
     [nextButton, backButton].forEach(button => { if (button) button.disabled = value; });
     entryControls.forEach(field => { field.disabled = value; });
   };
-  const safeStorage = { get(key) { try { return sessionStorage.getItem(key); } catch { return null; } }, set(key, value) { try { sessionStorage.setItem(key, value); } catch {} } };
 
   const setError = (message = '') => {
     if (errorRegion) {
@@ -131,10 +130,9 @@
   });
   backButton?.addEventListener('click', () => { if (!submitting && !uncertainBody) showStep(currentStep - 1); });
 
-  const search = new URLSearchParams(window.location.search);
-  attributionKeys.forEach((key) => {
-    const value = search.get(key);
-    if (value) safeStorage.set(`${storagePrefix}${key}`, value);
+  // Retire the old ungated per-field cache. LeadFunnel owns attribution policy.
+  attributionKeys.forEach(key => {
+    try { sessionStorage.removeItem(`${storagePrefix}${key}`); } catch {}
   });
 
   form.addEventListener('submit', async (event) => {
@@ -162,13 +160,15 @@
       if (webhook) {
         const controller = new AbortController();
         const timeoutMs = Math.min(60000, Math.max(1000, Number(form.dataset.webhookTimeout) || 15000));
-        const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+        let timeoutId;
         let response;
         try {
           const context = window.LeadFunnel ? await window.LeadFunnel.context() : {};
           const { website = '', ...formData } = payload;
-          const body = uncertainBody || { ...context, idempotency_key: requestId, form_name: form.dataset.formName || 'lead_form', form_data: formData, website };
-          uncertainBody = body;
+          const candidate = uncertainBody || { ...context, idempotency_key: requestId, form_name: form.dataset.formName || 'lead_form', form_data: formData, website };
+          uncertainBody = candidate;
+          const body = window.LeadFunnel?.protectSubmission ? window.LeadFunnel.protectSubmission(candidate) : candidate;
+          timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
           response = await fetch(webhook, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

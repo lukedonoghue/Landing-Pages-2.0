@@ -1,6 +1,6 @@
 import siteConfig from './site-config.json';
 import { accountInfo, acknowledgeNotifications, changePassword, exportLeads, notifications, revokeSessions } from './admin-operations.js';
-import { HttpError, adminCredentials, cleanText, secureEqual, enforceOrigin, hmac, json, randomToken, rateLimit, readJson, requireSession, secureResponse, sessionCookie, sessionTokenHash, verifyPassword } from './security.js';
+import { HttpError, adminCredentials, cleanText, secureEqual, enforceOrigin, hmac, json, randomToken, rateLimit, readJson, requireSession, secureResponse, privacyOptOut, sessionCookie, sessionTokenHash, verifyPassword } from './security.js';
 import { addNote, changeStatus, createLead, deleteLead, earliestReportingDate, getLead, listLeads, metrics, recordVisit } from './repository.js';
 import { addWebhook, deleteWebhook, listWebhooks, processOutbox } from './webhooks.js';
 
@@ -28,6 +28,7 @@ async function route(request, env, ctx, url) {
   const path = url.pathname;
   const method = request.method;
   if (path.startsWith('/api/') && !['GET', 'HEAD'].includes(method)) enforceOrigin(request);
+  if (path === '/api/privacy-config' && method === 'GET') return json({analytics_mode:siteConfig.analyticsMode || 'consent',attribution_mode:siteConfig.attributionMode || 'consent',browser_opt_out:privacyOptOut(request)});
   if (path === '/api/health' && method === 'GET') {
     await env.DB.prepare('SELECT id FROM leads LIMIT 1').first();
     return json({ ok: true, database: 'connected', release: { version_id: env.CF_VERSION_METADATA?.id || null, release_id: env.FUNNEL_RELEASE_ID || null, source_fingerprint: env.FUNNEL_SOURCE_FINGERPRINT || null } });
