@@ -279,9 +279,11 @@ CRM removal currently sets deleted_at. Contact fields, form answers, notes, attr
 
 **Done when:** A seeded contact's unique personal-data markers disappear from the intended live records and queued deliveries; historical totals behave as specified; retention is idempotent and stays within configured scope. Document backups and payloads already delivered to optional third parties separately.
 
+**Suggested implementation order:** First define whether historical anonymous totals survive erasure: current conversion queries join `leads` to `visit_events`, so simply deleting or unlinking rows changes past reports. Then implement one authenticated, retry-safe operation that clears contact/form/attribution data and notes/history, cancels queued deliveries, and keeps only the minimum replay-prevention record permitted by the chosen policy. The webhook worker reads contact details before its outbound request, so a claimed/in-flight delivery needs explicit handling; already delivered copies are a separate responsibility. Add a retention preview with exact counts before enabling any scheduled deletion, keep automatic deletion off until configured, and include backup/restore handling so erased data is not silently reintroduced.
+
 **Needs:** Client retention choices; no assumed universal retention period.
 
-**Files:** [soft removal](skills/branded-lead-funnel-builder/assets/cloudflare/src/repository.js#L164), [scheduled cleanup](skills/branded-lead-funnel-builder/assets/cloudflare/src/worker.js#L16), [data schema](skills/branded-lead-funnel-builder/assets/cloudflare/migrations/0001_crm.sql), [documented distinction](skills/branded-lead-funnel-builder/references/cloudflare-crm.md#L15).
+**Files:** [soft removal](skills/branded-lead-funnel-builder/assets/cloudflare/src/repository.js), [scheduled cleanup](skills/branded-lead-funnel-builder/assets/cloudflare/src/worker.js#L16), [data schema](skills/branded-lead-funnel-builder/assets/cloudflare/migrations/0001_crm.sql), [documented distinction](skills/branded-lead-funnel-builder/references/cloudflare-crm.md#L15).
 
 ### B16 — Make the full generated-funnel test reproducible in CI
 
