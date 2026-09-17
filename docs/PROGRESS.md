@@ -318,3 +318,8 @@ The complete fictional local demo again passed **96 browser checks**, **31 form/
 ### Still open
 
 B15's local operation and restore-preparation flow are implemented. Actual client retention periods, authentic/current record provenance, provider recovery-history expiry, copies already exported/delivered, production-scale workload and a real approved Cloudflare restore/cutover remain separate acceptance work. No real contacts, account calls, existing-client deployment or paid image requests were used. Publishing recovery/diagnostics and first-time-human acceptance also remain open; the development goal remains active.
+
+
+### Fresh Linux verification and distribution
+
+[GitHub run 35171727198](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35171727198) passed on code revision `ebb8996`, including the full application/browser regressions, actual local backup reconciliation and a freshly generated complete funnel with its portable handoff round trip. Both installed skill copies are checksum-verified at **153 files**. Local demo Lighthouse median remained **100** (LCP about **1360 ms**, CLS **0**, TBT **0 ms**). This is macOS/Linux local evidence; no Cloudflare client deployment, provider recovery expiry or live restore/cutover is claimed.
