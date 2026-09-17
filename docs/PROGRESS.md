@@ -255,3 +255,7 @@ A new full demo passed 72 browser checks, 27 local form/CRM checks, 118 layout c
 ### Still open
 
 B07's core format and integrity/resumption behavior are implemented. Its full acceptance still requires a genuinely fully reviewed fictional creative build to be transferred and resumed on another supported machine. Private access, live database restoration and unresolved account operations remain separate secure/reconciled handovers. The legacy static-only ZIP path has not gained Worker workflow portability. Remaining privacy/retention, publication reconciliation, real Cloudflare and first-time-human acceptance work stays open. No client page was deployed and no real approval or paid image call was invented. The goal remains active.
+
+### Fresh Linux verification and distribution
+
+[GitHub run 35164662704](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35164662704) passed on code revision `ac6ff01`, including all regressions, the freshly generated full local funnel and its in-progress archive/extract check. Both skill installations are checksum-verified at 143 files. This is fresh-machine local portability evidence; the actual sample's unfinished creative reviews and lack of live-account verification remain explicit.
