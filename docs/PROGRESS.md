@@ -289,3 +289,8 @@ Independent QA exercised a 14-case privacy matrix plus WebKit mobile and the two
 ### Remaining scope
 
 B14 is implemented locally. The actual client must still have truthful configured privacy content and a chosen attribution policy. B15 retention/permanent erasure remains open: changing a choice does not erase an accepted lead and CRM removal remains a soft delete. Live Cloudflare, physical-device, exact-image-model and first-time independent-user acceptance remain separate unfinished work. No client page was deployed, real contacts used, approval invented or paid image call made. The development goal remains active.
+
+
+### Fresh Linux verification and distribution
+
+[GitHub run 35167608010](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35167608010) passed on code revision `8b0fae6`, including all regression jobs and the complete freshly generated local funnel. Both installed skill copies are checksum-verified at **146 files**. This confirms repeatable local setup and privacy behavior on macOS/Linux; it is not live Cloudflare or first-time-human acceptance. The next data-lifecycle implementation order is recorded under B15 in Bohdan's handoff.
