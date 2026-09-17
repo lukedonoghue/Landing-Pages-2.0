@@ -125,6 +125,7 @@ async function serverFixture(t, options = {}) {
     requests.push({ url: req.url, method: req.method, cookie: req.headers.cookie, authorization: req.headers.authorization });
     const route = decodeURIComponent(req.url);
     if (route === '/api/health') { res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify({ ok: true, database: 'connected' })); }
+    else if (route === '/api/privacy-config') { res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');res.end(JSON.stringify({analytics_mode:'consent',attribution_mode:'consent',browser_opt_out:false})); }
     else if (route.startsWith('/api/')) { res.statusCode = options.exposed ? 200 : 401; res.end('{}'); }
     else if (route.startsWith('/admin/')) { res.statusCode = 302; res.setHeader('Location', '/login.html'); res.end(); }
     else if (route === '/guide.pdf') res.end(options.brokenPdf ? 'not a pdf' : '%PDF-1.7\nFixture');

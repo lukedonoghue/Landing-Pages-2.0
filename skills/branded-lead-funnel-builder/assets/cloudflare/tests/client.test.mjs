@@ -7,14 +7,14 @@ import { runInNewContext } from 'node:vm';
 import { chromium } from 'playwright-core';
 
 const trackingCode = await readFile(new URL('../public/funnel.js', import.meta.url), 'utf8');
-function tracker({ mode = 'consent', stored = {}, privacy = {}, blockedStorage = false, hangingVisit = false, sharedMemory, url = 'https://site.test/?utm_source=google&gclid=test-click&email=discard', referrer = 'https://example.com/article?private=discard', measure = true, visitOk = true, visitResult } = {}) {
+function tracker({ mode = 'consent', attributionMode = 'consent', stored = {}, privacy = {}, blockedStorage = false, writeBlocked = false, policyOk = true, deferredVisit = false, hangingVisit = false, sharedMemory, url = 'https://site.test/?utm_source=google&gclid=test-click&email=discard', referrer = 'https://example.com/article?private=discard', measure = true, visitOk = true, visitResult } = {}) {
   const memory = sharedMemory || new Map(Object.entries(stored).map(([key, value]) => [`funnel_v2_${key}`, JSON.stringify(value)]));
-  const requests = [];
-  const storage = { getItem(key) { if (blockedStorage) throw new Error('Storage blocked'); return memory.get(key) || null; }, setItem(key, value) { if (blockedStorage) throw new Error('Storage blocked'); memory.set(key, value); }, removeItem(key) { if (blockedStorage) throw new Error('Storage blocked'); memory.delete(key); } };
-  const environment = { document: { currentScript: { dataset: { analyticsMode: mode, measure: String(measure) } }, referrer, querySelectorAll: () => [], querySelector: () => null }, location: new URL(url), navigator: privacy, crypto, URL, URLSearchParams, Map, Date, Promise, JSON, setTimeout, clearTimeout, localStorage: storage, sessionStorage: storage, fetch: async (url, options) => { const body = JSON.parse(options.body); requests.push({ url, body }); return hangingVisit ? new Promise(() => {}) : { ok: visitOk, json: async () => visitResult || { measured: true, event_id: body.event_id, duplicate: false } }; } };
+  const requests = [];const pendingVisits=[];
+  const storage = { getItem(key) { if (blockedStorage) throw new Error('Storage blocked'); return memory.get(key) || null; }, setItem(key, value) { if (blockedStorage || writeBlocked) throw new Error('Storage blocked'); memory.set(key, value); }, removeItem(key) { if (blockedStorage || writeBlocked) throw new Error('Storage blocked'); memory.delete(key); } };
+  const environment = { document: { currentScript: { dataset: { analyticsMode: mode, measure: String(measure) } }, referrer, querySelectorAll: () => [], querySelector: () => null }, location: new URL(url), navigator: privacy, crypto, URL, URLSearchParams, Map, Date, Promise, JSON, AbortController, setTimeout, clearTimeout, localStorage: storage, sessionStorage: storage, fetch: async (url, options) => { if(url==='/api/privacy-config')return {ok:policyOk,json:async()=>({analytics_mode:mode,attribution_mode:attributionMode})}; const body = JSON.parse(options.body); requests.push({ url, body }); if(deferredVisit)return new Promise(resolve=>pendingVisits.push(()=>resolve({ok:true,json:async()=>({measured:true,event_id:body.event_id})}))); return hangingVisit ? new Promise(() => {}) : { ok: visitOk, json: async () => visitResult || { measured: true, event_id: body.event_id, duplicate: false } }; } };
   environment.window = environment;
   runInNewContext(trackingCode, environment);
-  return { environment, requests, memory, funnel: environment.LeadFunnel };
+  return { environment, requests, memory, pendingVisits, funnel: environment.LeadFunnel };
 }
 test('declined, disabled, DNT and GPC sessions send no visit or conversion event', async () => {
   for (const options of [{ stored: { analytics_consent: false } }, { mode: 'disabled', stored: { analytics_consent: true } }, { mode: 'essential', privacy: { doNotTrack: '1' } }, { mode: 'essential', privacy: { globalPrivacyControl: true } }]) {
@@ -29,7 +29,7 @@ test('consent acceptance measures a stable browser ID without passing contact da
   state.funnel.setConsent(true);
   const first = await state.funnel.context(); const second = await state.funnel.context();
   assert.equal(first.visitor_id, second.visitor_id); assert.match(first.visitor_id, /^[a-f0-9-]{36}$/);
-  assert.equal(state.requests.length, 1); assert.deepEqual(Object.keys(state.requests[0].body).sort(), ['analytics_consent', 'attribution', 'event_id', 'path', 'referrer', 'visitor_id']);
+  assert.equal(state.requests.length, 1); assert.deepEqual(Object.keys(state.requests[0].body).sort(), ['analytics_consent', 'attribution', 'attribution_consent', 'event_id', 'path', 'referrer', 'visitor_id']);
   assert.equal(first.visit_event_id, state.requests[0].body.event_id); assert.equal(second.visit_event_id, first.visit_event_id);
   assert.deepEqual(state.requests[0].body.attribution, { utm_source: 'google', gclid: 'test-click' });
   assert.equal(state.requests[0].body.referrer, 'https://example.com/article'); assert.equal(state.requests[0].body.path, '/');
@@ -42,7 +42,7 @@ test('consent acceptance measures a stable browser ID without passing contact da
   state.funnel.setConsent(false); assert.equal((await state.funnel.context()).visitor_id, '');
   assert.equal(state.memory.has('funnel_v2_visitor_id'), false);
 });
-test('repeat consent actions preserve this navigation event and visitor without exposing either while declined', async () => {
+test('repeated acceptance does not resend; withdrawal and regrant start new identifiers', async () => {
   const state = tracker({ mode: 'consent' }); state.funnel.setConsent(true);
   const initial = await state.funnel.context();
   state.funnel.setConsent(true); await state.funnel.context();
@@ -51,13 +51,13 @@ test('repeat consent actions preserve this navigation event and visitor without 
   assert.equal(declined.visitor_id, ''); assert.equal(declined.visit_event_id, undefined);
   assert.equal(state.memory.has('funnel_v2_visitor_id'), false);
   state.funnel.setConsent(true); const resumed = await state.funnel.context();
-  assert.equal(state.requests.length, 3);
-  assert.equal(new Set(state.requests.map(request => request.body.event_id)).size, 1);
-  assert.equal(new Set(state.requests.map(request => request.body.visitor_id)).size, 1);
-  assert.equal(resumed.visit_event_id, initial.visit_event_id); assert.equal(resumed.visitor_id, initial.visitor_id);
+  assert.equal(state.requests.length, 2);
+  assert.equal(new Set(state.requests.map(request => request.body.event_id)).size, 2);
+  assert.equal(new Set(state.requests.map(request => request.body.visitor_id)).size, 2);
+  assert.notEqual(resumed.visit_event_id, initial.visit_event_id); assert.notEqual(resumed.visitor_id, initial.visitor_id);
 });
-test('accepted receipts emit once even when the first response is an idempotent retry', () => {
-  const state = tracker({ mode: 'essential' });
+test('accepted receipts emit once even when the first response is an idempotent retry', async () => {
+  const state = tracker({ mode: 'essential' }); await state.funnel.ready;
   const receipt = { ok: true, lead_id: 'lead', receipt_id: 'retry-receipt', duplicate: true };
   state.funnel.accepted(receipt);
   assert.equal(state.environment.dataLayer?.length, 1, 'The first confirmed retry receipt must emit');
@@ -65,18 +65,18 @@ test('accepted receipts emit once even when the first response is an idempotent 
   state.funnel.accepted(receipt);
   assert.equal(state.environment.dataLayer?.length, 1);
   assert.equal(state.environment.dataLayer[0].receipt_id, receipt.receipt_id);
-  const resumed = tracker({ mode: 'essential', sharedMemory: state.memory, measure: false });
+  const resumed = tracker({ mode: 'essential', sharedMemory: state.memory, measure: false }); await resumed.funnel.ready;
   assert.equal(resumed.environment.dataLayer, undefined, 'Loading a thank-you page emits nothing');
   resumed.funnel.accepted(receipt);
   assert.equal(resumed.environment.dataLayer, undefined, 'The session remembers an emitted receipt');
 });
-test('repeated ordinary receipts deduplicate and distinct committed leads remain measurable', () => {
-  const state = tracker({ mode: 'essential' });
+test('repeated ordinary receipts deduplicate and distinct committed leads remain measurable', async () => {
+  const state = tracker({ mode: 'essential' }); await state.funnel.ready;
   for (const id of ['one', 'one', 'two', 'two']) state.funnel.accepted({ ok: true, lead_id: id, receipt_id: id, duplicate: false });
   assert.deepEqual(Array.from(state.environment.dataLayer, event => event.receipt_id), ['one', 'two']);
 });
-test('receipt deduplication works without browser storage and rejects uncommitted responses', () => {
-  const state = tracker({ mode: 'essential', blockedStorage: true });
+test('receipt deduplication works without browser storage and rejects uncommitted responses', async () => {
+  const state = tracker({ mode: 'essential', blockedStorage: true }); await state.funnel.ready; state.funnel.setConsent(true);
   for (const result of [null, {}, { ok: false, lead_id: 'a', receipt_id: 'a' }, { ok: true, receipt_id: 'a' }]) state.funnel.accepted(result);
   assert.equal(state.environment.dataLayer, undefined);
   const receipt = { ok: true, lead_id: 'lead', receipt_id: 'stored-receipt', duplicate: true };
@@ -84,8 +84,8 @@ test('receipt deduplication works without browser storage and rejects uncommitte
   assert.equal(state.environment.dataLayer.length, 1);
 });
 test('a direct navigation records current source independently from retained paid lead attribution', async () => {
-  const paid = tracker({ mode: 'essential', referrer: '' }); const first = await paid.funnel.context();
-  const direct = tracker({ mode: 'essential', url: 'https://site.test/?email=discard#secret', referrer: '', sharedMemory: paid.memory });
+  const paid = tracker({ mode: 'essential', attributionMode:'lead', referrer: '' }); const first = await paid.funnel.context();
+  const direct = tracker({ mode: 'essential', attributionMode:'lead', url: 'https://site.test/?email=discard#secret', referrer: '', sharedMemory: paid.memory });
   const next = await direct.funnel.context();
   assert.deepEqual(direct.requests[0].body.attribution, {}); assert.equal(direct.requests[0].body.referrer, '');
   assert.equal(next.attribution.first_touch.utm_source, 'google'); assert.equal(next.attribution.latest_touch.gclid, 'test-click');
@@ -93,8 +93,8 @@ test('a direct navigation records current source independently from retained pai
   assert.equal(next.landing_page, 'https://site.test/');
 });
 test('new campaign visits use current source while retaining the original CRM first touch', async () => {
-  const first = tracker({ mode: 'essential', referrer: '' }); await first.funnel.context();
-  const second = tracker({ mode: 'essential', url: 'https://site.test/offer?utm_source=facebook&utm_medium=paid_social&fbclid=facebook-click&name=discard', referrer: 'https://facebook.com/ad?contact=discard#private', sharedMemory: first.memory });
+  const first = tracker({ mode: 'essential', attributionMode:'lead', referrer: '' }); await first.funnel.context();
+  const second = tracker({ mode: 'essential', attributionMode:'lead', url: 'https://site.test/offer?utm_source=facebook&utm_medium=paid_social&fbclid=facebook-click&name=discard', referrer: 'https://facebook.com/ad?contact=discard#private', sharedMemory: first.memory });
   const context = await second.funnel.context(); const visit = second.requests[0].body;
   assert.deepEqual(visit.attribution, { utm_source: 'facebook', utm_medium: 'paid_social', fbclid: 'facebook-click' });
   assert.equal(visit.path, '/offer'); assert.equal(visit.referrer, 'https://facebook.com/ad');
@@ -102,7 +102,7 @@ test('new campaign visits use current source while retaining the original CRM fi
   assert.ok(!JSON.stringify(visit).includes('discard'));
 });
 test('internal navigation referrers do not classify as an external traffic source', async () => {
-  const state = tracker({ mode: 'essential', url: 'https://site.test/offer', referrer: 'https://site.test/other?email=discard' });
+  const state = tracker({ mode: 'essential', attributionMode:'lead', url: 'https://site.test/offer', referrer: 'https://site.test/other?email=discard' });
   await state.funnel.context(); assert.equal(state.requests[0].body.referrer, '');
 });
 test('unmeasured pages and unsuccessful analytics responses do not claim a measured visit', async () => {
@@ -124,6 +124,44 @@ test('an analytics request that hangs cannot indefinitely block lead submission'
   const state = tracker({ mode: 'essential', hangingVisit: true });
   const start = Date.now(); const context = await state.funnel.context();
   assert.equal(context.analytics_consent, true); assert.equal(context.visit_event_id, undefined); assert.ok(Date.now() - start < 2200);
+});
+
+
+test('campaign details remain absent before acceptance and are cleared on withdrawal', async () => {
+  const state=tracker();await state.funnel.ready;
+  assert.equal(state.memory.has('funnel_v2_first_touch'),false);
+  assert.equal((await state.funnel.context()).attribution_consent,false);
+  state.funnel.setConsent(true);const candidate=await state.funnel.context();
+  assert.equal(candidate.attribution.latest_touch.gclid,'test-click');
+  state.funnel.setConsent(false);const body=state.funnel.protectSubmission(candidate);
+  assert.equal(body.analytics_consent,false);assert.equal(body.attribution_consent,false);assert.equal(body.referrer,'');assert.equal(body.visit_event_id,undefined);
+  assert.equal('__funnel_privacy_epoch' in body,false);assert.equal(Object.keys(body.attribution.first_touch).length,0);
+  assert.equal(state.memory.has('funnel_v2_first_touch'),false);assert.equal(state.memory.has('funnel_v2_latest_touch'),false);
+});
+test('attribution policy is separate from measurement and browser privacy overrides both', async () => {
+  for(const [attributionMode,privacy,expected] of [['consent',{},false],['lead',{},true],['disabled',{},false],['lead',{doNotTrack:'1'},false],['lead',{globalPrivacyControl:true},false]]) {
+    const state=tracker({attributionMode,privacy,stored:{analytics_consent:false}});const body=await state.funnel.context();
+    assert.equal(body.analytics_consent,false);assert.equal(body.attribution_consent,expected);assert.equal(Boolean(body.attribution.latest_touch.gclid),expected);
+  }
+  const disabled=tracker({mode:'essential',attributionMode:'disabled'});const body=await disabled.funnel.context();
+  assert.equal(body.analytics_consent,true);assert.equal(body.attribution_consent,false);assert.equal(Object.keys(disabled.requests[0].body.attribution).length,0);
+});
+test('accepting additional attribution does not discard an already permitted pending visit',async()=>{
+  const state=tracker({mode:'essential',deferredVisit:true});await state.funnel.ready;
+  assert.equal(state.pendingVisits.length,1);state.funnel.setConsent(true);state.pendingVisits[0]();
+  const body=await state.funnel.context();assert.equal(body.visit_event_id,state.requests[0].body.event_id);assert.equal(body.attribution_consent,true);assert.equal(state.requests.length,1);
+});
+test('late visit acknowledgement cannot restore a withdrawn identifier or correlation', async () => {
+  const state=tracker({deferredVisit:true});await state.funnel.ready;state.funnel.setConsent(true);
+  assert.equal(state.pendingVisits.length,1);state.funnel.setConsent(false);state.pendingVisits[0]();
+  await Promise.resolve();const body=await state.funnel.context();
+  assert.equal(body.visitor_id,'');assert.equal(body.visit_event_id,undefined);assert.equal(state.memory.has('funnel_v2_visitor_id'),false);
+});
+test('unwritable stale opt-in and unavailable policy fail closed for optional data', async () => {
+  for(const options of [{writeBlocked:true,stored:{analytics_consent:true,visitor_id:crypto.randomUUID()}},{policyOk:false,stored:{analytics_consent:true}}]) {
+    const state=tracker({mode:'essential',...options});const body=await state.funnel.context();
+    assert.equal(body.analytics_consent,false);assert.equal(body.attribution_consent,false);assert.equal(body.visitor_id,'');assert.equal(state.requests.length,0);
+  }
 });
 
 const chromePath = [process.env.CHROME_BIN, '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/chromium', '/usr/bin/google-chrome'].find(path => path && existsSync(path));

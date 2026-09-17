@@ -32,8 +32,10 @@ function fixture(t) {
   write(root, 'wrangler.jsonc', {name:'workflow-fixture', account_id:'a'.repeat(32), assets:{directory:'public',run_worker_first:true}, version_metadata:{binding:'CF_VERSION_METADATA'}, d1_databases:[{binding:'DB',database_name:'workflow-fixture-crm',database_id:'11111111-1111-4111-8111-111111111111'}]});
   write(root, 'src/site-config.json', {name:'Workflow fixture'});
   write(root, 'funnel.json', {catalogue:{enabled:false}});
-  write(root, 'public/index.html', '<!doctype html><title>Workflow fixture</title><h1>Fixture</h1>');
-  write(root, 'public/thank-you.html', '<!doctype html><title>Thank you</title>');
+  write(root, 'public/index.html', '<!doctype html><title>Workflow fixture</title><script src="funnel.js" defer></script><h1>Fixture</h1>');
+  write(root, 'public/thank-you.html', '<!doctype html><title>Thank you</title><script src="funnel.js" data-measure="false" defer></script>');
+  write(root,'public/privacy.html','<!doctype html><title>Privacy fixture</title><script src="funnel.js" data-measure="false" defer></script>');
+  for(const name of ['funnel.js','privacy-controls.js','privacy-controls.css'])copyFileSync(join(template,'public',name),join(root,'public',name));
   // This executable logs requests instead of using the network or mutating Cloudflare.
   write(root, 'node_modules/wrangler/bin/wrangler.js', `import {appendFileSync} from 'node:fs';appendFileSync('wrangler-calls.log',JSON.stringify(process.argv.slice(2))+'\\n');if(process.argv.includes('list'))console.log('[]');`);
   return root;
@@ -173,4 +175,10 @@ test('publish never sends credentials to an unrelated verification URL', t => {
   assert.match(result.stderr,/not a reviewed custom domain|No credentials were sent/);
   assert.equal(existsSync(join(root,'verification-contacted.txt')),false);
   assert.equal(existsSync(join(root,'wrangler-calls.log')),false);
+});
+
+
+test('preflight blocks a removed persistent privacy control before publishing',t=>{
+  const root=fixture(t);write(root,'public/privacy.html','<!doctype html><title>Privacy</title>');evidence(root);
+  const result=execute(root,'preflight');assert.notEqual(result.status,0);assert.match(result.stderr,/privacy.html must load funnel.js/);assert.equal(existsSync(join(root,'wrangler-calls.log')),false);
 });

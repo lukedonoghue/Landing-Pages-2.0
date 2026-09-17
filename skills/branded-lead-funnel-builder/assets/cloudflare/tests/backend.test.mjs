@@ -62,6 +62,11 @@ test('health reports only public release markers from the actual runtime binding
   assert.equal(response.headers.get('Cache-Control'), 'no-store');
 });
 
+test('public privacy configuration shares server policy without exposing private settings',async()=>{
+  const result=await jsonCall('/api/privacy-config',{auth:false,headers:{'Sec-GPC':'1'}});
+  assert.equal(result.status,200);assert.deepEqual(result.body,{analytics_mode:'consent',attribution_mode:'lead',browser_opt_out:true});assert.equal(result.headers.get('Cache-Control'),'no-store');
+});
+
 test('all CRM routes and encoded admin assets require a real session', async () => {
   for (const path of ['/api/admin/leads', '/api/admin/config', '/api/admin/webhooks', '/api/admin/metrics', '/api/admin/unknown']) assert.equal((await call(path, { auth: false })).status, 401, path);
   for (const path of ['/admin', '/admin/', '/admin/index.html', '/admin/index', '/%61dmin/index.html', '/admin%2findex.html']) {

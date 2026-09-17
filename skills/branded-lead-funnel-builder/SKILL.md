@@ -135,7 +135,8 @@ Default funnel behavior:
 - the thank-you page confirms the promised next step and provides the brochure download;
 - images have responsive variants, explicit dimensions, and below-fold lazy loading;
 - fonts are local where practical;
-- UTM and click IDs persist through submission;
+- UTM and click IDs persist through submission only when the configured attribution policy permits;
+- Privacy choices remain reachable from the landing, thank-you and privacy pages;
 - analytics never receives raw contact details; built-in reporting uses only pseudonymous visitor and receipt identifiers.
 
 The built-in reporting needs no contact data in analytics at all: send only a pseudonymous visitor ID and a committed receipt ID. Optional advertising enhanced conversions require a separate verified provider adapter and applicable consent.

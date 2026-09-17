@@ -11,13 +11,14 @@ The form sends JSON to same-origin `POST /api/leads`:
   "visitor_id": "consented pseudonymous UUID or empty string",
   "visit_event_id": "confirmed measured navigation UUID, otherwise omitted",
   "analytics_consent": false,
+  "attribution_consent": false,
   "landing_page": "https://client.example/",
   "referrer": "https://referrer.example/",
   "attribution": {"first_touch":{},"latest_touch":{}}
 }
 ```
 
-The field schema is client-specific. The server validates required fields, allowed names/options, sizes, email/phone shapes, honeypot, origin, and rate limits. Never accept client-supplied CRM status or timestamps. Store first/latest UTM parameters, GCLID, GBRAID, WBRAID, FBCLID and MSCLKID when available. Strip query strings from landing/referrer URLs. Do not store raw IP addresses in CRM/analytics by default.
+The field schema is client-specific. The server validates required fields, allowed names/options, sizes, email/phone shapes, honeypot, origin, and rate limits. Never accept client-supplied CRM status or timestamps. Store first/latest UTM parameters, GCLID, GBRAID, WBRAID, FBCLID and MSCLKID only when the configured attribution policy permits (see [cloudflare-crm.md](cloudflare-crm.md#visitor-privacy-and-attribution)). The default requires consent; DNT/GPC overrides both measurement and lead-origin capture. Strip query strings from landing/referrer URLs. Do not store raw IP addresses in CRM/analytics by default.
 
 Only a committed lead returns `{ "ok": true, "lead_id": "...", "receipt_id": "...", "duplicate": false }`. An idempotent retry returns the same receipt with `duplicate: true`. A changed payload with the same idempotency key is rejected. Timeouts are uncertain results: retry with the same key, not a new contact.
 

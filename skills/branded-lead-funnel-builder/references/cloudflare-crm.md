@@ -28,7 +28,19 @@ This is intentionally a small-team CRM, not a multi-user roles system. Password 
 - Leads: every accepted, deduplicated CRM submission, including visitors who opted out of measurement. This can exceed measured conversions.
 - Period visitors sum daily unique browsers, not globally unique people across the period. The interface names this distinction.
 
-Dates use the configured IANA timezone (default UTC). The first-party client defaults to explicit analytics consent, honors DNT/GPC, and excludes thank-you/admin routes from visits. Connect `LeadFunnel.setConsent(true|false)` to the site's consent UI. Mode `essential` is an explicit client deployment choice, not a universal legal classification; verify the client's requirements. `disabled` turns measurement off while lead delivery remains available.
+Dates use the configured IANA timezone (default UTC). The first-party client excludes thank-you/admin routes from visits.
+
+## Visitor privacy and attribution
+
+Configure `funnel.json` once, then run `npm run configure`. The public `/api/privacy-config` endpoint and server enforcement share the resulting configuration; do not edit a separate frontend mode. Keep `funnel.js`, `privacy-controls.js` and `privacy-controls.css` in every generated funnel. Load `funnel.js` on the landing, thank-you and privacy pages, with `data-measure="false"` on the latter two. The script adds a persistent Privacy choices button to the footer (or uses an existing `[data-privacy-choices]` control). Browser QA must actually reopen it, use the keyboard and return focus.
+
+- `analytics.mode`: `consent` is the default; `essential` enables measurement by default but still allows withdrawal; `disabled` disables measurement. The name `essential` is a compatibility setting, not a legal classification.
+- `analytics.attribution_mode`: `consent` is the default and gates campaign/referrer capture with the visitor's choice; `lead` explicitly allows these details with enquiries independently of optional measurement; `disabled` discards campaign/referrer metadata. Select the policy for the actual client; do not infer legal applicability from a mode name.
+- DNT/GPC takes priority over both measurement and attribution, including `lead` mode. The public wording reflects the active modes. Client-specific privacy information remains required before publication.
+
+Withdrawal clears measurement identifiers and consent-gated first/latest touches, stops future optional requests/events and updates other open tabs. A functional choice cookie contains only allow/deny so the server can reject stale optional data; it contains no visitor identifier. Regrant starts new measurement identifiers. Session-scoped first touch and latest tagged/external-referrer touch are retained only when the attribution policy permits; direct/internal navigation does not overwrite the latest campaign touch. Unknown origin is reported as Unknown, not Direct.
+
+A blocked policy endpoint fails closed for optional data; forms can still submit. Storage restrictions preserve choices in memory for the current page, with a visible persistence limitation. Previously accepted lead data is not erased by changing this choice. CRM removal is still a soft delete; retention/permanent erasure is separate work. Keep contact receipt identity stable during uncertain retries even if optional metadata is withdrawn, and never rewrite previously stored metadata from a retry.
 
 ## Webhooks
 

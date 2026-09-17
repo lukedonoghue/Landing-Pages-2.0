@@ -18,7 +18,14 @@ UI_TEXT = [
     "How can we reach you?", "What do you need?", "Confirm the next step",
     "First name", "Last name", "Name", "Email", "Phone", "Service", "Select a service", "Website",
     "Allow visitor measurement to help us improve this page? Your request works either way.",
-    "Allow measurement", "No thanks", "Privacy choices", "All rights reserved.",
+    "Allow measurement", "Allow optional data", "No optional measurement", "No thanks", "Privacy choices", "All rights reserved.",
+    "Allow optional page measurement and campaign details? Your enquiry works either way.",
+    "Allow visitor measurement? Campaign details are still included with your enquiry.",
+    "Allow campaign details with your enquiry? Your request works either way.",
+    "Allow visitor measurement? Campaign details are not saved. Your enquiry works either way.",
+    "Visitor measurement is on. You can turn it off; your enquiry works either way.",
+    "Campaign details accompany enquiries independently.", "Campaign details are not saved.",
+    "Campaign details are added only if you allow optional data.",
     "Contents", "Services at a glance", "Our process", "Ideal for", "What's included"
 ]
 TRANSLATE = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"', "‐": "-", "‑": "-", "–": "-", "—": "-", "\u00ad": ""})

@@ -44,6 +44,9 @@ export async function publicChecks(target, fixture, report, fetcher = fetch) {
   const health = await get('/api/health');
   let healthBody; try { healthBody = await health.json(); } catch {}
   check(report, 'Worker health reports a connected database', health.ok && healthBody?.ok === true && healthBody.database === 'connected');
+  const privacy=await get('/api/privacy-config');
+  let policy;try{policy=await privacy.json();}catch{}
+  check(report,'Public privacy policy is valid and uncached',privacy.ok && privacy.headers.get('cache-control')==='no-store' && ['consent','essential','disabled'].includes(policy?.analytics_mode) && ['consent','lead','disabled'].includes(policy?.attribution_mode) && typeof policy?.browser_opt_out==='boolean');
   for (const resource of ['/api/admin/leads', '/api/admin/metrics', '/api/auth/session']) check(report, `${resource} rejects anonymous requests`, (await get(resource)).status === 401);
   for (const resource of ['/admin/', '/admin/index.html', '/%61dmin/']) {
     const response = await get(resource);
@@ -51,7 +54,7 @@ export async function publicChecks(target, fixture, report, fetcher = fetch) {
     try { const redirect = sameOriginUrl(response.headers.get('location'), target.url); safeLoginRedirect = /^\/login(?:\.html)?\/?$/.test(redirect.pathname); } catch {}
     check(report, `${resource} is protected`, response.status === 401 || ([302, 303, 307].includes(response.status) && safeLoginRedirect));
   }
-  for (const resource of [...new Set([fixture.path, fixture.thank_you_path, '/login.html', ...(fixture.required_resources || [])])]) {
+  for (const resource of [...new Set([fixture.path, fixture.thank_you_path, '/login.html', '/privacy.html', '/privacy-controls.js', '/privacy-controls.css', ...(fixture.required_resources || [])])]) {
     const response = await get(resource, true);
     check(report, `Public resource loads: ${new URL(resource, target.url).pathname}`, response.ok);
   }

@@ -165,6 +165,17 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           await page.waitForTimeout(100);
           const pageFile = path.join(out, `${engine}-${viewport.width}-page.png`);
           await page.screenshot({ path: pageFile, fullPage: true }); report.artifacts.push(artifact(pageFile, 'screenshot', args['project-root']));
+          await page.waitForFunction(()=>window.LeadFunnel?.privacyState().configured&&document.querySelector('[data-privacy-choices]'));
+          const privacyTrigger=page.locator('[data-privacy-choices]').first();await privacyTrigger.click();
+          const privacyDialog=page.locator('[data-funnel-privacy-dialog]');await privacyDialog.waitFor({state:'visible'});
+          check(report,`${label}: privacy choices reopen and receive focus`,await privacyDialog.evaluate(el=>el.contains(document.activeElement)));
+          let privacyFocus=true;
+          for(const key of ['Tab','Shift+Tab'])for(let i=0;i<6;i++){await page.keyboard.press(key);privacyFocus &&= await privacyDialog.evaluate(el=>el.contains(document.activeElement));}
+          check(report,`${label}: privacy choices keep keyboard focus`,privacyFocus);
+          check(report,`${label}: privacy choices fit viewport`,await privacyDialog.evaluate(el=>{const box=el.getBoundingClientRect();return box.left>=0&&box.right<=innerWidth+1&&box.top>=0&&box.bottom<=innerHeight+1&&el.scrollWidth<=el.clientWidth+1;}));
+          const privacyFile=path.join(out,`${engine}-${viewport.width}-privacy.png`);await page.screenshot({path:privacyFile});report.artifacts.push(artifact(privacyFile,'screenshot',args['project-root']));
+          await page.keyboard.press('Escape');
+          check(report,`${label}: privacy Escape returns focus`,!await privacyDialog.isVisible()&&await privacyTrigger.evaluate(el=>el===document.activeElement));
           const trigger = page.locator(fixture.selectors.openModal).first(); await trigger.scrollIntoViewIfNeeded(); await trigger.focus(); await page.keyboard.press('Enter');
           const modal = page.locator(fixture.selectors.modal); await modal.waitFor({ state: 'visible' });
           check(report, `${label}: dialog receives keyboard focus`, await modal.evaluate(el => el.contains(document.activeElement)));
