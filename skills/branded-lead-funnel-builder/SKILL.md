@@ -147,7 +147,7 @@ Use the same-origin `/api/leads` endpoint with [references/lead-and-tracking-con
 
 ## Admin and operations
 
-The Cloudflare module includes named owner login, hashed passwords and server-side sessions. Configure `ADMIN_USERNAME` during setup; never ship a generic fallback or credentials in client JavaScript. Account controls provide password rotation, session revocation, new-lead notifications and CSV export. [references/admin-access-and-recovery.md](references/admin-access-and-recovery.md) covers secure owner recovery and tested D1 backup/restore. Built-in notifications stay in the CRM; email/webhook destinations are optional.
+The Cloudflare module includes named owner login, hashed passwords and server-side sessions. Configure `ADMIN_USERNAME` during setup; never ship a generic fallback or credentials in client JavaScript. Account controls provide password rotation, session revocation, new-lead notifications, CSV export and separate permanent enquiry erasure/retention controls. Read [references/data-lifecycle.md](references/data-lifecycle.md) for client data handling and recovery. Automatic cleanup starts off; do not invent client retention periods. Include the chosen behavior in the existing final review. [references/admin-access-and-recovery.md](references/admin-access-and-recovery.md) covers secure owner recovery and tested D1 backup/restore. Built-in notifications stay in the CRM; email/webhook destinations are optional.
 
 ## QA and handoff
 

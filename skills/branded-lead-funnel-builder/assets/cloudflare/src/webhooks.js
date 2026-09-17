@@ -41,12 +41,12 @@ export async function listWebhooks(env) {
     (SELECT COUNT(*) FROM webhook_outbox o WHERE o.webhook_id=w.id AND o.status IN ('pending','sending')) AS pending_count,
     (SELECT COUNT(*) FROM webhook_outbox o WHERE o.webhook_id=w.id AND o.status='failed') AS failed_count,
     (SELECT MAX(delivered_at) FROM webhook_outbox o WHERE o.webhook_id=w.id) AS last_delivered_at
-    FROM webhooks w ORDER BY w.created_at DESC`).all();
+    FROM webhooks w WHERE w.removed_at IS NULL ORDER BY w.created_at DESC`).all();
   return { webhooks: rows.results.map(row => ({ ...row, enabled: Boolean(row.enabled) })) };
 }
 export async function addWebhook(env, body) {
   const name = cleanText(body.name, 120, 'Webhook name', true);
-  const count = await env.DB.prepare('SELECT COUNT(*) AS total FROM webhooks').first();
+  const count = await env.DB.prepare('SELECT COUNT(*) AS total FROM webhooks WHERE removed_at IS NULL').first();
   if (count.total >= 10) throw new HttpError(400, 'A site supports up to 10 webhooks.');
   if (body.enabled != null && typeof body.enabled !== 'boolean') throw new HttpError(400, 'Enabled must be true or false.');
   const url = await assertPublicDestination(body.url);
@@ -55,18 +55,36 @@ export async function addWebhook(env, body) {
   return { webhook };
 }
 export async function deleteWebhook(env, id) {
-  const row = await env.DB.prepare('DELETE FROM webhooks WHERE id=? RETURNING id').bind(id).first();
-  if (!row) throw new HttpError(404, 'Webhook not found.');
-  return { ok: true };
+  const now=Math.floor(Date.now()/1000);
+  const results=await env.DB.batch([
+    env.DB.prepare('UPDATE webhooks SET enabled=0,removed_at=COALESCE(removed_at,?) WHERE id=? RETURNING id').bind(new Date().toISOString(),id),
+    env.DB.prepare("UPDATE webhook_outbox SET status='failed',last_error='Connection removed' WHERE webhook_id=? AND status='pending'").bind(id),
+    env.DB.prepare('DELETE FROM webhooks WHERE id=? AND removed_at IS NOT NULL AND NOT EXISTS(SELECT 1 FROM webhook_outbox o WHERE o.webhook_id=webhooks.id AND o.claim_token IS NOT NULL AND o.locked_until>?)').bind(id,now)
+  ]);
+  if(!results[0].results.length)throw new HttpError(404,'Webhook not found.');
+  const active=await env.DB.prepare('SELECT COUNT(*) AS n FROM webhook_outbox WHERE webhook_id=? AND claim_token IS NOT NULL AND locked_until>?').bind(id,now).first();
+  return {ok:true,finishing_deliveries:active.n};
 }
-export async function processOutbox(env) {
+export async function enableWebhook(env,id){
+  const hook=await env.DB.prepare('SELECT url FROM webhooks WHERE id=? AND removed_at IS NULL').bind(id).first();
+  if(!hook)throw new HttpError(404,'Webhook not found.');
+  await assertPublicDestination(hook.url);
+  const row=await env.DB.prepare('UPDATE webhooks SET enabled=1 WHERE id=? AND removed_at IS NULL RETURNING id').bind(id).first();
+  if(!row)throw new HttpError(409,'The connection was removed. Refresh the list.');
+  return {ok:true,enabled:true,previous_jobs_requeued:false};
+}
+
+export async function processOutbox(env, limit = 5) {
   const now = Math.floor(Date.now() / 1000);
+  // Preserve leased rows when a connection is removed; erasure still needs to
+  // observe those deliveries until they finish or their lease expires.
+  await env.DB.prepare('DELETE FROM webhooks WHERE removed_at IS NOT NULL AND NOT EXISTS(SELECT 1 FROM webhook_outbox o WHERE o.webhook_id=webhooks.id AND o.claim_token IS NOT NULL AND o.locked_until>?)').bind(now).run();
   // A crashed fifth attempt must become terminal after its lease expires.
   await env.DB.prepare("UPDATE webhook_outbox SET status='failed',last_error='Delivery lease expired after final attempt' WHERE status='sending' AND locked_until<? AND attempts>=?").bind(now, MAX_ATTEMPTS).run();
-  const due = await env.DB.prepare("SELECT id FROM webhook_outbox WHERE attempts<? AND ((status='pending' AND next_attempt_at<=?) OR (status='sending' AND locked_until<?)) ORDER BY next_attempt_at LIMIT 5").bind(MAX_ATTEMPTS, now, now).all();
+  const due = await env.DB.prepare("SELECT id FROM webhook_outbox WHERE attempts<? AND ((status='pending' AND next_attempt_at<=?) OR (status='sending' AND locked_until<?)) ORDER BY next_attempt_at LIMIT ?").bind(MAX_ATTEMPTS, now, now, Math.max(1,Math.min(5,limit))).all();
   for (const item of due.results) {
     const claim = crypto.randomUUID();
-    const job = await env.DB.prepare("UPDATE webhook_outbox SET status='sending',attempts=attempts+1,locked_until=?,claim_token=? WHERE id=? AND attempts<? AND ((status='pending' AND next_attempt_at<=?) OR (status='sending' AND locked_until<?)) RETURNING *").bind(now + 90, claim, item.id, MAX_ATTEMPTS, now, now).first();
+    const job = await env.DB.prepare("UPDATE webhook_outbox SET status='sending',attempts=attempts+1,locked_until=?,claim_token=? WHERE id=? AND attempts<? AND ((status='pending' AND next_attempt_at<=?) OR (status='sending' AND locked_until<?)) AND EXISTS(SELECT 1 FROM leads WHERE leads.id=webhook_outbox.lead_id AND leads.deleted_at IS NULL) RETURNING *").bind(now + 90, claim, item.id, MAX_ATTEMPTS, now, now).first();
     if (!job) continue;
     try {
       const webhook = await env.DB.prepare('SELECT * FROM webhooks WHERE id=? AND enabled=1').bind(job.webhook_id).first();
@@ -80,6 +98,12 @@ export async function processOutbox(env) {
       const timestamp = String(Math.floor(Date.now() / 1000));
       const headers = { 'Content-Type': 'application/json', 'X-CRM-Event-ID': job.id, 'X-CRM-Timestamp': timestamp };
       if (env.WEBHOOK_SIGNING_SECRET) headers['X-CRM-Signature'] = `sha256=${await hmac(env.WEBHOOK_SIGNING_SECRET, `${timestamp}.${payload}`)}`;
+      // Recheck after DNS/signing work: an erasure may have started meanwhile.
+      const renewed=await env.DB.prepare("UPDATE webhook_outbox SET locked_until=? WHERE id=? AND claim_token=? AND status='sending' AND locked_until>? AND EXISTS(SELECT 1 FROM leads WHERE leads.id=webhook_outbox.lead_id AND leads.deleted_at IS NULL) AND EXISTS(SELECT 1 FROM webhooks WHERE webhooks.id=webhook_outbox.webhook_id AND webhooks.enabled=1 AND webhooks.removed_at IS NULL) RETURNING id").bind(Math.floor(Date.now()/1000)+90,job.id,claim,Math.floor(Date.now()/1000)).first();
+      if(!renewed){
+        await env.DB.prepare("UPDATE webhook_outbox SET status='failed',locked_until=NULL,claim_token=NULL,last_error='Delivery cancelled before dispatch' WHERE id=? AND claim_token=? AND status='sending'").bind(job.id,claim).run();
+        continue;
+      }
       const response = await fetch(destination, { method: 'POST', headers, body: payload, redirect: 'manual', signal: AbortSignal.timeout(10000) });
       await response.body?.cancel();
       if (!response.ok) throw new Error(`HTTP ${response.status}`);

@@ -302,6 +302,7 @@ test('additive migration preserves historical daily uniques and verified lead at
   assert.equal(event.legacy, 1); assert.equal(event.traffic_source, 'unknown'); assert.equal(event.traffic_type, 'unknown'); assert.equal(event.device, 'unknown');
   const lead = await history.prepare('SELECT * FROM leads WHERE id=?').bind(id).first();
   assert.equal(lead.visit_event_id, event.event_id); assert.equal(lead.traffic_source, 'instagram'); assert.equal(lead.traffic_type, 'unknown'); assert.equal(lead.device, 'unknown');
+  for(const file of ['0003_admin_operations.sql','0004_owner_identity.sql','0005_data_lifecycle.sql'])await apply(file);
   const { metrics } = await import('../src/repository.js');
   const base = 'https://site.test/api/admin/metrics?from=2020-02-29&to=2020-02-29';
   const result = await metrics({ DB: history }, new URL(base), { timezone: 'UTC', analyticsMode: 'consent' });

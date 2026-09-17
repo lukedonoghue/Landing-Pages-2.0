@@ -1,8 +1,9 @@
+import { retentionPolicy, findErasableLeads, previewErasure, beginErasure, erasureStatus, recentErasures, progressErasure, exportErasureLedger, previewRetention, saveRetention, runRetention } from './data-lifecycle.js';
 import siteConfig from './site-config.json';
 import { accountInfo, acknowledgeNotifications, changePassword, exportLeads, notifications, revokeSessions } from './admin-operations.js';
 import { HttpError, adminCredentials, cleanText, secureEqual, enforceOrigin, hmac, json, randomToken, rateLimit, readJson, requireSession, secureResponse, privacyOptOut, sessionCookie, sessionTokenHash, verifyPassword } from './security.js';
 import { addNote, changeStatus, createLead, deleteLead, earliestReportingDate, getLead, listLeads, metrics, recordVisit } from './repository.js';
-import { addWebhook, deleteWebhook, listWebhooks, processOutbox } from './webhooks.js';
+import { addWebhook, deleteWebhook, enableWebhook, listWebhooks, processOutbox } from './webhooks.js';
 
 export default {
   async fetch(request, env, ctx) {
@@ -15,7 +16,8 @@ export default {
   },
   async scheduled(controller, env, ctx) {
     ctx.waitUntil((async () => {
-      await processOutbox(env);
+      await runRetention(env);
+      await processOutbox(env, 1);
       const now = Math.floor(Date.now() / 1000);
       await env.DB.batch([
         env.DB.prepare('DELETE FROM sessions WHERE expires_at<?').bind(now),
@@ -71,6 +73,18 @@ async function route(request, env, ctx, url) {
   if (path === '/api/admin' || path.startsWith('/api/admin/')) {
     await requireSession(env, request);
     if (!['GET', 'HEAD'].includes(method)) await rateLimit(env, request, 'admin-mutation', 120, 60);
+    if(path==='/api/admin/data/retention'&&method==='GET')return json(await retentionPolicy(env));
+    if(path==='/api/admin/data/retention/preview'&&method==='POST')return json(await previewRetention(env,await readJson(request,4096)));
+    if(path==='/api/admin/data/retention'&&method==='POST')return json(await saveRetention(env,await readJson(request,16384)));
+    if(path==='/api/admin/data/retention/run'&&method==='POST')return json(await runRetention(env));
+    if(path==='/api/admin/data/enquiries'&&method==='GET')return json(await findErasableLeads(env,url));
+    if(path==='/api/admin/data/erasures/preview'&&method==='POST')return json(await previewErasure(env,await readJson(request,4096)));
+    if(path==='/api/admin/data/erasures'&&method==='POST')return json(await beginErasure(env,await readJson(request,16384)),202);
+    if(path==='/api/admin/data/erasures'&&method==='GET')return json(await recentErasures(env));
+    if(path==='/api/admin/data/erasure-records'&&method==='GET')return json(await exportErasureLedger(env,url));
+    const erasureMatch=/^\/api\/admin\/data\/erasures\/([a-f0-9-]{36})(\/continue)?$/.exec(path);
+    if(erasureMatch&&method==='GET'&&!erasureMatch[2])return json(await erasureStatus(env,erasureMatch[1]));
+    if(erasureMatch&&method==='POST'&&erasureMatch[2])return json(await progressErasure(env,erasureMatch[1]));
     if (path === '/api/admin/account' && method === 'GET') return json(await accountInfo(env));
     if (path === '/api/admin/account/password' && method === 'POST') { await rateLimit(env, request, 'password-change', 5, 900); return changePassword(env, request, await readJson(request, 4096)); }
     if (path === '/api/admin/account/revoke-sessions' && method === 'POST') return revokeSessions(env, request);
@@ -92,6 +106,11 @@ async function route(request, env, ctx, url) {
     if (path === '/api/admin/webhooks' && method === 'POST') return json(await addWebhook(env, await readJson(request, 4096)), 201);
     const webhookMatch = /^\/api\/admin\/webhooks\/([a-f0-9-]{36})$/.exec(path);
     if (webhookMatch && method === 'DELETE') return json(await deleteWebhook(env, webhookMatch[1]));
+    if(webhookMatch&&method==='PATCH'){
+      const body=await readJson(request,1024);
+      if(body.enabled!==true||Object.keys(body).some(key=>key!=='enabled'))throw new HttpError(400,'This action enables new deliveries only.');
+      return json(await enableWebhook(env,webhookMatch[1]));
+    }
     throw new HttpError(404, 'Endpoint not found.');
   }
   if (path.startsWith('/api/')) throw new HttpError(404, 'Endpoint not found.');

@@ -1,7 +1,7 @@
 import test, { before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, readdir, mkdtemp, mkdir, cp, symlink, writeFile, stat, rm } from 'node:fs/promises';
-import { pbkdf2Sync } from 'node:crypto';
+import { pbkdf2Sync, createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import os from 'node:os';
@@ -12,6 +12,7 @@ import { Miniflare } from 'miniflare';
 import { unstable_splitSqlQuery } from 'wrangler';
 import { csvCell } from '../src/admin-operations.js';
 import { accountPlan, recoverySql, runAccount } from '../scripts/admin-account.mjs';
+import { validateErasureRecord, reconcileErasureRecord } from '../scripts/erasure-backup.mjs';
 import { backupPlan, runBackup, normaliseD1Export } from '../scripts/backup.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const username = 'owner@example.invalid'; const password = 'test-only-owner-password-very-long';
@@ -105,6 +106,7 @@ test('recovery and backup tools require explicit destination, protect credential
   assert.throws(() => accountPlan(['rotate-password']), /exactly one/);
   assert.throws(() => backupPlan(['export', '--out', '.secrets/test.sql']), /exactly one/);
   assert.throws(() => backupPlan(['export', '--local']), /Supply/);
+  assert.throws(()=>backupPlan(['verify','--file','old.sql','--erasure-records','record.json','--clean-output','.secrets/clean.sql','--confirm-legacy-source','false']),/takes no value/);
   let calls = 0; const logs = []; const run = () => { calls++; throw new Error('must not run'); };
   runAccount(['rotate-password', '--remote', '--dry-run'], { run, log: x => logs.push(x) });
   runBackup(['export', '--remote', '--out', '.secrets/test.sql', '--dry-run'], { run, log: x => logs.push(x) });
@@ -165,7 +167,7 @@ test('real local D1 backup round-trip restores seeded records and recovery comma
   const execute = promisify(execFile);
   try {
     await mkdir(path.join(fixture, 'scripts'));
-    for (const script of ['backup.mjs', 'admin-account.mjs', 'release-tools.mjs']) await cp(path.join(root, 'scripts', script), path.join(fixture, 'scripts', script));
+    for (const script of ['backup.mjs', 'erasure-backup.mjs', 'admin-account.mjs', 'release-tools.mjs']) await cp(path.join(root, 'scripts', script), path.join(fixture, 'scripts', script));
     await cp(path.join(root, 'migrations'), path.join(fixture, 'migrations'), { recursive: true });
     for (const name of ['release_state','workflow','workflow_storage','workflow_progress','copy_library','image_workflow','copy_parity','check_gates']) {
       const candidates=[path.join(root,'scripts',name+'.py'),path.resolve(root,'../../scripts',name+'.py')];
@@ -181,7 +183,10 @@ test('real local D1 backup round-trip restores seeded records and recovery comma
     // isolated client's account CLI must acquire its own lock, not use that FD.
     const invoke = args => execute(process.execPath, args, { cwd: fixture, env:{...process.env,FUNNEL_PUBLISH_LOCK_FD:'3'}, maxBuffer: 4 * 1024 * 1024 });
     const cli = path.join(fixture, 'node_modules/wrangler/bin/wrangler.js');
+    // Restore a backup from before data-lifecycle support, then migrate only the private verification copy.
+    await rm(path.join(fixture,'migrations/0005_data_lifecycle.sql'));
     await invoke([cli, 'd1', 'migrations', 'apply', 'DB', '--local']);
+    await cp(path.join(root,'migrations/0005_data_lifecycle.sql'),path.join(fixture,'migrations/0005_data_lifecycle.sql'));
     await writeFile(path.join(fixture, 'seed.sql'), "INSERT INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,name,form_name,form_data,attribution,landing_page) VALUES('restore-check','receipt','key','hash','2026-09-16','2026-09-16','2026-09-16','Synthetic','enquiry','{}','{}','/'); INSERT INTO notes(id,lead_id,body,created_at) VALUES('note','restore-check','Synthetic note','2026-09-16');");
     await invoke([cli, 'd1', 'execute', 'DB', '--local', '--file', 'seed.sql', '--yes']);
     const recovery = await invoke(['scripts/admin-account.mjs', 'rotate-password', '--local', '--out', '.secrets/local-recovery-password.txt']);
@@ -192,5 +197,40 @@ test('real local D1 backup round-trip restores seeded records and recovery comma
     assert.match(verified.stdout, /"leads":1/); assert.match(verified.stdout, /"notes":1/); assert.match(verified.stdout, /"notifications":1/); assert.match(verified.stdout, /"rotated_accounts":1/);
     for (const file of ['backup.sql', 'local-recovery-password.txt']) assert.equal((await stat(path.join(fixture, '.secrets', file))).mode & 0o777, 0o600);
     await assert.rejects(() => invoke(['scripts/backup.mjs', 'export', '--local', '--out', '.secrets/backup.sql']), /already exists/);
+    const hookId=crypto.randomUUID(),leadId=crypto.randomUUID(),requestKey=crypto.randomUUID(),marker='private-synthetic-erasure-marker',stamp=new Date().toISOString();
+    const hash=createHash('sha256').update('erased-submission:'+requestKey).digest('hex');
+    await writeFile(path.join(fixture,'erase-seed.sql'),`INSERT INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,name,email,form_name,form_data,attribution,landing_page) VALUES('${leadId}','${crypto.randomUUID()}','${requestKey}','hash','${stamp}','${stamp}','${stamp.slice(0,10)}','${marker}','${marker}@example.invalid','enquiry','{"name":"${marker}"}','{"gclid":"${marker}"}','/'); INSERT INTO notes(id,lead_id,body,created_at) VALUES('${crypto.randomUUID()}','${leadId}','${marker}','${stamp}'); INSERT INTO activity(id,lead_id,event_type,description,created_at) VALUES('${crypto.randomUUID()}','${leadId}','created','${marker}','${stamp}'); INSERT INTO sessions(token_hash,created_at,expires_at) VALUES('synthetic-old-session',1,9999999999); INSERT INTO webhooks(id,name,url,enabled,created_at) VALUES('${hookId}','Synthetic recovery hook','https://hooks.example.com/receive',1,'${stamp}'); INSERT INTO webhook_outbox(id,webhook_id,lead_id,next_attempt_at,created_at) VALUES('${crypto.randomUUID()}','${hookId}','restore-check',0,'${stamp}'),('${crypto.randomUUID()}','${hookId}','${leadId}',0,'${stamp}');`);
+    await invoke([cli,'d1','execute','DB','--local','--file','erase-seed.sql','--yes']);
+    await invoke(['scripts/backup.mjs','export','--local','--out','.secrets/pre-erasure.sql']);
+    const original=await readFile(path.join(fixture,'.secrets/pre-erasure.sql'),'utf8');
+    const record={schema_version:1,complete:true,entry_count:1,dataset_id:'b'.repeat(32),generated_at:stamp,site_name:'Synthetic backup fixture',entries:[{lead_id:leadId,key_hash:hash,erased_at:stamp}]};
+    await writeFile(path.join(fixture,'.secrets/erasure-record.json'),JSON.stringify(record),{mode:0o600});
+    const reconciled=await invoke(['scripts/backup.mjs','verify','--file','.secrets/pre-erasure.sql','--erasure-records','.secrets/erasure-record.json','--clean-output','.secrets/cleaned.sql','--confirm-legacy-source']);
+    assert.match(reconciled.stdout,/"erased_enquiries":1/);assert.match(reconciled.stdout,/"enabled_connections":0/);assert.match(reconciled.stdout,/"queued_deliveries":0/);assert.match(reconciled.stdout,/"leads":1/);assert.match(reconciled.stdout,/"notes":1/);assert.ok(!reconciled.stdout.includes(marker));
+    const wrong={...record,entries:[{...record.entries[0],key_hash:'a'.repeat(64)}]};await writeFile(path.join(fixture,'.secrets/wrong-record.json'),JSON.stringify(wrong),{mode:0o600});
+    await assert.rejects(()=>invoke(['scripts/backup.mjs','verify','--file','.secrets/pre-erasure.sql','--erasure-records','.secrets/wrong-record.json','--clean-output','.secrets/wrong-cleaned.sql','--confirm-legacy-source']),/does not match/);
+    await assert.rejects(()=>stat(path.join(fixture,'.secrets/wrong-cleaned.sql')));
+    const reverse={...record,entries:[{...record.entries[0],lead_id:crypto.randomUUID()}]};await writeFile(path.join(fixture,'.secrets/reverse-record.json'),JSON.stringify(reverse),{mode:0o600});
+    await assert.rejects(()=>invoke(['scripts/backup.mjs','verify','--file','.secrets/pre-erasure.sql','--erasure-records','.secrets/reverse-record.json','--clean-output','.secrets/reverse-cleaned.sql','--confirm-legacy-source']),/suppressed submission key/);
+    await assert.rejects(()=>stat(path.join(fixture,'.secrets/reverse-cleaned.sql')));
+    const cleaned=await readFile(path.join(fixture,'.secrets/cleaned.sql'),'utf8');assert.ok(!cleaned.includes(marker));assert.ok(!cleaned.includes('synthetic-old-session'));assert.ok(cleaned.includes(hash));assert.equal((await stat(path.join(fixture,'.secrets/cleaned.sql'))).mode&0o777,0o600);
+    assert.equal(await readFile(path.join(fixture,'.secrets/pre-erasure.sql'),'utf8'),original);
+    const live=await invoke([cli,'d1','execute','DB','--local','--command','SELECT count(*) AS retained FROM leads','--json']);assert.equal(JSON.parse(live.stdout)[0].results[0].retained,2,'Original local database is unchanged');
+    await assert.rejects(()=>invoke(['scripts/backup.mjs','verify','--file','.secrets/pre-erasure.sql','--erasure-records','.secrets/erasure-record.json','--clean-output','.secrets/unconfirmed.sql']),/confirm-legacy-source/);
+    const foreign={...record,entry_count:0,dataset_id:'c'.repeat(32),entries:[]};await writeFile(path.join(fixture,'.secrets/foreign-record.json'),JSON.stringify(foreign),{mode:0o600});
+    await assert.rejects(()=>invoke(['scripts/backup.mjs','verify','--file','.secrets/cleaned.sql','--erasure-records','.secrets/foreign-record.json','--clean-output','.secrets/foreign-cleaned.sql']),/different source database/);
+    const repeated=await invoke(['scripts/backup.mjs','verify','--file','.secrets/cleaned.sql','--erasure-records','.secrets/erasure-record.json','--clean-output','.secrets/cleaned-again.sql']);assert.match(repeated.stdout,/"erased_enquiries":0/);
+    await mkdir(path.join(fixture,'public'));await symlink(path.join(fixture,'public'),path.join(fixture,'.secrets/public-alias'),'junction');
+    await assert.rejects(()=>invoke(['scripts/backup.mjs','export','--local','--out','.secrets/public-alias/leak.sql']),/never published/);
+
   } finally { await rm(fixture, { recursive: true, force: true }); }
+});
+
+
+test('backup reconciliation rejects partial or unsafe suppression records and redacts invalid JSON',async()=>{
+  const entry={lead_id:crypto.randomUUID(),key_hash:'a'.repeat(64),erased_at:new Date().toISOString()};const record={schema_version:1,complete:true,entry_count:1,dataset_id:'a'.repeat(32),generated_at:new Date().toISOString(),entries:[entry]};
+  assert.equal(validateErasureRecord(record).entries.length,1);assert.throws(()=>validateErasureRecord({...record,entries:[]}),/incomplete/);assert.throws(()=>validateErasureRecord({...record,complete:false}),/complete/);assert.throws(()=>validateErasureRecord({...record,entry_count:2,entries:[entry,entry]}),/Duplicate/);assert.throws(()=>validateErasureRecord({...record,entries:[{...entry,lead_id:"injected'); DELETE FROM leads;"}]}),/Invalid/);
+  const temporary=await mkdtemp(path.join(os.tmpdir(),'bad-erasure-record-'));
+  try{const recordFile=path.join(temporary,'bad.json');await writeFile(recordFile,'{"private":"synthetic-contact-secret" INVALID');assert.throws(()=>reconcileErasureRecord({recordFile,temporary,template:root,common:['--local'],execute(){throw Error('Must not execute');}}),error=>error.message.includes('not readable JSON')&&!error.message.includes('synthetic-contact-secret'));}
+  finally{await rm(temporary,{recursive:true,force:true});}
 });

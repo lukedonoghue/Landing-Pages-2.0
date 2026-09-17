@@ -1,3 +1,4 @@
+import { erasedKey } from './data-lifecycle.js';
 import { HttpError, cleanText, digest, reportingDay, visitorHash, attributionAllowed } from './security.js';
 import { classifyDevice, classifyTraffic, dimensionConditions, eventId, normalizeTrafficFilters, normalizeVisitAttribution } from './traffic.js';
 
@@ -71,6 +72,8 @@ export async function createLead(env, request, body, config) {
   if (body.website != null && (typeof body.website !== 'string' || body.website.trim())) throw new HttpError(400, 'We could not accept this submission.');
   const key = cleanText(body.idempotency_key, 128, 'Submission ID', true);
   if (!/^[A-Za-z0-9_-]{16,128}$/.test(key)) throw new HttpError(400, 'Invalid submission ID.');
+  const suppressionKey = await erasedKey(key);
+  if(await env.DB.prepare('SELECT 1 FROM erased_submissions WHERE key_hash=?').bind(suppressionKey).first())throw new HttpError(410,'This enquiry can no longer be retried. Reload the page to start a new enquiry.');
   const origin = new URL(request.url).origin;
   const form = validateForm(body.form_data, config.formFields);
   const keepAttribution = attributionAllowed(request, body, config);
@@ -97,12 +100,15 @@ export async function createLead(env, request, body, config) {
   const params = [id, receipt, key, payloadHash, timestamp, timestamp, day, name, form.email || '', form.phone || '', formName, JSON.stringify(form), JSON.stringify(attribution), page, referrer, measuredVisitor, measuredEvent?.event_id || null, dimensions.device, dimensions.traffic_source, dimensions.traffic_type];
   // D1 batch commits CRM, history and durable webhook jobs atomically.
   await env.DB.batch([
-    env.DB.prepare('INSERT OR IGNORE INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,name,email,phone,form_name,form_data,attribution,landing_page,referrer,visitor_hash,visit_event_id,device,traffic_source,traffic_type) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(...params),
+    env.DB.prepare('INSERT OR IGNORE INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,name,email,phone,form_name,form_data,attribution,landing_page,referrer,visitor_hash,visit_event_id,device,traffic_source,traffic_type) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? WHERE NOT EXISTS(SELECT 1 FROM erased_submissions WHERE key_hash=?)').bind(...params,suppressionKey),
     env.DB.prepare("INSERT INTO activity(id,lead_id,event_type,to_status,description,created_at) SELECT ?,id,'created','new','Contact received',? FROM leads WHERE id=?").bind(`created:${id}`, timestamp, id),
     env.DB.prepare("INSERT INTO webhook_outbox(id,webhook_id,lead_id,next_attempt_at,created_at) SELECT lower(hex(randomblob(16))),webhooks.id,leads.id,?,? FROM webhooks CROSS JOIN leads WHERE webhooks.enabled=1 AND leads.id=?").bind(Math.floor(now.getTime() / 1000), timestamp, id)
   ]);
   const saved = await env.DB.prepare('SELECT id,receipt_id,payload_hash,deleted_at,form_data,landing_page,form_name FROM leads WHERE idempotency_key=?').bind(key).first();
-  if (!saved) throw new HttpError(503, 'The contact could not be saved. Please try again.');
+  if (!saved) {
+    if(await env.DB.prepare('SELECT 1 FROM erased_submissions WHERE key_hash=?').bind(suppressionKey).first())throw new HttpError(410,'This enquiry can no longer be retried. Reload the page to start a new enquiry.');
+    throw new HttpError(503, 'The contact could not be saved. Please try again.');
+  }
   if (saved.id !== id) return duplicateResult(saved, payloadHash);
   return { ok: true, lead_id: id, receipt_id: receipt, duplicate: false };
 }
@@ -250,12 +256,14 @@ export async function metrics(env, url, config) {
   const coverage = { ...results[4].results[0], lifetime_legacy_visits: results[5].results[0].legacy_visits };
   coverage.all_visits_complete = coverage.legacy_visits === 0;
   const warnings = [];
+  const retentionHistory=await env.DB.prepare("SELECT EXISTS(SELECT 1 FROM erasure_operations WHERE status='complete') AS erased,(SELECT next_kind FROM data_retention_policy WHERE id=1) AS runs").first();
+  if(retentionHistory.erased||retentionHistory.runs>0)warnings.push('Reports show retained history. Permanent erasure and retention can reduce past lead, visitor and conversion totals.');
   if (coverage.legacy_visits) warnings.push('Historical visits were stored as daily unique browsers only. Their source and device are Unknown; All visits includes one historical record per browser, page and day, so historical repeat visits cannot be recovered.');
   else if (coverage.lifetime_legacy_visits && !unique) warnings.push('All-time comparisons include historical daily-unique records; historical repeat visits cannot be recovered.');
   if (coverage.unknown_dimensions && !coverage.legacy_visits) warnings.push('Some measured visits have an unknown device, traffic type or source. Specific filters exclude unknown values unless Unknown is selected.');
   coverage.warnings = warnings;
   return { days, totals, lifetime_totals: lifetime, filters, coverage, warnings, timezone: config.timezone,
-    definition: unique ? 'Visitors are daily unique browsers within the selected filters. Conversions are those browsers with an accepted contact linked to a measured visit in the same filtered cohort. Total visitors sums daily uniques, not unique people across the range. All accepted leads are counted separately, including unmeasured submissions and removed contacts.' : 'Visitors are measured page visits within the selected filters. Conversions are measured visits with at least one accepted contact; repeat contacts in the same visit count once. All accepted leads are counted separately, including unmeasured submissions and removed contacts.',
+    definition: unique ? 'Visitors are daily unique browsers within the selected filters. Conversions are those browsers with an accepted contact linked to a measured visit in the same filtered cohort. Total visitors sums daily uniques, not unique people across the range. All retained accepted leads are counted separately, including unmeasured submissions and removed contacts. Permanently erased enquiries and expired records are excluded.' : 'Visitors are measured page visits within the selected filters. Conversions are measured visits with at least one accepted contact; repeat contacts in the same visit count once. All retained accepted leads are counted separately, including unmeasured submissions and removed contacts. Permanently erased enquiries and expired records are excluded.',
     analytics_mode: config.analyticsMode };
 }
 

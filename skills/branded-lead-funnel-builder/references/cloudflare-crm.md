@@ -12,7 +12,7 @@ Each client/site gets one Worker and one D1 database in the chosen Cloudflare ac
 
 Use `funnel.json` for the approved brief, offer, CTA, form schema, tracking mode, and publishing choice. Materialize backend settings in `src/site-config.json`: name, logo, accent, reporting timezone, allowed marketing paths, stages, and `formFields`. The frontend names/options must exactly match the server-side schema. Validate their agreement before release.
 
-Default stages are New contact, Qualified, Engaged, Follow-up, Won, and Lost. The CRM supports drag-and-drop and a keyboard/mobile stage selector, table search/filtering/pagination, full form/attribution details, notes, activity, and removing a contact from the active CRM. Removal is a soft delete; it is not a privacy-erasure endpoint. Historical accepted-lead metrics remain stable.
+Default stages are New contact, Qualified, Engaged, Follow-up, Won, and Lost. The CRM supports drag-and-drop and a keyboard/mobile stage selector, table search/filtering/pagination, full form/attribution details, notes, activity, and removing a contact from the active CRM. Remove contact is a soft delete and preserves historical accepted-lead metrics. Account → Data retention & erasure provides the separate permanent operation and configurable cleanup; read [data-lifecycle.md](data-lifecycle.md) before using them.
 
 ## Admin authentication
 
@@ -40,7 +40,7 @@ Configure `funnel.json` once, then run `npm run configure`. The public `/api/pri
 
 Withdrawal clears measurement identifiers and consent-gated first/latest touches, stops future optional requests/events and updates other open tabs. A functional choice cookie contains only allow/deny so the server can reject stale optional data; it contains no visitor identifier. Regrant starts new measurement identifiers. Session-scoped first touch and latest tagged/external-referrer touch are retained only when the attribution policy permits; direct/internal navigation does not overwrite the latest campaign touch. Unknown origin is reported as Unknown, not Direct.
 
-A blocked policy endpoint fails closed for optional data; forms can still submit. Storage restrictions preserve choices in memory for the current page, with a visible persistence limitation. Previously accepted lead data is not erased by changing this choice. CRM removal is still a soft delete; retention/permanent erasure is separate work. Keep contact receipt identity stable during uncertain retries even if optional metadata is withdrawn, and never rewrite previously stored metadata from a retry.
+A blocked policy endpoint fails closed for optional data; forms can still submit. Storage restrictions preserve choices in memory for the current page, with a visible persistence limitation. Previously accepted lead data is not erased by changing this choice. CRM removal is still a soft delete; use the separate [data lifecycle controls](data-lifecycle.md) for permanent enquiry erasure and configured retention. Keep contact receipt identity stable during uncertain retries even if optional metadata is withdrawn, and never rewrite previously stored metadata from a retry.
 
 ## Webhooks
 

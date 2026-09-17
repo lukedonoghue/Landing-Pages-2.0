@@ -28,7 +28,7 @@ function scan(dir){
  for(const entry of readdirSync(dir,{withFileTypes:true})){
   const p=dir+'/'+entry.name;
   if(entry.isSymbolicLink()){failures.push(`Public symlink is not allowed: ${p}`);continue;}
-  if(/^(?:\.env|\.dev\.vars)|(?:password|credential|secret|private.?key)|\.(?:pem|key|p12|pfx)$/i.test(entry.name)){failures.push(`Secret-like public path: ${p}`);continue;}
+  if(/^(?:\.env|\.dev\.vars)|(?:password|credential|secret|private.?key|erasure[-_]?record|suppression[-_]?record)|\.(?:pem|key|p12|pfx)$/i.test(entry.name)){failures.push(`Secret-like public path: ${p}`);continue;}
   if(entry.isDirectory()){scan(p);continue;}
   const buffer=readFileSync(p);
   if(secretValues.some(value=>buffer.includes(Buffer.from(value))))failures.push(`A local credential value leaked into ${p}`);

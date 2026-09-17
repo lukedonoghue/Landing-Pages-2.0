@@ -1,3 +1,4 @@
+import { initDataLifecyclePanel } from './data-lifecycle.js';
 import { initAccountPanel } from './account.js';
 import { createDateRangePicker } from './date-range.js';
 import { renderPerformanceChart } from './performance-chart.js';
@@ -15,6 +16,7 @@ let toastTimer;
 let rangePicker;
 let confirmAction;
 let accountPanel;
+let dataPanel;
 
 function element(tag, className = '', text) {
   const node = document.createElement(tag);
@@ -393,7 +395,7 @@ function renderDetail(data) {
   root.append(detailSection('Activity', history));
   const bottom = element('div', 'detail-bottom'); bottom.append(element('span', 'muted small', `Enquiry ${lead.id}`), button('Remove contact', 'text-button', event => confirmRemoval('Remove this contact?', `Remove ${leadName(lead)} from the CRM? Historical reporting is retained.`, 'Remove contact', async () => {
     await api(`/api/admin/leads/${encodeURIComponent(lead.id)}`, { method: 'DELETE' }); closeDialog($('#lead-dialog')); toast('Contact removed.'); await loadLeads();
-  }, event.currentTarget))); root.append(bottom);
+  }, event.currentTarget)), button('Review permanent erasure','text-button',()=>{closeDialog($('#lead-dialog'));showView('account');dataPanel?.reviewErasure([lead.id]);})); root.append(bottom);
 }
 function confirmRemoval(title, description, actionLabel, action, trigger) {
   $('#confirm-title').textContent = title; $('#confirm-description').textContent = description; $('#accept-confirm').textContent = actionLabel; $('#confirm-error').textContent = ''; confirmAction = action; openDialog($('#confirm-dialog'), trigger); $('#cancel-confirm').focus();
@@ -410,8 +412,9 @@ async function loadWebhooks() {
       const meta = element('div', 'webhook-meta');
       meta.append(element('span', '', hook.enabled ? 'Enabled' : 'Disabled'), element('span', '', `${integer(hook.pending_count)} pending`), element('span', '', `${integer(hook.failed_count)} failed`));
       if (hook.last_delivered_at) meta.append(element('span', '', `Last delivered ${dateLabel(hook.last_delivered_at, true)}`)); card.append(meta);
+      if(!hook.enabled)card.append(button('Enable new deliveries','button secondary',event=>confirmRemoval('Enable this connection?',`Send future enquiries to ${hook.name}? Previous paused or failed deliveries will remain stopped.`,'Enable new deliveries',async()=>{await api(`/api/admin/webhooks/${encodeURIComponent(hook.id)}`,{method:'PATCH',body:JSON.stringify({enabled:true})});toast('New deliveries enabled. Previous jobs were not restarted.');await loadWebhooks();},event.currentTarget)));
       card.append(button('Remove connection', 'text-button', event => confirmRemoval('Remove this connection?', `Stop sending new enquiries to ${hook.name}? Leads already saved in your CRM will remain.`, 'Remove connection', async () => {
-        await api(`/api/admin/webhooks/${encodeURIComponent(hook.id)}`, { method: 'DELETE' }); toast('Connection removed.'); await loadWebhooks();
+        const removed=await api(`/api/admin/webhooks/${encodeURIComponent(hook.id)}`, { method: 'DELETE' }); toast(removed.finishing_deliveries?'Connection removed. An earlier delivery may still finish.':'Connection removed.'); await loadWebhooks();
       }, event.currentTarget))); list.append(card);
     });
     if (!data.webhooks?.length) list.append(element('p', 'webhooks-empty', 'No connections yet. Add a webhook to send new enquiries to another tool.'));
@@ -501,6 +504,7 @@ async function start() {
     if (typeof config.brand?.logo === 'string' && /^\/(?!\/)/.test(config.brand.logo)) { const img = element('img'); img.src = config.brand.logo; img.alt = ''; empty($('#brand-mark')).append(img); }
     state.stages.forEach(stage => { const option = element('option', '', stage.label); option.value = stage.id; $('#stage-filter').append(option); });
     accountPanel = initAccountPanel($('#account-panel'), {onNotifications(data){const badge=$('#new-lead-badge');badge.textContent=String(data.unread_count || 0);badge.hidden=!data.unread_count;badge.setAttribute('aria-label',`${data.unread_count || 0} new enquiries`);}});
+    dataPanel = initDataLifecyclePanel($('#account-panel'),{request:api,siteName:config.brand?.name||'Funnel',onChanged(){accountPanel?.refreshNotifications();}});
     updateFilters();
     rangePicker = createDateRangePicker($('#date-filter'), { today: todayISO, earliest: () => config.earliest_date || todayISO(), onChange: loadMetrics });
     showView(location.hash.slice(1) || 'overview');
