@@ -63,13 +63,15 @@ For forms:
 - keep the primary action visible at short viewport heights;
 - show success only after the configured destination confirms success;
 - provide a useful failure and retry path;
-- prevent duplicate submission while a request is pending.
+- guard the submit handler against re-entry with an in-flight flag set before the first asynchronous operation and cleared in `finally`; disabling the button is additional UI feedback, not the guard.
 
 In a scrolling form or modal, a submission failure must become visible and announced without visitor exploration: place it beside the action or move focus to a focusable error summary and reveal it. Keep entered values for retry. Calling `.focus()` on an ordinary non-focusable element is not sufficient. Test failure from the actual submit position, not after the test script scrolls to the message.
 
 When production form wiring is pending, still build and test the complete form-first experience. Use an isolated local receiver or test adapter for synthetic QA when available, or keep production submission disabled and label the result `local preview`. Never submit to an existing live endpoint without authorization. Never show a production success state merely because a local timer, navigation, or ignored network response completed.
 
 Keep the visible preview notice plain: the form does not send details yet. Put provider names, endpoints and connection instructions in the owner handoff, not in customer field help or success copy.
+
+A separate preview thank-you page is still part of the visitor experience, not a second owner setup guide.
 
 A modal may be single-step or multi-step. Use native `dialog` or an equivalent document-level focus guard, restore focus to the opener, support Escape, and test programmatic focus escape. Internal scrolling is acceptable only when the action remains obvious and reachable.
 

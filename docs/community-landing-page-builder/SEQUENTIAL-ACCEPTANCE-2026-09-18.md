@@ -1,6 +1,6 @@
 # Sequential community acceptance
 
-Status: running. Started 2026-09-18, Codex weekly usage 2% used. Pause for user confirmation at 32% used (30 additional percentage points). Check at run boundaries and during long runs. No automatic credit redemption.
+Status: paused at the user's request after attempt 4, to route the next review through regular ChatGPT Pro. No attempt 5 or other scenario has started. Latest usage check: 14% used, against a 2% starting baseline. The earlier stop threshold was 32% used (30 additional percentage points). No automatic credit redemption. The progress heartbeat is paused.
 
 ## Scope
 
@@ -36,7 +36,7 @@ Attempt 2 ran 2026-09-18 from approximately 21:03 to 21:27 Kyiv: agent `01a0b5b0
 
 Attempt 3 ran 2026-09-18 from 21:30 to approximately 21:58 Kyiv: agent `01a0b5c8-953d-75b2-a549-7792cf0899c5` (Tesla), gpt-5.6-sol xhigh, fork_context=false. Same plain request, another empty project, no previous findings or output supplied. Frozen skill: 172 files; JSON path/hash manifest SHA-256 `6848d4443c0698ec1127874b823203a05975d4151e2e157c5b3f4f70e8938eac`. Parent form tests passed; an uncoached fresh visual reviewer rejected text collisions and mobile hero obstruction. Both completed agents are closed. See WEBSITE-ONLY-R3-REVIEW.md.
 
-Attempt 4 started 2026-09-18 at 22:05 Kyiv: agent `01a0b5e8-9d11-7da2-b5f5-5c4a344382c9` (Ramanujan), gpt-5.6-sol xhigh, fork_context=false. Same plain request and empty project. Frozen skill: 172 files; JSON path/hash manifest SHA-256 `89da9b8249d302df1bad42383312c0ef63974b014c9a66cb40827dd52f6d2159`. Latest checked usage: 12% consumed; pause at 32%. Only this builder is active. External-reference and image-generation cases have not started.
+Attempt 4 ran 2026-09-18 from 22:05 to approximately 22:25 Kyiv: agent `01a0b5e8-9d11-7da2-b5f5-5c4a344382c9` (Ramanujan), gpt-5.6-sol xhigh, fork_context=false. Same plain request and empty project. Frozen skill: 172 files; JSON path/hash manifest SHA-256 `89da9b8249d302df1bad42383312c0ef63974b014c9a66cb40827dd52f6d2159`. Parent rejected duplicate-submit behavior despite visual improvements. Builder and independent reviewer are closed. See WEBSITE-ONLY-R4-REVIEW.md and PRO-REVIEW-HANDOFF.md. External-reference and image-generation cases have not started.
 
 ## README and local-history reconciliation
 

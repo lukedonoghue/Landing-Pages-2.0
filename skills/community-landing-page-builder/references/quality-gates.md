@@ -84,7 +84,7 @@ Before testing behavior, compare the final action with the source conversion con
 
 Use synthetic local data. A direct thank-you visit, refresh, rejected action, or denied consent must not create a conversion. Do not submit a production lead without explicit permission.
 
-Exercise outcomes, not proxies: include whitespace-only required text and malformed contact input; inspect failure visibility at the real submit position before any test-driven focus or scroll. Then restore the local test adapter, retry the same filled form, and observe success with values preserved. A visible error string or disabled button alone does not prove retry or duplicate prevention. Keep simulation results explicitly separate from backend delivery evidence.
+Exercise outcomes, not proxies: include whitespace-only required text and malformed contact input; inspect failure visibility at the real submit position before any test-driven focus or scroll. Then restore the local test adapter, retry the same filled form, and observe success with values preserved. To verify duplicate prevention, hold the first local request open, dispatch a second submit event, and assert exactly one receiver/adapter invocation. Clicking an already disabled button is not that test. Keep simulation results explicitly separate from backend delivery evidence.
 
 For source forms, confirm that no public production endpoint was reused without authorization, success waits for a confirmed selected destination, and raw contact data is absent from analytics and data-layer events.
 
@@ -105,7 +105,7 @@ When a required local audit package is absent, use a supported project-local ins
 
 ## 6. Fresh acceptance gate
 
-After all fixes, review the final outputs from the beginning without relying on earlier pass labels. Check once whether a fresh-context reviewer is available in the current tools. If available, give it only the skill and final page artifacts, not the builder's QA conclusions, and ask for a critical visual review. Resolve its actionable findings before delivery. This is a short review of the existing build, not another build or research run.
+After all fixes, review the final outputs from the beginning without relying on earlier pass labels. Check once whether a fresh-context reviewer is available in the current tools. If available, give it only the skill and final page artifacts, not the builder's QA conclusions, and ask for one critical visual review. Verify findings against the current pixels or behavior before changing code; reject stale or unsupported findings. Fix confirmed issues and recapture affected states. A second independent review is needed only after substantial redesign, not for every small correction. This is a short review of the existing build, not another build or research run.
 
 If no independent reviewer is available, reopen the raw viewport captures and full-page sections at readable size, concentrating on subject/CTA collisions and adjacent text before writing acceptance prose. State that this was self-review; a second paragraph by the same builder is not independent evidence. Do not install an external service or require an account to obtain a reviewer.
 

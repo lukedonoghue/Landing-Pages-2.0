@@ -1,0 +1,19 @@
+{
+  "invalidCount": 4,
+  "failure": {
+    "focus": "submit-error",
+    "top": 287.828125,
+    "bottom": 395.546875,
+    "visible": true,
+    "name": "Audit Test"
+  },
+  "firstAttemptPosts": 2,
+  "totalPosts": 3,
+  "success": "LOCAL FORM TEST\n\nLocal form check complete.\n\nYour details were validated by the included local test receiver. They were not stored, emailed, or sent to Stayclean.\n\nBefore this page goes live\n\nConnect the quote form to the chosen Cloudflare destination, replace this preview confirmation with the agreed customer follow-up, and test the published form using clearly labelled test data.\n\nReturn to the landing page\nCall 0800 8560 120",
+  "requests": [
+    "http://127.0.0.1:43917/api/quote",
+    "http://127.0.0.1:43917/api/quote",
+    "http://127.0.0.1:43917/api/quote"
+  ],
+  "limits": "All POSTs intercepted locally. No request reached any live destination or even the local receiver."
+}
