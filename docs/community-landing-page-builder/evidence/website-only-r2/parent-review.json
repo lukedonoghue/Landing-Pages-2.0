@@ -1,0 +1,56 @@
+{
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "fonts": "loaded",
+      "h1": "Roboto, Arial, Helvetica, sans-serif"
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overflow": false,
+      "fonts": "loaded",
+      "h1": "Roboto, Arial, Helvetica, sans-serif"
+    },
+    {
+      "width": 1024,
+      "height": 800,
+      "overflow": false,
+      "fonts": "loaded",
+      "h1": "Roboto, Arial, Helvetica, sans-serif"
+    },
+    {
+      "width": 1280,
+      "height": 600,
+      "overflow": false,
+      "fonts": "loaded",
+      "h1": "Roboto, Arial, Helvetica, sans-serif"
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "fonts": "loaded",
+      "h1": "Roboto, Arial, Helvetica, sans-serif"
+    }
+  ],
+  "form": {
+    "junkRejected": 4,
+    "afterFailure": {
+      "focus": "form-status",
+      "top": 739.625,
+      "bottom": 772,
+      "visible": true,
+      "name": "Audit Test"
+    },
+    "firstAttemptPosts": 1,
+    "retryPosts": 2,
+    "success": "Your quote request has been sent to Stayclean. The team normally replies within one working day."
+  },
+  "requests": [
+    "https://local-form.example.test/",
+    "https://local-form.example.test/"
+  ]
+}

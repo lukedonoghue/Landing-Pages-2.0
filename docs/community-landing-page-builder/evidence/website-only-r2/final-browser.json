@@ -1,0 +1,1845 @@
+{
+  "schema_version": 1,
+  "gate": "browser-page",
+  "status": "blocked",
+  "executed_at": "2026-09-18T18:29:02.704Z",
+  "tool": {
+    "name": "measure_page",
+    "version": "1.1.0"
+  },
+  "target": {
+    "url": "http://127.0.0.1:4273/"
+  },
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "label": "mobile",
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/390x844-landing.png",
+      "metrics": {
+        "pageWidth": 390,
+        "pageHeight": 8791,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 14,
+              "right": 140,
+              "bottom": 60,
+              "width": 124,
+              "height": 46
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/gutter-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 583,
+              "right": 374,
+              "bottom": 851.5,
+              "width": 358,
+              "height": 268.5
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-work-poster.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 3315.609375,
+              "right": 374,
+              "bottom": 3520.484375,
+              "width": 358,
+              "height": 204.875
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/residential-team.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 4212.109375,
+              "right": 374,
+              "bottom": 4458.703125,
+              "width": 358,
+              "height": 246.59375
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 8036.03125,
+              "right": 226,
+              "bottom": 8104.03125,
+              "width": 210,
+              "height": 68
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button-small",
+            "text": "Get a free quote",
+            "box": {
+              "left": 259.546875,
+              "top": 16,
+              "right": 374,
+              "bottom": 58,
+              "width": 114.453125,
+              "height": 42
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-yellow",
+            "text": "Get a free quote",
+            "box": {
+              "left": 16,
+              "top": 408.890625,
+              "right": 374,
+              "bottom": 458.890625,
+              "width": 358,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-dark",
+            "text": "Get a free quote",
+            "box": {
+              "left": 16,
+              "top": 3217.609375,
+              "right": 179.28125,
+              "bottom": 3267.609375,
+              "width": 163.28125,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-yellow",
+            "text": "Get a free quote",
+            "box": {
+              "left": 16,
+              "top": 6162.96875,
+              "right": 179.28125,
+              "bottom": 6212.96875,
+              "width": 163.28125,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-dark",
+            "text": "Get a free quote",
+            "box": {
+              "left": 16,
+              "top": 7802.03125,
+              "right": 179.28125,
+              "bottom": 7852.03125,
+              "width": 163.28125,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.proof-rail",
+          "nextTop": 851.5,
+          "visiblePixels": 0,
+          "viewportHeight": 844
+        },
+        "primaryDeclared": 6,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 786,
+            "bottom": 832,
+            "left": 18,
+            "right": 372
+          }
+        },
+        "focusContained": true,
+        "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/390x844-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "label": "tablet",
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/768x1024-landing.png",
+      "metrics": {
+        "pageWidth": 768,
+        "pageHeight": 8500,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 10,
+              "right": 202,
+              "bottom": 64,
+              "width": 184,
+              "height": 54
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/gutter-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 537.90625,
+              "right": 750,
+              "bottom": 1086.90625,
+              "width": 732,
+              "height": 549
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-work-poster.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 3373.5,
+              "right": 750,
+              "bottom": 3792.25,
+              "width": 732,
+              "height": 418.75
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/residential-team.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 4408.765625,
+              "right": 750,
+              "bottom": 4904.609375,
+              "width": 732,
+              "height": 495.84375
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 8193.875,
+              "right": 228,
+              "bottom": 8261.875,
+              "width": 210,
+              "height": 68
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button-small",
+            "text": "Get a free quote",
+            "box": {
+              "left": 613.140625,
+              "top": 15,
+              "right": 750,
+              "bottom": 59,
+              "width": 136.859375,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-yellow",
+            "text": "Get a free quote",
+            "box": {
+              "left": 18,
+              "top": 400.40625,
+              "right": 188.484375,
+              "bottom": 450.796875,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-dark",
+            "text": "Get a free quote",
+            "box": {
+              "left": 18,
+              "top": 3275.109375,
+              "right": 188.484375,
+              "bottom": 3325.5,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-yellow",
+            "text": "Get a free quote",
+            "box": {
+              "left": 18,
+              "top": 6518.515625,
+              "right": 188.484375,
+              "bottom": 6568.90625,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-dark",
+            "text": "Get a free quote",
+            "box": {
+              "left": 18,
+              "top": 7947.484375,
+              "right": 188.484375,
+              "bottom": 7997.875,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.proof-rail",
+          "nextTop": 1086.90625,
+          "visiblePixels": 0,
+          "viewportHeight": 1024
+        },
+        "primaryDeclared": 6,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 823.609375,
+            "bottom": 874,
+            "left": 551.515625,
+            "right": 722
+          }
+        },
+        "focusContained": true,
+        "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/768x1024-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1024,
+      "height": 800,
+      "label": "laptop",
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1024x800-landing.png",
+      "metrics": {
+        "pageWidth": 1024,
+        "pageHeight": 6012,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 14,
+              "right": 208,
+              "bottom": 68,
+              "width": 184,
+              "height": 54
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/gutter-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.39365539100497293,
+            "box": {
+              "left": 537.671875,
+              "top": 83,
+              "right": 999.984375,
+              "bottom": 654.84375,
+              "width": 462.3125,
+              "height": 571.84375
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-work-poster.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 471.03125,
+              "top": 1868.6875,
+              "right": 1000,
+              "bottom": 2173.21875,
+              "width": 528.96875,
+              "height": 304.53125
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/residential-team.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 2730.703125,
+              "right": 512.40625,
+              "bottom": 3064.203125,
+              "width": 488.40625,
+              "height": 333.5
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 5724.671875,
+              "right": 234,
+              "bottom": 5792.671875,
+              "width": 210,
+              "height": 68
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button-small",
+            "text": "Get a free quote",
+            "box": {
+              "left": 863.140625,
+              "top": 19,
+              "right": 1000,
+              "bottom": 63,
+              "width": 136.859375,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-yellow",
+            "text": "Get a free quote",
+            "box": {
+              "left": 24,
+              "top": 507.34375,
+              "right": 194.484375,
+              "bottom": 557.734375,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-dark",
+            "text": "Get a free quote",
+            "box": {
+              "left": 24,
+              "top": 2399.71875,
+              "right": 194.484375,
+              "bottom": 2450.109375,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-yellow",
+            "text": "Get a free quote",
+            "box": {
+              "left": 24,
+              "top": 4618.078125,
+              "right": 194.484375,
+              "bottom": 4668.46875,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-dark",
+            "text": "Get a free quote",
+            "box": {
+              "left": 797.71875,
+              "top": 5462.40625,
+              "right": 1000,
+              "bottom": 5512.796875,
+              "width": 202.28125,
+              "height": 50.390625
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.proof-rail",
+          "nextTop": 654.84375,
+          "visiblePixels": 88,
+          "viewportHeight": 800
+        },
+        "primaryDeclared": 6,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 711.609375,
+            "bottom": 762,
+            "left": 761.515625,
+            "right": 932
+          }
+        },
+        "focusContained": true,
+        "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1024x800-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1280,
+      "height": 600,
+      "label": "short-laptop",
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1280x600-landing.png",
+      "metrics": {
+        "pageWidth": 1280,
+        "pageHeight": 5619,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 40,
+              "top": 14,
+              "right": 224,
+              "bottom": 68,
+              "width": 184,
+              "height": 54
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/gutter-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.000008189404548497592,
+            "box": {
+              "left": 604,
+              "top": 83,
+              "right": 1239.984375,
+              "bottom": 559.984375,
+              "width": 635.984375,
+              "height": 476.984375
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-work-poster.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 597.03125,
+              "top": 1706.171875,
+              "right": 1240,
+              "bottom": 2074.828125,
+              "width": 642.96875,
+              "height": 368.65625
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/residential-team.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 40,
+              "top": 2492.046875,
+              "right": 633.671875,
+              "bottom": 2895.703125,
+              "width": 593.671875,
+              "height": 403.65625
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 40,
+              "top": 5332.234375,
+              "right": 250,
+              "bottom": 5400.234375,
+              "width": 210,
+              "height": 68
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button-small",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1103.140625,
+              "top": 19,
+              "right": 1240,
+              "bottom": 63,
+              "width": 136.859375,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-yellow",
+            "text": "Get a free quote",
+            "box": {
+              "left": 40,
+              "top": 443.421875,
+              "right": 210.484375,
+              "bottom": 493.8125,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-dark",
+            "text": "Get a free quote",
+            "box": {
+              "left": 40,
+              "top": 2233.65625,
+              "right": 210.484375,
+              "bottom": 2284.046875,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-yellow",
+            "text": "Get a free quote",
+            "box": {
+              "left": 40,
+              "top": 4225.640625,
+              "right": 210.484375,
+              "bottom": 4276.03125,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-dark",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1037.71875,
+              "top": 5069.96875,
+              "right": 1240,
+              "bottom": 5120.359375,
+              "width": 202.28125,
+              "height": 50.390625
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.proof-rail",
+          "nextTop": 559.984375,
+          "visiblePixels": 40.015625,
+          "viewportHeight": 600
+        },
+        "primaryDeclared": 6,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 515.609375,
+            "bottom": 566,
+            "left": 889.515625,
+            "right": 1060
+          }
+        },
+        "focusContained": true,
+        "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1280x600-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "label": "desktop",
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1440x900-landing.png",
+      "metrics": {
+        "pageWidth": 1440,
+        "pageHeight": 5751,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 120,
+              "top": 14,
+              "right": 304,
+              "bottom": 68,
+              "width": 184,
+              "height": 54
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/gutter-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.21652679396365881,
+            "box": {
+              "left": 684,
+              "top": 83,
+              "right": 1319.984375,
+              "bottom": 691.8125,
+              "width": 635.984375,
+              "height": 608.8125
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-work-poster.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 677.03125,
+              "top": 1838,
+              "right": 1320,
+              "bottom": 2206.65625,
+              "width": 642.96875,
+              "height": 368.65625
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/residential-team.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 120,
+              "top": 2623.875,
+              "right": 713.671875,
+              "bottom": 3027.53125,
+              "width": 593.671875,
+              "height": 403.65625
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4273/assets/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 120,
+              "top": 5464.0625,
+              "right": 330,
+              "bottom": 5532.0625,
+              "width": 210,
+              "height": 68
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button-small",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1183.140625,
+              "top": 19,
+              "right": 1320,
+              "bottom": 63,
+              "width": 136.859375,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-yellow",
+            "text": "Get a free quote",
+            "box": {
+              "left": 120,
+              "top": 544.3125,
+              "right": 290.484375,
+              "bottom": 594.703125,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-dark",
+            "text": "Get a free quote",
+            "box": {
+              "left": 120,
+              "top": 2365.484375,
+              "right": 290.484375,
+              "bottom": 2415.875,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-yellow",
+            "text": "Get a free quote",
+            "box": {
+              "left": 120,
+              "top": 4357.46875,
+              "right": 290.484375,
+              "bottom": 4407.859375,
+              "width": 170.484375,
+              "height": 50.390625
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-dark",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1117.71875,
+              "top": 5201.796875,
+              "right": 1320,
+              "bottom": 5252.1875,
+              "width": 202.28125,
+              "height": 50.390625
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.proof-rail",
+          "nextTop": 691.8125,
+          "visiblePixels": 88,
+          "viewportHeight": 900
+        },
+        "primaryDeclared": 6,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 761.609375,
+            "bottom": 812,
+            "left": 969.515625,
+            "right": 1140
+          }
+        },
+        "focusContained": true,
+        "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1440x900-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/390x844-landing.png",
+      "type": "screenshot",
+      "sha256": "d4603b35ef1b270e253e38c5233a5b03d401cd4105e228eab8f0b34222cc6e08"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/390x844-modal.png",
+      "type": "screenshot",
+      "sha256": "87768a4d8d8d5eb0428f3554b08535b00afc1ea2a75234ca9837c312b983d583"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/768x1024-landing.png",
+      "type": "screenshot",
+      "sha256": "892dcc80cbd94a1daa1e9a3877c66038f4357cbb6ff2edf81a3a0725bbcd487c"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/768x1024-modal.png",
+      "type": "screenshot",
+      "sha256": "4403b5811225c5ba4baf1996559414e3c6098376706b73d0d4589ed0e1bbd7cb"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1024x800-landing.png",
+      "type": "screenshot",
+      "sha256": "10862e386eba83d764e688fc54004d6a41bc0c88ac824b7fefc3fc90315252ea"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1024x800-modal.png",
+      "type": "screenshot",
+      "sha256": "0207c248bc595ceacd35bf4ca2cfa791e94441ba15973ae2b88d876c571d0131"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1280x600-landing.png",
+      "type": "screenshot",
+      "sha256": "95f128b774c5741adad9e468009142a388614e650384fa93f03ec95127a2617b"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1280x600-modal.png",
+      "type": "screenshot",
+      "sha256": "064858c1e68f342182917f0cb66cc870e22fd16c85e80489903ac3201b84fb00"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1440x900-landing.png",
+      "type": "screenshot",
+      "sha256": "74d982b66dc985cf151f823e5be5df69416221caecf9630fa6e3bb0d241d06ed"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1440x900-modal.png",
+      "type": "screenshot",
+      "sha256": "ba50c5cbd5b1405ef0ce3c33370299473fc9bbd17bfbf5ccb28daf8033c74110"
+    }
+  ],
+  "checks": [
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":390,\"overflow\":[]}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/390x844-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "blocked",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.proof-rail\",\"nextTop\":851.5,\"visiblePixels\":0,\"viewportHeight\":844}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"button.button.button-small\",\"text\":\"Get a free quote\",\"box\":{\"left\":259.546875,\"top\":16,\"right\":374,\"bottom\":58,\"width\":114.453125,\"height\":42},\"unobscured\":true},{\"selector\":\"button.button.button-yellow\",\"text\":\"Get a free quote\",\"box\":{\"left\":16,\"top\":408.890625,\"right\":374,\"bottom\":458.890625,\"width\":358,\"height\":50},\"unobscured\":true},{\"selector\":\"button.button.button-dark\",\"text\":\"Get a free quote\",\"box\":{\"left\":16,\"top\":3217.609375,\"right\":179.28125,\"bottom\":3267.609375,\"width\":163.28125,\"height\":50},\"unobscured\":false},{\"selector\":\"button.button.button-yellow\",\"text\":\"Get a free quote\",\"box\":{\"left\":16,\"top\":6162.96875,\"right\":179.28125,\"bottom\":6212.96875,\"width\":163.28125,\"height\":50},\"unobscured\":false},{\"selector\":\"button.button.button-dark\",\"text\":\"Get a free quote\",\"box\":{\"left\":16,\"top\":7802.03125,\"right\":179.28125,\"bottom\":7852.03125,\"width\":163.28125,\"height\":50},\"unobscured\":false}]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":786,\"bottom\":832,\"left\":18,\"right\":372}}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":768,\"overflow\":[]}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/768x1024-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "blocked",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.proof-rail\",\"nextTop\":1086.90625,\"visiblePixels\":0,\"viewportHeight\":1024}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":823.609375,\"bottom\":874,\"left\":551.515625,\"right\":722}}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1024,\"overflow\":[]}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1024x800-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.proof-rail\",\"nextTop\":654.84375,\"visiblePixels\":88,\"viewportHeight\":800}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":711.609375,\"bottom\":762,\"left\":761.515625,\"right\":932}}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1280,\"overflow\":[]}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1280x600-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.proof-rail\",\"nextTop\":559.984375,\"visiblePixels\":40.015625,\"viewportHeight\":600}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"button.button.button-small\",\"text\":\"Get a free quote\",\"box\":{\"left\":1103.140625,\"top\":19,\"right\":1240,\"bottom\":63,\"width\":136.859375,\"height\":44},\"unobscured\":true},{\"selector\":\"button.button.button-yellow\",\"text\":\"Get a free quote\",\"box\":{\"left\":40,\"top\":443.421875,\"right\":210.484375,\"bottom\":493.8125,\"width\":170.484375,\"height\":50.390625},\"unobscured\":true},{\"selector\":\"button.button.button-dark\",\"text\":\"Get a free quote\",\"box\":{\"left\":40,\"top\":2233.65625,\"right\":210.484375,\"bottom\":2284.046875,\"width\":170.484375,\"height\":50.390625},\"unobscured\":false},{\"selector\":\"button.button.button-yellow\",\"text\":\"Get a free quote\",\"box\":{\"left\":40,\"top\":4225.640625,\"right\":210.484375,\"bottom\":4276.03125,\"width\":170.484375,\"height\":50.390625},\"unobscured\":false},{\"selector\":\"button.button.button-dark\",\"text\":\"Get a free quote\",\"box\":{\"left\":1037.71875,\"top\":5069.96875,\"right\":1240,\"bottom\":5120.359375,\"width\":202.28125,\"height\":50.390625},\"unobscured\":false}]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":515.609375,\"bottom\":566,\"left\":889.515625,\"right\":1060}}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1440,\"overflow\":[]}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r2/screenshots/1440x900-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.proof-rail\",\"nextTop\":691.8125,\"visiblePixels\":88,\"viewportHeight\":900}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":761.609375,\"bottom\":812,\"left\":969.515625,\"right\":1140}}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    }
+  ],
+  "failures": [
+    "hero_reveals_following_content: {\"hero\":\"#top\",\"following\":\"section.proof-rail\",\"nextTop\":851.5,\"visiblePixels\":0,\"viewportHeight\":844}",
+    "hero_reveals_following_content: {\"hero\":\"#top\",\"following\":\"section.proof-rail\",\"nextTop\":1086.90625,\"visiblePixels\":0,\"viewportHeight\":1024}"
+  ],
+  "warnings": [],
+  "limits": [
+    "Measurements do not replace visual review of the screenshot pixels.",
+    "The run does not submit forms or prove a live backend destination.",
+    "Automated overlap checks cannot identify every face or focal subject."
+  ],
+  "completed_at": "2026-09-18T18:29:13.233Z"
+}
