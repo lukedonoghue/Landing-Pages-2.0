@@ -5,6 +5,7 @@ import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import { createHash } from 'node:crypto';
+import { readRenderedFonts } from './rendered_fonts.mjs';
 
 const args = process.argv.slice(2);
 const option = (name, fallback = '') => {
@@ -39,12 +40,12 @@ const report = {
   status: 'blocked',
   url: url.href,
   captured_at: new Date().toISOString(),
-  tool: { name: 'extract_brand', version: '1.0.0', node: process.version, browser: browser.version() },
+  tool: { name: 'extract_brand', version: '1.1.0', node: process.version, browser: browser.version() },
   measurements: [], artifacts: [], failures: [],
   interpretation: 'Measurements describe rendered CSS and visible geometry. They do not automatically select the correct brand identity, official font, logo, or design direction.',
   limits: [
     'Surface areas approximate visible bounding-box area in the first viewport. Overlapping parent/child backgrounds are counted independently; these are not pixel shares.',
-    'Computed font stacks and loaded FontFace entries do not prove which fallback glyph font painted every character.',
+    'Computed stacks and FontFace entries alone do not prove glyph fonts. renderedFonts records Chromium evidence for the selected heading and prose samples only.',
     'Background images, gradients, transparency, pseudo-elements, canvas, and video need screenshot review. No dominant image-color extraction is attempted.',
     'No cookies or login state are imported. Consent dialogs or anonymous variants can affect the visible sample.',
     'All write requests are blocked. Normal GET requests still reach the supplied site.'
@@ -114,6 +115,15 @@ try {
         imageBackgrounds: imageBackgrounds.slice(0, 20), fontStatus: document.fonts.status,
         fontFaces: [...document.fonts].map(font => ({ family: font.family, weight: font.weight, style: font.style, status: font.status })) };
     });
+    const fontSamples = {
+      heading: data.roles.hero_heading.find(item => item.text),
+      body: data.roles.body.find(item => item.text.length >= 60 && item.textTransform !== 'uppercase'),
+    };
+    const rendered = await readRenderedFonts(page, fontSamples);
+    for (const [role, sample] of Object.entries(fontSamples)) {
+      if (sample) sample.renderedFonts = rendered.fonts[role] || [];
+    }
+    data.fontRenderError = rendered.error;
     const screenshot = resolve(dirname(output), `brand-${viewport.width}x${viewport.height}.png`);
     await page.screenshot({ path: screenshot, fullPage: false, animations: 'disabled' });
     const artifact = { path: relative(dirname(output), screenshot), type: 'screenshot', sha256: createHash('sha256').update(await readFile(screenshot)).digest('hex') };

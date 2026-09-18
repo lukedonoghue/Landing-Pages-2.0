@@ -1,6 +1,6 @@
 # Sequential community acceptance
 
-Status: resumed in Codex at the user's request on 2026-09-18 at 23:05 Kyiv. Pro review was not started. Latest usage check: 22% used at 00:20 Kyiv on September 19, against a 2% starting baseline. Stop threshold remains 32% used (30 additional percentage points). No automatic credit redemption. The 15-minute progress heartbeat is active again. First scenario is not yet accepted.
+Status: resumed in Codex at the user's request on 2026-09-18 at 23:05 Kyiv. Pro review was not started. Latest usage check: 27% used at 01:25 Kyiv on September 19, against a 2% starting baseline. Stop threshold remains 32% used (30 additional percentage points). No automatic credit redemption. The 15-minute progress heartbeat is active again. First scenario is not yet accepted.
 
 ## Scope
 
@@ -45,6 +45,10 @@ Attempt 6 ran from 2026-09-18 at 23:45 to approximately 2026-09-19 at 00:09 Kyiv
 Attempt 7 started 2026-09-19 at 00:23 Kyiv: agent `01a0b666-a643-7d83-a28e-af8210f9762e` (Carson), gpt-5.6-sol xhigh, fork_context=false. Same plain owner request, empty project and no audit context. Frozen source 75b2f7e: 172 files, manifest SHA-256 `8a413a49aa79bd2fddd54e444bccc5cb4a301140c605a15b85df4e786fb7b00c`. Source and attempt-6 evidence were pushed to the separate review branch before launch. Skill validation, 67 package tests and 23 script tests pass. Package tests require the available ReportLab-enabled Python runtime; the default system Python failed to import that dependency and was not counted as a pass.
 
 Attempt 7 completed at 00:47 Kyiv. Performance improved to 97 with 2.48-second LCP, confirmed by parent repeat, and synthetic form outcome tests passed. Fresh visual/manual review rejected keyboard-focused controls hidden behind the sticky form action row. Parent reproduced the failure at every required size. See WEBSITE-ONLY-R7-REVIEW.md for the missing test path and source correction. First scenario remains unaccepted.
+
+Attempt 8 started 2026-09-19 at 01:00 Kyiv: agent `01a0b688-e643-7fb0-ab00-d325cb444ffd` (Aristotle), gpt-5.6-sol xhigh, fork_context=false. Same owner request, another empty project and no audit context. Frozen source d9f46d2: 172 files, manifest SHA-256 `b1eb909e37f228e78fe5d30cac4a39523ce75bd2e7b01c2ac6ba0c34593edcc3`. Prior builder and reviewer closed. Source fixes and attempt-7 evidence pushed to the separate review branch before launch.
+
+Attempt 8 completed at approximately 01:17 Kyiv. Parent rejected a silent system-font fallback despite a matching declared CSS stack, empty body-font evidence and form error/focus inconsistencies. Parent calibrated the fresh review, rejecting a smooth-scroll success-state false positive. See WEBSITE-ONLY-R8-REVIEW.md. Source now compares actual rendered fonts, not declarations alone. The generated page remains unchanged.
 
 ## README and local-history reconciliation
 

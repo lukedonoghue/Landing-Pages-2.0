@@ -5,8 +5,9 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { readRenderedFonts } from './rendered_fonts.mjs';
 
-const VERSION = '1.4.0';
+const VERSION = '1.5.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -395,6 +396,11 @@ try {
     await page.goto(url.href, { waitUntil: 'networkidle', timeout: 30000 });
     await settle(page);
     const metrics = await measure(page);
+    const rendered = await readRenderedFonts(page, metrics.typography);
+    for (const [role, sample] of Object.entries(metrics.typography)) {
+      if (sample) sample.renderedFonts = rendered.fonts[role] || [];
+    }
+    if (rendered.error) warn(`${name}: rendered-font inspection unavailable: ${rendered.error}`);
     if (brand?.measurements?.length) {
       const source = [...brand.measurements].sort((a, b) => Math.abs(a.viewport.width - viewport.width) - Math.abs(b.viewport.width - viewport.width))[0];
       const expected = {
@@ -409,8 +415,17 @@ try {
           continue;
         }
         const matches = family(expected[role].fontFamily) === family(observed.fontFamily);
-        report.typographyComparison.push({ viewport, role, source: expected[role], applied: observed, matches });
+        const expectedFont = expected[role].renderedFonts?.[0]?.familyName;
+        const observedFont = observed.renderedFonts?.[0]?.familyName;
+        const renderedMatches = expectedFont && observedFont ? family(expectedFont) === family(observedFont) : null;
+        report.typographyComparison.push({ viewport, role, source: expected[role], applied: observed, matches, renderedMatches });
         if (!matches) warn(`${name}: ${role} font differs: source ${expected[role].fontFamily}; applied ${observed.fontFamily}. Restore source font or document a permitted substitution with evidence.`);
+        if (matches && renderedMatches !== null) {
+          check('declared_brand_font_really_renders', renderedMatches,
+            `${role}: source renders ${expectedFont}; page renders ${observedFont}`, { viewport });
+        } else if (renderedMatches === null) {
+          warn(`${name}: ${role} actual font is unverified; capture source and output rendered-font evidence before claiming brand parity`);
+        }
       }
     }
     const screenshot = await addShot(page, `${name}-landing`);

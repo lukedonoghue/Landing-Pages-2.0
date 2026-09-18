@@ -33,15 +33,13 @@ def main():
         root = Path(directory)
         prose = 'A local service team provides a clear quotation after reviewing the property and the work required.'
         brand_path = root / 'brand.json'
-        brand_path.write_text(json.dumps({'measurements': [{'viewport': {'width': 390}, 'roles': {
-            'hero_heading': [{'fontFamily': 'Georgia, serif', 'text': 'Local service'}],
-            'body': [{'fontFamily': 'Arial, sans-serif', 'text': prose}],
-        }}]}))
-        cases = ['visible', 'below', 'overlap', 'font-drift', 'modal-covered', 'modal-clear']
+        cases = ['visible', 'below', 'overlap', 'font-drift', 'modal-covered', 'modal-clear', 'font-fallback', 'font-loaded']
         for name in cases:
             height = '110vh' if name == 'below' else '200px'
             label_offset = '30px' if name == 'overlap' else '180px'
             body_font = 'Georgia, serif' if name == 'font-drift' else 'Arial, sans-serif'
+            heading_font = 'FixtureWebFont, Georgia, serif' if name in ['font-fallback', 'font-loaded'] else 'Georgia, serif'
+            font_face = '@font-face{font-family:FixtureWebFont;src:local("Arial"),local("Liberation Sans"),local("DejaVu Sans")}' if name == 'font-loaded' else ''
             modal = ''
             trigger = '<a href="tel:+15555550100" data-primary-action>Call</a>'
             if name.startswith('modal-'):
@@ -67,7 +65,8 @@ def main():
                 )
             (root / f'{name}.html').write_text(
                 '<!doctype html><html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1">'
-                '<title>Hero fixture</title><style>body{margin:0}h1{font-size:24px;margin:0;font-family:Georgia,serif}'
+                '<title>Hero fixture</title><style>body{margin:0}h1{font-size:24px;margin:0}'
+                f'h1{{font-family:{heading_font}}}{font_face}'
                 f'body{{font-family:{body_font}}}'
                 f'.hero{{height:{height}}}section+section{{height:200px}}a{{display:inline-block;padding:16px}}'
                 '.label-row{position:relative}.category{position:absolute;left:0;top:0;margin:0}'
@@ -81,6 +80,14 @@ def main():
         server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(root)))
         Thread(target=server.serve_forever, daemon=True).start()
         try:
+            for source_name, source_report in [('visible', brand_path), ('font-loaded', root / 'loaded-brand.json')]:
+                extraction = subprocess.run([
+                    args.node, str(skill / 'scripts/extract_brand.mjs'),
+                    f'http://127.0.0.1:{server.server_port}/{source_name}.html',
+                    '--out', str(source_report), '--playwright-module', args.playwright_module,
+                    '--browser-executable', args.browser_executable,
+                ], capture_output=True, text=True, timeout=120)
+                assert extraction.returncode == 0, extraction.stdout + extraction.stderr
             for name in cases:
                 report_path = root / name / 'report.json'
                 result = subprocess.run([
@@ -88,7 +95,7 @@ def main():
                     f'http://127.0.0.1:{server.server_port}/{name}.html',
                     '--out', str(report_path), '--playwright-module', args.playwright_module,
                     '--browser-executable', args.browser_executable,
-                    '--brand-report', str(brand_path),
+                    '--brand-report', str(root / 'loaded-brand.json' if name in ['font-fallback', 'font-loaded'] else brand_path),
                 ], capture_output=True, text=True, timeout=120)
                 assert report_path.is_file(), result.stdout + result.stderr
                 report = json.loads(report_path.read_text())
@@ -103,6 +110,7 @@ def main():
                 font_checks = report['typographyComparison']
                 assert len(font_checks) == 10, font_checks
                 assert all(c['matches'] for c in font_checks if c['role'] == 'heading'), font_checks
+                assert all(c['renderedMatches'] == (name != 'font-fallback') for c in font_checks if c['role'] == 'heading'), font_checks
                 assert all(c['matches'] == (name != 'font-drift') for c in font_checks if c['role'] == 'body'), font_checks
                 assert any('body font differs' in w for w in report['warnings']) == (name == 'font-drift'), report['warnings']
                 keyboard = [c for c in report['checks'] if c['name'] == 'modal_tab_focus_unobscured']
@@ -112,11 +120,11 @@ def main():
                     assert all(c['status'] == expected_keyboard for c in keyboard), keyboard
                 else:
                     assert not keyboard, keyboard
-                assert (result.returncode == 0) == (name in ['visible', 'font-drift', 'modal-clear']), report['failures']
+                assert (result.returncode == 0) == (name in ['visible', 'font-drift', 'modal-clear', 'font-loaded']), report['failures']
         finally:
             server.shutdown()
             server.server_close()
-    print('PASS: hero, text, fonts and covered/clear modal keyboard fixtures at all five viewports')
+    print('PASS: eight hero, text, CSS/rendered-font and modal keyboard fixtures at all five viewports')
 
 
 if __name__ == '__main__':
