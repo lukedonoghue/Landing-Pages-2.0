@@ -7,7 +7,11 @@ This folder preserves the newest deployable Byrider funnel produced by the indep
 - Landing page, responsive assets, verified Byrider fonts, three-step lead form, thank-you page, brochure, Worker backend, D1 migrations, CRM, reporting, tracking, tests, and publishing scripts.
 - Cloudflare account verified as `shevabody@gmail.com` with account ID `5b93d5e3c469e05d9bd13672e7887c4a`.
 - Production D1 was provisioned by setup. No password, session secret, webhook secret, `.dev.vars`, local D1 data, or private journey record is committed.
-- Cloudflare Worker and CRM were not yet deployed when this checkpoint was created.
+- Production D1 migrations `0001` through `0005`, Worker secrets, page assets, API, and CRM were deployed successfully.
+- Live page: `https://byrider-franchise-community-pilot.shevabody.workers.dev`
+- CRM login: `https://byrider-franchise-community-pilot.shevabody.workers.dev/login.html`
+- D1 database ID: `f9fe304e-45bd-433e-8338-5b99b9ec7e6c`
+- Worker version ID: `704a65c8-b25c-4f91-b3cd-98b0f3aa0c4b`
 
 ## Current verification state
 
@@ -16,6 +20,7 @@ This folder preserves the newest deployable Byrider funnel produced by the indep
 - Performance after responsive hero conversion: 100 score, 1,875 ms median LCP, 0.0068 CLS, 0 ms TBT.
 - Visual review: page and form passed desktop and mobile inspection.
 - Final evidence refresh was interrupted after a long-lived local Wrangler preview exited. The failed report correctly recorded `ECONNREFUSED`; it is not a page failure.
+- Production read-only verification passed with no public-route, asset, brochure, health, or anonymous-access failures. No synthetic lead was submitted.
 
 ## Correct resume order
 
