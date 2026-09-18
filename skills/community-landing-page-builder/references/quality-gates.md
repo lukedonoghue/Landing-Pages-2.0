@@ -111,3 +111,5 @@ The acceptance report must include:
 - final result: `blocked`, `local final`, `publish-ready`, or `live and verified`.
 
 A selected optional module can be incomplete without blocking the base page only when it is clearly excluded from the delivered claim. Never call the whole result complete while presenting that module as working.
+
+Block typography acceptance when the applied heading or body stack differs from the supplied production page without a documented permitted reason and a close visual match.

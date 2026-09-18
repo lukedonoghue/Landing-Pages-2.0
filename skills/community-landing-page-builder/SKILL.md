@@ -66,7 +66,7 @@ Every heading, CTA, and bullet must make sense to a first-time visitor. Keep tec
 
 Read [references/design-direction.md](references/design-direction.md).
 
-Record the design decisions in the strategy brief: verified brand-guide typography when available, official-site typography, applied typography and any reason for changing it, type character and hierarchy, color roles and contrast, spacing rhythm, shape and surface language, composition pattern, image roles, and motion behavior. Never call a font a brand font without a brand guide or equivalent first-party standard.
+Record the design decisions in the strategy brief: verified brand-guide typography when available, official-site typography, applied typography and any reason for changing it, type character and hierarchy, color roles and contrast, spacing rhythm, shape and surface language, composition pattern, image roles, and motion behavior. Extract the actual heading and body fonts rendered by the supplied official production page and use them by default. A current formal brand standard may override the page. Substitute only for a concrete licensing, loading, language-support, or accessibility reason; use a close visual match and record the reason. Never invent fonts from an industry stereotype.
 
 Start from supplied assets and the business's observed identity. Supplied assets outrank scraped alternatives. Verify the correct logo variant against its rendered background and make the brand visible in the first viewport. Separate verified source colors from the applied interface palette, explain the role of each important applied color, and do not inherit the source website's visual age by default.
 

@@ -34,6 +34,8 @@ Separate typography evidence into three labels:
 
 Do not call official-site typography a formal brand font when no brand guide confirms it. When official properties disagree, record the conflict and choose the applied system for readability, audience fit, availability, and current execution quality. Do not invent a generic condensed automotive treatment from category stereotypes. Avoid relying on local-only fonts whose appearance changes by operating system; load an appropriately licensed web font or use a deliberate stable system stack.
 
+The supplied official production page controls the default heading and body stacks. Extract its rendered or declared fonts instead of guessing. A current formal brand guide can override it. Another official property is evidence of a conflict, not automatic permission to invent a third system. Change the production fonts only for a concrete licensing, loading, language-support, accessibility, or explicit user-direction reason, and use the closest suitable visual match.
+
 ## Choose a current audience-fit direction
 
 State three visual adjectives tied to the buyer and decision. Examples include `credible`, `current`, and `investment-grade` for a high-consideration franchise offer, or `capable`, `local`, and `direct` for a trade service. Do not use generic adjectives without explaining how the type, space, imagery, and color treatment express them.
@@ -69,6 +71,7 @@ During final pixel review, answer:
 - Are exact saturated brand colors used with restraint and clear roles?
 - Is the typography current, readable, and free of a default condensed-template look?
 - Is every applied font supported by recorded provenance or a clear audience-fit rationale?
+- Do the applied heading and body stacks match the supplied production page, or is every substitution concrete, necessary, and visually close?
 - Is the execution at least as intentional as the Clean Slate benchmark while remaining visibly its own design?
 
 A technically correct page fails the visual gate when these questions expose a clear audience-fit or visual-age problem. Fix the system and recheck the full page; do not hide the issue with isolated component polish.

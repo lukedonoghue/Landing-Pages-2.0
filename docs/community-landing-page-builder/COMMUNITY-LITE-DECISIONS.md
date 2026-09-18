@@ -106,7 +106,7 @@ The first run was initially classified too generously. Two later findings change
 
 The conversion failure came from conflating form experience with production backend infrastructure. A public endpoint on a source page is evidence of intended behavior, but is not permission to reuse it or send data. The correct local result preserves the form, offer, fields, consent, and next-step promise while using an isolated local receiver or clearly pending production wiring.
 
-Decision: require a source conversion contract and a source-parity conversion gate. Missing credentials cannot change conversion type. Also require three typography labels: verified brand-guide typography, official-site typography, and applied typography. Do not call a font a brand font without a formal first-party standard.
+Decision: require a source conversion contract and a source-parity conversion gate. Missing credentials cannot change conversion type. Also require three typography labels: verified brand-guide typography, official-site typography, and applied typography. The supplied production page's actual heading and body fonts are the default. Substitution requires a concrete reason and a close visual match.
 
 ## Implementation checklist
 
