@@ -1,0 +1,84 @@
+# Build Contract
+
+## Output shape
+
+Use the smallest structure appropriate to the project. A normal static build may contain:
+
+```text
+index.html
+styles.css
+script.js
+assets/
+build/
+```
+
+Add `thank-you.html` only when the selected journey needs a separate success page. Add brochure, backend, CRM, tracking, publishing, or handoff files only when that module is active. Use a framework only when the existing project or user requires one.
+
+## Responsive page
+
+- Use semantic landmarks and one clear H1.
+- Include a keyboard-visible skip link.
+- Make the brand, offer, and primary action clear in the first viewport.
+- Use stable layout constraints so text, images, controls, and dynamic states do not shift or overlap.
+- Do not scale body or heading type directly with viewport width. Use deliberate responsive steps or bounded fluid sizing only where needed.
+- Avoid fixed minimum widths inside responsive grid tracks and emergency word breaking on short UI labels.
+- Inspect the 1024 to 1199 pixel range, not only phone and wide desktop.
+- Use at most one persistent mobile CTA. Fixed UI must not cover focused controls, legal links, the final section, or the form action.
+- Footer links must use a real list or flex layout with explicit gaps. Do not rely on source whitespace for separation.
+
+## Images and media
+
+Mark each meaningful image with `data-image-role="proof|portrait|diagram|screenshot|illustrative"`. Decorative images use `data-image-role="decorative"` and `alt=""`. Add `data-content-bearing="true"` to diagrams, screenshots, infographics, documents, maps, and any image whose internal text or labels must remain visible.
+
+- Meaningful images need factual alt text. Decorative images need empty alt text.
+- Add explicit dimensions and responsive sources where useful.
+- Eager-load the single likely LCP image. Lazy-load below-fold imagery.
+- Never use `object-fit: cover` on content-bearing images.
+- Do not overlay copy on content-bearing pixels.
+- Do not place copy over a face, essential product detail, or focal subject.
+- Generated illustration must not occupy a proof role.
+- Video, when materially useful, starts from a meaningful poster and click-to-load controls. Respect reduced motion and provide a fallback.
+
+## Conversion paths
+
+Choose one honest primary path: form, booking, call, email, download, or another real destination.
+
+Mark the main CTA controls with `data-primary-action`. Modal openers also use `data-open-modal`. These attributes make short-height and obstruction checks deterministic; they do not replace clear visible labels.
+
+For forms:
+
+- collect only fields needed for response or routing;
+- use explicit labels and appropriate autocomplete/inputmode values;
+- allow paste and autofill;
+- preserve an entered international phone country code and avoid cursor-jumping masks;
+- associate every custom error with its field using `aria-describedby` or a native validation relationship;
+- show errors near the field and in an announced summary when useful;
+- keep the primary action visible at short viewport heights;
+- show success only after the configured destination confirms success;
+- provide a useful failure and retry path;
+- prevent duplicate submission while a request is pending.
+
+A modal may be single-step or multi-step. Use native `dialog` or an equivalent document-level focus guard, restore focus to the opener, support Escape, and test programmatic focus escape. Internal scrolling is acceptable only when the action remains obvious and reachable.
+
+For a phone, email, booking, or download action, verify the actual `tel:`, `mailto:`, URL, or file. Do not use `href="#"` or a fake success screen as the primary destination.
+
+## Accessibility and behavior
+
+- Target WCAG 2.2 AA contrast.
+- Keep browser zoom enabled.
+- Use persistent visible focus, not hover-only indication.
+- Use at least 24 by 24 CSS pixel targets, with 44 by 44 preferred for primary touch controls.
+- Do not use color alone to communicate state or link purpose.
+- Respect `prefers-reduced-motion`; content is visible without JavaScript animation.
+- Ensure consent and chat controls can be reached and dismissed without obscuring conversion content.
+- Preserve a logical heading and tab order.
+
+## Metadata and destinations
+
+Use a descriptive title and meta description. Add structured data only for supported facts. Keep preview/private/thank-you routes out of search where appropriate, while an intended public landing page remains indexable after launch. Privacy and terms links must resolve to real, relevant destinations.
+
+## Tracking and privacy
+
+Tracking is optional. Preserve approved campaign parameters through the selected conversion path when needed. Never put raw name, email, phone, address, free text, or uploaded content in analytics. Hashing is not permission: consent, category restrictions, provider policy, and destination testing still apply.
+
+If no backend or tracking destination is configured, say so in the QA summary. The local page can still be final when its visible experience and honest non-production behavior are complete.

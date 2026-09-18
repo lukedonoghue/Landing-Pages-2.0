@@ -1,0 +1,137 @@
+{
+  "include_contents": true,
+  "brand": {
+    "name": "Example Land Services",
+    "footer": "EXAMPLE LAND SERVICES | SERVICE REGION",
+    "region": "Service Region",
+    "phone_display": "000-000-0000",
+    "phone_uri": "tel:+10000000000",
+    "website": "https://example.com",
+    "contact_url": "https://example.com/contact",
+    "logo": "",
+    "colors": {
+      "primary": "#071B34",
+      "secondary": "#0D2A4A",
+      "accent": "#E1B247",
+      "accent_light": "#F2D58C",
+      "paper": "#F7F2E8",
+      "ink": "#162536",
+      "muted": "#566271"
+    }
+  },
+  "cover": {
+    "eyebrow": "REGIONAL PROPERTY SERVICES",
+    "headline": "FROM OVERGROWN\nTO PROJECT-READY.",
+    "body": "Describe the service set and the property outcome in one concise sentence.",
+    "label": "SERVICES CATALOGUE",
+    "image": "",
+    "image_mode": "none"
+  },
+  "proof_pillars": [
+    {
+      "label": "EXPERIENCE",
+      "detail": "Verified experience translated into buyer value"
+    },
+    {
+      "label": "EQUIPMENT",
+      "detail": "Verified capability and what it enables"
+    },
+    {
+      "label": "END-USE FIRST",
+      "detail": "Method matched to the desired result"
+    },
+    {
+      "label": "LOCAL KNOWLEDGE",
+      "detail": "Verified regional advantage"
+    }
+  ],
+  "services": [
+    {
+      "name": "Service One",
+      "short": "Outcome-focused one-line service summary",
+      "headline": "Specific outcome headline.",
+      "summary": "Explain what changes for the property owner and the important service-fit distinction.",
+      "image": "",
+      "ideal_for": [
+        "Use case one",
+        "Use case two",
+        "Use case three"
+      ],
+      "includes": [
+        "Verified inclusion one",
+        "Verified inclusion two",
+        "Verified inclusion three"
+      ],
+      "callout_title": "Why the method matters",
+      "callout_body": "State a sourced differentiator, limitation, or decision rule.",
+      "theme": "light",
+      "image_mode": "none"
+    },
+    {
+      "name": "Service Two",
+      "short": "Second outcome-focused service summary",
+      "headline": "Second outcome headline.",
+      "summary": "Explain fit and outcome without inventing scope.",
+      "image": "",
+      "ideal_for": [
+        "Use case one",
+        "Use case two"
+      ],
+      "includes": [
+        "Verified inclusion one",
+        "Verified inclusion two"
+      ],
+      "callout_title": "Important distinction",
+      "callout_body": "State when this service is and is not the right fit.",
+      "theme": "dark",
+      "image_mode": "none"
+    }
+  ],
+  "process": {
+    "headline": "A clear plan before work begins.",
+    "summary": "Explain the shared principle behind the process.",
+    "image": "",
+    "steps": [
+      {
+        "title": "Evaluate",
+        "body": "Review goals, conditions, access, and intended use."
+      },
+      {
+        "title": "Define",
+        "body": "Confirm limits, method, scope, and dependencies."
+      },
+      {
+        "title": "Execute",
+        "body": "Perform the work with the verified capability."
+      },
+      {
+        "title": "Finish",
+        "body": "Confirm the result and the next-step condition."
+      }
+    ],
+    "image_mode": "none"
+  },
+  "cta": {
+    "action_label": "Request your custom estimate",
+    "eyebrow": "READY FOR THE NEXT STEP?",
+    "headline": "Request your custom estimate.",
+    "body": "Describe the offer and what the buyer should provide.",
+    "image": "",
+    "steps": [
+      {
+        "title": "Share the project",
+        "body": "Provide the approved qualification details."
+      },
+      {
+        "title": "Review the fit",
+        "body": "Confirm service, scope, and constraints."
+      },
+      {
+        "title": "Receive the estimate",
+        "body": "Get the promised deliverable and next step."
+      }
+    ],
+    "follow_up_promise": "Use the exact operational promise from the page and form.",
+    "image_mode": "none"
+  }
+}

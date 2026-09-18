@@ -1,0 +1,4 @@
+interface:
+  display_name: "Community Landing Page Builder"
+  short_description: "Build and verify a branded lead page"
+  default_prompt: "Use $community-landing-page-builder to research my business website and autonomously build a polished local landing page with an honest conversion path, purposeful imagery, and responsive visual QA; ask me only about facts that truly block the result."

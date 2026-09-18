@@ -1,0 +1,14 @@
+name: Client deployment is disabled for this beta
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  explain-supported-publishing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use the guarded local publication flow
+        run: |
+          echo 'Automatic client deployment is disabled until revision-bound approvals and evidence can be safely transferred to CI.'
+          echo 'Use the skill-guided setup and npm run publish from the reviewed generated project.'
+          exit 1

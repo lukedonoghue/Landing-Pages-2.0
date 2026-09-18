@@ -1,0 +1,14 @@
+* { box-sizing: border-box; }
+body { margin: 0; color: #172033; background: #f7f9fc; font: 16px/1.5 system-ui, sans-serif; }
+.skip-link { position: absolute; left: 1rem; top: -4rem; }
+.skip-link:focus { top: 1rem; }
+.hero { min-height: 70vh; display: grid; place-content: center; gap: 1rem; max-width: 52rem; margin: auto; padding: 2rem; }
+h1 { max-width: 18ch; margin: 0; font-size: 3rem; }
+button { width: fit-content; min-height: 44px; padding: 0.7rem 1rem; }
+footer { padding: 2rem; background: #172033; }
+footer nav { display: flex; gap: 1rem; }
+footer a { min-height: 44px; display: inline-flex; align-items: center; color: white; }
+dialog { width: min(32rem, calc(100% - 2rem)); max-height: calc(100vh - 2rem); padding: 0; }
+dialog form { display: grid; gap: 0.75rem; padding: 1.5rem; }
+dialog::backdrop { background: rgb(0 0 0 / 55%); }
+@media (max-width: 600px) { h1 { font-size: 2.25rem; } }
