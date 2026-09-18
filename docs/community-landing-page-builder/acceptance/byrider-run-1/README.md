@@ -75,7 +75,7 @@ Each choice could be defensible alone. Together they reproduced the visual age o
 - current audience-fit direction and legacy-pattern warnings;
 - a blocking final visual-age checkpoint.
 
-The skill now also requires source conversion parity, separates form UX from backend wiring, treats public endpoints as evidence rather than authorization, and records verified brand-guide, official-site, and applied typography separately.
+The skill now also requires source conversion parity, separates form UX from backend wiring, treats public endpoints as evidence rather than authorization, and requires the supplied production page's actual heading and body fonts by default. Any substitution needs a concrete reason and a close visual match.
 
 This first run remains evidence for the fixed layout and image workflow and for the exposed conversion and design gaps. It is not acceptance evidence for the revised instructions. A new context-free run is required.
 
