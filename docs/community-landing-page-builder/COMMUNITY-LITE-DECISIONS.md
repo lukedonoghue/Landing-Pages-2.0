@@ -11,7 +11,7 @@ The target is a credible, conversion-capable page with reliable visual review. T
 - Source retained: `work/Landing-Pages-2.0/skills/branded-lead-funnel-builder`
 - Separate fork: `work/Landing-Pages-2.0-community-lite/skills/community-landing-page-builder`
 - The source `README-BOHDAN.md` is not edited.
-- No publication, deployment, or Git push is part of this revision.
+- No client publication or deployment is part of this revision. Repository checkpoints are limited to the new community skill and documentation folders.
 
 ## Re-evaluation decisions
 
@@ -83,6 +83,20 @@ Existing advanced modules remain available only when selected and must not block
 | Generic screenshot reused for all image reviews | Each image needs asset-specific evidence. |
 | Self-authored booleans approved the run | Fresh acceptance pass required, separate reviewer or agent when available. |
 
+## Visual-age finding from the independent run
+
+The first context-free build fixed the earlier functional and layout failures, but its design still read as an older automotive franchise prospectus. This exposed a separate instruction gap:
+
+- the exact Byrider blue and orange were correctly verified from the official logo;
+- the builder then enlarged those saturated colors into broad page fields and added invented navy and cream support colors;
+- condensed system headings, rule-heavy rails, numbered checkpoints, hard-edged shadows, and alternating blue, orange, and cream bands reinforced a legacy brochure character;
+- the default skill did not require a comparison between source-brand truth and the visual age of the source website;
+- Blue Mountain existed in the buried copy library and a case-study note, but the active default workflow did not load it;
+- Blue Mountain is useful for conversion architecture, but its live visual design is too old to be a modern style target;
+- Clean Slate is a stronger execution-quality benchmark for hierarchy, spacing, proof presentation, and finish.
+
+Decision: adopt one short design-direction reference. It makes Blue Mountain the default structural benchmark, Clean Slate the execution-quality benchmark, requires separate source and applied palettes, and adds a blocking visual-age checkpoint. It does not add an approval step or require extra owner input.
+
 ## Implementation checklist
 
 - [x] Create separate fork and keep the source copy unchanged.
@@ -93,7 +107,10 @@ Existing advanced modules remain available only when selected and must not block
 - [x] Add lightweight static page validator.
 - [x] Add responsive browser measurement and obstruction checks.
 - [x] Add page-specific brochure review validator.
+- [x] Add active structural and execution reference hierarchy.
+- [x] Add source-versus-applied palette rationale and visual-age gate.
 - [x] Add and run focused regression tests.
 - [x] Validate the skill package and scan its generated templates.
-- [ ] Run a context-free Byrider acceptance build in a separate task.
-- [ ] Inspect the independent result and record pass or failure without editing it into compliance.
+- [x] Run the first context-free Byrider acceptance build in a separate task.
+- [x] Record the first result as a functional pass and visual-age failure without editing it into compliance.
+- [ ] Run a second context-free Byrider build against the revised design instructions.

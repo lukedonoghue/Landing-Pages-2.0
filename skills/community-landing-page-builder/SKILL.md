@@ -64,11 +64,15 @@ Every heading, CTA, and bullet must make sense to a first-time visitor. Keep tec
 
 ### 3. Design for this business
 
+Read [references/design-direction.md](references/design-direction.md).
+
 Record the design decisions in the strategy brief: type character and hierarchy, color roles and contrast, spacing rhythm, shape and surface language, composition pattern, image roles, and motion behavior.
 
-Start from supplied assets and the business's observed identity. Supplied assets outrank scraped alternatives. Verify the correct logo variant against its rendered background and make the brand visible in the first viewport.
+Start from supplied assets and the business's observed identity. Supplied assets outrank scraped alternatives. Verify the correct logo variant against its rendered background and make the brand visible in the first viewport. Separate verified source colors from the applied interface palette, explain the role of each important applied color, and do not inherit the source website's visual age by default.
 
-Avoid an AI-template appearance. Do not default to violet or blue-purple gradients, repeated gray card grids, emoji icons, fake initial-avatar proof, all-centered sections, oversized headings inside compact panels, or three consecutive sections with the same composition. Vary scale, density, media, and layout according to each section's job while keeping one coherent system.
+When the user supplies no design reference, use Blue Mountain as the built-in conversion-architecture benchmark and Clean Slate Land Solutions as the execution-quality benchmark described in the design reference. Do not clone either page. The first controls persuasive completeness; the second sets a minimum bar for current hierarchy, spacing, proof presentation, and finish.
+
+Avoid an AI-template or legacy-brochure appearance. Do not default to violet or blue-purple gradients, repeated gray card grids, emoji icons, fake initial-avatar proof, all-centered sections, oversized headings inside compact panels, generic condensed display type, negative letter spacing, broad alternating saturated color bands, or three consecutive sections with the same composition. Vary scale, density, media, and layout according to each section's job while keeping one coherent system.
 
 ### 4. Research and create imagery
 
@@ -124,6 +128,9 @@ The final review must explicitly answer these questions:
 - Do consecutive sections vary with their content, or does the page fall into repeated headline-card-grid bands?
 - Does a downloadable guide preview use the actual guide cover or verified page spread?
 - Are duplicate facts, oversized proof images, clipped text, unfinished sentences, and thin thank-you states removed?
+- Does the page feel current and audience-fit rather than like a cleaned-up copy of an old source site or printed sales brochure?
+- Are exact brand colors used with intentional proportions, with source colors separated from applied interface colors?
+- Is the visual execution at least as intentional as the built-in Clean Slate benchmark without copying its style?
 
 When a brochure is selected, read [references/catalogue-workflow.md](references/catalogue-workflow.md), render every page, inspect each at readable size, and run `scripts/validate_catalogue_review.py`. Any clipping, truncation, unreadable copy, text-on-information collision, or text covering a person blocks the brochure and the final result.
 

@@ -12,6 +12,7 @@ The user wants a skill that a business owner with little or no AI, landing-page,
 2. `docs/community-landing-page-builder/COMMUNITY-LITE-DECISIONS.md`
 3. `docs/community-landing-page-builder/PAGE-BUILDER-SKILL-GAP-AUDIT.md`
 4. `docs/community-landing-page-builder/BYRIDER-VISUAL-AUDIT.md`
+5. `skills/community-landing-page-builder/references/design-direction.md`
 
 The full gap audit explains every adopted, simplified, conditional, and rejected capability. The visual audit records the failures that produced false passes in the earlier Byrider run.
 
@@ -23,6 +24,8 @@ The full gap audit explains every adopted, simplified, conditional, and rejected
 - The default process uses one compact strategy brief, one material-claim ledger, one copy master, and an image plan only when images require it.
 - No API key, MCP server, GitHub account, private ad account, hosting credential, or analytics ID is needed for a local final.
 - A fresh acceptance pass is required after source changes. Measurements and broad pass booleans are not visual approval.
+- Blue Mountain is now an active conversion-architecture benchmark, while Clean Slate is an execution-quality benchmark. Neither is a clone target.
+- The design brief must separate verified source colors from the applied interface palette and explain color proportions.
 
 ## New deterministic gates
 
@@ -43,6 +46,8 @@ The full gap audit explains every adopted, simplified, conditional, and rejected
 - Use asset-specific image review evidence.
 - Separate official proof from generated illustration.
 - Review repeated section composition, duplicate facts, oversized proof imagery, actual guide previews, and the full success state.
+- Block pages that remain technically sound but clearly read as a legacy brochure, an enlarged logo palette, or an audience-inappropriate design.
+- Do not use generic condensed headings, negative letter spacing, broad saturated bands, hard offset shadows, badges, and rule-heavy grids as an unexamined bundle.
 
 ## Tracking retained as an optional module
 
@@ -82,18 +87,26 @@ Observed behavior before this checkpoint:
 - reached Lighthouse 100 for performance, accessibility, and best practices, with about 1.35 second LCP, zero CLS, and zero TBT;
 - started a fresh independent acceptance review.
 
-The final independent report was still running when this checkpoint was written. Add its output as a second commit. Do not rewrite the page to force a pass before recording the independent finding.
+The independent run completed with no reported technical blockers or warnings. Its own final reviewer approved the page, and Lighthouse ended at Performance 99, Accessibility 100, and Best Practices 100. The user then rejected the dated visual direction. The preserved evidence is in `docs/community-landing-page-builder/acceptance/byrider-run-1/` and is classified as a functional pass with a visual-age failure. Do not rewrite that first output to force a pass.
+
+### Design feedback after the first build
+
+The user confirmed that the earlier placement, image, and overlap fixes worked, but rejected the page's visual age. The run used Byrider's exact official blue `#215EAC` and orange `#FF8200`, then combined them with a custom midnight, warm cream, condensed type, clipped corners, rule-heavy rails, and broad saturated bands. That treatment was defensible as brand extraction but not strong enough as a current design direction.
+
+This is recorded as a skill failure because the default workflow did not actively load Blue Mountain, did not distinguish structural from visual references, and did not ask the final reviewer to block an outdated aesthetic. The new design reference corrects those instructions. The completed first run remains useful evidence for functional behavior but no longer qualifies as final visual acceptance for the revised skill.
 
 ## Continuation checklist
 
 1. Wait for the independent task to complete.
 2. Inspect its final artifacts and acceptance report.
-3. Copy the independent result summary and representative screenshots into `docs/community-landing-page-builder/acceptance/`.
-4. Update the decision checklist only from observed evidence.
-5. Rerun `quick_validate.py`, the skill Python suite, and the core browser fixture.
-6. Commit the acceptance evidence separately.
-7. Do not edit or overwrite `README-BOHDAN.md`.
-8. Do not fold unrelated dirty files from the original builder into these checkpoint commits.
+3. Preserve the first result as evidence of the visual-age failure.
+4. Run a second context-free Byrider build against the revised skill in a clean task.
+5. Copy both result summaries and representative screenshots into `docs/community-landing-page-builder/acceptance/`.
+6. Update the decision checklist only from observed evidence.
+7. Rerun `quick_validate.py`, the skill Python suite, and the core browser fixture.
+8. Commit the revised skill and acceptance evidence separately.
+9. Do not edit or overwrite `README-BOHDAN.md`.
+10. Do not fold unrelated dirty files from the original builder into these checkpoint commits.
 
 ## Current external status
 

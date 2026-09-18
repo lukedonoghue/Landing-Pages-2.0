@@ -53,13 +53,16 @@ Open and inspect every required screenshot at its actual size. Do not infer appr
 For each viewport, record specific observations for:
 
 - brand fidelity and logo visibility;
+- source-color provenance, applied color proportions, and audience fit;
 - hero balance, subject visibility, and CTA priority;
-- typography, contrast, wrapping, and density;
+- typography, contrast, wrapping, density, and visual age;
 - section rhythm and repeated layouts;
 - image crop, role, and proof integrity;
 - consent, sticky, modal, and footer behavior;
 - clipping, overlap, unfinished text, and dead space;
 - final conversion and thank-you state.
+
+Also compare the complete page with the reference hierarchy in `design-direction.md`. Blue Mountain is a structural benchmark, not a style target. Clean Slate is a minimum execution-quality benchmark, not a template to copy. Block a technically sound page when the full composition still reads as a legacy sales brochure, an enlarged logo palette, or an audience-inappropriate design. Fix the underlying type, palette proportions, spacing, imagery treatment, or repeated motifs and then recapture every affected viewport.
 
 Review each used image with asset-specific evidence. Review every modal step and validation state that exists. If a brochure exists, review every rendered page using the catalogue workflow.
 
@@ -96,6 +99,7 @@ The acceptance report must include:
 - exact files and URLs reviewed;
 - viewport and state coverage;
 - specific findings tied to screenshots or pages;
+- design provenance and the visual-age checkpoint;
 - fixes made and retested;
 - unresolved limits;
 - final result: `blocked`, `local final`, `publish-ready`, or `live and verified`.
