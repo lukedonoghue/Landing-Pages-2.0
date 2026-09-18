@@ -96,7 +96,7 @@ def findings_for(path: Path, root: Path, forbidden_text: list[str]):
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("project_root", type=Path)
-    parser.add_argument("--report", type=Path)
+    parser.add_argument("--report", type=Path, help="Output path, relative to the current working directory or absolute")
     parser.add_argument("--forbid-text", action="append", default=[])
     args = parser.parse_args()
 
@@ -105,7 +105,7 @@ def main() -> int:
         parser.error(f"Project root does not exist: {root}")
     report_path = None
     if args.report:
-        report_path = args.report if args.report.is_absolute() else root / args.report
+        report_path = args.report.resolve()
 
     files = list(iter_files(root, report_path))
     findings = []

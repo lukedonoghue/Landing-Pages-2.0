@@ -8,11 +8,13 @@ Orchestrator: Astra. Builders: gpt-5.6-sol, reasoning xhigh, one active builder 
 
 Stop at the local build before Cloudflare authentication, provisioning, publishing, live form submissions, or external account connection. Earlier session permission to deploy Byrider does not apply to these businesses.
 
+User clarification: this phase tests the page build itself from no conversation context, no Codex history and no technical knowledge. It is not a complete CRM acceptance phase. Defer new CRM/database creation and cloud setup. A truthful isolated local form simulation is permitted for page behavior; do not count it as saved-lead or production-backend proof. Keep the existing CRM unchanged for later integration, without exposing its source, credentials or previous business context to cold-start builders. Review research, copy, branding, images, responsive rendering, accessibility and page-side conversion behavior. Do not reintroduce full-funnel infrastructure requirements under the name of rereading Luke's plan.
+
 ## Cases
 
 1. Website only: Stayclean, https://www.stayclean.co.uk/ . Local window-cleaning quote funnel. No supplied keywords, reference, or assets.
 2. External reference: The Garden Room Co., https://gardenroomco.com/ . Reference https://www.greenretreats.co.uk/ as an example of presentation, not a source of client claims or media. Verified reachable and absent from the bundled copy-library text. Clean Slate was rejected for this test because it is already a built-in reference and would not exercise B09's new-reference case.
-3. Image generation: The Organised Space, https://www.theorganisedspace.uk/ . Request original photorealistic illustrative imagery alongside verified first-party imagery; no invented clients or before/after proof.
+3. Image generation: Clarentis, https://clarentis.co.uk/ . Public accounting/bookkeeping business site with one logo image (475 x 275) and no CSS background-image URLs, verified in rendered Chrome and HTML on 2026-09-18. No service/team/project photographs are present on the inspected page. A plain owner request for realistic new imagery exercises a genuine visual gap. Use illustration, not invented staff, offices, clients, financial results, documents or software proof. Builder must research independently and generate an actual suitable asset. Replaces The Organised Space, whose existing real project gallery made it a poorly justified generation case. Secondary business listings corroborate Clarentis Ltd; the Companies House page was inaccessible through web tooling, so no direct registry verification is claimed.
 
 Official websites were opened and verified during selection. Builders repeat their own source research without receiving this audit document.
 
@@ -28,15 +30,17 @@ Official websites were opened and verified during selection. Builders repeat the
 ## Progress
 
 - Baseline source: f87d152 in Luke's Landing-Pages-2.0 repository, skills/community-landing-page-builder only.
-- website-only-r1: frozen snapshot; active agent `01a0b584-2c94-7c43-bda0-1ed9aadc0b87` (Ampere), gpt-5.6-sol xhigh, fork_context=false. No audit feedback supplied. Current source permits a page-only result, so this run cannot by itself establish full-funnel acceptance.
+- website-only-r1: completed agent `01a0b584-2c94-7c43-bda0-1ed9aadc0b87` (Ampere), gpt-5.6-sol xhigh, fork_context=false. No audit feedback supplied. Parent review rejected the self-reported local final; see WEBSITE-ONLY-R1-REVIEW.md. This page-first run is valid for the clarified scope, not CRM acceptance. Snapshot: 171 files, sorted relative-path/SHA-256 manifest hash `658335e8eef6f02caabaf88b10e4e77fc8b0c289bc440a0fa2998d3554e6fe63` (excluding __pycache__ and .DS_Store).
 
 ## README and local-history reconciliation
+
+Attempt 2 started 2026-09-18 at approximately 21:03 Kyiv: agent `01a0b5b0-3001-7880-ad83-d9dee02c601c` (Raman), gpt-5.6-sol xhigh, fork_context=false. Same owner request, new empty project, no audit feedback. Frozen skill: 171 files; JSON-serialized sorted path/hash pairs SHA-256 `3aef69233b2035008eabdaa51be10847dc7efb693253bae3e60a9b8210cd64a4`. Usage at launch: 7% consumed, against the 32% pause boundary. Only this builder is active.
 
 Reread Luke's README-BOHDAN, SELF-GUIDED-BETA-PLAN (especially M5 and its scorecard), development progress, the separate Bohdan tracker, community decisions/handoff, relevant Git commits, and this task's earlier recorded results. These remain orchestrator-only material.
 
 - Luke's independent scenarios test an unaided user journey, not just screenshots. B02 covers real local form-to-D1-to-CRM/reporting behavior, B09 a previously unbundled reference, B10 rendered copy parity, B11 actual generation provenance, B12 brochure integrity, B17 environment setup, and B18 interruption/resumption.
 - The user's later instruction removed default copy/design approval stops. Reading Luke's earlier baseline does not reinstate those stops or authorize any cloud mutation.
-- Commit d417c90 introduced the community page-first default and optional backend/CRM/brochure. The earlier action tracker and user history describe a complete local funnel. This scope difference is unresolved, not a passed acceptance condition. Asked the user whether these three cases must cover the complete local funnel.
+- Commit d417c90 introduced the community page-first default and optional backend/CRM/brochure. After the orchestrator raised its difference from Luke's full-funnel plan, the user explicitly confirmed page-build testing now and CRM testing later. The page-first default remains appropriate for this phase.
 - The earlier Molly Maid exercise tested workflow movement with the wrong target. Subsequent quotas produced formulaic outputs, and were removed. Neither test is evidence for the current package.
 - Byrider's technical pass missed source-form parity, typography provenance, and visual quality. Do not equate a validator or reviewer approval with evidence that these are correct.
 - The live Byrider pilot used orchestrator intervention and manual publication after the guarded path failed. Public read-only checks passed, but this is not proof of an unaided full release journey.
