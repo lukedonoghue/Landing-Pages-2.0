@@ -70,12 +70,16 @@ Review each used image with asset-specific evidence. Review every modal step and
 
 Test the selected real action, not a substitute.
 
+Before testing behavior, compare the final action with the source conversion contract. Block the build when a supplied source form, booking, quote, purchase, or download journey was replaced merely because credentials or production access were unavailable. Confirm that the offer, delivery promise, consent, and next step remain materially faithful or that a source-supported change is documented.
+
 - Form: required errors, invalid values, keyboard flow, pending state, success confirmation, failure and retry, duplicate prevention, and real configured destination contract.
 - Booking: actual destination, date or next-step clarity, and return path.
 - Phone or email: actual `tel:` or `mailto:` destination and visible fallback.
 - Download: real file, correct type, readable content, and honest delivery wording.
 
 Use synthetic local data. A direct thank-you visit, refresh, rejected action, or denied consent must not create a conversion. Do not submit a production lead without explicit permission.
+
+For source forms, confirm that no public production endpoint was reused without authorization, success waits for a confirmed selected destination, and raw contact data is absent from analytics and data-layer events.
 
 ## 5. Accessibility and performance gate
 
@@ -100,6 +104,8 @@ The acceptance report must include:
 - viewport and state coverage;
 - specific findings tied to screenshots or pages;
 - design provenance and the visual-age checkpoint;
+- conversion parity against the source conversion contract;
+- typography provenance: verified guide, official site, applied choice, and substitutions;
 - fixes made and retested;
 - unresolved limits;
 - final result: `blocked`, `local final`, `publish-ready`, or `live and verified`.
