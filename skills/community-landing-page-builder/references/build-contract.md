@@ -20,6 +20,7 @@ Add `thank-you.html` only when the selected journey needs a separate success pag
 - Include a keyboard-visible skip link.
 - Make the brand, offer, and primary action clear in the first viewport.
 - Use stable layout constraints so text, images, controls, and dynamic states do not shift or overlap.
+- In spanning image grids, place tall items explicitly when needed; inspect the whole gallery for unintended empty tracks, not only each image crop. Prefer a simpler grid over a broken collage.
 - Keep variable-length labels and adjacent headings in normal flow, grid or flex tracks sized for their actual text. Do not reserve a guessed fixed gutter and absolutely position a longer category label into it.
 - Do not scale body or heading type directly with viewport width. Use deliberate responsive steps or bounded fluid sizing only where needed.
 - Avoid fixed minimum widths inside responsive grid tracks and emergency word breaking on short UI labels.
@@ -34,7 +35,7 @@ For every downloaded asset or font licence, require a successful HTTP response (
 Mark each meaningful image with `data-image-role="proof|portrait|diagram|screenshot|illustrative"`. Decorative images use `data-image-role="decorative"` and `alt=""`. Add `data-content-bearing="true"` to diagrams, screenshots, infographics, documents, maps, and any image whose internal text or labels must remain visible.
 
 - Meaningful images need factual alt text. Decorative images need empty alt text.
-- Add explicit dimensions and responsive sources where useful.
+- Add explicit dimensions and serve appropriately sized, efficiently encoded photo variants. Do not send an untouched full-resolution source photograph to phones by default; retain the original as research and check the rendered crop and sharpness after optimization.
 - Eager-load the single likely LCP image. Lazy-load below-fold imagery.
 - If preloading a responsive image, match its `imagesrcset` and `imagesizes` to the rendered image, or omit the redundant preload. Check that mobile does not download both a fixed desktop preload and its selected responsive candidate.
 - Never use `object-fit: cover` on content-bearing images.
@@ -65,13 +66,14 @@ For forms:
 - keep the primary action visible at short viewport heights;
 - show success only after the configured destination confirms success;
 - provide a useful failure and retry path;
+- keep field errors and the error summary consistent as fields are corrected;
 - guard the submit handler against re-entry with an in-flight flag set before the first asynchronous operation and cleared in `finally`; disabling the button is additional UI feedback, not the guard.
 
 In a scrolling form or modal, a submission failure must become visible and announced without visitor exploration: place it beside the action or move focus to a focusable error summary and reveal it. Keep entered values for retry. Calling `.focus()` on an ordinary non-focusable element is not sufficient. Test failure from the actual submit position, not after the test script scrolls to the message.
 
 When production form wiring is pending, still build and test the complete form-first experience. Use an isolated local receiver or test adapter for synthetic QA when available, or keep production submission disabled and label the result `local preview`. Never submit to an existing live endpoint without authorization. Never show a production success state merely because a local timer, navigation, or ignored network response completed.
 
-Keep the visible preview notice plain: the form does not send details yet. Put provider names, endpoints and connection instructions in the owner handoff, not in customer field help or success copy.
+For a disconnected preview, use plain visitor wording such as `This preview does not send details. Your entries are still here.` The error and success states remain visitor-facing even when the owner is testing them. Put provider names, endpoints and instructions to connect, configure or replace anything only in the owner handoff, never in those states.
 
 A separate preview thank-you page is still part of the visitor experience, not a second owner setup guide.
 

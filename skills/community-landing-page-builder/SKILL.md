@@ -99,7 +99,7 @@ At minimum:
 3. Serve the page locally and test representative mobile, tablet, laptop, short-height laptop, and desktop viewports.
 4. Capture and inspect the actual rendered pixels. Measurements and file presence are not visual approval.
 5. Test the real selected conversion path, including validation, failure, success, and destination behavior. Use synthetic data locally. Do not create a live lead without permission.
-6. Run one local Lighthouse pass when available. Fix failures and repeat marginal results. Aim for Performance 90 or better, LCP at most 2.5 seconds, CLS at most 0.1, and TBT at most 200 milliseconds without deleting necessary proof.
+6. Run one local mobile Lighthouse pass. If it is not installed, attempt a run-local installation as described in the quality gates; an unsuccessful package lookup alone is not an unavailable-tool exception. Fix failures and repeat marginal results. Aim for Performance 90 or better, LCP at most 2.5 seconds, CLS at most 0.1, and TBT at most 200 milliseconds without deleting necessary proof.
 7. Perform a fresh acceptance pass after the build. Use a separate reviewer or agent when available. Otherwise reopen the final artifacts in an isolated second pass without trusting earlier self-authored pass booleans.
 
 Every severe finding blocks delivery. Resolve each warning or record a specific, evidence-based acceptance decision. A generic `looks good` or a screenshot path without observations is not review evidence.
