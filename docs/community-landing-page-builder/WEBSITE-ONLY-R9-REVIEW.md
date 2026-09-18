@@ -6,7 +6,7 @@ Date: 2026-09-19 Kyiv. Verdict: rejected. The first website-only scenario is not
 
 Builder `01a0b6a2-5eea-7ce3-87ce-c81c39f95136` (Darwin), gpt-5.6-sol xhigh, fork_context=false. Ran 01:28 to approximately 01:49 Kyiv. Same plain Stayclean request, blank project, no earlier findings or parent conversation. Frozen source 1590a9c: 173 files, manifest SHA-256 `32050a01da86a943e8b5dc5e4001903dd52035819d0772c8586f15b336c53f1b`.
 
-Fresh reviewer `01a0b6b5-a6df-71e1-8fe3-d217063c67a4` (Mendel), same model/effort and fork_context=false, received only the frozen skill, final artifacts and local preview. Review status is recorded below when complete. Parent findings do not depend on that review.
+Fresh reviewer `01a0b6b5-a6df-71e1-8fe3-d217063c67a4` (Mendel), same model/effort and fork_context=false, received only the frozen skill, final artifacts and local preview. It returned a bounded pass with no findings and independently confirmed form behavior. Parent does not adopt that verdict: the measured service-image ratio conflict and readable desktop crop remain confirmed. The reviewer ruled out a stopped-preview lazy-image false positive and a misleading saved failure capture. It did not finish every post-restart large-viewport recapture, zoom or reduced-motion interaction. Both agents are closed.
 
 ## Confirmed failure and cause
 
