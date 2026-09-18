@@ -39,6 +39,8 @@ You may instead use an available browser automation tool, but preserve the same 
 
 The helper reads `<project>/build/brand.json` automatically, or an explicit `--brand-report <path>`. Check its heading/body comparison against the source samples; a measured mismatch cannot be described as unchanged brand typography. Resolve it or document the permitted exception from the design reference.
 
+The same browser pass tabs through an open modal and checks the focused control against the pixels on top of it. Do not replace this with `.fill()`, direct focus or test-driven scrolling, which can hide sticky-footer obstruction. Review inline forms and later form steps the same way when they exist.
+
 Block on:
 
 - horizontal overflow, missing images, serious console or network errors;
@@ -47,7 +49,7 @@ Block on:
 - consent, chat, or fixed UI covering the H1, primary CTA, form action, legal links, or final content;
 - a content-bearing image cropped with `cover` or missing labels;
 - copy physically overlapping an information-bearing image;
-- modal focus escaping, missing focus restoration, or inaccessible validation;
+- modal focus escaping, focused controls covered by sticky UI, missing focus restoration, or inaccessible validation;
 - dead primary, phone, privacy, booking, or download destinations;
 - footer controls visually merged or too small to operate.
 

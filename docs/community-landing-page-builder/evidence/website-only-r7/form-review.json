@@ -1,0 +1,29 @@
+{
+  "status": "pass",
+  "failures": [],
+  "emptyErrors": 7,
+  "correctedErrors": 5,
+  "invalidErrors": 4,
+  "summaryHidden": true,
+  "pendingCalls": 1,
+  "retryCalls": 2,
+  "afterRefreshCalls": 2,
+  "failure": {
+    "text": "This preview could not confirm your request. Your entries are still here. Please try again, or call 0800 8560 120.",
+    "focus": "submission-error",
+    "top": 595,
+    "bottom": 704.796875,
+    "visible": true,
+    "hit": true,
+    "buttonTop": 771.6846923828125,
+    "name": "Audit Test"
+  },
+  "success": {
+    "text": "Quote journey confirmed\n\nThanks, Audit. The local preview confirmed the complete quote journey and discarded the submitted details. Nothing was sent to Stayclean.\n\nClose",
+    "formRendered": false,
+    "focus": "quote-success"
+  },
+  "restored": true,
+  "blocked": [],
+  "limits": "All writes intercepted. Synthetic localhost responses only; no CRM or production delivery claim."
+}

@@ -42,6 +42,10 @@ Attempt 5 ran 2026-09-18 from approximately 23:05 to 23:35 Kyiv: agent `01a0b61f
 
 Attempt 6 ran from 2026-09-18 at 23:45 to approximately 2026-09-19 at 00:09 Kyiv: agent `01a0b643-f43b-7453-88e0-861838558555` (Euclid), gpt-5.6-sol xhigh, fork_context=false. Same plain request, new empty project, no audit context. Frozen skill: 172 files, manifest SHA-256 `87e5e3df2e15c204c1f31757a990aa7e080ce3d2d8d5925ac0f1182bdb76b969`, from tested source commit a310376. Parent and independent reviewer rejected remaining visual, visitor-copy and performance failures. See WEBSITE-ONLY-R6-REVIEW.md. Both agents closed. Checkpoints use `community/pro-review-handoff-20260918`; remote main and original Luke files remain unchanged.
 
+Attempt 7 started 2026-09-19 at 00:23 Kyiv: agent `01a0b666-a643-7d83-a28e-af8210f9762e` (Carson), gpt-5.6-sol xhigh, fork_context=false. Same plain owner request, empty project and no audit context. Frozen source 75b2f7e: 172 files, manifest SHA-256 `8a413a49aa79bd2fddd54e444bccc5cb4a301140c605a15b85df4e786fb7b00c`. Source and attempt-6 evidence were pushed to the separate review branch before launch. Skill validation, 67 package tests and 23 script tests pass. Package tests require the available ReportLab-enabled Python runtime; the default system Python failed to import that dependency and was not counted as a pass.
+
+Attempt 7 completed at 00:47 Kyiv. Performance improved to 97 with 2.48-second LCP, confirmed by parent repeat, and synthetic form outcome tests passed. Fresh visual/manual review rejected keyboard-focused controls hidden behind the sticky form action row. Parent reproduced the failure at every required size. See WEBSITE-ONLY-R7-REVIEW.md for the missing test path and source correction. First scenario remains unaccepted.
+
 ## README and local-history reconciliation
 
 Reread Luke's README-BOHDAN, SELF-GUIDED-BETA-PLAN (especially M5 and its scorecard), development progress, the separate Bohdan tracker, community decisions/handoff, relevant Git commits, and this task's earlier recorded results. These remain orchestrator-only material.

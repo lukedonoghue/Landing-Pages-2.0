@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const VERSION = '1.3.0';
+const VERSION = '1.4.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -287,6 +287,46 @@ async function measure(page) {
   });
 }
 
+async function inspectTabVisibility(page, dialog) {
+  const stops = [];
+  const seen = new Set();
+  for (let step = 0; step < 80; step += 1) {
+    const state = await dialog.evaluate((container) => {
+      const element = document.activeElement;
+      const contained = container.contains(element);
+      const identity = [...document.querySelectorAll('*')].indexOf(element);
+      const control = element?.matches('input,select,textarea,button,a[href],[tabindex]') && element !== container;
+      if (!contained || !control) return { identity, contained, control };
+      let target = element;
+      let box = target.getBoundingClientRect();
+      // Custom checkboxes may keep the native input visually hidden inside a visible label.
+      if ((box.width <= 1 || box.height <= 1) && element.labels?.length) {
+        target = element.labels[0];
+        box = target.getBoundingClientRect();
+      }
+      const x = box.left + box.width / 2;
+      const y = box.top + box.height / 2;
+      const hit = x >= 0 && y >= 0 && x < innerWidth && y < innerHeight ? document.elementFromPoint(x, y) : null;
+      return {
+        identity, contained, control,
+        selector: element.id ? `#${element.id}` : `${element.tagName.toLowerCase()}[name="${element.getAttribute('name') || ''}"]`,
+        unobscured: Boolean(hit && (target === hit || target.contains(hit) || hit.control === element)),
+        box: { top: box.top, bottom: box.bottom, left: box.left, right: box.right },
+        hit: hit ? `${hit.tagName.toLowerCase()}${hit.id ? `#${hit.id}` : ''}${hit.className ? `.${String(hit.className).trim().replace(/\s+/g, '.')}` : ''}` : null,
+      };
+    });
+    if (!state.contained) return { complete: true, escaped: true, stops };
+    if (state.control) {
+      if (seen.has(state.identity)) return { complete: true, escaped: false, stops };
+      seen.add(state.identity);
+      stops.push(state);
+    }
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(40);
+  }
+  return { complete: false, escaped: false, stops };
+}
+
 async function inspectModal(page, viewport, name) {
   const trigger = page.locator('[data-open-modal]:visible').first();
   if (!(await trigger.count())) return { present: false };
@@ -310,6 +350,12 @@ async function inspectModal(page, viewport, name) {
   }
   check('modal_primary_action_visible', actionResult.found && actionResult.visibleInViewport && actionResult.unobscured, JSON.stringify(actionResult), { viewport });
 
+  const screenshot = await addShot(page, `${name}-modal`, false);
+  const keyboard = await inspectTabVisibility(page, dialog);
+  const obscured = keyboard.stops.filter((stop) => !stop.unobscured);
+  check('modal_tab_focus_unobscured', keyboard.complete && !keyboard.escaped && keyboard.stops.length > 0 && obscured.length === 0,
+    JSON.stringify({ complete: keyboard.complete, escaped: keyboard.escaped, stopCount: keyboard.stops.length, obscured }), { viewport });
+
   const focusContained = await page.evaluate(async () => {
     const dialog = [...document.querySelectorAll('#lead-modal, dialog[open], [role="dialog"]')].find((element) => {
       const style = getComputedStyle(element);
@@ -324,7 +370,6 @@ async function inspectModal(page, viewport, name) {
     return dialog.contains(document.activeElement);
   });
   check('modal_forced_focus_contained', focusContained, 'Programmatic focus cannot remain outside the open dialog', { viewport });
-  const screenshot = await addShot(page, `${name}-modal`, false);
   await page.keyboard.press('Escape');
   await page.waitForTimeout(60);
   const closedAndRestored = await page.evaluate(() => {
@@ -333,7 +378,7 @@ async function inspectModal(page, viewport, name) {
     return !open && Boolean(document.activeElement?.matches('[data-open-modal]'));
   });
   check('modal_escape_and_restore', closedAndRestored, 'Escape closes the dialog and restores focus', { viewport });
-  return { present: true, opened: true, action: actionResult, focusContained, screenshot };
+  return { present: true, opened: true, action: actionResult, focusContained, keyboard, screenshot };
 }
 
 try {
