@@ -94,7 +94,7 @@ For source forms, confirm that no public production endpoint was reused without 
 
 Run an automated accessibility scan when available, then manually test keyboard order, visible focus, modal containment, zoom, labels, errors, reduced motion, and contrast. Automated tools do not replace these checks.
 
-Run one local Lighthouse pass when available. Target:
+Run one local mobile Lighthouse pass before delivery. Target:
 
 - Performance at least 90;
 - LCP at most 2.5 seconds;
@@ -103,7 +103,16 @@ Run one local Lighthouse pass when available. Target:
 
 Repeat failing or marginal measurements after fixes. Do not delete needed proof or content merely to improve a score.
 
-When a required local audit package is absent, use a supported project-local installation if execution and package access are available. Record its version and run once; do not turn tool discovery into repeated audit runs. If installation is unavailable, disclose the missing test. Unthrottled local PerformanceObserver timings are diagnostics, not a Lighthouse score, mobile loading budget pass, or equivalent TBT measurement.
+An absent executable or failed `require.resolve` means not installed, not unavailable. Attempt a run-local installation before skipping. Use a supported Node runtime and keep dependencies/cache outside published assets. For example, from the run workspace:
+
+```bash
+npm install --prefix qa-tools --cache qa-tools/npm-cache --no-audit --no-fund lighthouse
+node qa-tools/node_modules/lighthouse/cli/index.js <local-url> --chrome-flags="--headless=new" --output=json --output-path=<project>/build/lighthouse.json
+```
+
+Use `CHROME_PATH` for an installed browser when discovery needs it. Check package engine requirements against the actual Node runtime, using a compatible version when necessary. Record the audit version and actual install/run failure if execution, package access or browser startup is blocked. Do not ask the owner for an API key or defer an available local audit until publication. See the [official CLI guidance](https://github.com/GoogleChrome/lighthouse#using-the-node-cli).
+
+Unthrottled local PerformanceObserver timings are diagnostics, not a Lighthouse score, mobile loading budget pass, or equivalent TBT measurement. Inspect the failing LCP element and delay breakdown before choosing a fix; do not assume another image compression pass fixes render delay.
 
 ## 6. Fresh acceptance gate
 

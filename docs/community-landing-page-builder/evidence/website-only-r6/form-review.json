@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "failures": [],
+  "invalidCount": 4,
+  "pendingCalls": 1,
+  "retryCalls": 2,
+  "failure": {
+    "text": "The local test receiver did not accept the request. Your entries are still here. Please try again.",
+    "focus": "form-action-message",
+    "top": 718.40625,
+    "bottom": 768,
+    "visible": true,
+    "name": "Audit Test"
+  },
+  "success": {
+    "text": "OK\n\nQuote request accepted in local test mode.\n\nThanks, Audit Test. The local test receiver accepted this quote request. No details were sent outside this preview.\n\nClose",
+    "formRendered": false,
+    "focus": "quote-success"
+  },
+  "restored": true,
+  "writes": [],
+  "limits": "Local UI adapter only; no CRM or real delivery tested."
+}
