@@ -23,11 +23,13 @@ Add `thank-you.html` only when the selected journey needs a separate success pag
 - Keep variable-length labels and adjacent headings in normal flow, grid or flex tracks sized for their actual text. Do not reserve a guessed fixed gutter and absolutely position a longer category label into it.
 - Do not scale body or heading type directly with viewport width. Use deliberate responsive steps or bounded fluid sizing only where needed.
 - Avoid fixed minimum widths inside responsive grid tracks and emergency word breaking on short UI labels.
-- Inspect the 1024 to 1199 pixel range, not only phone and wide desktop.
+- Inspect the 1024 to 1199 pixel range for readable prose, not just overflow. Stack testimonial columns before padding and default `blockquote` margins squeeze ordinary copy into one-to-three-word lines; reset those margins when defining a grid.
 - Use at most one persistent mobile CTA. Fixed UI must not cover focused controls, legal links, the final section, or the form action.
 - Footer links must use a real list or flex layout with explicit gaps. Do not rely on source whitespace for separation.
 
 ## Images and media
+
+For every downloaded asset or font licence, require a successful HTTP response (for example, `curl --fail --location`) and inspect its actual content/type. A saved filename or `file` reporting ASCII text does not establish that it contains a licence rather than a server error.
 
 Mark each meaningful image with `data-image-role="proof|portrait|diagram|screenshot|illustrative"`. Decorative images use `data-image-role="decorative"` and `alt=""`. Add `data-content-bearing="true"` to diagrams, screenshots, infographics, documents, maps, and any image whose internal text or labels must remain visible.
 

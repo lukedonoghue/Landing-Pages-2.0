@@ -1,0 +1,345 @@
+[
+  {
+    "tag": "P",
+    "selector": "p.sc-hero-eyebrow",
+    "text": "Bristol’s local window cleaners · Established 1997",
+    "font": "Arial, sans-serif",
+    "weight": "800"
+  },
+  {
+    "tag": "H1",
+    "selector": "h1.fusion-responsive-typography-calculated",
+    "text": "Window cleaning in Bristol.\nDone properly.",
+    "font": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+    "weight": "400"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-hero-copy",
+    "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+    "font": "Arial, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow",
+    "text": "Window cleaning in Bristol",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "H2",
+    "selector": "h2.fusion-responsive-typography-calculated",
+    "text": "One trusted team.\nEvery kind of window.",
+    "font": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+    "weight": "400"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-lead",
+    "text": "From a regular home clean to a multi-storey commercial site, Stayclean brings the right method, equipment and experience without turning a simple job into a drama.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow",
+    "text": "Homes",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Reliable regular and one-off cleans across Bristol. Glass, frames, sills and doors are cleaned with pure water from the safety of the ground.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Explore this service →",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow",
+    "text": "Business",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Flexible, professional cleaning for shops, offices, schools, blocks and managed sites, with minimal disruption to your day.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Explore this service →",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow",
+    "text": "Specialist access",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Safe, practical access for awkward and high glazing using water-fed poles and powered access where the job requires it.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "High-level window cleaning in Bristol",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow",
+    "text": "Established in Bristol in 1997",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "H2",
+    "selector": "h2.fusion-responsive-typography-calculated",
+    "text": "Local roots. Modern equipment. A service people stick with.",
+    "font": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+    "weight": "400"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Stayclean started in 1997 with an old Ford Fiesta and ladders on the roof. Today the vans and methods have changed, but the useful bit has not: turning up, communicating clearly an",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Read the Stayclean story →",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow.sc-eyebrow-light",
+    "text": "Gutter cleaning in Bristol",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "H2",
+    "selector": "h2.fusion-responsive-typography-calculated",
+    "text": "Clear the blockage.\nProtect the property.",
+    "font": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+    "weight": "400"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Using carbon-fibre poles, powerful gutter vacuums and inspection cameras, we clear leaves, moss and debris safely from the ground. Ideal for homes and businesses.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Explore gutter cleaning",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow",
+    "text": "Real Stayclean work",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "H2",
+    "selector": "#stayclean-video-title",
+    "text": "Window and gutter cleaning across Bristol.",
+    "font": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+    "weight": "400"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-lead",
+    "text": "A quick look at our local team cleaning homes, high-level glazing, internal windows and gutters around Bristol.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow",
+    "text": "Helpful information",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "H2",
+    "selector": "h2.fusion-responsive-typography-calculated",
+    "text": "Straight answers about\nwindow and gutter cleaning.",
+    "font": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+    "weight": "400"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Browse the advice centre →",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Pure-water cleaningWhy are my windows left wet after cleaning?Read the answer →",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow",
+    "text": "Local Bristol rounds",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "H2",
+    "selector": "h2.fusion-responsive-typography-calculated",
+    "text": "Window cleaning across Bristol.",
+    "font": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+    "weight": "400"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Our regular rounds cover established areas across the city. Send us your postcode and we will confirm availability for your property and service.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Check your postcodeFull coverage guide →",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Clifton, Redland, Cotham, Stoke Bishop and Westbury-on-Trym.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Bishopston, Horfield, Filton, Frenchay and Bradley Stoke.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Bedminster, Brislington, Whitchurch, Keynsham and Longwell Green.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-home-areas-note",
+    "text": "Coverage is not limited to these examples. Round availability varies, and commercial or specialist work may cover a wider area.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow.sc-eyebrow-light",
+    "text": "Verified public feedback",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "H2",
+    "selector": "h2.fusion-responsive-typography-calculated",
+    "text": "What customers say",
+    "font": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+    "weight": "400"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Genuine customer feedback published on Google.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-eyebrow",
+    "text": "Ready when you are",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "900"
+  },
+  {
+    "tag": "H2",
+    "selector": "h2.fusion-responsive-typography-calculated",
+    "text": "Tell us what needs cleaning.",
+    "font": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+    "weight": "400"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Share your Bristol postcode and a few details. We will come back with a straightforward, no-obligation quote.",
+    "font": "Arial, Helvetica, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "Bristol window and gutter cleaning since 1997.",
+    "font": "Arial, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "0800 8560 120",
+    "font": "Arial, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.",
+    "text": "hello@stayclean.co.uk",
+    "font": "Arial, sans-serif",
+    "weight": "300"
+  },
+  {
+    "tag": "P",
+    "selector": "p.sc-footer-message-links",
+    "text": "WhatsApp 07462 944 885Text 07462 944 885",
+    "font": "Arial, sans-serif",
+    "weight": "300"
+  }
+]

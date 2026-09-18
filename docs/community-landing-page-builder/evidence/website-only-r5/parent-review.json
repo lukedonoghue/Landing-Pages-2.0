@@ -1,0 +1,262 @@
+{
+  "status": "pass",
+  "failures": [],
+  "invalidCount": 4,
+  "failure": {
+    "top": 591.84375,
+    "bottom": 668.625,
+    "visible": true,
+    "unobscured": true,
+    "focus": "submit-error",
+    "calls": 1,
+    "name": "Audit Test"
+  },
+  "success": {
+    "top": 259.859375,
+    "bottom": 728.78125,
+    "visible": true,
+    "unobscured": true,
+    "focus": "form-success",
+    "calls": 2,
+    "text": "OK\n\nLocal form test received.\n\nNo details were sent. The production confirmation will appear here after the form is connected.\n\nClose"
+  },
+  "blockedWrites": [],
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "metrics": {
+        "scrollWidth": 390,
+        "width": 390,
+        "nextTop": 770,
+        "nextVisible": true,
+        "fonts": {
+          "heading": "Roboto, Arial, sans-serif",
+          "body": "Roboto, Arial, sans-serif"
+        },
+        "images": [
+          {
+            "src": "http://127.0.0.1:63167/assets/logo-yellow.png",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/hero-team-768.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/domestic-window-cleaning.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/clifton-bridge-vans.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/gutter-vac.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/logo-yellow.png",
+            "loaded": true
+          }
+        ]
+      },
+      "action": {
+        "top": 784,
+        "bottom": 832,
+        "visible": true,
+        "unobscured": true,
+        "focus": "service"
+      }
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "metrics": {
+        "scrollWidth": 768,
+        "width": 768,
+        "nextTop": 772,
+        "nextVisible": true,
+        "fonts": {
+          "heading": "Roboto, Arial, sans-serif",
+          "body": "Roboto, Arial, sans-serif"
+        },
+        "images": [
+          {
+            "src": "http://127.0.0.1:63167/assets/logo-yellow.png",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/hero-team-768.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/domestic-window-cleaning.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/clifton-bridge-vans.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/gutter-vac.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/logo-yellow.png",
+            "loaded": true
+          }
+        ]
+      },
+      "action": {
+        "top": 944,
+        "bottom": 992,
+        "visible": true,
+        "unobscured": true,
+        "focus": "service"
+      }
+    },
+    {
+      "width": 1024,
+      "height": 800,
+      "metrics": {
+        "scrollWidth": 1024,
+        "width": 1024,
+        "nextTop": 702,
+        "nextVisible": true,
+        "fonts": {
+          "heading": "Roboto, Arial, sans-serif",
+          "body": "Roboto, Arial, sans-serif"
+        },
+        "images": [
+          {
+            "src": "http://127.0.0.1:63167/assets/logo-yellow.png",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/hero-team-1280.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/domestic-window-cleaning.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/clifton-bridge-vans.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/gutter-vac.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/logo-yellow.png",
+            "loaded": true
+          }
+        ]
+      },
+      "action": {
+        "top": 720,
+        "bottom": 768,
+        "visible": true,
+        "unobscured": true,
+        "focus": "service"
+      }
+    },
+    {
+      "width": 1280,
+      "height": 600,
+      "metrics": {
+        "scrollWidth": 1280,
+        "width": 1280,
+        "nextTop": 522,
+        "nextVisible": true,
+        "fonts": {
+          "heading": "Roboto, Arial, sans-serif",
+          "body": "Roboto, Arial, sans-serif"
+        },
+        "images": [
+          {
+            "src": "http://127.0.0.1:63167/assets/logo-yellow.png",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/hero-team-1280.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/domestic-window-cleaning.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/clifton-bridge-vans.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/gutter-vac.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/logo-yellow.png",
+            "loaded": true
+          }
+        ]
+      },
+      "action": {
+        "top": 520,
+        "bottom": 568,
+        "visible": true,
+        "unobscured": true,
+        "focus": "service"
+      }
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "metrics": {
+        "scrollWidth": 1440,
+        "width": 1440,
+        "nextTop": 802,
+        "nextVisible": true,
+        "fonts": {
+          "heading": "Roboto, Arial, sans-serif",
+          "body": "Roboto, Arial, sans-serif"
+        },
+        "images": [
+          {
+            "src": "http://127.0.0.1:63167/assets/logo-yellow.png",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/hero-team.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/domestic-window-cleaning.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/clifton-bridge-vans.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/gutter-vac.jpg",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:63167/assets/logo-yellow.png",
+            "loaded": true
+          }
+        ]
+      },
+      "action": {
+        "top": 820,
+        "bottom": 868,
+        "visible": true,
+        "unobscured": true,
+        "focus": "service"
+      }
+    }
+  ],
+  "limits": "Synthetic localhost adapter only. All non-GET/HEAD requests aborted. No CRM, production delivery or deployment tested."
+}

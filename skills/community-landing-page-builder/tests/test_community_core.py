@@ -85,6 +85,20 @@ class CommunityCoreTests(unittest.TestCase):
                     self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                     self.assertTrue(absolute_report.is_file())
 
+    def test_static_validator_rejects_failed_license_download(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_clean_project(root)
+            license_file = root / "assets" / "Example-LICENSE.txt"
+            for content in ("404: Not Found", "403 Forbidden", ""):
+                license_file.write_text(content, encoding="utf-8")
+                result = self.run_script(VALIDATE, root)
+                self.assertNotEqual(result.returncode, 0, result.stdout)
+                self.assertEqual(json.loads(result.stdout)["checks"]["invalid_license_downloads"], ["assets/Example-LICENSE.txt"])
+            license_file.write_text("Example permissive license. Permission is granted to use this fixture.", encoding="utf-8")
+            result = self.run_script(VALIDATE, root)
+            self.assertEqual(result.returncode, 0, result.stdout)
+
     def test_static_validator_blocks_dead_action_and_unclassified_image(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

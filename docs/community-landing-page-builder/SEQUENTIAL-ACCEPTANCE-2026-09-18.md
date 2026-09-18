@@ -1,6 +1,6 @@
 # Sequential community acceptance
 
-Status: paused at the user's request after attempt 4, to route the next review through regular ChatGPT Pro. No attempt 5 or other scenario has started. Latest usage check: 14% used, against a 2% starting baseline. The earlier stop threshold was 32% used (30 additional percentage points). No automatic credit redemption. The progress heartbeat is paused.
+Status: resumed in Codex at the user's request on 2026-09-18 at 23:05 Kyiv. Pro review was not started. Latest usage check: 15% used, against a 2% starting baseline. Stop threshold remains 32% used (30 additional percentage points). No automatic credit redemption. The 15-minute progress heartbeat is active again.
 
 ## Scope
 
@@ -37,6 +37,8 @@ Attempt 2 ran 2026-09-18 from approximately 21:03 to 21:27 Kyiv: agent `01a0b5b0
 Attempt 3 ran 2026-09-18 from 21:30 to approximately 21:58 Kyiv: agent `01a0b5c8-953d-75b2-a549-7792cf0899c5` (Tesla), gpt-5.6-sol xhigh, fork_context=false. Same plain request, another empty project, no previous findings or output supplied. Frozen skill: 172 files; JSON path/hash manifest SHA-256 `6848d4443c0698ec1127874b823203a05975d4151e2e157c5b3f4f70e8938eac`. Parent form tests passed; an uncoached fresh visual reviewer rejected text collisions and mobile hero obstruction. Both completed agents are closed. See WEBSITE-ONLY-R3-REVIEW.md.
 
 Attempt 4 ran 2026-09-18 from 22:05 to approximately 22:25 Kyiv: agent `01a0b5e8-9d11-7da2-b5f5-5c4a344382c9` (Ramanujan), gpt-5.6-sol xhigh, fork_context=false. Same plain request and empty project. Frozen skill: 172 files; JSON path/hash manifest SHA-256 `89da9b8249d302df1bad42383312c0ef63974b014c9a66cb40827dd52f6d2159`. Parent rejected duplicate-submit behavior despite visual improvements. Builder and independent reviewer are closed. See WEBSITE-ONLY-R4-REVIEW.md and PRO-REVIEW-HANDOFF.md. External-reference and image-generation cases have not started.
+
+Attempt 5 ran 2026-09-18 from approximately 23:05 to 23:35 Kyiv: agent `01a0b61f-0ff1-77a3-b553-d3b53fa084c0` (Dirac), gpt-5.6-sol xhigh, fork_context=false. Same plain owner request, new empty project, no prior audit findings or conversation supplied. Frozen skill: 172 files, JSON path/hash manifest SHA-256 `2b5a01ca4847853675536ff93852e65729779d316488eec1ea89e295bf83a0c0`. Source checkpoint: 54ca1e6. Parent verified the previous form fix, but rejected source-font mismatch, failed licence download and confirmed presentation issues. See WEBSITE-ONLY-R5-REVIEW.md. Builder and reviewer are closed. Original Luke files remain unchanged; external-reference and image-generation builds remain pending.
 
 ## README and local-history reconciliation
 

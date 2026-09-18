@@ -37,6 +37,8 @@ node scripts/measure_page.mjs http://127.0.0.1:4173/ \
 
 You may instead use an available browser automation tool, but preserve the same viewports and checks. Capture full-page screenshots plus open form/modal and thank-you or success states where applicable.
 
+The helper reads `<project>/build/brand.json` automatically, or an explicit `--brand-report <path>`. Check its heading/body comparison against the source samples; a measured mismatch cannot be described as unchanged brand typography. Resolve it or document the permitted exception from the design reference.
+
 Block on:
 
 - horizontal overflow, missing images, serious console or network errors;
