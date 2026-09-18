@@ -1,6 +1,6 @@
 # Sequential community acceptance
 
-Status: resumed in Codex at the user's request on 2026-09-18 at 23:05 Kyiv. Pro review was not started. Latest usage check: 30% used at 01:56 Kyiv on September 19, against a 2% starting baseline. Stop threshold remains 32% used (30 additional percentage points). No automatic credit redemption. The 15-minute progress heartbeat is active again. First scenario is not yet accepted.
+Status: PAUSED at the user-defined usage boundary on 2026-09-19 at 02:28 Kyiv. Usage reached 32% used against the 2% starting baseline (30 additional percentage points). No reset credit was redeemed. The progress heartbeat is paused. Pro review was never started. Attempt 10 has a saved local final, but parent acceptance is unfinished and the first scenario is not yet accepted. See WEBSITE-ONLY-R10-CHECKPOINT.md before resuming.
 
 ## Scope
 
@@ -55,6 +55,8 @@ Attempt 9 started 2026-09-19 at 01:28 Kyiv: agent `01a0b6a2-5eea-7ce3-87ce-c81c3
 Attempt 9 completed at 01:49 Kyiv. Parent verified actual rendered fonts, keyboard visibility, same-filled-form failure-to-success retry and Lighthouse performance. A desktop image-sizing conflict remains: HTML height overrides the intended CSS aspect ratio, badly cropping service photographs. Old generic crop warnings masked the affected placements. Source correction and ten passing browser fixtures are recorded in WEBSITE-ONLY-R9-REVIEW.md. No generated page was manually repaired.
 
 Attempt 10 started 2026-09-19 at 02:02 Kyiv: agent `01a0b6c1-9b10-76c1-ad74-eac0f515f867` (Gauss), gpt-5.6-sol xhigh, fork_context=false. Same owner prompt, blank project and no previous findings. Frozen source c2e05d2: 173 files, manifest SHA-256 `a94918b468d66adaa7fa1b363747e6aadaadfef6d3b2eddc4b21f4422e76b41d`. Source and attempt-9 evidence were pushed before launch. Usage remains 30% used; stop at 32%. Fresh attempt-9 reviewer reported no additional findings; parent rejection stands because the independently reproduced sizing conflict was missed by that review.
+
+Attempt 10 saved its local final at approximately 02:28 Kyiv. Builder reports five-size browser and synthetic form checks passing, with Lighthouse 98 and 2.4-second LCP. Parent has read the final performance evidence but has not finished independent acceptance. The budget stop interrupted a derivative section-crop refresh, not the page implementation. Full project and handoff are preserved in `evidence/website-only-r10/project/`. Further work waits for user confirmation.
 
 ## README and local-history reconciliation
 

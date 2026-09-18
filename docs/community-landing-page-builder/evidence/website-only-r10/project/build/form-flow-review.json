@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "url": "http://127.0.0.1:4187/",
+  "viewport": "390x844",
+  "checks": [
+    {
+      "name": "Empty submission identifies every required group",
+      "status": "pass",
+      "detail": "Found 7 errors; expected 7."
+    },
+    {
+      "name": "Error summary receives focus",
+      "status": "pass",
+      "detail": "Focused: true."
+    },
+    {
+      "name": "Corrected fields clear live",
+      "status": "pass",
+      "detail": "Found 6 remaining errors."
+    },
+    {
+      "name": "Closing restores focus to the opener",
+      "status": "pass",
+      "detail": "Focus restored: true."
+    },
+    {
+      "name": "Failure state is focused and keeps the form open",
+      "status": "pass",
+      "detail": "{\"focused\":true,\"name\":\"Local QA Test\",\"dialogOpen\":true}"
+    },
+    {
+      "name": "Failure preserves entered values",
+      "status": "pass",
+      "detail": "Preserved name was Local QA Test."
+    },
+    {
+      "name": "Local success state is explicit and focused",
+      "status": "pass",
+      "detail": "{\"focused\":true,\"message\":\"Preview complete. Nothing was sent.\",\"panelRect\":{\"x\":19,\"y\":155,\"width\":352,\"height\":277.984375,\"top\":155,\"right\":371,\"bottom\":432.984375,\"left\":19},\"headerRect\":{\"x\":19,\"y\":12,\"width\":352,\"height\":143,\"top\":12,\"right\":371,\"bottom\":155,\"left\":19},\"panelDisplay\":\"block\",\"formHidden\":true,\"dialogScrollTop\":0,\"shellScrollTop\":0}"
+    },
+    {
+      "name": "Production endpoint response selects the sent confirmation",
+      "status": "pass",
+      "detail": "{\"label\":\"Request received\",\"message\":\"Thanks. Your quote request has been sent.\"}"
+    },
+    {
+      "name": "Rapid duplicate submit sends one request",
+      "status": "pass",
+      "detail": "Observed 1 requests."
+    }
+  ]
+}

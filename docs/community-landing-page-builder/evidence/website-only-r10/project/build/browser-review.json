@@ -1,0 +1,3988 @@
+{
+  "schema_version": 1,
+  "gate": "browser-page",
+  "status": "pass_with_warnings",
+  "executed_at": "2026-09-18T23:26:47.608Z",
+  "tool": {
+    "name": "measure_page",
+    "version": "1.6.0"
+  },
+  "target": {
+    "url": "http://127.0.0.1:4187/"
+  },
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "label": "mobile",
+      "screenshot": "build/screenshots/390x844-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Window cleaning in Bristol, done properly.",
+            "fontFamily": "Roboto, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Roboto",
+                "postScriptName": "Roboto-Regular",
+                "isCustomFont": true,
+                "glyphCount": 40
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Friendly, professional cleaning for homes, businesses, gutters, and high-level glazing, with the method matched to your property.",
+            "fontFamily": "Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 127
+              }
+            ]
+          }
+        },
+        "pageWidth": 390,
+        "pageHeight": 9997,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:4187/assets/stayclean-logo-340.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 340 / 170",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 1,
+              "right": 158,
+              "bottom": 71,
+              "width": 142,
+              "height": 70
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:4187/assets/commercial-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1700 / 1039",
+            "ratioMismatch": false,
+            "cropFraction": 0.4772309952258539,
+            "box": {
+              "left": 0,
+              "top": 73,
+              "right": 390,
+              "bottom": 633,
+              "width": 390,
+              "height": 560
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:4187/assets/residential-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0008561643835615085,
+            "box": {
+              "left": 17,
+              "top": 1319.46875,
+              "right": 373,
+              "bottom": 1586.46875,
+              "width": 356,
+              "height": 267
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:4187/assets/commercial-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0008561643835615085,
+            "box": {
+              "left": 17,
+              "top": 1832.03125,
+              "right": 373,
+              "bottom": 2099.03125,
+              "width": 356,
+              "height": 267
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:4187/assets/high-level-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0008561643835615085,
+            "box": {
+              "left": 17,
+              "top": 2344.59375,
+              "right": 373,
+              "bottom": 2611.59375,
+              "width": 356,
+              "height": 267
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:4187/assets/gutter-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 2944.5625,
+              "right": 374,
+              "bottom": 3213.0625,
+              "width": 358,
+              "height": 268.5
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:4187/assets/stayclean-team.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1700 / 1039",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 5058.4375,
+              "right": 374,
+              "bottom": 5277.234375,
+              "width": 358,
+              "height": 218.796875
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 7,
+            "src": "http://127.0.0.1:4187/assets/stayclean-logo-340.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 340 / 170",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 8898.265625,
+              "right": 196,
+              "bottom": 8988.265625,
+              "width": 180,
+              "height": 90
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 16,
+              "top": 427.5,
+              "right": 374,
+              "bottom": 477.5,
+              "width": 358,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 16,
+              "top": 3730.984375,
+              "right": 189.8125,
+              "bottom": 3780.984375,
+              "width": 173.8125,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 16,
+              "top": 8646.265625,
+              "right": 374,
+              "bottom": 8696.265625,
+              "width": 358,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.trust-strip",
+          "nextTop": 633,
+          "visiblePixels": 211,
+          "viewportHeight": 844
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 704,
+            "bottom": 754,
+            "left": 37,
+            "right": 353
+          }
+        },
+        "focusContained": true,
+        "keyboard": {
+          "complete": true,
+          "escaped": false,
+          "stops": [
+            {
+              "identity": 246,
+              "contained": true,
+              "control": true,
+              "selector": "#service",
+              "unobscured": true,
+              "box": {
+                "top": 308.375,
+                "bottom": 356.375,
+                "left": 37,
+                "right": 353
+              },
+              "hit": "select#service"
+            },
+            {
+              "identity": 260,
+              "contained": true,
+              "control": true,
+              "selector": "input[name=\"frequency\"]",
+              "unobscured": true,
+              "box": {
+                "top": 402.96875,
+                "bottom": 450.96875,
+                "left": 38,
+                "right": 195
+              },
+              "hit": "span"
+            },
+            {
+              "identity": 269,
+              "contained": true,
+              "control": true,
+              "selector": "#name",
+              "unobscured": true,
+              "box": {
+                "top": 503.5625,
+                "bottom": 551.5625,
+                "left": 37,
+                "right": 353
+              },
+              "hit": "input#name"
+            },
+            {
+              "identity": 274,
+              "contained": true,
+              "control": true,
+              "selector": "#company",
+              "unobscured": true,
+              "box": {
+                "top": 600.15625,
+                "bottom": 648.15625,
+                "left": 37,
+                "right": 353
+              },
+              "hit": "input#company"
+            },
+            {
+              "identity": 278,
+              "contained": true,
+              "control": true,
+              "selector": "#email",
+              "unobscured": true,
+              "box": {
+                "top": 398.75,
+                "bottom": 446.75,
+                "left": 37,
+                "right": 353
+              },
+              "hit": "input#email"
+            },
+            {
+              "identity": 283,
+              "contained": true,
+              "control": true,
+              "selector": "#phone",
+              "unobscured": true,
+              "box": {
+                "top": 495.34375,
+                "bottom": 543.34375,
+                "left": 37,
+                "right": 353
+              },
+              "hit": "input#phone"
+            },
+            {
+              "identity": 288,
+              "contained": true,
+              "control": true,
+              "selector": "#address",
+              "unobscured": true,
+              "box": {
+                "top": 591.9375,
+                "bottom": 639.9375,
+                "left": 37,
+                "right": 353
+              },
+              "hit": "input#address"
+            },
+            {
+              "identity": 293,
+              "contained": true,
+              "control": true,
+              "selector": "#postcode",
+              "unobscured": true,
+              "box": {
+                "top": 398.53125,
+                "bottom": 446.53125,
+                "left": 37,
+                "right": 353
+              },
+              "hit": "input#postcode"
+            },
+            {
+              "identity": 298,
+              "contained": true,
+              "control": true,
+              "selector": "#message",
+              "unobscured": true,
+              "box": {
+                "top": 495.125,
+                "bottom": 619.5,
+                "left": 37,
+                "right": 353
+              },
+              "hit": "textarea#message"
+            },
+            {
+              "identity": 300,
+              "contained": true,
+              "control": true,
+              "selector": "a[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 665.875,
+                "bottom": 681.875,
+                "left": 141.8125,
+                "right": 227.90625
+              },
+              "hit": "a"
+            },
+            {
+              "identity": 303,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 704,
+                "bottom": 754,
+                "left": 37,
+                "right": 353
+              },
+              "hit": "button.button.button-primary"
+            },
+            {
+              "identity": 304,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 766,
+                "bottom": 816,
+                "left": 37,
+                "right": 353
+              },
+              "hit": "button.button.button-text"
+            },
+            {
+              "identity": 230,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 32,
+                "bottom": 76,
+                "left": 309,
+                "right": 353
+              },
+              "hit": "button.dialog-close"
+            }
+          ]
+        },
+        "screenshot": "build/screenshots/390x844-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "label": "tablet",
+      "screenshot": "build/screenshots/768x1024-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Window cleaning in Bristol, done properly.",
+            "fontFamily": "Roboto, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Roboto",
+                "postScriptName": "Roboto-Regular",
+                "isCustomFont": true,
+                "glyphCount": 40
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Friendly, professional cleaning for homes, businesses, gutters, and high-level glazing, with the method matched to your property.",
+            "fontFamily": "Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 127
+              }
+            ]
+          }
+        },
+        "pageWidth": 768,
+        "pageHeight": 8963,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:4187/assets/stayclean-logo-340.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 340 / 170",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": -6,
+              "right": 182,
+              "bottom": 82,
+              "width": 158,
+              "height": 88
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:4187/assets/stayclean-team-1100.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1700 / 1039",
+            "ratioMismatch": false,
+            "cropFraction": 0.31029411764705883,
+            "box": {
+              "left": 0,
+              "top": 77,
+              "right": 768,
+              "bottom": 757,
+              "width": 768,
+              "height": 680
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:4187/assets/residential-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.001347987436431275,
+            "box": {
+              "left": 25,
+              "top": 1277.21875,
+              "right": 348.09375,
+              "bottom": 1519.53125,
+              "width": 323.09375,
+              "height": 242.3125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:4187/assets/commercial-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.001347987436431275,
+            "box": {
+              "left": 25,
+              "top": 1543.53125,
+              "right": 348.09375,
+              "bottom": 1785.84375,
+              "width": 323.09375,
+              "height": 242.3125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:4187/assets/high-level-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.001347987436431275,
+            "box": {
+              "left": 25,
+              "top": 1809.84375,
+              "right": 348.09375,
+              "bottom": 2052.15625,
+              "width": 323.09375,
+              "height": 242.3125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:4187/assets/gutter-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 2217.15625,
+              "right": 744,
+              "bottom": 2757.15625,
+              "width": 720,
+              "height": 540
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:4187/assets/stayclean-team.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1700 / 1039",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 4218.625,
+              "right": 744,
+              "bottom": 4658.671875,
+              "width": 720,
+              "height": 440.046875
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 7,
+            "src": "http://127.0.0.1:4187/assets/stayclean-logo-340.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 340 / 170",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 7912.4375,
+              "right": 204,
+              "bottom": 8002.4375,
+              "width": 180,
+              "height": 90
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 222,
+              "top": 16,
+              "right": 395.421875,
+              "bottom": 60,
+              "width": 173.421875,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 24,
+              "top": 578.28125,
+              "right": 205.421875,
+              "bottom": 628.28125,
+              "width": 181.421875,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 24,
+              "top": 3193.1875,
+              "right": 205.421875,
+              "bottom": 3243.1875,
+              "width": 181.421875,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 24,
+              "top": 7628.4375,
+              "right": 384,
+              "bottom": 7678.4375,
+              "width": 360,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.trust-strip",
+          "nextTop": 757,
+          "visiblePixels": 128.171875,
+          "viewportHeight": 1024
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 882,
+            "bottom": 932,
+            "left": 50,
+            "right": 260.6875
+          }
+        },
+        "focusContained": true,
+        "keyboard": {
+          "complete": true,
+          "escaped": false,
+          "stops": [
+            {
+              "identity": 246,
+              "contained": true,
+              "control": true,
+              "selector": "#service",
+              "unobscured": true,
+              "box": {
+                "top": 319.46875,
+                "bottom": 367.46875,
+                "left": 50,
+                "right": 718
+              },
+              "hit": "select#service"
+            },
+            {
+              "identity": 260,
+              "contained": true,
+              "control": true,
+              "selector": "input[name=\"frequency\"]",
+              "unobscured": true,
+              "box": {
+                "top": 417.65625,
+                "bottom": 465.65625,
+                "left": 51,
+                "right": 384
+              },
+              "hit": "span"
+            },
+            {
+              "identity": 269,
+              "contained": true,
+              "control": true,
+              "selector": "#name",
+              "unobscured": true,
+              "box": {
+                "top": 521.84375,
+                "bottom": 571.03125,
+                "left": 50,
+                "right": 375
+              },
+              "hit": "input#name"
+            },
+            {
+              "identity": 274,
+              "contained": true,
+              "control": true,
+              "selector": "#company",
+              "unobscured": true,
+              "box": {
+                "top": 521.84375,
+                "bottom": 571.03125,
+                "left": 393,
+                "right": 718
+              },
+              "hit": "input#company"
+            },
+            {
+              "identity": 278,
+              "contained": true,
+              "control": true,
+              "selector": "#email",
+              "unobscured": true,
+              "box": {
+                "top": 623.21875,
+                "bottom": 672.40625,
+                "left": 50,
+                "right": 375
+              },
+              "hit": "input#email"
+            },
+            {
+              "identity": 283,
+              "contained": true,
+              "control": true,
+              "selector": "#phone",
+              "unobscured": true,
+              "box": {
+                "top": 623.21875,
+                "bottom": 672.40625,
+                "left": 393,
+                "right": 718
+              },
+              "hit": "input#phone"
+            },
+            {
+              "identity": 288,
+              "contained": true,
+              "control": true,
+              "selector": "#address",
+              "unobscured": true,
+              "box": {
+                "top": 724.59375,
+                "bottom": 773.78125,
+                "left": 50,
+                "right": 718
+              },
+              "hit": "input#address"
+            },
+            {
+              "identity": 293,
+              "contained": true,
+              "control": true,
+              "selector": "#postcode",
+              "unobscured": true,
+              "box": {
+                "top": 797.96875,
+                "bottom": 847.15625,
+                "left": 50,
+                "right": 375
+              },
+              "hit": "input#postcode"
+            },
+            {
+              "identity": 298,
+              "contained": true,
+              "control": true,
+              "selector": "#message",
+              "unobscured": true,
+              "box": {
+                "top": 651.34375,
+                "bottom": 782.09375,
+                "left": 50,
+                "right": 718
+              },
+              "hit": "textarea#message"
+            },
+            {
+              "identity": 300,
+              "contained": true,
+              "control": true,
+              "selector": "a[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 837.671875,
+                "bottom": 853.671875,
+                "left": 102.15625,
+                "right": 188.25
+              },
+              "hit": "a"
+            },
+            {
+              "identity": 303,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 882,
+                "bottom": 932,
+                "left": 50,
+                "right": 260.6875
+              },
+              "hit": "button.button.button-primary"
+            },
+            {
+              "identity": 304,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 882,
+                "bottom": 932,
+                "left": 272.6875,
+                "right": 380.4375
+              },
+              "hit": "button.button.button-text"
+            },
+            {
+              "identity": 230,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 98,
+                "bottom": 142,
+                "left": 674,
+                "right": 718
+              },
+              "hit": "button.dialog-close"
+            }
+          ]
+        },
+        "screenshot": "build/screenshots/768x1024-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1024,
+      "height": 800,
+      "label": "laptop",
+      "screenshot": "build/screenshots/1024x800-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Window cleaning in Bristol, done properly.",
+            "fontFamily": "Roboto, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Roboto",
+                "postScriptName": "Roboto-Regular",
+                "isCustomFont": true,
+                "glyphCount": 41
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Friendly, professional cleaning for homes, businesses, gutters, and high-level glazing, with the method matched to your property.",
+            "fontFamily": "Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 128
+              }
+            ]
+          }
+        },
+        "pageWidth": 1024,
+        "pageHeight": 6709,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:4187/assets/stayclean-logo-340.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 340 / 170",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": -6,
+              "right": 182,
+              "bottom": 82,
+              "width": 158,
+              "height": 88
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:4187/assets/stayclean-team-1100.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1700 / 1039",
+            "ratioMismatch": false,
+            "cropFraction": 0.0712166172106824,
+            "box": {
+              "left": 0,
+              "top": 77,
+              "right": 1024,
+              "bottom": 751,
+              "width": 1024,
+              "height": 674
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:4187/assets/residential-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0010382809051729947,
+            "box": {
+              "left": 25,
+              "top": 1225.46875,
+              "right": 336.328125,
+              "bottom": 1458.953125,
+              "width": 311.328125,
+              "height": 233.484375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:4187/assets/commercial-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0010382809051729947,
+            "box": {
+              "left": 356.328125,
+              "top": 1225.46875,
+              "right": 667.65625,
+              "bottom": 1458.953125,
+              "width": 311.328125,
+              "height": 233.484375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:4187/assets/high-level-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0010215663567848532,
+            "box": {
+              "left": 687.65625,
+              "top": 1225.46875,
+              "right": 999,
+              "bottom": 1458.96875,
+              "width": 311.34375,
+              "height": 233.5
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:4187/assets/gutter-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 2045.203125,
+              "right": 506.546875,
+              "bottom": 2407.109375,
+              "width": 482.546875,
+              "height": 361.90625
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:4187/assets/stayclean-team.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1700 / 1039",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 433.90625,
+              "top": 3577.671875,
+              "right": 1000,
+              "bottom": 3923.640625,
+              "width": 566.09375,
+              "height": 345.96875
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 7,
+            "src": "http://127.0.0.1:4187/assets/stayclean-logo-340.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 340 / 170",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 6336.671875,
+              "right": 204,
+              "bottom": 6426.671875,
+              "width": 180,
+              "height": 90
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 222,
+              "top": 16,
+              "right": 395.421875,
+              "bottom": 60,
+              "width": 173.421875,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 24,
+              "top": 528.21875,
+              "right": 205.421875,
+              "bottom": 578.21875,
+              "width": 181.421875,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 554.546875,
+              "top": 2448.046875,
+              "right": 735.96875,
+              "bottom": 2498.046875,
+              "width": 181.421875,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 720,
+              "top": 6017.828125,
+              "right": 1000,
+              "bottom": 6067.828125,
+              "width": 280,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.trust-strip",
+          "nextTop": 751,
+          "visiblePixels": 49,
+          "viewportHeight": 800
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 718,
+            "bottom": 768,
+            "left": 152,
+            "right": 362.6875
+          }
+        },
+        "focusContained": true,
+        "keyboard": {
+          "complete": true,
+          "escaped": false,
+          "stops": [
+            {
+              "identity": 246,
+              "contained": true,
+              "control": true,
+              "selector": "#service",
+              "unobscured": true,
+              "box": {
+                "top": 232.28125,
+                "bottom": 280.28125,
+                "left": 152,
+                "right": 872
+              },
+              "hit": "select#service"
+            },
+            {
+              "identity": 260,
+              "contained": true,
+              "control": true,
+              "selector": "input[name=\"frequency\"]",
+              "unobscured": true,
+              "box": {
+                "top": 330.46875,
+                "bottom": 378.46875,
+                "left": 153,
+                "right": 512
+              },
+              "hit": "span"
+            },
+            {
+              "identity": 269,
+              "contained": true,
+              "control": true,
+              "selector": "#name",
+              "unobscured": true,
+              "box": {
+                "top": 434.65625,
+                "bottom": 483.84375,
+                "left": 152,
+                "right": 503
+              },
+              "hit": "input#name"
+            },
+            {
+              "identity": 274,
+              "contained": true,
+              "control": true,
+              "selector": "#company",
+              "unobscured": true,
+              "box": {
+                "top": 434.65625,
+                "bottom": 483.84375,
+                "left": 521,
+                "right": 872
+              },
+              "hit": "input#company"
+            },
+            {
+              "identity": 278,
+              "contained": true,
+              "control": true,
+              "selector": "#email",
+              "unobscured": true,
+              "box": {
+                "top": 536.03125,
+                "bottom": 585.21875,
+                "left": 152,
+                "right": 503
+              },
+              "hit": "input#email"
+            },
+            {
+              "identity": 283,
+              "contained": true,
+              "control": true,
+              "selector": "#phone",
+              "unobscured": true,
+              "box": {
+                "top": 536.03125,
+                "bottom": 585.21875,
+                "left": 521,
+                "right": 872
+              },
+              "hit": "input#phone"
+            },
+            {
+              "identity": 288,
+              "contained": true,
+              "control": true,
+              "selector": "#address",
+              "unobscured": true,
+              "box": {
+                "top": 633.40625,
+                "bottom": 682.59375,
+                "left": 152,
+                "right": 872
+              },
+              "hit": "input#address"
+            },
+            {
+              "identity": 293,
+              "contained": true,
+              "control": true,
+              "selector": "#postcode",
+              "unobscured": true,
+              "box": {
+                "top": 387.78125,
+                "bottom": 436.96875,
+                "left": 152,
+                "right": 503
+              },
+              "hit": "input#postcode"
+            },
+            {
+              "identity": 298,
+              "contained": true,
+              "control": true,
+              "selector": "#message",
+              "unobscured": true,
+              "box": {
+                "top": 489.15625,
+                "bottom": 619.90625,
+                "left": 152,
+                "right": 872
+              },
+              "hit": "textarea#message"
+            },
+            {
+              "identity": 300,
+              "contained": true,
+              "control": true,
+              "selector": "a[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 673.484375,
+                "bottom": 689.484375,
+                "left": 152,
+                "right": 238.09375
+              },
+              "hit": "a"
+            },
+            {
+              "identity": 303,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 718,
+                "bottom": 768,
+                "left": 152,
+                "right": 362.6875
+              },
+              "hit": "button.button.button-primary"
+            },
+            {
+              "identity": 304,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 718,
+                "bottom": 768,
+                "left": 374.6875,
+                "right": 482.4375
+              },
+              "hit": "button.button.button-text"
+            },
+            {
+              "identity": 230,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 38,
+                "bottom": 82,
+                "left": 828,
+                "right": 872
+              },
+              "hit": "button.dialog-close"
+            }
+          ]
+        },
+        "screenshot": "build/screenshots/1024x800-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1280,
+      "height": 600,
+      "label": "short-laptop",
+      "screenshot": "build/screenshots/1280x600-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Window cleaning in Bristol, done properly.",
+            "fontFamily": "Roboto, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Roboto",
+                "postScriptName": "Roboto-Regular",
+                "isCustomFont": true,
+                "glyphCount": 41
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Friendly, professional cleaning for homes, businesses, gutters, and high-level glazing, with the method matched to your property.",
+            "fontFamily": "Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 128
+              }
+            ]
+          }
+        },
+        "pageWidth": 1280,
+        "pageHeight": 6204,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:4187/assets/stayclean-logo-340.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 340 / 170",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 32,
+              "top": -3,
+              "right": 208,
+              "bottom": 85,
+              "width": 176,
+              "height": 88
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:4187/assets/stayclean-team-1100.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1700 / 1039",
+            "ratioMismatch": false,
+            "cropFraction": 0.3869731800766283,
+            "box": {
+              "left": 0,
+              "top": 83,
+              "right": 1280,
+              "bottom": 563,
+              "width": 1280,
+              "height": 480
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:4187/assets/residential-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0015395004615442742,
+            "box": {
+              "left": 33,
+              "top": 1046.09375,
+              "right": 420.328125,
+              "bottom": 1336.578125,
+              "width": 387.328125,
+              "height": 290.484375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:4187/assets/commercial-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0015395004615442742,
+            "box": {
+              "left": 446.328125,
+              "top": 1046.09375,
+              "right": 833.65625,
+              "bottom": 1336.578125,
+              "width": 387.328125,
+              "height": 290.484375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:4187/assets/high-level-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.001552928028974443,
+            "box": {
+              "left": 859.65625,
+              "top": 1046.09375,
+              "right": 1247,
+              "bottom": 1336.59375,
+              "width": 387.34375,
+              "height": 290.5
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:4187/assets/gutter-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 32,
+              "top": 1800.765625,
+              "right": 626.875,
+              "bottom": 2246.921875,
+              "width": 594.875,
+              "height": 446.15625
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:4187/assets/stayclean-team.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1700 / 1039",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 550.15625,
+              "top": 3148.375,
+              "right": 1248,
+              "bottom": 3574.875,
+              "width": 697.84375,
+              "height": 426.5
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 7,
+            "src": "http://127.0.0.1:4187/assets/stayclean-logo-340.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 340 / 170",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 32,
+              "top": 5831.65625,
+              "right": 212,
+              "bottom": 5921.65625,
+              "width": 180,
+              "height": 90
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1074.578125,
+              "top": 18,
+              "right": 1248,
+              "bottom": 64,
+              "width": 173.421875,
+              "height": 46
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 32,
+              "top": 448.03125,
+              "right": 213.421875,
+              "bottom": 498.03125,
+              "width": 181.421875,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 698.875,
+              "top": 2213.765625,
+              "right": 880.296875,
+              "bottom": 2263.765625,
+              "width": 181.421875,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 968,
+              "top": 5533.328125,
+              "right": 1248,
+              "bottom": 5583.328125,
+              "width": 280,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.trust-strip",
+          "nextTop": 563,
+          "visiblePixels": 37,
+          "viewportHeight": 600
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 518,
+            "bottom": 568,
+            "left": 280,
+            "right": 490.6875
+          }
+        },
+        "focusContained": true,
+        "keyboard": {
+          "complete": true,
+          "escaped": false,
+          "stops": [
+            {
+              "identity": 246,
+              "contained": true,
+              "control": true,
+              "selector": "#service",
+              "unobscured": true,
+              "box": {
+                "top": 216.28125,
+                "bottom": 264.28125,
+                "left": 280,
+                "right": 1000
+              },
+              "hit": "select#service"
+            },
+            {
+              "identity": 260,
+              "contained": true,
+              "control": true,
+              "selector": "input[name=\"frequency\"]",
+              "unobscured": true,
+              "box": {
+                "top": 314.46875,
+                "bottom": 362.46875,
+                "left": 281,
+                "right": 640
+              },
+              "hit": "span"
+            },
+            {
+              "identity": 269,
+              "contained": true,
+              "control": true,
+              "selector": "#name",
+              "unobscured": true,
+              "box": {
+                "top": 418.65625,
+                "bottom": 467.84375,
+                "left": 280,
+                "right": 631
+              },
+              "hit": "input#name"
+            },
+            {
+              "identity": 274,
+              "contained": true,
+              "control": true,
+              "selector": "#company",
+              "unobscured": true,
+              "box": {
+                "top": 418.65625,
+                "bottom": 467.84375,
+                "left": 649,
+                "right": 1000
+              },
+              "hit": "input#company"
+            },
+            {
+              "identity": 278,
+              "contained": true,
+              "control": true,
+              "selector": "#email",
+              "unobscured": true,
+              "box": {
+                "top": 279.03125,
+                "bottom": 328.21875,
+                "left": 280,
+                "right": 631
+              },
+              "hit": "input#email"
+            },
+            {
+              "identity": 283,
+              "contained": true,
+              "control": true,
+              "selector": "#phone",
+              "unobscured": true,
+              "box": {
+                "top": 279.03125,
+                "bottom": 328.21875,
+                "left": 649,
+                "right": 1000
+              },
+              "hit": "input#phone"
+            },
+            {
+              "identity": 288,
+              "contained": true,
+              "control": true,
+              "selector": "#address",
+              "unobscured": true,
+              "box": {
+                "top": 380.40625,
+                "bottom": 429.59375,
+                "left": 280,
+                "right": 1000
+              },
+              "hit": "input#address"
+            },
+            {
+              "identity": 293,
+              "contained": true,
+              "control": true,
+              "selector": "#postcode",
+              "unobscured": true,
+              "box": {
+                "top": 433.78125,
+                "bottom": 482.96875,
+                "left": 280,
+                "right": 631
+              },
+              "hit": "input#postcode"
+            },
+            {
+              "identity": 298,
+              "contained": true,
+              "control": true,
+              "selector": "#message",
+              "unobscured": true,
+              "box": {
+                "top": 287.15625,
+                "bottom": 417.90625,
+                "left": 280,
+                "right": 1000
+              },
+              "hit": "textarea#message"
+            },
+            {
+              "identity": 300,
+              "contained": true,
+              "control": true,
+              "selector": "a[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 473.484375,
+                "bottom": 489.484375,
+                "left": 280,
+                "right": 366.09375
+              },
+              "hit": "a"
+            },
+            {
+              "identity": 303,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 518,
+                "bottom": 568,
+                "left": 280,
+                "right": 490.6875
+              },
+              "hit": "button.button.button-primary"
+            },
+            {
+              "identity": 304,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 518,
+                "bottom": 568,
+                "left": 502.6875,
+                "right": 610.4375
+              },
+              "hit": "button.button.button-text"
+            },
+            {
+              "identity": 230,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 28,
+                "bottom": 72,
+                "left": 956,
+                "right": 1000
+              },
+              "hit": "button.dialog-close"
+            }
+          ]
+        },
+        "screenshot": "build/screenshots/1280x600-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "label": "desktop",
+      "screenshot": "build/screenshots/1440x900-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Window cleaning in Bristol, done properly.",
+            "fontFamily": "Roboto, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Roboto",
+                "postScriptName": "Roboto-Regular",
+                "isCustomFont": true,
+                "glyphCount": 41
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Friendly, professional cleaning for homes, businesses, gutters, and high-level glazing, with the method matched to your property.",
+            "fontFamily": "Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 128
+              }
+            ]
+          }
+        },
+        "pageWidth": 1440,
+        "pageHeight": 6404,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:4187/assets/stayclean-logo-340.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 340 / 170",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 112,
+              "top": -3,
+              "right": 288,
+              "bottom": 85,
+              "width": 176,
+              "height": 88
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:4187/assets/stayclean-team-1100.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1700 / 1039",
+            "ratioMismatch": false,
+            "cropFraction": 0.22868583680161436,
+            "box": {
+              "left": 0,
+              "top": 83,
+              "right": 1440,
+              "bottom": 763,
+              "width": 1440,
+              "height": 680
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:4187/assets/residential-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0006614405951947955,
+            "box": {
+              "left": 113,
+              "top": 1246.09375,
+              "right": 500.328125,
+              "bottom": 1536.578125,
+              "width": 387.328125,
+              "height": 290.484375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:4187/assets/commercial-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0006614405951947955,
+            "box": {
+              "left": 526.328125,
+              "top": 1246.09375,
+              "right": 913.65625,
+              "bottom": 1536.578125,
+              "width": 387.328125,
+              "height": 290.484375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:4187/assets/high-level-window-cleaning-480.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0.0006748799710120101,
+            "box": {
+              "left": 939.65625,
+              "top": 1246.09375,
+              "right": 1327,
+              "bottom": 1536.59375,
+              "width": 387.34375,
+              "height": 290.5
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:4187/assets/gutter-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1000 / 750",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 112,
+              "top": 2000.765625,
+              "right": 706.875,
+              "bottom": 2446.921875,
+              "width": 594.875,
+              "height": 446.15625
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:4187/assets/stayclean-team.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1700 / 1039",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 630.15625,
+              "top": 3348.375,
+              "right": 1328,
+              "bottom": 3774.875,
+              "width": 697.84375,
+              "height": 426.5
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 7,
+            "src": "http://127.0.0.1:4187/assets/stayclean-logo-340.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 340 / 170",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 112,
+              "top": 6031.65625,
+              "right": 292,
+              "bottom": 6121.65625,
+              "width": 180,
+              "height": 90
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1154.578125,
+              "top": 18,
+              "right": 1328,
+              "bottom": 64,
+              "width": 173.421875,
+              "height": 46
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 112,
+              "top": 548.03125,
+              "right": 293.421875,
+              "bottom": 598.03125,
+              "width": 181.421875,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 778.875,
+              "top": 2413.765625,
+              "right": 960.296875,
+              "bottom": 2463.765625,
+              "width": 181.421875,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1048,
+              "top": 5733.328125,
+              "right": 1328,
+              "bottom": 5783.328125,
+              "width": 280,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.trust-strip",
+          "nextTop": 763,
+          "visiblePixels": 105.78125,
+          "viewportHeight": 900
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 818,
+            "bottom": 868,
+            "left": 360,
+            "right": 570.6875
+          }
+        },
+        "focusContained": true,
+        "keyboard": {
+          "complete": true,
+          "escaped": false,
+          "stops": [
+            {
+              "identity": 246,
+              "contained": true,
+              "control": true,
+              "selector": "#service",
+              "unobscured": true,
+              "box": {
+                "top": 232.28125,
+                "bottom": 280.28125,
+                "left": 360,
+                "right": 1080
+              },
+              "hit": "select#service"
+            },
+            {
+              "identity": 260,
+              "contained": true,
+              "control": true,
+              "selector": "input[name=\"frequency\"]",
+              "unobscured": true,
+              "box": {
+                "top": 330.46875,
+                "bottom": 378.46875,
+                "left": 361,
+                "right": 720
+              },
+              "hit": "span"
+            },
+            {
+              "identity": 269,
+              "contained": true,
+              "control": true,
+              "selector": "#name",
+              "unobscured": true,
+              "box": {
+                "top": 434.65625,
+                "bottom": 483.84375,
+                "left": 360,
+                "right": 711
+              },
+              "hit": "input#name"
+            },
+            {
+              "identity": 274,
+              "contained": true,
+              "control": true,
+              "selector": "#company",
+              "unobscured": true,
+              "box": {
+                "top": 434.65625,
+                "bottom": 483.84375,
+                "left": 729,
+                "right": 1080
+              },
+              "hit": "input#company"
+            },
+            {
+              "identity": 278,
+              "contained": true,
+              "control": true,
+              "selector": "#email",
+              "unobscured": true,
+              "box": {
+                "top": 536.03125,
+                "bottom": 585.21875,
+                "left": 360,
+                "right": 711
+              },
+              "hit": "input#email"
+            },
+            {
+              "identity": 283,
+              "contained": true,
+              "control": true,
+              "selector": "#phone",
+              "unobscured": true,
+              "box": {
+                "top": 536.03125,
+                "bottom": 585.21875,
+                "left": 729,
+                "right": 1080
+              },
+              "hit": "input#phone"
+            },
+            {
+              "identity": 288,
+              "contained": true,
+              "control": true,
+              "selector": "#address",
+              "unobscured": true,
+              "box": {
+                "top": 637.40625,
+                "bottom": 686.59375,
+                "left": 360,
+                "right": 1080
+              },
+              "hit": "input#address"
+            },
+            {
+              "identity": 293,
+              "contained": true,
+              "control": true,
+              "selector": "#postcode",
+              "unobscured": true,
+              "box": {
+                "top": 733.78125,
+                "bottom": 782.96875,
+                "left": 360,
+                "right": 711
+              },
+              "hit": "input#postcode"
+            },
+            {
+              "identity": 298,
+              "contained": true,
+              "control": true,
+              "selector": "#message",
+              "unobscured": true,
+              "box": {
+                "top": 587.15625,
+                "bottom": 717.90625,
+                "left": 360,
+                "right": 1080
+              },
+              "hit": "textarea#message"
+            },
+            {
+              "identity": 300,
+              "contained": true,
+              "control": true,
+              "selector": "a[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 773.484375,
+                "bottom": 789.484375,
+                "left": 360,
+                "right": 446.09375
+              },
+              "hit": "a"
+            },
+            {
+              "identity": 303,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 818,
+                "bottom": 868,
+                "left": 360,
+                "right": 570.6875
+              },
+              "hit": "button.button.button-primary"
+            },
+            {
+              "identity": 304,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 818,
+                "bottom": 868,
+                "left": 582.6875,
+                "right": 690.4375
+              },
+              "hit": "button.button.button-text"
+            },
+            {
+              "identity": 230,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 38,
+                "bottom": 82,
+                "left": 1036,
+                "right": 1080
+              },
+              "hit": "button.dialog-close"
+            }
+          ]
+        },
+        "screenshot": "build/screenshots/1440x900-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/screenshots/390x844-landing.png",
+      "type": "screenshot",
+      "sha256": "2c909c489d7657611ebbbdfa4276136f289e7f44d311e9e9b355ec80efa0bf1f"
+    },
+    {
+      "path": "build/screenshots/390x844-modal.png",
+      "type": "screenshot",
+      "sha256": "92bdd19f520f1306819a956d375ddabdb01cb5322f6a56fe2c7e781a1d6d0d05"
+    },
+    {
+      "path": "build/screenshots/768x1024-landing.png",
+      "type": "screenshot",
+      "sha256": "78a3e12460f6b13d998365e85f3ccd51fccd0ee6d7a0ff5a7f12adf9d4bfb153"
+    },
+    {
+      "path": "build/screenshots/768x1024-modal.png",
+      "type": "screenshot",
+      "sha256": "0866d3a9ef024c5fa93f37ba18efb2b396f23c9175dfb035edf5e2c8c3a15fb5"
+    },
+    {
+      "path": "build/screenshots/1024x800-landing.png",
+      "type": "screenshot",
+      "sha256": "3f1f728fc2cfb1ade92aabf121043a97f0a1c6d60654e02705b30438099655e4"
+    },
+    {
+      "path": "build/screenshots/1024x800-modal.png",
+      "type": "screenshot",
+      "sha256": "ccf7f09080fe2ec3f19e0dcca25f34a7fa35b084026290ca3006f824616e35ee"
+    },
+    {
+      "path": "build/screenshots/1280x600-landing.png",
+      "type": "screenshot",
+      "sha256": "757c03604028a784509191aca12a93c1473fc5e48c2b10f14017a1c1232b5d55"
+    },
+    {
+      "path": "build/screenshots/1280x600-modal.png",
+      "type": "screenshot",
+      "sha256": "f454801229686abe5e1c806c2d4098660f2c55639b7382661fcc43e686d53cbc"
+    },
+    {
+      "path": "build/screenshots/1440x900-landing.png",
+      "type": "screenshot",
+      "sha256": "d73c1f92f6306c71420211f2f89243f7d24b82cbfe2bd8e74e397699da8f78f3"
+    },
+    {
+      "path": "build/screenshots/1440x900-modal.png",
+      "type": "screenshot",
+      "sha256": "c720abb5c7de4ba3864ae3f9a4188b8e46e3bc17ae7769a54363ccec86b49dff"
+    }
+  ],
+  "checks": [
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Roboto; page renders Roboto",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Arial; page renders Arial",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":390,\"overflow\":[]}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "screenshot": "build/screenshots/390x844-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.trust-strip\",\"nextTop\":633,\"visiblePixels\":211,\"viewportHeight\":844}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":16,\"top\":427.5,\"right\":374,\"bottom\":477.5,\"width\":358,\"height\":50},\"unobscured\":true},{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":16,\"top\":3730.984375,\"right\":189.8125,\"bottom\":3780.984375,\"width\":173.8125,\"height\":50},\"unobscured\":false},{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":16,\"top\":8646.265625,\"right\":374,\"bottom\":8696.265625,\"width\":358,\"height\":50},\"unobscured\":false}]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":704,\"bottom\":754,\"left\":37,\"right\":353}}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_tab_focus_unobscured",
+      "status": "pass",
+      "detail": "{\"complete\":true,\"escaped\":false,\"stopCount\":13,\"obscured\":[]}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Roboto; page renders Roboto",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Arial; page renders Arial",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":768,\"overflow\":[]}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "screenshot": "build/screenshots/768x1024-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.trust-strip\",\"nextTop\":757,\"visiblePixels\":128.171875,\"viewportHeight\":1024}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":882,\"bottom\":932,\"left\":50,\"right\":260.6875}}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_tab_focus_unobscured",
+      "status": "pass",
+      "detail": "{\"complete\":true,\"escaped\":false,\"stopCount\":13,\"obscured\":[]}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Roboto; page renders Roboto",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Arial; page renders Arial",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1024,\"overflow\":[]}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "screenshot": "build/screenshots/1024x800-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.trust-strip\",\"nextTop\":751,\"visiblePixels\":49,\"viewportHeight\":800}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":718,\"bottom\":768,\"left\":152,\"right\":362.6875}}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_tab_focus_unobscured",
+      "status": "pass",
+      "detail": "{\"complete\":true,\"escaped\":false,\"stopCount\":13,\"obscured\":[]}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Roboto; page renders Roboto",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Arial; page renders Arial",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1280,\"overflow\":[]}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "screenshot": "build/screenshots/1280x600-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.trust-strip\",\"nextTop\":563,\"visiblePixels\":37,\"viewportHeight\":600}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":1074.578125,\"top\":18,\"right\":1248,\"bottom\":64,\"width\":173.421875,\"height\":46},\"unobscured\":true},{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":32,\"top\":448.03125,\"right\":213.421875,\"bottom\":498.03125,\"width\":181.421875,\"height\":50},\"unobscured\":true},{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":698.875,\"top\":2213.765625,\"right\":880.296875,\"bottom\":2263.765625,\"width\":181.421875,\"height\":50},\"unobscured\":false},{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":968,\"top\":5533.328125,\"right\":1248,\"bottom\":5583.328125,\"width\":280,\"height\":50},\"unobscured\":false}]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":518,\"bottom\":568,\"left\":280,\"right\":490.6875}}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_tab_focus_unobscured",
+      "status": "pass",
+      "detail": "{\"complete\":true,\"escaped\":false,\"stopCount\":13,\"obscured\":[]}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Roboto; page renders Roboto",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Arial; page renders Arial",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1440,\"overflow\":[]}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "screenshot": "build/screenshots/1440x900-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.trust-strip\",\"nextTop\":763,\"visiblePixels\":105.78125,\"viewportHeight\":900}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":818,\"bottom\":868,\"left\":360,\"right\":570.6875}}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_tab_focus_unobscured",
+      "status": "pass",
+      "detail": "{\"complete\":true,\"escaped\":false,\"stopCount\":13,\"obscured\":[]}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    }
+  ],
+  "failures": [],
+  "warnings": [
+    "390x844: aggressive crop at image 1 (http://127.0.0.1:4187/assets/commercial-window-cleaning-480.webp); 48% cropped"
+  ],
+  "typographyComparison": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.fusion-responsive-typography-calculated",
+        "text": "Window cleaning in Bristol. Done properly.",
+        "bounds": {
+          "x": 31.984375,
+          "y": 181.59375,
+          "width": 326.03125,
+          "height": 139.3125,
+          "visibleAreaApprox": 45420.228515625
+        },
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+        "fontSize": "43px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "46.44px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Window cleaning in Bristol, done properly.",
+        "fontFamily": "Roboto, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.sc-hero-copy",
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "bounds": {
+          "x": 31.984375,
+          "y": 342.90625,
+          "width": 326.03125,
+          "height": 81,
+          "visibleAreaApprox": 26408.53125
+        },
+        "fontFamily": "Arial, sans-serif",
+        "fontSize": "18px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "27px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 104
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Friendly, professional cleaning for homes, businesses, gutters, and high-level glazing, with the method matched to your property.",
+        "fontFamily": "Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 127
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.fusion-responsive-typography-calculated",
+        "text": "Window cleaning in Bristol. Done properly.",
+        "bounds": {
+          "x": 31.984375,
+          "y": 181.59375,
+          "width": 326.03125,
+          "height": 139.3125,
+          "visibleAreaApprox": 45420.228515625
+        },
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+        "fontSize": "43px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "46.44px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Window cleaning in Bristol, done properly.",
+        "fontFamily": "Roboto, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.sc-hero-copy",
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "bounds": {
+          "x": 31.984375,
+          "y": 342.90625,
+          "width": 326.03125,
+          "height": 81,
+          "visibleAreaApprox": 26408.53125
+        },
+        "fontFamily": "Arial, sans-serif",
+        "fontSize": "18px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "27px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 104
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Friendly, professional cleaning for homes, businesses, gutters, and high-level glazing, with the method matched to your property.",
+        "fontFamily": "Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 127
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.fusion-responsive-typography-calculated",
+        "text": "Window cleaning in Bristol. Done properly.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 237.59375,
+          "width": 770,
+          "height": 254.390625,
+          "visibleAreaApprox": 195880.78125
+        },
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+        "fontSize": "80px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "84.8px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Window cleaning in Bristol, done properly.",
+        "fontFamily": "Roboto, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 41
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.sc-hero-copy",
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 513.984375,
+          "width": 720,
+          "height": 65.09375,
+          "visibleAreaApprox": 46867.5
+        },
+        "fontFamily": "Arial, sans-serif",
+        "fontSize": "22px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "32.56px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 105
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Friendly, professional cleaning for homes, businesses, gutters, and high-level glazing, with the method matched to your property.",
+        "fontFamily": "Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 128
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.fusion-responsive-typography-calculated",
+        "text": "Window cleaning in Bristol. Done properly.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 237.59375,
+          "width": 770,
+          "height": 254.390625,
+          "visibleAreaApprox": 195880.78125
+        },
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+        "fontSize": "80px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "84.8px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Window cleaning in Bristol, done properly.",
+        "fontFamily": "Roboto, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 41
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.sc-hero-copy",
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 513.984375,
+          "width": 720,
+          "height": 65.09375,
+          "visibleAreaApprox": 46867.5
+        },
+        "fontFamily": "Arial, sans-serif",
+        "fontSize": "22px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "32.56px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 105
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Friendly, professional cleaning for homes, businesses, gutters, and high-level glazing, with the method matched to your property.",
+        "fontFamily": "Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 128
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.fusion-responsive-typography-calculated",
+        "text": "Window cleaning in Bristol. Done properly.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 237.59375,
+          "width": 770,
+          "height": 254.390625,
+          "visibleAreaApprox": 195880.78125
+        },
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+        "fontSize": "80px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "84.8px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Window cleaning in Bristol, done properly.",
+        "fontFamily": "Roboto, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 41
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.sc-hero-copy",
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 513.984375,
+          "width": 720,
+          "height": 65.09375,
+          "visibleAreaApprox": 46867.5
+        },
+        "fontFamily": "Arial, sans-serif",
+        "fontSize": "22px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "32.56px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 105
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Friendly, professional cleaning for homes, businesses, gutters, and high-level glazing, with the method matched to your property.",
+        "fontFamily": "Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 128
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    }
+  ],
+  "limits": [
+    "Measurements do not replace visual review of the screenshot pixels.",
+    "The run does not submit forms or prove a live backend destination.",
+    "Automated overlap checks cannot identify every face or focal subject."
+  ],
+  "completed_at": "2026-09-18T23:27:03.129Z"
+}

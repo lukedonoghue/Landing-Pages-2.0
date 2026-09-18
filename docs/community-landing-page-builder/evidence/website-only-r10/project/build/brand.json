@@ -1,0 +1,2364 @@
+{
+  "schema_version": 1,
+  "kind": "rendered_brand_measurement",
+  "status": "pass",
+  "url": "https://www.stayclean.co.uk/",
+  "captured_at": "2026-09-18T23:03:59.325Z",
+  "tool": {
+    "name": "extract_brand",
+    "version": "1.1.0",
+    "node": "v22.17.1",
+    "browser": "153.0.8010.48"
+  },
+  "measurements": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "httpStatus": 200,
+      "screenshot": "brand-390x844.png",
+      "errors": [],
+      "blockedWrites": [
+        {
+          "method": "POST",
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-T8YERXD5E4&gtm=45Pe69g1h1v9117147201za200zd9117147201xf1&_p=1789772640501&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dZTNiMT&_eu=EAAAACAC&cid=1953621030.1789772641&frm=0&ibt=1&ir=1&ngs=1&pscdl=denied&rcb=4&sr=390x844&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.48%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.48&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-gb&_s=1&tag_exp=115616986~115938465~115938469~118897920~118897930~120213116~120385422~120469145~120469153&sid=1789772640&sct=1&seg=0&dl=https%3A%2F%2Fwww.stayclean.co.uk%2F&dt=Stayclean%20Window%20Cleaning%20%7C%20Window%20Cleaners%20Bristol&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.googlesitekit_post_type=page&tfd=809"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google.com/g/collect?v=2&tid=G-T8YERXD5E4&gtm=45Pe69g1h1v9117147201za200zd9117147201xf1&_p=1789772640501&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dZTNiMT&_eu=EAAAACAC&cid=1953621030.1789772641&frm=0&ibt=1&ir=1&ngs=1&pscdl=denied&rcb=4&sr=390x844&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.48%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.48&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-gb&_s=1&tag_exp=115616986~115938465~115938469~118897920~118897930~120213116~120385422~120469145~120469153&sid=1789772640&sct=1&seg=0&dl=https%3A%2F%2Fwww.stayclean.co.uk%2F&dt=Stayclean%20Window%20Cleaning%20%7C%20Window%20Cleaners%20Bristol&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.googlesitekit_post_type=page&tfd=809&gaf=1"
+        }
+      ],
+      "title": "Stayclean Window Cleaning | Window Cleaners Bristol",
+      "finalUrl": "https://www.stayclean.co.uk/",
+      "roles": {
+        "hero_heading": [
+          {
+            "selector": "h1.fusion-responsive-typography-calculated",
+            "text": "Window cleaning in Bristol. Done properly.",
+            "bounds": {
+              "x": 31.984375,
+              "y": 181.59375,
+              "width": 326.03125,
+              "height": 139.3125,
+              "visibleAreaApprox": 45420.228515625
+            },
+            "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+            "fontSize": "43px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "46.44px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true,
+            "renderedFonts": [
+              {
+                "familyName": "Roboto",
+                "postScriptName": "Roboto-Regular",
+                "isCustomFont": true,
+                "glyphCount": 40
+              }
+            ]
+          }
+        ],
+        "section_heading": [],
+        "subheading": [],
+        "body": [
+          {
+            "selector": "p.sc-hero-eyebrow",
+            "text": "Bristol’s local window cleaners · Established 1997",
+            "bounds": {
+              "x": 31.984375,
+              "y": 128,
+              "width": 326.03125,
+              "height": 33.59375,
+              "visibleAreaApprox": 10952.6123046875
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "12px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "16.8px",
+            "letterSpacing": "1px",
+            "textTransform": "uppercase",
+            "color": "rgb(255, 205, 73)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.sc-hero-copy",
+            "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+            "bounds": {
+              "x": 31.984375,
+              "y": 342.90625,
+              "width": 326.03125,
+              "height": 81,
+              "visibleAreaApprox": 26408.53125
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "18px",
+            "fontWeight": "300",
+            "fontStyle": "normal",
+            "lineHeight": "27px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true,
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 104
+              }
+            ]
+          }
+        ],
+        "navigation": [
+          {
+            "selector": "a",
+            "text": "",
+            "bounds": {
+              "x": 15.984375,
+              "y": 4,
+              "width": 154,
+              "height": 66,
+              "visibleAreaApprox": 10164
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "300",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(19, 53, 97)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Window cleaning",
+            "bounds": {
+              "x": 81.015625,
+              "y": 136,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(7, 63, 67)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Gutter cleaning",
+            "bounds": {
+              "x": 81.015625,
+              "y": 228,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(7, 63, 67)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Advice",
+            "bounds": {
+              "x": 81.015625,
+              "y": 320,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(7, 63, 67)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "About Stayclean",
+            "bounds": {
+              "x": 81.015625,
+              "y": 412,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(7, 63, 67)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Reviews",
+            "bounds": {
+              "x": 81.015625,
+              "y": 504,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(7, 63, 67)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.sc-nav-phone",
+            "text": "Call 0800 8560 120",
+            "bounds": {
+              "x": 81.015625,
+              "y": 596,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(10, 101, 112)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.sc-nav-quote",
+            "text": "Get a free quote",
+            "bounds": {
+              "x": 81.015625,
+              "y": 688,
+              "width": 276,
+              "height": 48,
+              "visibleAreaApprox": 13248
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(21, 63, 76)",
+            "fontStackAvailable": true
+          }
+        ],
+        "label": [],
+        "link": [
+          {
+            "selector": "a",
+            "text": "",
+            "bounds": {
+              "x": 15.984375,
+              "y": 4,
+              "width": 154,
+              "height": 66,
+              "visibleAreaApprox": 10164
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "300",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(19, 53, 97)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Window cleaning",
+            "bounds": {
+              "x": 81.015625,
+              "y": 136,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(7, 63, 67)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Gutter cleaning",
+            "bounds": {
+              "x": 81.015625,
+              "y": 228,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(7, 63, 67)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Advice",
+            "bounds": {
+              "x": 81.015625,
+              "y": 320,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(7, 63, 67)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "About Stayclean",
+            "bounds": {
+              "x": 81.015625,
+              "y": 412,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(7, 63, 67)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Reviews",
+            "bounds": {
+              "x": 81.015625,
+              "y": 504,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(7, 63, 67)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.sc-nav-phone",
+            "text": "Call 0800 8560 120",
+            "bounds": {
+              "x": 81.015625,
+              "y": 596,
+              "width": 276,
+              "height": 56,
+              "visibleAreaApprox": 15456
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(10, 101, 112)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.sc-nav-quote",
+            "text": "Get a free quote",
+            "bounds": {
+              "x": 81.015625,
+              "y": 688,
+              "width": 276,
+              "height": 48,
+              "visibleAreaApprox": 13248
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(21, 63, 76)",
+            "fontStackAvailable": true
+          }
+        ]
+      },
+      "buttons": [
+        {
+          "selector": "a.fusion-privacy-bar-accept-all.fusion-button.fusion-button-default",
+          "text": "Accept All",
+          "bounds": {
+            "x": 57.578125,
+            "y": 786,
+            "width": 130.859375,
+            "height": 43,
+            "visibleAreaApprox": 5626.953125
+          },
+          "fontFamily": "Roboto",
+          "fontSize": "13px",
+          "fontWeight": "300",
+          "fontStyle": "normal",
+          "lineHeight": "17px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(21, 82, 99)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(232, 232, 232)",
+          "backgroundImage": "linear-gradient(rgb(232, 232, 232) 0%, rgb(232, 232, 232) 0%)",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "25px",
+          "boxShadow": "rgb(255, 255, 255) 0px 1px 0px 0px inset, rgb(21, 82, 99) 0px 1.95px 0px 0px, rgba(0, 0, 0, 0.3) 1.3px 2.6px 2.6px 1.95px",
+          "padding": "13px 29px"
+        },
+        {
+          "selector": "a.fusion-privacy-bar-reject.fusion-button.fusion-button-default",
+          "text": "Reject All",
+          "bounds": {
+            "x": 203.4375,
+            "y": 786,
+            "width": 128.984375,
+            "height": 43,
+            "visibleAreaApprox": 5546.328125
+          },
+          "fontFamily": "Roboto",
+          "fontSize": "13px",
+          "fontWeight": "300",
+          "fontStyle": "normal",
+          "lineHeight": "17px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(21, 82, 99)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(232, 232, 232)",
+          "backgroundImage": "linear-gradient(rgb(232, 232, 232) 0%, rgb(232, 232, 232) 0%)",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "25px",
+          "boxShadow": "rgb(255, 255, 255) 0px 1px 0px 0px inset, rgb(21, 82, 99) 0px 1.95px 0px 0px, rgba(0, 0, 0, 0.3) 1.3px 2.6px 2.6px 1.95px",
+          "padding": "13px 29px"
+        }
+      ],
+      "images": [
+        {
+          "selector": "img.sc-nav-logo.lazyloading",
+          "src": "https://www.stayclean.co.uk/wp-content/uploads/2023/07/LOGO-yellow.png",
+          "alt": "Stayclean Window Cleaning",
+          "bounds": {
+            "x": 15.984375,
+            "y": 4,
+            "width": 154,
+            "height": 66,
+            "visibleAreaApprox": 10164
+          },
+          "loaded": true,
+          "objectFit": "contain",
+          "objectPosition": "50% 50%"
+        }
+      ],
+      "surfaceMethod": "visible clipped bounding-box area; independent overlapping boxes; first viewport only",
+      "coloredSurfaces": [
+        {
+          "color": "rgb(255, 255, 255)",
+          "summedVisibleBoxArea": 525700,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "#wrapper",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 11281.96875,
+                "visibleAreaApprox": 329160
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "nav.sc-mobile-panel",
+              "bounds": {
+                "x": 64.015625,
+                "y": 119,
+                "width": 310,
+                "height": 634,
+                "visibleAreaApprox": 196540
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(226, 226, 226)",
+          "summedVisibleBoxArea": 329160,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "body.home.wp-singular.page-template",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 11281.96875,
+                "visibleAreaApprox": 329160
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(251, 250, 246)",
+          "summedVisibleBoxArea": 329160,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "#main",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 10003,
+                "visibleAreaApprox": 329160
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(7, 63, 67)",
+          "summedVisibleBoxArea": 313020,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "#sc-concept-nav",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 74,
+                "visibleAreaApprox": 28860
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "#sc-home-hero",
+              "bounds": {
+                "x": 10,
+                "y": 76,
+                "width": 370,
+                "height": 802.09375,
+                "visibleAreaApprox": 284160
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(51, 51, 51)",
+          "summedVisibleBoxArea": 54600,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "div.fusion-privacy-bar.fusion-privacy-bar-bottom",
+              "bounds": {
+                "x": 0,
+                "y": 704,
+                "width": 390,
+                "height": 140,
+                "visibleAreaApprox": 54600
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgba(4, 45, 49, 0.48)",
+          "summedVisibleBoxArea": 49863.4716796875,
+          "elements": 3,
+          "examples": [
+            {
+              "selector": "div.sc-proof-item",
+              "bounds": {
+                "x": 31.984375,
+                "y": 678.90625,
+                "width": 100.671875,
+                "height": 171.1875,
+                "visibleAreaApprox": 16620.29736328125
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "div.sc-proof-item",
+              "bounds": {
+                "x": 144.65625,
+                "y": 678.90625,
+                "width": 100.671875,
+                "height": 171.1875,
+                "visibleAreaApprox": 16620.29736328125
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "div.sc-proof-item",
+              "bounds": {
+                "x": 257.328125,
+                "y": 678.90625,
+                "width": 100.6875,
+                "height": 171.1875,
+                "visibleAreaApprox": 16622.876953125
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 205, 73)",
+          "summedVisibleBoxArea": 30201.625,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "a.sc-nav-quote",
+              "bounds": {
+                "x": 81.015625,
+                "y": 688,
+                "width": 276,
+                "height": 48,
+                "visibleAreaApprox": 13248
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.sc-hero-quote",
+              "bounds": {
+                "x": 31.984375,
+                "y": 443.90625,
+                "width": 326.03125,
+                "height": 52,
+                "visibleAreaApprox": 16953.625
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(37, 211, 102)",
+          "summedVisibleBoxArea": 16953.625,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "a.sc-hero-whatsapp",
+              "bounds": {
+                "x": 31.984375,
+                "y": 507.90625,
+                "width": 326.03125,
+                "height": 52,
+                "visibleAreaApprox": 16953.625
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(232, 232, 232)",
+          "summedVisibleBoxArea": 11173.28125,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "a.fusion-privacy-bar-accept-all.fusion-button.fusion-button-default",
+              "bounds": {
+                "x": 57.578125,
+                "y": 786,
+                "width": 130.859375,
+                "height": 43,
+                "visibleAreaApprox": 5626.953125
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.fusion-privacy-bar-reject.fusion-button.fusion-button-default",
+              "bounds": {
+                "x": 203.4375,
+                "y": 786,
+                "width": 128.984375,
+                "height": 43,
+                "visibleAreaApprox": 5546.328125
+              },
+              "opacity": "1"
+            }
+          ]
+        }
+      ],
+      "imageBackgrounds": [
+        {
+          "selector": "#sc-home-hero",
+          "backgroundImage": "url(\"https://www.stayclean.co.uk/wp-content/uploads/2023/07/stayclean-window-cleaning-team.jpg\")",
+          "backgroundSize": "cover",
+          "backgroundPosition": "60% 50%",
+          "bounds": {
+            "x": 10,
+            "y": 76,
+            "width": 370,
+            "height": 802.09375,
+            "visibleAreaApprox": 284160
+          }
+        },
+        {
+          "selector": "a.fusion-privacy-bar-accept-all.fusion-button.fusion-button-default",
+          "backgroundImage": "linear-gradient(rgb(232, 232, 232) 0%, rgb(232, 232, 232) 0%)",
+          "backgroundSize": "auto",
+          "backgroundPosition": "0% 0%",
+          "bounds": {
+            "x": 57.578125,
+            "y": 786,
+            "width": 130.859375,
+            "height": 43,
+            "visibleAreaApprox": 5626.953125
+          }
+        },
+        {
+          "selector": "a.fusion-privacy-bar-reject.fusion-button.fusion-button-default",
+          "backgroundImage": "linear-gradient(rgb(232, 232, 232) 0%, rgb(232, 232, 232) 0%)",
+          "backgroundSize": "auto",
+          "backgroundPosition": "0% 0%",
+          "bounds": {
+            "x": 203.4375,
+            "y": 786,
+            "width": 128.984375,
+            "height": 43,
+            "visibleAreaApprox": 5546.328125
+          }
+        }
+      ],
+      "fontStatus": "loaded",
+      "fontFaces": [
+        {
+          "family": "Quicksand",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "500",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "500",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "500",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "600",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "600",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "600",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "awb-icons",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Brands",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "weight": "900",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "fontRenderError": null
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "httpStatus": 200,
+      "screenshot": "brand-1440x900.png",
+      "errors": [],
+      "blockedWrites": [
+        {
+          "method": "POST",
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-T8YERXD5E4&gtm=45Pe69g1v9117147201za200zd9117147201xf1&_p=1789772641652&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dZTNiMT&_eu=EAAAACAC&cid=2035688409.1789772642&frm=0&ibt=1&ir=1&ngs=1&pscdl=denied&rcb=12&sr=1440x900&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.48%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.48&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-gb&_s=1&tag_exp=115616986~115938466~115938468~118897920~118897930~120213116~120385423~120469145~120469153&sid=1789772641&sct=1&seg=0&dl=https%3A%2F%2Fwww.stayclean.co.uk%2F&dt=Stayclean%20Window%20Cleaning%20%7C%20Window%20Cleaners%20Bristol&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.googlesitekit_post_type=page&tfd=702"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google.com/g/collect?v=2&tid=G-T8YERXD5E4&gtm=45Pe69g1v9117147201za200zd9117147201xf1&_p=1789772641652&gcs=G100&gcd=13p3p3p3p5l1&npa=1&dma_cps=-&dma=0&gdid=dZTNiMT&_eu=EAAAACAC&cid=2035688409.1789772642&frm=0&ibt=1&ir=1&ngs=1&pscdl=denied&rcb=12&sr=1440x900&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.48%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.48&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-gb&_s=1&tag_exp=115616986~115938466~115938468~118897920~118897930~120213116~120385423~120469145~120469153&sid=1789772641&sct=1&seg=0&dl=https%3A%2F%2Fwww.stayclean.co.uk%2F&dt=Stayclean%20Window%20Cleaning%20%7C%20Window%20Cleaners%20Bristol&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&ep.googlesitekit_post_type=page&tfd=702&gaf=1"
+        }
+      ],
+      "title": "Stayclean Window Cleaning | Window Cleaners Bristol",
+      "finalUrl": "https://www.stayclean.co.uk/",
+      "roles": {
+        "hero_heading": [
+          {
+            "selector": "h1.fusion-responsive-typography-calculated",
+            "text": "Window cleaning in Bristol. Done properly.",
+            "bounds": {
+              "x": 124.953125,
+              "y": 237.59375,
+              "width": 770,
+              "height": 254.390625,
+              "visibleAreaApprox": 195880.78125
+            },
+            "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+            "fontSize": "80px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "84.8px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true,
+            "renderedFonts": [
+              {
+                "familyName": "Roboto",
+                "postScriptName": "Roboto-Regular",
+                "isCustomFont": true,
+                "glyphCount": 40
+              }
+            ]
+          }
+        ],
+        "section_heading": [],
+        "subheading": [],
+        "body": [
+          {
+            "selector": "p.sc-hero-eyebrow",
+            "text": "Bristol’s local window cleaners · Established 1997",
+            "bounds": {
+              "x": 124.953125,
+              "y": 198,
+              "width": 770,
+              "height": 19.59375,
+              "visibleAreaApprox": 15087.1875
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "14px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "19.6px",
+            "letterSpacing": "1.4px",
+            "textTransform": "uppercase",
+            "color": "rgb(255, 205, 73)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.sc-hero-copy",
+            "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+            "bounds": {
+              "x": 124.953125,
+              "y": 513.984375,
+              "width": 720,
+              "height": 65.09375,
+              "visibleAreaApprox": 46867.5
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "22px",
+            "fontWeight": "300",
+            "fontStyle": "normal",
+            "lineHeight": "32.56px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true,
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 105
+              }
+            ]
+          }
+        ],
+        "navigation": [
+          {
+            "selector": "a",
+            "text": "",
+            "bounds": {
+              "x": 104,
+              "y": 5,
+              "width": 210,
+              "height": 84,
+              "visibleAreaApprox": 17640
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "300",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(19, 53, 97)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Window cleaning",
+            "bounds": {
+              "x": 421.15625,
+              "y": 32,
+              "width": 122.375,
+              "height": 30,
+              "visibleAreaApprox": 3671.25
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Gutter cleaning",
+            "bounds": {
+              "x": 573.53125,
+              "y": 32,
+              "width": 110.03125,
+              "height": 30,
+              "visibleAreaApprox": 3300.9375
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Advice",
+            "bounds": {
+              "x": 713.5625,
+              "y": 32,
+              "width": 49.203125,
+              "height": 30,
+              "visibleAreaApprox": 1476.09375
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "About Stayclean",
+            "bounds": {
+              "x": 792.765625,
+              "y": 32,
+              "width": 117.53125,
+              "height": 30,
+              "visibleAreaApprox": 3525.9375
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Reviews",
+            "bounds": {
+              "x": 940.296875,
+              "y": 32,
+              "width": 60.046875,
+              "height": 30,
+              "visibleAreaApprox": 1801.40625
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.sc-nav-phone",
+            "text": "0800 8560 120",
+            "bounds": {
+              "x": 1030.34375,
+              "y": 30,
+              "width": 113.453125,
+              "height": 34,
+              "visibleAreaApprox": 3857.40625
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "17px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "34px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 205, 73)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.sc-nav-quote",
+            "text": "Get a free quote",
+            "bounds": {
+              "x": 1173.796875,
+              "y": 23,
+              "width": 162.203125,
+              "height": 48,
+              "visibleAreaApprox": 7785.75
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(21, 63, 76)",
+            "fontStackAvailable": true
+          }
+        ],
+        "label": [],
+        "link": [
+          {
+            "selector": "a",
+            "text": "",
+            "bounds": {
+              "x": 104,
+              "y": 5,
+              "width": 210,
+              "height": 84,
+              "visibleAreaApprox": 17640
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "300",
+            "fontStyle": "normal",
+            "lineHeight": "32px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(19, 53, 97)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Window cleaning",
+            "bounds": {
+              "x": 421.15625,
+              "y": 32,
+              "width": 122.375,
+              "height": 30,
+              "visibleAreaApprox": 3671.25
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Gutter cleaning",
+            "bounds": {
+              "x": 573.53125,
+              "y": 32,
+              "width": 110.03125,
+              "height": 30,
+              "visibleAreaApprox": 3300.9375
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Advice",
+            "bounds": {
+              "x": 713.5625,
+              "y": 32,
+              "width": 49.203125,
+              "height": 30,
+              "visibleAreaApprox": 1476.09375
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "About Stayclean",
+            "bounds": {
+              "x": 792.765625,
+              "y": 32,
+              "width": 117.53125,
+              "height": 30,
+              "visibleAreaApprox": 3525.9375
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Reviews",
+            "bounds": {
+              "x": 940.296875,
+              "y": 32,
+              "width": 60.046875,
+              "height": 30,
+              "visibleAreaApprox": 1801.40625
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.sc-nav-phone",
+            "text": "0800 8560 120",
+            "bounds": {
+              "x": 1030.34375,
+              "y": 30,
+              "width": 113.453125,
+              "height": 34,
+              "visibleAreaApprox": 3857.40625
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "17px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "34px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 205, 73)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.sc-nav-quote",
+            "text": "Get a free quote",
+            "bounds": {
+              "x": 1173.796875,
+              "y": 23,
+              "width": 162.203125,
+              "height": 48,
+              "visibleAreaApprox": 7785.75
+            },
+            "fontFamily": "Arial, sans-serif",
+            "fontSize": "15px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(21, 63, 76)",
+            "fontStackAvailable": true
+          }
+        ]
+      },
+      "buttons": [
+        {
+          "selector": "a.fusion-privacy-bar-accept-all.fusion-button.fusion-button-default",
+          "text": "Accept All",
+          "bounds": {
+            "x": 914.21875,
+            "y": 842,
+            "width": 130.859375,
+            "height": 43,
+            "visibleAreaApprox": 5626.953125
+          },
+          "fontFamily": "Roboto",
+          "fontSize": "13px",
+          "fontWeight": "300",
+          "fontStyle": "normal",
+          "lineHeight": "17px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(21, 82, 99)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(232, 232, 232)",
+          "backgroundImage": "linear-gradient(rgb(232, 232, 232) 0%, rgb(232, 232, 232) 0%)",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "25px",
+          "boxShadow": "rgb(255, 255, 255) 0px 1px 0px 0px inset, rgb(21, 82, 99) 0px 1.95px 0px 0px, rgba(0, 0, 0, 0.3) 1.3px 2.6px 2.6px 1.95px",
+          "padding": "13px 29px"
+        },
+        {
+          "selector": "a.fusion-privacy-bar-reject.fusion-button.fusion-button-default",
+          "text": "Reject All",
+          "bounds": {
+            "x": 1060.078125,
+            "y": 842,
+            "width": 128.984375,
+            "height": 43,
+            "visibleAreaApprox": 5546.328125
+          },
+          "fontFamily": "Roboto",
+          "fontSize": "13px",
+          "fontWeight": "300",
+          "fontStyle": "normal",
+          "lineHeight": "17px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(21, 82, 99)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(232, 232, 232)",
+          "backgroundImage": "linear-gradient(rgb(232, 232, 232) 0%, rgb(232, 232, 232) 0%)",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "25px",
+          "boxShadow": "rgb(255, 255, 255) 0px 1px 0px 0px inset, rgb(21, 82, 99) 0px 1.95px 0px 0px, rgba(0, 0, 0, 0.3) 1.3px 2.6px 2.6px 1.95px",
+          "padding": "13px 29px"
+        }
+      ],
+      "images": [
+        {
+          "selector": "img.sc-nav-logo.lazyloaded",
+          "src": "https://www.stayclean.co.uk/wp-content/uploads/2023/07/LOGO-yellow.png",
+          "alt": "Stayclean Window Cleaning",
+          "bounds": {
+            "x": 104,
+            "y": 5,
+            "width": 210,
+            "height": 84,
+            "visibleAreaApprox": 17640
+          },
+          "loaded": true,
+          "objectFit": "contain",
+          "objectPosition": "50% 50%"
+        }
+      ],
+      "surfaceMethod": "visible clipped bounding-box area; independent overlapping boxes; first viewport only",
+      "coloredSurfaces": [
+        {
+          "color": "rgb(226, 226, 226)",
+          "summedVisibleBoxArea": 1296000,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "body.home.wp-singular.page-template",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 7121.984375,
+                "visibleAreaApprox": 1296000
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 255, 255)",
+          "summedVisibleBoxArea": 1296000,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "#wrapper",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 7121.984375,
+                "visibleAreaApprox": 1296000
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(251, 250, 246)",
+          "summedVisibleBoxArea": 1296000,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "#main",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 6589.796875,
+                "visibleAreaApprox": 1296000
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(7, 63, 67)",
+          "summedVisibleBoxArea": 1230408,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "#sc-concept-nav",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 94,
+                "visibleAreaApprox": 135360
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "#sc-home-hero",
+              "bounds": {
+                "x": 39,
+                "y": 96,
+                "width": 1362,
+                "height": 810.078125,
+                "visibleAreaApprox": 1095048
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(51, 51, 51)",
+          "summedVisibleBoxArea": 105120,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "div.fusion-privacy-bar.fusion-privacy-bar-bottom",
+              "bounds": {
+                "x": 0,
+                "y": 827,
+                "width": 1440,
+                "height": 73,
+                "visibleAreaApprox": 105120
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgba(4, 45, 49, 0.48)",
+          "summedVisibleBoxArea": 97726,
+          "elements": 3,
+          "examples": [
+            {
+              "selector": "div.sc-proof-item",
+              "bounds": {
+                "x": 124.953125,
+                "y": 733.078125,
+                "width": 248.65625,
+                "height": 131,
+                "visibleAreaApprox": 32573.96875
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "div.sc-proof-item",
+              "bounds": {
+                "x": 385.609375,
+                "y": 733.078125,
+                "width": 248.671875,
+                "height": 131,
+                "visibleAreaApprox": 32576.015625
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "div.sc-proof-item",
+              "bounds": {
+                "x": 646.28125,
+                "y": 733.078125,
+                "width": 248.671875,
+                "height": 131,
+                "visibleAreaApprox": 32576.015625
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 205, 73)",
+          "summedVisibleBoxArea": 17219.6875,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "a.sc-nav-quote",
+              "bounds": {
+                "x": 1173.796875,
+                "y": 23,
+                "width": 162.203125,
+                "height": 48,
+                "visibleAreaApprox": 7785.75
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.sc-hero-quote",
+              "bounds": {
+                "x": 124.953125,
+                "y": 599.078125,
+                "width": 181.421875,
+                "height": 52,
+                "visibleAreaApprox": 9433.9375
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(37, 211, 102)",
+          "summedVisibleBoxArea": 13219.375,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "a.sc-hero-whatsapp",
+              "bounds": {
+                "x": 320.375,
+                "y": 599.078125,
+                "width": 254.21875,
+                "height": 52,
+                "visibleAreaApprox": 13219.375
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(232, 232, 232)",
+          "summedVisibleBoxArea": 11173.28125,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "a.fusion-privacy-bar-accept-all.fusion-button.fusion-button-default",
+              "bounds": {
+                "x": 914.21875,
+                "y": 842,
+                "width": 130.859375,
+                "height": 43,
+                "visibleAreaApprox": 5626.953125
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.fusion-privacy-bar-reject.fusion-button.fusion-button-default",
+              "bounds": {
+                "x": 1060.078125,
+                "y": 842,
+                "width": 128.984375,
+                "height": 43,
+                "visibleAreaApprox": 5546.328125
+              },
+              "opacity": "1"
+            }
+          ]
+        }
+      ],
+      "imageBackgrounds": [
+        {
+          "selector": "#sc-home-hero",
+          "backgroundImage": "url(\"https://www.stayclean.co.uk/wp-content/uploads/2023/07/stayclean-window-cleaning-team.jpg\")",
+          "backgroundSize": "cover",
+          "backgroundPosition": "50% 50%",
+          "bounds": {
+            "x": 39,
+            "y": 96,
+            "width": 1362,
+            "height": 810.078125,
+            "visibleAreaApprox": 1095048
+          }
+        },
+        {
+          "selector": "a.fusion-privacy-bar-accept-all.fusion-button.fusion-button-default",
+          "backgroundImage": "linear-gradient(rgb(232, 232, 232) 0%, rgb(232, 232, 232) 0%)",
+          "backgroundSize": "auto",
+          "backgroundPosition": "0% 0%",
+          "bounds": {
+            "x": 914.21875,
+            "y": 842,
+            "width": 130.859375,
+            "height": 43,
+            "visibleAreaApprox": 5626.953125
+          }
+        },
+        {
+          "selector": "a.fusion-privacy-bar-reject.fusion-button.fusion-button-default",
+          "backgroundImage": "linear-gradient(rgb(232, 232, 232) 0%, rgb(232, 232, 232) 0%)",
+          "backgroundSize": "auto",
+          "backgroundPosition": "0% 0%",
+          "bounds": {
+            "x": 1060.078125,
+            "y": 842,
+            "width": 128.984375,
+            "height": 43,
+            "visibleAreaApprox": 5546.328125
+          }
+        }
+      ],
+      "fontStatus": "loaded",
+      "fontFaces": [
+        {
+          "family": "Quicksand",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "500",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "500",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "500",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "600",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "600",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Quicksand",
+          "weight": "600",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "100",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "300",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Roboto Condensed",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "awb-icons",
+          "weight": "normal",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Font Awesome 5 Brands",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "weight": "900",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "fontRenderError": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "brand-390x844.png",
+      "type": "screenshot",
+      "sha256": "633b145cfed0fe1749ad9e2a4f47dfc13e11febbac695e4b5c339d989b7edf20"
+    },
+    {
+      "path": "brand-1440x900.png",
+      "type": "screenshot",
+      "sha256": "cbf60e3679ca954a5ab0758b52cf05a129e1a3f4b661c1e66e1cdc5fc3079664"
+    }
+  ],
+  "failures": [],
+  "interpretation": "Measurements describe rendered CSS and visible geometry. They do not automatically select the correct brand identity, official font, logo, or design direction.",
+  "limits": [
+    "Surface areas approximate visible bounding-box area in the first viewport. Overlapping parent/child backgrounds are counted independently; these are not pixel shares.",
+    "Computed stacks and FontFace entries alone do not prove glyph fonts. renderedFonts records Chromium evidence for the selected heading and prose samples only.",
+    "Background images, gradients, transparency, pseudo-elements, canvas, and video need screenshot review. No dominant image-color extraction is attempted.",
+    "No cookies or login state are imported. Consent dialogs or anonymous variants can affect the visible sample.",
+    "All write requests are blocked. Normal GET requests still reach the supplied site."
+  ],
+  "completed_at": "2026-09-18T23:04:02.172Z"
+}
