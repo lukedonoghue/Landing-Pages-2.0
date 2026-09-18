@@ -29,16 +29,18 @@ Do not inherit dated typography, layout, photography treatment, gradients, shado
 Separate typography evidence into three labels:
 
 - **Verified brand-guide typography:** fonts named in a current first-party brand guide or equivalent formal standard.
-- **Official-site typography:** fonts actually declared or rendered on the supplied official page and other current owned properties.
+- **Official-site typography:** computed font stacks on the rendered page's actual heading and body elements. A global declaration or downloaded font file may be overridden and is not sufficient evidence.
 - **Applied typography:** fonts used in the new page, including loading method, fallbacks, and the reason for any substitution.
 
 Do not call official-site typography a formal brand font when no brand guide confirms it. When official properties disagree, record the conflict and choose the applied system for readability, audience fit, availability, and current execution quality. Do not invent a generic condensed automotive treatment from category stereotypes. Avoid relying on local-only fonts whose appearance changes by operating system; load an appropriately licensed web font or use a deliberate stable system stack.
 
-The supplied official production page controls the default heading and body stacks. Extract its rendered or declared fonts instead of guessing. A current formal brand guide can override it. Another official property is evidence of a conflict, not automatic permission to invent a third system. Change the production fonts only for a concrete licensing, loading, language-support, accessibility, or explicit user-direction reason, and use the closest suitable visual match.
+The supplied official production page controls the default heading and body stacks. Prefer computed styles on representative rendered elements; `scripts/extract_brand.mjs` can capture these when a browser is available. If rendering is unavailable, trace the CSS cascade and disclose that the result is unverified in-browser. A current formal brand guide can override the page. Another official property is evidence of a conflict, not automatic permission to invent a third system. Change the production fonts only for a concrete licensing, loading, language-support, accessibility, or explicit user-direction reason, and use the closest suitable visual match.
 
 ## Choose a current audience-fit direction
 
 For a landing-page hero, use relevant photography or an immersive scene as the background with unframed copy, not a split text-and-image-card composition. Choose an asset with room for readable copy while preserving the essential subject. Size the complete header and hero so the beginning of the following content is visible at every required viewport, including mobile and tablet; do not squeeze typography or obscure proof to achieve this.
+
+Give the selected primary conversion the strongest filled-button treatment. Secondary phone, email or WhatsApp alternatives should use quieter text or outline styling, not a second equally prominent saturated button. Platform brand colors do not override conversion hierarchy.
 
 State three visual adjectives tied to the buyer and decision. Examples include `credible`, `current`, and `investment-grade` for a high-consideration franchise offer, or `capable`, `local`, and `direct` for a trade service. Do not use generic adjectives without explaining how the type, space, imagery, and color treatment express them.
 

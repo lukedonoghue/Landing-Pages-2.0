@@ -64,7 +64,7 @@ For each viewport, record specific observations for:
 - section rhythm and repeated layouts;
 - image crop, role, and proof integrity;
 - consent, sticky, modal, and footer behavior;
-- clipping, overlap, unfinished text, and dead space;
+- clipping, overlap, duplicate facts, unfinished text, dead space and thin success states;
 - final conversion and thank-you state.
 
 Also compare the complete page with the reference hierarchy in `design-direction.md`. Blue Mountain is a structural benchmark, not a style target. Clean Slate is a minimum execution-quality benchmark, not a template to copy. Block a technically sound page when the full composition still reads as a legacy sales brochure, an enlarged logo palette, or an audience-inappropriate design. Fix the underlying type, palette proportions, spacing, imagery treatment, or repeated motifs and then recapture every affected viewport.
@@ -105,7 +105,9 @@ When a required local audit package is absent, use a supported project-local ins
 
 ## 6. Fresh acceptance gate
 
-After all fixes, review the final outputs from the beginning without relying on earlier pass labels. Use a separate agent or reviewer when available. Otherwise use an isolated second pass and reopen every artifact.
+After all fixes, review the final outputs from the beginning without relying on earlier pass labels. Check once whether a fresh-context reviewer is available in the current tools. If available, give it only the skill and final page artifacts, not the builder's QA conclusions, and ask for a critical visual review. Resolve its actionable findings before delivery. This is a short review of the existing build, not another build or research run.
+
+If no independent reviewer is available, reopen the raw viewport captures and full-page sections at readable size, concentrating on subject/CTA collisions and adjacent text before writing acceptance prose. State that this was self-review; a second paragraph by the same builder is not independent evidence. Do not install an external service or require an account to obtain a reviewer.
 
 The acceptance report must include:
 

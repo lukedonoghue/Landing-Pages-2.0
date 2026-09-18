@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const VERSION = '1.1.0';
+const VERSION = '1.2.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -204,6 +204,34 @@ async function measure(page) {
       }
     }
 
+    // Text ranges exclude padding so positioned labels cannot silently paint over prose.
+    const textNodes = [...document.querySelectorAll('h1,h2,h3,h4,p,li,a,button,label,small')]
+      .filter((element) => visible(element) && element.textContent.trim() && !element.closest('[aria-hidden="true"]'));
+    const textRects = (element) => {
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+      const boxes = [];
+      while (walker.nextNode()) {
+        if (!walker.currentNode.textContent.trim()) continue;
+        const range = document.createRange();
+        range.selectNodeContents(walker.currentNode);
+        boxes.push(...range.getClientRects());
+      }
+      return boxes;
+    };
+    const positionedTextCollisions = [];
+    const compared = new Set();
+    for (const element of textNodes.filter((item) => getComputedStyle(item).position === 'absolute')) {
+      for (const other of textNodes) {
+        if (element === other || element.contains(other) || other.contains(element)) continue;
+        const key = [textNodes.indexOf(element), textNodes.indexOf(other)].sort((a, b) => a - b).join(':');
+        if (compared.has(key)) continue;
+        compared.add(key);
+        if (textRects(element).some((a) => textRects(other).some((b) => overlap(a, b) > Math.max(4, Math.min(a.width * a.height, b.width * b.height) * 0.15)))) {
+          positionedTextCollisions.push({ positioned: describe(element), other: describe(other), text: element.textContent.trim() });
+        }
+      }
+    }
+
     const footerLinks = [...document.querySelectorAll('footer a')].filter(visible);
     const footerGapIssues = [];
     for (let index = 0; index < footerLinks.length; index++) {
@@ -237,6 +265,7 @@ async function measure(page) {
       overflow,
       overlayConflicts,
       contentCollisions,
+      positionedTextCollisions,
       footerGapIssues,
       smallPrimary,
       smallTargets,
@@ -318,6 +347,7 @@ try {
     check('images_loaded', metrics.images.every((image) => image.loaded), 'Every rendered image decoded', { viewport });
     check('content_images_not_cover_cropped', metrics.images.filter((image) => image.contentBearing).every((image) => image.objectFit !== 'cover'), JSON.stringify(metrics.images.filter((image) => image.contentBearing && image.objectFit === 'cover')), { viewport });
     check('content_images_have_no_text_collision', metrics.contentCollisions.length === 0, JSON.stringify(metrics.contentCollisions), { viewport });
+    check('positioned_text_does_not_overlap_prose', metrics.positionedTextCollisions.length === 0, JSON.stringify(metrics.positionedTextCollisions), { viewport });
     check('fixed_ui_does_not_cover_conversion_content', metrics.overlayConflicts.length === 0, JSON.stringify(metrics.overlayConflicts), { viewport });
     check('footer_links_have_gap', metrics.footerGapIssues.length === 0, JSON.stringify(metrics.footerGapIssues), { viewport });
     check('primary_targets_are_operable', metrics.smallPrimary.length === 0, JSON.stringify(metrics.smallPrimary), { viewport });
