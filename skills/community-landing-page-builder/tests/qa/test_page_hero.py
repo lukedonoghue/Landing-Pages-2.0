@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Opt-in browser regressions for hero continuation, text and font parity."""
+"""Opt-in browser regressions for composition, font parity and modal focus."""
 import argparse
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -37,9 +37,34 @@ def main():
             'hero_heading': [{'fontFamily': 'Georgia, serif', 'text': 'Local service'}],
             'body': [{'fontFamily': 'Arial, sans-serif', 'text': prose}],
         }}]}))
-        for name, height in [('visible', '200px'), ('below', '110vh'), ('overlap', '200px'), ('font-drift', '200px')]:
+        cases = ['visible', 'below', 'overlap', 'font-drift', 'modal-covered', 'modal-clear']
+        for name in cases:
+            height = '110vh' if name == 'below' else '200px'
             label_offset = '30px' if name == 'overlap' else '180px'
             body_font = 'Georgia, serif' if name == 'font-drift' else 'Arial, sans-serif'
+            modal = ''
+            trigger = '<a href="tel:+15555550100" data-primary-action>Call</a>'
+            if name.startswith('modal-'):
+                trigger = '<button type="button" data-open-modal data-primary-action>Get a quote</button>'
+                fields = ''.join(f'<label>Field {n}<input id="field-{n}" name="field-{n}"></label>' for n in range(14))
+                action = '<div class="actions"><button type="submit">Request quote</button></div>'
+                body = f'<div class="fields">{fields}{action if name == "modal-covered" else ""}</div>'
+                modal = (
+                    '<style>button{min-height:48px;padding:12px}dialog{padding:0;width:min(90vw,700px)}'
+                    '.shell{height:min(70vh,480px);display:flex;flex-direction:column;overflow:hidden}'
+                    '.fields{overflow:auto;min-height:0;flex:1}label{display:block;margin:18px}'
+                    'input{display:block;width:80%;height:44px}.actions{position:sticky;bottom:0;'
+                    'background:white;min-height:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center}'
+                    '</style><dialog><form class="shell"><button type="button" class="close">Close</button>'
+                    + body + (action if name == 'modal-clear' else '') + '</form></dialog>'
+                    '<script>const d=document.querySelector("dialog"),t=document.querySelector("[data-open-modal]");'
+                    't.onclick=()=>d.showModal();d.querySelector(".close").onclick=()=>d.close();'
+                    'd.addEventListener("close",()=>t.focus());'
+                    'd.addEventListener("keydown",e=>{if(e.key!=="Tab")return;'
+                    'const f=[...d.querySelectorAll("button,input")],a=document.activeElement;'
+                    'if(!e.shiftKey&&a===f.at(-1)){e.preventDefault();f[0].focus()}'
+                    'else if(e.shiftKey&&a===f[0]){e.preventDefault();f.at(-1).focus()}});</script>'
+                )
             (root / f'{name}.html').write_text(
                 '<!doctype html><html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1">'
                 '<title>Hero fixture</title><style>body{margin:0}h1{font-size:24px;margin:0;font-family:Georgia,serif}'
@@ -49,13 +74,14 @@ def main():
                 f'.label-row h2{{margin:0 0 0 {label_offset};font-size:24px}}</style>'
                 '<main><section class="hero"><h1>Local service</h1>'
                 f'<p>{prose}</p>'
-                '<a href="tel:+15555550100" data-primary-action>Call</a></section>'
-                '<section><div class="label-row"><p class="category">SPECIALIST ACCESS</p><h2>Service</h2></div></section></main></html>'
+                + trigger + '</section>'
+                '<section><div class="label-row"><p class="category">SPECIALIST ACCESS</p><h2>Service</h2></div></section></main>'
+                + modal + '</html>'
             )
         server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(root)))
         Thread(target=server.serve_forever, daemon=True).start()
         try:
-            for name in ['visible', 'below', 'overlap', 'font-drift']:
+            for name in cases:
                 report_path = root / name / 'report.json'
                 result = subprocess.run([
                     args.node, str(skill / 'scripts/measure_page.mjs'),
@@ -79,11 +105,18 @@ def main():
                 assert all(c['matches'] for c in font_checks if c['role'] == 'heading'), font_checks
                 assert all(c['matches'] == (name != 'font-drift') for c in font_checks if c['role'] == 'body'), font_checks
                 assert any('body font differs' in w for w in report['warnings']) == (name == 'font-drift'), report['warnings']
-                assert (result.returncode == 0) == (name in ['visible', 'font-drift']), report['failures']
+                keyboard = [c for c in report['checks'] if c['name'] == 'modal_tab_focus_unobscured']
+                if name.startswith('modal-'):
+                    assert len(keyboard) == 5, keyboard
+                    expected_keyboard = 'blocked' if name == 'modal-covered' else 'pass'
+                    assert all(c['status'] == expected_keyboard for c in keyboard), keyboard
+                else:
+                    assert not keyboard, keyboard
+                assert (result.returncode == 0) == (name in ['visible', 'font-drift', 'modal-clear']), report['failures']
         finally:
             server.shutdown()
             server.server_close()
-    print('PASS: hero, positioned-text and source-font parity fixtures at all five viewports')
+    print('PASS: hero, text, fonts and covered/clear modal keyboard fixtures at all five viewports')
 
 
 if __name__ == '__main__':
