@@ -13,6 +13,10 @@ The generated Cloudflare project includes:
 
 Use the project Node version (Node 22.19+ or a supported later release; Node 24 recommended), `npm ci`, then `npx playwright-core install chromium webkit`. Missing binaries or unsupported browser runtimes produce **blocked** evidence, never an automatic pass. The browser scripts use Playwright because portable WebKit coverage and a reproducible test runner are required. Interactive exploration can use agent-browser or computer use separately.
 
+Run the rendered-copy, responsive, browser-compatibility, and performance audits sequentially against one local Wrangler preview. Do not launch them in parallel against the same process. Parallel browser suites can exhaust the preview process or make it exit, which produces misleading connection-refused failures. A Wrangler crash, closed preview, or `ECONNREFUSED` result is an infrastructure failure, not evidence that the page passed or failed. Restart the preview and rerun the affected check.
+
+Use the runtime supported by the generated project and pinned Wrangler release. If a newer local Node release crashes the pinned preview, return to the project-supported Node runtime for `wrangler dev`; do not silently upgrade Wrangler during acceptance. Setup or publishing can use a separately selected compatible Node runtime when its version gate requires it, but the final report must record which runtime executed each stage.
+
 Create a fresh evidence snapshot with `python3 scripts/check_gates.py snapshot . --mode handoff` before these commands. Each report takes its `source_fingerprint` and `target.mode` from `build/gate-snapshot.json`. After source changes, create a new snapshot and rerun the affected checks. Do not copy a successful report from another build. `--out` sets a project-local evidence directory. Reports identify execution time, tool/version, checks, failures, limitations, and hashes for inspectable artifacts. Record them through the evidence checker.
 
 Default destinations:

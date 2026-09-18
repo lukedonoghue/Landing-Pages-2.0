@@ -126,8 +126,10 @@ async function measure(page) {
         if (color && (color.length === 3 || color[3] === 1)) { background = color; break; }
       }
       const ratio = foreground && background && !image ? (Math.max(light(foreground), light(background)) + .05) / (Math.min(light(foreground), light(background)) + .05) : null;
+      const primaryFamily = style.fontFamily.split(',')[0].trim().replace(/^['"]|['"]$/g, '');
+      const fontQuery = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} "${primaryFamily.replace(/"/g, '\\"')}"`;
       return { selector: describe(el), text: el.textContent.trim(), box: box(el), lines: widths.length, lineWidths: widths,
-        font: style.fontFamily, fontSize: style.fontSize, loadedFont: document.fonts.check(`${style.fontSize} ${style.fontFamily}`), contrastRatioOnSolidBackground: ratio,
+        font: style.fontFamily, fontSize: style.fontSize, loadedFont: document.fonts.check(fontQuery), contrastRatioOnSolidBackground: ratio,
         shortLastLine: widths.length >= 3 && widths.at(-1) < Math.max(...widths) / 3 };
     });
     const images = [...document.images].filter(visible).map((el) => {

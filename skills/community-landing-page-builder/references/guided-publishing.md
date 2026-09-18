@@ -25,6 +25,28 @@ Reuse the user's existing connection and project choices. If Cloudflare is not c
 
 A completely new account or external DNS ownership may need a human step. Describe the result honestly: one guided publishing flow, with one publishing action after initial sign-in/site setup; do not promise that an unconnected account can publish literally without setup.
 
+## First-time Cloudflare authorization
+
+Treat first-time authorization as part of the guided publishing action. A beginner should not have to discover Wrangler OAuth, callback ports, or account IDs.
+
+1. Run `wrangler whoami` before any remote setup. A currently authenticated account is only a local session, not proof that it is the user's intended destination.
+2. If the session is unrelated, run `wrangler logout`. Never deploy to the account that happened to be logged in.
+3. Start `wrangler login` and keep its callback process running until authorization completes.
+4. Open the generated authorization URL in the Mac system browser. Do not use the Codex in-app browser for Wrangler OAuth because its isolated browser context may not reach the local `http://localhost:8976/oauth/callback` listener.
+5. Let the user sign in and approve access manually. Do not enter their password, one-time code, or Cloudflare credentials.
+6. After Wrangler reports success, run `wrangler whoami` again. Record the returned account name, account ID, and required Worker and D1 permissions before changing project configuration.
+7. Pass that exact verified account ID to setup. Never infer it from a previous login, repository content, email address, or browser session.
+
+Known failed paths and their meaning:
+
+- Opening the OAuth URL in the Codex in-app browser can end at `localhost refused to connect`. The authorization page may have succeeded, but the isolated browser cannot deliver the callback to Wrangler on the Mac.
+- Reusing an expired authorization URL produces a CSRF or state mismatch. Stop the stale Wrangler login process, start one fresh process, and use only its newly generated URL.
+- Starting several Wrangler login processes or opening several generated URLs makes it easy to approve the wrong state. Keep one callback process and one current authorization URL.
+- Changing the callback port does not change Cloudflare's registered redirect URL for Wrangler. Do not use an alternate port as a workaround unless the environment has explicit port forwarding for the registered callback.
+- Treating `wrangler whoami` success as publication approval is incorrect. It proves identity and permissions only; the user's actual publish instruction still controls setup and release scope.
+
+Do not install unrelated global Cloudflare agent skills during this flow. The community skill and generated project already contain the required publishing instructions and pinned dependencies.
+
 The agent handles these internal steps, in order:
 
 1. Inspect the existing project and Cloudflare account. Do not introduce other services or require a GitHub repository.
