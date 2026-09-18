@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "gate": "visual",
+  "status": "pass_with_warnings",
+  "source_fingerprint": "9d5bb19aebfe8b8b6cb7e7b69f0da400800347b9ec30fa2e753fd0b0d749ceb0",
+  "executed_at": "2026-09-18T15:41:57Z",
+  "target": {"mode": "handoff", "url": "http://127.0.0.1:8787/"},
+  "tool": {"name": "Codex visual inspection", "version": "1"},
+  "reviewer": "Codex",
+  "checks": {"desktop_page":true,"mobile_page":true,"mobile_modal":true,"thank_you":true,"hierarchy":true,"contrast":true,"image_context":true,"responsive_flow":true},
+  "observations": [
+    "Desktop and mobile renders maintain the Operator Blueprint hierarchy with refreshed Byrider navy, blue, orange, and cool paper tones.",
+    "All six planned images are visible in context with appropriate crops and disclosures; the technology scene is explicitly labeled illustrative.",
+    "The three-step form fits the 390x844 viewport, keeps a clear progress indicator, and preserves reachable controls.",
+    "The thank-you page presents the guide download as the primary next action and repeats the qualified follow-up promise.",
+    "Automated layout warnings are limited to benign heading-line balance and deliberate cover-image crop ratios; subjects remain visible."
+  ],
+  "artifacts": [
+    {"path":"build/screenshots/1440x900-landing.png","type":"screenshot","sha256":"f204814313b8f3e7523811ec607ff4f55662f61c747204bba99a84919154b3d9"},
+    {"path":"build/screenshots/390x844-landing.png","type":"screenshot","sha256":"16b6e04d3e727e795785985f8dbdeb03578e178426ba885cb3d32aa9f420da09"},
+    {"path":"build/screenshots/390x844-modal.png","type":"screenshot","sha256":"7182097b071339e1f7afeac792a106be589f6f99c4ae6aab96ea154dc9b35b9d"},
+    {"path":"build/screenshots/390x844-thank-you.png","type":"screenshot","sha256":"ac7c206035606b40daca37556606581b0a3bc166b24d290ab38e18cc87973a1a"}
+  ],
+  "failures": [],
+  "warnings": ["The layout analyzer flags intentional cover crops above 35%; visual inspection confirmed that key subjects remain legible."]
+}

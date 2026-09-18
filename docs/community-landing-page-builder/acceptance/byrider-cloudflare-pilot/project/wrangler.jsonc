@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "byrider-franchise-community-pilot",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-07-22",
+  "workers_dev": true,
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "byrider-franchise-community-pilot-crm",
+      "database_id": "f9fe304e-45bd-433e-8338-5b99b9ec7e6c",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "*/5 * * * *"
+    ]
+  },
+  "observability": {
+    "enabled": false
+  },
+  "version_metadata": {
+    "binding": "CF_VERSION_METADATA"
+  },
+  "account_id": "5b93d5e3c469e05d9bd13672e7887c4a"
+}

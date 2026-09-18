@@ -1,0 +1,160 @@
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/montserrat-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/montserrat-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/montserrat-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("assets/fonts/montserrat-800.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/open-sans-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/open-sans-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/open-sans-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/open-sans-700.woff2") format("woff2");
+}
+
+:root {
+  --ink: #10243e;
+  --blue: #215eac;
+  --orange: #ff8200;
+  --paper: #f7faff;
+  --white: #fff;
+  --muted: #4a6077;
+  --line: #d9e4ef;
+  --shadow: 0 22px 55px rgb(16 36 62 / 14%);
+}
+
+body,
+button,
+input,
+select {
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.brand,
+.button,
+button[data-next],
+button[data-submit],
+.site-header nav,
+.signal-bar strong,
+.numbers strong,
+.wizard__step legend,
+.guide-preview b {
+  font-family: "Montserrat", Arial, sans-serif;
+  letter-spacing: 0;
+}
+
+.dark,
+.investment {
+  background: #102a49;
+}
+
+.hero__media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: none;
+}
+
+.hero__shade {
+  background: linear-gradient(90deg, rgb(16 42 73 / 98%) 5%, rgb(16 42 73 / 88%) 42%, rgb(16 42 73 / 48%) 76%, rgb(16 42 73 / 20%)), linear-gradient(0deg, rgb(16 42 73 / 58%), transparent 52%);
+}
+
+.eyebrow,
+.support-grid b,
+.numbers span,
+.guide-preview span {
+  letter-spacing: 0;
+}
+
+.model-grid article,
+.numbers article {
+  background: #173b63;
+}
+
+.tech-section {
+  background: #eef6ff;
+}
+
+.quote-section,
+.faq,
+.steps li,
+.checklist li,
+.modal__panel,
+.consent,
+.disclosure {
+  background: #fff;
+}
+
+.guide-preview {
+  background: #174a88;
+}
+
+.site-footer {
+  background: #0b2038;
+}
+
+.button,
+button[data-next],
+button[data-submit] {
+  color: #10243e;
+}
+
+.button:hover,
+button[data-next]:hover,
+button[data-submit]:hover {
+  background: #ff9a32;
+}

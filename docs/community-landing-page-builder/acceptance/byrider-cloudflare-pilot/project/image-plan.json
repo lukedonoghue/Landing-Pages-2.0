@@ -1,0 +1,1424 @@
+{
+  "schema_version": 1,
+  "client_website": "https://byriderfranchise.com/",
+  "allowed_hosts": [
+    "byriderfranchise.com",
+    "www.byriderfranchise.com"
+  ],
+  "generation_budget": {
+    "max_assets": 1,
+    "max_attempts_per_asset": 2,
+    "max_total_attempts": 2
+  },
+  "inventory": [
+    {
+      "id": "source-596110023467",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/04/pie-1.png",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-e0befac25d66",
+      "source_url": "https://www.facebook.com/tr?id=1707593852943288&ev=PageView&noscript=1",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-d53476f0ae59",
+      "source_url": "https://www.byriderfranchise.com/wp-content/uploads/2024/03/logo.svg",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "logotype",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-b2b691a0eb9c",
+      "source_url": "https://www.byriderfranchise.com/wp-content/uploads/2024/03/logo-default.svg",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "logotype",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-373fa26cf7b7",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/03/logo.svg",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "logotype",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-5363ee6bbcff",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/03/logo-default.svg",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "logotype",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-a1ef09c8a467",
+      "source_url": "https://www.byriderfranchise.com/wp-content/uploads/2023/11/logo-2.png",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "logotype",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-b3ef6024a0af",
+      "source_url": "https://www.byriderfranchise.com/wp-content/uploads/2024/04/pie-1.png",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "pie - 1",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-eb7f60f5835c",
+      "source_url": "https://www.byriderfranchise.com/wp-content/uploads/2024/04/pie-2.png",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "pie - 2",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-bb1f9146aa18",
+      "source_url": "https://www.byriderfranchise.com/wp-content/uploads/2024/04/pie-3.png",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "pie - 3",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-76d6dab60f42",
+      "source_url": "https://www.byriderfranchise.com/wp-content/uploads/2024/04/pie-4.png",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "pie - 4",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-1158a66d59e7",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/03/img-map-territories.png",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-d13ce938e700",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/03/img-map-territories-300x212.png",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-69c113997718",
+      "source_url": "https://www.byriderfranchise.com/wp-content/uploads/2024/03/testimonial-img-1.jpg",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "Dale Boone | Owner photo",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-c3e2e925723e",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/03/vet-fran.png",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "vet-fran",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-bb575172dd92",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/03/top400.png",
+      "observed_page": "https://byriderfranchise.com/",
+      "observed_alt": "top400",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S001-home.html",
+        "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+      }
+    },
+    {
+      "id": "source-a6a66fb5e761",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/investment-1024x936.webp",
+      "observed_page": "https://byriderfranchise.com/the-investment/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S003-investment.html",
+        "sha256": "30e3a04e4f39a2c9acbbf45c1e3e172f2d7f991c6d3457ad6f57763756b8b697"
+      }
+    },
+    {
+      "id": "source-5e0be3d38ffc",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/investment-300x274.webp",
+      "observed_page": "https://byriderfranchise.com/the-investment/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S003-investment.html",
+        "sha256": "30e3a04e4f39a2c9acbbf45c1e3e172f2d7f991c6d3457ad6f57763756b8b697"
+      }
+    },
+    {
+      "id": "source-b292aa69b243",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/investment-768x702.webp",
+      "observed_page": "https://byriderfranchise.com/the-investment/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S003-investment.html",
+        "sha256": "30e3a04e4f39a2c9acbbf45c1e3e172f2d7f991c6d3457ad6f57763756b8b697"
+      }
+    },
+    {
+      "id": "source-e7c241e6da4b",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/investment-jpg.webp",
+      "observed_page": "https://byriderfranchise.com/the-investment/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S003-investment.html",
+        "sha256": "30e3a04e4f39a2c9acbbf45c1e3e172f2d7f991c6d3457ad6f57763756b8b697"
+      }
+    },
+    {
+      "id": "source-74acf27144ba",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/process-1024x544.webp",
+      "observed_page": "https://byriderfranchise.com/the-process/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S004-process.html",
+        "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+      }
+    },
+    {
+      "id": "source-d2ffbdc5070f",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/process-300x159.webp",
+      "observed_page": "https://byriderfranchise.com/the-process/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S004-process.html",
+        "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+      }
+    },
+    {
+      "id": "source-bb21f720598f",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/process-768x408.webp",
+      "observed_page": "https://byriderfranchise.com/the-process/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S004-process.html",
+        "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+      }
+    },
+    {
+      "id": "source-5b5b1dcb1033",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/process-1536x816.webp",
+      "observed_page": "https://byriderfranchise.com/the-process/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S004-process.html",
+        "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+      }
+    },
+    {
+      "id": "source-da6b9e6c4e8a",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/process-jpg.webp",
+      "observed_page": "https://byriderfranchise.com/the-process/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S004-process.html",
+        "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+      }
+    },
+    {
+      "id": "source-8e0efc111afa",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/04/byriderfranchise-logo-768x768.png",
+      "observed_page": "https://byriderfranchise.com/the-process/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S004-process.html",
+        "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+      }
+    },
+    {
+      "id": "source-5bdab4bf8ff0",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/04/byriderfranchise-logo-300x300.png",
+      "observed_page": "https://byriderfranchise.com/the-process/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S004-process.html",
+        "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+      }
+    },
+    {
+      "id": "source-ac567214541c",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/04/byriderfranchise-logo-150x150.png",
+      "observed_page": "https://byriderfranchise.com/the-process/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S004-process.html",
+        "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+      }
+    },
+    {
+      "id": "source-b0adc2186260",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/04/byriderfranchise-logo-600x600.png",
+      "observed_page": "https://byriderfranchise.com/the-process/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S004-process.html",
+        "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+      }
+    },
+    {
+      "id": "source-a13e84d0d0e4",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/04/byriderfranchise-logo.png",
+      "observed_page": "https://byriderfranchise.com/the-process/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S004-process.html",
+        "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+      }
+    },
+    {
+      "id": "source-236de3175a85",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/07/user-default-pic-164x164.png",
+      "observed_page": "https://byriderfranchise.com/testimonial/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S006-testimonials.html",
+        "sha256": "db35186e6b350af030cdba19987f0e60bb432583abb2e81637170baa955055c1"
+      }
+    },
+    {
+      "id": "source-94324654bf40",
+      "source_url": "https://www.byriderfranchise.com/wp-content/uploads/2024/07/user-default-pic.png",
+      "observed_page": "https://byriderfranchise.com/testimonial/",
+      "observed_alt": "Russ Larson photo",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S006-testimonials.html",
+        "sha256": "db35186e6b350af030cdba19987f0e60bb432583abb2e81637170baa955055c1"
+      }
+    },
+    {
+      "id": "source-6c73bd5a8951",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/09/DSC01877_group-photo-edited_flat-sm-scaled.webp",
+      "observed_page": "https://byriderfranchise.com/byrider-franchisees-partner-to-acquire-franchising-assets/",
+      "observed_alt": "",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S009-acquisition.html",
+        "sha256": "709e4c2d2d86ccb188f27de1ec9e91f16edc9b8f5edafa795d2266158a23fd0e"
+      }
+    },
+    {
+      "id": "source-975a9f93e62b",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2019/12/challenge-concept-picture-id1131080461-5d11771235f80-675x234-1-840x740.jpg",
+      "observed_page": "https://byriderfranchise.com/byrider-franchisees-partner-to-acquire-franchising-assets/",
+      "observed_alt": "Breaking through the maze",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S009-acquisition.html",
+        "sha256": "709e4c2d2d86ccb188f27de1ec9e91f16edc9b8f5edafa795d2266158a23fd0e"
+      }
+    },
+    {
+      "id": "source-d88def89e7e4",
+      "source_url": "https://byriderfranchise.com/wp-content/uploads/2019/12/residential-development-aerial-picture-id1066713660-5d11770ff213b-675x234-1-840x740.jpg",
+      "observed_page": "https://byriderfranchise.com/byrider-franchisees-partner-to-acquire-franchising-assets/",
+      "observed_alt": "A bird's eye view of a residential community",
+      "origin": "client-website",
+      "evidence": {
+        "path": "research/raw/S009-acquisition.html",
+        "sha256": "709e4c2d2d86ccb188f27de1ec9e91f16edc9b8f5edafa795d2266158a23fd0e"
+      }
+    },
+    {
+      "id": "source-ac93647f8192",
+      "local_file": "/Users/mac/Documents/Codex/2026-09-18/independent-byrider-full-funnel-test/work/byrider-franchise-funnel/research/candidates/hero-dealership.jpg",
+      "source_sha256": "ac93647f81921ddd56b17ab363255f2971340aa9640549fba1425beb539b742a",
+      "origin": "client-supplied",
+      "evidence": {
+        "path": "research/client-asset-instruction.txt",
+        "sha256": "2dc7d4ab6d9514ebf9cb8d8b8927b5400d398d74155dfaf8b422a9838b11133e"
+      }
+    }
+  ],
+  "generation_attempts": [
+    {
+      "id": "94bda4c14b124a64967c84d97da2a706",
+      "asset_id": "technology-illustration",
+      "status": "registered",
+      "started_at": "2026-09-18T11:34:26.152612+00:00",
+      "requested_model": "gpt-image-2.5-sunburst",
+      "mode": "native",
+      "tool": "image_gen",
+      "request": {
+        "prompt": "Use case: photorealistic-natural\nAsset type: supporting landing-page image for a franchise technology section\nPrimary request: Create a realistic editorial scene that communicates one integrated operating view across used-vehicle sales, dealer-carried financing, vehicle service, collections, customer communication, reporting, and compliance.\nScene/backdrop: a contemporary but plausible dealership operations workspace adjacent to a service lane, with several large monitors showing abstract dashboards, vehicle inventory tiles, workflow lines, and service status panels.\nSubject: the connected operational environment itself; no identifiable people as the hero subject.\nStyle/medium: high-end documentary commercial photography, natural materials and believable screen glow, not glossy sci-fi.\nComposition/framing: landscape 4:3, layered depth, strongest visual interest in the center-right, clean negative space at upper left for page composition; must survive a mobile 4:3 crop.\nLighting/mood: bright natural daylight with controlled cool-blue ambient light and one restrained warm-orange accent.\nColor palette: deep navy, Byrider-like medium blue, white, graphite, small orange accents; no exact logos.\nConstraints: no readable financial figures, no names, no logos, no trademarks, no vehicle license plates, no branded uniforms, no certificates, no testimonial cues, no implication that this is an actual Byrider facility or proprietary interface.\nAvoid: futuristic holograms, cyberpunk, fake readable UI text, distorted screens, staged handshake poses, stock-photo smiles, visual clutter.\n\nUsage: Technology; Visualize connected sales, financing, service, and reporting without fabricating proof.\nConstraints: This is illustrative supporting imagery, not documentary evidence. Do not invent client staff, testimonials, logos, certificates, or before/after results. Preserve room and subject placement required by the page composition."
+      },
+      "finished_at": "2026-09-18T11:35:34.823618+00:00",
+      "output_sha256": "85552c042e8f2abddb0aa396d6fc33e77ea671fd5842512edda41941e13fa83f",
+      "tool_evidence": {
+        "path": "research/image-tool-result-technology.json",
+        "sha256": "bda39689a9f2241393cf5972a05bec483e8d87c2894ba08beec3a09548f14c26"
+      },
+      "actual_model": null,
+      "selected_model": null,
+      "model_verification": "unverified"
+    }
+  ],
+  "generation_decision": {
+    "needed": true,
+    "reason": "First-party research has strong dealership and proof imagery, but no suitable high-resolution non-proof technology scene.",
+    "gaps": [
+      "integrated dealership technology illustration"
+    ]
+  },
+  "assets": [
+    {
+      "id": "hero-dealership",
+      "section": "Hero and final CTA",
+      "purpose": "Show an actual Byrider dealership and retail setting",
+      "role": "Primary official dealership photograph",
+      "trust_class": "client-proof",
+      "required": true,
+      "allow_generation": false,
+      "alt": "Byrider dealership exterior with used vehicles parked in front",
+      "placement": {
+        "desktop": {
+          "aspect_ratio": "16:9",
+          "focal_point": [
+            0.55,
+            0.48
+          ]
+        },
+        "mobile": {
+          "aspect_ratio": "4:5",
+          "focal_point": [
+            0.55,
+            0.48
+          ]
+        }
+      },
+      "max_bytes": {
+        "desktop": 240000,
+        "mobile": 110000
+      },
+      "stage": "reviewed",
+      "source": {
+        "path": "research/image-originals/hero-dealership-ac93647f81921ddd.jpg",
+        "mime": "image/jpeg",
+        "width": 1200,
+        "height": 675,
+        "bytes": 452453,
+        "sha256": "ac93647f81921ddd56b17ab363255f2971340aa9640549fba1425beb539b742a"
+      },
+      "provenance": {
+        "kind": "actual",
+        "candidate_id": "source-ac93647f8192",
+        "source_url": null,
+        "final_url": null,
+        "evidence": {
+          "path": "research/client-asset-instruction.txt",
+          "sha256": "2dc7d4ab6d9514ebf9cb8d8b8927b5400d398d74155dfaf8b422a9838b11133e"
+        },
+        "rights": "client-authorized",
+        "rights_evidence": "User instruction dated 2026-09-18 authorizes official Byrider site imagery for this local-only evaluation; publication rights remain pending.",
+        "client_proof_evidence": "Observed as the official Byrider franchise home hero and downloaded from the first-party domain."
+      },
+      "generated_disclosure": null,
+      "variants": [
+        {
+          "path": "public/assets/images/optimized/hero-dealership-ac93647f8192-e07c050c/hero-dealership-ac93647f81921ddd-480.webp",
+          "mime": "image/webp",
+          "width": 480,
+          "height": 270,
+          "bytes": 14382,
+          "sha256": "ed7663493706c39c8934d5127cc8816f6d3182d64a334912ec698b66008e7893"
+        },
+        {
+          "path": "public/assets/images/optimized/hero-dealership-ac93647f8192-e07c050c/hero-dealership-ac93647f81921ddd-960.webp",
+          "mime": "image/webp",
+          "width": 960,
+          "height": 540,
+          "bytes": 34276,
+          "sha256": "83cf50b44aed4d1ca5ac8fb0e70840ac0f6f42946952ab707188a1a1528533d1"
+        },
+        {
+          "path": "public/assets/images/optimized/hero-dealership-ac93647f8192-e07c050c/hero-dealership-ac93647f81921ddd-1200.webp",
+          "mime": "image/webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 52588,
+          "sha256": "d4cd58bda73fc9273f4e2878cac6aae4f559b4112d5ed3ccab1ed0c4810da3a1"
+        }
+      ],
+      "review": {
+        "at": "2026-09-18T12:10:47.283635+00:00",
+        "report": {
+          "path": "build/image-review-hero-dealership.json",
+          "sha256": "5ec755bbe1be3d998a99909297e3a2f682adc0e89b4109b728ee42732864bd3f"
+        },
+        "result": {
+          "reviewer": "Codex visual inspection",
+          "source_sha256": "ac93647f81921ddd56b17ab363255f2971340aa9640549fba1425beb539b742a",
+          "variant_sha256": {
+            "public/assets/images/optimized/hero-dealership-ac93647f8192-e07c050c/hero-dealership-ac93647f81921ddd-480.webp": "ed7663493706c39c8934d5127cc8816f6d3182d64a334912ec698b66008e7893",
+            "public/assets/images/optimized/hero-dealership-ac93647f8192-e07c050c/hero-dealership-ac93647f81921ddd-960.webp": "83cf50b44aed4d1ca5ac8fb0e70840ac0f6f42946952ab707188a1a1528533d1",
+            "public/assets/images/optimized/hero-dealership-ac93647f8192-e07c050c/hero-dealership-ac93647f81921ddd-1200.webp": "d4cd58bda73fc9273f4e2878cac6aae4f559b4112d5ed3ccab1ed0c4810da3a1"
+          },
+          "desktop": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/desktop.png",
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/hero-dealership-ac93647f8192-e07c050c/hero-dealership-ac93647f81921ddd-1200.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/desktop.png",
+              "sha256": "e7068d25c8fcc721a70d8f1a3fa1c9bd75145183d9984717c54ec79e86bbb860"
+            }
+          },
+          "mobile": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/mobile.png",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/hero-dealership-ac93647f8192-e07c050c/hero-dealership-ac93647f81921ddd-1200.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/mobile.png",
+              "sha256": "cb98143fcb40182bd1ca2bf891d024a0bfc2c378e2c0f835b1b4b03944610a41"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "owner-portrait",
+      "section": "Early proof",
+      "purpose": "Tie the attributed Dale Boone statement to its official portrait",
+      "role": "Franchise-owner proof portrait",
+      "trust_class": "client-proof",
+      "required": true,
+      "allow_generation": false,
+      "alt": "Dale Boone, Byrider franchise owner",
+      "placement": {
+        "desktop": {
+          "aspect_ratio": "1:1",
+          "focal_point": [
+            0.5,
+            0.42
+          ]
+        },
+        "mobile": {
+          "aspect_ratio": "1:1",
+          "focal_point": [
+            0.5,
+            0.42
+          ]
+        }
+      },
+      "max_bytes": {
+        "desktop": 100000,
+        "mobile": 70000
+      },
+      "stage": "reviewed",
+      "source": {
+        "path": "research/image-originals/owner-portrait-7a51ab076ab07198.jpg",
+        "mime": "image/jpeg",
+        "width": 512,
+        "height": 512,
+        "bytes": 295082,
+        "sha256": "7a51ab076ab07198abc4bf6b7a99fbbf2d305e7fa45548c00bc7c7f849324349"
+      },
+      "provenance": {
+        "kind": "actual",
+        "candidate_id": "source-69c113997718",
+        "source_url": "https://www.byriderfranchise.com/wp-content/uploads/2024/03/testimonial-img-1.jpg",
+        "final_url": "https://byriderfranchise.com/wp-content/uploads/2024/03/testimonial-img-1.jpg",
+        "evidence": {
+          "path": "research/raw/S001-home.html",
+          "sha256": "8d353f89edbaea663496f4e6ae1e6c0bed69aed7db919ade9878676c6e2fc12c"
+        },
+        "rights": "client-authorized",
+        "rights_evidence": "User instruction dated 2026-09-18 authorizes official Byrider site imagery for this local-only evaluation; publication rights remain pending.",
+        "client_proof_evidence": "Official home-page markup identifies this image as Dale Boone | Owner photo."
+      },
+      "generated_disclosure": null,
+      "variants": [
+        {
+          "path": "public/assets/images/optimized/owner-portrait-7a51ab076ab0-bc7ab9ee/owner-portrait-7a51ab076ab07198-480.webp",
+          "mime": "image/webp",
+          "width": 480,
+          "height": 480,
+          "bytes": 23976,
+          "sha256": "02107d8dc2ed6d6488777448e206eebd9fa54cb843f46d1b817751ba867cd02f"
+        },
+        {
+          "path": "public/assets/images/optimized/owner-portrait-7a51ab076ab0-bc7ab9ee/owner-portrait-7a51ab076ab07198-512.webp",
+          "mime": "image/webp",
+          "width": 512,
+          "height": 512,
+          "bytes": 29990,
+          "sha256": "51dc3590c2bfccbaa24db0fc4a6549fac93cb378e40028e4fdc6ae29b42788a4"
+        }
+      ],
+      "review": {
+        "at": "2026-09-18T12:10:47.383936+00:00",
+        "report": {
+          "path": "build/image-review-owner-portrait.json",
+          "sha256": "326a3a1f0c096d861acd1f2a53efb3fe8cee6768fcf7ae60aa36cd6f51e9a698"
+        },
+        "result": {
+          "reviewer": "Codex visual inspection",
+          "source_sha256": "7a51ab076ab07198abc4bf6b7a99fbbf2d305e7fa45548c00bc7c7f849324349",
+          "variant_sha256": {
+            "public/assets/images/optimized/owner-portrait-7a51ab076ab0-bc7ab9ee/owner-portrait-7a51ab076ab07198-480.webp": "02107d8dc2ed6d6488777448e206eebd9fa54cb843f46d1b817751ba867cd02f",
+            "public/assets/images/optimized/owner-portrait-7a51ab076ab0-bc7ab9ee/owner-portrait-7a51ab076ab07198-512.webp": "51dc3590c2bfccbaa24db0fc4a6549fac93cb378e40028e4fdc6ae29b42788a4"
+          },
+          "desktop": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/desktop.png",
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/owner-portrait-7a51ab076ab0-bc7ab9ee/owner-portrait-7a51ab076ab07198-512.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/desktop.png",
+              "sha256": "e7068d25c8fcc721a70d8f1a3fa1c9bd75145183d9984717c54ec79e86bbb860"
+            }
+          },
+          "mobile": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/mobile.png",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/owner-portrait-7a51ab076ab0-bc7ab9ee/owner-portrait-7a51ab076ab07198-512.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/mobile.png",
+              "sha256": "cb98143fcb40182bd1ca2bf891d024a0bfc2c378e2c0f835b1b4b03944610a41"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "operator-group",
+      "section": "Operator-led ownership",
+      "purpose": "Show the franchisee investor group named in Byrider's acquisition announcement",
+      "role": "Official operator group photograph",
+      "trust_class": "client-proof",
+      "required": true,
+      "allow_generation": false,
+      "alt": "Six Byrider franchisee investors outside a Byrider office",
+      "placement": {
+        "desktop": {
+          "aspect_ratio": "3:2",
+          "focal_point": [
+            0.5,
+            0.5
+          ]
+        },
+        "mobile": {
+          "aspect_ratio": "4:5",
+          "focal_point": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "max_bytes": {
+        "desktop": 220000,
+        "mobile": 110000
+      },
+      "stage": "reviewed",
+      "source": {
+        "path": "research/image-originals/operator-group-9563b8e7bd04e431.webp",
+        "mime": "image/webp",
+        "width": 2560,
+        "height": 1708,
+        "bytes": 594264,
+        "sha256": "9563b8e7bd04e4318ba82a4e4964e4ca9e05e1710159ecf9dc961e7362d64bf2"
+      },
+      "provenance": {
+        "kind": "actual",
+        "candidate_id": "source-6c73bd5a8951",
+        "source_url": "https://byriderfranchise.com/wp-content/uploads/2024/09/DSC01877_group-photo-edited_flat-sm-scaled.webp",
+        "final_url": "https://byriderfranchise.com/wp-content/uploads/2024/09/DSC01877_group-photo-edited_flat-sm-scaled.webp",
+        "evidence": {
+          "path": "research/raw/S009-acquisition.html",
+          "sha256": "709e4c2d2d86ccb188f27de1ec9e91f16edc9b8f5edafa795d2266158a23fd0e"
+        },
+        "rights": "client-authorized",
+        "rights_evidence": "User instruction dated 2026-09-18 authorizes official Byrider site imagery for this local-only evaluation; publication rights remain pending.",
+        "client_proof_evidence": "Official 2024 acquisition announcement displays this group image beside the named franchisee investor group."
+      },
+      "generated_disclosure": null,
+      "variants": [
+        {
+          "path": "public/assets/images/optimized/operator-group-9563b8e7bd04-02eb8e84/operator-group-9563b8e7bd04e431-480.webp",
+          "mime": "image/webp",
+          "width": 480,
+          "height": 321,
+          "bytes": 25396,
+          "sha256": "b8ad8d69bd500efba38b9ec4e450c68ad8c7bbbe0722b37aa66ae516e7d0e337"
+        },
+        {
+          "path": "public/assets/images/optimized/operator-group-9563b8e7bd04-02eb8e84/operator-group-9563b8e7bd04e431-960.webp",
+          "mime": "image/webp",
+          "width": 960,
+          "height": 641,
+          "bytes": 84572,
+          "sha256": "bed133a1bd7e3627e934022cb8f3c1d3cd6b32688db8624e58209260e30178d3"
+        },
+        {
+          "path": "public/assets/images/optimized/operator-group-9563b8e7bd04-02eb8e84/operator-group-9563b8e7bd04e431-1600.webp",
+          "mime": "image/webp",
+          "width": 1600,
+          "height": 1068,
+          "bytes": 208428,
+          "sha256": "7f3b9e0a36254acb0835706579994a67775b2245d4d07b0256cfafcf75131122"
+        }
+      ],
+      "review": {
+        "at": "2026-09-18T12:10:47.501621+00:00",
+        "report": {
+          "path": "build/image-review-operator-group.json",
+          "sha256": "c5b82d2c9b0a697a048b6080301f68d63f2b343e247cc6a423069abdb75ac407"
+        },
+        "result": {
+          "reviewer": "Codex visual inspection",
+          "source_sha256": "9563b8e7bd04e4318ba82a4e4964e4ca9e05e1710159ecf9dc961e7362d64bf2",
+          "variant_sha256": {
+            "public/assets/images/optimized/operator-group-9563b8e7bd04-02eb8e84/operator-group-9563b8e7bd04e431-480.webp": "b8ad8d69bd500efba38b9ec4e450c68ad8c7bbbe0722b37aa66ae516e7d0e337",
+            "public/assets/images/optimized/operator-group-9563b8e7bd04-02eb8e84/operator-group-9563b8e7bd04e431-960.webp": "bed133a1bd7e3627e934022cb8f3c1d3cd6b32688db8624e58209260e30178d3",
+            "public/assets/images/optimized/operator-group-9563b8e7bd04-02eb8e84/operator-group-9563b8e7bd04e431-1600.webp": "7f3b9e0a36254acb0835706579994a67775b2245d4d07b0256cfafcf75131122"
+          },
+          "desktop": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/desktop.png",
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/operator-group-9563b8e7bd04-02eb8e84/operator-group-9563b8e7bd04e431-960.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/desktop.png",
+              "sha256": "e7068d25c8fcc721a70d8f1a3fa1c9bd75145183d9984717c54ec79e86bbb860"
+            }
+          },
+          "mobile": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/mobile.png",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/operator-group-9563b8e7bd04-02eb8e84/operator-group-9563b8e7bd04e431-960.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/mobile.png",
+              "sha256": "cb98143fcb40182bd1ca2bf891d024a0bfc2c378e2c0f835b1b4b03944610a41"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "investment-graphic",
+      "section": "Investment",
+      "purpose": "Ground investment discussion in official first-party material",
+      "role": "Official investment summary graphic",
+      "trust_class": "client-proof",
+      "required": true,
+      "allow_generation": false,
+      "alt": "Byrider investment summary showing franchise fee and royalty structure",
+      "placement": {
+        "desktop": {
+          "aspect_ratio": "1:1",
+          "focal_point": [
+            0.5,
+            0.5
+          ]
+        },
+        "mobile": {
+          "aspect_ratio": "1:1",
+          "focal_point": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "max_bytes": {
+        "desktop": 180000,
+        "mobile": 100000
+      },
+      "stage": "reviewed",
+      "source": {
+        "path": "research/image-originals/investment-graphic-2b2708666e783a72.webp",
+        "mime": "image/webp",
+        "width": 1312,
+        "height": 1199,
+        "bytes": 52804,
+        "sha256": "2b2708666e783a720974525134d1ab052cd707dabf1bd9d79770ed2457c78949"
+      },
+      "provenance": {
+        "kind": "actual",
+        "candidate_id": "source-e7c241e6da4b",
+        "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/investment-jpg.webp",
+        "final_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/investment-jpg.webp",
+        "evidence": {
+          "path": "research/raw/S003-investment.html",
+          "sha256": "30e3a04e4f39a2c9acbbf45c1e3e172f2d7f991c6d3457ad6f57763756b8b697"
+        },
+        "rights": "client-authorized",
+        "rights_evidence": "User instruction dated 2026-09-18 authorizes official Byrider site imagery for this local-only evaluation; publication rights remain pending.",
+        "client_proof_evidence": "Observed on Byrider's current official investment page; launch requires term recheck."
+      },
+      "generated_disclosure": null,
+      "variants": [
+        {
+          "path": "public/assets/images/optimized/investment-graphic-2b2708666e78-4990507b/investment-graphic-2b2708666e783a72-480.webp",
+          "mime": "image/webp",
+          "width": 480,
+          "height": 439,
+          "bytes": 14134,
+          "sha256": "048cd97f41ec08fbdf63a0e631d641f502848305aaf1cab3e23dcd291f2a8a0f"
+        },
+        {
+          "path": "public/assets/images/optimized/investment-graphic-2b2708666e78-4990507b/investment-graphic-2b2708666e783a72-960.webp",
+          "mime": "image/webp",
+          "width": 960,
+          "height": 878,
+          "bytes": 31010,
+          "sha256": "0a7501e396ff84059c4cf142d634ecf3f5e7b5bfe6a9537aa644b68f364bf6d9"
+        },
+        {
+          "path": "public/assets/images/optimized/investment-graphic-2b2708666e78-4990507b/investment-graphic-2b2708666e783a72-1312.webp",
+          "mime": "image/webp",
+          "width": 1312,
+          "height": 1199,
+          "bytes": 51282,
+          "sha256": "2de68533eb0636e4c647041f268ef12431eae83661d88bc39b09b49f860ef32a"
+        }
+      ],
+      "review": {
+        "at": "2026-09-18T12:10:47.621907+00:00",
+        "report": {
+          "path": "build/image-review-investment-graphic.json",
+          "sha256": "32f90026ee515959a36a57a27f4e4dd04ddb8074dc24dc0bd87106240df468da"
+        },
+        "result": {
+          "reviewer": "Codex visual inspection",
+          "source_sha256": "2b2708666e783a720974525134d1ab052cd707dabf1bd9d79770ed2457c78949",
+          "variant_sha256": {
+            "public/assets/images/optimized/investment-graphic-2b2708666e78-4990507b/investment-graphic-2b2708666e783a72-480.webp": "048cd97f41ec08fbdf63a0e631d641f502848305aaf1cab3e23dcd291f2a8a0f",
+            "public/assets/images/optimized/investment-graphic-2b2708666e78-4990507b/investment-graphic-2b2708666e783a72-960.webp": "0a7501e396ff84059c4cf142d634ecf3f5e7b5bfe6a9537aa644b68f364bf6d9",
+            "public/assets/images/optimized/investment-graphic-2b2708666e78-4990507b/investment-graphic-2b2708666e783a72-1312.webp": "2de68533eb0636e4c647041f268ef12431eae83661d88bc39b09b49f860ef32a"
+          },
+          "desktop": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/desktop.png",
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/investment-graphic-2b2708666e78-4990507b/investment-graphic-2b2708666e783a72-960.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/desktop.png",
+              "sha256": "e7068d25c8fcc721a70d8f1a3fa1c9bd75145183d9984717c54ec79e86bbb860"
+            }
+          },
+          "mobile": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/mobile.png",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/investment-graphic-2b2708666e78-4990507b/investment-graphic-2b2708666e783a72-960.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/mobile.png",
+              "sha256": "cb98143fcb40182bd1ca2bf891d024a0bfc2c378e2c0f835b1b4b03944610a41"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "process-roadmap",
+      "section": "Process",
+      "purpose": "Support the franchise evaluation and opening journey",
+      "role": "Official Byrider process roadmap",
+      "trust_class": "client-proof",
+      "required": true,
+      "allow_generation": false,
+      "alt": "Byrider franchise process roadmap from qualification through store opening",
+      "placement": {
+        "desktop": {
+          "aspect_ratio": "16:9",
+          "focal_point": [
+            0.5,
+            0.5
+          ]
+        },
+        "mobile": {
+          "aspect_ratio": "4:3",
+          "focal_point": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "max_bytes": {
+        "desktop": 220000,
+        "mobile": 120000
+      },
+      "stage": "reviewed",
+      "source": {
+        "path": "research/image-originals/process-roadmap-9b937b80ceeda557.webp",
+        "mime": "image/webp",
+        "width": 1721,
+        "height": 914,
+        "bytes": 69710,
+        "sha256": "9b937b80ceeda5574bd30e0f86b0bb729ecbbe69803538a2a53321b4719440b1"
+      },
+      "provenance": {
+        "kind": "actual",
+        "candidate_id": "source-da6b9e6c4e8a",
+        "source_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/process-jpg.webp",
+        "final_url": "https://byriderfranchise.com/wp-content/uploads/2026/07/process-jpg.webp",
+        "evidence": {
+          "path": "research/raw/S004-process.html",
+          "sha256": "bd3588988d3554b0f8328b14f6f2c48f5008dc642a908aaf4bcd5fa310ebe1b8"
+        },
+        "rights": "client-authorized",
+        "rights_evidence": "User instruction dated 2026-09-18 authorizes official Byrider site imagery for this local-only evaluation; publication rights remain pending.",
+        "client_proof_evidence": "Observed on Byrider's current official franchise process page."
+      },
+      "generated_disclosure": null,
+      "variants": [
+        {
+          "path": "public/assets/images/optimized/process-roadmap-9b937b80ceed-bbdc99d1/process-roadmap-9b937b80ceeda557-480.webp",
+          "mime": "image/webp",
+          "width": 480,
+          "height": 255,
+          "bytes": 12292,
+          "sha256": "4747c1aced2009542b7d80a6474840b823968a138b2694860459036f8e63799c"
+        },
+        {
+          "path": "public/assets/images/optimized/process-roadmap-9b937b80ceed-bbdc99d1/process-roadmap-9b937b80ceeda557-960.webp",
+          "mime": "image/webp",
+          "width": 960,
+          "height": 510,
+          "bytes": 29798,
+          "sha256": "c654c51e684a8533a430026a89e945ef1f0da7eca0781250a3ce31e6a055f0a9"
+        },
+        {
+          "path": "public/assets/images/optimized/process-roadmap-9b937b80ceed-bbdc99d1/process-roadmap-9b937b80ceeda557-1600.webp",
+          "mime": "image/webp",
+          "width": 1600,
+          "height": 850,
+          "bytes": 55398,
+          "sha256": "03a42ef4427dc497693bb6863fdff45520206a92fa26c4df1e19fe7ffde11947"
+        }
+      ],
+      "review": {
+        "at": "2026-09-18T12:10:47.774254+00:00",
+        "report": {
+          "path": "build/image-review-process-roadmap.json",
+          "sha256": "bb9072e5132a8fac25390cff485aa5dab991724f64cc1db79f9a963d3bf78a72"
+        },
+        "result": {
+          "reviewer": "Codex visual inspection",
+          "source_sha256": "9b937b80ceeda5574bd30e0f86b0bb729ecbbe69803538a2a53321b4719440b1",
+          "variant_sha256": {
+            "public/assets/images/optimized/process-roadmap-9b937b80ceed-bbdc99d1/process-roadmap-9b937b80ceeda557-480.webp": "4747c1aced2009542b7d80a6474840b823968a138b2694860459036f8e63799c",
+            "public/assets/images/optimized/process-roadmap-9b937b80ceed-bbdc99d1/process-roadmap-9b937b80ceeda557-960.webp": "c654c51e684a8533a430026a89e945ef1f0da7eca0781250a3ce31e6a055f0a9",
+            "public/assets/images/optimized/process-roadmap-9b937b80ceed-bbdc99d1/process-roadmap-9b937b80ceeda557-1600.webp": "03a42ef4427dc497693bb6863fdff45520206a92fa26c4df1e19fe7ffde11947"
+          },
+          "desktop": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/desktop.png",
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/process-roadmap-9b937b80ceed-bbdc99d1/process-roadmap-9b937b80ceeda557-1600.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/desktop.png",
+              "sha256": "e7068d25c8fcc721a70d8f1a3fa1c9bd75145183d9984717c54ec79e86bbb860"
+            }
+          },
+          "mobile": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/mobile.png",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/process-roadmap-9b937b80ceed-bbdc99d1/process-roadmap-9b937b80ceeda557-480.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/mobile.png",
+              "sha256": "cb98143fcb40182bd1ca2bf891d024a0bfc2c378e2c0f835b1b4b03944610a41"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "technology-illustration",
+      "section": "Technology",
+      "purpose": "Visualize connected sales, financing, service, and reporting without fabricating proof",
+      "role": "Supporting real-world illustrative image",
+      "trust_class": "illustrative",
+      "required": true,
+      "allow_generation": true,
+      "generation": {
+        "mode": "native",
+        "requested_model": "gpt-image-2.5-sunburst",
+        "authorization_evidence": "User requested generated illustrative imagery where first-party sourcing leaves a legitimate non-proof gap on 2026-09-18.",
+        "allow_unverified_native_model": true,
+        "model_exception_evidence": "User explicitly instructed on 2026-09-18 to use native OpenAI image generation where a genuine asset gap remained; the tool response did not expose a model identifier, which remains recorded as null.",
+        "allow_source_fallback": false
+      },
+      "alt": "AI-generated illustration of a connected dealership operations workspace with vehicle, finance, service, and reporting screens",
+      "placement": {
+        "desktop": {
+          "aspect_ratio": "4:3",
+          "focal_point": [
+            0.55,
+            0.5
+          ]
+        },
+        "mobile": {
+          "aspect_ratio": "4:3",
+          "focal_point": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "max_bytes": {
+        "desktop": 190000,
+        "mobile": 100000
+      },
+      "stage": "reviewed",
+      "source": {
+        "path": "research/image-originals/technology-illustration-85552c042e8f2abd.png",
+        "mime": "image/png",
+        "width": 1448,
+        "height": 1086,
+        "bytes": 1913954,
+        "sha256": "85552c042e8f2abddb0aa396d6fc33e77ea671fd5842512edda41941e13fa83f"
+      },
+      "provenance": {
+        "kind": "generated",
+        "attempt_id": "94bda4c14b124a64967c84d97da2a706",
+        "tool": "image_gen",
+        "mode": "native",
+        "provider": "native-tool",
+        "requested_model": "gpt-image-2.5-sunburst",
+        "actual_model": null,
+        "selected_model": null,
+        "model_verification": "unverified",
+        "evidence": {
+          "path": "research/image-tool-result-technology.json",
+          "sha256": "bda39689a9f2241393cf5972a05bec483e8d87c2894ba08beec3a09548f14c26"
+        },
+        "rights": "generated",
+        "rights_evidence": "Generated for this project; retain tool evidence and review rights for any reference inputs."
+      },
+      "generated_disclosure": "AI-generated illustration; does not depict an actual client project, staff member, customer, or result.",
+      "variants": [
+        {
+          "path": "public/assets/images/optimized/technology-illustration-85552c042e8f-91495162/technology-illustration-85552c042e8f2abd-480.webp",
+          "mime": "image/webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 31412,
+          "sha256": "cd866e24c5a887fc28e21813fcb8a0bdab107a17021310460dce76314783815e"
+        },
+        {
+          "path": "public/assets/images/optimized/technology-illustration-85552c042e8f-91495162/technology-illustration-85552c042e8f2abd-960.webp",
+          "mime": "image/webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 78312,
+          "sha256": "02797269aa5e11723d31f4f5f919516511de5c80fea8ca577b8fdcbb939ba9b6"
+        },
+        {
+          "path": "public/assets/images/optimized/technology-illustration-85552c042e8f-91495162/technology-illustration-85552c042e8f2abd-1448.webp",
+          "mime": "image/webp",
+          "width": 1448,
+          "height": 1086,
+          "bytes": 137508,
+          "sha256": "c4c6d0140aee2ea5fcae20644662bc0dff2701d53d3b59a759ad09eda257c8a8"
+        }
+      ],
+      "review": {
+        "at": "2026-09-18T12:10:47.931825+00:00",
+        "report": {
+          "path": "build/image-review-technology-illustration.json",
+          "sha256": "cfa309a2d1fbd649f54d87bd93ac56fac90a6ce9a38efc90e84f209345eb2707"
+        },
+        "result": {
+          "reviewer": "Codex visual inspection",
+          "source_sha256": "85552c042e8f2abddb0aa396d6fc33e77ea671fd5842512edda41941e13fa83f",
+          "variant_sha256": {
+            "public/assets/images/optimized/technology-illustration-85552c042e8f-91495162/technology-illustration-85552c042e8f2abd-480.webp": "cd866e24c5a887fc28e21813fcb8a0bdab107a17021310460dce76314783815e",
+            "public/assets/images/optimized/technology-illustration-85552c042e8f-91495162/technology-illustration-85552c042e8f2abd-960.webp": "02797269aa5e11723d31f4f5f919516511de5c80fea8ca577b8fdcbb939ba9b6",
+            "public/assets/images/optimized/technology-illustration-85552c042e8f-91495162/technology-illustration-85552c042e8f2abd-1448.webp": "c4c6d0140aee2ea5fcae20644662bc0dff2701d53d3b59a759ad09eda257c8a8"
+          },
+          "desktop": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/desktop.png",
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/technology-illustration-85552c042e8f-91495162/technology-illustration-85552c042e8f2abd-960.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/desktop.png",
+              "sha256": "e7068d25c8fcc721a70d8f1a3fa1c9bd75145183d9984717c54ec79e86bbb860"
+            }
+          },
+          "mobile": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/image-evidence/mobile.png",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/technology-illustration-85552c042e8f-91495162/technology-illustration-85552c042e8f2abd-960.webp",
+            "screenshot_evidence": {
+              "path": "build/image-evidence/mobile.png",
+              "sha256": "cb98143fcb40182bd1ca2bf891d024a0bfc2c378e2c0f835b1b4b03944610a41"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-09-18T11:33:58.313259+00:00",
+      "event": "plan-created",
+      "asset_id": null
+    },
+    {
+      "at": "2026-09-18T11:33:58.362035+00:00",
+      "event": "inventory-html",
+      "asset_id": null
+    },
+    {
+      "at": "2026-09-18T11:33:58.413484+00:00",
+      "event": "inventory-html",
+      "asset_id": null
+    },
+    {
+      "at": "2026-09-18T11:33:58.459580+00:00",
+      "event": "inventory-html",
+      "asset_id": null
+    },
+    {
+      "at": "2026-09-18T11:33:58.517618+00:00",
+      "event": "inventory-html",
+      "asset_id": null
+    },
+    {
+      "at": "2026-09-18T11:33:58.565110+00:00",
+      "event": "inventory-html",
+      "asset_id": null
+    },
+    {
+      "at": "2026-09-18T11:34:24.881522+00:00",
+      "event": "inventory-file",
+      "asset_id": null
+    },
+    {
+      "at": "2026-09-18T11:34:24.939117+00:00",
+      "event": "acquire",
+      "asset_id": "hero-dealership"
+    },
+    {
+      "at": "2026-09-18T11:34:25.346864+00:00",
+      "event": "acquire",
+      "asset_id": "owner-portrait"
+    },
+    {
+      "at": "2026-09-18T11:34:25.638493+00:00",
+      "event": "acquire",
+      "asset_id": "operator-group"
+    },
+    {
+      "at": "2026-09-18T11:34:25.864038+00:00",
+      "event": "acquire",
+      "asset_id": "investment-graphic"
+    },
+    {
+      "at": "2026-09-18T11:34:26.089479+00:00",
+      "event": "acquire",
+      "asset_id": "process-roadmap"
+    },
+    {
+      "at": "2026-09-18T11:34:26.152724+00:00",
+      "event": "prepare-generation",
+      "asset_id": "technology-illustration"
+    },
+    {
+      "at": "2026-09-18T11:35:34.824963+00:00",
+      "event": "register-generation",
+      "asset_id": "technology-illustration"
+    },
+    {
+      "at": "2026-09-18T11:35:35.132978+00:00",
+      "event": "optimize",
+      "asset_id": "hero-dealership"
+    },
+    {
+      "at": "2026-09-18T11:35:35.260969+00:00",
+      "event": "optimize",
+      "asset_id": "owner-portrait"
+    },
+    {
+      "at": "2026-09-18T11:35:35.709490+00:00",
+      "event": "optimize",
+      "asset_id": "operator-group"
+    },
+    {
+      "at": "2026-09-18T11:35:35.938522+00:00",
+      "event": "optimize",
+      "asset_id": "investment-graphic"
+    },
+    {
+      "at": "2026-09-18T11:35:36.144488+00:00",
+      "event": "optimize",
+      "asset_id": "process-roadmap"
+    },
+    {
+      "at": "2026-09-18T11:35:36.467480+00:00",
+      "event": "optimize",
+      "asset_id": "technology-illustration"
+    },
+    {
+      "at": "2026-09-18T12:05:23.448410+00:00",
+      "event": "review",
+      "asset_id": "hero-dealership"
+    },
+    {
+      "at": "2026-09-18T12:05:23.549829+00:00",
+      "event": "review",
+      "asset_id": "owner-portrait"
+    },
+    {
+      "at": "2026-09-18T12:05:23.691506+00:00",
+      "event": "review",
+      "asset_id": "operator-group"
+    },
+    {
+      "at": "2026-09-18T12:05:23.810732+00:00",
+      "event": "review",
+      "asset_id": "investment-graphic"
+    },
+    {
+      "at": "2026-09-18T12:05:23.923529+00:00",
+      "event": "review",
+      "asset_id": "process-roadmap"
+    },
+    {
+      "at": "2026-09-18T12:06:11.052305+00:00",
+      "event": "review",
+      "asset_id": "technology-illustration"
+    },
+    {
+      "at": "2026-09-18T12:08:58.691777+00:00",
+      "event": "review",
+      "asset_id": "hero-dealership"
+    },
+    {
+      "at": "2026-09-18T12:08:58.819335+00:00",
+      "event": "review",
+      "asset_id": "owner-portrait"
+    },
+    {
+      "at": "2026-09-18T12:08:58.955564+00:00",
+      "event": "review",
+      "asset_id": "operator-group"
+    },
+    {
+      "at": "2026-09-18T12:08:59.069359+00:00",
+      "event": "review",
+      "asset_id": "investment-graphic"
+    },
+    {
+      "at": "2026-09-18T12:08:59.191903+00:00",
+      "event": "review",
+      "asset_id": "process-roadmap"
+    },
+    {
+      "at": "2026-09-18T12:08:59.328025+00:00",
+      "event": "review",
+      "asset_id": "technology-illustration"
+    },
+    {
+      "at": "2026-09-18T12:10:47.284343+00:00",
+      "event": "review",
+      "asset_id": "hero-dealership"
+    },
+    {
+      "at": "2026-09-18T12:10:47.384235+00:00",
+      "event": "review",
+      "asset_id": "owner-portrait"
+    },
+    {
+      "at": "2026-09-18T12:10:47.501883+00:00",
+      "event": "review",
+      "asset_id": "operator-group"
+    },
+    {
+      "at": "2026-09-18T12:10:47.622777+00:00",
+      "event": "review",
+      "asset_id": "investment-graphic"
+    },
+    {
+      "at": "2026-09-18T12:10:47.774814+00:00",
+      "event": "review",
+      "asset_id": "process-roadmap"
+    },
+    {
+      "at": "2026-09-18T12:10:47.932838+00:00",
+      "event": "review",
+      "asset_id": "technology-illustration"
+    }
+  ],
+  "updated_at": "2026-09-18T12:10:47.932838+00:00"
+}

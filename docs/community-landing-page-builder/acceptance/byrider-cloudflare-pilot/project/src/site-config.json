@@ -1,0 +1,95 @@
+{
+  "name": "Byrider Franchising Partners, LLC",
+  "color": "#17665b",
+  "logo": "",
+  "timezone": "America/Indiana/Indianapolis",
+  "analyticsMode": "consent",
+  "advertisingUserDataMode": "disabled",
+  "sensitiveCategory": false,
+  "gtmContainerId": "",
+  "allowedPaths": [
+    "/",
+    "/index.html"
+  ],
+  "stages": [
+    {
+      "id": "new",
+      "label": "New contact"
+    },
+    {
+      "id": "qualified",
+      "label": "Qualified"
+    },
+    {
+      "id": "engaged",
+      "label": "Engaged"
+    },
+    {
+      "id": "follow_up",
+      "label": "Follow-up"
+    },
+    {
+      "id": "won",
+      "label": "Won"
+    },
+    {
+      "id": "lost",
+      "label": "Lost"
+    }
+  ],
+  "formFields": [
+    {
+      "name": "first_name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "last_name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "email",
+      "type": "email",
+      "required": true
+    },
+    {
+      "name": "phone",
+      "type": "tel",
+      "required": true
+    },
+    {
+      "name": "background",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Automotive or dealership operations",
+        "Finance, lending, or collections",
+        "Multi-unit franchise ownership",
+        "Business leadership or entrepreneurship",
+        "Other professional background"
+      ]
+    },
+    {
+      "name": "timeline",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Within 6 months",
+        "6 to 12 months",
+        "12 to 24 months",
+        "Researching for the future"
+      ]
+    },
+    {
+      "name": "contact_method",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Phone",
+        "Email"
+      ]
+    }
+  ],
+  "attributionMode": "consent"
+}

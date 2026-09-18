@@ -1,0 +1,29 @@
+{
+  "schema_version":3,
+  "quality":{"complete_workflow":true,"minimum_sections":12,"browsers":["chromium","webkit"],"performance":{"minimum_score":90,"lcp_ms":2500,"cls":0.1,"tbt_ms":200}},
+  "approvals":{"copy_before_design":false},
+  "images":{"enabled":true,"minimum_inventory_candidates":12,"minimum_selected_assets":5,"minimum_rendered_assets":5,"minimum_visual_sections":4,"preferred_model":"gpt-image-2.5-sunburst","max_generated_assets":3,"max_attempts_per_asset":2},
+  "catalogue":{"enabled":true},
+  "client":{"name":"Byrider Franchising Partners, LLC","website":"https://byriderfranchise.com/","phone_display":"800-947-4532","phone_uri":"tel:+18009474532","region":"United States","privacy_url":"https://byriderfranchise.com/privacy-policy/"},
+  "reference_urls":["https://go.byriderfranchise.com/","https://www.cleanslatelandsolutions.com/"],
+  "audience":"Experienced operators, dealer principals, and business leaders evaluating a capital-intensive automotive franchise",
+  "search_intent":"Evaluate the Byrider franchise model, support, investment considerations, and fit before requesting formal disclosure materials",
+  "offer":"Byrider Franchise Guide",
+  "cta":"Get the Franchise Guide",
+  "follow_up_promise":"A Byrider Franchise Development representative will follow up using your preferred contact method.",
+  "brochure_gated":true,
+  "form_fields":[
+    {"name":"first_name","type":"text","required":true},
+    {"name":"last_name","type":"text","required":true},
+    {"name":"email","type":"email","required":true},
+    {"name":"phone","type":"tel","required":true},
+    {"name":"background","type":"select","required":true,"options":["Automotive or dealership operations","Finance, lending, or collections","Multi-unit franchise ownership","Business leadership or entrepreneurship","Other professional background"]},
+    {"name":"timeline","type":"select","required":true,"options":["Within 6 months","6 to 12 months","12 to 24 months","Researching for the future"]},
+    {"name":"contact_method","type":"select","required":true,"options":["Phone","Email"]}
+  ],
+  "webhook_url":"/api/leads",
+  "backend":{"provider":"cloudflare-d1","response_contract":"receipt-v1"},
+  "analytics":{"mode":"consent","attribution_mode":"consent","timezone":"America/Indiana/Indianapolis","conversion":"measured visitor with accepted lead"},
+  "tracking":{"gtm":{"container_id":"","hostname":""},"customer_data_mode":"disabled","sensitive_category":false,"google_ads":{"conversion_id":"","conversion_label":"","enhanced_conversions":false},"meta":{"pixel_id":"","enabled":false},"microsoft":{"uet_tag_id":"","enabled":false}},
+  "publish_target":"local-only"
+}

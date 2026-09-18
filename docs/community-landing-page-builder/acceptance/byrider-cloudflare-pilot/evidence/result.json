@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "gate": "performance",
+  "status": "pass_with_warnings",
+  "executed_at": "2026-09-18T15:39:03.627Z",
+  "source_fingerprint": "9d5bb19aebfe8b8b6cb7e7b69f0da400800347b9ec30fa2e753fd0b0d749ceb0",
+  "target": {
+    "mode": "handoff",
+    "url": "http://127.0.0.1:8787/"
+  },
+  "tool": {
+    "name": "Lighthouse",
+    "version": "13.4.1"
+  },
+  "execution": {
+    "kind": "automated",
+    "command": "node scripts/performance-audit.mjs",
+    "exit_code": 0,
+    "isolated_ci_browser": false
+  },
+  "checks": [
+    {
+      "name": "performance meets mobile budget",
+      "status": "pass",
+      "actual": 100,
+      "budget": 90
+    },
+    {
+      "name": "lcp_ms meets mobile budget",
+      "status": "pass",
+      "actual": 1875.3688499999998,
+      "budget": 2500
+    },
+    {
+      "name": "cls meets mobile budget",
+      "status": "pass",
+      "actual": 0.006771425687402487,
+      "budget": 0.1
+    },
+    {
+      "name": "tbt_ms meets mobile budget",
+      "status": "pass",
+      "actual": 0,
+      "budget": 200
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/performance/lighthouse-mobile-1.json",
+      "type": "lighthouse_json",
+      "sha256": "95ccf065f918904f2f90b44a525284f7cdcb555b81390de10c521b9c1700e37e"
+    },
+    {
+      "path": "build/performance/lighthouse-mobile-2.json",
+      "type": "lighthouse_json",
+      "sha256": "cffa24fe0b38b4bd87b7e9c399113073c48658f68079da805c5bb693684af7ce"
+    },
+    {
+      "path": "build/performance/lighthouse-mobile-3.json",
+      "type": "lighthouse_json",
+      "sha256": "111e2675347df4cd0c210d1cab06f79156db3c1951b76e4c4081209443cd92f7"
+    }
+  ],
+  "failures": [],
+  "warnings": [
+    "Median meets the budgets, but at least one run exceeded a budget; inspect variability in the raw reports."
+  ],
+  "budgets": {
+    "performance": 90,
+    "lcp_ms": 2500,
+    "cls": 0.1,
+    "tbt_ms": 200
+  },
+  "runs": [
+    {
+      "run": 1,
+      "performance": 82,
+      "lcp_ms": 2193.9620999999997,
+      "cls": 0.006743731503614831,
+      "tbt_ms": 613.5379
+    },
+    {
+      "run": 2,
+      "performance": 100,
+      "lcp_ms": 1875.3688499999998,
+      "cls": 0.006771425687402487,
+      "tbt_ms": 0
+    },
+    {
+      "run": 3,
+      "performance": 100,
+      "lcp_ms": 1853.8725,
+      "cls": 0.006815142452582157,
+      "tbt_ms": 0
+    }
+  ],
+  "form_factor": "mobile",
+  "throttling_method": "simulate",
+  "limits": [
+    "Lab measurements are repeatable diagnostics, not real-user field performance.",
+    "Total Blocking Time (TBT) is a lab responsiveness proxy; this audit does not measure field INP.",
+    "Public API routes are blocked so speed checks never create contacts or visitor records.",
+    "Optimize assets, loading, and implementation without silently changing approved copy or design."
+  ],
+  "metrics": {
+    "performance": 100,
+    "lcp_ms": 1875.3688499999998,
+    "cls": 0.006771425687402487,
+    "tbt_ms": 0
+  },
+  "aggregation": "median of runs"
+}

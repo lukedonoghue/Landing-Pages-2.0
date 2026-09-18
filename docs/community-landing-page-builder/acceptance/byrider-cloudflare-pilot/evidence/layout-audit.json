@@ -1,0 +1,1440 @@
+{
+  "schema_version": 1,
+  "gate": "browser",
+  "status": "blocked",
+  "executed_at": "2026-09-18T15:45:28.210Z",
+  "source_fingerprint": "9d5bb19aebfe8b8b6cb7e7b69f0da400800347b9ec30fa2e753fd0b0d749ceb0",
+  "tool": {
+    "name": "measure_funnel",
+    "version": "1.0.0",
+    "node": "v25.6.0",
+    "browser": "153.0.8010.48"
+  },
+  "target": {
+    "mode": "handoff",
+    "url": "http://127.0.0.1:8787/"
+  },
+  "execution": {
+    "kind": "automated",
+    "command": [
+      "/Users/mac/Documents/Codex/2026-09-18/independent-byrider-full-funnel-test/work/byrider-franchise-funnel/scripts/measure_funnel.mjs",
+      "http://127.0.0.1:8787/",
+      "--out",
+      "build/layout-audit.json",
+      "--project-root",
+      ".",
+      "--snapshot",
+      "build/gate-snapshot.json",
+      "--mode",
+      "handoff",
+      "--playwright-module",
+      "/Users/mac/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs",
+      "--browser-executable",
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      "--form-fixture",
+      "build/test-fixture.json",
+      "--thank-you",
+      "/thank-you.html"
+    ],
+    "started_at": "2026-09-18T15:45:28.210Z",
+    "exit_code": 1
+  },
+  "checks": [
+    {
+      "name": "page_overflow",
+      "status": "pass",
+      "detail": "360px page in 360px viewport",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      },
+      "screenshot": "build/screenshots/360x844-landing.png"
+    },
+    {
+      "name": "loaded_images",
+      "status": "pass",
+      "detail": "All visible images decode after scrolling",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "loaded_fonts",
+      "status": "pass",
+      "detail": "Fonts settled before layout measurement",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "cta_opens_modal",
+      "status": "pass",
+      "detail": "Trigger 1",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "modal_focus_trap",
+      "status": "pass",
+      "detail": "18 forward/reverse Tab presses remain in the modal",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "required_field_validation",
+      "status": "pass",
+      "detail": "Invalid fields cannot advance the wizard",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "fixture_step_forward",
+      "status": "pass",
+      "detail": "Step 1 -> 2",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "wizard_focus_retained",
+      "status": "pass",
+      "detail": "Focus remains visible inside modal after Continue",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "fixture_step_forward",
+      "status": "pass",
+      "detail": "Step 2 -> 3",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "wizard_focus_retained",
+      "status": "pass",
+      "detail": "Focus remains visible inside modal after Continue",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "fixture_step_back",
+      "status": "pass",
+      "detail": "Back returns to the previous step",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "wizard_focus_retained",
+      "status": "pass",
+      "detail": "Focus remains visible inside modal after Back",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Trigger 1: closed=true, focus restored=true",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "cta_opens_modal",
+      "status": "pass",
+      "detail": "Trigger 2",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Trigger 2: closed=true, focus restored=true",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "cta_opens_modal",
+      "status": "pass",
+      "detail": "Trigger 3",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Trigger 3: closed=true, focus restored=true",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "cta_opens_modal",
+      "status": "pass",
+      "detail": "Trigger 4",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Trigger 4: closed=true, focus restored=true",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "thank_you_overflow",
+      "status": "pass",
+      "detail": "Thank-you page fits viewport",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "thank_you_images",
+      "status": "pass",
+      "detail": "Thank-you images decode",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "catalogue_download",
+      "status": "pass",
+      "detail": "Download resolves to a PDF: http://127.0.0.1:8787/assets/brochure/byrider-franchise-guide.pdf",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "browser_errors",
+      "status": "pass",
+      "detail": "No page/console errors",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "http_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "name": "page_overflow",
+      "status": "pass",
+      "detail": "390px page in 390px viewport",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screenshot": "build/screenshots/390x844-landing.png"
+    },
+    {
+      "name": "loaded_images",
+      "status": "pass",
+      "detail": "All visible images decode after scrolling",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "loaded_fonts",
+      "status": "pass",
+      "detail": "Fonts settled before layout measurement",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "cta_opens_modal",
+      "status": "pass",
+      "detail": "Trigger 1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "modal_focus_trap",
+      "status": "pass",
+      "detail": "18 forward/reverse Tab presses remain in the modal",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "required_field_validation",
+      "status": "pass",
+      "detail": "Invalid fields cannot advance the wizard",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "fixture_step_forward",
+      "status": "pass",
+      "detail": "Step 1 -> 2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "wizard_focus_retained",
+      "status": "pass",
+      "detail": "Focus remains visible inside modal after Continue",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "fixture_step_forward",
+      "status": "pass",
+      "detail": "Step 2 -> 3",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "wizard_focus_retained",
+      "status": "pass",
+      "detail": "Focus remains visible inside modal after Continue",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "fixture_step_back",
+      "status": "pass",
+      "detail": "Back returns to the previous step",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "wizard_focus_retained",
+      "status": "pass",
+      "detail": "Focus remains visible inside modal after Back",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Trigger 1: closed=true, focus restored=true",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "cta_opens_modal",
+      "status": "pass",
+      "detail": "Trigger 2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Trigger 2: closed=true, focus restored=true",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "cta_opens_modal",
+      "status": "pass",
+      "detail": "Trigger 3",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Trigger 3: closed=true, focus restored=true",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "cta_opens_modal",
+      "status": "pass",
+      "detail": "Trigger 4",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Trigger 4: closed=true, focus restored=true",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "thank_you_overflow",
+      "status": "pass",
+      "detail": "Thank-you page fits viewport",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "thank_you_images",
+      "status": "pass",
+      "detail": "Thank-you images decode",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    }
+  ],
+  "viewports": [
+    {
+      "width": 360,
+      "height": 844,
+      "landing": {
+        "pageWidth": 360,
+        "viewportWidth": 360,
+        "viewportHeight": 844,
+        "overflow": [],
+        "headings": [
+          {
+            "selector": "h1",
+            "text": "Run the whole dealership model, not just the showroom.",
+            "box": {
+              "x": 15,
+              "y": 181.59375,
+              "width": 330,
+              "height": 283.5
+            },
+            "lines": 6,
+            "lineWidths": [
+              187.078125,
+              144.859375,
+              247.546875,
+              254.796875,
+              180.1875,
+              263.078125
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "45px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 14.4884999212825,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h2",
+            "text": "A dealership can make the sale. An integrated system can manage the relationship.",
+            "box": {
+              "x": 15,
+              "y": 1316.640625,
+              "width": 330,
+              "height": 226.78125
+            },
+            "lines": 6,
+            "lineWidths": [
+              314.359375,
+              273.53125,
+              260.328125,
+              213.5625,
+              228.71875,
+              234.765625
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "36px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 14.935962742307542,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h2",
+            "text": "Three functions. One operating rhythm.",
+            "box": {
+              "x": 15,
+              "y": 2026.765625,
+              "width": 330,
+              "height": 113.390625
+            },
+            "lines": 3,
+            "lineWidths": [
+              306.6875,
+              272.484375,
+              149.40625
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "36px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 14.4884999212825,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h3",
+            "text": "Vehicle sales",
+            "box": {
+              "x": 51,
+              "y": 2414.703125,
+              "width": 258,
+              "height": 25.1875
+            },
+            "lines": 1,
+            "lineWidths": [
+              161.453125
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "24px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 11.399487794834277,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h3",
+            "text": "Dealer-carried finance",
+            "box": {
+              "x": 51,
+              "y": 2677.078125,
+              "width": 258,
+              "height": 50.375
+            },
+            "lines": 2,
+            "lineWidths": [
+              179.890625,
+              93.828125
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "24px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 11.399487794834277,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h3",
+            "text": "Service",
+            "box": {
+              "x": 51,
+              "y": 2964.640625,
+              "width": 258,
+              "height": 25.1875
+            },
+            "lines": 1,
+            "lineWidths": [
+              91.90625
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "24px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 11.399487794834277,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h2",
+            "text": "Built for leaders who want an operating business.",
+            "box": {
+              "x": 15,
+              "y": 3526.8125,
+              "width": 330,
+              "height": 151.1875
+            },
+            "lines": 4,
+            "lineWidths": [
+              300.390625,
+              245.484375,
+              184.1875,
+              174.9375
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "36px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 14.935962742307542,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h2",
+            "text": "You make the decisions. You don’t have to build every function from scratch.",
+            "box": {
+              "x": 15,
+              "y": 5135.140625,
+              "width": 330,
+              "height": 226.78125
+            },
+            "lines": 6,
+            "lineWidths": [
+              259.71875,
+              267.234375,
+              247.90625,
+              209.453125,
+              260.859375,
+              147.21875
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "36px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 6.43883496111267,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h3",
+            "text": "Plan the location",
+            "box": {
+              "x": 44,
+              "y": 5500.71875,
+              "width": 272,
+              "height": 23.09375
+            },
+            "lines": 1,
+            "lineWidths": [
+              196.109375
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "22px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 6.43883496111267,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h3",
+            "text": "Learn the model",
+            "box": {
+              "x": 44,
+              "y": 5767,
+              "width": 272,
+              "height": 23.09375
+            },
+            "lines": 1,
+            "lineWidths": [
+              189.421875
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "22px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 6.43883496111267,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h3",
+            "text": "Build local demand",
+            "box": {
+              "x": 44,
+              "y": 6033.28125,
+              "width": 272,
+              "height": 23.09375
+            },
+            "lines": 1,
+            "lineWidths": [
+              223.375
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "22px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 6.43883496111267,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h3",
+            "text": "Keep improving",
+            "box": {
+              "x": 44,
+              "y": 6274.765625,
+              "width": 272,
+              "height": 23.09375
+            },
+            "lines": 1,
+            "lineWidths": [
+              183.6875
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "22px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 6.43883496111267,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h2",
+            "text": "One operating view across the model.",
+            "box": {
+              "x": 15,
+              "y": 7570.90625,
+              "width": 330,
+              "height": 113.390625
+            },
+            "lines": 3,
+            "lineWidths": [
+              272.484375,
+              292.875,
+              129.390625
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "36px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 14.332262205376525,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h2",
+            "text": "Know what to verify before you move forward.",
+            "box": {
+              "x": 15,
+              "y": 9102.46875,
+              "width": 330,
+              "height": 113.390625
+            },
+            "lines": 3,
+            "lineWidths": [
+              263.5625,
+              317.78125,
+              272.859375
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "36px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 14.4884999212825,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h2",
+            "text": "Make the decision more specific at every step.",
+            "box": {
+              "x": 15,
+              "y": 10956.890625,
+              "width": 330,
+              "height": 151.1875
+            },
+            "lines": 4,
+            "lineWidths": [
+              175.65625,
+              267.59375,
+              306.15625,
+              90.90625
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "36px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 14.935962742307542,
+            "shortLastLine": true
+          },
+          {
+            "selector": "h3",
+            "text": "Review the guide",
+            "box": {
+              "x": 121,
+              "y": 11186.078125,
+              "width": 191,
+              "height": 50.375
+            },
+            "lines": 2,
+            "lineWidths": [
+              140.578125,
+              72.265625
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "24px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 15.625669204118017,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h3",
+            "text": "Discuss the fit",
+            "box": {
+              "x": 121,
+              "y": 11419.640625,
+              "width": 191,
+              "height": 25.1875
+            },
+            "lines": 1,
+            "lineWidths": [
+              178.828125
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "24px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 15.625669204118017,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h3",
+            "text": "Review the current FDD",
+            "box": {
+              "x": 121,
+              "y": 11628.015625,
+              "width": 191,
+              "height": 50.375
+            },
+            "lines": 2,
+            "lineWidths": [
+              140.578125,
+              155
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "24px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 15.625669204118017,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h3",
+            "text": "Validate the opening plan",
+            "box": {
+              "x": 121,
+              "y": 11836.78125,
+              "width": 191,
+              "height": 50.375
+            },
+            "lines": 2,
+            "lineWidths": [
+              151.5,
+              166.6875
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "24px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 15.625669204118017,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h2",
+            "text": "Start with the questions that change the decision.",
+            "box": {
+              "x": 15,
+              "y": 12207.9375,
+              "width": 330,
+              "height": 151.1875
+            },
+            "lines": 4,
+            "lineWidths": [
+              260.796875,
+              274.078125,
+              214.75,
+              167.4375
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "36px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 15.625669204118017,
+            "shortLastLine": false
+          },
+          {
+            "selector": "h2",
+            "text": "Bring better questions to the conversation.",
+            "box": {
+              "x": 15,
+              "y": 12995.71875,
+              "width": 330,
+              "height": 113.390625
+            },
+            "lines": 3,
+            "lineWidths": [
+              230.234375,
+              307.875,
+              254.0625
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "36px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 14.4884999212825,
+            "shortLastLine": false
+          }
+        ],
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8787/assets/brand/byrider-logo.svg",
+            "loaded": true,
+            "naturalWidth": 154,
+            "naturalHeight": 45,
+            "box": {
+              "x": 22,
+              "y": 19.890625,
+              "width": 100,
+              "height": 29.21875
+            },
+            "objectFit": "fill",
+            "objectPosition": "50% 50%",
+            "croppedAreaFraction": 0
+          },
+          {
+            "selector": "img.hero__media",
+            "src": "http://127.0.0.1:8787/assets/images/optimized/hero-dealership-ac93647f8192-e07c050c/hero-dealership-ac93647f81921ddd-480.webp",
+            "loaded": true,
+            "naturalWidth": 360,
+            "naturalHeight": 202,
+            "box": {
+              "x": 0,
+              "y": 70,
+              "width": 360,
+              "height": 856.625
+            },
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "croppedAreaFraction": 0.7641908653144608
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8787/assets/images/optimized/process-roadmap-9b937b80ceed-bbdc99d1/process-roadmap-9b937b80ceeda557-480.webp",
+            "loaded": true,
+            "naturalWidth": 480,
+            "naturalHeight": 255,
+            "box": {
+              "x": 15,
+              "y": 3134.21875,
+              "width": 330,
+              "height": 220
+            },
+            "objectFit": "cover",
+            "objectPosition": "50% 50%",
+            "croppedAreaFraction": 0.203125
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8787/assets/images/optimized/operator-group-9563b8e7bd04-02eb8e84/operator-group-9563b8e7bd04e431-960.webp",
+            "loaded": true,
+            "naturalWidth": 960,
+            "naturalHeight": 641,
+            "box": {
+              "x": 15,
+              "y": 4293.953125,
+              "width": 330,
+              "height": 641
+            },
+            "objectFit": "fill",
+            "objectPosition": "50% 50%",
+            "croppedAreaFraction": 0
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8787/assets/images/optimized/owner-portrait-7a51ab076ab0-bc7ab9ee/owner-portrait-7a51ab076ab07198-512.webp",
+            "loaded": true,
+            "naturalWidth": 512,
+            "naturalHeight": 512,
+            "box": {
+              "x": 15,
+              "y": 6569.25,
+              "width": 330,
+              "height": 512
+            },
+            "objectFit": "fill",
+            "objectPosition": "50% 50%",
+            "croppedAreaFraction": 0
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8787/assets/images/optimized/technology-illustration-85552c042e8f-91495162/technology-illustration-85552c042e8f2abd-960.webp",
+            "loaded": true,
+            "naturalWidth": 960,
+            "naturalHeight": 720,
+            "box": {
+              "x": 15,
+              "y": 8163.6875,
+              "width": 330,
+              "height": 720
+            },
+            "objectFit": "fill",
+            "objectPosition": "50% 50%",
+            "croppedAreaFraction": 0
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8787/assets/images/optimized/investment-graphic-2b2708666e78-4990507b/investment-graphic-2b2708666e783a72-960.webp",
+            "loaded": true,
+            "naturalWidth": 960,
+            "naturalHeight": 878,
+            "box": {
+              "x": 15,
+              "y": 10436.296875,
+              "width": 330,
+              "height": 301.8125
+            },
+            "objectFit": "fill",
+            "objectPosition": "50% 50%",
+            "croppedAreaFraction": 0
+          }
+        ],
+        "ctas": [
+          {
+            "selector": "button.button.small",
+            "text": "Get the Franchise Guide",
+            "box": {
+              "x": 255.59375,
+              "y": 15.203125,
+              "width": 82.40625,
+              "height": 38.59375
+            },
+            "aboveFold": true,
+            "centerUnobscured": true
+          },
+          {
+            "selector": "button.button",
+            "text": "Get the Franchise Guide",
+            "box": {
+              "x": 15,
+              "y": 635.53125,
+              "width": 248.953125,
+              "height": 54.796875
+            },
+            "aboveFold": true,
+            "centerUnobscured": true
+          },
+          {
+            "selector": "button.button",
+            "text": "Get the Franchise Guide",
+            "box": {
+              "x": 15,
+              "y": 4197.15625,
+              "width": 248.953125,
+              "height": 54.796875
+            },
+            "aboveFold": false,
+            "centerUnobscured": false
+          },
+          {
+            "selector": "button.button",
+            "text": "Get the Franchise Guide",
+            "box": {
+              "x": 15,
+              "y": 13277.546875,
+              "width": 248.953125,
+              "height": 54.796875
+            },
+            "aboveFold": false,
+            "centerUnobscured": false
+          }
+        ],
+        "fontStatus": "loaded",
+        "loadedFonts": [
+          {
+            "family": "Montserrat",
+            "style": "normal",
+            "weight": "500",
+            "status": "unloaded"
+          },
+          {
+            "family": "Montserrat",
+            "style": "normal",
+            "weight": "600",
+            "status": "unloaded"
+          },
+          {
+            "family": "Montserrat",
+            "style": "normal",
+            "weight": "700",
+            "status": "loaded"
+          },
+          {
+            "family": "Montserrat",
+            "style": "normal",
+            "weight": "800",
+            "status": "loaded"
+          },
+          {
+            "family": "Open Sans",
+            "style": "normal",
+            "weight": "400",
+            "status": "loaded"
+          },
+          {
+            "family": "Open Sans",
+            "style": "normal",
+            "weight": "500",
+            "status": "unloaded"
+          },
+          {
+            "family": "Open Sans",
+            "style": "normal",
+            "weight": "600",
+            "status": "unloaded"
+          },
+          {
+            "family": "Open Sans",
+            "style": "normal",
+            "weight": "700",
+            "status": "loaded"
+          }
+        ],
+        "links": [
+          {
+            "text": "Skip to content",
+            "href": "http://127.0.0.1:8787/#main"
+          },
+          {
+            "text": "Franchising",
+            "href": "http://127.0.0.1:8787/"
+          },
+          {
+            "text": "The model",
+            "href": "http://127.0.0.1:8787/#model"
+          },
+          {
+            "text": "Support",
+            "href": "http://127.0.0.1:8787/#support"
+          },
+          {
+            "text": "Investment",
+            "href": "http://127.0.0.1:8787/#investment"
+          },
+          {
+            "text": "See how the model works ↓",
+            "href": "http://127.0.0.1:8787/#model"
+          },
+          {
+            "text": "Privacy",
+            "href": "http://127.0.0.1:8787/privacy.html"
+          },
+          {
+            "text": "800-947-4532",
+            "href": "tel:+18009474532"
+          },
+          {
+            "text": "Team login",
+            "href": "http://127.0.0.1:8787/login.html"
+          },
+          {
+            "text": "Read the privacy information",
+            "href": "http://127.0.0.1:8787/privacy.html"
+          }
+        ],
+        "screenshot": "build/screenshots/360x844-landing.png"
+      },
+      "modal": {
+        "triggerCount": 4,
+        "submits": "not_attempted",
+        "trace": [
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "last_name",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "email",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "phone",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "BUTTON",
+            "name": null,
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "BUTTON",
+            "name": null,
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "first_name",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "last_name",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "email",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "phone",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "BUTTON",
+            "name": null,
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "BUTTON",
+            "name": null,
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "first_name",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "BUTTON",
+            "name": null,
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "BUTTON",
+            "name": null,
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "phone",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "email",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "last_name",
+            "id": ""
+          },
+          {
+            "inside": true,
+            "tag": "INPUT",
+            "name": "first_name",
+            "id": ""
+          }
+        ],
+        "screenshot": "build/screenshots/360x844-modal.png"
+      },
+      "thankYou": {
+        "pageWidth": 360,
+        "viewportWidth": 360,
+        "viewportHeight": 844,
+        "overflow": [],
+        "headings": [
+          {
+            "selector": "h1",
+            "text": "Your diligence starts here.",
+            "box": {
+              "x": 15,
+              "y": 200.84375,
+              "width": 330,
+              "height": 141.75
+            },
+            "lines": 3,
+            "lineWidths": [
+              107.515625,
+              217.625,
+              265.546875
+            ],
+            "font": "Montserrat, Arial, sans-serif",
+            "fontSize": "45px",
+            "loadedFont": true,
+            "contrastRatioOnSolidBackground": 14.4884999212825,
+            "shortLastLine": false
+          }
+        ],
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8787/assets/brand/byrider-logo.svg",
+            "loaded": true,
+            "naturalWidth": 154,
+            "naturalHeight": 45,
+            "box": {
+              "x": 22,
+              "y": 19.890625,
+              "width": 100,
+              "height": 29.21875
+            },
+            "objectFit": "fill",
+            "objectPosition": "50% 50%",
+            "croppedAreaFraction": 0
+          }
+        ],
+        "ctas": [],
+        "fontStatus": "loaded",
+        "loadedFonts": [
+          {
+            "family": "Montserrat",
+            "style": "normal",
+            "weight": "500",
+            "status": "unloaded"
+          },
+          {
+            "family": "Montserrat",
+            "style": "normal",
+            "weight": "600",
+            "status": "unloaded"
+          },
+          {
+            "family": "Montserrat",
+            "style": "normal",
+            "weight": "700",
+            "status": "loaded"
+          },
+          {
+            "family": "Montserrat",
+            "style": "normal",
+            "weight": "800",
+            "status": "loaded"
+          },
+          {
+            "family": "Open Sans",
+            "style": "normal",
+            "weight": "400",
+            "status": "loaded"
+          },
+          {
+            "family": "Open Sans",
+            "style": "normal",
+            "weight": "500",
+            "status": "unloaded"
+          },
+          {
+            "family": "Open Sans",
+            "style": "normal",
+            "weight": "600",
+            "status": "unloaded"
+          },
+          {
+            "family": "Open Sans",
+            "style": "normal",
+            "weight": "700",
+            "status": "loaded"
+          }
+        ],
+        "links": [
+          {
+            "text": "Franchising",
+            "href": "http://127.0.0.1:8787/"
+          },
+          {
+            "text": "Download the Franchise Guide",
+            "href": "http://127.0.0.1:8787/assets/brochure/byrider-franchise-guide.pdf"
+          },
+          {
+            "text": "Back to the opportunity",
+            "href": "http://127.0.0.1:8787/"
+          },
+          {
+            "text": "Read the privacy information",
+            "href": "http://127.0.0.1:8787/privacy.html"
+          }
+        ],
+        "screenshot": "build/screenshots/360x844-thank-you.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": [],
+      "blockedWrites": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/screenshots/360x844-landing.png",
+      "type": "screenshot",
+      "sha256": "5655846f6fc52d39e31ffe14db43289513bd004f1f133fa1eba890003d762127"
+    },
+    {
+      "path": "build/screenshots/360x844-modal.png",
+      "type": "screenshot",
+      "sha256": "683c46de8351b891826e2f0de83ef013cf8ea94c0f37e1fd4edd903c6377efd4"
+    },
+    {
+      "path": "build/screenshots/360x844-thank-you.png",
+      "type": "screenshot",
+      "sha256": "ccbf8b580f17d4514957bd1da5e249f94314de5a4a693af9fcaca5dc1cc91476"
+    },
+    {
+      "path": "build/screenshots/390x844-landing.png",
+      "type": "screenshot",
+      "sha256": "1c7f1928186ade17a9be6420229a3eb223e16fc7986c2dbe4bbc5eb2f1d9d194"
+    },
+    {
+      "path": "build/screenshots/390x844-modal.png",
+      "type": "screenshot",
+      "sha256": "7182097b071339e1f7afeac792a106be589f6f99c4ae6aab96ea154dc9b35b9d"
+    },
+    {
+      "path": "build/screenshots/390x844-thank-you.png",
+      "type": "screenshot",
+      "sha256": "1e5d8dcced11247b6af0ebaa4eab8294b9531833f8741b721bdefb2318cf62b0"
+    }
+  ],
+  "failures": [
+    "apiRequestContext.get: connect ECONNREFUSED 127.0.0.1:8787\nCall log:\n\u001b[2m  - → GET http://127.0.0.1:8787/assets/brochure/byrider-franchise-guide.pdf\u001b[22m\n\u001b[2m    - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\n    at /Users/mac/Documents/Codex/2026-09-18/independent-byrider-full-funnel-test/work/byrider-franchise-funnel/scripts/measure_funnel.mjs:274:48"
+  ],
+  "warnings": [
+    "360x844: short final heading line at h2",
+    "360x844: 76% cover crop at img.hero__media; inspect subject visibility",
+    "390x844: 71% cover crop at img.hero__media; inspect subject visibility"
+  ],
+  "limits": [
+    "Measurements are not visual/aesthetic approval.",
+    "All write requests are blocked; this run does not prove live CRM delivery, backend error handling, or conversion persistence.",
+    "Source fingerprint identifies local input. For remote URLs, deployment evidence must separately tie that input to the running revision."
+  ],
+  "completed_at": "2026-09-18T15:45:51.585Z"
+}
