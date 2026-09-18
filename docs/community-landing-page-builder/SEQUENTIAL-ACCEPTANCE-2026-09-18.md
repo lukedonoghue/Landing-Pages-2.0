@@ -54,6 +54,8 @@ Attempt 9 started 2026-09-19 at 01:28 Kyiv: agent `01a0b6a2-5eea-7ce3-87ce-c81c3
 
 Attempt 9 completed at 01:49 Kyiv. Parent verified actual rendered fonts, keyboard visibility, same-filled-form failure-to-success retry and Lighthouse performance. A desktop image-sizing conflict remains: HTML height overrides the intended CSS aspect ratio, badly cropping service photographs. Old generic crop warnings masked the affected placements. Source correction and ten passing browser fixtures are recorded in WEBSITE-ONLY-R9-REVIEW.md. No generated page was manually repaired.
 
+Attempt 10 started 2026-09-19 at 02:02 Kyiv: agent `01a0b6c1-9b10-76c1-ad74-eac0f515f867` (Gauss), gpt-5.6-sol xhigh, fork_context=false. Same owner prompt, blank project and no previous findings. Frozen source c2e05d2: 173 files, manifest SHA-256 `a94918b468d66adaa7fa1b363747e6aadaadfef6d3b2eddc4b21f4422e76b41d`. Source and attempt-9 evidence were pushed before launch. Usage remains 30% used; stop at 32%. Fresh attempt-9 reviewer reported no additional findings; parent rejection stands because the independently reproduced sizing conflict was missed by that review.
+
 ## README and local-history reconciliation
 
 Reread Luke's README-BOHDAN, SELF-GUIDED-BETA-PLAN (especially M5 and its scorecard), development progress, the separate Bohdan tracker, community decisions/handoff, relevant Git commits, and this task's earlier recorded results. These remain orchestrator-only material.
