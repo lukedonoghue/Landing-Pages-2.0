@@ -1,0 +1,4351 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-09-16T13:52:37.462478+00:00",
+  "sheet_id": "1tp0H540Gqwor-oLOAv9YFztCQL7dWqHGr9-M1YvtHaI",
+  "entries": [
+    {
+      "id": "6f846f231960",
+      "tab": "Instapage",
+      "row": 2,
+      "label": "Code Creators",
+      "audience": "B2B",
+      "industry": "IT Consulting",
+      "comment": "",
+      "values": [
+        "New Clients 2019",
+        "Code Creators",
+        "Code Creators",
+        "https://drive.google.com/file/d/1v3_LANsn7huJBlHodB9_dluPy7U_A9vb/view?usp=drive_link",
+        "B2B",
+        "IT Consulting"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1v3_LANsn7huJBlHodB9_dluPy7U_A9vb"
+      ]
+    },
+    {
+      "id": "cdd3799945e4",
+      "tab": "Instapage",
+      "row": 3,
+      "label": "Code Creators",
+      "audience": "B2B",
+      "industry": "IT Services",
+      "comment": "",
+      "values": [
+        "",
+        "Code Creators",
+        "http://codecreators2.pagedemo.co/",
+        "https://drive.google.com/file/d/1v3_LANsn7huJBlHodB9_dluPy7U_A9vb/view?usp=drive_link",
+        "B2B",
+        "IT Services"
+      ],
+      "page_ids": [
+        "2a202c3d942a"
+      ],
+      "asset_ids": [
+        "1v3_LANsn7huJBlHodB9_dluPy7U_A9vb"
+      ]
+    },
+    {
+      "id": "cc5a52a18d48",
+      "tab": "Instapage",
+      "row": 4,
+      "label": "Closet Wise",
+      "audience": "B2C",
+      "industry": "Closet Design",
+      "comment": "",
+      "values": [
+        "",
+        "Closet Wise",
+        "http://closetwise1.pagedemo.co/",
+        "https://drive.google.com/file/d/1v3_LANsn7huJBlHodB9_dluPy7U_A9vb/view?usp=drive_link",
+        "B2C",
+        "Closet Design"
+      ],
+      "page_ids": [
+        "e692f81bc571"
+      ],
+      "asset_ids": [
+        "1v3_LANsn7huJBlHodB9_dluPy7U_A9vb"
+      ]
+    },
+    {
+      "id": "f85ff8c46674",
+      "tab": "Instapage",
+      "row": 5,
+      "label": "CURATED.",
+      "audience": "B2C",
+      "industry": "Interior Design",
+      "comment": "",
+      "values": [
+        "",
+        "CURATED.",
+        "http://curated-step-1.pagedemo.co/",
+        "https://drive.google.com/file/d/1Iy_CTu3tInlVNj51SZ8lkR5kGXqtj5DB/view?usp=drive_link",
+        "B2C",
+        "Interior Design"
+      ],
+      "page_ids": [
+        "997606fcd746"
+      ],
+      "asset_ids": [
+        "1Iy_CTu3tInlVNj51SZ8lkR5kGXqtj5DB"
+      ]
+    },
+    {
+      "id": "761e9c1c7b5f",
+      "tab": "Instapage",
+      "row": 6,
+      "label": "Eco Kitchen Resurfacing",
+      "audience": "",
+      "industry": "Kitchen renovation",
+      "comment": "",
+      "values": [
+        "",
+        "Eco Kitchen Resurfacing",
+        "http://page.ecokitchenresurfacing.com.au/step-1",
+        "https://drive.google.com/file/d/1KLFvhw1WIWB_bRpZ5L19uzPCc_3VonAf/view?usp=drive_link",
+        "",
+        "Kitchen renovation"
+      ],
+      "page_ids": [
+        "6407faf8c130"
+      ],
+      "asset_ids": [
+        "1KLFvhw1WIWB_bRpZ5L19uzPCc_3VonAf"
+      ]
+    },
+    {
+      "id": "f5eb9186c6cd",
+      "tab": "Instapage",
+      "row": 7,
+      "label": "Climasolar",
+      "audience": "B2B/B2C",
+      "industry": "Solar",
+      "comment": "",
+      "values": [
+        "",
+        "Climasolar",
+        "http://climasolar1.pagedemo.co/",
+        "https://drive.google.com/file/d/1KLFvhw1WIWB_bRpZ5L19uzPCc_3VonAf/view?usp=drive_link",
+        "B2B/B2C",
+        "Solar"
+      ],
+      "page_ids": [
+        "ad411dff85b4"
+      ],
+      "asset_ids": [
+        "1KLFvhw1WIWB_bRpZ5L19uzPCc_3VonAf"
+      ]
+    },
+    {
+      "id": "b3db3cfd7755",
+      "tab": "Instapage",
+      "row": 8,
+      "label": "TOP TO BOTTOM RENOVATION INC.",
+      "audience": "B2C",
+      "industry": "Water Damage",
+      "comment": "Offers water damage restoration and cleanup services",
+      "values": [
+        "",
+        "TOP TO BOTTOM RENOVATION INC.",
+        "http://toptobottomrenovation.pagedemo.co/",
+        "https://drive.google.com/file/d/1p5nGHcFj7Typ72EUWuOJu_ExZ5na7y9h/view?usp=drive_link",
+        "B2C",
+        "Water Damage",
+        "Offers water damage restoration and cleanup services"
+      ],
+      "page_ids": [
+        "4656f273b82b"
+      ],
+      "asset_ids": [
+        "1p5nGHcFj7Typ72EUWuOJu_ExZ5na7y9h"
+      ]
+    },
+    {
+      "id": "51cda0d10633",
+      "tab": "Instapage",
+      "row": 9,
+      "label": "Top To Bottom Renovation Inc.",
+      "audience": "B2C",
+      "industry": "Water Damage",
+      "comment": "Offers water damage restoration and cleanup services",
+      "values": [
+        "",
+        "Top To Bottom Renovation Inc.",
+        "https://page.ecokitchenresurfacing.com.au/Top-demo",
+        "https://drive.google.com/file/d/1BiDAYucV1Plkt8aQsRf0z3c35LzN8pF3/view?usp=drive_link",
+        "B2C",
+        "Water Damage",
+        "Offers water damage restoration and cleanup services"
+      ],
+      "page_ids": [
+        "d0c035e21977"
+      ],
+      "asset_ids": [
+        "1BiDAYucV1Plkt8aQsRf0z3c35LzN8pF3"
+      ]
+    },
+    {
+      "id": "58bf30e85c09",
+      "tab": "Instapage",
+      "row": 10,
+      "label": "MELO Property Claims",
+      "audience": "B2C",
+      "industry": "Insurance Services",
+      "comment": "Specializes in property damage insurance claims",
+      "values": [
+        "",
+        "MELO Property Claims",
+        "http://melopropertyclaims.pagedemo.co/",
+        "https://drive.google.com/file/d/15D5VwXWN39MQNsRLM5mpSimOcsc71ZGG/view?usp=drive_link",
+        "B2C",
+        "Insurance Services",
+        "Specializes in property damage insurance claims"
+      ],
+      "page_ids": [
+        "864a562e2975"
+      ],
+      "asset_ids": [
+        "15D5VwXWN39MQNsRLM5mpSimOcsc71ZGG"
+      ]
+    },
+    {
+      "id": "a75e17308b5f",
+      "tab": "Instapage",
+      "row": 11,
+      "label": "Interventional Orthopedics CT",
+      "audience": "B2C",
+      "industry": "Healthcare",
+      "comment": "Offers non-invasive treatments for pain, injuries, and joint problems",
+      "values": [
+        "",
+        "Interventional Orthopedics CT",
+        "http://meloproperty2.pagedemo.co/",
+        "https://drive.google.com/file/d/1Vev8id0g3Uvf68vvrEmPutqabzebE1f3/view?usp=drive_link",
+        "B2C",
+        "Healthcare",
+        "Offers non-invasive treatments for pain, injuries, and joint problems"
+      ],
+      "page_ids": [
+        "f8bc2ce28b06"
+      ],
+      "asset_ids": [
+        "1Vev8id0g3Uvf68vvrEmPutqabzebE1f3"
+      ]
+    },
+    {
+      "id": "afca84f170c9",
+      "tab": "Instapage",
+      "row": 12,
+      "label": "Interventional Orthopedics CT",
+      "audience": "B2C",
+      "industry": "Healthcare",
+      "comment": "Offers non-invasive treatments for pain, injury, and joint problems",
+      "values": [
+        "",
+        "Interventional Orthopedics CT",
+        "http://interventional-orthopedics.pagedemo.co/",
+        "https://drive.google.com/file/d/1x8FoBXjCGX5MWx8AQv09NASLPucswdQc/view?usp=drive_link",
+        "B2C",
+        "Healthcare",
+        "Offers non-invasive treatments for pain, injury, and joint problems"
+      ],
+      "page_ids": [
+        "15c7714eb4d6"
+      ],
+      "asset_ids": [
+        "1x8FoBXjCGX5MWx8AQv09NASLPucswdQc"
+      ]
+    },
+    {
+      "id": "fb92c3a446c7",
+      "tab": "Instapage",
+      "row": 13,
+      "label": "COMPTON EYE ASSOCIATES",
+      "audience": "B2C",
+      "industry": "Healthcare",
+      "comment": "Offers eye care and health services",
+      "values": [
+        "",
+        "COMPTON EYE ASSOCIATES",
+        "comptoneye1.pagedemo.co",
+        "https://drive.google.com/file/d/1FSlFBsOkib-pNdApPacXeRRFe7rFVQ1l/view?usp=drive_link",
+        "B2C",
+        "Healthcare",
+        "Offers eye care and health services"
+      ],
+      "page_ids": [
+        "8ddcbcbf2910"
+      ],
+      "asset_ids": [
+        "1FSlFBsOkib-pNdApPacXeRRFe7rFVQ1l"
+      ]
+    },
+    {
+      "id": "72a7b8cf5b10",
+      "tab": "Instapage",
+      "row": 14,
+      "label": "COMPTON EYE ASSOCIATES",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "COMPTON EYE ASSOCIATES",
+        "interventional-ortho2.pagedemo.co",
+        "https://drive.google.com/file/d/1InNLfo-XBBd8XoHYe52STgSkplcpxsh2/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "a0783c79e5c7"
+      ],
+      "asset_ids": [
+        "1InNLfo-XBBd8XoHYe52STgSkplcpxsh2"
+      ]
+    },
+    {
+      "id": "52733847409e",
+      "tab": "Instapage",
+      "row": 15,
+      "label": "Phoenix East Aviation",
+      "audience": "B2C",
+      "industry": "Flight Training",
+      "comment": "Focuses on training individuals to become commercial pilots.",
+      "values": [
+        "",
+        "Phoenix East Aviation",
+        "http://pea-us.pagedemo.co/",
+        "https://drive.google.com/file/d/1-uKQ967hemLP5IOIAp4c3K47fL3aZ3tu/view?usp=sharing",
+        "B2C",
+        "Flight Training",
+        "Focuses on training individuals to become commercial pilots."
+      ],
+      "page_ids": [
+        "44afb05bc1a2"
+      ],
+      "asset_ids": [
+        "1-uKQ967hemLP5IOIAp4c3K47fL3aZ3tu"
+      ]
+    },
+    {
+      "id": "eae164a038a1",
+      "tab": "Instapage",
+      "row": 16,
+      "label": "Tasty Table Catering",
+      "audience": "B2C/B2B",
+      "industry": "Catering Services",
+      "comment": "Offers catering services for corporate, social, and family events.",
+      "values": [
+        "",
+        "Tasty Table Catering",
+        "http://tasty-table.pagedemo.co/",
+        "https://drive.google.com/file/d/1nR9ZbLTfqrmW3fEskUq5iBnvk-mEnYL_/view?usp=drive_link",
+        "B2C/B2B",
+        "Catering Services",
+        "Offers catering services for corporate, social, and family events."
+      ],
+      "page_ids": [
+        "d03d7c74e81b"
+      ],
+      "asset_ids": [
+        "1nR9ZbLTfqrmW3fEskUq5iBnvk-mEnYL_"
+      ]
+    },
+    {
+      "id": "79fa4f0cb314",
+      "tab": "Instapage",
+      "row": 17,
+      "label": "IT Portal",
+      "audience": "B2B",
+      "industry": "IT Services",
+      "comment": "Offers a platform for organizing MSP data aimed at IT departments and professionals.",
+      "values": [
+        "",
+        "IT Portal",
+        "itportal1.pagedemo.co",
+        "https://drive.google.com/file/d/1tXoNWs5ygH0-R98I9B8LJjgnM8XoyjXB/view?usp=drive_link",
+        "B2B",
+        "IT Services",
+        "Offers a platform for organizing MSP data aimed at IT departments and professionals."
+      ],
+      "page_ids": [
+        "1f69b9c67623"
+      ],
+      "asset_ids": [
+        "1tXoNWs5ygH0-R98I9B8LJjgnM8XoyjXB"
+      ]
+    },
+    {
+      "id": "eed1eb96637e",
+      "tab": "Instapage",
+      "row": 18,
+      "label": "Ergomotion",
+      "audience": "B2C/B2B",
+      "industry": "Office Furniture",
+      "comment": "Offers adjustable electric stand-up desks aimed at improving productivity and health in the workplace.",
+      "values": [
+        "",
+        "Ergomotion",
+        "http://ergomotion1.pagedemo.co/",
+        "https://drive.google.com/file/d/15QhVF2VIxrPUAWINlr1X_gMfu8hOjOLk/view?usp=drive_link",
+        "B2C/B2B",
+        "Office Furniture",
+        "Offers adjustable electric stand-up desks aimed at improving productivity and health in the workplace."
+      ],
+      "page_ids": [
+        "e79a567d6d94"
+      ],
+      "asset_ids": [
+        "15QhVF2VIxrPUAWINlr1X_gMfu8hOjOLk"
+      ]
+    },
+    {
+      "id": "a3a997a0554f",
+      "tab": "Instapage",
+      "row": 20,
+      "label": "Leonard's Palazzo",
+      "audience": "B2C",
+      "industry": "Event Venue",
+      "comment": "Offers a banquet hall for weddings and other events.",
+      "values": [
+        "",
+        "Leonard's Palazzo",
+        "http://leonardspalazzo1.pagedemo.co/",
+        "https://drive.google.com/file/d/1JDLz4A7IjAeaT2mkZUTvQwOEsZV735FR/view?usp=drive_link",
+        "B2C",
+        "Event Venue",
+        "Offers a banquet hall for weddings and other events."
+      ],
+      "page_ids": [
+        "5551b2b3ecc0"
+      ],
+      "asset_ids": [
+        "1JDLz4A7IjAeaT2mkZUTvQwOEsZV735FR"
+      ]
+    },
+    {
+      "id": "7209330f2b68",
+      "tab": "Instapage",
+      "row": 21,
+      "label": "Sutherland Black Chartered Accountants",
+      "audience": "B2B",
+      "industry": "Accounting Services",
+      "comment": "Provides accounting services for businesses, focusing on managing annual accounts, VAT returns, payroll, and bookkeeping.",
+      "values": [
+        "",
+        "Sutherland Black Chartered Accountants",
+        "http://sutherlandblack.pagedemo.co/",
+        "https://drive.google.com/file/d/14Y_YXDgFP04zczQ7rMm3oBkMBBAYfq2Q/view?usp=drive_link",
+        "B2B",
+        "Accounting Services",
+        "Provides accounting services for businesses, focusing on managing annual accounts, VAT returns, payroll, and bookkeeping."
+      ],
+      "page_ids": [
+        "6901811d0e03"
+      ],
+      "asset_ids": [
+        "14Y_YXDgFP04zczQ7rMm3oBkMBBAYfq2Q"
+      ]
+    },
+    {
+      "id": "8c0d2c31aaee",
+      "tab": "Instapage",
+      "row": 22,
+      "label": "Skalable Technologies",
+      "audience": "B2B",
+      "industry": "Technology & Consulting",
+      "comment": "",
+      "values": [
+        "",
+        "Skalable Technologies",
+        "http://skalable1.pagedemo.co/",
+        "https://drive.google.com/file/d/11adA2U0lxaX9H1WtXZ56nubqiOBEv5Tf/view?usp=drive_link",
+        "B2B",
+        "Technology & Consulting"
+      ],
+      "page_ids": [
+        "4bc834795895"
+      ],
+      "asset_ids": [
+        "11adA2U0lxaX9H1WtXZ56nubqiOBEv5Tf"
+      ]
+    },
+    {
+      "id": "4780ac6e4d4c",
+      "tab": "Instapage",
+      "row": 23,
+      "label": "Skalable Technologies",
+      "audience": "B2B",
+      "industry": "ERP Solutions",
+      "comment": "",
+      "values": [
+        "",
+        "Skalable Technologies",
+        "http://skalable2.pagedemo.co/",
+        "https://drive.google.com/file/d/1eEwDaH-PqKUjdNIoQIMVOgQJQnmVHnKA/view?usp=drive_link",
+        "B2B",
+        "ERP Solutions"
+      ],
+      "page_ids": [
+        "e40d7cf09468"
+      ],
+      "asset_ids": [
+        "1eEwDaH-PqKUjdNIoQIMVOgQJQnmVHnKA"
+      ]
+    },
+    {
+      "id": "e25414adf501",
+      "tab": "Instapage",
+      "row": 24,
+      "label": "Skalable Technologies",
+      "audience": "B2B",
+      "industry": "ERP Solutions",
+      "comment": "",
+      "values": [
+        "",
+        "Skalable Technologies",
+        "http://skalable3.pagedemo.co/",
+        "https://drive.google.com/file/d/12_gsdFyCN_qsJU-1RZI1aswLXTxmDBgH/view?usp=drive_link",
+        "B2B",
+        "ERP Solutions"
+      ],
+      "page_ids": [
+        "ec124570f497"
+      ],
+      "asset_ids": [
+        "12_gsdFyCN_qsJU-1RZI1aswLXTxmDBgH"
+      ]
+    },
+    {
+      "id": "bb73f7399c9d",
+      "tab": "Instapage",
+      "row": 25,
+      "label": "Priority One Solar & Electrical",
+      "audience": "B2C",
+      "industry": "Renewable Energy",
+      "comment": "Offers affordable solar panel solutions with government rebates and fixed pricing.",
+      "values": [
+        "",
+        "Priority One Solar & Electrical",
+        "http://priorityone1.pagedemo.co/",
+        "https://drive.google.com/file/d/1-T_Y26k5-HHsQzdov9eMNisa74I2mY-_/view?usp=drive_link",
+        "B2C",
+        "Renewable Energy",
+        "Offers affordable solar panel solutions with government rebates and fixed pricing."
+      ],
+      "page_ids": [
+        "be3edf56d95f"
+      ],
+      "asset_ids": [
+        "1-T_Y26k5-HHsQzdov9eMNisa74I2mY-_"
+      ]
+    },
+    {
+      "id": "09e09a032d82",
+      "tab": "Instapage",
+      "row": 26,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "priorityone2.pagedemo.co",
+        "https://drive.google.com/file/d/1RuMOfos8aSTR-ihWVe2sMJXIgzngc85d/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "cd440e3cffc7"
+      ],
+      "asset_ids": [
+        "1RuMOfos8aSTR-ihWVe2sMJXIgzngc85d"
+      ]
+    },
+    {
+      "id": "66fc71bc91b9",
+      "tab": "Instapage",
+      "row": 27,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://priorityone3.pagedemo.co/",
+        "https://drive.google.com/file/d/1XhAd6W8Zd7Hgmi49lIX3oBSQsT33Jk5t/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "807da93a42e8"
+      ],
+      "asset_ids": [
+        "1XhAd6W8Zd7Hgmi49lIX3oBSQsT33Jk5t"
+      ]
+    },
+    {
+      "id": "7d8ec7f52b73",
+      "tab": "Instapage",
+      "row": 28,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://priorityone4.pagedemo.co/",
+        "https://drive.google.com/file/d/1Kj1kAmfKoQY47u-j-jjZRq_SiELRUMkL/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "1badfd219901"
+      ],
+      "asset_ids": [
+        "1Kj1kAmfKoQY47u-j-jjZRq_SiELRUMkL"
+      ]
+    },
+    {
+      "id": "661a9defe1c7",
+      "tab": "Instapage",
+      "row": 29,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://priorityone5.pagedemo.co/",
+        "https://drive.google.com/file/d/1_zZYLwr8BY31XYZ8dNhwZOJrLP2gYujs/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "83bd65374dd3"
+      ],
+      "asset_ids": [
+        "1_zZYLwr8BY31XYZ8dNhwZOJrLP2gYujs"
+      ]
+    },
+    {
+      "id": "6a97b2f52e00",
+      "tab": "Instapage",
+      "row": 30,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://location-electrical.pagedemo.co/",
+        "https://drive.google.com/file/d/15LQCD204porBw_qxaDE-r8fnBA0Z6fzl/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "69266672a1fc"
+      ],
+      "asset_ids": [
+        "15LQCD204porBw_qxaDE-r8fnBA0Z6fzl"
+      ]
+    },
+    {
+      "id": "6867f7a70523",
+      "tab": "Instapage",
+      "row": 31,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "itportal2.pagedemo.co",
+        "https://drive.google.com/file/d/15ZkoGZM4UC5qS2U6NI5s7eRr7QPf90dt/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "8f2b536b6c98"
+      ],
+      "asset_ids": [
+        "15ZkoGZM4UC5qS2U6NI5s7eRr7QPf90dt"
+      ]
+    },
+    {
+      "id": "c9ac985f32a8",
+      "tab": "Instapage",
+      "row": 32,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "itportal3.pagedemo.co",
+        "https://drive.google.com/file/d/11KsVApB1l3zIyxNu7UjbyCv9qLEF4VWp/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "1516e89f335d"
+      ],
+      "asset_ids": [
+        "11KsVApB1l3zIyxNu7UjbyCv9qLEF4VWp"
+      ]
+    },
+    {
+      "id": "c830fb84b3ad",
+      "tab": "Instapage",
+      "row": 33,
+      "label": "IT Portal",
+      "audience": "B2B",
+      "industry": "IT Services",
+      "comment": "Offers a platform for organizing MSP data",
+      "values": [
+        "",
+        "IT Portal",
+        "http://itportal4.pagedemo.co/",
+        "https://drive.google.com/file/d/1NVvB1-7U09E1h5oA1rwY8HX3QlrC9hcS/view?usp=drive_link",
+        "B2B",
+        "IT Services",
+        "Offers a platform for organizing MSP data"
+      ],
+      "page_ids": [
+        "24777429f411"
+      ],
+      "asset_ids": [
+        "1NVvB1-7U09E1h5oA1rwY8HX3QlrC9hcS"
+      ]
+    },
+    {
+      "id": "d5bfa7671230",
+      "tab": "Instapage",
+      "row": 34,
+      "label": "Blue Mountain Co Gutter Mesh",
+      "audience": "B2C",
+      "industry": "Home Improvement",
+      "comment": "Offers gutter mesh products",
+      "values": [
+        "",
+        "Blue Mountain Co Gutter Mesh",
+        "bluemountain1.pagedemo.co",
+        "https://drive.google.com/file/d/1w8eBUHfaqZNNAoFEcO5V8fTtykE-Wjt_/view?usp=drive_link",
+        "B2C",
+        "Home Improvement",
+        "Offers gutter mesh products"
+      ],
+      "page_ids": [
+        "6aebe071e132"
+      ],
+      "asset_ids": [
+        "1w8eBUHfaqZNNAoFEcO5V8fTtykE-Wjt_"
+      ]
+    },
+    {
+      "id": "db9858066f69",
+      "tab": "Instapage",
+      "row": 35,
+      "label": "Blue Mountain Co",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "Blue Mountain Co",
+        "https://bluemountain2.pagedemo.co/"
+      ],
+      "page_ids": [
+        "e2a7b0952e05"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "864d063dde1a",
+      "tab": "Instapage",
+      "row": 36,
+      "label": "Blue Mountain Co",
+      "audience": "B2C",
+      "industry": "Home Improvement",
+      "comment": "",
+      "values": [
+        "",
+        "Blue Mountain Co",
+        "http://bluemountain3.pagedemo.co/",
+        "https://drive.google.com/file/d/11xxFVjROUcPvRT1dkn_9nqvFgVlSenLg/view?usp=drive_link",
+        "B2C",
+        "Home Improvement"
+      ],
+      "page_ids": [
+        "8a100b691f49"
+      ],
+      "asset_ids": [
+        "11xxFVjROUcPvRT1dkn_9nqvFgVlSenLg"
+      ]
+    },
+    {
+      "id": "134cc98abaa7",
+      "tab": "Instapage",
+      "row": 37,
+      "label": "GumLeaf Gutter Protection",
+      "audience": "B2C",
+      "industry": "Home Improvement",
+      "comment": "",
+      "values": [
+        "",
+        "GumLeaf Gutter Protection",
+        "http://gumleaf1.pagedemo.co/",
+        "https://drive.google.com/file/d/1jWAxSpL-7i-3qQNSFa3EpwElVChkMsdp/view?usp=drive_link",
+        "B2C",
+        "Home Improvement"
+      ],
+      "page_ids": [
+        "ec1fccbfeee4"
+      ],
+      "asset_ids": [
+        "1jWAxSpL-7i-3qQNSFa3EpwElVChkMsdp"
+      ]
+    },
+    {
+      "id": "895368a99533",
+      "tab": "Instapage",
+      "row": 38,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "gumleaf2.pagedemo.co",
+        "https://drive.google.com/file/d/1VXLd0A3rvpTAm9WA4k5fjOwzy7jIhUDK/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "e784bb2b5ea6"
+      ],
+      "asset_ids": [
+        "1VXLd0A3rvpTAm9WA4k5fjOwzy7jIhUDK"
+      ]
+    },
+    {
+      "id": "35cfbd0c9d18",
+      "tab": "Instapage",
+      "row": 39,
+      "label": "Aussie Gutter Protection",
+      "audience": "B2C",
+      "industry": "Home Improvement",
+      "comment": "",
+      "values": [
+        "",
+        "Aussie Gutter Protection",
+        "http://agp1.pagedemo.co/",
+        "https://drive.google.com/file/d/1zPng60t0pGfts1Id2_tX3VkLhdaxyETX/view?usp=drive_link",
+        "B2C",
+        "Home Improvement"
+      ],
+      "page_ids": [
+        "ff0570ad9a93"
+      ],
+      "asset_ids": [
+        "1zPng60t0pGfts1Id2_tX3VkLhdaxyETX"
+      ]
+    },
+    {
+      "id": "93740a08e529",
+      "tab": "Instapage",
+      "row": 40,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "",
+        "https://drive.google.com/file/d/13RnBPetrKdHTQe9c48zMYu0jMOctqa5G/view?usp=drive_link"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "13RnBPetrKdHTQe9c48zMYu0jMOctqa5G"
+      ]
+    },
+    {
+      "id": "b673764ba372",
+      "tab": "Instapage",
+      "row": 41,
+      "label": "TechsOnCall",
+      "audience": "B2B",
+      "industry": "IT Services",
+      "comment": "Domain parked by GoDaddy",
+      "values": [
+        "",
+        "TechsOnCall",
+        "http://techsoncall1.pagedemo.co/",
+        "https://drive.google.com/file/d/1npWe38CNokWZT6eVpG_4rNaEErHAMtzN/view?usp=drive_link",
+        "B2B",
+        "IT Services",
+        "Domain parked by GoDaddy"
+      ],
+      "page_ids": [
+        "55e833aff575"
+      ],
+      "asset_ids": [
+        "1npWe38CNokWZT6eVpG_4rNaEErHAMtzN"
+      ]
+    },
+    {
+      "id": "4dc264fce9f0",
+      "tab": "Instapage",
+      "row": 42,
+      "label": "WRITING ASSISTANCE, Inc",
+      "audience": "B2B",
+      "industry": "Writing Services",
+      "comment": "Offers technical writing services",
+      "values": [
+        "",
+        "WRITING ASSISTANCE, Inc",
+        "http://writingassistance1.pagedemo.co/",
+        "https://drive.google.com/file/d/1OCs9TE8jY0ruz3AqKsTQdfSNiKhVQG-g/view?usp=drive_link",
+        "B2B",
+        "Writing Services",
+        "Offers technical writing services"
+      ],
+      "page_ids": [
+        "80684303f3fc"
+      ],
+      "asset_ids": [
+        "1OCs9TE8jY0ruz3AqKsTQdfSNiKhVQG-g"
+      ]
+    },
+    {
+      "id": "f9b29cd94664",
+      "tab": "Instapage",
+      "row": 43,
+      "label": "WRITING ASSISTANCE, Inc",
+      "audience": "B2B",
+      "industry": "Writing Services",
+      "comment": "",
+      "values": [
+        "",
+        "WRITING ASSISTANCE, Inc",
+        "http://writingassistance2.pagedemo.co/",
+        "https://drive.google.com/file/d/1JDHAAiMAwhb4M2CxpGJdPUkMod8Wt0Th/view?usp=drive_link",
+        "B2B",
+        "Writing Services"
+      ],
+      "page_ids": [
+        "5c1105cafc7d"
+      ],
+      "asset_ids": [
+        "1JDHAAiMAwhb4M2CxpGJdPUkMod8Wt0Th"
+      ]
+    },
+    {
+      "id": "6fd7216c09ab",
+      "tab": "Instapage",
+      "row": 44,
+      "label": "A SMART MOVE",
+      "audience": "B2C",
+      "industry": "Moving and Storage Services",
+      "comment": "Provides reusable, crushproof plastic moving boxes for rent.",
+      "values": [
+        "",
+        "A SMART MOVE",
+        "http://smartmove1.pagedemo.co/",
+        "https://drive.google.com/file/d/1KXVlzbnBSWov07XacuMQTIpEU2H78kxx/view?usp=drive_link",
+        "B2C",
+        "Moving and Storage Services",
+        "Provides reusable, crushproof plastic moving boxes for rent."
+      ],
+      "page_ids": [
+        "4cdc50e2f126"
+      ],
+      "asset_ids": [
+        "1KXVlzbnBSWov07XacuMQTIpEU2H78kxx"
+      ]
+    },
+    {
+      "id": "b6cce092968b",
+      "tab": "Instapage",
+      "row": 45,
+      "label": "A SMART MOVE",
+      "audience": "B2C",
+      "industry": "Moving and Storage Services",
+      "comment": "Provides reusable, crushproof plastic moving boxes for rent.",
+      "values": [
+        "",
+        "A SMART MOVE",
+        "http://smartmove2.pagedemo.co/",
+        "https://drive.google.com/file/d/1qJdCUhnoe-b1ze3RMlqWvKmRtQWGhO1n/view?usp=drive_link",
+        "B2C",
+        "Moving and Storage Services",
+        "Provides reusable, crushproof plastic moving boxes for rent."
+      ],
+      "page_ids": [
+        "1727c61257cb"
+      ],
+      "asset_ids": [
+        "1qJdCUhnoe-b1ze3RMlqWvKmRtQWGhO1n"
+      ]
+    },
+    {
+      "id": "795a2b86ae71",
+      "tab": "Instapage",
+      "row": 46,
+      "label": "A SMART MOVE",
+      "audience": "B2C",
+      "industry": "Moving and Storage Services",
+      "comment": "Provides reusable, crushproof plastic moving boxes for rent.",
+      "values": [
+        "",
+        "A SMART MOVE",
+        "http://smartmove3.pagedemo.co/",
+        "https://drive.google.com/file/d/1dfWXOElAotncEvwi6kQUDKaRZL3-b7xl/view?usp=drive_link",
+        "B2C",
+        "Moving and Storage Services",
+        "Provides reusable, crushproof plastic moving boxes for rent."
+      ],
+      "page_ids": [
+        "323dbec1a2c2"
+      ],
+      "asset_ids": [
+        "1dfWXOElAotncEvwi6kQUDKaRZL3-b7xl"
+      ]
+    },
+    {
+      "id": "b4ae89e69d91",
+      "tab": "Instapage",
+      "row": 47,
+      "label": "NEW HORIZONS",
+      "audience": "B2B",
+      "industry": "Professional Services",
+      "comment": "PEO service for companies expanding to Asia, managing recruitment and compliance.",
+      "values": [
+        "",
+        "NEW HORIZONS",
+        "http://nhglobal1.pagedemo.co/",
+        "https://drive.google.com/file/d/1kr5JhG81Ads6U9mJZN0gO03tZGXXDJIs/view?usp=drive_link",
+        "B2B",
+        "Professional Services",
+        "PEO service for companies expanding to Asia, managing recruitment and compliance."
+      ],
+      "page_ids": [
+        "4bc93cc2fce1"
+      ],
+      "asset_ids": [
+        "1kr5JhG81Ads6U9mJZN0gO03tZGXXDJIs"
+      ]
+    },
+    {
+      "id": "bb670d7cbc43",
+      "tab": "Instapage",
+      "row": 48,
+      "label": "ADRIAMARBLE",
+      "audience": "B2C",
+      "industry": "Home Improvement",
+      "comment": "Custom-cut luxury quartz, marble, and granite countertops for homes and businesses.",
+      "values": [
+        "",
+        "ADRIAMARBLE",
+        "adriamarble1.pagedemo.co",
+        "https://drive.google.com/file/d/1G99BWTAQerXMnffbiCd1GP1guUWMGWOC/view?usp=drive_link",
+        "B2C",
+        "Home Improvement",
+        "Custom-cut luxury quartz, marble, and granite countertops for homes and businesses."
+      ],
+      "page_ids": [
+        "0fd7657c9d5a"
+      ],
+      "asset_ids": [
+        "1G99BWTAQerXMnffbiCd1GP1guUWMGWOC"
+      ]
+    },
+    {
+      "id": "7e91ed160e9d",
+      "tab": "Instapage",
+      "row": 49,
+      "label": "BUG OFF PEST CONTROL",
+      "audience": "B2C",
+      "industry": "Pest Control",
+      "comment": "Offers eco-friendly pest control services for homes and businesses.",
+      "values": [
+        "",
+        "BUG OFF PEST CONTROL",
+        "bugoff.pagedemo.co",
+        "https://drive.google.com/file/d/1n0LlHbk1BcSH4XUBdjgylsLxk98nNlqf/view?usp=drive_link",
+        "B2C",
+        "Pest Control",
+        "Offers eco-friendly pest control services for homes and businesses."
+      ],
+      "page_ids": [
+        "092cbf71f611"
+      ],
+      "asset_ids": [
+        "1n0LlHbk1BcSH4XUBdjgylsLxk98nNlqf"
+      ]
+    },
+    {
+      "id": "ee3b85d01bb2",
+      "tab": "Instapage",
+      "row": 50,
+      "label": "Access Patrol Services",
+      "audience": "B2C",
+      "industry": "Security Services",
+      "comment": "Provides trained, uniformed security guards for various needs.",
+      "values": [
+        "",
+        "Access Patrol Services",
+        "http://accesspatrol1.pagedemo.co/",
+        "https://drive.google.com/file/d/1i3AgjKXzhreMGqNNK0Eptat44ZPO0vrf/view?usp=drive_link",
+        "B2C",
+        "Security Services",
+        "Provides trained, uniformed security guards for various needs."
+      ],
+      "page_ids": [
+        "cf6498650a49"
+      ],
+      "asset_ids": [
+        "1i3AgjKXzhreMGqNNK0Eptat44ZPO0vrf"
+      ]
+    },
+    {
+      "id": "f1b0ff5ac157",
+      "tab": "Instapage",
+      "row": 52,
+      "label": "VALUE BUILDERS",
+      "audience": "B2C",
+      "industry": "Home Improvement",
+      "comment": "Designs and builds sunrooms for homes.",
+      "values": [
+        "Value Builders",
+        "VALUE BUILDERS",
+        "http://go.valuebuildersgroup.com/step-1",
+        "https://drive.google.com/file/d/1JW4m7hgPshd2DImOQz5MlFsTWdk6ZdBh/view?usp=drive_link",
+        "B2C",
+        "Home Improvement",
+        "Designs and builds sunrooms for homes.",
+        "Yes - 1 Domain"
+      ],
+      "page_ids": [
+        "7ddeba11d55d"
+      ],
+      "asset_ids": [
+        "1JW4m7hgPshd2DImOQz5MlFsTWdk6ZdBh"
+      ]
+    },
+    {
+      "id": "63b0c6b65a65",
+      "tab": "Instapage",
+      "row": 55,
+      "label": "Roof Seal",
+      "audience": "B2C",
+      "industry": "Home Improvement",
+      "comment": "",
+      "values": [
+        "Roof Seal",
+        "",
+        "go.roofseal.com.au/nowra-branded",
+        "https://drive.google.com/file/d/1T0yAYusOBOsx-0Ba8rxRcFbb6Y0W_2sy/view?usp=drive_link",
+        "B2C",
+        "Home Improvement",
+        "",
+        "1 domain, 1 user"
+      ],
+      "page_ids": [
+        "31efa09aa964"
+      ],
+      "asset_ids": [
+        "1T0yAYusOBOsx-0Ba8rxRcFbb6Y0W_2sy"
+      ]
+    },
+    {
+      "id": "3906bc92b84c",
+      "tab": "Instapage",
+      "row": 56,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "go.roofseal.com.au/nowra-non-branded",
+        "https://drive.google.com/file/d/13SiO2PVhA9SKWAADdL-n-JFk5yCPIC1m/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "3702095e7f37"
+      ],
+      "asset_ids": [
+        "13SiO2PVhA9SKWAADdL-n-JFk5yCPIC1m"
+      ]
+    },
+    {
+      "id": "0752eaf6737e",
+      "tab": "Instapage",
+      "row": 57,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "go.roofseal.com.au/vic-roof-restoration-branded",
+        "https://drive.google.com/file/d/1xP-qlrJcz0vaELZXgGQblNiEaxtaXVVq/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "78feaaf69fdf"
+      ],
+      "asset_ids": [
+        "1xP-qlrJcz0vaELZXgGQblNiEaxtaXVVq"
+      ]
+    },
+    {
+      "id": "5c686fc6f95b",
+      "tab": "Instapage",
+      "row": 58,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "go.roofseal.com.au/vic-roof-restoration",
+        "https://drive.google.com/file/d/1keziN5QRB1qb-pIjBd2VSIOkNy4GbF5v/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "766cb77f27fd"
+      ],
+      "asset_ids": [
+        "1keziN5QRB1qb-pIjBd2VSIOkNy4GbF5v"
+      ]
+    },
+    {
+      "id": "b8fe10e92c13",
+      "tab": "Instapage",
+      "row": 59,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "404 error - Page not found",
+      "values": [
+        "",
+        "",
+        "go.roofseal.com.au/sa-complete",
+        "https://drive.google.com/file/d/1M_pTMze9ecqpgngOyK7rqMyBfWxCJK7z/view?usp=drive_link",
+        "",
+        "",
+        "404 error - Page not found"
+      ],
+      "page_ids": [
+        "ed32208f06ae"
+      ],
+      "asset_ids": [
+        "1M_pTMze9ecqpgngOyK7rqMyBfWxCJK7z"
+      ]
+    },
+    {
+      "id": "459b0aec6c16",
+      "tab": "Instapage",
+      "row": 60,
+      "label": "Roof Seal",
+      "audience": "B2C",
+      "industry": "Home Improvement",
+      "comment": "",
+      "values": [
+        "",
+        "Roof Seal",
+        "go.roofseal.com.au/sa-roller-shutters",
+        "https://drive.google.com/file/d/13cubvUlBPPItweVhTjNv7vpSYVmbbk9k/view?usp=drive_link",
+        "B2C",
+        "Home Improvement"
+      ],
+      "page_ids": [
+        "26203e4d9e7a"
+      ],
+      "asset_ids": [
+        "13cubvUlBPPItweVhTjNv7vpSYVmbbk9k"
+      ]
+    },
+    {
+      "id": "d8de49fcc861",
+      "tab": "Instapage",
+      "row": 61,
+      "label": "Roof Seal",
+      "audience": "B2C",
+      "industry": "Home Improvement",
+      "comment": "",
+      "values": [
+        "",
+        "Roof Seal",
+        "go.roofseal.com.au/sa-roof-restoration",
+        "https://drive.google.com/file/d/1naJSJtk8ZQsiKfKom2DlIY2dSo8_Nkie/view?usp=drive_link",
+        "B2C",
+        "Home Improvement"
+      ],
+      "page_ids": [
+        "8cb50c97d98c"
+      ],
+      "asset_ids": [
+        "1naJSJtk8ZQsiKfKom2DlIY2dSo8_Nkie"
+      ]
+    },
+    {
+      "id": "c994b79efc70",
+      "tab": "Instapage",
+      "row": 63,
+      "label": "Paragon Catering & Events",
+      "audience": "B2C",
+      "industry": "Catering & Event Planning",
+      "comment": "2 domains, 1 user",
+      "values": [
+        "TO Catering",
+        "Paragon Catering & Events",
+        "http://go.paragoncateringny.com/step-1",
+        "https://drive.google.com/file/d/14_1IfTsY3Os1XuVKck29KdHSGwHVBeA8/view?usp=drive_link",
+        "B2C",
+        "Catering & Event Planning",
+        "2 domains, 1 user"
+      ],
+      "page_ids": [
+        "dffbc9afafb9"
+      ],
+      "asset_ids": [
+        "14_1IfTsY3Os1XuVKck29KdHSGwHVBeA8"
+      ]
+    },
+    {
+      "id": "ddf4f4cae37b",
+      "tab": "Instapage",
+      "row": 64,
+      "label": "Thomas Oliver's NYC",
+      "audience": "B2C",
+      "industry": "Catering & Event Planning",
+      "comment": "",
+      "values": [
+        "",
+        "Thomas Oliver's NYC",
+        "http://go.thomasoliversnyc.com/general-catering",
+        "https://drive.google.com/file/d/1Ibc8AzXFCNTwMyHWNB3x7Nw971tzqEN7/view?usp=drive_link",
+        "B2C",
+        "Catering & Event Planning"
+      ],
+      "page_ids": [
+        "b7e5b13a0295"
+      ],
+      "asset_ids": [
+        "1Ibc8AzXFCNTwMyHWNB3x7Nw971tzqEN7"
+      ]
+    },
+    {
+      "id": "65c9a25e9d74",
+      "tab": "Instapage",
+      "row": 66,
+      "label": "cathcap",
+      "audience": "B2B",
+      "industry": "Financial Services",
+      "comment": "Offers financial management, planning, and strategic advice.",
+      "values": [
+        "New Clients 2023",
+        "cathcap",
+        "http://cathcap.pagedemo.co/",
+        "https://drive.google.com/file/d/1vL9ZODnOzXFVDGr4XF8EeI5K-aWAVRq2/view?usp=drive_link",
+        "B2B",
+        "Financial Services",
+        "Offers financial management, planning, and strategic advice."
+      ],
+      "page_ids": [
+        "3a8361448cc4"
+      ],
+      "asset_ids": [
+        "1vL9ZODnOzXFVDGr4XF8EeI5K-aWAVRq2"
+      ]
+    },
+    {
+      "id": "dbac90cff05e",
+      "tab": "Instapage",
+      "row": 67,
+      "label": "TherapyPet",
+      "audience": "Pet Services",
+      "industry": "",
+      "comment": "Provides Emotional Support Animal documentation services.",
+      "values": [
+        "",
+        "TherapyPet",
+        "therapypet.pagedemo.co",
+        "https://drive.google.com/file/d/1R3e4zYrMBTDPiYvKBt7-ha_i5eHEHziN/view?usp=drive_link",
+        "Pet Services",
+        "",
+        "Provides Emotional Support Animal documentation services."
+      ],
+      "page_ids": [
+        "bdb9ca16f2eb"
+      ],
+      "asset_ids": [
+        "1R3e4zYrMBTDPiYvKBt7-ha_i5eHEHziN"
+      ]
+    },
+    {
+      "id": "ea696b9f53db",
+      "tab": "Instapage",
+      "row": 68,
+      "label": "IT Portal",
+      "audience": "B2B",
+      "industry": "IT Services",
+      "comment": "",
+      "values": [
+        "",
+        "IT Portal",
+        "http://suncoast1.pagedemo.co/",
+        "https://drive.google.com/file/d/1XCgR16nObqK0TTTjVarZY9QxfH36RCwm/view?usp=drive_link",
+        "B2B",
+        "IT Services"
+      ],
+      "page_ids": [
+        "534ce4d455e7"
+      ],
+      "asset_ids": [
+        "1XCgR16nObqK0TTTjVarZY9QxfH36RCwm"
+      ]
+    },
+    {
+      "id": "f056d02d8500",
+      "tab": "Instapage",
+      "row": 69,
+      "label": "Ag Focus",
+      "audience": "B2C",
+      "industry": "Agriculture",
+      "comment": "Optimizes planters and increases yield for farmers.",
+      "values": [
+        "",
+        "Ag Focus",
+        "http://agfocus1.pagedemo.co/",
+        "https://drive.google.com/file/d/1_30ZaEb-WysuhOVIyarI-ORQj4Qe_msH/view?usp=drive_link",
+        "B2C",
+        "Agriculture",
+        "Optimizes planters and increases yield for farmers."
+      ],
+      "page_ids": [
+        "14506cfc4c88"
+      ],
+      "asset_ids": [
+        "1_30ZaEb-WysuhOVIyarI-ORQj4Qe_msH"
+      ]
+    },
+    {
+      "id": "a2d450c3ceec",
+      "tab": "Instapage",
+      "row": 70,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://homearchive1.pagedemo.co/",
+        "https://drive.google.com/file/d/1JQyQ4Ur2CCVgao7wiN-GTIkA8Jwgpnio/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "98a6f9b86618"
+      ],
+      "asset_ids": [
+        "1JQyQ4Ur2CCVgao7wiN-GTIkA8Jwgpnio"
+      ]
+    },
+    {
+      "id": "9ee131f7dd7f",
+      "tab": "Instapage",
+      "row": 71,
+      "label": "Crystal Charters",
+      "audience": "",
+      "industry": "Tourism and Leisure",
+      "comment": "",
+      "values": [
+        "",
+        "Crystal Charters",
+        "B2C",
+        "https://drive.google.com/file/d/1XeZqjYqFQ4xE03hJk8g1xpekw7wtr5Np/view?usp=drive_link",
+        "",
+        "Tourism and Leisure"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1XeZqjYqFQ4xE03hJk8g1xpekw7wtr5Np"
+      ]
+    },
+    {
+      "id": "66c89365b9d8",
+      "tab": "Instapage",
+      "row": 72,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://noramentalhealth1.pagedemo.co/",
+        "https://drive.google.com/file/d/1Z_Ye1uwGjyKHsRr1zTBQozgBJOzX7F_t/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "7a0036d927fe"
+      ],
+      "asset_ids": [
+        "1Z_Ye1uwGjyKHsRr1zTBQozgBJOzX7F_t"
+      ]
+    },
+    {
+      "id": "9520cd24470d",
+      "tab": "Instapage",
+      "row": 73,
+      "label": "Integrated Networks",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "Integrated Networks",
+        "http://go.integratednetworks.com/security-cameras",
+        "https://drive.google.com/file/d/1C4uuFH6EXo40ST3j4lN9jYaJD-_v7qCu/view?usp=drive_link",
+        "",
+        "",
+        "",
+        "YES - 2 domains"
+      ],
+      "page_ids": [
+        "7e434ae44763"
+      ],
+      "asset_ids": [
+        "1C4uuFH6EXo40ST3j4lN9jYaJD-_v7qCu"
+      ]
+    },
+    {
+      "id": "dde8ad1d72cd",
+      "tab": "Instapage",
+      "row": 74,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "https://go.integratedtech.net/msp",
+        "https://drive.google.com/file/d/15z-6LzwiTPg5_Bs85A-azI-9Bk8a7lEd/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "fc439dcb480a"
+      ],
+      "asset_ids": [
+        "15z-6LzwiTPg5_Bs85A-azI-9Bk8a7lEd"
+      ]
+    },
+    {
+      "id": "23bf3d55a5c9",
+      "tab": "Instapage",
+      "row": 75,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "https://go.integratednetworks.com/data-cabling",
+        "https://drive.google.com/file/d/1J5SUfFbz0lm9JcEmR7SbveU3sZdXvwPI/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "64e615eaf721"
+      ],
+      "asset_ids": [
+        "1J5SUfFbz0lm9JcEmR7SbveU3sZdXvwPI"
+      ]
+    },
+    {
+      "id": "2d69958331e9",
+      "tab": "Instapage",
+      "row": 76,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "telemind1.pagedemo.co",
+        "https://drive.google.com/file/d/1tlZtBLtxnskDox982qoDjqhCIDZiqe2n/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "a06c79c650d4"
+      ],
+      "asset_ids": [
+        "1tlZtBLtxnskDox982qoDjqhCIDZiqe2n"
+      ]
+    },
+    {
+      "id": "ce319b3e1c4a",
+      "tab": "Instapage",
+      "row": 77,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://telemind2.pagedemo.co/",
+        "https://drive.google.com/file/d/1s39m8-BY-TyQwuyqMOItmoCNqaCRs3H7/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "538d7472d787"
+      ],
+      "asset_ids": [
+        "1s39m8-BY-TyQwuyqMOItmoCNqaCRs3H7"
+      ]
+    },
+    {
+      "id": "70f7f93155c0",
+      "tab": "Instapage",
+      "row": 78,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://palmercarechiro1.pagedemo.co/",
+        "https://drive.google.com/file/d/1pIFHAVFahN8nUtpPj6VQD4Mofa61l54Q/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "7210a1f19f44"
+      ],
+      "asset_ids": [
+        "1pIFHAVFahN8nUtpPj6VQD4Mofa61l54Q"
+      ]
+    },
+    {
+      "id": "8b245b360b40",
+      "tab": "Instapage",
+      "row": 79,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://washingtonsquareparkdental.pagedemo.co/",
+        "https://drive.google.com/file/d/1HWO6MA6UAq9b52OF-5mjrj-QSN0PaZWP/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "3032a2bd4048"
+      ],
+      "asset_ids": [
+        "1HWO6MA6UAq9b52OF-5mjrj-QSN0PaZWP"
+      ]
+    },
+    {
+      "id": "a389bf490951",
+      "tab": "Instapage",
+      "row": 80,
+      "label": "Quality Hoops",
+      "audience": "B2B",
+      "industry": "Sports Facility Design",
+      "comment": "",
+      "values": [
+        "",
+        "Quality Hoops",
+        "qualityhoops1.pagedemo.co",
+        "https://drive.google.com/file/d/1eADmYPEyFq_opeRFwHNY4IDFoKXb1FgH/view?usp=drive_link",
+        "B2B",
+        "Sports Facility Design"
+      ],
+      "page_ids": [
+        "563bad0a1c18"
+      ],
+      "asset_ids": [
+        "1eADmYPEyFq_opeRFwHNY4IDFoKXb1FgH"
+      ]
+    },
+    {
+      "id": "0b1422d2bc41",
+      "tab": "Instapage",
+      "row": 81,
+      "label": "Francis Law Center",
+      "audience": "B2C",
+      "industry": "Legal Services",
+      "comment": "",
+      "values": [
+        "",
+        "Francis Law Center",
+        "http://francislaw1.pagedemo.co/",
+        "https://drive.google.com/file/d/1htPr33IowP910AmokF74no9EpkHAEbpY/view?usp=drive_link",
+        "B2C",
+        "Legal Services"
+      ],
+      "page_ids": [
+        "24d9ac2e1fe4"
+      ],
+      "asset_ids": [
+        "1htPr33IowP910AmokF74no9EpkHAEbpY"
+      ]
+    },
+    {
+      "id": "36cebf08fde5",
+      "tab": "Instapage",
+      "row": 82,
+      "label": "New York City Estate Plans",
+      "audience": "B2C",
+      "industry": "Legal Services",
+      "comment": "",
+      "values": [
+        "",
+        "New York City Estate Plans",
+        "http://nycestateplanning1.pagedemo.co/",
+        "https://drive.google.com/file/d/1IMYbzLpxYpbNXljUiba0lAYMsbvZfFCa/view?usp=drive_link",
+        "B2C",
+        "Legal Services"
+      ],
+      "page_ids": [
+        "5f1c35a2129a"
+      ],
+      "asset_ids": [
+        "1IMYbzLpxYpbNXljUiba0lAYMsbvZfFCa"
+      ]
+    },
+    {
+      "id": "025522b0cda7",
+      "tab": "Instapage",
+      "row": 83,
+      "label": "Aaron Deri, LMFT",
+      "audience": "B2C",
+      "industry": "Mental Health Services",
+      "comment": "",
+      "values": [
+        "",
+        "Aaron Deri, LMFT",
+        "aaronderi1.pagedemo.co",
+        "https://drive.google.com/file/d/17MCrXv5Ypi1DujzOKP26tVu9lMMdH3Is/view?usp=drive_link",
+        "B2C",
+        "Mental Health Services"
+      ],
+      "page_ids": [
+        "7b4c84dfd640"
+      ],
+      "asset_ids": [
+        "17MCrXv5Ypi1DujzOKP26tVu9lMMdH3Is"
+      ]
+    },
+    {
+      "id": "2c4977a4bffd",
+      "tab": "Instapage",
+      "row": 84,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://aaronderi2.pagedemo.co/",
+        "https://drive.google.com/file/d/1FpygpPQ7mDdd3eIFjo8ofqlAYDfyWgzz/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "9db61c7bad1f"
+      ],
+      "asset_ids": [
+        "1FpygpPQ7mDdd3eIFjo8ofqlAYDfyWgzz"
+      ]
+    },
+    {
+      "id": "b9a829f324bc",
+      "tab": "Instapage",
+      "row": 85,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "aaronderi3.pagedemo.co",
+        "https://drive.google.com/file/d/1kHR3M0MGrfZgs7WEpM6-6F0H8i1fC6qH/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "133e37505bd1"
+      ],
+      "asset_ids": [
+        "1kHR3M0MGrfZgs7WEpM6-6F0H8i1fC6qH"
+      ]
+    },
+    {
+      "id": "3cafeffeed09",
+      "tab": "Instapage",
+      "row": 86,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "asbury1.pagedemo.co",
+        "https://drive.google.com/file/d/1B2Gr_qJEbIuKAV9wCqVp1S9zfryPFd1W/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "ed3aa69a8136"
+      ],
+      "asset_ids": [
+        "1B2Gr_qJEbIuKAV9wCqVp1S9zfryPFd1W"
+      ]
+    },
+    {
+      "id": "d0fbdb1a6c15",
+      "tab": "Instapage",
+      "row": 87,
+      "label": "Supreme Buildings",
+      "audience": "B2B",
+      "industry": "Construction",
+      "comment": "",
+      "values": [
+        "",
+        "Supreme Buildings",
+        "http://suprememetal1.pagedemo.co/",
+        "https://drive.google.com/file/d/1yheuFPviUhvRV7UZOw5l1UQe9wvX5IcC/view?usp=drive_link",
+        "B2B",
+        "Construction"
+      ],
+      "page_ids": [
+        "1c3c4a300fe3"
+      ],
+      "asset_ids": [
+        "1yheuFPviUhvRV7UZOw5l1UQe9wvX5IcC"
+      ]
+    },
+    {
+      "id": "0da7eb6bb822",
+      "tab": "Instapage",
+      "row": 89,
+      "label": "Florida Flyers International Flight Academy",
+      "audience": "B2C",
+      "industry": "Aviation Training",
+      "comment": "",
+      "values": [
+        "Florida Flyers",
+        "Florida Flyers International Flight Academy",
+        "http://floridaflyers1.pagedemo.co/",
+        "https://drive.google.com/file/d/1x9CYAgwcvRpYh16vIE6kp8sa1yes4DZ7/view?usp=drive_link",
+        "B2C",
+        "Aviation Training"
+      ],
+      "page_ids": [
+        "1a01c77901e9"
+      ],
+      "asset_ids": [
+        "1x9CYAgwcvRpYh16vIE6kp8sa1yes4DZ7"
+      ]
+    },
+    {
+      "id": "c046a974365f",
+      "tab": "Instapage",
+      "row": 91,
+      "label": "30 Second Explainer Videos",
+      "audience": "B2B",
+      "industry": "Marketing Services",
+      "comment": "",
+      "values": [
+        "Matt's Workspace",
+        "30 Second Explainer Videos",
+        "http://30second1.pagedemo.co/",
+        "https://drive.google.com/file/d/1yZjPkLAwGL6p6qs-eyk6-m2A8t8-vlUs/view?usp=drive_link",
+        "B2B",
+        "Marketing Services"
+      ],
+      "page_ids": [
+        "518cea22bf81"
+      ],
+      "asset_ids": [
+        "1yZjPkLAwGL6p6qs-eyk6-m2A8t8-vlUs"
+      ]
+    },
+    {
+      "id": "0dca57ba1194",
+      "tab": "Instapage",
+      "row": 92,
+      "label": "30 Second Content Marketing",
+      "audience": "B2B",
+      "industry": "Marketing Services",
+      "comment": "",
+      "values": [
+        "",
+        "30 Second Content Marketing",
+        "http://30second2.pagedemo.co/",
+        "https://drive.google.com/file/d/1iQGTvzmmUhtzYdWGexojJS48u4c3TFzg/view?usp=drive_link",
+        "B2B",
+        "Marketing Services"
+      ],
+      "page_ids": [
+        "960a78aa1555"
+      ],
+      "asset_ids": [
+        "1iQGTvzmmUhtzYdWGexojJS48u4c3TFzg"
+      ]
+    },
+    {
+      "id": "2273da976e56",
+      "tab": "Instapage",
+      "row": 94,
+      "label": "Designer Chandeliers",
+      "audience": "B2C",
+      "industry": "Lighting/Interior Design",
+      "comment": "",
+      "values": [
+        "Designer Chandeliers",
+        "Designer Chandeliers",
+        "http://designerchandeliers1.pagedemo.co/",
+        "https://drive.google.com/file/d/1VPAKWQEZxkBILbTzTZXouIdJo6eSOqGl/view?usp=drive_link",
+        "B2C",
+        "Lighting/Interior Design"
+      ],
+      "page_ids": [
+        "8d1f933be1d9"
+      ],
+      "asset_ids": [
+        "1VPAKWQEZxkBILbTzTZXouIdJo6eSOqGl"
+      ]
+    },
+    {
+      "id": "2090a01933dd",
+      "tab": "Instapage",
+      "row": 100,
+      "label": "Kangaroo LP",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "Kangaroo LP",
+        "",
+        "http://survivorsweat1.pagedemo.co/",
+        "https://drive.google.com/file/d/1JK1XmNWjlMaCueJ2l36IfU7nog1TxKna/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "e30b100ad623"
+      ],
+      "asset_ids": [
+        "1JK1XmNWjlMaCueJ2l36IfU7nog1TxKna"
+      ]
+    },
+    {
+      "id": "225ba4ed1f74",
+      "tab": "Instapage",
+      "row": 101,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "circaproxy1.pagedemo.co",
+        "https://drive.google.com/file/d/1wZKzHFkh9VAaQQoTdTiNI5h_GEz4v6Nh/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "a982415203cd"
+      ],
+      "asset_ids": [
+        "1wZKzHFkh9VAaQQoTdTiNI5h_GEz4v6Nh"
+      ]
+    },
+    {
+      "id": "4b38780d0a34",
+      "tab": "Instapage",
+      "row": 102,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "http://tommycool1.pagedemo.co/",
+        "https://drive.google.com/file/d/1oZ6Tr6uGBBl8ybfOn0bkSS9Lx3jaHO7N/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "19f63b217b06"
+      ],
+      "asset_ids": [
+        "1oZ6Tr6uGBBl8ybfOn0bkSS9Lx3jaHO7N"
+      ]
+    },
+    {
+      "id": "9d0b3b55e48e",
+      "tab": "Instapage",
+      "row": 103,
+      "label": "Washington Square Park Dental",
+      "audience": "B2C",
+      "industry": "Healthcare",
+      "comment": "",
+      "values": [
+        "",
+        "Washington Square Park Dental",
+        "http://washingtonsquareparkdental2.pagedemo.co/",
+        "https://drive.google.com/file/d/1vHV65w52fz6Q0LSBYChnNqo5JgNbxjBR/view?usp=drive_link",
+        "B2C",
+        "Healthcare"
+      ],
+      "page_ids": [
+        "4b5be850829d"
+      ],
+      "asset_ids": [
+        "1vHV65w52fz6Q0LSBYChnNqo5JgNbxjBR"
+      ]
+    },
+    {
+      "id": "22eeeb6b4474",
+      "tab": "Instapage",
+      "row": 109,
+      "label": "360 studios",
+      "audience": "B2B",
+      "industry": "Digital Marketing Services",
+      "comment": "",
+      "values": [
+        "360 studios",
+        "",
+        "360 Studios",
+        "https://drive.google.com/file/d/196ba9wP01ORfwt7wc75PTV17t2xrn4-z/view?usp=drive_link",
+        "B2B",
+        "Digital Marketing Services"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "196ba9wP01ORfwt7wc75PTV17t2xrn4-z"
+      ]
+    },
+    {
+      "id": "54414bc6e6f5",
+      "tab": "Instapage",
+      "row": 113,
+      "label": "Law Offices of Seth C. Bowen",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "NOT IN INSTAPAGE",
+        "Law Offices of Seth C. Bowen",
+        "https://divorce.sethbowenlaw.com/proven-family-attorney",
+        "https://drive.google.com/file/d/1jbF3E1BmCLHsAPMe3ZOEOyavLqxozee2/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "914f02f3cbe7"
+      ],
+      "asset_ids": [
+        "1jbF3E1BmCLHsAPMe3ZOEOyavLqxozee2"
+      ]
+    },
+    {
+      "id": "1471a1f88b26",
+      "tab": "Instapage",
+      "row": 114,
+      "label": "Not GMA ",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "Not GMA ",
+        "",
+        "https://get.installaveranda.com.au/veranda-commercial-offer/",
+        "https://drive.google.com/file/d/1XGT9rO7eJpoqhV0ifLkgAPLMYcWIUdvP/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "f6c8c07ad0b8"
+      ],
+      "asset_ids": [
+        "1XGT9rO7eJpoqhV0ifLkgAPLMYcWIUdvP"
+      ]
+    },
+    {
+      "id": "151ac8ad4731",
+      "tab": "Instapage",
+      "row": 115,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "https://get.hellobreeze.com.au/ducted-package-offer-qld/",
+        "https://drive.google.com/file/d/1sFOS2HY8d3GvXPmRclkV88HSvMONf-qp/view?usp=drive_link"
+      ],
+      "page_ids": [
+        "38ffada9fba2"
+      ],
+      "asset_ids": [
+        "1sFOS2HY8d3GvXPmRclkV88HSvMONf-qp"
+      ]
+    },
+    {
+      "id": "d4ce29234191",
+      "tab": "Instapage",
+      "row": 117,
+      "label": "Cleaner co",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "Cleaner co",
+        "",
+        "https://cleanerco.com.au/",
+        "https://drive.google.com/file/d/15elOshW9DpbNunxghViQqPANBGBWJnZ-/view?usp=sharing"
+      ],
+      "page_ids": [
+        "89f9fca89a47"
+      ],
+      "asset_ids": [
+        "15elOshW9DpbNunxghViQqPANBGBWJnZ-"
+      ]
+    },
+    {
+      "id": "109495649f2e",
+      "tab": "Sheet7",
+      "row": 1,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "http://codecreators2.pagedemo.co/"
+      ],
+      "page_ids": [
+        "2a202c3d942a"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "5fe2430799f9",
+      "tab": "Sheet6",
+      "row": 1,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "https://divorce.sethbowenlaw.com/proven-family-attorney"
+      ],
+      "page_ids": [
+        "914f02f3cbe7"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "f81e3bde21d1",
+      "tab": "More Designs",
+      "row": 2,
+      "label": "E-Learning Website",
+      "audience": "",
+      "industry": "E-Learning Website",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1n1iY-SJ3GEfkTWngdelCbKz1VwEeock3/view?usp=sharing",
+        "E-Learning Website"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1n1iY-SJ3GEfkTWngdelCbKz1VwEeock3"
+      ]
+    },
+    {
+      "id": "d41887b482e5",
+      "tab": "More Designs",
+      "row": 3,
+      "label": "Finance",
+      "audience": "",
+      "industry": "Finance",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1RyMferJX78JSAt8T82LybhCMKGUdOOhF/view?usp=sharing",
+        "Finance"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1RyMferJX78JSAt8T82LybhCMKGUdOOhF"
+      ]
+    },
+    {
+      "id": "f1d741eef6ba",
+      "tab": "More Designs",
+      "row": 4,
+      "label": "Digital Business Solutions",
+      "audience": "",
+      "industry": "Digital Business Solutions",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1NYpvKy17Obiq5HNnVyzxqbPNYoKPV5Nc/view?usp=sharing",
+        "Digital Business Solutions"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1NYpvKy17Obiq5HNnVyzxqbPNYoKPV5Nc"
+      ]
+    },
+    {
+      "id": "d9716a612096",
+      "tab": "More Designs",
+      "row": 5,
+      "label": "Fintech",
+      "audience": "",
+      "industry": "Fintech",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1GA2SNRpvKI81XQClSO1C9bCKBCFkAgag/view?usp=sharing",
+        "Fintech"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1GA2SNRpvKI81XQClSO1C9bCKBCFkAgag"
+      ]
+    },
+    {
+      "id": "a8e0e8a638ae",
+      "tab": "More Designs",
+      "row": 6,
+      "label": "Ai Powered Marketing Automation",
+      "audience": "",
+      "industry": "Ai Powered Marketing Automation",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1QF6aHW1MwvgtDOpf48vg5GdRa8LQERR5/view?usp=drive_link",
+        "Ai Powered Marketing Automation"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1QF6aHW1MwvgtDOpf48vg5GdRa8LQERR5"
+      ]
+    },
+    {
+      "id": "44f9142776ca",
+      "tab": "More Designs",
+      "row": 7,
+      "label": "ERP Solutions",
+      "audience": "",
+      "industry": "ERP Solutions",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1Bt4MeH_Cths9vTB49FoN-JfKw-lpgj8N/view?usp=drive_link",
+        "ERP Solutions"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1Bt4MeH_Cths9vTB49FoN-JfKw-lpgj8N"
+      ]
+    },
+    {
+      "id": "3c4d91b1258c",
+      "tab": "More Designs",
+      "row": 8,
+      "label": "Business Marketing Services",
+      "audience": "",
+      "industry": "Business Marketing Services",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1a2al6S0hUoAHG2K8lkR_gjpYPJtsb0ZC/view?usp=drive_link",
+        "Business Marketing Services"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1a2al6S0hUoAHG2K8lkR_gjpYPJtsb0ZC"
+      ]
+    },
+    {
+      "id": "f83c874c4946",
+      "tab": "More Designs",
+      "row": 9,
+      "label": "Marketing & Business Growth",
+      "audience": "",
+      "industry": "Marketing & Business Growth",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1datS6qDpuuzxa4FztvUYTz8GR-Z3B8oN/view?usp=drive_link",
+        "Marketing & Business Growth"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1datS6qDpuuzxa4FztvUYTz8GR-Z3B8oN"
+      ]
+    },
+    {
+      "id": "3afaba7d4b9a",
+      "tab": "More Designs",
+      "row": 10,
+      "label": "Cloud Based Website",
+      "audience": "",
+      "industry": "Cloud Based Website",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/14sWGd56qV2P042muUx7tkp1ya5ybj-b3/view?usp=drive_link",
+        "Cloud Based Website"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "14sWGd56qV2P042muUx7tkp1ya5ybj-b3"
+      ]
+    },
+    {
+      "id": "7f5507383d15",
+      "tab": "More Designs",
+      "row": 11,
+      "label": "CRM",
+      "audience": "",
+      "industry": "CRM",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1rClcdfsZdJ1vxGcSkg-PfurRY86x8Djg/view?usp=sharing",
+        "CRM"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1rClcdfsZdJ1vxGcSkg-PfurRY86x8Djg"
+      ]
+    },
+    {
+      "id": "ba1d299bfed2",
+      "tab": "More Designs",
+      "row": 12,
+      "label": "Coaching Agency",
+      "audience": "",
+      "industry": "Coaching Agency",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1EntiUH4RhROr1NJ4-cmkjHOxYxyUdcXl/view?usp=drive_link",
+        "Coaching Agency"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1EntiUH4RhROr1NJ4-cmkjHOxYxyUdcXl"
+      ]
+    },
+    {
+      "id": "56c2521be799",
+      "tab": "More Designs",
+      "row": 13,
+      "label": "Smart Solutions Website",
+      "audience": "",
+      "industry": "Smart Solutions Website",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1EJNY3u6PpgIpVflaux6_z9P_h7o9zP6f/view?usp=drive_link",
+        "Smart Solutions Website"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1EJNY3u6PpgIpVflaux6_z9P_h7o9zP6f"
+      ]
+    },
+    {
+      "id": "f2b7c80c4acb",
+      "tab": "More Designs",
+      "row": 14,
+      "label": "Restaurant",
+      "audience": "",
+      "industry": "Restaurant",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1j7u627PoLm7vO7VUHHW28gpzi0e_ONGl/view?usp=drive_link",
+        "Restaurant"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1j7u627PoLm7vO7VUHHW28gpzi0e_ONGl"
+      ]
+    },
+    {
+      "id": "c05b94bf9891",
+      "tab": "More Designs",
+      "row": 15,
+      "label": "Finance Solutions",
+      "audience": "",
+      "industry": "Finance Solutions",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1DUVni84-taZM_N9SkmjBAxMmL7yIhnMY/view?usp=drive_link",
+        "Finance Solutions"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1DUVni84-taZM_N9SkmjBAxMmL7yIhnMY"
+      ]
+    },
+    {
+      "id": "9560bc0fe640",
+      "tab": "More Designs",
+      "row": 16,
+      "label": "Ai Solutions",
+      "audience": "",
+      "industry": "Ai Solutions",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1PcQ_M3AxZULyNt6dB_r5RaYVOBom2vxg/view?usp=drive_link",
+        "Ai Solutions"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1PcQ_M3AxZULyNt6dB_r5RaYVOBom2vxg"
+      ]
+    },
+    {
+      "id": "8e12514764ce",
+      "tab": "More Designs",
+      "row": 17,
+      "label": "Ai Video Generating Website",
+      "audience": "",
+      "industry": "Ai Video Generating Website",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1FNaKBS1_h7_kTupaL8t1OWpk310msjUa/view?usp=drive_link",
+        "Ai Video Generating Website"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1FNaKBS1_h7_kTupaL8t1OWpk310msjUa"
+      ]
+    },
+    {
+      "id": "6e34d2bacbee",
+      "tab": "More Designs",
+      "row": 18,
+      "label": "Crypto based Startup",
+      "audience": "",
+      "industry": "Crypto based Startup",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1zSRzBKoxYsCyXX4XtYZLgPGmnAENZYp-/view?usp=drive_link",
+        "Crypto based Startup"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1zSRzBKoxYsCyXX4XtYZLgPGmnAENZYp-"
+      ]
+    },
+    {
+      "id": "68caf4cdea45",
+      "tab": "More Designs",
+      "row": 19,
+      "label": "Portfolio Website",
+      "audience": "",
+      "industry": "Portfolio Website",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1SjGrXKhimdYYuoKohsJsnVRNG_u-Q8qP/view?usp=drive_link",
+        "Portfolio Website"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1SjGrXKhimdYYuoKohsJsnVRNG_u-Q8qP"
+      ]
+    },
+    {
+      "id": "bebd70812314",
+      "tab": "More Designs",
+      "row": 20,
+      "label": "Software Solutions Company",
+      "audience": "",
+      "industry": "Software Solutions Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1Dnp_tQRdTl4ME-PnuEBncrke0uhmAlMX/view?usp=drive_link",
+        "Software Solutions Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1Dnp_tQRdTl4ME-PnuEBncrke0uhmAlMX"
+      ]
+    },
+    {
+      "id": "b9dc82faa556",
+      "tab": "More Designs",
+      "row": 21,
+      "label": "Tech-Based Startup",
+      "audience": "",
+      "industry": "Tech-Based Startup",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1vF0G3R9nZEOcYUdw6oVGq4ppM6cXl9tl/view?usp=drive_link",
+        "Tech-Based Startup"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1vF0G3R9nZEOcYUdw6oVGq4ppM6cXl9tl"
+      ]
+    },
+    {
+      "id": "e35797af35ec",
+      "tab": "More Designs",
+      "row": 22,
+      "label": "Real Estate Company",
+      "audience": "",
+      "industry": "Real Estate Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1yZ8zuf1wFTv2pHO-HDQ2jFV_8pRY7n8C/view?usp=drive_link",
+        "Real Estate Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1yZ8zuf1wFTv2pHO-HDQ2jFV_8pRY7n8C"
+      ]
+    },
+    {
+      "id": "dd372cfa5769",
+      "tab": "More Designs",
+      "row": 23,
+      "label": "SaaS Based Company",
+      "audience": "",
+      "industry": "SaaS Based Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1ICI35Qqdj5kj5wdsM1NtqpovWyRSZlgL/view?usp=drive_link",
+        "SaaS Based Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1ICI35Qqdj5kj5wdsM1NtqpovWyRSZlgL"
+      ]
+    },
+    {
+      "id": "6ba2da43f9b9",
+      "tab": "More Designs",
+      "row": 24,
+      "label": "Solutions Based Company",
+      "audience": "",
+      "industry": "Solutions Based Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1gfkTt40apNni2TcOO44CSl3GLs_XXOAC/view?usp=drive_link",
+        "Solutions Based Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1gfkTt40apNni2TcOO44CSl3GLs_XXOAC"
+      ]
+    },
+    {
+      "id": "e4b5af98e912",
+      "tab": "More Designs",
+      "row": 25,
+      "label": "Healthcare Services Company",
+      "audience": "",
+      "industry": "Healthcare Services Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/10B6PJaTV9XGASIeLiGB5cgIzl42htGSS/view?usp=drive_link",
+        "Healthcare Services Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "10B6PJaTV9XGASIeLiGB5cgIzl42htGSS"
+      ]
+    },
+    {
+      "id": "ed1b3592cdeb",
+      "tab": "More Designs",
+      "row": 26,
+      "label": "Cloud Storage Company",
+      "audience": "",
+      "industry": "Cloud Storage Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1_m9OJOsPUmpuMQOqgH0v5dAcg5OvKyjQ/view?usp=drive_link",
+        "Cloud Storage Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1_m9OJOsPUmpuMQOqgH0v5dAcg5OvKyjQ"
+      ]
+    },
+    {
+      "id": "aac55cc9cd6e",
+      "tab": "More Designs",
+      "row": 27,
+      "label": "eLearning Platform",
+      "audience": "",
+      "industry": "eLearning Platform",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1LrFGROTug7aSEi_qfHl5Vj7WwARJRHwD/view?usp=drive_link",
+        "eLearning Platform"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1LrFGROTug7aSEi_qfHl5Vj7WwARJRHwD"
+      ]
+    },
+    {
+      "id": "dd0f193fead3",
+      "tab": "More Designs",
+      "row": 28,
+      "label": "Ai SaaS Based Company",
+      "audience": "",
+      "industry": "Ai SaaS Based Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1eI6f8wuUj5aSeX1-QkHcJJEDoVsKSw9c/view?usp=drive_link",
+        "Ai SaaS Based Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1eI6f8wuUj5aSeX1-QkHcJJEDoVsKSw9c"
+      ]
+    },
+    {
+      "id": "db401d7911ff",
+      "tab": "More Designs",
+      "row": 29,
+      "label": "CRM Software System",
+      "audience": "",
+      "industry": "CRM Software System",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/16-PiDhETDT4Hf1ihkYCf5oq1yoaIeds4/view?usp=drive_link",
+        "CRM Software System"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "16-PiDhETDT4Hf1ihkYCf5oq1yoaIeds4"
+      ]
+    },
+    {
+      "id": "6b02f2c7b4c8",
+      "tab": "More Designs",
+      "row": 30,
+      "label": "SaaS based Company",
+      "audience": "",
+      "industry": "SaaS based Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/10nXchaOAiv6kTfjgi7e0yK_tc_yUU7--/view?usp=drive_link",
+        "SaaS based Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "10nXchaOAiv6kTfjgi7e0yK_tc_yUU7--"
+      ]
+    },
+    {
+      "id": "8b2de7aed45a",
+      "tab": "More Designs",
+      "row": 31,
+      "label": "Ecommerce Website for a Clothing Brand",
+      "audience": "",
+      "industry": "Ecommerce Website for a Clothing Brand",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1l2OePD770hb9yy-sYnOwiR6vRB4WBDNz/view?usp=drive_link",
+        "Ecommerce Website for a Clothing Brand"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1l2OePD770hb9yy-sYnOwiR6vRB4WBDNz"
+      ]
+    },
+    {
+      "id": "1c5e75d89b53",
+      "tab": "More Designs",
+      "row": 32,
+      "label": "Project Management Company",
+      "audience": "",
+      "industry": "Project Management Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1I1VyFG4le8fmvlBFxuP9cekJqqDXEzWh/view?usp=drive_link",
+        "Project Management Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1I1VyFG4le8fmvlBFxuP9cekJqqDXEzWh"
+      ]
+    },
+    {
+      "id": "348fb0a507b1",
+      "tab": "More Designs",
+      "row": 33,
+      "label": "Ai SaaS Based Startup",
+      "audience": "",
+      "industry": "Ai SaaS Based Startup",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1eI6f8wuUj5aSeX1-QkHcJJEDoVsKSw9c/view?usp=drive_link",
+        "Ai SaaS Based Startup"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1eI6f8wuUj5aSeX1-QkHcJJEDoVsKSw9c"
+      ]
+    },
+    {
+      "id": "ba1bf87c91c6",
+      "tab": "More Designs",
+      "row": 34,
+      "label": "GPS iOS APP",
+      "audience": "",
+      "industry": "GPS iOS APP",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1_hpMO3FjW9Eq89QKC17xLAWrZcfKL5Cb/view?usp=drive_link",
+        "GPS iOS APP"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1_hpMO3FjW9Eq89QKC17xLAWrZcfKL5Cb"
+      ]
+    },
+    {
+      "id": "27f23548319a",
+      "tab": "More Designs",
+      "row": 35,
+      "label": "Ecommerce Website for a Clothing Brand",
+      "audience": "",
+      "industry": "Ecommerce Website for a Clothing Brand",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1J10o8Cnsl2wdonxNWtVKuBQMSgBakXHs/view?usp=drive_link",
+        "Ecommerce Website for a Clothing Brand"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1J10o8Cnsl2wdonxNWtVKuBQMSgBakXHs"
+      ]
+    },
+    {
+      "id": "d1952010d7db",
+      "tab": "More Designs",
+      "row": 36,
+      "label": "Sales Based Company",
+      "audience": "",
+      "industry": "Sales Based Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1WI0HIQWmsEeHIbFfwSGnGG5bB7WZXl4B/view?usp=drive_link",
+        "Sales Based Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1WI0HIQWmsEeHIbFfwSGnGG5bB7WZXl4B"
+      ]
+    },
+    {
+      "id": "dfe449e550ad",
+      "tab": "More Designs",
+      "row": 37,
+      "label": "Ai Fintech Startup",
+      "audience": "",
+      "industry": "Ai Fintech Startup",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1S_-yyyYIm3zwZUf5cuffefiuFhA42ZR6/view?usp=drive_link",
+        "Ai Fintech Startup"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1S_-yyyYIm3zwZUf5cuffefiuFhA42ZR6"
+      ]
+    },
+    {
+      "id": "3ad7c15f4c5b",
+      "tab": "More Designs",
+      "row": 38,
+      "label": "Email Marketing Company",
+      "audience": "",
+      "industry": "Email Marketing Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1jpAYOqP618eaZNOJqQJrpyWgdVtPeGUS/view?usp=drive_link",
+        "Email Marketing Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1jpAYOqP618eaZNOJqQJrpyWgdVtPeGUS"
+      ]
+    },
+    {
+      "id": "f331caef2225",
+      "tab": "More Designs",
+      "row": 39,
+      "label": "SaaS based Company",
+      "audience": "",
+      "industry": "SaaS based Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1I7SY4aJJ9wNNkw8zlgbw-TxlGU9_gIUn/view?usp=drive_link",
+        "SaaS based Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1I7SY4aJJ9wNNkw8zlgbw-TxlGU9_gIUn"
+      ]
+    },
+    {
+      "id": "37457073b474",
+      "tab": "More Designs",
+      "row": 40,
+      "label": "SaaS based Company",
+      "audience": "",
+      "industry": "SaaS based Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1-PY_LrOK4U_A2E3wAkzC2tWwn14rNbWP/view?usp=drive_link",
+        "SaaS based Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1-PY_LrOK4U_A2E3wAkzC2tWwn14rNbWP"
+      ]
+    },
+    {
+      "id": "25b0ed34324f",
+      "tab": "More Designs",
+      "row": 41,
+      "label": "Ecommerce Website for a Clothing Brand",
+      "audience": "",
+      "industry": "Ecommerce Website for a Clothing Brand",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1S5OHssmyBx1s5qV1jgt3Z-OBa3O0DuHb/view?usp=drive_link",
+        "Ecommerce Website for a Clothing Brand"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1S5OHssmyBx1s5qV1jgt3Z-OBa3O0DuHb"
+      ]
+    },
+    {
+      "id": "96396203419a",
+      "tab": "More Designs",
+      "row": 42,
+      "label": "Data Analytics Company",
+      "audience": "",
+      "industry": "Data Analytics Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1QKhtX1VjRFf3p5jo0RiPZj3NHZ77oY7j/view?usp=drive_link",
+        "Data Analytics Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1QKhtX1VjRFf3p5jo0RiPZj3NHZ77oY7j"
+      ]
+    },
+    {
+      "id": "81768a2083c5",
+      "tab": "More Designs",
+      "row": 43,
+      "label": "SaaS-based Company",
+      "audience": "",
+      "industry": "SaaS-based Company",
+      "comment": "",
+      "values": [
+        "https://drive.google.com/file/d/1sfabo79-yUGmmM0_0qgx9lpSoOzjofcu/view?usp=drive_link",
+        "SaaS-based Company"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1sfabo79-yUGmmM0_0qgx9lpSoOzjofcu"
+      ]
+    },
+    {
+      "id": "82e7e28a89c7",
+      "tab": "Pages We Like",
+      "row": 2,
+      "label": "Astra",
+      "audience": "",
+      "industry": "B2B SaaS",
+      "comment": "",
+      "values": [
+        "Astra",
+        "",
+        "https://drive.google.com/file/d/14dw3okrRIQBunlFAalWmvnrY7ODzrLET/view?usp=drive_link",
+        "B2B SaaS"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "14dw3okrRIQBunlFAalWmvnrY7ODzrLET"
+      ]
+    },
+    {
+      "id": "635c8aa4cf37",
+      "tab": "Pages We Like",
+      "row": 3,
+      "label": "Astra 2",
+      "audience": "",
+      "industry": "B2B SaaS",
+      "comment": "",
+      "values": [
+        "Astra 2",
+        "",
+        "https://drive.google.com/file/d/1hp2cIgFA7BN6tYCSBP-7X0hw63C_HjZh/view?usp=drive_link",
+        "B2B SaaS"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1hp2cIgFA7BN6tYCSBP-7X0hw63C_HjZh"
+      ]
+    },
+    {
+      "id": "b8723575d3df",
+      "tab": "Pages We Like",
+      "row": 4,
+      "label": "Astra 3",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "Astra 3",
+        "",
+        "https://drive.google.com/file/d/1DQRxnu8907syOsX5q-aHFJKu7yxyaoIT/view?usp=drive_link"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1DQRxnu8907syOsX5q-aHFJKu7yxyaoIT"
+      ]
+    },
+    {
+      "id": "26c35422b53d",
+      "tab": "Pages We Like",
+      "row": 5,
+      "label": "Axe",
+      "audience": "",
+      "industry": "FinTech",
+      "comment": "",
+      "values": [
+        "Axe",
+        "",
+        "https://drive.google.com/file/d/1JaNH4dFrYzJ-V021Oil2297XWLNxmnNc/view?usp=drive_link",
+        "FinTech"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1JaNH4dFrYzJ-V021Oil2297XWLNxmnNc"
+      ]
+    },
+    {
+      "id": "d536b36aca2f",
+      "tab": "Pages We Like",
+      "row": 6,
+      "label": "Dentai",
+      "audience": "",
+      "industry": "SaaS for dental clinics",
+      "comment": "",
+      "values": [
+        "Dentai",
+        "",
+        "https://drive.google.com/file/d/1stFbXT8X2kz6VdrZ-RRrJ81idHhEwGVc/view?usp=drive_link",
+        "SaaS for dental clinics"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1stFbXT8X2kz6VdrZ-RRrJ81idHhEwGVc"
+      ]
+    },
+    {
+      "id": "4e160a6b34be",
+      "tab": "Pages We Like",
+      "row": 7,
+      "label": "Dentai CRM",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "Dentai CRM",
+        "",
+        "https://drive.google.com/file/d/1NY9dVUHy1HpRhRLyJE1cvIJAtY7-3tEz/view?usp=drive_link"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1NY9dVUHy1HpRhRLyJE1cvIJAtY7-3tEz"
+      ]
+    },
+    {
+      "id": "c43495a81852",
+      "tab": "Pages We Like",
+      "row": 8,
+      "label": "Dentai CRM 2",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "Dentai CRM 2",
+        "",
+        "https://drive.google.com/file/d/12-vIieClgtxQkxxsUdyRAwcFMP74qJyJ/view?usp=drive_link"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "12-vIieClgtxQkxxsUdyRAwcFMP74qJyJ"
+      ]
+    },
+    {
+      "id": "c84a141d8236",
+      "tab": "Pages We Like",
+      "row": 9,
+      "label": "Instage",
+      "audience": "",
+      "industry": "B2C Edtech",
+      "comment": "",
+      "values": [
+        "Instage",
+        "",
+        "https://drive.google.com/file/d/1S8koZ8CeVAwNsC__49EakRjvtfVzQ7If/view?usp=drive_link",
+        "B2C Edtech"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1S8koZ8CeVAwNsC__49EakRjvtfVzQ7If"
+      ]
+    },
+    {
+      "id": "a7921f434434",
+      "tab": "Pages We Like",
+      "row": 10,
+      "label": "Yummy",
+      "audience": "",
+      "industry": "B2C Food delivery",
+      "comment": "",
+      "values": [
+        "Yummy",
+        "",
+        "https://drive.google.com/file/d/1vDMfiyn8Zb_9GjiomUxxVIpjIjDD4kGb/view?usp=drive_link",
+        "B2C Food delivery"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1vDMfiyn8Zb_9GjiomUxxVIpjIjDD4kGb"
+      ]
+    },
+    {
+      "id": "6688061938a4",
+      "tab": "Pages We Like",
+      "row": 11,
+      "label": "AE Harbor",
+      "audience": "",
+      "industry": "B2C Coaching/Autism support",
+      "comment": "",
+      "values": [
+        "AE Harbor",
+        "",
+        "https://drive.google.com/file/d/1lfYPr-umT0KDIiwI1yA7BXH0yqGChLpq/view?usp=drive_link",
+        "B2C Coaching/Autism support"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1lfYPr-umT0KDIiwI1yA7BXH0yqGChLpq"
+      ]
+    },
+    {
+      "id": "112b51487c52",
+      "tab": "Pages We Like",
+      "row": 12,
+      "label": "Aragon",
+      "audience": "",
+      "industry": "SaaS AI photo",
+      "comment": "",
+      "values": [
+        "Aragon",
+        "",
+        "https://drive.google.com/file/d/1DN0MGDW6mSZOBKNCN0AzmymWQEwYUaXT/view?usp=drive_link",
+        "SaaS AI photo"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1DN0MGDW6mSZOBKNCN0AzmymWQEwYUaXT"
+      ]
+    },
+    {
+      "id": "9c6ca092db7b",
+      "tab": "Pages We Like",
+      "row": 13,
+      "label": "WeavePay",
+      "audience": "",
+      "industry": "B2B Fintech SaaS",
+      "comment": "",
+      "values": [
+        "WeavePay",
+        "",
+        "https://drive.google.com/file/d/15Cw6ojinVSN57V85qR8HleyNn7MMAA9p/view?usp=drive_link",
+        "B2B Fintech SaaS"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "15Cw6ojinVSN57V85qR8HleyNn7MMAA9p"
+      ]
+    },
+    {
+      "id": "7a736214d7bc",
+      "tab": "Pages We Like",
+      "row": 14,
+      "label": "Synaptic",
+      "audience": "",
+      "industry": "B2B Analytics SaaS",
+      "comment": "",
+      "values": [
+        "Synaptic",
+        "",
+        "https://drive.google.com/file/d/1p6LG-NC5sEbRekFo7PwwU_ikF56Khzrp/view?usp=drive_link",
+        "B2B Analytics SaaS"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1p6LG-NC5sEbRekFo7PwwU_ikF56Khzrp"
+      ]
+    },
+    {
+      "id": "2544bc6b743c",
+      "tab": "Pages We Like",
+      "row": 15,
+      "label": "hiveCompute",
+      "audience": "",
+      "industry": "B2B Cloud SaaS",
+      "comment": "",
+      "values": [
+        "hiveCompute",
+        "",
+        "https://drive.google.com/file/d/1oy2qns7ATdwZWcmoE0YyHPrP6vG-yBAu/view?usp=drive_link",
+        "B2B Cloud SaaS"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1oy2qns7ATdwZWcmoE0YyHPrP6vG-yBAu"
+      ]
+    },
+    {
+      "id": "b231196c89e1",
+      "tab": "Pages We Like",
+      "row": 16,
+      "label": "Aomni",
+      "audience": "",
+      "industry": "B2B Sales SaaS",
+      "comment": "",
+      "values": [
+        "Aomni",
+        "",
+        "https://drive.google.com/file/d/1-AAUs5rj5fXdxeV9blq5GDKjbb7GdzgL/view?usp=drive_link",
+        "B2B Sales SaaS"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1-AAUs5rj5fXdxeV9blq5GDKjbb7GdzgL"
+      ]
+    },
+    {
+      "id": "5e9f91669f27",
+      "tab": "Pages We Like",
+      "row": 17,
+      "label": "Poppy",
+      "audience": "",
+      "industry": "B2B SaaS No-code popup builder",
+      "comment": "",
+      "values": [
+        "Poppy",
+        "",
+        "https://drive.google.com/file/d/1KVcVbpDcsHOYJTJMt3tlbAt5KBgG0CfH/view?usp=drive_link",
+        "B2B SaaS No-code popup builder"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1KVcVbpDcsHOYJTJMt3tlbAt5KBgG0CfH"
+      ]
+    },
+    {
+      "id": "06d86e820e5b",
+      "tab": "Pages We Like",
+      "row": 18,
+      "label": "Openstage",
+      "audience": "",
+      "industry": "B2B Aritst's funbase managemnt",
+      "comment": "",
+      "values": [
+        "Openstage",
+        "",
+        "https://drive.google.com/file/d/1FkONS0Jkw6hSXRjLSqPNHgh7BDg9Z1Ob/view?usp=drive_link",
+        "B2B Aritst's funbase managemnt"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1FkONS0Jkw6hSXRjLSqPNHgh7BDg9Z1Ob"
+      ]
+    },
+    {
+      "id": "0943024d836e",
+      "tab": "Pages We Like",
+      "row": 19,
+      "label": "Rosebud",
+      "audience": "",
+      "industry": "B2C SaaS Selfcare",
+      "comment": "",
+      "values": [
+        "Rosebud",
+        "",
+        "https://drive.google.com/file/d/18v47q4CaNyqDHfgRI8go79K15la1pxAd/view?usp=drive_link",
+        "B2C SaaS Selfcare"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "18v47q4CaNyqDHfgRI8go79K15la1pxAd"
+      ]
+    },
+    {
+      "id": "1de7b8b31737",
+      "tab": "Pages We Like",
+      "row": 20,
+      "label": "Tower",
+      "audience": "",
+      "industry": "B2B Security SaaS",
+      "comment": "",
+      "values": [
+        "Tower",
+        "",
+        "https://drive.google.com/file/d/1CQ_-UhO6cyv9jvQ9GbDbwBy8mSPbZ0Mp/view?usp=drive_link",
+        "B2B Security SaaS"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1CQ_-UhO6cyv9jvQ9GbDbwBy8mSPbZ0Mp"
+      ]
+    },
+    {
+      "id": "34867ef70c16",
+      "tab": "Pages We Like",
+      "row": 21,
+      "label": "VDC",
+      "audience": "",
+      "industry": "B2B Food delivery for restaurants",
+      "comment": "",
+      "values": [
+        "VDC",
+        "",
+        "https://drive.google.com/file/d/1DA6al8AObpRHMw8Zci2eS3SUC3AbQ_9W/view?usp=drive_link",
+        "B2B Food delivery for restaurants"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1DA6al8AObpRHMw8Zci2eS3SUC3AbQ_9W"
+      ]
+    },
+    {
+      "id": "7c9b6b3c7edc",
+      "tab": "Pages We Like",
+      "row": 22,
+      "label": "Devjuice",
+      "audience": "",
+      "industry": "B2B IT outsourcing",
+      "comment": "",
+      "values": [
+        "Devjuice",
+        "",
+        "https://drive.google.com/file/d/1cKfSjpPkvVdUB6g3IjL8WfnvraBgdOsw/view?usp=drive_link",
+        "B2B IT outsourcing"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1cKfSjpPkvVdUB6g3IjL8WfnvraBgdOsw"
+      ]
+    },
+    {
+      "id": "80afc80884e2",
+      "tab": "Pages We Like",
+      "row": 23,
+      "label": "Gracenote",
+      "audience": "",
+      "industry": "B2B Compliance SaaS",
+      "comment": "",
+      "values": [
+        "Gracenote",
+        "",
+        "https://drive.google.com/file/d/13oDV5H91soihYh9DKhgtsEl5PFlKsemi/view?usp=drive_link",
+        "B2B Compliance SaaS"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "13oDV5H91soihYh9DKhgtsEl5PFlKsemi"
+      ]
+    },
+    {
+      "id": "53c84f5cc2cc",
+      "tab": "Pages We Like",
+      "row": 24,
+      "label": "OpusClip",
+      "audience": "",
+      "industry": "Saas video clip, social media manager",
+      "comment": "",
+      "values": [
+        "OpusClip",
+        "",
+        "https://drive.google.com/file/d/1bMR6V9Gyz-wNFWZVqvT_HPU_0tEu7o7_/view?usp=drive_link",
+        "Saas video clip, social media manager"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1bMR6V9Gyz-wNFWZVqvT_HPU_0tEu7o7_"
+      ]
+    },
+    {
+      "id": "fbab39821134",
+      "tab": "Pages We Like",
+      "row": 25,
+      "label": "Specode",
+      "audience": "",
+      "industry": "B2B healthcare app development",
+      "comment": "",
+      "values": [
+        "Specode",
+        "",
+        "https://drive.google.com/file/d/1zwhk1Ce4AVCDrBKej8EKW_gfaYCWSwpl/view?usp=drive_link",
+        "B2B healthcare app development"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1zwhk1Ce4AVCDrBKej8EKW_gfaYCWSwpl"
+      ]
+    },
+    {
+      "id": "c85aeb02f1e2",
+      "tab": "Pages We Like",
+      "row": 26,
+      "label": "Arrow",
+      "audience": "",
+      "industry": "B2B healthcare fintech",
+      "comment": "",
+      "values": [
+        "Arrow",
+        "",
+        "https://drive.google.com/file/d/1akReNOavaCPXMHui6KyVk8BzHD8nm_EQ/view?usp=drive_link",
+        "B2B healthcare fintech"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1akReNOavaCPXMHui6KyVk8BzHD8nm_EQ"
+      ]
+    },
+    {
+      "id": "5679db6ccdaf",
+      "tab": "Pages We Like",
+      "row": 27,
+      "label": "BitHauss",
+      "audience": "",
+      "industry": "Real estate",
+      "comment": "",
+      "values": [
+        "BitHauss",
+        "",
+        "https://drive.google.com/file/d/1YxmUAfdDgMJEHeA2lBPfnvSdC1ijftv9/view?usp=drive_link",
+        "Real estate"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1YxmUAfdDgMJEHeA2lBPfnvSdC1ijftv9"
+      ]
+    },
+    {
+      "id": "01b76f9b76a5",
+      "tab": "Pages We Like",
+      "row": 28,
+      "label": "AlgoRX",
+      "audience": "",
+      "industry": "B2C healthcare",
+      "comment": "",
+      "values": [
+        "AlgoRX",
+        "",
+        "https://drive.google.com/file/d/1iVKBZuFxUfcLQtqP8PSbZJm_SEsPlX_J/view?usp=drive_link",
+        "B2C healthcare"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1iVKBZuFxUfcLQtqP8PSbZJm_SEsPlX_J"
+      ]
+    },
+    {
+      "id": "13392bad249f",
+      "tab": "Pages We Like",
+      "row": 29,
+      "label": "StradaOpts",
+      "audience": "",
+      "industry": "B2B CRM",
+      "comment": "",
+      "values": [
+        "StradaOpts",
+        "",
+        "https://drive.google.com/file/d/12GpNVKXwSujzEyTX5H5BsIUk3XKsxlQ0/view?usp=drive_link",
+        "B2B CRM"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "12GpNVKXwSujzEyTX5H5BsIUk3XKsxlQ0"
+      ]
+    },
+    {
+      "id": "8aac76cdf6d3",
+      "tab": "Pages We Like",
+      "row": 30,
+      "label": "Kinsome",
+      "audience": "",
+      "industry": "B2C app",
+      "comment": "",
+      "values": [
+        "Kinsome",
+        "",
+        "https://drive.google.com/file/d/1RkiymfnBUkICvv0pp4gx_KdY8wUmP6Go/view?usp=drive_link",
+        "B2C app"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1RkiymfnBUkICvv0pp4gx_KdY8wUmP6Go"
+      ]
+    },
+    {
+      "id": "e1b0c353791a",
+      "tab": "More Pages We Like",
+      "row": 2,
+      "label": "Alux",
+      "audience": "",
+      "industry": "B2C app",
+      "comment": "",
+      "values": [
+        "Alux",
+        "",
+        "https://drive.google.com/file/d/1cXBbzcpVA9bmrq3puXY75PEYaXqp69uF/view?usp=drive_link",
+        "B2C app"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1cXBbzcpVA9bmrq3puXY75PEYaXqp69uF"
+      ]
+    },
+    {
+      "id": "c87b48a4ccc5",
+      "tab": "More Pages We Like",
+      "row": 3,
+      "label": "Sum Sanos",
+      "audience": "",
+      "industry": "Weight loss psycologist",
+      "comment": "",
+      "values": [
+        "Sum Sanos",
+        "",
+        "https://drive.google.com/file/d/1FoRpg99uuhvTHGNNVKqSoWFbb7MfxHZR/view?usp=sharing",
+        "Weight loss psycologist"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1FoRpg99uuhvTHGNNVKqSoWFbb7MfxHZR"
+      ]
+    },
+    {
+      "id": "4df5e858c652",
+      "tab": "More Pages We Like",
+      "row": 4,
+      "label": "Slater Gordon",
+      "audience": "",
+      "industry": "Lawyer",
+      "comment": "",
+      "values": [
+        "Slater Gordon",
+        "",
+        "https://drive.google.com/file/d/1jvxqkd9GHD3jtZlyLhKTBQ0GRWr0ZTrK/view?usp=drive_link",
+        "Lawyer"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1jvxqkd9GHD3jtZlyLhKTBQ0GRWr0ZTrK"
+      ]
+    },
+    {
+      "id": "abb7cb9fc2ac",
+      "tab": "More Pages We Like",
+      "row": 5,
+      "label": "renovating for profit",
+      "audience": "",
+      "industry": "online course on renovation",
+      "comment": "",
+      "values": [
+        "renovating for profit",
+        "",
+        "https://drive.google.com/file/d/13Z-panp0ndLyxzlLz297jWDoZ5dQKNIv/view?usp=sharing",
+        "online course on renovation"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "13Z-panp0ndLyxzlLz297jWDoZ5dQKNIv"
+      ]
+    },
+    {
+      "id": "889ca3075de6",
+      "tab": "More Pages We Like",
+      "row": 6,
+      "label": "Ray White",
+      "audience": "",
+      "industry": "property agency",
+      "comment": "",
+      "values": [
+        "Ray White",
+        "",
+        "https://drive.google.com/file/d/1uXaAfaGSy-CWLqLprQkUE7Qg36rg_Zf_/view?usp=drive_link",
+        "property agency"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1uXaAfaGSy-CWLqLprQkUE7Qg36rg_Zf_"
+      ]
+    },
+    {
+      "id": "bde3b861e50d",
+      "tab": "More Pages We Like",
+      "row": 7,
+      "label": "Primal Alternative",
+      "audience": "",
+      "industry": "business course",
+      "comment": "",
+      "values": [
+        "Primal Alternative",
+        "",
+        "https://drive.google.com/file/d/15QZSg_8ZMeTZqtIjmcdB_0TF2eMnQaVd/view?usp=sharing",
+        "business course"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "15QZSg_8ZMeTZqtIjmcdB_0TF2eMnQaVd"
+      ]
+    },
+    {
+      "id": "24cbb7fec49b",
+      "tab": "More Pages We Like",
+      "row": 8,
+      "label": "procurement solutions",
+      "audience": "",
+      "industry": "bulding materials",
+      "comment": "",
+      "values": [
+        "procurement solutions",
+        "",
+        "https://drive.google.com/file/d/1pQ2aDrSVD10giFsOytPfZiqop5AXUegB/view?usp=sharing",
+        "bulding materials"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1pQ2aDrSVD10giFsOytPfZiqop5AXUegB"
+      ]
+    },
+    {
+      "id": "ba10a4e5617d",
+      "tab": "More Pages We Like",
+      "row": 9,
+      "label": "artisan",
+      "audience": "",
+      "industry": "home painters",
+      "comment": "",
+      "values": [
+        "artisan",
+        "",
+        "https://drive.google.com/file/d/1Uad092M8QbylYBMPuqOG2zwnlW7xfV1H/view?usp=sharing",
+        "home painters"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1Uad092M8QbylYBMPuqOG2zwnlW7xfV1H"
+      ]
+    },
+    {
+      "id": "c34e4b1adb2d",
+      "tab": "More Pages We Like",
+      "row": 10,
+      "label": "ninja park",
+      "audience": "",
+      "industry": "fitness franchise",
+      "comment": "",
+      "values": [
+        "ninja park",
+        "",
+        "https://drive.google.com/file/d/1YURvxD2Uug-dPDn7-BaOhjoF8_hCqRl1/view?usp=sharing",
+        "fitness franchise"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1YURvxD2Uug-dPDn7-BaOhjoF8_hCqRl1"
+      ]
+    },
+    {
+      "id": "169d19baa351",
+      "tab": "More Pages We Like",
+      "row": 11,
+      "label": "kitchen hunter valley",
+      "audience": "",
+      "industry": "catering",
+      "comment": "",
+      "values": [
+        "kitchen hunter valley",
+        "",
+        "https://drive.google.com/file/d/1oFjSMFXtA5mIKgL4WyTFoGdHmrar7tXz/view?usp=sharing",
+        "catering"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1oFjSMFXtA5mIKgL4WyTFoGdHmrar7tXz"
+      ]
+    },
+    {
+      "id": "e6bd924955aa",
+      "tab": "More Pages We Like",
+      "row": 12,
+      "label": "Stock Doctor",
+      "audience": "",
+      "industry": "investment platform",
+      "comment": "",
+      "values": [
+        "Stock Doctor",
+        "",
+        "https://drive.google.com/file/d/1M1B6VqzVTg4Zby3xkdjA7v2ngJ9DsJeM/view?usp=sharing",
+        "investment platform"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1M1B6VqzVTg4Zby3xkdjA7v2ngJ9DsJeM"
+      ]
+    },
+    {
+      "id": "673148befc61",
+      "tab": "More Pages We Like",
+      "row": 13,
+      "label": "Wendy Jacobs",
+      "audience": "",
+      "industry": "quit smoking hypnosis therapy",
+      "comment": "",
+      "values": [
+        "Wendy Jacobs",
+        "",
+        "https://drive.google.com/file/d/1zxVXwczwf_4NXEXe8jOh-JJJoHh7mlOp/view?usp=sharing",
+        "quit smoking hypnosis therapy"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1zxVXwczwf_4NXEXe8jOh-JJJoHh7mlOp"
+      ]
+    },
+    {
+      "id": "72fe34115efa",
+      "tab": "More Pages We Like",
+      "row": 14,
+      "label": "Unikorn",
+      "audience": "",
+      "industry": "commercial property",
+      "comment": "",
+      "values": [
+        "Unikorn",
+        "",
+        "https://drive.google.com/file/d/17rlQW-pNxTVBMWDM_nKcqlueqbydUy1a/view?usp=sharing",
+        "commercial property"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "17rlQW-pNxTVBMWDM_nKcqlueqbydUy1a"
+      ]
+    },
+    {
+      "id": "2d3c537975dc",
+      "tab": "More Pages We Like",
+      "row": 15,
+      "label": "Hustler",
+      "audience": "",
+      "industry": "farming equipment",
+      "comment": "",
+      "values": [
+        "Hustler",
+        "",
+        "https://drive.google.com/file/d/13cN8QEx8IwbOI9Ffs7xi0ZqX-Hf2CwhE/view?usp=sharing",
+        "farming equipment"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "13cN8QEx8IwbOI9Ffs7xi0ZqX-Hf2CwhE"
+      ]
+    },
+    {
+      "id": "240bddab7e9e",
+      "tab": "More Pages We Like",
+      "row": 16,
+      "label": "Good vide getaways",
+      "audience": "",
+      "industry": "woman selfcare/psycology",
+      "comment": "",
+      "values": [
+        "Good vide getaways",
+        "",
+        "https://drive.google.com/file/d/1owJDNIZXUUPnlaj2BZPsdKVWCg8TmIdh/view?usp=sharing",
+        "woman selfcare/psycology"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1owJDNIZXUUPnlaj2BZPsdKVWCg8TmIdh"
+      ]
+    },
+    {
+      "id": "de7ac6bb1a45",
+      "tab": "More Pages We Like",
+      "row": 17,
+      "label": "don't tell Cherles",
+      "audience": "",
+      "industry": "Baking Course",
+      "comment": "",
+      "values": [
+        "don't tell Cherles",
+        "",
+        "https://drive.google.com/file/d/1hbeqDYTTaIKephQNr08uBGGnwnijwOtL/view?usp=sharing",
+        "Baking Course"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1hbeqDYTTaIKephQNr08uBGGnwnijwOtL"
+      ]
+    },
+    {
+      "id": "d340361d7841",
+      "tab": "More Pages We Like",
+      "row": 18,
+      "label": "logimeter",
+      "audience": "",
+      "industry": "Sales software",
+      "comment": "",
+      "values": [
+        "logimeter",
+        "",
+        "https://drive.google.com/file/d/1px-gG-e2avaa032kwCxRYLIE0Cl3b1gA/view?usp=sharing",
+        "Sales software"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1px-gG-e2avaa032kwCxRYLIE0Cl3b1gA"
+      ]
+    },
+    {
+      "id": "58bdaa2ed4bf",
+      "tab": "More Pages We Like",
+      "row": 19,
+      "label": "energy makeovers",
+      "audience": "",
+      "industry": "solar systems",
+      "comment": "",
+      "values": [
+        "energy makeovers",
+        "",
+        "https://drive.google.com/file/d/1-lix4VH49QvnJrQBGvRAoigXFQJ6P6L2/view?usp=sharing",
+        "solar systems"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1-lix4VH49QvnJrQBGvRAoigXFQJ6P6L2"
+      ]
+    },
+    {
+      "id": "a29912725cfe",
+      "tab": "More Pages We Like",
+      "row": 20,
+      "label": "The Distillers Institute",
+      "audience": "",
+      "industry": "course/education",
+      "comment": "",
+      "values": [
+        "The Distillers Institute",
+        "",
+        "https://drive.google.com/file/d/1U8DeJEo0to_rpBSGIzpnoY3WHGmxXZ-r/view?usp=sharing",
+        "course/education"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1U8DeJEo0to_rpBSGIzpnoY3WHGmxXZ-r"
+      ]
+    },
+    {
+      "id": "fc314488fbb6",
+      "tab": "More Pages We Like",
+      "row": 21,
+      "label": "LinkMyBooks",
+      "audience": "",
+      "industry": "Accounting SaaS",
+      "comment": "",
+      "values": [
+        "LinkMyBooks",
+        "",
+        "https://drive.google.com/file/d/12Uhl1j56nFmgPUtPwPWtQ59UyqogKole/view?usp=sharing",
+        "Accounting SaaS"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "12Uhl1j56nFmgPUtPwPWtQ59UyqogKole"
+      ]
+    },
+    {
+      "id": "2dc4f1a9ac4b",
+      "tab": "More Pages We Like",
+      "row": 22,
+      "label": "Core powerfoods",
+      "audience": "",
+      "industry": "food delivery",
+      "comment": "",
+      "values": [
+        "Core powerfoods",
+        "",
+        "https://drive.google.com/file/d/1oCB3BPzjp_BJObYj2FUoWP8CdtD-igFX/view?usp=sharing",
+        "food delivery"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1oCB3BPzjp_BJObYj2FUoWP8CdtD-igFX"
+      ]
+    },
+    {
+      "id": "9563e74a8ebd",
+      "tab": "More Pages We Like",
+      "row": 23,
+      "label": "Pizza",
+      "audience": "",
+      "industry": "food delivery",
+      "comment": "",
+      "values": [
+        "Pizza",
+        "",
+        "https://drive.google.com/file/d/1A_R89k6y6W8RgjOuBb3QvkDVzO-IBYFv/view?usp=sharing",
+        "food delivery"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1A_R89k6y6W8RgjOuBb3QvkDVzO-IBYFv"
+      ]
+    },
+    {
+      "id": "87ea7767c97f",
+      "tab": "More Pages We Like",
+      "row": 24,
+      "label": "Caruro's natural health",
+      "audience": "",
+      "industry": "supplements",
+      "comment": "",
+      "values": [
+        "Caruro's natural health",
+        "",
+        "https://drive.google.com/file/d/15vh3-kYYAp72f7o41ViKuU9KNPgEItrO/view?usp=sharing",
+        "supplements"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "15vh3-kYYAp72f7o41ViKuU9KNPgEItrO"
+      ]
+    },
+    {
+      "id": "f6ee0752bb3e",
+      "tab": "More Pages We Like",
+      "row": 25,
+      "label": "Capitl",
+      "audience": "",
+      "industry": "real estate",
+      "comment": "",
+      "values": [
+        "Capitl",
+        "",
+        "https://drive.google.com/file/d/1MeuslXKqiSFojbnoOXtVHK4GZOe-dJuL/view?usp=sharing",
+        "real estate"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1MeuslXKqiSFojbnoOXtVHK4GZOe-dJuL"
+      ]
+    },
+    {
+      "id": "6a9217b5e793",
+      "tab": "More Pages We Like",
+      "row": 26,
+      "label": "orangetheory",
+      "audience": "",
+      "industry": "fitness/gym",
+      "comment": "",
+      "values": [
+        "orangetheory",
+        "",
+        "https://drive.google.com/file/d/151gOWYMCuSjmCVtTrKTMO3Wca13-2ZgN/view?usp=sharing",
+        "fitness/gym"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "151gOWYMCuSjmCVtTrKTMO3Wca13-2ZgN"
+      ]
+    },
+    {
+      "id": "58c91b3e15dc",
+      "tab": "More Pages We Like",
+      "row": 27,
+      "label": "b2b",
+      "audience": "",
+      "industry": "cleaning services",
+      "comment": "",
+      "values": [
+        "b2b",
+        "",
+        "https://drive.google.com/file/d/1CuaJlEXv0zplAgAD1FKRQA0iu8UERD-z/view?usp=sharing",
+        "cleaning services"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1CuaJlEXv0zplAgAD1FKRQA0iu8UERD-z"
+      ]
+    },
+    {
+      "id": "c11f90477110",
+      "tab": "More Pages We Like",
+      "row": 28,
+      "label": "Al Mabin",
+      "audience": "",
+      "industry": "book, selfcare",
+      "comment": "",
+      "values": [
+        "Al Mabin",
+        "",
+        "https://drive.google.com/file/d/1P0QBgpgvAJgzZOpxx_Nrun9k1erBiTqk/view?usp=sharing",
+        "book, selfcare"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1P0QBgpgvAJgzZOpxx_Nrun9k1erBiTqk"
+      ]
+    },
+    {
+      "id": "5a633bdacf17",
+      "tab": "More Pages We Like",
+      "row": 29,
+      "label": "SMP treatment",
+      "audience": "",
+      "industry": "anti hair loss treatment",
+      "comment": "",
+      "values": [
+        "SMP treatment",
+        "",
+        "https://drive.google.com/file/d/1xbO26RSMeelKgRxLbCxsdUFHIf3kaTD2/view?usp=sharing",
+        "anti hair loss treatment"
+      ],
+      "page_ids": [],
+      "asset_ids": [
+        "1xbO26RSMeelKgRxLbCxsdUFHIf3kaTD2"
+      ]
+    },
+    {
+      "id": "3b72629cd8cb",
+      "tab": "Before/After",
+      "row": 2,
+      "label": "",
+      "audience": "B2C",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "https://ecokitchenresurfacing.com.au/",
+        "https://page.ecokitchenresurfacing.com.au/step-1",
+        "B2C",
+        "2",
+        "12"
+      ],
+      "page_ids": [
+        "63c1a97a0673",
+        "6407faf8c130"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "e5d3e6944075",
+      "tab": "Before/After",
+      "row": 3,
+      "label": "",
+      "audience": "B2C",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "https://bluemountainco.com.au/",
+        "https://bluemountain1.pagedemo.co/",
+        "B2C",
+        "2",
+        "9"
+      ],
+      "page_ids": [
+        "02fa2d938874",
+        "6aebe071e132"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "6ccd92e67ae5",
+      "tab": "Before/After",
+      "row": 4,
+      "label": "",
+      "audience": "B2C",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "https://tastytablecatering.com/",
+        "https://tasty-table.pagedemo.co/",
+        "B2C",
+        "2",
+        "11"
+      ],
+      "page_ids": [
+        "452761eb295e",
+        "d03d7c74e81b"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "03ea571fca6b",
+      "tab": "Before/After",
+      "row": 5,
+      "label": "",
+      "audience": "SAAS",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "https://www.itportal.com/v5/",
+        "https://itportal1.pagedemo.co/",
+        "SAAS",
+        "3",
+        "8.5"
+      ],
+      "page_ids": [
+        "f17b2db39e11",
+        "1f69b9c67623"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "5c741cd3c537",
+      "tab": "Before/After",
+      "row": 6,
+      "label": "",
+      "audience": "Ecom",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "mikes ",
+        "https://prestigebotanicals.com.au/products/real-touch-prestige-white-rose-22",
+        "Ecom"
+      ],
+      "page_ids": [
+        "7ee03c811f78"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "5759a11af92d",
+      "tab": "Before/After",
+      "row": 7,
+      "label": "",
+      "audience": "B2B",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "https://www.sutherlandblack.co.uk/",
+        "https://sutherlandblack.pagedemo.co/",
+        "B2B",
+        "1.5",
+        "8"
+      ],
+      "page_ids": [
+        "f45db2a83fe4",
+        "6901811d0e03"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "17ff91ba33ff",
+      "tab": "Before/After",
+      "row": 8,
+      "label": "",
+      "audience": "B2C",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "https://www.gumleafgutterguard.com.au/",
+        "https://gumleaf1.pagedemo.co/",
+        "B2C",
+        "2",
+        "9"
+      ],
+      "page_ids": [
+        "6fc21235b111",
+        "ec1fccbfeee4"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "76eb5dac7954",
+      "tab": "Before/After",
+      "row": 9,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "https://helpmatch.com/"
+      ],
+      "page_ids": [
+        "67afd609f990"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "db73b5866f39",
+      "tab": "Before/After",
+      "row": 10,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "https://go.roofseal.com.au/vic-roof-restoration"
+      ],
+      "page_ids": [
+        "766cb77f27fd"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "140550d7063b",
+      "tab": "Before/After",
+      "row": 11,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "https://sethbowenlaw.com/",
+        "https://divorce.sethbowenlaw.com/proven-family-attorney"
+      ],
+      "page_ids": [
+        "b1a1e59074f5",
+        "914f02f3cbe7"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "e9c48f3b8558",
+      "tab": "Before/After",
+      "row": 12,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "https://getairmoto.com/products/airmoto"
+      ],
+      "page_ids": [
+        "e90c694424c1"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "6d1849b427fb",
+      "tab": "Before/After",
+      "row": 13,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "https://estilo-living.com/products/hague-retro-glass-close-to-ceiling-lights"
+      ],
+      "page_ids": [
+        "f02b761b50ba"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "00ff7ad92484",
+      "tab": "Before/After",
+      "row": 14,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "https://purolabs.com/products/puro-meno-complex-menopause-supplement"
+      ],
+      "page_ids": [
+        "3318eef2d4d9"
+      ],
+      "asset_ids": []
+    },
+    {
+      "id": "d560813fc6b3",
+      "tab": "Before/After",
+      "row": 15,
+      "label": "",
+      "audience": "",
+      "industry": "",
+      "comment": "",
+      "values": [
+        "",
+        "",
+        "https://getairmoto.com/products/airmoto"
+      ],
+      "page_ids": [
+        "e90c694424c1"
+      ],
+      "asset_ids": []
+    }
+  ],
+  "comparisons": [
+    {
+      "source_entry": "3b72629cd8cb",
+      "before_url": "https://ecokitchenresurfacing.com.au/",
+      "after_url": "https://page.ecokitchenresurfacing.com.au/step-1",
+      "audience": "B2C",
+      "before_value": "2",
+      "after_value": "12",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "e5d3e6944075",
+      "before_url": "https://bluemountainco.com.au/",
+      "after_url": "https://bluemountain1.pagedemo.co/",
+      "audience": "B2C",
+      "before_value": "2",
+      "after_value": "9",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "6ccd92e67ae5",
+      "before_url": "https://tastytablecatering.com/",
+      "after_url": "https://tasty-table.pagedemo.co/",
+      "audience": "B2C",
+      "before_value": "2",
+      "after_value": "11",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "03ea571fca6b",
+      "before_url": "https://www.itportal.com/v5/",
+      "after_url": "https://itportal1.pagedemo.co/",
+      "audience": "SAAS",
+      "before_value": "3",
+      "after_value": "8.5",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "5c741cd3c537",
+      "before_url": "mikes ",
+      "after_url": "https://prestigebotanicals.com.au/products/real-touch-prestige-white-rose-22",
+      "audience": "Ecom",
+      "before_value": "",
+      "after_value": "",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "5759a11af92d",
+      "before_url": "https://www.sutherlandblack.co.uk/",
+      "after_url": "https://sutherlandblack.pagedemo.co/",
+      "audience": "B2B",
+      "before_value": "1.5",
+      "after_value": "8",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "17ff91ba33ff",
+      "before_url": "https://www.gumleafgutterguard.com.au/",
+      "after_url": "https://gumleaf1.pagedemo.co/",
+      "audience": "B2C",
+      "before_value": "2",
+      "after_value": "9",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "76eb5dac7954",
+      "before_url": "https://helpmatch.com/",
+      "after_url": "",
+      "audience": "",
+      "before_value": "",
+      "after_value": "",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "db73b5866f39",
+      "before_url": "",
+      "after_url": "https://go.roofseal.com.au/vic-roof-restoration",
+      "audience": "",
+      "before_value": "",
+      "after_value": "",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "140550d7063b",
+      "before_url": "https://sethbowenlaw.com/",
+      "after_url": "https://divorce.sethbowenlaw.com/proven-family-attorney",
+      "audience": "",
+      "before_value": "",
+      "after_value": "",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "e9c48f3b8558",
+      "before_url": "",
+      "after_url": "https://getairmoto.com/products/airmoto",
+      "audience": "",
+      "before_value": "",
+      "after_value": "",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "6d1849b427fb",
+      "before_url": "",
+      "after_url": "https://estilo-living.com/products/hague-retro-glass-close-to-ceiling-lights",
+      "audience": "",
+      "before_value": "",
+      "after_value": "",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "00ff7ad92484",
+      "before_url": "",
+      "after_url": "https://purolabs.com/products/puro-meno-complex-menopause-supplement",
+      "audience": "",
+      "before_value": "",
+      "after_value": "",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    },
+    {
+      "source_entry": "d560813fc6b3",
+      "before_url": "",
+      "after_url": "https://getairmoto.com/products/airmoto",
+      "audience": "",
+      "before_value": "",
+      "after_value": "",
+      "metric": "unspecified; sheet headings say Before Conv / After Conv",
+      "verification": "user-supplied figures; units, dates, traffic, denominator and attribution unavailable; no causal inference"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+# Publish the complete funnel to Cloudflare
+
+## User-facing experience
+
+The user builds and reviews their funnel, then says **“Publish to Cloudflare.”** Guide that one action and run the internal preparation, deployment and verification steps yourself. The user should not have to connect a database product, a hosting product and an analytics product separately.
+
+Everything required to run the published funnel lives in the chosen Cloudflare account:
+
+| Component | Cloudflare service |
+|---|---|
+| Landing page, brochure, thank-you page and CRM interface | Workers static assets |
+| Lead submission API, admin actions and login | Worker |
+| Leads, customer/contact details, notes, pipeline stages and admin sessions | D1 |
+| Visitor events, traffic attribution, daily totals and conversion reporting | D1 + Worker APIs |
+| Application secrets | Worker secrets |
+| Public address | workers.dev or optional custom domain/subdomain |
+
+GitHub, Netlify, Supabase, and separate analytics/authentication accounts are not required. Webhooks and advertising tags are optional integrations, never prerequisites for the built-in CRM/reporting.
+
+Updating this reusable skill or testing a sample is not an instruction to publish the current client page. Keep that work local. Publish a generated funnel only when the user's task includes publishing it.
+
+## First-time setup inside the guided action
+
+Reuse the user's existing connection and project choices. If Cloudflare is not connected, guide sign-in once. Use the intended client account; if several accounts are available and the project does not identify one, ask for the missing account choice. Use the domain the user supplies, or a workers.dev address until a custom domain is ready.
+
+A completely new account or external DNS ownership may need a human step. Describe the result honestly: one guided publishing flow, with one publishing action after initial sign-in/site setup; do not promise that an unconnected account can publish literally without setup.
+
+The agent handles these internal steps, in order:
+
+1. Inspect the existing project and Cloudflare account. Do not introduce other services or require a GitHub repository.
+2. After the complete local final, save the user's existing explicit setup/publishing instruction in a private message file. Reuse the initial request when it included publication; otherwise ask once. Run `npm run setup -- --cloudflare --site <unique-worker-name> --account-id <account-id> --admin-username <owner> --authorization-file <private-message-file> --authorization-message-id <conversation/message-reference>`, adding `--domain leads.client.com` only if requested. The command checks the copy and build gates and records the existing authorization before any Cloudflare call. This creates/binds the per-site D1 database and generates production admin credentials. An existing same-name database requires its explicitly verified `--database-id`; never silently attach another client's database.
+3. Complete the final local checks and visual review against the configured source. First-time infrastructure provisioning precedes the final snapshot and publication approval. Setup changes deployment configuration, so refresh affected evidence rather than relabeling stale reports. Preserve the user’s already authorized scope and account/domain choices.
+4. After destination configuration and refreshed QA, record the real publication instruction with `workflow.py authorize-publish`; reuse the initial publication request rather than requesting design approval. Then run `npm run publish`. It validates current credentials, fixture/selectors, an actual Chromium launch, complete non-skipped tests and the pinned toolchain before first-release remote changes. It freezes the reviewed source/evidence, applies D1 migrations and uploads the Worker/assets with initial secrets in the same version. Subsequent releases retain remote secrets. The existing `npm run deploy` is an equivalent alias.
+5. Verify the deployed page, admin access, lead receipt and reporting. Return the real URL and securely hand over admin access.
+
+Do not repeatedly ask permission for work the user already authorized. Ask only for genuinely missing choices, a required sign-in/ownership action, or an action outside the authorized scope. Do not create a paid plan or buy a domain merely to finish a build.
+
+## Build and test before publication
+
+Scaffold with `scripts/scaffold_project.py <project> --client <name> --website <url> --reference <url>`. Node 22.19+ is required; use the bundled runtime if the system Node is older. Internally run `npm ci`, `npm run setup`, and `npm run dev` for the local database and preview. Source lives in `public/`, `src/` and `migrations/`.
+
+Set the approved client brand, form schema, offer, privacy policy and brochure, and run `npm run configure` to materialize `funnel.json` in the backend. Replace all starter content. Serve through Wrangler so tests exercise the Worker and D1, not a static-only preview.
+
+Run the skill's source/evidence gates, desktop/mobile measurement and actual visual review. Use `npm run verify:live -- --url <local-url> --fixture test-fixture.json --allow-test-lead --password-file .secrets/local-admin-password.txt --project-root .`, with `ADMIN_USERNAME` set to the owner selected during setup. It tests the actual form-to-CRM journey against the isolated local database. See `performance-and-browser-qa.md` for the fixture format, snapshot and browser setup. Never paste passwords into logs or include them in a source handoff.
+
+`npm run deploy:check` verifies readiness: real project configuration, protected admin routes, no simulated delivery, no public credential leaks and current handoff evidence. Passing this check is not proof of a live deployment.
+
+## Domain and final verification
+
+A custom domain/subdomain needs an active Cloudflare DNS zone in the selected account. Inspect existing DNS before replacing any record; preserve unrelated live services. If the domain uses another provider, guide the owner through Cloudflare zone/nameserver setup, or use workers.dev for now. A custom domain is optional, and a configured route does not prove DNS/TLS is ready.
+
+After publication, verify `/api/health`, the public page, responsive layouts, brochure and links, admin login, and unauthorized-access rejection. With an authorized controlled test lead, correlate the response receipt with its stored CRM record, move its stage, add a note, and check the selected visitor/source/device/conversion reporting. Verify optional webhooks or advertising tags separately if enabled.
+
+Record the actual URL, account/database identity, revision, receipt correlation and redacted screenshots in live evidence. Name any genuine login, DNS/TLS or external-verification blocker. Never call the funnel live simply because local tests or an upload passed.
+
+## Retained releases and interrupted publishing
+
+The supported beta profile uses one explicit Cloudflare account, Worker and D1 binding, with a `CF_VERSION_METADATA` binding. The pinned adapter inspects actual Wrangler deployment/version output and requires one fully active version. It checks running version/source/release markers before sending admin credentials and after the controlled journey. Environment overrides, split rollouts and custom build commands need a separately validated adapter.
+
+Each release has a UUID under `build/releases/`. Its sealed package retains reviewed source, copy, hashed approval-message provenance, handoff evidence and linked artifacts. A separate live snapshot and attempt reports record the deployed journey; handoff screenshots are never relabeled as live screenshots. Release directories are ignored by Git. They are an evidence/recovery mechanism, not the finished portable distribution format tracked in B07.
+
+- `npm run publish -- --resume` inspects the saved release. After an uncertain upload it checks the provider marker and retained origin instead of uploading again. It reuses completed journey evidence and reconstructs missing derived reports after an interrupted evidence write. A verified resume compares the active version with the version covered by those reports.
+- `npm run publish -- --new-release` starts a newly reviewed revision only after the previous release has validated completed evidence. The new revision needs its own actual final approval and QA.
+- Supply current credentials with `--credentials-file /private/path/current-owner.json` (JSON with `username` and `password`) or `--password-file /private/path/current-password.txt`. The helper retains a private file reference. Confirmed CLI recovery updates this reference automatically. After a browser password change, supply its current private file; the bootstrap password is not assumed current. Owner username changes use the guarded account helper and persist in D1. Existing deployments receive a real login/session check before migration/upload. Passwords and session cookies must stay out of command arguments, source, reports and screenshots.
+- An active publishing process holds an OS lock inherited by child commands. A saved stage is not proof of a running process. Do not delete the lock file while that process is running.
+- `public-checks-only` is incomplete. A full release needs the already authorized controlled synthetic lead. The helper does not expand a frozen read-only approval.
+
+Partial synthetic journeys now resume automatically when their version-2 journal and original private request are intact. The journal binds the source, fixture, snapshot, origin, deployed identity and cleanup scope. It retains fixed reporting dates and completed browser evidence. If an acknowledgement was lost, recovery retries the **same request and idempotency key**; it does not create a new contact or measured visit. Completed CRM status changes are reconciled by version, and the verification note has a stable request ID. Cleanup can confirm an already-removed test contact using the verified evidence saved before removal. Actual source is checked before and after each full run.
+
+The original synthetic form/visit requests are stored with private file permissions under `.secrets/journeys/`. Public reports contain IDs, hashes, redacted HTTP paths and aggregate metrics, not contact fields or credentials. Preserve those private files for unfinished recovery; do not include them in Git or a source handoff. Recovery does not persist browser cookies or owner passwords in its journal. Each logical journey permits at most three runs, with individual reports retained under its `runs/` directory.
+
+Known boundaries remain: legacy journals, missing/changed private payloads, changed source/version, concurrent CRM edits, exhausted retries, an unconfirmed migration, missing upload origin or failed release needing a corrected replacement require diagnosis/reconciliation. An unfinished submission crossing a reporting-day boundary may no longer correlate with its original visit and must not be treated as verified. Do not delete the release pointer, reset request IDs, fabricate reports or reupload as a workaround. Explicit superseding/reconciliation and a real Cloudflare pilot remain B03/B18/B19 acceptance work.
+
+## Optional source backup and CI
+
+Only offer GitHub if the user wants off-device source backup, collaboration or Git-based automatic updates. It is not part of the default publishing sequence. `npm run github -- --repo <owner/repository>` is an optional private source-backup helper. Use `--with-github` when scaffolding only if the user wants the optional GitHub Actions template.
+
+For a requested Git integration, Cloudflare remains the host and D1 remains the database. Protect the production branch and push reviewed source only. Avoid storing real lead exports, credentials or local D1 files in a repository.
+
+## Handoff and recovery
+
+Provide the project source/archive and its publishing guide, plus admin access through a separate secure handover. Cloudflare holds the deployed application, data and secrets; local files or an optional repository hold source history. A code rollback does not undo a database migration. Prefer additive migrations and take an appropriate D1 backup/export before any authorized destructive schema change. Document client account ownership and retention/recovery arrangements.
