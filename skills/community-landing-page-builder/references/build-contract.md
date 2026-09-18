@@ -20,6 +20,7 @@ Add `thank-you.html` only when the selected journey needs a separate success pag
 - Include a keyboard-visible skip link.
 - Make the brand, offer, and primary action clear in the first viewport.
 - Use stable layout constraints so text, images, controls, and dynamic states do not shift or overlap.
+- Keep variable-length labels and adjacent headings in normal flow, grid or flex tracks sized for their actual text. Do not reserve a guessed fixed gutter and absolutely position a longer category label into it.
 - Do not scale body or heading type directly with viewport width. Use deliberate responsive steps or bounded fluid sizing only where needed.
 - Avoid fixed minimum widths inside responsive grid tracks and emergency word breaking on short UI labels.
 - Inspect the 1024 to 1199 pixel range, not only phone and wide desktop.
@@ -67,6 +68,8 @@ For forms:
 In a scrolling form or modal, a submission failure must become visible and announced without visitor exploration: place it beside the action or move focus to a focusable error summary and reveal it. Keep entered values for retry. Calling `.focus()` on an ordinary non-focusable element is not sufficient. Test failure from the actual submit position, not after the test script scrolls to the message.
 
 When production form wiring is pending, still build and test the complete form-first experience. Use an isolated local receiver or test adapter for synthetic QA when available, or keep production submission disabled and label the result `local preview`. Never submit to an existing live endpoint without authorization. Never show a production success state merely because a local timer, navigation, or ignored network response completed.
+
+Keep the visible preview notice plain: the form does not send details yet. Put provider names, endpoints and connection instructions in the owner handoff, not in customer field help or success copy.
 
 A modal may be single-step or multi-step. Use native `dialog` or an equivalent document-level focus guard, restore focus to the opener, support Escape, and test programmatic focus escape. Internal scrolling is acceptable only when the action remains obvious and reachable.
 

@@ -116,22 +116,7 @@ Use status language that matches reality:
 
 ## Required visual acceptance
 
-The final review must explicitly answer these questions:
-
-- Is the primary action visible and usable at 1280 x 600 and on the smallest tested mobile viewport?
-- Does any consent, chat, sticky, or fixed UI cover the H1, primary CTA, form action, legal links, or final content?
-- Are all labels in diagrams, screenshots, roadmaps, and infographics visible at every viewport?
-- Does any copy cover image text, a face, a product detail, or the subject needed for comprehension?
-- Do footer utilities have real layout gaps and adequate touch targets?
-- Does each reviewed image have asset-specific evidence rather than a reused generic screenshot?
-- Are official proof and generated illustration clearly separated in role and visual hierarchy?
-- Do consecutive sections vary with their content, or does the page fall into repeated headline-card-grid bands?
-- Does a downloadable guide preview use the actual guide cover or verified page spread?
-- Are duplicate facts, oversized proof images, clipped text, unfinished sentences, and thin thank-you states removed?
-- Does the page feel current and audience-fit rather than like a cleaned-up copy of an old source site or printed sales brochure?
-- Are exact brand colors used with intentional proportions, with source colors separated from applied interface colors?
-- Does the brief distinguish verified brand-guide fonts, official-site fonts, and applied fonts, with a reason for every material substitution?
-- Is the visual execution at least as intentional as the built-in Clean Slate benchmark without copying its style?
+Use the visual and fresh-acceptance gates in [references/quality-gates.md](references/quality-gates.md), with image-specific rules in [references/image-research-and-generation.md](references/image-research-and-generation.md). Inspect actual readable pixels before writing the verdict. A report listing passed checks cannot override a visible collision, obscured person, wrong brand treatment or competing primary actions. Record whether the final review was independent or self-review.
 
 When a brochure is selected, read [references/catalogue-workflow.md](references/catalogue-workflow.md), render every page, inspect each at readable size, and run `scripts/validate_catalogue_review.py`. Any clipping, truncation, unreadable copy, text-on-information collision, or text covering a person blocks the brochure and the final result.
 

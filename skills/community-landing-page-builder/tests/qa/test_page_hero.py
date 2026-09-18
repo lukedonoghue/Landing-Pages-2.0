@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Opt-in browser regression for first-viewport continuation measurements."""
+"""Opt-in browser regressions for hero continuation and positioned text."""
 import argparse
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -31,19 +31,22 @@ def main():
     skill = Path(__file__).resolve().parents[2]
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory)
-        for name, height in [('visible', '200px'), ('below', '110vh')]:
+        for name, height in [('visible', '200px'), ('below', '110vh'), ('overlap', '200px')]:
+            label_offset = '30px' if name == 'overlap' else '180px'
             (root / f'{name}.html').write_text(
                 '<!doctype html><html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1">'
                 '<title>Hero fixture</title><style>body{margin:0}h1{font-size:24px;margin:0}'
-                f'.hero{{height:{height}}}section+section{{height:200px}}a{{display:inline-block;padding:16px}}</style>'
+                f'.hero{{height:{height}}}section+section{{height:200px}}a{{display:inline-block;padding:16px}}'
+                '.label-row{position:relative}.category{position:absolute;left:0;top:0;margin:0}'
+                f'.label-row h2{{margin:0 0 0 {label_offset};font-size:24px}}</style>'
                 '<main><section class="hero"><h1>Local service</h1>'
                 '<a href="tel:+15555550100" data-primary-action>Call</a></section>'
-                '<section><h2>More information</h2></section></main></html>'
+                '<section><div class="label-row"><p class="category">SPECIALIST ACCESS</p><h2>Service</h2></div></section></main></html>'
             )
         server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(root)))
         Thread(target=server.serve_forever, daemon=True).start()
         try:
-            for name in ['visible', 'below']:
+            for name in ['visible', 'below', 'overlap']:
                 report_path = root / name / 'report.json'
                 result = subprocess.run([
                     args.node, str(skill / 'scripts/measure_page.mjs'),
@@ -55,13 +58,17 @@ def main():
                 report = json.loads(report_path.read_text())
                 checks = [c for c in report['checks'] if c['name'] == 'hero_reveals_following_content']
                 assert len(checks) == 5, checks
-                expected = 'pass' if name == 'visible' else 'blocked'
+                expected = 'blocked' if name == 'below' else 'pass'
                 assert all(c['status'] == expected for c in checks), checks
+                collision_checks = [c for c in report['checks'] if c['name'] == 'positioned_text_does_not_overlap_prose']
+                assert len(collision_checks) == 5, collision_checks
+                expected_collision = 'blocked' if name == 'overlap' else 'pass'
+                assert all(c['status'] == expected_collision for c in collision_checks), collision_checks
                 assert (result.returncode == 0) == (name == 'visible'), report['failures']
         finally:
             server.shutdown()
             server.server_close()
-    print('PASS: visible and below-fold hero fixtures at all five viewports')
+    print('PASS: visible, below-fold hero and positioned-text fixtures at all five viewports')
 
 
 if __name__ == '__main__':

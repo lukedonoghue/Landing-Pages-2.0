@@ -58,6 +58,7 @@ Add an adjacent disclosure when a reasonable viewer could mistake the image for 
 - Never crop a diagram, screenshot, roadmap, document, or infographic with `cover`.
 - Never put headings or body copy over information-bearing pixels.
 - Keep the essential subject inspectable. Text, CTA buttons, panels and heavy scrims must not obscure faces, equipment or the proof the image is meant to show. `content-bearing=false` does not exempt a photograph from this rule. If the subject cannot coexist with hero copy at mobile width, choose a better asset or composition instead of darkening or cropping it into background texture.
+- Validate a hero candidate with its actual copy and CTA footprint at mobile width before committing to that image. For service businesses, prefer work-in-progress imagery with usable copy space over a posed group. A group photo that cannot preserve its people outside the overlay belongs in an unobstructed supporting proof block, not behind the hero controls.
 - Use official images for proof and keep illustrative imagery visually subordinate to sourced proof.
 - Keep sourcing terms such as `first-party`, `proof asset`, and `verified media` in the research notes. Visitor-facing captions should describe the actual subject or useful context, while retaining any necessary generation disclosure.
 - A downloadable guide preview must show the actual cover or a verified page spread.

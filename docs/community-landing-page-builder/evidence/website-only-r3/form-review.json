@@ -1,0 +1,18 @@
+{
+  "invalidCount": 4,
+  "failure": {
+    "focus": "submission-error",
+    "top": 732.78125,
+    "bottom": 827.953125,
+    "visible": true,
+    "name": "Audit Test",
+    "adapterCalls": 1
+  },
+  "success": {
+    "focus": "success-state",
+    "text": "\n            Request checked\n            Local preview complete.\n            Your details stayed in this browser and were not sent to Stayclean.\n            When the Cloudflare endpoint is connected, a successful request should confirm that Stayclean has received it and normally replies within one working day.\n            Start another local test\n          ",
+    "adapterCalls": 2
+  },
+  "blockedWrites": [],
+  "limits": "Local adapter only; 220ms timer instrumentation counts the adapter calls identified in the reviewed script. No backend tested."
+}

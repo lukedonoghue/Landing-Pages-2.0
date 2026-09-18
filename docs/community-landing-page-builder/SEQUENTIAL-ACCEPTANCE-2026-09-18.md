@@ -34,7 +34,9 @@ Official websites were opened and verified during selection. Builders repeat the
 
 Attempt 2 ran 2026-09-18 from approximately 21:03 to 21:27 Kyiv: agent `01a0b5b0-3001-7880-ad83-d9dee02c601c` (Raman), gpt-5.6-sol xhigh, fork_context=false. Same owner request, new empty project, no audit feedback. Frozen skill: 171 files; JSON-serialized sorted path/hash pairs SHA-256 `3aef69233b2035008eabdaa51be10847dc7efb693253bae3e60a9b8210cd64a4`. Usage at launch: 7% consumed. Completed, parent reviewed and agent closed. Form and performance improvements verified; remaining composition/reporting issues described in WEBSITE-ONLY-R2-REVIEW.md.
 
-Attempt 3 started 2026-09-18 at 21:30 Kyiv: agent `01a0b5c8-953d-75b2-a549-7792cf0899c5` (Tesla), gpt-5.6-sol xhigh, fork_context=false. Same plain request, another empty project, no previous findings or output supplied. Frozen skill: 172 files; JSON path/hash manifest SHA-256 `6848d4443c0698ec1127874b823203a05975d4151e2e157c5b3f4f70e8938eac`. Latest usage: 9% consumed, pause boundary remains 32%. Only this builder is active. External-reference and image-generation cases have not started.
+Attempt 3 ran 2026-09-18 from 21:30 to approximately 21:58 Kyiv: agent `01a0b5c8-953d-75b2-a549-7792cf0899c5` (Tesla), gpt-5.6-sol xhigh, fork_context=false. Same plain request, another empty project, no previous findings or output supplied. Frozen skill: 172 files; JSON path/hash manifest SHA-256 `6848d4443c0698ec1127874b823203a05975d4151e2e157c5b3f4f70e8938eac`. Parent form tests passed; an uncoached fresh visual reviewer rejected text collisions and mobile hero obstruction. Both completed agents are closed. See WEBSITE-ONLY-R3-REVIEW.md.
+
+Attempt 4 started 2026-09-18 at 22:05 Kyiv: agent `01a0b5e8-9d11-7da2-b5f5-5c4a344382c9` (Ramanujan), gpt-5.6-sol xhigh, fork_context=false. Same plain request and empty project. Frozen skill: 172 files; JSON path/hash manifest SHA-256 `89da9b8249d302df1bad42383312c0ef63974b014c9a66cb40827dd52f6d2159`. Latest checked usage: 12% consumed; pause at 32%. Only this builder is active. External-reference and image-generation cases have not started.
 
 ## README and local-history reconciliation
 

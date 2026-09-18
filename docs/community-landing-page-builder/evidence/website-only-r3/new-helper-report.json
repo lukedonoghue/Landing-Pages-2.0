@@ -1,0 +1,1642 @@
+{
+  "schema_version": 1,
+  "gate": "browser-page",
+  "status": "blocked",
+  "executed_at": "2026-09-18T19:03:15.247Z",
+  "tool": {
+    "name": "measure_page",
+    "version": "1.2.0"
+  },
+  "target": {
+    "url": "http://127.0.0.1:8765/"
+  },
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "label": "mobile",
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/390x844-landing.png",
+      "metrics": {
+        "pageWidth": 390,
+        "pageHeight": 10916,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-logo-376.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 7.5,
+              "right": 162,
+              "bottom": 63.5,
+              "width": 146,
+              "height": 56
+            }
+          },
+          {
+            "selector": "img.hero-media",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-team-mobile.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.0001727200947494456,
+            "box": {
+              "left": 0,
+              "top": 72,
+              "right": 390,
+              "bottom": 752,
+              "width": 390,
+              "height": 680
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/residential-window-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 1442.8125,
+              "right": 374,
+              "bottom": 1711.3125,
+              "width": 358,
+              "height": 268.5
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/gutter-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.0017094017094018144,
+            "box": {
+              "left": 0,
+              "top": 3005.890625,
+              "right": 390,
+              "bottom": 3298.390625,
+              "width": 390,
+              "height": 292.5
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/residential-team.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 4683.375,
+              "right": 374,
+              "bottom": 4921.96875,
+              "width": 358,
+              "height": 238.59375
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-logo-376.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 10199.78125,
+              "right": 204,
+              "bottom": 10279.78125,
+              "width": 188,
+              "height": 80
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 16,
+              "top": 482.75,
+              "right": 374,
+              "bottom": 530.75,
+              "width": 358,
+              "height": 48
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 16,
+              "top": 6432.96875,
+              "right": 181.8125,
+              "bottom": 6480.96875,
+              "width": 165.8125,
+              "height": 48
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 34,
+              "top": 9974.59375,
+              "right": 356,
+              "bottom": 10022.59375,
+              "width": 322,
+              "height": 48
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.trust-band",
+          "nextTop": 752,
+          "visiblePixels": 92,
+          "viewportHeight": 844
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "label": "tablet",
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/768x1024-landing.png",
+      "metrics": {
+        "pageWidth": 768,
+        "pageHeight": 10570,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-logo-376.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 6.5,
+              "right": 170,
+              "bottom": 66.5,
+              "width": 154,
+              "height": 60
+            }
+          },
+          {
+            "selector": "img.hero-media",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-team.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.30973010380622834,
+            "box": {
+              "left": 0,
+              "top": 74,
+              "right": 768,
+              "bottom": 754,
+              "width": 768,
+              "height": 680
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/residential-window-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 1290.921875,
+              "right": 748,
+              "bottom": 1836.921875,
+              "width": 728,
+              "height": 546
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/gutter-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 0,
+              "top": 2895.4375,
+              "right": 768,
+              "bottom": 3471.4375,
+              "width": 768,
+              "height": 576
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/residential-team.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 4717.328125,
+              "right": 748,
+              "bottom": 5202.515625,
+              "width": 728,
+              "height": 485.1875
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-logo-376.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 10006.125,
+              "right": 208,
+              "bottom": 10086.125,
+              "width": 188,
+              "height": 80
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 20,
+              "top": 479.765625,
+              "right": 210,
+              "bottom": 527.765625,
+              "width": 190,
+              "height": 48
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 20,
+              "top": 6612.5625,
+              "right": 185.8125,
+              "bottom": 6660.5625,
+              "width": 165.8125,
+              "height": 48
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 54,
+              "top": 9782.125,
+              "right": 244,
+              "bottom": 9830.125,
+              "width": 190,
+              "height": 48
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.trust-band",
+          "nextTop": 754,
+          "visiblePixels": 237,
+          "viewportHeight": 1024
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [
+          {
+            "positioned": "p.service-number",
+            "other": "h3",
+            "text": "02 / Workplaces"
+          },
+          {
+            "positioned": "p.service-number",
+            "other": "h3",
+            "text": "03 / Specialist access"
+          },
+          {
+            "positioned": "p.service-number",
+            "other": "h3",
+            "text": "04 / Gutters"
+          }
+        ],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1024,
+      "height": 800,
+      "label": "laptop",
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/1024x800-landing.png",
+      "metrics": {
+        "pageWidth": 1024,
+        "pageHeight": 8189,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-logo-376.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 6.5,
+              "right": 170,
+              "bottom": 66.5,
+              "width": 154,
+              "height": 60
+            }
+          },
+          {
+            "selector": "img.hero-media",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-team.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.03716199095022621,
+            "box": {
+              "left": 0,
+              "top": 74,
+              "right": 1024,
+              "bottom": 724,
+              "width": 1024,
+              "height": 650
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/residential-window-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 1231.84375,
+              "right": 439.390625,
+              "bottom": 1546.375,
+              "width": 419.390625,
+              "height": 314.53125
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/gutter-cleaning.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 0,
+              "top": 2005.578125,
+              "right": 1024,
+              "bottom": 2773.578125,
+              "width": 1024,
+              "height": 768
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/residential-team.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "cropFraction": 0,
+            "box": {
+              "left": 446.453125,
+              "top": 3642.5,
+              "right": 1004,
+              "bottom": 4014.078125,
+              "width": 557.546875,
+              "height": 371.578125
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-logo-376.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 7835.921875,
+              "right": 208,
+              "bottom": 7915.921875,
+              "width": 188,
+              "height": 80
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 20,
+              "top": 467.9375,
+              "right": 210,
+              "bottom": 515.9375,
+              "width": 190,
+              "height": 48
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 20,
+              "top": 5250.5,
+              "right": 193.421875,
+              "bottom": 5298.5,
+              "width": 173.421875,
+              "height": 48
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 441.515625,
+              "top": 7583.921875,
+              "right": 631.515625,
+              "bottom": 7631.921875,
+              "width": 190,
+              "height": 48
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.trust-band",
+          "nextTop": 724,
+          "visiblePixels": 76,
+          "viewportHeight": 800
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [
+          {
+            "positioned": "p.service-number",
+            "other": "h3",
+            "text": "02 / Workplaces"
+          },
+          {
+            "positioned": "p.service-number",
+            "other": "h3",
+            "text": "03 / Specialist access"
+          },
+          {
+            "positioned": "p.service-number",
+            "other": "h3",
+            "text": "04 / Gutters"
+          }
+        ],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1280,
+      "height": 600,
+      "label": "short-laptop",
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/1280x600-landing.png",
+      "metrics": {
+        "pageWidth": 1280,
+        "pageHeight": 7856,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-logo-376.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 50,
+              "top": 8.5,
+              "right": 224,
+              "bottom": 72.5,
+              "width": 174,
+              "height": 64
+            }
+          },
+          {
+            "selector": "img.hero-media",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-team.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.3992119826756496,
+            "box": {
+              "left": 0,
+              "top": 82,
+              "right": 1280,
+              "bottom": 552,
+              "width": 1280,
+              "height": 470
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/residential-window-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "cropFraction": 0,
+            "box": {
+              "left": 50,
+              "top": 1107.25,
+              "right": 544.09375,
+              "bottom": 1477.8125,
+              "width": 494.09375,
+              "height": 370.5625
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/gutter-cleaning.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 0,
+              "top": 1806.390625,
+              "right": 1280,
+              "bottom": 2766.390625,
+              "width": 1280,
+              "height": 960
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/residential-team.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "cropFraction": 0,
+            "box": {
+              "left": 552.890625,
+              "top": 3667.328125,
+              "right": 1230,
+              "bottom": 4118.59375,
+              "width": 677.109375,
+              "height": 451.265625
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-logo-376.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 50,
+              "top": 7502.546875,
+              "right": 238,
+              "bottom": 7582.546875,
+              "width": 188,
+              "height": 80
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1075.796875,
+              "top": 16.5,
+              "right": 1230,
+              "bottom": 64.5,
+              "width": 154.203125,
+              "height": 48
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 50,
+              "top": 431.609375,
+              "right": 240,
+              "bottom": 479.609375,
+              "width": 190,
+              "height": 48
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 50,
+              "top": 5321.046875,
+              "right": 223.421875,
+              "bottom": 5369.046875,
+              "width": 173.421875,
+              "height": 48
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 557.4375,
+              "top": 7250.546875,
+              "right": 747.4375,
+              "bottom": 7298.546875,
+              "width": 190,
+              "height": 48
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.trust-band",
+          "nextTop": 552,
+          "visiblePixels": 48,
+          "viewportHeight": 600
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [
+          {
+            "positioned": "p.service-number",
+            "other": "h3",
+            "text": "02 / Workplaces"
+          },
+          {
+            "positioned": "p.service-number",
+            "other": "h3",
+            "text": "03 / Specialist access"
+          }
+        ],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "label": "desktop",
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/1440x900-landing.png",
+      "metrics": {
+        "pageWidth": 1440,
+        "pageHeight": 7336,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-logo-376.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 130,
+              "top": 8.5,
+              "right": 304,
+              "bottom": 72.5,
+              "width": 174,
+              "height": 64
+            }
+          },
+          {
+            "selector": "img.hero-media",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-team.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.2614426264570635,
+            "box": {
+              "left": 0,
+              "top": 82,
+              "right": 1440,
+              "bottom": 732,
+              "width": 1440,
+              "height": 650
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/residential-window-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "cropFraction": 0,
+            "box": {
+              "left": 130,
+              "top": 1302.203125,
+              "right": 624.09375,
+              "bottom": 1672.765625,
+              "width": 494.09375,
+              "height": 370.5625
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/gutter-cleaning-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.4134718191538108,
+            "box": {
+              "left": 0,
+              "top": 1986.390625,
+              "right": 720,
+              "bottom": 2907.0625,
+              "width": 720,
+              "height": 920.671875
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/residential-team.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "cropFraction": 0,
+            "box": {
+              "left": 632.890625,
+              "top": 3011.0625,
+              "right": 1310,
+              "bottom": 3462.328125,
+              "width": 677.109375,
+              "height": 451.265625
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:8765/assets/images/stayclean-logo-376.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": true,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 130,
+              "top": 6982.6875,
+              "right": 318,
+              "bottom": 7062.6875,
+              "width": 188,
+              "height": 80
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1155.796875,
+              "top": 16.5,
+              "right": 1310,
+              "bottom": 64.5,
+              "width": 154.203125,
+              "height": 48
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 130,
+              "top": 533.828125,
+              "right": 320,
+              "bottom": 581.828125,
+              "width": 190,
+              "height": 48
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 130,
+              "top": 4801.1875,
+              "right": 303.421875,
+              "bottom": 4849.1875,
+              "width": 173.421875,
+              "height": 48
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 637.4375,
+              "top": 6730.6875,
+              "right": 827.4375,
+              "bottom": 6778.6875,
+              "width": 190,
+              "height": 48
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.trust-band",
+          "nextTop": 732,
+          "visiblePixels": 120.390625,
+          "viewportHeight": 900
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [
+          {
+            "positioned": "p.service-number",
+            "other": "h3",
+            "text": "02 / Workplaces"
+          },
+          {
+            "positioned": "p.service-number",
+            "other": "h3",
+            "text": "03 / Specialist access"
+          }
+        ],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/390x844-landing.png",
+      "type": "screenshot",
+      "sha256": "fd80907ef58452381508c0d44f8aeb382182d1b41e63ee570dcb81873afb13a9"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/768x1024-landing.png",
+      "type": "screenshot",
+      "sha256": "b519b5428afdcf90ef42aaff40db4b6097c5ae8a608d20ceb4938f4f11f58763"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/1024x800-landing.png",
+      "type": "screenshot",
+      "sha256": "33b8a92f32aa06e21c0d7349bceab71bad198b279697a2bff60938f58a7a9592"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/1280x600-landing.png",
+      "type": "screenshot",
+      "sha256": "85f65f4cf2b12c68e98300ab65a02ed0388e6ce57dd357d9deb5b2b2694d30cf"
+    },
+    {
+      "path": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/1440x900-landing.png",
+      "type": "screenshot",
+      "sha256": "68e41b84e143f7f3626cace84de08d33d88d981c4acada7f4742a420570e0b09"
+    }
+  ],
+  "checks": [
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":390,\"overflow\":[]}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/390x844-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.trust-band\",\"nextTop\":752,\"visiblePixels\":92,\"viewportHeight\":844}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"a.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":16,\"top\":482.75,\"right\":374,\"bottom\":530.75,\"width\":358,\"height\":48},\"unobscured\":true},{\"selector\":\"a.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":16,\"top\":6432.96875,\"right\":181.8125,\"bottom\":6480.96875,\"width\":165.8125,\"height\":48},\"unobscured\":false},{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":34,\"top\":9974.59375,\"right\":356,\"bottom\":10022.59375,\"width\":322,\"height\":48},\"unobscured\":false}]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":768,\"overflow\":[]}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/768x1024-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.trust-band\",\"nextTop\":754,\"visiblePixels\":237,\"viewportHeight\":1024}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "blocked",
+      "detail": "[{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"02 / Workplaces\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"03 / Specialist access\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"04 / Gutters\"}]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1024,\"overflow\":[]}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/1024x800-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.trust-band\",\"nextTop\":724,\"visiblePixels\":76,\"viewportHeight\":800}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "blocked",
+      "detail": "[{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"02 / Workplaces\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"03 / Specialist access\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"04 / Gutters\"}]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1280,\"overflow\":[]}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/1280x600-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.trust-band\",\"nextTop\":552,\"visiblePixels\":48,\"viewportHeight\":600}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "blocked",
+      "detail": "[{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"02 / Workplaces\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"03 / Specialist access\"}]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"a.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":1075.796875,\"top\":16.5,\"right\":1230,\"bottom\":64.5,\"width\":154.203125,\"height\":48},\"unobscured\":true},{\"selector\":\"a.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":50,\"top\":431.609375,\"right\":240,\"bottom\":479.609375,\"width\":190,\"height\":48},\"unobscured\":true},{\"selector\":\"a.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":50,\"top\":5321.046875,\"right\":223.421875,\"bottom\":5369.046875,\"width\":173.421875,\"height\":48},\"unobscured\":false},{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":557.4375,\"top\":7250.546875,\"right\":747.4375,\"bottom\":7298.546875,\"width\":190,\"height\":48},\"unobscured\":false}]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1440,\"overflow\":[]}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "screenshot": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260918/audit/website-only-r3/screenshots/1440x900-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.trust-band\",\"nextTop\":732,\"visiblePixels\":120.390625,\"viewportHeight\":900}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "blocked",
+      "detail": "[{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"02 / Workplaces\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"03 / Specialist access\"}]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    }
+  ],
+  "failures": [
+    "positioned_text_does_not_overlap_prose: [{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"02 / Workplaces\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"03 / Specialist access\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"04 / Gutters\"}]",
+    "positioned_text_does_not_overlap_prose: [{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"02 / Workplaces\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"03 / Specialist access\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"04 / Gutters\"}]",
+    "positioned_text_does_not_overlap_prose: [{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"02 / Workplaces\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"03 / Specialist access\"}]",
+    "positioned_text_does_not_overlap_prose: [{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"02 / Workplaces\"},{\"positioned\":\"p.service-number\",\"other\":\"h3\",\"text\":\"03 / Specialist access\"}]"
+  ],
+  "warnings": [],
+  "limits": [
+    "Measurements do not replace visual review of the screenshot pixels.",
+    "The run does not submit forms or prove a live backend destination.",
+    "Automated overlap checks cannot identify every face or focal subject."
+  ],
+  "completed_at": "2026-09-18T19:03:26.853Z"
+}
