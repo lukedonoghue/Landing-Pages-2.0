@@ -117,7 +117,7 @@ def has_label(field: dict[str, object], labels_for: set[str]) -> bool:
 def main() -> int:
     argp = argparse.ArgumentParser(description=__doc__)
     argp.add_argument("project_root", type=Path)
-    argp.add_argument("--report", type=Path)
+    argp.add_argument("--report", type=Path, help="Output path, relative to the current working directory or absolute")
     argp.add_argument("--allow-multiple-forms", action="store_true")
     args = argp.parse_args()
 
@@ -263,7 +263,7 @@ def main() -> int:
     }
     rendered = json.dumps(result, indent=2, ensure_ascii=True) + "\n"
     if args.report:
-        report = args.report if args.report.is_absolute() else project / args.report
+        report = args.report.resolve()
         report.parent.mkdir(parents=True, exist_ok=True)
         report.write_text(rendered, encoding="utf-8")
     sys.stdout.write(rendered)

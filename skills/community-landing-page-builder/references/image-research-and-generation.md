@@ -57,7 +57,7 @@ Add an adjacent disclosure when a reasonable viewer could mistake the image for 
 - Protect faces, hands, product details, text, and evidence-bearing regions.
 - Never crop a diagram, screenshot, roadmap, document, or infographic with `cover`.
 - Never put headings or body copy over information-bearing pixels.
-- Do not cover a face or focal subject with copy.
+- Keep the essential subject inspectable. Text, CTA buttons, panels and heavy scrims must not obscure faces, equipment or the proof the image is meant to show. `content-bearing=false` does not exempt a photograph from this rule. If the subject cannot coexist with hero copy at mobile width, choose a better asset or composition instead of darkening or cropping it into background texture.
 - Use official images for proof and keep illustrative imagery visually subordinate to sourced proof.
 - A downloadable guide preview must show the actual cover or a verified page spread.
 

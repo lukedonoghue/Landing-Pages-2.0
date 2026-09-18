@@ -33,6 +33,7 @@ Mark each meaningful image with `data-image-role="proof|portrait|diagram|screens
 - Meaningful images need factual alt text. Decorative images need empty alt text.
 - Add explicit dimensions and responsive sources where useful.
 - Eager-load the single likely LCP image. Lazy-load below-fold imagery.
+- If preloading a responsive image, match its `imagesrcset` and `imagesizes` to the rendered image, or omit the redundant preload. Check that mobile does not download both a fixed desktop preload and its selected responsive candidate.
 - Never use `object-fit: cover` on content-bearing images.
 - Do not overlay copy on content-bearing pixels.
 - Do not place copy over a face, essential product detail, or focal subject.
@@ -54,6 +55,7 @@ For forms:
 - collect only fields needed for response or routing;
 - use explicit labels and appropriate autocomplete/inputmode values;
 - allow paste and autofill;
+- trim required text before checking for emptiness; native `required` alone accepts spaces, and `type="tel"` does not validate a phone number. Reject blank-after-trim values and obviously unusable phone input without requiring a narrow national format;
 - preserve an entered international phone country code and avoid cursor-jumping masks;
 - associate every custom error with its field using `aria-describedby` or a native validation relationship;
 - show errors near the field and in an announced summary when useful;
@@ -61,6 +63,8 @@ For forms:
 - show success only after the configured destination confirms success;
 - provide a useful failure and retry path;
 - prevent duplicate submission while a request is pending.
+
+In a scrolling form or modal, a submission failure must become visible and announced without visitor exploration: place it beside the action or move focus to a focusable error summary and reveal it. Keep entered values for retry. Calling `.focus()` on an ordinary non-focusable element is not sufficient. Test failure from the actual submit position, not after the test script scrolls to the message.
 
 When production form wiring is pending, still build and test the complete form-first experience. Use an isolated local receiver or test adapter for synthetic QA when available, or keep production submission disabled and label the result `local preview`. Never submit to an existing live endpoint without authorization. Never show a production success state merely because a local timer, navigation, or ignored network response completed.
 

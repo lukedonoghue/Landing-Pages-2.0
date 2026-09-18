@@ -62,6 +62,29 @@ class CommunityCoreTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn(json.loads(result.stdout)["status"], {"pass", "pass_with_warnings"})
 
+    def test_report_paths_are_relative_to_invocation_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            project = workspace / "project with spaces"
+            project.mkdir()
+            self.make_clean_project(project)
+            for script, filename in ((SCAN, "surface-scan.json"), (VALIDATE, "static-review.json")):
+                with self.subTest(script=script.name):
+                    relative_report = Path(project.name) / "build" / filename
+                    result = subprocess.run(
+                        [sys.executable, str(script), project.name, "--report", str(relative_report)],
+                        cwd=workspace, text=True, capture_output=True, check=False,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    report = workspace / relative_report
+                    self.assertTrue(report.is_file())
+                    self.assertEqual(json.loads(report.read_text()), json.loads(result.stdout))
+                    self.assertFalse((project / relative_report).exists())
+                    absolute_report = workspace / "absolute-output" / filename
+                    result = self.run_script(script, project, "--report", absolute_report)
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertTrue(absolute_report.is_file())
+
     def test_static_validator_blocks_dead_action_and_unclassified_image(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

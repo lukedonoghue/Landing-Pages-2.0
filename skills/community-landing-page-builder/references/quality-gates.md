@@ -13,6 +13,8 @@ python3 scripts/validate_page.py /path/to/project --report /path/to/project/buil
 
 The first command blocks prohibited dash characters/entities and unresolved template markers across customer-facing surfaces. The second checks local assets, links, headings, viewport settings, image classification and alt behavior, basic form relationships, primary destinations, and common privacy/tracking failures.
 
+Report paths are relative to the shell's working directory, not the project argument; absolute paths also work. Link the actual generated files in the handoff.
+
 Static checks do not prove claim truth, visual quality, or real conversion delivery. Review those separately.
 
 ## 2. Browser gate
@@ -79,6 +81,8 @@ Before testing behavior, compare the final action with the source conversion con
 
 Use synthetic local data. A direct thank-you visit, refresh, rejected action, or denied consent must not create a conversion. Do not submit a production lead without explicit permission.
 
+Exercise outcomes, not proxies: include whitespace-only required text and malformed contact input; inspect failure visibility at the real submit position before any test-driven focus or scroll. Then restore the local test adapter, retry the same filled form, and observe success with values preserved. A visible error string or disabled button alone does not prove retry or duplicate prevention. Keep simulation results explicitly separate from backend delivery evidence.
+
 For source forms, confirm that no public production endpoint was reused without authorization, success waits for a confirmed selected destination, and raw contact data is absent from analytics and data-layer events.
 
 ## 5. Accessibility and performance gate
@@ -93,6 +97,8 @@ Run one local Lighthouse pass when available. Target:
 - TBT at most 200 milliseconds.
 
 Repeat failing or marginal measurements after fixes. Do not delete needed proof or content merely to improve a score.
+
+When a required local audit package is absent, use a supported project-local installation if execution and package access are available. Record its version and run once; do not turn tool discovery into repeated audit runs. If installation is unavailable, disclose the missing test. Unthrottled local PerformanceObserver timings are diagnostics, not a Lighthouse score, mobile loading budget pass, or equivalent TBT measurement.
 
 ## 6. Fresh acceptance gate
 
