@@ -8,14 +8,14 @@ Task ID: `01a0b4bf-b4c5-73b2-8497-a826709bae38`
 
 ## Result
 
-Final classification: **functional pass, visual-age failure**.
+Final classification: **technical-layout pass, conversion-intent failure, typography-provenance failure, and visual-age failure**.
 
-The independent agent and its fresh reviewer found no remaining technical blockers. The user then inspected the actual page and confirmed that the placement, image, overlap, and completeness fixes worked, but rejected the design as visually outdated. That user finding overrides the run's broad `local final` label for design acceptance.
+The independent agent and its fresh reviewer found no remaining layout or browser blockers. The user then identified two major behavioral and design defects that the review missed: the supplied source form was replaced by a phone call, and the applied fonts had no Byrider provenance. The user also confirmed that placement, image, overlap, and completeness fixes worked, but rejected the design as visually outdated. These findings override the run's broad `local final` label.
 
 ## What passed
 
 - Correct page-only mode with brochure, CRM, tracking, deployment, and live submission excluded.
-- One honest phone action using `tel:800-947-4532`.
+- A verified phone number was used as a working secondary-capable destination, but it was incorrectly promoted to the primary action.
 - Verified first-party imagery with an image ledger and publication-rights limitation.
 - Material claim ledger and FDD qualifications.
 - Static checks and five required viewport classes.
@@ -26,6 +26,10 @@ The independent agent and its fresh reviewer found no remaining technical blocke
 - No live call, lead, deployment, or analytics event.
 
 ## What failed
+
+The supplied Byrider landing page contains a lead form and offers a franchise overview with financial, investment, and territory information. The run instead selected `Call Franchise Development` because its strategy brief said no backend or downloadable guide had been supplied. That was a research and instruction failure: the supplied source itself showed the intended conversion journey. Missing credentials did not justify changing its conversion type.
+
+The supplied landing page declared Barlow for headings and Source Sans 3 for body copy. Byrider's broader franchise site declared Montserrat and Open Sans. The run documented neither source and applied Avenir Next, Arial Narrow, Avenir Next Condensed, and Georgia without provenance. The condensed headings and negative letter spacing also contributed to the dated result.
 
 The visual system looked like an older automotive franchise prospectus instead of a current, appropriately premium franchise-investment page.
 
@@ -55,6 +59,10 @@ Each choice could be defensible alone. Together they reproduced the visual age o
 - Blue Mountain is useful for persuasive structure but is itself visually old.
 - Clean Slate was not established as the execution-quality benchmark.
 - The fresh reviewer could therefore pass objective layout and accessibility checks without detecting the outdated art direction.
+- The workflow allowed any honest destination without requiring parity with the supplied page's dominant conversion mechanism.
+- The form backend was treated as inseparable from the form experience, so missing credentials led to replacing the form instead of leaving production wiring pending.
+- The strategy brief did not require a source conversion contract or typography provenance.
+- The conversion gate tested only the action the run had selected, so it proved the phone link worked without asking whether phone was the correct action.
 
 ## Correction made after this run
 
@@ -67,7 +75,9 @@ Each choice could be defensible alone. Together they reproduced the visual age o
 - current audience-fit direction and legacy-pattern warnings;
 - a blocking final visual-age checkpoint.
 
-This first run remains evidence for the fixed functional workflow and for the aesthetic gap. It is not acceptance evidence for the revised design instructions. A new context-free run is required.
+The skill now also requires source conversion parity, separates form UX from backend wiring, treats public endpoints as evidence rather than authorization, and records verified brand-guide, official-site, and applied typography separately.
+
+This first run remains evidence for the fixed layout and image workflow and for the exposed conversion and design gaps. It is not acceptance evidence for the revised instructions. A new context-free run is required.
 
 ## Included evidence
 

@@ -20,7 +20,7 @@ These rules override examples and optional modules.
 1. **No Unicode long dashes.** Never use U+2014, U+2013, or their named or numeric HTML equivalents in generated customer-facing content. Rewrite the sentence or use an ASCII hyphen. Run `scripts/scan_surfaces.py` before delivery and after any copy change.
 2. **No invented proof.** Use only supported claims, numbers, ratings, awards, guarantees, testimonials, people, locations, credentials, and proof imagery. Preserve qualifiers. Omit unsupported proof.
 3. **Generated imagery is illustrative.** Never present a generated person, place, project, document, dashboard, result, review, employee, customer, or franchisee as real evidence. Do not generate official marks or readable proof documents.
-4. **One honest primary action.** A download must deliver a real file. A booking promise must reach a real booking path. A form must show success only after the selected destination confirms success. Phone and email may remain secondary.
+4. **Preserve the source conversion intent.** When the supplied business page uses a dominant form, booking, quote, purchase, or download journey, keep that conversion type and offer unless the user explicitly changes it or evidence shows it is dead or unsafe. Missing credentials may delay production wiring, but never justify replacing a form with a phone call or email. A download must deliver a real file. A booking promise must reach a real booking path. A form must show success only after the selected destination confirms success. Phone and email may remain secondary.
 5. **No fake completeness.** A page with visible sample content, dead required links, missing assets, stub destinations, unresolved severe QA findings, or an untested conversion path is not final. Label an endpoint-free build honestly as a local preview.
 6. **Accessible by default.** Target WCAG 2.2 AA where applicable. Use semantic structure, a skip link, labels, described field errors, useful alt text, visible focus, keyboard access, sufficient contrast, zoom support, reduced motion, and unobscured focused controls.
 7. **No secret or private-service prerequisite.** Do not ask for API keys, MCP servers, private ad accounts, GitHub access, or hosting credentials to produce the local final. Request only the access needed for a user-selected external action, and only when that action is ready.
@@ -32,7 +32,7 @@ These rules override examples and optional modules.
 - **Refresh:** preserve working behavior, then re-audit claims, brand, imagery, conversion behavior, accessibility, and QA.
 - **Copy-only or audit-only:** produce only the requested analysis or copy. Do not scaffold a site or infrastructure.
 - **Optional brochure:** activate only when the offer genuinely includes a guide, catalogue, menu, or document, or when the user asks for one.
-- **Optional form backend or CRM:** activate only when lead collection is selected and a real destination is requested.
+- **Optional form backend or CRM:** a source form means lead collection is already selected. Rebuild the form experience locally even when production wiring is pending. Activate backend or CRM infrastructure only when a real destination is requested or authorized.
 - **Optional tracking:** activate only when requested or supplied. Local page quality does not depend on GTM or ad-account access.
 - **Optional deployment or handoff:** activate only when requested. Use the user's chosen provider when stated; otherwise propose one simple supported route after the local final.
 
@@ -50,7 +50,7 @@ Read [references/research-and-claims.md](references/research-and-claims.md).
 - When direct competitors are readily discoverable and differentiation is unclear, inspect two or three official competitor pages. Record only the message gap the client can credibly occupy.
 - Record material claims and their sources. Do not turn competitor claims into client facts.
 
-Create one compact `build/strategy-brief.md` containing: buyer situation, likely decision stage, desired action, offer or result, real delivery mechanism, primary objection, strongest trust anchor, traffic intent, and visual direction. Create `build/claim-ledger.md` for material claims that will appear. Do not create extra reports merely to prove activity.
+Create one compact `build/strategy-brief.md` containing: buyer situation, likely decision stage, desired action, offer or result, real delivery mechanism, source conversion contract, primary objection, strongest trust anchor, traffic intent, typography provenance, and visual direction. Create `build/claim-ledger.md` for material claims that will appear. Do not create extra reports merely to prove activity.
 
 ### 2. Write the conversion argument
 
@@ -66,7 +66,7 @@ Every heading, CTA, and bullet must make sense to a first-time visitor. Keep tec
 
 Read [references/design-direction.md](references/design-direction.md).
 
-Record the design decisions in the strategy brief: type character and hierarchy, color roles and contrast, spacing rhythm, shape and surface language, composition pattern, image roles, and motion behavior.
+Record the design decisions in the strategy brief: verified brand-guide typography when available, official-site typography, applied typography and any reason for changing it, type character and hierarchy, color roles and contrast, spacing rhythm, shape and surface language, composition pattern, image roles, and motion behavior. Never call a font a brand font without a brand guide or equivalent first-party standard.
 
 Start from supplied assets and the business's observed identity. Supplied assets outrank scraped alternatives. Verify the correct logo variant against its rendered background and make the brand visible in the first viewport. Separate verified source colors from the applied interface palette, explain the role of each important applied color, and do not inherit the source website's visual age by default.
 
@@ -84,7 +84,7 @@ Classify each used image as `decorative`, `proof`, `portrait`, `diagram`, `scree
 
 Read [references/build-contract.md](references/build-contract.md).
 
-Default to semantic HTML, CSS, and JavaScript unless an existing project requires another stack. The selected conversion may be an accessible form, booking link, phone call, email, download, or another real action. Choose modal or inline form from the journey; do not create hidden duplicate forms. Use only fields needed for response or routing.
+Default to semantic HTML, CSS, and JavaScript unless an existing project requires another stack. Derive the selected conversion from the source conversion contract, not from which credentials happen to be available. Choose modal or inline form from the journey; do not create hidden duplicate forms. Use only fields needed for response or routing.
 
 Create a thank-you page or success state when a form or gated delivery requires it. If no backend is configured, keep submissions local or disabled, state the limitation clearly, and do not emit a production conversion event.
 
@@ -130,6 +130,7 @@ The final review must explicitly answer these questions:
 - Are duplicate facts, oversized proof images, clipped text, unfinished sentences, and thin thank-you states removed?
 - Does the page feel current and audience-fit rather than like a cleaned-up copy of an old source site or printed sales brochure?
 - Are exact brand colors used with intentional proportions, with source colors separated from applied interface colors?
+- Does the brief distinguish verified brand-guide fonts, official-site fonts, and applied fonts, with a reason for every material substitution?
 - Is the visual execution at least as intentional as the built-in Clean Slate benchmark without copying its style?
 
 When a brochure is selected, read [references/catalogue-workflow.md](references/catalogue-workflow.md), render every page, inspect each at readable size, and run `scripts/validate_catalogue_review.py`. Any clipping, truncation, unreadable copy, text-on-information collision, or text covering a person blocks the brochure and the final result.

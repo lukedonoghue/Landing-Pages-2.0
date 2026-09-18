@@ -24,10 +24,14 @@ Write one `build/strategy-brief.md`. Keep it decision-focused:
 - strongest trust anchor;
 - primary objection or perceived risk;
 - source or search intent, supplied or clearly labelled as inferred;
+- source conversion contract: exact CTA and offer, conversion type, required fields, consent, promised delivery or follow-up, destination type, and success behavior;
+- typography provenance: verified brand-guide fonts when available, fonts declared by the supplied official page, fonts declared by other current official properties, and any conflict between them;
 - visual tone and brand evidence;
 - optional modules selected and why.
 
 Ask the user only when a missing answer would materially change one of these decisions.
+
+The supplied page is evidence of conversion intent even when its production endpoint cannot or should not be reused. A public endpoint is not permission to transmit data, run a live test, or adopt unsafe behavior. If the source form is broken or unsafe, preserve the form offer and buyer journey while rebuilding the local behavior safely.
 
 ## Claim ledger
 

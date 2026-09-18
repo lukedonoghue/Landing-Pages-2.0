@@ -43,6 +43,10 @@ Mark each meaningful image with `data-image-role="proof|portrait|diagram|screens
 
 Choose one honest primary path: form, booking, call, email, download, or another real destination.
 
+Preserve the dominant conversion mechanism and offer of a supplied business page unless the user requests a change or the source path is demonstrably dead or unsafe. Missing credentials, backend access, or deployment access affects production wiring only. It does not authorize changing a form journey into a call, email, or unrelated CTA.
+
+Record the source conversion contract before implementation: CTA label and offer, conversion type, required fields, consent text, promised delivery or follow-up, destination type, and success behavior. Treat a public endpoint as evidence of the existing architecture, not permission to reuse it or send data to it.
+
 Mark the main CTA controls with `data-primary-action`. Modal openers also use `data-open-modal`. These attributes make short-height and obstruction checks deterministic; they do not replace clear visible labels.
 
 For forms:
@@ -57,6 +61,8 @@ For forms:
 - show success only after the configured destination confirms success;
 - provide a useful failure and retry path;
 - prevent duplicate submission while a request is pending.
+
+When production form wiring is pending, still build and test the complete form-first experience. Use an isolated local receiver or test adapter for synthetic QA when available, or keep production submission disabled and label the result `local preview`. Never submit to an existing live endpoint without authorization. Never show a production success state merely because a local timer, navigation, or ignored network response completed.
 
 A modal may be single-step or multi-step. Use native `dialog` or an equivalent document-level focus guard, restore focus to the opener, support Escape, and test programmatic focus escape. Internal scrolling is acceptable only when the action remains obvious and reachable.
 
@@ -81,4 +87,4 @@ Use a descriptive title and meta description. Add structured data only for suppo
 
 Tracking is optional. Preserve approved campaign parameters through the selected conversion path when needed. Never put raw name, email, phone, address, free text, or uploaded content in analytics. Hashing is not permission: consent, category restrictions, provider policy, and destination testing still apply.
 
-If no backend or tracking destination is configured, say so in the QA summary. The local page can still be final when its visible experience and honest non-production behavior are complete.
+If no backend or tracking destination is configured, say so in the QA summary. A form-first page without a confirmed production destination may be a complete `local preview`, but it is not a live lead path. A local receiver may support a `local final` when the full synthetic form journey is verified and the external limitation is explicit.

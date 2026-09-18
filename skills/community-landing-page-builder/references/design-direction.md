@@ -24,6 +24,16 @@ For each important applied color, record its source and role in the strategy bri
 
 Do not inherit dated typography, layout, photography treatment, gradients, shadows, badges, or color proportions merely because they appear on the client's current website. Brand fidelity means recognizable identity and truthful assets, not reproduction of every legacy design decision.
 
+## Record typography provenance
+
+Separate typography evidence into three labels:
+
+- **Verified brand-guide typography:** fonts named in a current first-party brand guide or equivalent formal standard.
+- **Official-site typography:** fonts actually declared or rendered on the supplied official page and other current owned properties.
+- **Applied typography:** fonts used in the new page, including loading method, fallbacks, and the reason for any substitution.
+
+Do not call official-site typography a formal brand font when no brand guide confirms it. When official properties disagree, record the conflict and choose the applied system for readability, audience fit, availability, and current execution quality. Do not invent a generic condensed automotive treatment from category stereotypes. Avoid relying on local-only fonts whose appearance changes by operating system; load an appropriately licensed web font or use a deliberate stable system stack.
+
 ## Choose a current audience-fit direction
 
 State three visual adjectives tied to the buyer and decision. Examples include `credible`, `current`, and `investment-grade` for a high-consideration franchise offer, or `capable`, `local`, and `direct` for a trade service. Do not use generic adjectives without explaining how the type, space, imagery, and color treatment express them.
@@ -58,6 +68,7 @@ During final pixel review, answer:
 - Would the target buyer read it as credible and appropriately premium rather than cheap, nostalgic, childish, or generic?
 - Are exact saturated brand colors used with restraint and clear roles?
 - Is the typography current, readable, and free of a default condensed-template look?
+- Is every applied font supported by recorded provenance or a clear audience-fit rationale?
 - Is the execution at least as intentional as the Clean Slate benchmark while remaining visibly its own design?
 
 A technically correct page fails the visual gate when these questions expose a clear audience-fit or visual-age problem. Fix the system and recheck the full page; do not hide the issue with isolated component polish.

@@ -26,6 +26,8 @@ The full gap audit explains every adopted, simplified, conditional, and rejected
 - A fresh acceptance pass is required after source changes. Measurements and broad pass booleans are not visual approval.
 - Blue Mountain is now an active conversion-architecture benchmark, while Clean Slate is an execution-quality benchmark. Neither is a clone target.
 - The design brief must separate verified source colors from the applied interface palette and explain color proportions.
+- The strategy brief must preserve the source conversion type and record CTA, offer, fields, consent, destination type, delivery promise, and success behavior.
+- Typography evidence must distinguish formal brand-guide fonts, official-site fonts, and applied fonts.
 
 ## New deterministic gates
 
@@ -78,7 +80,7 @@ Observed behavior before this checkpoint:
 
 - selected the page-only default without prompting;
 - excluded brochure, CRM, tracking, deployment, and live submission;
-- chose the verified franchise-development phone line as the honest primary action;
+- chose the verified franchise-development phone line as the primary action, which was later found to contradict the source form journey;
 - used first-party images and documented investment caveats;
 - passed static and five-viewport browser checks;
 - performed a separate pixel review instead of self-approving the measurements;
@@ -87,20 +89,20 @@ Observed behavior before this checkpoint:
 - reached Lighthouse 100 for performance, accessibility, and best practices, with about 1.35 second LCP, zero CLS, and zero TBT;
 - started a fresh independent acceptance review.
 
-The independent run completed with no reported technical blockers or warnings. Its own final reviewer approved the page, and Lighthouse ended at Performance 99, Accessibility 100, and Best Practices 100. The user then rejected the dated visual direction. The preserved evidence is in `docs/community-landing-page-builder/acceptance/byrider-run-1/` and is classified as a functional pass with a visual-age failure. Do not rewrite that first output to force a pass.
+The independent run completed with no reported layout or browser blockers. Its own final reviewer approved the page, and Lighthouse ended at Performance 99, Accessibility 100, and Best Practices 100. The user then found that the source form had been replaced by a call, the fonts had no Byrider provenance, and the visual direction was dated. The preserved evidence is in `docs/community-landing-page-builder/acceptance/byrider-run-1/` and is classified as a technical-layout pass with conversion-intent, typography-provenance, and visual-age failures. Do not rewrite the generated first output to force a pass.
 
 ### Design feedback after the first build
 
 The user confirmed that the earlier placement, image, and overlap fixes worked, but rejected the page's visual age. The run used Byrider's exact official blue `#215EAC` and orange `#FF8200`, then combined them with a custom midnight, warm cream, condensed type, clipped corners, rule-heavy rails, and broad saturated bands. That treatment was defensible as brand extraction but not strong enough as a current design direction.
 
-This is recorded as a skill failure because the default workflow did not actively load Blue Mountain, did not distinguish structural from visual references, and did not ask the final reviewer to block an outdated aesthetic. The new design reference corrects those instructions. The completed first run remains useful evidence for functional behavior but no longer qualifies as final visual acceptance for the revised skill.
+This is recorded as a skill failure because the default workflow did not actively load Blue Mountain, did not distinguish structural from visual references, and did not ask the final reviewer to block an outdated aesthetic. It also did not require conversion parity with the supplied page or typography provenance. The revised instructions correct all three gaps. The completed first run remains useful evidence for layout, image, browser, and accessibility behavior, but does not qualify as final acceptance for the revised skill.
 
 ## Continuation checklist
 
 1. Wait for the independent task to complete.
 2. Inspect its final artifacts and acceptance report.
 3. Preserve the first result as evidence of the visual-age failure.
-4. Run a second context-free Byrider build against the revised skill in a clean task.
+4. Run a second context-free Byrider build against the revised conversion, typography, and design instructions in a clean task.
 5. Copy both result summaries and representative screenshots into `docs/community-landing-page-builder/acceptance/`.
 6. Update the decision checklist only from observed evidence.
 7. Rerun `quick_validate.py`, the skill Python suite, and the core browser fixture.

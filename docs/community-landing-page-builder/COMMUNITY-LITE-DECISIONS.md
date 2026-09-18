@@ -97,6 +97,17 @@ The first context-free build fixed the earlier functional and layout failures, b
 
 Decision: adopt one short design-direction reference. It makes Blue Mountain the default structural benchmark, Clean Slate the execution-quality benchmark, requires separate source and applied palettes, and adds a blocking visual-age checkpoint. It does not add an approval step or require extra owner input.
 
+## Conversion and typography findings from the independent run
+
+The first run was initially classified too generously. Two later findings change it from a functional pass to a technical-layout pass:
+
+- The supplied Byrider page used a form-led franchise-overview journey, but the run replaced it with a phone call because production backend credentials were not provided.
+- The supplied page declared Barlow and Source Sans 3. Byrider's broader official franchise site declared Montserrat and Open Sans. The run instead chose Avenir Next, Arial Narrow, Avenir Next Condensed, and Georgia without documenting that conflict or providing a source-supported rationale.
+
+The conversion failure came from conflating form experience with production backend infrastructure. A public endpoint on a source page is evidence of intended behavior, but is not permission to reuse it or send data. The correct local result preserves the form, offer, fields, consent, and next-step promise while using an isolated local receiver or clearly pending production wiring.
+
+Decision: require a source conversion contract and a source-parity conversion gate. Missing credentials cannot change conversion type. Also require three typography labels: verified brand-guide typography, official-site typography, and applied typography. Do not call a font a brand font without a formal first-party standard.
+
 ## Implementation checklist
 
 - [x] Create separate fork and keep the source copy unchanged.
@@ -112,5 +123,6 @@ Decision: adopt one short design-direction reference. It makes Blue Mountain the
 - [x] Add and run focused regression tests.
 - [x] Validate the skill package and scan its generated templates.
 - [x] Run the first context-free Byrider acceptance build in a separate task.
-- [x] Record the first result as a functional pass and visual-age failure without editing it into compliance.
+- [x] Record the first result as a technical-layout pass with conversion-intent, typography-provenance, and visual-age failures without editing the generated page into compliance.
+- [x] Add source conversion parity and typography provenance to the active workflow and final gates.
 - [ ] Run a second context-free Byrider build against the revised design instructions.
