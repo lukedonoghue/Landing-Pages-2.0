@@ -75,6 +75,8 @@ Also compare the complete page with the reference hierarchy in `design-direction
 
 Review each used image with asset-specific evidence. Review every modal step and validation state that exists. If a brochure exists, review every rendered page using the catalogue workflow.
 
+Crop warnings name the actual asset and placement. Resolve each one separately; a reviewed hero does not clear unrelated service-image warnings. An explicit image ratio that disagrees with its rendered box indicates a sizing conflict to fix, not proof that the declared ratio took effect.
+
 ## 4. Conversion gate
 
 Test the selected real action, not a substitute.

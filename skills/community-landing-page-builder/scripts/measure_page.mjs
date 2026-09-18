@@ -7,7 +7,7 @@ import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { readRenderedFonts } from './rendered_fonts.mjs';
 
-const VERSION = '1.5.0';
+const VERSION = '1.6.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -142,19 +142,24 @@ async function measure(page) {
     };
 
     const all = [...document.querySelectorAll('body *')];
-    const images = [...document.images].filter(visible).map((image) => {
+    const images = [...document.images].filter(visible).map((image, imageIndex) => {
       const box = rect(image);
       const style = getComputedStyle(image);
       const naturalRatio = image.naturalWidth / Math.max(1, image.naturalHeight);
       const renderedRatio = box.width / Math.max(1, box.height);
+      const [ratioWidth, ratioHeight = 1] = style.aspectRatio.split('/').map(value => Number(value.trim()));
+      const declaredRatio = Number.isFinite(ratioWidth / ratioHeight) && ratioWidth / ratioHeight > 0 ? ratioWidth / ratioHeight : null;
       const crop = style.objectFit === 'cover' ? 1 - Math.min(naturalRatio / renderedRatio, renderedRatio / naturalRatio) : 0;
       return {
         selector: describe(image),
+        imageIndex,
         src: image.currentSrc || image.src,
         loaded: image.complete && image.naturalWidth > 0,
         role: image.dataset.imageRole || '',
         contentBearing: image.dataset.contentBearing === 'true',
         objectFit: style.objectFit,
+        declaredAspectRatio: style.aspectRatio,
+        ratioMismatch: declaredRatio !== null && Math.abs(renderedRatio / declaredRatio - 1) > 0.05,
         cropFraction: crop,
         box,
       };
@@ -437,6 +442,8 @@ try {
       warn(`${name}: hero continuation not identifiable; verify the following content in the first viewport manually`);
     }
     check('images_loaded', metrics.images.every((image) => image.loaded), 'Every rendered image decoded', { viewport });
+    check('explicit_image_ratio_matches_layout', metrics.images.every(image => !image.ratioMismatch),
+      JSON.stringify(metrics.images.filter(image => image.ratioMismatch)), { viewport });
     check('content_images_not_cover_cropped', metrics.images.filter((image) => image.contentBearing).every((image) => image.objectFit !== 'cover'), JSON.stringify(metrics.images.filter((image) => image.contentBearing && image.objectFit === 'cover')), { viewport });
     check('content_images_have_no_text_collision', metrics.contentCollisions.length === 0, JSON.stringify(metrics.contentCollisions), { viewport });
     check('positioned_text_does_not_overlap_prose', metrics.positionedTextCollisions.length === 0, JSON.stringify(metrics.positionedTextCollisions), { viewport });
@@ -450,7 +457,7 @@ try {
     if (metrics.smallTargets.length) warn(`${name}: targets smaller than 24 CSS pixels: ${metrics.smallTargets.join(', ')}`);
     for (const image of metrics.images) {
       if (!image.role) warn(`${name}: unclassified rendered image ${image.selector}`);
-      if (!image.contentBearing && image.cropFraction > 0.45) warn(`${name}: aggressive crop at ${image.selector}`);
+      if (!image.contentBearing && image.cropFraction > 0.45) warn(`${name}: aggressive crop at image ${image.imageIndex} (${image.src}); ${Math.round(image.cropFraction * 100)}% cropped`);
     }
 
     const modal = await inspectModal(page, viewport, name);

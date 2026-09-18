@@ -36,6 +36,7 @@ Mark each meaningful image with `data-image-role="proof|portrait|diagram|screens
 
 - Meaningful images need factual alt text. Decorative images need empty alt text.
 - Add explicit dimensions and serve appropriately sized, efficiently encoded photo variants. Do not send an untouched full-resolution source photograph to phones by default; retain the original as research and check the rendered crop and sharpness after optimization.
+- Intrinsic HTML dimensions are not responsive CSS. For a natural-ratio image, use `width: 100%; height: auto`; for a crop, size the actual image box deliberately. An explicit CSS `aspect-ratio` does not override a fixed HTML/CSS height. Verify the rendered ratio at each layout breakpoint.
 - Eager-load the single likely LCP image. Lazy-load below-fold imagery.
 - If preloading a responsive image, match its `imagesrcset` and `imagesizes` to the rendered image, or omit the redundant preload. Check that mobile does not download both a fixed desktop preload and its selected responsive candidate.
 - Never use `object-fit: cover` on content-bearing images.
