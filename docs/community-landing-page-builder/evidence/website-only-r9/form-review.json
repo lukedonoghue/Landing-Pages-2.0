@@ -1,0 +1,48 @@
+{
+  "status": "pass",
+  "failures": [],
+  "emptyErrors": 7,
+  "correctedErrors": 6,
+  "invalidErrors": 5,
+  "summaryHidden": true,
+  "validation": {
+    "text": "Select a service\nWindow cleaning\nCommercial window cleaning\nInternal window cleaning\nHigh-level window cleaning\nGutter cleaning\nOther",
+    "focus": "service",
+    "top": 408.984375,
+    "bottom": 456.984375,
+    "visible": true,
+    "unobscured": true
+  },
+  "invalidName": {
+    "text": "",
+    "focus": "name",
+    "top": 408.796875,
+    "bottom": 458.390625,
+    "visible": true,
+    "unobscured": true
+  },
+  "firstAttempts": 1,
+  "retryAttempts": 2,
+  "refreshCalls": 0,
+  "failure": {
+    "text": "This preview does not send details. Your entries are still here.",
+    "focus": "form-result",
+    "top": 660.03125,
+    "bottom": 721.21875,
+    "visible": true,
+    "unobscured": true
+  },
+  "retained": "Audit Test",
+  "success": {
+    "text": "Preview complete. Nothing was sent.",
+    "focus": "success-title",
+    "top": 346.890625,
+    "bottom": 420.328125,
+    "visible": true,
+    "unobscured": true
+  },
+  "successText": "OK\n\nPreview complete. Nothing was sent.\n\nThis synthetic result confirms the local success state. Your details were not submitted to StayClean.\n\nClose",
+  "restored": true,
+  "writes": [],
+  "limits": "Same-filled-form local failure, held retry and synthetic success; all writes blocked. No backend or production delivery claim."
+}

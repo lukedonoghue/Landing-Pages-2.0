@@ -33,7 +33,7 @@ def main():
         root = Path(directory)
         prose = 'A local service team provides a clear quotation after reviewing the property and the work required.'
         brand_path = root / 'brand.json'
-        cases = ['visible', 'below', 'overlap', 'font-drift', 'modal-covered', 'modal-clear', 'font-fallback', 'font-loaded']
+        cases = ['visible', 'below', 'overlap', 'font-drift', 'modal-covered', 'modal-clear', 'font-fallback', 'font-loaded', 'image-fixed-height', 'image-responsive']
         for name in cases:
             height = '110vh' if name == 'below' else '200px'
             label_offset = '30px' if name == 'overlap' else '180px'
@@ -41,6 +41,14 @@ def main():
             heading_font = 'FixtureWebFont, Georgia, serif' if name in ['font-fallback', 'font-loaded'] else 'Georgia, serif'
             font_face = '@font-face{font-family:FixtureWebFont;src:local("Arial"),local("Liberation Sans"),local("DejaVu Sans")}' if name == 'font-loaded' else ''
             modal = ''
+            test_image = ''
+            if name.startswith('image-'):
+                image_height = 'height:auto;' if name == 'image-responsive' else ''
+                test_image = (
+                    f'<style>.ratio-fixture{{width:200px;aspect-ratio:4/3;object-fit:cover;{image_height}}}</style>'
+                    '<img class="ratio-fixture" width="800" height="600" alt="Ratio fixture" data-image-role="illustrative" '
+                    'src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27800%27 height=%27600%27 fill=%27green%27/%3E%3C/svg%3E">'
+                )
             trigger = '<a href="tel:+15555550100" data-primary-action>Call</a>'
             if name.startswith('modal-'):
                 trigger = '<button type="button" data-open-modal data-primary-action>Get a quote</button>'
@@ -75,7 +83,7 @@ def main():
                 f'<p>{prose}</p>'
                 + trigger + '</section>'
                 '<section><div class="label-row"><p class="category">SPECIALIST ACCESS</p><h2>Service</h2></div></section></main>'
-                + modal + '</html>'
+                + modal + test_image + '</html>'
             )
         server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(root)))
         Thread(target=server.serve_forever, daemon=True).start()
@@ -120,11 +128,15 @@ def main():
                     assert all(c['status'] == expected_keyboard for c in keyboard), keyboard
                 else:
                     assert not keyboard, keyboard
-                assert (result.returncode == 0) == (name in ['visible', 'font-drift', 'modal-clear', 'font-loaded']), report['failures']
+                image_checks = [c for c in report['checks'] if c['name'] == 'explicit_image_ratio_matches_layout']
+                assert len(image_checks) == 5, image_checks
+                expected_image = 'blocked' if name == 'image-fixed-height' else 'pass'
+                assert all(c['status'] == expected_image for c in image_checks), image_checks
+                assert (result.returncode == 0) == (name in ['visible', 'font-drift', 'modal-clear', 'font-loaded', 'image-responsive']), report['failures']
         finally:
             server.shutdown()
             server.server_close()
-    print('PASS: eight hero, text, CSS/rendered-font and modal keyboard fixtures at all five viewports')
+    print('PASS: ten hero, text, rendered-font, image-ratio and modal keyboard fixtures at all five viewports')
 
 
 if __name__ == '__main__':

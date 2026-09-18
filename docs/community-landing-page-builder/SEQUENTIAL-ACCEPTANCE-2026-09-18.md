@@ -1,6 +1,6 @@
 # Sequential community acceptance
 
-Status: resumed in Codex at the user's request on 2026-09-18 at 23:05 Kyiv. Pro review was not started. Latest usage check: 27% used at 01:25 Kyiv on September 19, against a 2% starting baseline. Stop threshold remains 32% used (30 additional percentage points). No automatic credit redemption. The 15-minute progress heartbeat is active again. First scenario is not yet accepted.
+Status: resumed in Codex at the user's request on 2026-09-18 at 23:05 Kyiv. Pro review was not started. Latest usage check: 30% used at 01:56 Kyiv on September 19, against a 2% starting baseline. Stop threshold remains 32% used (30 additional percentage points). No automatic credit redemption. The 15-minute progress heartbeat is active again. First scenario is not yet accepted.
 
 ## Scope
 
@@ -49,6 +49,10 @@ Attempt 7 completed at 00:47 Kyiv. Performance improved to 97 with 2.48-second L
 Attempt 8 started 2026-09-19 at 01:00 Kyiv: agent `01a0b688-e643-7fb0-ab00-d325cb444ffd` (Aristotle), gpt-5.6-sol xhigh, fork_context=false. Same owner request, another empty project and no audit context. Frozen source d9f46d2: 172 files, manifest SHA-256 `b1eb909e37f228e78fe5d30cac4a39523ce75bd2e7b01c2ac6ba0c34593edcc3`. Prior builder and reviewer closed. Source fixes and attempt-7 evidence pushed to the separate review branch before launch.
 
 Attempt 8 completed at approximately 01:17 Kyiv. Parent rejected a silent system-font fallback despite a matching declared CSS stack, empty body-font evidence and form error/focus inconsistencies. Parent calibrated the fresh review, rejecting a smooth-scroll success-state false positive. See WEBSITE-ONLY-R8-REVIEW.md. Source now compares actual rendered fonts, not declarations alone. The generated page remains unchanged.
+
+Attempt 9 started 2026-09-19 at 01:28 Kyiv: agent `01a0b6a2-5eea-7ce3-87ce-c81c39f95136` (Darwin), gpt-5.6-sol xhigh, fork_context=false. Same owner request, empty project, no prior conversation or findings. Frozen source 1590a9c: 173 files, manifest SHA-256 `32050a01da86a943e8b5dc5e4001903dd52035819d0772c8586f15b336c53f1b`. Prior builder and reviewer closed. Source and audit checkpoint pushed to the separate branch. Usage at launch remains 27% used; stop threshold is 32%.
+
+Attempt 9 completed at 01:49 Kyiv. Parent verified actual rendered fonts, keyboard visibility, same-filled-form failure-to-success retry and Lighthouse performance. A desktop image-sizing conflict remains: HTML height overrides the intended CSS aspect ratio, badly cropping service photographs. Old generic crop warnings masked the affected placements. Source correction and ten passing browser fixtures are recorded in WEBSITE-ONLY-R9-REVIEW.md. No generated page was manually repaired.
 
 ## README and local-history reconciliation
 
