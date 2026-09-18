@@ -231,6 +231,18 @@ def main() -> int:
     checks["image_issues"] = sorted(set(image_issues))
     checks["form_issues"] = sorted(set(form_issues))
     checks["dead_links"] = sorted(set(dead_links))
+    invalid_downloads = []
+    for asset in (root / "assets").rglob("*"):
+        if not asset.is_file() or asset.suffix.lower() not in {".txt", ".md"}:
+            continue
+        if not re.search(r"(?:^|[-_.])(?:licen[sc]e|ofl|copying)(?:[-_.]|$)", asset.name, re.I):
+            continue
+        text = asset.read_text(encoding="utf-8", errors="replace").strip()
+        if not text or re.match(r"(?:404[ :]|403[ :]|not found$|access denied$)", text, re.I):
+            invalid_downloads.append(asset.relative_to(root).as_posix())
+    checks["invalid_license_downloads"] = invalid_downloads
+    if invalid_downloads:
+        failures.append("Licence files contain an empty or failed download: " + "; ".join(invalid_downloads))
     if missing_assets:
         failures.append("Missing local assets: " + "; ".join(sorted(set(missing_assets))))
     if image_issues:

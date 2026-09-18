@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const VERSION = '1.2.0';
+const VERSION = '1.3.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -16,7 +16,7 @@ const option = (name, fallback = '') => {
 };
 
 if (!argv.length || argv.includes('--help')) {
-  console.log('node measure_page.mjs <url> --out <project>/build/browser-review.json [--project-root <project>] [--thank-you /thank-you.html] [--playwright-module /path/to/playwright/index.mjs] [--browser-executable /path/to/chromium]');
+  console.log('node measure_page.mjs <url> --out <project>/build/browser-review.json [--project-root <project>] [--brand-report <source-brand.json>] [--thank-you /thank-you.html] [--playwright-module /path/to/playwright/index.mjs] [--browser-executable /path/to/chromium]');
   process.exit(0);
 }
 
@@ -25,6 +25,12 @@ if (!['http:', 'https:'].includes(url.protocol)) throw new Error('Use a running 
 const root = option('project-root') ? resolve(option('project-root')) : null;
 const output = resolve(option('out', root ? `${root}/build/browser-review.json` : 'browser-review.json'));
 await mkdir(dirname(output), { recursive: true });
+const brandPath = option('brand-report', root ? resolve(root, 'build/brand.json') : '');
+let brand = null;
+if (brandPath) {
+  try { brand = JSON.parse(await readFile(resolve(brandPath), 'utf8')); }
+  catch (error) { if (option('brand-report') || error.code !== 'ENOENT') throw error; }
+}
 
 const modulePath = option('playwright-module', process.env.PAGE_PLAYWRIGHT_MODULE || '');
 let runtime;
@@ -62,6 +68,7 @@ const report = {
   checks: [],
   failures: [],
   warnings: [],
+  typographyComparison: [],
   limits: [
     'Measurements do not replace visual review of the screenshot pixels.',
     'The run does not submit forms or prove a live backend destination.',
@@ -254,7 +261,14 @@ async function measure(page) {
       return box.width < 24 || box.height < 24;
     }).map(describe);
 
+    const fontEvidence = (element) => element ? {
+      selector: describe(element), text: element.textContent.trim().replace(/\s+/g, ' ').slice(0, 180),
+      fontFamily: getComputedStyle(element).fontFamily,
+    } : null;
+    const prose = [...document.querySelectorAll('main p,article p,p')].filter(visible)
+      .find((element) => element.textContent.trim().length >= 60 && getComputedStyle(element).textTransform !== 'uppercase');
     return {
+      typography: { heading: fontEvidence([...document.querySelectorAll('h1')].find(visible)), body: fontEvidence(prose) },
       pageWidth: document.documentElement.scrollWidth,
       pageHeight: document.documentElement.scrollHeight,
       h1Count: [...document.querySelectorAll('h1')].filter(visible).length,
@@ -336,6 +350,24 @@ try {
     await page.goto(url.href, { waitUntil: 'networkidle', timeout: 30000 });
     await settle(page);
     const metrics = await measure(page);
+    if (brand?.measurements?.length) {
+      const source = [...brand.measurements].sort((a, b) => Math.abs(a.viewport.width - viewport.width) - Math.abs(b.viewport.width - viewport.width))[0];
+      const expected = {
+        heading: source.roles?.hero_heading?.[0],
+        body: source.roles?.body?.find((item) => item.text?.length >= 60 && item.textTransform !== 'uppercase'),
+      };
+      const family = (value) => (value || '').split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase();
+      for (const role of ['heading', 'body']) {
+        const observed = metrics.typography[role];
+        if (!expected[role]?.fontFamily || !observed?.fontFamily) {
+          warn(`${name}: ${role} typography sample unavailable; verify representative rendered elements manually`);
+          continue;
+        }
+        const matches = family(expected[role].fontFamily) === family(observed.fontFamily);
+        report.typographyComparison.push({ viewport, role, source: expected[role], applied: observed, matches });
+        if (!matches) warn(`${name}: ${role} font differs: source ${expected[role].fontFamily}; applied ${observed.fontFamily}. Restore source font or document a permitted substitution with evidence.`);
+      }
+    }
     const screenshot = await addShot(page, `${name}-landing`);
     check('horizontal_overflow', metrics.pageWidth <= viewport.width + 1 && metrics.overflow.length === 0, JSON.stringify({ pageWidth: metrics.pageWidth, overflow: metrics.overflow }), { viewport, screenshot });
     check('visible_h1', metrics.h1Count === 1, `Visible H1 count: ${metrics.h1Count}`, { viewport });

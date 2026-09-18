@@ -34,7 +34,7 @@ Write one implementation-ready copy master at `build/page-copy.md` or `build/pag
 
 ## Primary action
 
-The CTA must name the real next step. A visitor should not have to infer what happens.
+The CTA must name the real next step. All controls opening the same primary journey use its exact label; do not rename a full quote form as a postcode checker or another narrower action. A visitor should not have to infer what happens.
 
 - `Download the guide` must lead to a real guide after the stated condition.
 - `Book a consultation` must reach a real booking flow.
@@ -47,6 +47,7 @@ Use the same offer and follow-up promise in the page, form, success state, thank
 
 - Put a strong verified trust signal in or immediately after the hero when available.
 - Use each testimonial as one person's evidence. Do not manufacture a grid from one source.
+- Keep internal verification language in research notes. Call sourced feedback customer reviews, not verified reviews unless that status itself is supported.
 - Use ratings, counts, awards, credentials, or logos only when verified and decision-relevant.
 - Use press or industry statistics only when an authoritative source and buyer value justify the space.
 - Use an origin story only when it explains relevant expertise, empathy, or process.
