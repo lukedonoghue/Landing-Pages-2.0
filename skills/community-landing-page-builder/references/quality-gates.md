@@ -90,6 +90,10 @@ Use synthetic local data. A direct thank-you visit, refresh, rejected action, or
 
 Exercise outcomes, not proxies: include whitespace-only required text and malformed contact input; inspect failure visibility at the real submit position before any test-driven focus or scroll. Then restore the local test adapter, retry the same filled form, and observe success with values preserved. To verify duplicate prevention, hold the first local request open, dispatch a second submit event, and assert exactly one receiver/adapter invocation. Clicking an already disabled button is not that test. Keep simulation results explicitly separate from backend delivery evidence.
 
+After an invalid submission, correct one field and verify that both its inline error and its entry in the summary disappear while the other errors remain. Then correct the rest. Merely hiding the summary after every error is cleared does not test consistency during correction.
+
+For validation and success, confirm that the focused target is actually visible after layout and scrolling settle. Include an ordinary-motion check, not only reduced-motion captures. A transient off-screen position during smooth scrolling is not a persistent defect; focus that finishes off-screen is.
+
 For source forms, confirm that no public production endpoint was reused without authorization, success waits for a confirmed selected destination, and raw contact data is absent from analytics and data-layer events.
 
 ## 5. Accessibility and performance gate

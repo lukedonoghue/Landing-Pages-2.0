@@ -1,0 +1,25 @@
+{
+  "status": "blocked",
+  "failures": [
+    "Corrected field remains in error summary"
+  ],
+  "emptyCount": 7,
+  "afterOneCorrection": 7,
+  "staleServiceEntry": true,
+  "firstAttempts": 1,
+  "retryAttempts": 2,
+  "failure": {
+    "text": "This preview does not send details. Your entries are still here. Please try again after the form destination is connected, or call 0800 8560 120.",
+    "focused": true,
+    "visible": true,
+    "name": "Audit Test"
+  },
+  "success": {
+    "text": "LOCAL TEST COMPLETE\n\nForm behaviour confirmed.\n\nLocal form test confirmed. No details were sent. Production success will appear only after the connected form destination confirms receipt.\n\nReturn to the form",
+    "focused": true,
+    "formHidden": true,
+    "attempts": 1
+  },
+  "writes": [],
+  "limits": "Success requires a separate QA-mode page load. Same-filled-form failure-to-success transition is not available through the exposed adapter. No backend or production delivery tested."
+}

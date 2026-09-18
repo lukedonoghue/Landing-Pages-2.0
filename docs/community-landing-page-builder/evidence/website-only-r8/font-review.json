@@ -1,0 +1,96 @@
+[
+  {
+    "url": "https://www.stayclean.co.uk/",
+    "samples": [
+      {
+        "selector": "h1",
+        "rendered": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ],
+        "text": "Window cleaning in Bristol.\nDone properly.",
+        "css": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif"
+      },
+      {
+        "selector": "p.sc-hero-copy",
+        "rendered": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 105
+          }
+        ],
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "css": "Arial, sans-serif"
+      },
+      {
+        "selector": "p.sc-lead",
+        "rendered": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 161
+          }
+        ],
+        "text": "From a regular home clean to a multi-storey commercial site, Stayclean brings the right method, equipment and experience without turning a simple job into a drama.",
+        "css": "Arial, Helvetica, sans-serif"
+      },
+      {
+        "selector": "p",
+        "rendered": [],
+        "text": "Call 0800 8560 120 or text 07462 944 885",
+        "css": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif"
+      }
+    ]
+  },
+  {
+    "url": "http://127.0.0.1:4188/",
+    "samples": [
+      {
+        "selector": "h1",
+        "rendered": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 41
+          }
+        ],
+        "text": "Window cleaning in Bristol, done properly.",
+        "css": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif"
+      },
+      {
+        "selector": "p.hero-lead",
+        "rendered": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 165
+          }
+        ],
+        "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+        "css": "Arial, sans-serif"
+      },
+      {
+        "selector": "p",
+        "rendered": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "Arial-BoldMT",
+            "isCustomFont": false,
+            "glyphCount": 34
+          }
+        ],
+        "text": "BRISTOL WINDOW CLEANERS SINCE 1997",
+        "css": "Arial, sans-serif"
+      }
+    ]
+  }
+]

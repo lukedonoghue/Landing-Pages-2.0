@@ -71,11 +71,15 @@ For forms:
 
 In a scrolling form or modal, a submission failure must become visible and announced without visitor exploration: place it beside the action or move focus to a focusable error summary and reveal it. Keep entered values for retry. Calling `.focus()` on an ordinary non-focusable element is not sufficient. Test failure from the actual submit position, not after the test script scrolls to the message.
 
+Choose one visible focus destination for each validation or result state. For validation, keep focus on a useful linked summary or reveal and focus the first invalid field; do not focus the summary and then redirect focus elsewhere with `preventScroll`. Check the focused target after layout and any scrolling settle, including ordinary motion as well as reduced-motion behavior.
+
 Persistent form actions must not cover fields reached by keyboard. Prefer a separate action row outside the scrolling field region; if using an overlapping sticky bar, reserve its actual height in the scroll layout and scroll padding. Tab through the form normally at mobile and short-height sizes. A visible submit button and a visible failure message do not prove the intervening inputs remain visible.
 
 When production form wiring is pending, still build and test the complete form-first experience. Use an isolated local receiver or test adapter for synthetic QA when available, or keep production submission disabled and label the result `local preview`. Never submit to an existing live endpoint without authorization. Never show a production success state merely because a local timer, navigation, or ignored network response completed.
 
 For a disconnected preview, use plain visitor wording such as `This preview does not send details. Your entries are still here.` The error and success states remain visitor-facing even when the owner is testing them. Put provider names, endpoints and instructions to connect, configure or replace anything only in the owner handoff, never in those states.
+
+A synthetic success can simply say `Preview complete. Nothing was sent.` Keep explanations of adapters, receivers, QA and future production behavior in the owner handoff.
 
 A separate preview thank-you page is still part of the visitor experience, not a second owner setup guide.
 

@@ -1,0 +1,128 @@
+[
+  {
+    "mode": "validation",
+    "delay": 0,
+    "focus": "name",
+    "active": {
+      "top": -496.171875,
+      "bottom": -445.78125,
+      "visible": false
+    },
+    "summary": {
+      "top": -1030.9375,
+      "bottom": -833.546875,
+      "visible": false
+    },
+    "success": {
+      "top": 0,
+      "bottom": 0,
+      "visible": true
+    },
+    "scrollY": 9032
+  },
+  {
+    "mode": "validation",
+    "delay": 400,
+    "focus": "name",
+    "active": {
+      "top": 783.828125,
+      "bottom": 834.21875,
+      "visible": true
+    },
+    "summary": {
+      "top": 249.0625,
+      "bottom": 446.453125,
+      "visible": true
+    },
+    "success": {
+      "top": 0,
+      "bottom": 0,
+      "visible": true
+    },
+    "scrollY": 7752
+  },
+  {
+    "mode": "validation",
+    "delay": 800,
+    "focus": "name",
+    "active": {
+      "top": 857.828125,
+      "bottom": 908.21875,
+      "visible": false
+    },
+    "summary": {
+      "top": 323.0625,
+      "bottom": 520.453125,
+      "visible": true
+    },
+    "success": {
+      "top": 0,
+      "bottom": 0,
+      "visible": true
+    },
+    "scrollY": 7678
+  },
+  {
+    "mode": "success",
+    "delay": 0,
+    "focus": "success-state",
+    "active": {
+      "top": -335.9375,
+      "bottom": 14.90625,
+      "visible": false
+    },
+    "summary": {
+      "top": 0,
+      "bottom": 0,
+      "visible": true
+    },
+    "success": {
+      "top": -335.9375,
+      "bottom": 14.90625,
+      "visible": false
+    },
+    "scrollY": 8337
+  },
+  {
+    "mode": "success",
+    "delay": 400,
+    "focus": "success-state",
+    "active": {
+      "top": 247.0625,
+      "bottom": 597.90625,
+      "visible": true
+    },
+    "summary": {
+      "top": 0,
+      "bottom": 0,
+      "visible": true
+    },
+    "success": {
+      "top": 247.0625,
+      "bottom": 597.90625,
+      "visible": true
+    },
+    "scrollY": 7754
+  },
+  {
+    "mode": "success",
+    "delay": 800,
+    "focus": "success-state",
+    "active": {
+      "top": 247.0625,
+      "bottom": 597.90625,
+      "visible": true
+    },
+    "summary": {
+      "top": 0,
+      "bottom": 0,
+      "visible": true
+    },
+    "success": {
+      "top": 247.0625,
+      "bottom": 597.90625,
+      "visible": true
+    },
+    "scrollY": 7754
+  }
+]

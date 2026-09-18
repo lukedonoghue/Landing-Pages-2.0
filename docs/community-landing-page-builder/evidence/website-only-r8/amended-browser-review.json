@@ -1,0 +1,2376 @@
+{
+  "schema_version": 1,
+  "gate": "browser-page",
+  "status": "blocked",
+  "executed_at": "2026-09-18T22:22:01.820Z",
+  "tool": {
+    "name": "measure_page",
+    "version": "1.5.0"
+  },
+  "target": {
+    "url": "http://127.0.0.1:4188/"
+  },
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "label": "mobile",
+      "screenshot": "../../../audit/website-only-r8/screenshots/390x844-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-heading",
+            "text": "Window cleaning in Bristol, done properly.",
+            "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 40
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+            "fontFamily": "Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 164
+              }
+            ]
+          }
+        },
+        "pageWidth": 390,
+        "pageHeight": 10134,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 14,
+              "top": 7,
+              "right": 172,
+              "bottom": 79,
+              "width": 158,
+              "height": 72
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/team-hero.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.6694444444444445,
+            "box": {
+              "left": 0,
+              "top": 87,
+              "right": 390,
+              "bottom": 807,
+              "width": 390,
+              "height": 720
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/domestic-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 21,
+              "top": 1398.71875,
+              "right": 369,
+              "bottom": 1659.71875,
+              "width": 348,
+              "height": 261
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/commercial-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 21,
+              "top": 1886.328125,
+              "right": 369,
+              "bottom": 2147.328125,
+              "width": 348,
+              "height": 261
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/high-level-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 21,
+              "top": 2400.9375,
+              "right": 369,
+              "bottom": 2661.9375,
+              "width": 348,
+              "height": 261
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/gutter-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 21,
+              "top": 2888.546875,
+              "right": 369,
+              "bottom": 3149.546875,
+              "width": 348,
+              "height": 261
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 9359.296875,
+              "right": 210,
+              "bottom": 9454.296875,
+              "width": 190,
+              "height": 95
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 18,
+              "top": 496.09375,
+              "right": 372,
+              "bottom": 546.09375,
+              "width": 354,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 34,
+              "top": 9137.296875,
+              "right": 356,
+              "bottom": 9187.296875,
+              "width": 322,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "section.hero",
+          "following": "section.trust-rail",
+          "nextTop": 807,
+          "visiblePixels": 37,
+          "viewportHeight": 844
+        },
+        "primaryDeclared": 3,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "label": "tablet",
+      "screenshot": "../../../audit/website-only-r8/screenshots/768x1024-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-heading",
+            "text": "Window cleaning in Bristol, done properly.",
+            "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 41
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+            "fontFamily": "Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 165
+              }
+            ]
+          }
+        },
+        "pageWidth": 768,
+        "pageHeight": 8207,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 5,
+              "right": 208,
+              "bottom": 81,
+              "width": 188,
+              "height": 76
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/team-hero.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.38239009287925696,
+            "box": {
+              "left": 0,
+              "top": 87,
+              "right": 768,
+              "bottom": 847,
+              "width": 768,
+              "height": 760
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/domestic-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.04210069444444431,
+            "box": {
+              "left": 21,
+              "top": 1308.71875,
+              "right": 365.84375,
+              "bottom": 1578.71875,
+              "width": 344.84375,
+              "height": 270
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/commercial-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.04210069444444431,
+            "box": {
+              "left": 21,
+              "top": 1606.71875,
+              "right": 365.84375,
+              "bottom": 1876.71875,
+              "width": 344.84375,
+              "height": 270
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/high-level-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.04210069444444431,
+            "box": {
+              "left": 21,
+              "top": 1904.71875,
+              "right": 365.84375,
+              "bottom": 2174.71875,
+              "width": 344.84375,
+              "height": 270
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/gutter-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.04210069444444431,
+            "box": {
+              "left": 21,
+              "top": 2202.71875,
+              "right": 365.84375,
+              "bottom": 2472.71875,
+              "width": 344.84375,
+              "height": 270
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 7841.921875,
+              "right": 210,
+              "bottom": 7936.921875,
+              "width": 190,
+              "height": 95
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 20,
+              "top": 450.5,
+              "right": 196.703125,
+              "bottom": 500.5,
+              "width": 176.703125,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 54,
+              "top": 7575.921875,
+              "right": 244,
+              "bottom": 7625.921875,
+              "width": 190,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "section.hero",
+          "following": "section.trust-rail",
+          "nextTop": 847,
+          "visiblePixels": 97.78125,
+          "viewportHeight": 1024
+        },
+        "primaryDeclared": 3,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1024,
+      "height": 800,
+      "label": "laptop",
+      "screenshot": "../../../audit/website-only-r8/screenshots/1024x800-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-heading",
+            "text": "Window cleaning in Bristol, done properly.",
+            "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 41
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+            "fontFamily": "Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 165
+              }
+            ]
+          }
+        },
+        "pageWidth": 1024,
+        "pageHeight": 6934,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 5,
+              "right": 208,
+              "bottom": 81,
+              "width": 188,
+              "height": 76
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/team-hero.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.043050908436769175,
+            "box": {
+              "left": 0,
+              "top": 87,
+              "right": 1024,
+              "bottom": 741,
+              "width": 1024,
+              "height": 654
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/domestic-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 21,
+              "top": 1213.5625,
+              "right": 498,
+              "bottom": 1571.3125,
+              "width": 477,
+              "height": 357.75
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/commercial-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 526,
+              "top": 1213.5625,
+              "right": 1003,
+              "bottom": 1571.3125,
+              "width": 477,
+              "height": 357.75
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/high-level-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 21,
+              "top": 1810.890625,
+              "right": 498,
+              "bottom": 2168.640625,
+              "width": 477,
+              "height": 357.75
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/gutter-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 526,
+              "top": 1810.890625,
+              "right": 1003,
+              "bottom": 2168.640625,
+              "width": 477,
+              "height": 357.75
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 6594.625,
+              "right": 210,
+              "bottom": 6689.625,
+              "width": 190,
+              "height": 95
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 857.40625,
+              "top": 19,
+              "right": 1004,
+              "bottom": 67,
+              "width": 146.59375,
+              "height": 48
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 20,
+              "top": 531.9375,
+              "right": 196.703125,
+              "bottom": 581.9375,
+              "width": 176.703125,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 403.5,
+              "top": 6328.625,
+              "right": 593.5,
+              "bottom": 6378.625,
+              "width": 190,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "section.hero",
+          "following": "section.trust-rail",
+          "nextTop": 741,
+          "visiblePixels": 59,
+          "viewportHeight": 800
+        },
+        "primaryDeclared": 3,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1280,
+      "height": 600,
+      "label": "short-laptop",
+      "screenshot": "../../../audit/website-only-r8/screenshots/1280x600-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-heading",
+            "text": "Window cleaning in Bristol, done properly.",
+            "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 41
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+            "fontFamily": "Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 167
+              }
+            ]
+          }
+        },
+        "pageWidth": 1280,
+        "pageHeight": 6768,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 50,
+              "top": 5,
+              "right": 238,
+              "bottom": 81,
+              "width": 188,
+              "height": 76
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/team-hero.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.41966434071222336,
+            "box": {
+              "left": 0,
+              "top": 87,
+              "right": 1280,
+              "bottom": 541,
+              "width": 1280,
+              "height": 454
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/domestic-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 51,
+              "top": 1030.78125,
+              "right": 626,
+              "bottom": 1462.03125,
+              "width": 575,
+              "height": 431.25
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/commercial-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 654,
+              "top": 1030.78125,
+              "right": 1229,
+              "bottom": 1462.03125,
+              "width": 575,
+              "height": 431.25
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/high-level-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 51,
+              "top": 1673.5625,
+              "right": 626,
+              "bottom": 2104.8125,
+              "width": 575,
+              "height": 431.25
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/gutter-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 654,
+              "top": 1673.5625,
+              "right": 1229,
+              "bottom": 2104.8125,
+              "width": 575,
+              "height": 431.25
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 50,
+              "top": 6447.34375,
+              "right": 240,
+              "bottom": 6542.34375,
+              "width": 190,
+              "height": 95
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1075.796875,
+              "top": 19,
+              "right": 1230,
+              "bottom": 67,
+              "width": 154.203125,
+              "height": 48
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 50,
+              "top": 396.75,
+              "right": 226.703125,
+              "bottom": 446.75,
+              "width": 176.703125,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 560,
+              "top": 6181.34375,
+              "right": 750,
+              "bottom": 6231.34375,
+              "width": 190,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "section.hero",
+          "following": "section.trust-rail",
+          "nextTop": 541,
+          "visiblePixels": 59,
+          "viewportHeight": 600
+        },
+        "primaryDeclared": 3,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "label": "desktop",
+      "screenshot": "../../../audit/website-only-r8/screenshots/1440x900-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-heading",
+            "text": "Window cleaning in Bristol, done properly.",
+            "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 41
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+            "fontFamily": "Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Arial",
+                "postScriptName": "ArialMT",
+                "isCustomFont": false,
+                "glyphCount": 165
+              }
+            ]
+          }
+        },
+        "pageWidth": 1440,
+        "pageHeight": 7044,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 130,
+              "top": 5,
+              "right": 318,
+              "bottom": 81,
+              "width": 188,
+              "height": 76
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/team-hero.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0.2046305207999144,
+            "box": {
+              "left": 0,
+              "top": 87,
+              "right": 1440,
+              "bottom": 787,
+              "width": 1440,
+              "height": 700
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/domestic-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 131,
+              "top": 1291.90625,
+              "right": 706,
+              "bottom": 1723.15625,
+              "width": 575,
+              "height": 431.25
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/commercial-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 734,
+              "top": 1291.90625,
+              "right": 1309,
+              "bottom": 1723.15625,
+              "width": 575,
+              "height": 431.25
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/high-level-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 131,
+              "top": 1934.6875,
+              "right": 706,
+              "bottom": 2365.9375,
+              "width": 575,
+              "height": 431.25
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/gutter-cleaning.jpg",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "cropFraction": 0,
+            "box": {
+              "left": 734,
+              "top": 1934.6875,
+              "right": 1309,
+              "bottom": 2365.9375,
+              "width": 575,
+              "height": 431.25
+            }
+          },
+          {
+            "selector": "img",
+            "src": "http://127.0.0.1:4188/assets/images/small/stayclean-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "cropFraction": 0,
+            "box": {
+              "left": 130,
+              "top": 6723.59375,
+              "right": 320,
+              "bottom": 6818.59375,
+              "width": 190,
+              "height": 95
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 1155.796875,
+              "top": 19,
+              "right": 1310,
+              "bottom": 67,
+              "width": 154.203125,
+              "height": 48
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 130,
+              "top": 572.828125,
+              "right": 306.703125,
+              "bottom": 622.828125,
+              "width": 176.703125,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button-primary",
+            "text": "Get a free quote",
+            "box": {
+              "left": 640,
+              "top": 6457.59375,
+              "right": 830,
+              "bottom": 6507.59375,
+              "width": 190,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "section.hero",
+          "following": "section.trust-rail",
+          "nextTop": 787,
+          "visiblePixels": 97.78125,
+          "viewportHeight": 900
+        },
+        "primaryDeclared": 3,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "../../../audit/website-only-r8/screenshots/390x844-landing.png",
+      "type": "screenshot",
+      "sha256": "20fc0d79910b77233d39974dff347d1ada7491ce5a40ace06fa2bb415d103b7d"
+    },
+    {
+      "path": "../../../audit/website-only-r8/screenshots/768x1024-landing.png",
+      "type": "screenshot",
+      "sha256": "051939718a6f0d3e065643f94c14b419a261444bc2c87048fd7b78fd4a3ed522"
+    },
+    {
+      "path": "../../../audit/website-only-r8/screenshots/1024x800-landing.png",
+      "type": "screenshot",
+      "sha256": "15a41a1b9aa0aecbc87a73cfc519746da5590513703b4baa92a65d97f962a597"
+    },
+    {
+      "path": "../../../audit/website-only-r8/screenshots/1280x600-landing.png",
+      "type": "screenshot",
+      "sha256": "63acfae9158eccdf22834100eb6ccac5859b31bf4f64cb1c1c95d9aebcc38bec"
+    },
+    {
+      "path": "../../../audit/website-only-r8/screenshots/1440x900-landing.png",
+      "type": "screenshot",
+      "sha256": "3082ad6164c75f9e88b5ed47fc6d80955bfded921a1e5852d50e60f9093f8b80"
+    }
+  ],
+  "checks": [
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "blocked",
+      "detail": "heading: source renders Roboto; page renders .SF NS",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Arial; page renders Arial",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":390,\"overflow\":[]}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "screenshot": "../../../audit/website-only-r8/screenshots/390x844-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"section.hero\",\"following\":\"section.trust-rail\",\"nextTop\":807,\"visiblePixels\":37,\"viewportHeight\":844}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"a.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":18,\"top\":496.09375,\"right\":372,\"bottom\":546.09375,\"width\":354,\"height\":50},\"unobscured\":true},{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":34,\"top\":9137.296875,\"right\":356,\"bottom\":9187.296875,\"width\":322,\"height\":50},\"unobscured\":false}]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "blocked",
+      "detail": "heading: source renders Roboto; page renders .SF NS",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Arial; page renders Arial",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":768,\"overflow\":[]}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "screenshot": "../../../audit/website-only-r8/screenshots/768x1024-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"section.hero\",\"following\":\"section.trust-rail\",\"nextTop\":847,\"visiblePixels\":97.78125,\"viewportHeight\":1024}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "blocked",
+      "detail": "heading: source renders Roboto; page renders .SF NS",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Arial; page renders Arial",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1024,\"overflow\":[]}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "screenshot": "../../../audit/website-only-r8/screenshots/1024x800-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"section.hero\",\"following\":\"section.trust-rail\",\"nextTop\":741,\"visiblePixels\":59,\"viewportHeight\":800}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "blocked",
+      "detail": "heading: source renders Roboto; page renders .SF NS",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Arial; page renders Arial",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1280,\"overflow\":[]}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "screenshot": "../../../audit/website-only-r8/screenshots/1280x600-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"section.hero\",\"following\":\"section.trust-rail\",\"nextTop\":541,\"visiblePixels\":59,\"viewportHeight\":600}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"a.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":1075.796875,\"top\":19,\"right\":1230,\"bottom\":67,\"width\":154.203125,\"height\":48},\"unobscured\":true},{\"selector\":\"a.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":50,\"top\":396.75,\"right\":226.703125,\"bottom\":446.75,\"width\":176.703125,\"height\":50},\"unobscured\":true},{\"selector\":\"button.button.button-primary\",\"text\":\"Get a free quote\",\"box\":{\"left\":560,\"top\":6181.34375,\"right\":750,\"bottom\":6231.34375,\"width\":190,\"height\":50},\"unobscured\":false}]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "blocked",
+      "detail": "heading: source renders Roboto; page renders .SF NS",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Arial; page renders Arial",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1440,\"overflow\":[]}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "screenshot": "../../../audit/website-only-r8/screenshots/1440x900-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"section.hero\",\"following\":\"section.trust-rail\",\"nextTop\":787,\"visiblePixels\":97.78125,\"viewportHeight\":900}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    }
+  ],
+  "failures": [
+    "declared_brand_font_really_renders: heading: source renders Roboto; page renders .SF NS",
+    "declared_brand_font_really_renders: heading: source renders Roboto; page renders .SF NS",
+    "declared_brand_font_really_renders: heading: source renders Roboto; page renders .SF NS",
+    "declared_brand_font_really_renders: heading: source renders Roboto; page renders .SF NS",
+    "declared_brand_font_really_renders: heading: source renders Roboto; page renders .SF NS"
+  ],
+  "warnings": [
+    "390x844: aggressive crop at img"
+  ],
+  "typographyComparison": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.fusion-responsive-typography-calculated",
+        "text": "Window cleaning in Bristol. Done properly.",
+        "bounds": {
+          "x": 31.984375,
+          "y": 181.59375,
+          "width": 326.03125,
+          "height": 139.3125,
+          "visibleAreaApprox": 45420.228515625
+        },
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+        "fontSize": "43px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "46.44px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-heading",
+        "text": "Window cleaning in Bristol, done properly.",
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.sc-hero-copy",
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "bounds": {
+          "x": 31.984375,
+          "y": 342.90625,
+          "width": 326.03125,
+          "height": 81,
+          "visibleAreaApprox": 26408.53125
+        },
+        "fontFamily": "Arial, sans-serif",
+        "fontSize": "18px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "27px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 104
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+        "fontFamily": "Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 164
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.fusion-responsive-typography-calculated",
+        "text": "Window cleaning in Bristol. Done properly.",
+        "bounds": {
+          "x": 31.984375,
+          "y": 181.59375,
+          "width": 326.03125,
+          "height": 139.3125,
+          "visibleAreaApprox": 45420.228515625
+        },
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+        "fontSize": "43px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "46.44px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-heading",
+        "text": "Window cleaning in Bristol, done properly.",
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 41
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": false
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.sc-hero-copy",
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "bounds": {
+          "x": 31.984375,
+          "y": 342.90625,
+          "width": 326.03125,
+          "height": 81,
+          "visibleAreaApprox": 26408.53125
+        },
+        "fontFamily": "Arial, sans-serif",
+        "fontSize": "18px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "27px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 104
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+        "fontFamily": "Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 165
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.fusion-responsive-typography-calculated",
+        "text": "Window cleaning in Bristol. Done properly.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 237.59375,
+          "width": 770,
+          "height": 254.390625,
+          "visibleAreaApprox": 195880.78125
+        },
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+        "fontSize": "80px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "84.8px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-heading",
+        "text": "Window cleaning in Bristol, done properly.",
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 41
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.sc-hero-copy",
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 513.984375,
+          "width": 720,
+          "height": 65.09375,
+          "visibleAreaApprox": 46867.5
+        },
+        "fontFamily": "Arial, sans-serif",
+        "fontSize": "22px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "32.56px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 105
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+        "fontFamily": "Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 165
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.fusion-responsive-typography-calculated",
+        "text": "Window cleaning in Bristol. Done properly.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 237.59375,
+          "width": 770,
+          "height": 254.390625,
+          "visibleAreaApprox": 195880.78125
+        },
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+        "fontSize": "80px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "84.8px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-heading",
+        "text": "Window cleaning in Bristol, done properly.",
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 41
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.sc-hero-copy",
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 513.984375,
+          "width": 720,
+          "height": 65.09375,
+          "visibleAreaApprox": 46867.5
+        },
+        "fontFamily": "Arial, sans-serif",
+        "fontSize": "22px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "32.56px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 105
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+        "fontFamily": "Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 167
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.fusion-responsive-typography-calculated",
+        "text": "Window cleaning in Bristol. Done properly.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 237.59375,
+          "width": 770,
+          "height": 254.390625,
+          "visibleAreaApprox": 195880.78125
+        },
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+        "fontSize": "80px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "84.8px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Roboto",
+            "postScriptName": "Roboto-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-heading",
+        "text": "Window cleaning in Bristol, done properly.",
+        "fontFamily": "Roboto, -apple-system, \"system-ui\", \"Segoe UI\", Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 41
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.sc-hero-copy",
+        "text": "Friendly, professional window and gutter cleaning for Bristol homes, businesses and high-level properties.",
+        "bounds": {
+          "x": 124.953125,
+          "y": 513.984375,
+          "width": 720,
+          "height": 65.09375,
+          "visibleAreaApprox": 46867.5
+        },
+        "fontFamily": "Arial, sans-serif",
+        "fontSize": "22px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "32.56px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 105
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Regular and one-off window and gutter cleaning for homes, businesses, and hard-to-reach properties. Tell us what needs cleaning and we will quote for the right method.",
+        "fontFamily": "Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Arial",
+            "postScriptName": "ArialMT",
+            "isCustomFont": false,
+            "glyphCount": 165
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    }
+  ],
+  "limits": [
+    "Measurements do not replace visual review of the screenshot pixels.",
+    "The run does not submit forms or prove a live backend destination.",
+    "Automated overlap checks cannot identify every face or focal subject."
+  ],
+  "completed_at": "2026-09-18T22:22:13.791Z"
+}
