@@ -32,9 +32,11 @@ Official websites were opened and verified during selection. Builders repeat the
 - Baseline source: f87d152 in Luke's Landing-Pages-2.0 repository, skills/community-landing-page-builder only.
 - website-only-r1: completed agent `01a0b584-2c94-7c43-bda0-1ed9aadc0b87` (Ampere), gpt-5.6-sol xhigh, fork_context=false. No audit feedback supplied. Parent review rejected the self-reported local final; see WEBSITE-ONLY-R1-REVIEW.md. This page-first run is valid for the clarified scope, not CRM acceptance. Snapshot: 171 files, sorted relative-path/SHA-256 manifest hash `658335e8eef6f02caabaf88b10e4e77fc8b0c289bc440a0fa2998d3554e6fe63` (excluding __pycache__ and .DS_Store).
 
-## README and local-history reconciliation
+Attempt 2 ran 2026-09-18 from approximately 21:03 to 21:27 Kyiv: agent `01a0b5b0-3001-7880-ad83-d9dee02c601c` (Raman), gpt-5.6-sol xhigh, fork_context=false. Same owner request, new empty project, no audit feedback. Frozen skill: 171 files; JSON-serialized sorted path/hash pairs SHA-256 `3aef69233b2035008eabdaa51be10847dc7efb693253bae3e60a9b8210cd64a4`. Usage at launch: 7% consumed. Completed, parent reviewed and agent closed. Form and performance improvements verified; remaining composition/reporting issues described in WEBSITE-ONLY-R2-REVIEW.md.
 
-Attempt 2 started 2026-09-18 at approximately 21:03 Kyiv: agent `01a0b5b0-3001-7880-ad83-d9dee02c601c` (Raman), gpt-5.6-sol xhigh, fork_context=false. Same owner request, new empty project, no audit feedback. Frozen skill: 171 files; JSON-serialized sorted path/hash pairs SHA-256 `3aef69233b2035008eabdaa51be10847dc7efb693253bae3e60a9b8210cd64a4`. Usage at launch: 7% consumed, against the 32% pause boundary. Only this builder is active.
+Attempt 3 started 2026-09-18 at 21:30 Kyiv: agent `01a0b5c8-953d-75b2-a549-7792cf0899c5` (Tesla), gpt-5.6-sol xhigh, fork_context=false. Same plain request, another empty project, no previous findings or output supplied. Frozen skill: 172 files; JSON path/hash manifest SHA-256 `6848d4443c0698ec1127874b823203a05975d4151e2e157c5b3f4f70e8938eac`. Latest usage: 9% consumed, pause boundary remains 32%. Only this builder is active. External-reference and image-generation cases have not started.
+
+## README and local-history reconciliation
 
 Reread Luke's README-BOHDAN, SELF-GUIDED-BETA-PLAN (especially M5 and its scorecard), development progress, the separate Bohdan tracker, community decisions/handoff, relevant Git commits, and this task's earlier recorded results. These remain orchestrator-only material.
 

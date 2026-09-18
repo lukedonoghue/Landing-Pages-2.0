@@ -41,6 +41,7 @@ Block on:
 
 - horizontal overflow, missing images, serious console or network errors;
 - primary form action not visible or unobscured at 1280 x 600;
+- the hero hiding all following content below the first viewport on mobile, tablet or desktop;
 - consent, chat, or fixed UI covering the H1, primary CTA, form action, legal links, or final content;
 - a content-bearing image cropped with `cover` or missing labels;
 - copy physically overlapping an information-bearing image;
@@ -51,6 +52,8 @@ Block on:
 ## 3. Visual gate
 
 Open and inspect every required screenshot at its actual size. Do not infer approval from a file existing or a broad boolean.
+
+First-screen claims must match viewport geometry and a viewport-sized capture, not a scaled full-page image. If the browser helper cannot identify the hero's following section, check it directly instead of claiming it passed.
 
 For each viewport, record specific observations for:
 

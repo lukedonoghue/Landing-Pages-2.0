@@ -38,6 +38,8 @@ The supplied official production page controls the default heading and body stac
 
 ## Choose a current audience-fit direction
 
+For a landing-page hero, use relevant photography or an immersive scene as the background with unframed copy, not a split text-and-image-card composition. Choose an asset with room for readable copy while preserving the essential subject. Size the complete header and hero so the beginning of the following content is visible at every required viewport, including mobile and tablet; do not squeeze typography or obscure proof to achieve this.
+
 State three visual adjectives tied to the buyer and decision. Examples include `credible`, `current`, and `investment-grade` for a high-consideration franchise offer, or `capable`, `local`, and `direct` for a trade service. Do not use generic adjectives without explaining how the type, space, imagery, and color treatment express them.
 
 Avoid combinations that make a new page resemble a legacy sales brochure:

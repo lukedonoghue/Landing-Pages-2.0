@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -159,6 +159,17 @@ async function measure(page) {
     }
     const primary = primaryElements.map((element) => ({ selector: describe(element), text: element.textContent.trim(), box: rect(element), unobscured: unobscured(element) }));
 
+    const hero = document.querySelector('h1')?.closest('[data-hero], .hero, section');
+    let following = hero?.nextElementSibling;
+    while (following && !visible(following)) following = following.nextElementSibling;
+    const heroContinuation = hero && following ? {
+      hero: describe(hero),
+      following: describe(following),
+      nextTop: rect(following).top,
+      visiblePixels: Math.max(0, Math.min(innerHeight, rect(following).bottom) - Math.max(0, rect(following).top)),
+      viewportHeight: innerHeight,
+    } : null;
+
     const overflow = all.filter(visible).filter((element) => {
       const box = element.getBoundingClientRect();
       if (box.left >= -1 && box.right <= innerWidth + 1) return false;
@@ -221,6 +232,7 @@ async function measure(page) {
       h1Count: [...document.querySelectorAll('h1')].filter(visible).length,
       images,
       primary,
+      heroContinuation,
       primaryDeclared: [...document.querySelectorAll('[data-primary-action]')].length,
       overflow,
       overlayConflicts,
@@ -298,6 +310,11 @@ try {
     const screenshot = await addShot(page, `${name}-landing`);
     check('horizontal_overflow', metrics.pageWidth <= viewport.width + 1 && metrics.overflow.length === 0, JSON.stringify({ pageWidth: metrics.pageWidth, overflow: metrics.overflow }), { viewport, screenshot });
     check('visible_h1', metrics.h1Count === 1, `Visible H1 count: ${metrics.h1Count}`, { viewport });
+    if (metrics.heroContinuation) {
+      check('hero_reveals_following_content', metrics.heroContinuation.visiblePixels > 0, JSON.stringify(metrics.heroContinuation), { viewport });
+    } else {
+      warn(`${name}: hero continuation not identifiable; verify the following content in the first viewport manually`);
+    }
     check('images_loaded', metrics.images.every((image) => image.loaded), 'Every rendered image decoded', { viewport });
     check('content_images_not_cover_cropped', metrics.images.filter((image) => image.contentBearing).every((image) => image.objectFit !== 'cover'), JSON.stringify(metrics.images.filter((image) => image.contentBearing && image.objectFit === 'cover')), { viewport });
     check('content_images_have_no_text_collision', metrics.contentCollisions.length === 0, JSON.stringify(metrics.contentCollisions), { viewport });
