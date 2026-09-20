@@ -1,0 +1,92 @@
+{
+  "localFonts": {
+    "heading": [
+      {
+        "familyName": ".SF NS",
+        "glyphCount": 53,
+        "isCustomFont": false
+      }
+    ],
+    "body": [
+      {
+        "familyName": ".SF NS",
+        "glyphCount": 116,
+        "isCustomFont": false
+      }
+    ]
+  },
+  "scrollState": {
+    "active": "BODY",
+    "skipRect": [
+      12,
+      -62,
+      142,
+      45
+    ],
+    "scrollY": 1761
+  },
+  "validation": {
+    "scrollTop": 48,
+    "dialog": [
+      12,
+      832
+    ],
+    "title": [
+      4,
+      58
+    ],
+    "close": [
+      -18,
+      18
+    ],
+    "firstLabel": [
+      378,
+      398
+    ],
+    "firstInput": [
+      403,
+      445
+    ]
+  },
+  "handoff": {
+    "heading": "Your email draft is ready",
+    "text": "✉\nYour email draft is ready\n\nOpen the draft, review the details and press Send in your email app. This page has not sent your enquiry.\n\nOpen email draft\nEdit details\n\nIf your email app does not open, write to info@clarentis.co.uk.",
+    "draftHrefPrefix": "mailto:info@clarentis.co.uk",
+    "location": "http://127.0.0.1:43911/"
+  },
+  "shortValidation": {
+    "dialogScrollTop": 70,
+    "closeTop": -34,
+    "closeBottom": 2
+  },
+  "sourceFonts": {
+    "heading": [
+      {
+        "familyName": ".SF NS",
+        "glyphCount": 59,
+        "isCustomFont": false
+      }
+    ],
+    "body": [
+      {
+        "familyName": ".SF NS",
+        "glyphCount": 30,
+        "isCustomFont": false
+      }
+    ]
+  },
+  "sourceCtas": [
+    {
+      "text": "Free consultation",
+      "href": "mailto:info@clarentis.co.uk"
+    },
+    {
+      "text": "Request your fixed-fee quote",
+      "href": "mailto:info@clarentis.co.uk"
+    },
+    {
+      "text": "Join today",
+      "href": "mailto:info@clarentis.co.uk"
+    }
+  ]
+}

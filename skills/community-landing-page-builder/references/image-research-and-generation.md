@@ -4,6 +4,8 @@
 
 For a complete landing page, include at least four distinct, relevant content images, normally five to ten when research supports useful roles. Choose the final number from the offer, buyer questions and page structure. Spread images through the relevant sections rather than collecting them in a filler gallery. Logos, icons, decorative textures, duplicate placements and alternate crops of one picture do not count toward the minimum. A useful diagram or screenshot can count when it explains researched information; it must not fabricate evidence.
 
+Do not display the same content picture twice on the page, even after cropping, mirroring, recoloring, renaming or adding an overlay. Each content placement needs its own genuinely different picture, not a near-duplicate of the same composition. Responsive resolutions/crops used interchangeably at one placement are allowed and count as one image. Repeated brand logos and interface icons are exempt from the reuse ban but never count as content images. Check visual identity and source-to-derivative mappings in the existing image review, not just filenames.
+
 For each selected asset, record in `build/image-plan.md` or `build/image-plan.json`:
 
 - section and persuasive purpose, including the visible subject/action that supports its adjacent message;
