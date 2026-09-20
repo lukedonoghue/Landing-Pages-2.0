@@ -1,5 +1,7 @@
 # Community Landing Page Builder Decision Record
 
+2026-09-20 amendment: the user superseded the original no-image-quota decision below. Complete landing pages now require at least four distinct relevant content images, normally five to ten selected from research. Logos, icons and repeated crops do not count. Relevance and truth remain mandatory. This does not resolve the separate pending question about brochure versus page-capture PDFs.
+
 ## Goal
 
 Create a shareable one-prompt skill for a nontechnical business owner. A website URL must be enough to produce a good local landing page without API keys, private integrations, repository access, hosting credentials, or intermediate technical decisions.

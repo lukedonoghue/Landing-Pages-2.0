@@ -1,8 +1,8 @@
 # Image Research and Generation
 
-## Plan by role, not quota
+## Plan coverage and distinct roles
 
-Use imagery where it explains the offer, proves something real, shows the people or product, clarifies a process, or improves the reading rhythm. Do not add images merely to reach a count.
+For a complete landing page, include at least four distinct, relevant content images, normally five to ten when research supports useful roles. Choose the final number from the offer, buyer questions and page structure. Spread images through the relevant sections rather than collecting them in a filler gallery. Logos, icons, decorative textures, duplicate placements and alternate crops of one picture do not count toward the minimum. A useful diagram or screenshot can count when it explains researched information; it must not fabricate evidence.
 
 For each selected asset, record in `build/image-plan.md` or `build/image-plan.json`:
 
@@ -17,7 +17,7 @@ For each selected asset, record in `build/image-plan.md` or `build/image-plan.js
 
 Use a compact table for a few ordinary first-party assets. Use a structured manifest when the build has several images, proof-sensitive assets, generated images, or many derivatives.
 
-Relevance is separate from realism, provenance and disclosure. Before sourcing or generating, name what the visitor should understand from the picture. A generic workspace or an arbitrary customer's trade is not enough merely because the business serves small businesses. Use a customer-industry scene only when the researched audience and adjacent copy explain that specific connection. Otherwise show the actual service, a truthful illustrative service activity, or useful process information. Do not invent a client relationship. Choose the number of images from distinct useful roles; neither two attractive scenes nor a numerical quota proves adequate visual coverage.
+Relevance is separate from realism, provenance and disclosure. Before sourcing or generating, name what the visitor should understand from the picture. A generic workspace or an arbitrary customer's trade is not enough merely because the business serves small businesses. Use a customer-industry scene only when the researched audience and adjacent copy explain that specific connection. Otherwise show the actual service, a truthful illustrative service activity, or useful process information. Do not invent a client relationship. Meeting the count does not prove adequate visual coverage or relevance.
 
 ## Research order
 
@@ -71,6 +71,8 @@ Add an adjacent disclosure when a reasonable viewer could mistake the image for 
 ## Review evidence
 
 Review every used image in its actual desktop and mobile placement. Evidence must identify the asset and its rendered element or use an asset-specific crop. Reusing the same generic full-page screenshot for every image is not sufficient.
+
+In this existing review, count distinct qualifying images and check their distribution against the image plan. Fewer than four on a complete page is an unmet requirement, not a final pass. If research, available generation and truthful diagrams cannot supply four suitable images, report the specific missing roles and asset/tool limitation instead of padding the page or silently waiving the minimum. Do not add a separate review round for the count.
 
 For each image confirm:
 
