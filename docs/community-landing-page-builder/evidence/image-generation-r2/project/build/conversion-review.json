@@ -1,0 +1,40 @@
+{
+  "status": "pass",
+  "checkedAt": "2026-09-20T16:14:17.952Z",
+  "sourceConversion": "Email-led fixed-fee quote and free initial consultation",
+  "externalLimit": "mailto handoff depends on the visitor email client; no email or live lead was sent",
+  "checks": [
+    {
+      "name": "390 primary email actions",
+      "detail": "Three keyboard-activated CTAs use the same addressed mailto and prepared enquiry prompts; no page jump. External mail client was not opened."
+    },
+    {
+      "name": "390 phone",
+      "detail": "Verified public number is readable in header, hero and final contact; all links dial +447467474356."
+    },
+    {
+      "name": "390 navigation and FAQ",
+      "detail": "Service anchor resolves and first FAQ expands by keyboard."
+    },
+    {
+      "name": "320px reflow",
+      "detail": "No horizontal overflow at 320px (320px document, 320px viewport)."
+    },
+    {
+      "name": "1440 primary email actions",
+      "detail": "Three keyboard-activated CTAs use the same addressed mailto and prepared enquiry prompts; no page jump. External mail client was not opened."
+    },
+    {
+      "name": "1440 phone",
+      "detail": "Verified public number is readable in header, hero and final contact; all links dial +447467474356."
+    },
+    {
+      "name": "1440 navigation and FAQ",
+      "detail": "Service anchor resolves and first FAQ expands by keyboard."
+    },
+    {
+      "name": "skip link",
+      "detail": "First keyboard focus reveals the skip link and Enter moves to #main."
+    }
+  ]
+}

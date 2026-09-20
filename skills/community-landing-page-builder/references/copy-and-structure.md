@@ -29,6 +29,7 @@ Write one implementation-ready copy master at `build/page-copy.md` or `build/pag
 - Put important proof near the claim it supports.
 - Keep technical vocabulary that the actual buyer uses. Simplify syntax, not evidence.
 - Keep paragraphs short and bullets concrete. Remove a bullet that merely restates the heading.
+- Give each section a distinct buyer decision or supporting reason. A service catalogue followed by the same catalogue under a benefit heading is repetition, not added depth. Use supported delivery/communication advantages, add different evidence, or merge the repeated section; do not invent differentiation.
 - Use urgency or scarcity only when a verifiable deadline, capacity, or availability constraint exists.
 - Avoid unsupported superlatives and effortless-outcome promises.
 - Replace generic AI language such as `innovative`, `world-class`, `seamless`, `robust`, `game-changing`, and `comprehensive` with a concrete action, limit, mechanism, or proof unless the word is both necessary and made specific.
@@ -62,6 +63,7 @@ Read the rendered page as a cold visitor and as the target buyer. Check:
 
 - every important noun has a clear antecedent;
 - headings, bullets, and CTAs make sense outside the writer's context;
+- visitor copy speaks directly about the business and next step, not `the site says` or what the researcher could not find; keep source uncertainty in notes and express practical limits plainly to the buyer;
 - benefits connect to mechanisms or proof;
 - comparative numbers are recalculated and conditions appear beside them;
 - copy density does not hide the primary action or proof;

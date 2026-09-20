@@ -1,0 +1,430 @@
+{
+  "checks": [
+    {
+      "name": "No overflow 320",
+      "pass": true
+    },
+    {
+      "name": "Early readable phone 320",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 320",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 320",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 320",
+      "pass": true
+    },
+    {
+      "name": "FAQ Who is Clarentis for? 320",
+      "pass": true
+    },
+    {
+      "name": "FAQ How is the final fee decided? 320",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can I ask about one specific task? 320",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis support my location? 320",
+      "pass": true
+    },
+    {
+      "name": "Disclosure not hidden by photograph 320",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative workspace image",
+          "top": "FIGCAPTION",
+          "className": "",
+          "inViewport": true,
+          "width": 148.703125,
+          "height": 20.296875,
+          "paintedStyle": true,
+          "imageCover": false
+        },
+        {
+          "text": "Illustrative small-business workspace",
+          "top": "FIGCAPTION",
+          "className": "",
+          "inViewport": true,
+          "width": 284,
+          "height": 18.59375,
+          "paintedStyle": true,
+          "imageCover": false
+        }
+      ]
+    },
+    {
+      "name": "All images decode 320",
+      "pass": true
+    },
+    {
+      "name": "Only local resource requests 320",
+      "pass": true
+    },
+    {
+      "name": "No overflow 390",
+      "pass": true
+    },
+    {
+      "name": "Early readable phone 390",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 390",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 390",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 390",
+      "pass": true
+    },
+    {
+      "name": "FAQ Who is Clarentis for? 390",
+      "pass": true
+    },
+    {
+      "name": "FAQ How is the final fee decided? 390",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can I ask about one specific task? 390",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis support my location? 390",
+      "pass": true
+    },
+    {
+      "name": "Disclosure not hidden by photograph 390",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative workspace image",
+          "top": "FIGCAPTION",
+          "className": "",
+          "inViewport": true,
+          "width": 148.703125,
+          "height": 20.296875,
+          "paintedStyle": true,
+          "imageCover": false
+        },
+        {
+          "text": "Illustrative small-business workspace",
+          "top": "FIGCAPTION",
+          "className": "",
+          "inViewport": true,
+          "width": 354,
+          "height": 18.59375,
+          "paintedStyle": true,
+          "imageCover": false
+        }
+      ]
+    },
+    {
+      "name": "All images decode 390",
+      "pass": true
+    },
+    {
+      "name": "Only local resource requests 390",
+      "pass": true
+    },
+    {
+      "name": "No overflow 768",
+      "pass": true
+    },
+    {
+      "name": "Early readable phone 768",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 768",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 768",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 768",
+      "pass": true
+    },
+    {
+      "name": "FAQ Who is Clarentis for? 768",
+      "pass": true
+    },
+    {
+      "name": "FAQ How is the final fee decided? 768",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can I ask about one specific task? 768",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis support my location? 768",
+      "pass": true
+    },
+    {
+      "name": "Disclosure not hidden by photograph 768",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative workspace image",
+          "top": "DIV",
+          "className": "hero-inner",
+          "inViewport": true,
+          "width": 162.703125,
+          "height": 20.296875,
+          "paintedStyle": true,
+          "imageCover": false
+        },
+        {
+          "text": "Illustrative small-business workspace",
+          "top": "FIGCAPTION",
+          "className": "",
+          "inViewport": true,
+          "width": 660,
+          "height": 18.59375,
+          "paintedStyle": true,
+          "imageCover": false
+        }
+      ]
+    },
+    {
+      "name": "All images decode 768",
+      "pass": true
+    },
+    {
+      "name": "Only local resource requests 768",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1024",
+      "pass": true
+    },
+    {
+      "name": "Early readable phone 1024",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 1024",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 1024",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 1024",
+      "pass": true
+    },
+    {
+      "name": "FAQ Who is Clarentis for? 1024",
+      "pass": true
+    },
+    {
+      "name": "FAQ How is the final fee decided? 1024",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can I ask about one specific task? 1024",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis support my location? 1024",
+      "pass": true
+    },
+    {
+      "name": "Disclosure not hidden by photograph 1024",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative workspace image",
+          "top": "DIV",
+          "className": "hero-inner",
+          "inViewport": true,
+          "width": 162.703125,
+          "height": 20.296875,
+          "paintedStyle": true,
+          "imageCover": false
+        },
+        {
+          "text": "Illustrative small-business workspace",
+          "top": "FIGCAPTION",
+          "className": "",
+          "inViewport": true,
+          "width": 477.421875,
+          "height": 18.59375,
+          "paintedStyle": true,
+          "imageCover": false
+        }
+      ]
+    },
+    {
+      "name": "All images decode 1024",
+      "pass": true
+    },
+    {
+      "name": "Only local resource requests 1024",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1280",
+      "pass": true
+    },
+    {
+      "name": "Early readable phone 1280",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 1280",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 1280",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 1280",
+      "pass": true
+    },
+    {
+      "name": "FAQ Who is Clarentis for? 1280",
+      "pass": true
+    },
+    {
+      "name": "FAQ How is the final fee decided? 1280",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can I ask about one specific task? 1280",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis support my location? 1280",
+      "pass": true
+    },
+    {
+      "name": "Disclosure not hidden by photograph 1280",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative workspace image",
+          "top": "DIV",
+          "className": "hero-inner",
+          "inViewport": true,
+          "width": 162.703125,
+          "height": 20.296875,
+          "paintedStyle": true,
+          "imageCover": false
+        },
+        {
+          "text": "Illustrative small-business workspace",
+          "top": "FIGCAPTION",
+          "className": "",
+          "inViewport": true,
+          "width": 583.578125,
+          "height": 18.59375,
+          "paintedStyle": true,
+          "imageCover": false
+        }
+      ]
+    },
+    {
+      "name": "All images decode 1280",
+      "pass": true
+    },
+    {
+      "name": "Only local resource requests 1280",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1440",
+      "pass": true
+    },
+    {
+      "name": "Early readable phone 1440",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 1440",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 1440",
+      "pass": true
+    },
+    {
+      "name": "Quote email activation 1440",
+      "pass": true
+    },
+    {
+      "name": "FAQ Who is Clarentis for? 1440",
+      "pass": true
+    },
+    {
+      "name": "FAQ How is the final fee decided? 1440",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can I ask about one specific task? 1440",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis support my location? 1440",
+      "pass": true
+    },
+    {
+      "name": "Disclosure not hidden by photograph 1440",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative workspace image",
+          "top": "DIV",
+          "className": "hero-inner",
+          "inViewport": true,
+          "width": 162.703125,
+          "height": 20.296875,
+          "paintedStyle": true,
+          "imageCover": false
+        },
+        {
+          "text": "Illustrative small-business workspace",
+          "top": "FIGCAPTION",
+          "className": "",
+          "inViewport": true,
+          "width": 595.890625,
+          "height": 18.59375,
+          "paintedStyle": true,
+          "imageCover": false
+        }
+      ]
+    },
+    {
+      "name": "All images decode 1440",
+      "pass": true
+    },
+    {
+      "name": "Only local resource requests 1440",
+      "pass": true
+    }
+  ],
+  "limits": [
+    "Email intent intercepted before OS dispatch. No messages or calls.",
+    "No form exists; modal/grouped-field cases remain not exercised.",
+    "Caption hit tests are supplemented by readable pixels; transparent containers are not automatically occlusion."
+  ],
+  "status": "pass"
+}

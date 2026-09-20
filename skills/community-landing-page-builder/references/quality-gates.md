@@ -27,6 +27,8 @@ Serve the project over local HTTP. Test at least:
 - 1280 x 600 short-height laptop;
 - 1440 x 900 desktop.
 
+For a text-heavy stacked mobile hero, add one 320 x 700 first-screen spot capture to this pass. Check readable continuation and useful image scale, not only horizontal overflow; this does not require another full interaction matrix or report.
+
 Use `scripts/measure_page.mjs` when Playwright is available:
 
 ```bash
