@@ -1,6 +1,6 @@
 # Sequential community acceptance
 
-Status: PAUSED at the user-defined usage boundary on 2026-09-19 at 02:28 Kyiv. Usage reached 32% used against the 2% starting baseline (30 additional percentage points). No reset credit was redeemed. The progress heartbeat is paused. Pro review was never started. Attempt 10 has a saved local final, but parent acceptance is unfinished and the first scenario is not yet accepted. See WEBSITE-ONLY-R10-CHECKPOINT.md before resuming.
+Status: resumed for business 2 on 2026-09-20 by explicit user direction. Stayclean attempt 10 remains unaccepted after parent review. User authorizes carrying its fixes into a separate audit of the next independent business instead of rebuilding Stayclean again. Current baseline is 33% used; stop at 50% total usage. Heartbeat remains paused and no scheduled 15-minute reports are wanted. Report build completions and audits. No reset credits. See CASE2-CARRYOVER-AUDIT.md and WEBSITE-ONLY-R10-PARENT-REVIEW.md. This direction supersedes the earlier case-1-first acceptance ordering and 32% stop.
 
 ## Scope
 

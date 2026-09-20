@@ -7,7 +7,7 @@ import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { readRenderedFonts } from './rendered_fonts.mjs';
 
-const VERSION = '1.6.0';
+const VERSION = '1.7.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -109,6 +109,35 @@ async function settle(page) {
     ]);
     scrollTo(0, 0);
   });
+  // A fast page sweep can miss lazy-loading intersections. Retry only undecoded placements.
+  const rechecks = [];
+  const deadline = Date.now() + 10000;
+  const images = page.locator('img');
+  for (let index = 0, count = await images.count(); index < count; index += 1) {
+    const image = images.nth(index);
+    const pending = await image.evaluate(el => el.getClientRects().length > 0 && !(el.complete && el.naturalWidth > 0));
+    if (!pending) continue;
+    const remaining = deadline - Date.now();
+    let decoded = false;
+    if (remaining > 0) {
+      try {
+        await image.scrollIntoViewIfNeeded({ timeout: Math.min(remaining, 2000) });
+        await image.evaluate(async (el, timeout) => {
+          await new Promise(resolve => {
+            const started = performance.now();
+            const poll = () => el.complete && el.naturalWidth > 0 || performance.now() - started >= timeout
+              ? resolve() : setTimeout(poll, 50);
+            poll();
+          });
+          if (el.complete && el.naturalWidth > 0) await el.decode().catch(() => {});
+        }, Math.max(0, Math.min(deadline - Date.now(), 5000)));
+        decoded = await image.evaluate(el => el.complete && el.naturalWidth > 0);
+      } catch {}
+    }
+    rechecks.push({ index, src: await image.getAttribute('src'), decoded });
+  }
+  await page.evaluate(() => scrollTo(0, 0));
+  return rechecks;
 }
 
 async function measure(page) {
@@ -399,7 +428,8 @@ try {
     page.on('response', (response) => { if (response.status() >= 400) networkErrors.push({ url: response.url(), status: response.status() }); });
 
     await page.goto(url.href, { waitUntil: 'networkidle', timeout: 30000 });
-    await settle(page);
+    const imageLoadRechecks = await settle(page);
+    if (imageLoadRechecks.length) (report.imageLoadRechecks ||= []).push({ viewport, images: imageLoadRechecks });
     const metrics = await measure(page);
     const rendered = await readRenderedFonts(page, metrics.typography);
     for (const [role, sample] of Object.entries(metrics.typography)) {
