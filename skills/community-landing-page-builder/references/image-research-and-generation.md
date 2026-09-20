@@ -41,6 +41,8 @@ Do not relabel proof as illustration to bypass provenance. Do not use an initial
 
 Use the available native image-generation tool when generation materially improves a non-proof visual role. No API key or exact model selection is required. Record the actual tool and any model identity the tool reports; never invent one.
 
+Follow the tool's declared result/display format; do not assume every tool returns an MCP `content` array. If a successful call produces no visible output because of response handling, recover and inspect its returned asset or saved path before generating again. Save selected originals inside the run's research assets, outside published assets, and record the prompt, returned filename and original-to-final derivative mapping in the existing image plan. Do not leave generation provenance dependent on a private conversation or a tool-managed temporary directory. Regenerate for a concrete visual defect, not merely a missing display.
+
 Generated real-world images should use plausible settings, natural light, realistic materials, coherent anatomy, and restrained post-processing. Avoid glossy generic stock staging when official documentary imagery is present.
 
 Do not request or rely on:
@@ -49,7 +51,7 @@ Do not request or rely on:
 - a generated person presented as a real customer, employee, franchisee, patient, founder, or testimonial source;
 - invented client locations, projects, before-and-after evidence, or measurable results.
 
-Add an adjacent disclosure when a reasonable viewer could mistake the image for a real client, place, project, or product state. The alt text should also identify it as illustrative.
+Add an adjacent disclosure when a reasonable viewer could mistake the image for a real client, place, project, or product state. The alt text should also identify it as illustrative. Prefer a normal-flow `figcaption` in the image's own figure. If overlaid, explicitly preserve its paint order when the image changes from background to stacked content at responsive breakpoints. Verify that the caption is actually readable in the rendered pixels at each tested width, not merely present in the DOM, alt text or image plan.
 
 ## Placement rules
 

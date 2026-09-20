@@ -1,0 +1,2188 @@
+{
+  "schema_version": 1,
+  "gate": "browser-page",
+  "status": "pass",
+  "executed_at": "2026-09-20T15:54:14.258Z",
+  "tool": {
+    "name": "measure_page",
+    "version": "1.8.0"
+  },
+  "target": {
+    "url": "http://127.0.0.1:53187/"
+  },
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "label": "mobile",
+      "screenshot": "../../../audit/image-generation-r1/screenshots/390x844-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Clear accounting for the business you're building.",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular_wdth_opsz2A0000_GRAD_wght2DA0000",
+                "isCustomFont": false,
+                "glyphCount": 48
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Bookkeeping, tax and payroll support that helps you keep records organised, understand the numbers and stay on top of deadlines.",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 126
+              }
+            ]
+          }
+        },
+        "pageWidth": 390,
+        "pageHeight": 6885,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 475 / 275",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 3.890625,
+              "right": 120,
+              "bottom": 64.09375,
+              "width": 104,
+              "height": 60.203125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:53187/assets/hero-workspace-mobile.webp",
+            "loaded": true,
+            "role": "illustrative",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1983 / 793",
+            "ratioMismatch": false,
+            "cropFraction": 0.09302325581395343,
+            "box": {
+              "left": 0,
+              "top": 548.53125,
+              "right": 390,
+              "bottom": 720.53125,
+              "width": 390,
+              "height": 172
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+            "loaded": true,
+            "role": "illustrative",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 16,
+              "top": 2210.609375,
+              "right": 374,
+              "bottom": 2479.109375,
+              "width": 358,
+              "height": 268.5
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 16,
+              "top": 391.34375,
+              "right": 374,
+              "bottom": 441.34375,
+              "width": 358,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 16,
+              "top": 3403.546875,
+              "right": 271.171875,
+              "bottom": 3453.546875,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 16,
+              "top": 6201.40625,
+              "right": 271.171875,
+              "bottom": 6251.40625,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.facts",
+          "nextTop": 720.53125,
+          "visiblePixels": 123.46875,
+          "viewportHeight": 844
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "label": "tablet",
+      "screenshot": "../../../audit/image-generation-r1/screenshots/768x1024-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Clear accounting for the business you're building.",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular_wdth_opsz380000_GRAD_wght2DA0000",
+                "isCustomFont": false,
+                "glyphCount": 49
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Bookkeeping, tax and payroll support that helps you keep records organised, understand the numbers and stay on top of deadlines.",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 127
+              }
+            ]
+          }
+        },
+        "pageWidth": 768,
+        "pageHeight": 6138,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 475 / 275",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 4,
+              "right": 132,
+              "bottom": 70,
+              "width": 114,
+              "height": 66
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:53187/assets/hero-workspace-mobile.webp",
+            "loaded": true,
+            "role": "illustrative",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1983 / 793",
+            "ratioMismatch": false,
+            "cropFraction": 0.25130208333333326,
+            "box": {
+              "left": 0,
+              "top": 536.859375,
+              "right": 768,
+              "bottom": 766.859375,
+              "width": 768,
+              "height": 230
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+            "loaded": true,
+            "role": "illustrative",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 1954.875,
+              "right": 688,
+              "bottom": 2457.375,
+              "width": 670,
+              "height": 502.5
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 18,
+              "top": 378.875,
+              "right": 273.171875,
+              "bottom": 428.875,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 18,
+              "top": 3310.765625,
+              "right": 273.171875,
+              "bottom": 3360.765625,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 18,
+              "top": 5765,
+              "right": 273.171875,
+              "bottom": 5815,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.facts",
+          "nextTop": 766.859375,
+          "visiblePixels": 224.640625,
+          "viewportHeight": 1024
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1024,
+      "height": 800,
+      "label": "laptop",
+      "screenshot": "../../../audit/image-generation-r1/screenshots/1024x800-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Clear accounting for the business you're building.",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular_wdth_opsz320000_GRAD_wght2DA0000",
+                "isCustomFont": false,
+                "glyphCount": 48
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Bookkeeping, tax and payroll support that helps you keep records organised, understand the numbers and stay on top of deadlines.",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 126
+              }
+            ]
+          }
+        },
+        "pageWidth": 1024,
+        "pageHeight": 5017,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 475 / 275",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 3.5,
+              "right": 157,
+              "bottom": 80.5,
+              "width": 133,
+              "height": 77
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:53187/assets/hero-workspace.webp",
+            "loaded": true,
+            "role": "illustrative",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1983 / 793",
+            "ratioMismatch": false,
+            "cropFraction": 0.24292139073740748,
+            "box": {
+              "left": 0,
+              "top": 85,
+              "right": 1024,
+              "bottom": 625.890625,
+              "width": 1024,
+              "height": 540.890625
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+            "loaded": true,
+            "role": "illustrative",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 1829.25,
+              "right": 488.875,
+              "bottom": 2177.90625,
+              "width": 464.875,
+              "height": 348.65625
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 794.609375,
+              "top": 20,
+              "right": 1000,
+              "bottom": 64,
+              "width": 205.390625,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 24,
+              "top": 442.515625,
+              "right": 279.171875,
+              "bottom": 492.515625,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 24,
+              "top": 2786.1875,
+              "right": 279.171875,
+              "bottom": 2836.1875,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 24,
+              "top": 4666.40625,
+              "right": 279.171875,
+              "bottom": 4716.40625,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.facts",
+          "nextTop": 625.890625,
+          "visiblePixels": 109.84375,
+          "viewportHeight": 800
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1280,
+      "height": 600,
+      "label": "short-laptop",
+      "screenshot": "../../../audit/image-generation-r1/screenshots/1280x600-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Clear accounting for the business you're building.",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular_wdth_opsz310000_GRAD_wght2DA0000",
+                "isCustomFont": false,
+                "glyphCount": 49
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Bookkeeping, tax and payroll support that helps you keep records organised, understand the numbers and stay on top of deadlines.",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 127
+              }
+            ]
+          }
+        },
+        "pageWidth": 1280,
+        "pageHeight": 4644,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 475 / 275",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 0.84375,
+              "right": 142,
+              "bottom": 69.15625,
+              "width": 118,
+              "height": 68.3125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:53187/assets/hero-workspace.webp",
+            "loaded": true,
+            "role": "illustrative",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1983 / 793",
+            "ratioMismatch": false,
+            "cropFraction": 0.18338784678436315,
+            "box": {
+              "left": 0,
+              "top": 71,
+              "right": 1280,
+              "bottom": 489,
+              "width": 1280,
+              "height": 418
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+            "loaded": true,
+            "role": "illustrative",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 24,
+              "top": 1534.546875,
+              "right": 622,
+              "bottom": 1983.046875,
+              "width": 598,
+              "height": 448.5
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 1037.96875,
+              "top": 13,
+              "right": 1256,
+              "bottom": 57,
+              "width": 218.03125,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 24,
+              "top": 326.171875,
+              "right": 279.171875,
+              "bottom": 376.171875,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 24,
+              "top": 2476.1875,
+              "right": 279.171875,
+              "bottom": 2526.1875,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 24,
+              "top": 4294.234375,
+              "right": 279.171875,
+              "bottom": 4344.234375,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.facts",
+          "nextTop": 489,
+          "visiblePixels": 89.546875,
+          "viewportHeight": 600
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "label": "desktop",
+      "screenshot": "../../../audit/image-generation-r1/screenshots/1440x900-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Clear accounting for the business you're building.",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular_wdth_opsz3E0000_GRAD_wght2DA0000",
+                "isCustomFont": false,
+                "glyphCount": 48
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "Bookkeeping, tax and payroll support that helps you keep records organised, understand the numbers and stay on top of deadlines.",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 127
+              }
+            ]
+          }
+        },
+        "pageWidth": 1440,
+        "pageHeight": 4850,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 475 / 275",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 80,
+              "top": 3.5,
+              "right": 213,
+              "bottom": 80.5,
+              "width": 133,
+              "height": 77
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:53187/assets/hero-workspace.webp",
+            "loaded": true,
+            "role": "illustrative",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1983 / 793",
+            "ratioMismatch": false,
+            "cropFraction": 0.026012711952332124,
+            "box": {
+              "left": 0,
+              "top": 85,
+              "right": 1440,
+              "bottom": 676.234375,
+              "width": 1440,
+              "height": 591.234375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+            "loaded": true,
+            "role": "illustrative",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.000025082144021748576,
+            "box": {
+              "left": 80,
+              "top": 1721.78125,
+              "right": 702.953125,
+              "bottom": 2188.984375,
+              "width": 622.953125,
+              "height": 467.203125
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 1141.96875,
+              "top": 20,
+              "right": 1360,
+              "bottom": 64,
+              "width": 218.03125,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 80,
+              "top": 482.25,
+              "right": 335.171875,
+              "bottom": 532.25,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 80,
+              "top": 2682.125,
+              "right": 335.171875,
+              "bottom": 2732.125,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "a.button.button-primary",
+            "text": "Request your fixed-fee quote",
+            "box": {
+              "left": 80,
+              "top": 4500.171875,
+              "right": 335.171875,
+              "bottom": 4550.171875,
+              "width": 255.171875,
+              "height": 50
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "section.facts",
+          "nextTop": 676.234375,
+          "visiblePixels": 89.546875,
+          "viewportHeight": 900
+        },
+        "primaryDeclared": 4,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "../../../audit/image-generation-r1/screenshots/390x844-landing.png",
+      "type": "screenshot",
+      "sha256": "e77dfca1b964d44939faed19aa738eb1fd055773946a32bb14a8fb1512f563c3"
+    },
+    {
+      "path": "../../../audit/image-generation-r1/screenshots/768x1024-landing.png",
+      "type": "screenshot",
+      "sha256": "fca08d5d604e8e3164f2e5c12afc16d56b310af67259ebaec768fef38f13576c"
+    },
+    {
+      "path": "../../../audit/image-generation-r1/screenshots/1024x800-landing.png",
+      "type": "screenshot",
+      "sha256": "01624b4587c2071a6f806bef0cba1b7ad6934735df216d8caa65ccb3e6bbf7d3"
+    },
+    {
+      "path": "../../../audit/image-generation-r1/screenshots/1280x600-landing.png",
+      "type": "screenshot",
+      "sha256": "81b3f835b34c1d0327a717a8771a24b55db029edaffd76bdbc153387df134e27"
+    },
+    {
+      "path": "../../../audit/image-generation-r1/screenshots/1440x900-landing.png",
+      "type": "screenshot",
+      "sha256": "4b966231bbc894f7ccbe0b013c3d1b7f40345d1be00c4651099a59d7f03f8275"
+    }
+  ],
+  "checks": [
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders .SF NS; page renders .SF NS",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders .SF NS; page renders .SF NS",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":390,\"overflow\":[]}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "screenshot": "../../../audit/image-generation-r1/screenshots/390x844-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.facts\",\"nextTop\":720.53125,\"visiblePixels\":123.46875,\"viewportHeight\":844}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"a.button.button-primary\",\"text\":\"Request your fixed-fee quote\",\"box\":{\"left\":16,\"top\":391.34375,\"right\":374,\"bottom\":441.34375,\"width\":358,\"height\":50},\"unobscured\":true},{\"selector\":\"a.button.button-primary\",\"text\":\"Request your fixed-fee quote\",\"box\":{\"left\":16,\"top\":3403.546875,\"right\":271.171875,\"bottom\":3453.546875,\"width\":255.171875,\"height\":50},\"unobscured\":false},{\"selector\":\"a.button.button-primary\",\"text\":\"Request your fixed-fee quote\",\"box\":{\"left\":16,\"top\":6201.40625,\"right\":271.171875,\"bottom\":6251.40625,\"width\":255.171875,\"height\":50},\"unobscured\":false}]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders .SF NS; page renders .SF NS",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders .SF NS; page renders .SF NS",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":768,\"overflow\":[]}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "screenshot": "../../../audit/image-generation-r1/screenshots/768x1024-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.facts\",\"nextTop\":766.859375,\"visiblePixels\":224.640625,\"viewportHeight\":1024}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders .SF NS; page renders .SF NS",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders .SF NS; page renders .SF NS",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1024,\"overflow\":[]}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "screenshot": "../../../audit/image-generation-r1/screenshots/1024x800-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.facts\",\"nextTop\":625.890625,\"visiblePixels\":109.84375,\"viewportHeight\":800}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders .SF NS; page renders .SF NS",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders .SF NS; page renders .SF NS",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1280,\"overflow\":[]}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "screenshot": "../../../audit/image-generation-r1/screenshots/1280x600-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.facts\",\"nextTop\":489,\"visiblePixels\":89.546875,\"viewportHeight\":600}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"a.button.button-primary\",\"text\":\"Request your fixed-fee quote\",\"box\":{\"left\":1037.96875,\"top\":13,\"right\":1256,\"bottom\":57,\"width\":218.03125,\"height\":44},\"unobscured\":true},{\"selector\":\"a.button.button-primary\",\"text\":\"Request your fixed-fee quote\",\"box\":{\"left\":24,\"top\":326.171875,\"right\":279.171875,\"bottom\":376.171875,\"width\":255.171875,\"height\":50},\"unobscured\":true},{\"selector\":\"a.button.button-primary\",\"text\":\"Request your fixed-fee quote\",\"box\":{\"left\":24,\"top\":2476.1875,\"right\":279.171875,\"bottom\":2526.1875,\"width\":255.171875,\"height\":50},\"unobscured\":false},{\"selector\":\"a.button.button-primary\",\"text\":\"Request your fixed-fee quote\",\"box\":{\"left\":24,\"top\":4294.234375,\"right\":279.171875,\"bottom\":4344.234375,\"width\":255.171875,\"height\":50},\"unobscured\":false}]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders .SF NS; page renders .SF NS",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders .SF NS; page renders .SF NS",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1440,\"overflow\":[]}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "screenshot": "../../../audit/image-generation-r1/screenshots/1440x900-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"section.facts\",\"nextTop\":676.234375,\"visiblePixels\":89.546875,\"viewportHeight\":900}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    }
+  ],
+  "failures": [],
+  "warnings": [],
+  "typographyComparison": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1",
+        "text": "Let us handle the numbers. You focus on growing your business.",
+        "bounds": {
+          "x": 20,
+          "y": 247.5625,
+          "width": 350,
+          "height": 173.75,
+          "visibleAreaApprox": 60812.5
+        },
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "44.8px",
+        "fontWeight": "700",
+        "fontStyle": "normal",
+        "lineHeight": "43.456px",
+        "letterSpacing": "-2.688px",
+        "textTransform": "none",
+        "color": "rgb(8, 41, 74)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Bold",
+            "isCustomFont": false,
+            "glyphCount": 59
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Clear accounting for the business you're building.",
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular_wdth_opsz2A0000_GRAD_wght2DA0000",
+            "isCustomFont": false,
+            "glyphCount": 48
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.lead",
+        "text": "Friendly, practical accounting, tax and bookkeeping support for UK startups, sole traders and small limited companies. Fixed, transparent fees with no hidden costs.",
+        "bounds": {
+          "x": 20,
+          "y": 449.3125,
+          "width": 350,
+          "height": 157.734375,
+          "visibleAreaApprox": 55207.03125
+        },
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "18.56px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "31.552px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(94, 111, 130)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 160
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Bookkeeping, tax and payroll support that helps you keep records organised, understand the numbers and stay on top of deadlines.",
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 126
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1",
+        "text": "Let us handle the numbers. You focus on growing your business.",
+        "bounds": {
+          "x": 20,
+          "y": 247.5625,
+          "width": 350,
+          "height": 173.75,
+          "visibleAreaApprox": 60812.5
+        },
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "44.8px",
+        "fontWeight": "700",
+        "fontStyle": "normal",
+        "lineHeight": "43.456px",
+        "letterSpacing": "-2.688px",
+        "textTransform": "none",
+        "color": "rgb(8, 41, 74)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Bold",
+            "isCustomFont": false,
+            "glyphCount": 59
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Clear accounting for the business you're building.",
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular_wdth_opsz380000_GRAD_wght2DA0000",
+            "isCustomFont": false,
+            "glyphCount": 49
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.lead",
+        "text": "Friendly, practical accounting, tax and bookkeeping support for UK startups, sole traders and small limited companies. Fixed, transparent fees with no hidden costs.",
+        "bounds": {
+          "x": 20,
+          "y": 449.3125,
+          "width": 350,
+          "height": 157.734375,
+          "visibleAreaApprox": 55207.03125
+        },
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "18.56px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "31.552px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(94, 111, 130)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 160
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Bookkeeping, tax and payroll support that helps you keep records organised, understand the numbers and stay on top of deadlines.",
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 127
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1",
+        "text": "Let us handle the numbers. You focus on growing your business.",
+        "bounds": {
+          "x": 72,
+          "y": 316.734375,
+          "width": 656.625,
+          "height": 357.5625,
+          "visibleAreaApprox": 234784.4765625
+        },
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "92.16px",
+        "fontWeight": "700",
+        "fontStyle": "normal",
+        "lineHeight": "89.3952px",
+        "letterSpacing": "-5.5296px",
+        "textTransform": "none",
+        "color": "rgb(8, 41, 74)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Bold",
+            "isCustomFont": false,
+            "glyphCount": 59
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Clear accounting for the business you're building.",
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular_wdth_opsz320000_GRAD_wght2DA0000",
+            "isCustomFont": false,
+            "glyphCount": 48
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.lead",
+        "text": "Friendly, practical accounting, tax and bookkeeping support for UK startups, sole traders and small limited companies. Fixed, transparent fees with no hidden costs.",
+        "bounds": {
+          "x": 72,
+          "y": 702.296875,
+          "width": 656.625,
+          "height": 94.640625,
+          "visibleAreaApprox": 62143.400390625
+        },
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "18.56px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "31.552px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(94, 111, 130)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 162
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Bookkeeping, tax and payroll support that helps you keep records organised, understand the numbers and stay on top of deadlines.",
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 126
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1",
+        "text": "Let us handle the numbers. You focus on growing your business.",
+        "bounds": {
+          "x": 72,
+          "y": 316.734375,
+          "width": 656.625,
+          "height": 357.5625,
+          "visibleAreaApprox": 234784.4765625
+        },
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "92.16px",
+        "fontWeight": "700",
+        "fontStyle": "normal",
+        "lineHeight": "89.3952px",
+        "letterSpacing": "-5.5296px",
+        "textTransform": "none",
+        "color": "rgb(8, 41, 74)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Bold",
+            "isCustomFont": false,
+            "glyphCount": 59
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Clear accounting for the business you're building.",
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular_wdth_opsz310000_GRAD_wght2DA0000",
+            "isCustomFont": false,
+            "glyphCount": 49
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.lead",
+        "text": "Friendly, practical accounting, tax and bookkeeping support for UK startups, sole traders and small limited companies. Fixed, transparent fees with no hidden costs.",
+        "bounds": {
+          "x": 72,
+          "y": 702.296875,
+          "width": 656.625,
+          "height": 94.640625,
+          "visibleAreaApprox": 62143.400390625
+        },
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "18.56px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "31.552px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(94, 111, 130)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 162
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Bookkeeping, tax and payroll support that helps you keep records organised, understand the numbers and stay on top of deadlines.",
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 127
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1",
+        "text": "Let us handle the numbers. You focus on growing your business.",
+        "bounds": {
+          "x": 72,
+          "y": 316.734375,
+          "width": 656.625,
+          "height": 357.5625,
+          "visibleAreaApprox": 234784.4765625
+        },
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "92.16px",
+        "fontWeight": "700",
+        "fontStyle": "normal",
+        "lineHeight": "89.3952px",
+        "letterSpacing": "-5.5296px",
+        "textTransform": "none",
+        "color": "rgb(8, 41, 74)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Bold",
+            "isCustomFont": false,
+            "glyphCount": 59
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Clear accounting for the business you're building.",
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular_wdth_opsz3E0000_GRAD_wght2DA0000",
+            "isCustomFont": false,
+            "glyphCount": 48
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "p.lead",
+        "text": "Friendly, practical accounting, tax and bookkeeping support for UK startups, sole traders and small limited companies. Fixed, transparent fees with no hidden costs.",
+        "bounds": {
+          "x": 72,
+          "y": 702.296875,
+          "width": 656.625,
+          "height": 94.640625,
+          "visibleAreaApprox": 62143.400390625
+        },
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "18.56px",
+        "fontWeight": "400",
+        "fontStyle": "normal",
+        "lineHeight": "31.552px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(94, 111, 130)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 162
+          }
+        ]
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "Bookkeeping, tax and payroll support that helps you keep records organised, understand the numbers and stay on top of deadlines.",
+        "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": ".SF NS",
+            "postScriptName": ".SFNS-Regular",
+            "isCustomFont": false,
+            "glyphCount": 127
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    }
+  ],
+  "limits": [
+    "Measurements do not replace visual review of the screenshot pixels.",
+    "The run does not submit forms or prove a live backend destination.",
+    "Automated overlap checks cannot identify every face or focal subject."
+  ],
+  "completed_at": "2026-09-20T15:54:22.097Z"
+}

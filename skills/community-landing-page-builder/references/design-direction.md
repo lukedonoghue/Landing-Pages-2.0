@@ -44,6 +44,8 @@ For a landing-page hero, use relevant photography or an immersive scene with unf
 
 Give the selected primary conversion the strongest filled-button treatment. Secondary phone, email or WhatsApp alternatives should use quieter text or outline styling, not a second equally prominent saturated button. Platform brand colors do not override conversion hierarchy.
 
+When narrow-screen wrapping makes the hero consume the first screen, shorten or move supporting copy into the next section before reducing the useful photo to a sliver. Keep the offer, action and verified contact accessible; do not force every desktop sentence into the mobile hero.
+
 Do not shrink meaningful proof or action instructions to fine-print size to preserve a desktop row. Trust-strip supporting text must be at least 13px at every breakpoint; use 14px or larger when space permits. Reflow the strip rather than keep three compressed columns on phones. Check the final computed size after mobile overrides, not just the base declaration. Tiny legal text is not a sizing model for conversion evidence.
 
 State three visual adjectives tied to the buyer and decision. Examples include `credible`, `current`, and `investment-grade` for a high-consideration franchise offer, or `capable`, `local`, and `direct` for a trade service. Do not use generic adjectives without explaining how the type, space, imagery, and color treatment express them.

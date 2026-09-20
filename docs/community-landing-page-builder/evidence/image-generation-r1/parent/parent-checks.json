@@ -1,0 +1,514 @@
+{
+  "checks": [
+    {
+      "name": "No overflow 320",
+      "pass": true
+    },
+    {
+      "name": "Verified phone visible early 320",
+      "pass": true,
+      "detail": [
+        {
+          "text": "07467 474356",
+          "visible": false
+        },
+        {
+          "text": "Call 07467 474356",
+          "visible": true
+        },
+        {
+          "text": "Or call 07467 474356",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "CTA 2 email intent 320",
+      "pass": true
+    },
+    {
+      "name": "CTA 3 email intent 320",
+      "pass": true
+    },
+    {
+      "name": "CTA 4 email intent 320",
+      "pass": true
+    },
+    {
+      "name": "Native menu keyboard opening 320",
+      "pass": true
+    },
+    {
+      "name": "Menu first link reached 320",
+      "pass": true
+    },
+    {
+      "name": "FAQ Does the £60 monthly starting price apply to everyone? 320",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis help before my company is set up? 320",
+      "pass": true
+    },
+    {
+      "name": "FAQ Do I have to sign up for monthly support? 320",
+      "pass": true
+    },
+    {
+      "name": "FAQ What should I include in my first email? 320",
+      "pass": true
+    },
+    {
+      "name": "All images load and generated images identified 320",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+          "role": "proof",
+          "loaded": true,
+          "alt": "Clarentis logo"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/hero-workspace-mobile.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of an organised small-business workspace"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of folders, receipts and a notebook on a desk"
+        }
+      ]
+    },
+    {
+      "name": "No tracking or third-party resource requests 320",
+      "pass": true
+    },
+    {
+      "name": "No overflow 390",
+      "pass": true
+    },
+    {
+      "name": "Verified phone visible early 390",
+      "pass": true,
+      "detail": [
+        {
+          "text": "07467 474356",
+          "visible": false
+        },
+        {
+          "text": "Call 07467 474356",
+          "visible": true
+        },
+        {
+          "text": "Or call 07467 474356",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "CTA 2 email intent 390",
+      "pass": true
+    },
+    {
+      "name": "CTA 3 email intent 390",
+      "pass": true
+    },
+    {
+      "name": "CTA 4 email intent 390",
+      "pass": true
+    },
+    {
+      "name": "Native menu keyboard opening 390",
+      "pass": true
+    },
+    {
+      "name": "Menu first link reached 390",
+      "pass": true
+    },
+    {
+      "name": "FAQ Does the £60 monthly starting price apply to everyone? 390",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis help before my company is set up? 390",
+      "pass": true
+    },
+    {
+      "name": "FAQ Do I have to sign up for monthly support? 390",
+      "pass": true
+    },
+    {
+      "name": "FAQ What should I include in my first email? 390",
+      "pass": true
+    },
+    {
+      "name": "All images load and generated images identified 390",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+          "role": "proof",
+          "loaded": true,
+          "alt": "Clarentis logo"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/hero-workspace-mobile.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of an organised small-business workspace"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of folders, receipts and a notebook on a desk"
+        }
+      ]
+    },
+    {
+      "name": "No tracking or third-party resource requests 390",
+      "pass": true
+    },
+    {
+      "name": "No overflow 768",
+      "pass": true
+    },
+    {
+      "name": "Verified phone visible early 768",
+      "pass": true,
+      "detail": [
+        {
+          "text": "07467 474356",
+          "visible": false
+        },
+        {
+          "text": "Call 07467 474356",
+          "visible": true
+        },
+        {
+          "text": "Or call 07467 474356",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "CTA 2 email intent 768",
+      "pass": true
+    },
+    {
+      "name": "CTA 3 email intent 768",
+      "pass": true
+    },
+    {
+      "name": "CTA 4 email intent 768",
+      "pass": true
+    },
+    {
+      "name": "Native menu keyboard opening 768",
+      "pass": true
+    },
+    {
+      "name": "Menu first link reached 768",
+      "pass": true
+    },
+    {
+      "name": "FAQ Does the £60 monthly starting price apply to everyone? 768",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis help before my company is set up? 768",
+      "pass": true
+    },
+    {
+      "name": "FAQ Do I have to sign up for monthly support? 768",
+      "pass": true
+    },
+    {
+      "name": "FAQ What should I include in my first email? 768",
+      "pass": true
+    },
+    {
+      "name": "All images load and generated images identified 768",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+          "role": "proof",
+          "loaded": true,
+          "alt": "Clarentis logo"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/hero-workspace-mobile.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of an organised small-business workspace"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of folders, receipts and a notebook on a desk"
+        }
+      ]
+    },
+    {
+      "name": "No tracking or third-party resource requests 768",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1024",
+      "pass": true
+    },
+    {
+      "name": "Verified phone visible early 1024",
+      "pass": true,
+      "detail": [
+        {
+          "text": "07467 474356",
+          "visible": false
+        },
+        {
+          "text": "Call 07467 474356",
+          "visible": false
+        },
+        {
+          "text": "Or call 07467 474356",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "CTA 1 email intent 1024",
+      "pass": true
+    },
+    {
+      "name": "CTA 2 email intent 1024",
+      "pass": true
+    },
+    {
+      "name": "CTA 3 email intent 1024",
+      "pass": true
+    },
+    {
+      "name": "CTA 4 email intent 1024",
+      "pass": true
+    },
+    {
+      "name": "FAQ Does the £60 monthly starting price apply to everyone? 1024",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis help before my company is set up? 1024",
+      "pass": true
+    },
+    {
+      "name": "FAQ Do I have to sign up for monthly support? 1024",
+      "pass": true
+    },
+    {
+      "name": "FAQ What should I include in my first email? 1024",
+      "pass": true
+    },
+    {
+      "name": "All images load and generated images identified 1024",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+          "role": "proof",
+          "loaded": true,
+          "alt": "Clarentis logo"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/hero-workspace.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of an organised small-business workspace"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of folders, receipts and a notebook on a desk"
+        }
+      ]
+    },
+    {
+      "name": "No tracking or third-party resource requests 1024",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1280",
+      "pass": true
+    },
+    {
+      "name": "Verified phone visible early 1280",
+      "pass": true,
+      "detail": [
+        {
+          "text": "07467 474356",
+          "visible": true
+        },
+        {
+          "text": "Call 07467 474356",
+          "visible": false
+        },
+        {
+          "text": "Or call 07467 474356",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "CTA 1 email intent 1280",
+      "pass": true
+    },
+    {
+      "name": "CTA 2 email intent 1280",
+      "pass": true
+    },
+    {
+      "name": "CTA 3 email intent 1280",
+      "pass": true
+    },
+    {
+      "name": "CTA 4 email intent 1280",
+      "pass": true
+    },
+    {
+      "name": "FAQ Does the £60 monthly starting price apply to everyone? 1280",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis help before my company is set up? 1280",
+      "pass": true
+    },
+    {
+      "name": "FAQ Do I have to sign up for monthly support? 1280",
+      "pass": true
+    },
+    {
+      "name": "FAQ What should I include in my first email? 1280",
+      "pass": true
+    },
+    {
+      "name": "All images load and generated images identified 1280",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+          "role": "proof",
+          "loaded": true,
+          "alt": "Clarentis logo"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/hero-workspace.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of an organised small-business workspace"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of folders, receipts and a notebook on a desk"
+        }
+      ]
+    },
+    {
+      "name": "No tracking or third-party resource requests 1280",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1440",
+      "pass": true
+    },
+    {
+      "name": "Verified phone visible early 1440",
+      "pass": true,
+      "detail": [
+        {
+          "text": "07467 474356",
+          "visible": true
+        },
+        {
+          "text": "Call 07467 474356",
+          "visible": false
+        },
+        {
+          "text": "Or call 07467 474356",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "CTA 1 email intent 1440",
+      "pass": true
+    },
+    {
+      "name": "CTA 2 email intent 1440",
+      "pass": true
+    },
+    {
+      "name": "CTA 3 email intent 1440",
+      "pass": true
+    },
+    {
+      "name": "CTA 4 email intent 1440",
+      "pass": true
+    },
+    {
+      "name": "FAQ Does the £60 monthly starting price apply to everyone? 1440",
+      "pass": true
+    },
+    {
+      "name": "FAQ Can Clarentis help before my company is set up? 1440",
+      "pass": true
+    },
+    {
+      "name": "FAQ Do I have to sign up for monthly support? 1440",
+      "pass": true
+    },
+    {
+      "name": "FAQ What should I include in my first email? 1440",
+      "pass": true
+    },
+    {
+      "name": "All images load and generated images identified 1440",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:53187/assets/clarentis-logo.png",
+          "role": "proof",
+          "loaded": true,
+          "alt": "Clarentis logo"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/hero-workspace.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of an organised small-business workspace"
+        },
+        {
+          "src": "http://127.0.0.1:53187/assets/records-workspace.webp",
+          "role": "illustrative",
+          "loaded": true,
+          "alt": "Illustrative image of folders, receipts and a notebook on a desk"
+        }
+      ]
+    },
+    {
+      "name": "No tracking or third-party resource requests 1440",
+      "pass": true
+    }
+  ],
+  "limits": [
+    "Email and phone intent activation intercepted before OS dispatch; no message sent or call placed.",
+    "No form exists; previous modal/grouped-field lifecycle checks are not applicable here.",
+    "Physical mobile mail handlers and delivery remain untested."
+  ],
+  "status": "pass"
+}
