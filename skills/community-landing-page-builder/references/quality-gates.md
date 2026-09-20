@@ -27,7 +27,7 @@ Serve the project over local HTTP. Test at least:
 - 1280 x 600 short-height laptop;
 - 1440 x 900 desktop.
 
-For a text-heavy stacked mobile hero, add one 320 x 700 first-screen spot capture to this pass. Check readable continuation and useful image scale, not only horizontal overflow; this does not require another full interaction matrix or report.
+For a text-heavy stacked mobile hero, add one 320 x 700 first-screen spot capture to this pass. Check readable continuation and useful image scale, not only horizontal overflow; this does not require another full interaction matrix or report. Do not meet a fold target by hiding action-destination explanations, offer qualifiers or necessary disclosures at narrow widths. Shorten or redistribute supporting copy and spacing while preserving the information needed to decide or act. Inspect that content at the smallest breakpoint, not just its presence in the HTML.
 
 Use `scripts/measure_page.mjs` when Playwright is available:
 
