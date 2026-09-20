@@ -11,7 +11,7 @@ For each selected asset, record in `build/image-plan.md` or `build/image-plan.js
 - whether its pixels contain labels or information that must remain readable;
 - source URL or supplied-file reference and retrieval date;
 - rights basis for publication, or `local preview only` while rights remain unresolved;
-- intended desktop and mobile treatment;
+- intended desktop and mobile treatment; for a hero, name the proof-bearing feature and the copy-safe area in that same note;
 - alt text, or empty alt for decoration;
 - final local path and review screenshot.
 
@@ -58,7 +58,7 @@ Add an adjacent disclosure when a reasonable viewer could mistake the image for 
 - Never crop a diagram, screenshot, roadmap, document, or infographic with `cover`.
 - Never put headings or body copy over information-bearing pixels.
 - Keep the essential subject inspectable. Text, CTA buttons, panels and heavy scrims must not obscure faces, equipment or the proof the image is meant to show. `content-bearing=false` does not exempt a photograph from this rule. If the subject cannot coexist with hero copy at mobile width, choose a better asset or composition instead of darkening or cropping it into background texture.
-- Validate a hero candidate with its actual copy and all primary/secondary action footprints at mobile, tablet and the 1280 x 600 short-height viewport before committing to that image. Endpoint mobile/desktop approval does not clear a tablet collision. Revealing the next section must not cut away the proof subject; change the crop, asset or composition instead. For service businesses, prefer work-in-progress imagery with usable copy space over a posed group. A group photo that cannot preserve its people outside the overlay belongs in an unobstructed supporting proof block, not behind the hero controls.
+- Validate a hero candidate with its actual copy and all primary/secondary action footprints at every required width, including 1024px laptop and 1280 x 600 short-height, before committing to that image. Check the named proof-bearing feature, not merely whether the object is recognizable: copy across glazing, a finished surface or equipment can hide the very detail the photograph is meant to prove. Reserve genuine copy space with crop/position, choose another verified asset, or place the proof unobstructed nearby. Endpoint mobile/desktop approval does not clear intermediate collisions. Revealing the next section must not cut away the proof subject. A group photo that cannot preserve its people outside the overlay belongs in an unobstructed supporting proof block, not behind the hero controls.
 - Keep the mobile hero focused on the headline, concise lead and primary action. Move secondary contact controls and proof strips directly below it when they consume the subject's clear space; do not darken the subject to make every desktop overlay fit.
 - Use official images for proof and keep illustrative imagery visually subordinate to sourced proof.
 - Keep sourcing terms such as `first-party`, `proof asset`, and `verified media` in the research notes. Visitor-facing captions should describe the actual subject or useful context, while retaining any necessary generation disclosure.

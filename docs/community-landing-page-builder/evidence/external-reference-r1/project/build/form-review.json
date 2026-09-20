@@ -1,0 +1,28 @@
+{
+  "status": "pass",
+  "checks": [
+    "Primary CTA reaches the enquiry form",
+    "Whitespace-only required fields are rejected",
+    "Validation focus is visible",
+    "Correcting one field clears only its error",
+    "Error summary link focuses its field",
+    "Malformed email is rejected",
+    "Alphabetic phone junk is rejected",
+    "Failed response is visible beside action and retains entries",
+    "Local receiver confirms a preview result only",
+    "Exactly one synthetic submission reached local receiver",
+    "New enquiry deliberately resets confirmed state",
+    "Pending request disables edits and blocks duplicate submit events",
+    "Short-height keyboard focus reaches visible email",
+    "Short-height keyboard focus reaches visible phone",
+    "Short-height keyboard focus reaches visible postcode",
+    "Short-height keyboard focus reaches visible use",
+    "Short-height keyboard focus reaches visible message",
+    "Short-height keyboard focus reaches visible marketing",
+    "Short-height keyboard focus reaches visible submit-button",
+    "Unresolved request times out with a retryable uncertain state"
+  ],
+  "receiverAcceptedBefore": 4,
+  "receiverAcceptedAfter": 5,
+  "mode": "synthetic local receiver only"
+}

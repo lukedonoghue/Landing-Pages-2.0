@@ -1,0 +1,905 @@
+{
+  "schema_version": 1,
+  "kind": "rendered_brand_measurement",
+  "status": "pass",
+  "url": "https://gardenroomco.com/",
+  "captured_at": "2026-09-20T11:11:14.662Z",
+  "tool": {
+    "name": "extract_brand",
+    "version": "1.1.0",
+    "node": "v22.17.1",
+    "browser": "153.0.8010.12"
+  },
+  "measurements": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "httpStatus": 200,
+      "screenshot": "brand-390x844.png",
+      "errors": [],
+      "blockedWrites": [
+        {
+          "method": "POST",
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-7FQ5BZGZ13&gtm=45je69g1v9236782305za200zd9236782305xf1&_p=1789902675743&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=437117380.1789902676&frm=0&ngs=1&pscdl=noapi&rcb=7&sr=390x844&uaa=arm&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-us&_s=1&tag_exp=115938466~115938469~118897920~118897930~120213116~120385422~120412526~120469145~120469153&sid=1789902675&sct=1&seg=0&dl=https%3A%2F%2Fgardenroomco.com%2F&dt=Bespoke%20Garden%20Rooms%2C%20Garden%20Offices%20%26%20Garden%20Studios&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=914"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google.com/g/collect?v=2&tid=G-7FQ5BZGZ13&gtm=45je69g1v9236782305za200zd9236782305xf1&_p=1789902675743&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=437117380.1789902676&frm=0&ngs=1&pscdl=noapi&rcb=7&sr=390x844&uaa=arm&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-us&_s=1&tag_exp=115938466~115938469~118897920~118897930~120213116~120385422~120412526~120469145~120469153&sid=1789902675&sct=1&seg=0&dl=https%3A%2F%2Fgardenroomco.com%2F&dt=Bespoke%20Garden%20Rooms%2C%20Garden%20Offices%20%26%20Garden%20Studios&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=914&gaf=1"
+        }
+      ],
+      "title": "Bespoke Garden Rooms, Garden Offices & Garden Studios",
+      "finalUrl": "https://gardenroomco.com/",
+      "roles": {
+        "hero_heading": [],
+        "section_heading": [],
+        "subheading": [],
+        "body": [
+          {
+            "selector": "p.site-title",
+            "text": "",
+            "bounds": {
+              "x": 30,
+              "y": 0,
+              "width": 110,
+              "height": 80,
+              "visibleAreaApprox": 8800
+            },
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "29.1429px",
+            "letterSpacing": "0.16px",
+            "textTransform": "none",
+            "color": "rgb(68, 68, 68)",
+            "fontStackAvailable": true
+          }
+        ],
+        "navigation": [
+          {
+            "selector": "a.dima-btn-nav.dima-open-menu",
+            "text": "",
+            "bounds": {
+              "x": 312.296875,
+              "y": 0,
+              "width": 77.703125,
+              "height": 77.703125,
+              "visibleAreaApprox": 6037.775634765625
+            },
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "0.16px",
+            "textTransform": "none",
+            "color": "rgb(163, 188, 26)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.dima-btn-nav.search-btn",
+            "text": "",
+            "bounds": {
+              "x": 234.59375,
+              "y": 0,
+              "width": 77.703125,
+              "height": 77.703125,
+              "visibleAreaApprox": 6037.775634765625
+            },
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "0.16px",
+            "textTransform": "none",
+            "color": "rgb(163, 188, 26)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.dima-brand",
+            "text": "",
+            "bounds": {
+              "x": 30,
+              "y": 0,
+              "width": 110,
+              "height": 80,
+              "visibleAreaApprox": 8800
+            },
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "29.1429px",
+            "letterSpacing": "0.16px",
+            "textTransform": "none",
+            "color": "rgb(163, 188, 26)",
+            "fontStackAvailable": true
+          }
+        ],
+        "label": [],
+        "link": []
+      },
+      "buttons": [
+        {
+          "selector": "a.dima-btn-nav.dima-open-menu",
+          "text": "",
+          "bounds": {
+            "x": 312.296875,
+            "y": 0,
+            "width": 77.703125,
+            "height": 77.703125,
+            "visibleAreaApprox": 6037.775634765625
+          },
+          "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "30px",
+          "letterSpacing": "0.16px",
+          "textTransform": "none",
+          "color": "rgb(163, 188, 26)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(163, 188, 26) rgb(163, 188, 26) rgb(163, 188, 26) rgba(0, 0, 0, 0)",
+          "borderWidth": "0px 0px 0px 1px",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "padding": "0px"
+        },
+        {
+          "selector": "a.dima-btn-nav.search-btn",
+          "text": "",
+          "bounds": {
+            "x": 234.59375,
+            "y": 0,
+            "width": 77.703125,
+            "height": 77.703125,
+            "visibleAreaApprox": 6037.775634765625
+          },
+          "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "30px",
+          "letterSpacing": "0.16px",
+          "textTransform": "none",
+          "color": "rgb(163, 188, 26)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(163, 188, 26) rgb(163, 188, 26) rgb(163, 188, 26) rgba(0, 0, 0, 0)",
+          "borderWidth": "0px 0px 0px 1px",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "padding": "0px"
+        }
+      ],
+      "images": [
+        {
+          "selector": "img.mobile-logo",
+          "src": "https://gardenroomco.com/wp-content/uploads/2021/09/garden_room_co_logo.png",
+          "alt": "The UK's leading specialists in outdoor work spaces.",
+          "bounds": {
+            "x": 30,
+            "y": 21.21875,
+            "width": 109.953125,
+            "height": 37.5625,
+            "visibleAreaApprox": 4130.1142578125
+          },
+          "loaded": true,
+          "objectFit": "fill",
+          "objectPosition": "50% 50%"
+        }
+      ],
+      "surfaceMethod": "visible clipped bounding-box area; independent overlapping boxes; first viewport only",
+      "coloredSurfaces": [
+        {
+          "color": "rgb(255, 255, 255)",
+          "summedVisibleBoxArea": 987504.375,
+          "elements": 4,
+          "examples": [
+            {
+              "selector": "body.home.page-template-default.page",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 6074.875,
+                "visibleAreaApprox": 329160
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "#dima-wrapper",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 6074.875,
+                "visibleAreaApprox": 329160
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "div.dima-main.clearfix",
+              "bounds": {
+                "x": 0,
+                "y": 77.6875,
+                "width": 390,
+                "height": 4487.28125,
+                "visibleAreaApprox": 298861.875
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "div.page-section-content.section.page-section-6aad1e7bdcdb8",
+              "bounds": {
+                "x": 0,
+                "y": 766.25,
+                "width": 390,
+                "height": 356,
+                "visibleAreaApprox": 30322.5
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(60, 60, 59)",
+          "summedVisibleBoxArea": 30304.21875,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "div.mobile-nav-head.clearfix",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 77.703125,
+                "visibleAreaApprox": 30304.21875
+              },
+              "opacity": "1"
+            }
+          ]
+        }
+      ],
+      "imageBackgrounds": [
+        {
+          "selector": "div.w-screen.background-image-hide.js-lazy-image-css",
+          "backgroundImage": "url(\"https://gardenroomco.com/wp-content/uploads/2023/06/garden-rooms-north-wales.jpg\")",
+          "backgroundSize": "cover",
+          "backgroundPosition": "50% 50%",
+          "bounds": {
+            "x": 0,
+            "y": 77.6875,
+            "width": 390,
+            "height": 688.5625,
+            "visibleAreaApprox": 268539.375
+          }
+        }
+      ],
+      "fontStatus": "loaded",
+      "fontFaces": [
+        {
+          "family": "Font Awesome 5 Brands",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "weight": "900",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "dearflip",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "vcpb-plugin-icons",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "vc_grid_v1",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Maven Pro",
+          "weight": "500",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "700",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Reem Kufi",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Maven Pro",
+          "weight": "500",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "700",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Reem Kufi",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "revicons",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "fontRenderError": null
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "httpStatus": 200,
+      "screenshot": "brand-1440x900.png",
+      "errors": [],
+      "blockedWrites": [
+        {
+          "method": "POST",
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-7FQ5BZGZ13&gtm=45je69g1v9236782305za200zd9236782305xf1&_p=1789902676678&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=205433679.1789902677&frm=0&ngs=1&pscdl=noapi&rcb=18&sr=1440x900&uaa=arm&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-us&_s=1&tag_exp=115938466~115938468~118897920~118897930~120213116~120385423~120469145~120469153&sid=1789902676&sct=1&seg=0&dl=https%3A%2F%2Fgardenroomco.com%2F&dt=Bespoke%20Garden%20Rooms%2C%20Garden%20Offices%20%26%20Garden%20Studios&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=675"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google.com/g/collect?v=2&tid=G-7FQ5BZGZ13&gtm=45je69g1v9236782305za200zd9236782305xf1&_p=1789902676678&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=205433679.1789902677&frm=0&ngs=1&pscdl=noapi&rcb=18&sr=1440x900&uaa=arm&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-us&_s=1&tag_exp=115938466~115938468~118897920~118897930~120213116~120385423~120469145~120469153&sid=1789902676&sct=1&seg=0&dl=https%3A%2F%2Fgardenroomco.com%2F&dt=Bespoke%20Garden%20Rooms%2C%20Garden%20Offices%20%26%20Garden%20Studios&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=675&gaf=1"
+        }
+      ],
+      "title": "Bespoke Garden Rooms, Garden Offices & Garden Studios",
+      "finalUrl": "https://gardenroomco.com/",
+      "roles": {
+        "hero_heading": [],
+        "section_heading": [],
+        "subheading": [],
+        "body": [
+          {
+            "selector": "p.site-title",
+            "text": "",
+            "bounds": {
+              "x": 30,
+              "y": 12.5,
+              "width": 161,
+              "height": 55,
+              "visibleAreaApprox": 8855
+            },
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "fontSize": "0px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "0px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(68, 68, 68)",
+            "fontStackAvailable": true
+          }
+        ],
+        "navigation": [
+          {
+            "selector": "a",
+            "text": "Home",
+            "bounds": {
+              "x": 634.796875,
+              "y": 28,
+              "width": 93.0625,
+              "height": 24,
+              "visibleAreaApprox": 2233.5
+            },
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Garden Rooms",
+            "bounds": {
+              "x": 727.859375,
+              "y": 28,
+              "width": 154.203125,
+              "height": 24,
+              "visibleAreaApprox": 3700.875
+            },
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Portfolio",
+            "bounds": {
+              "x": 882.0625,
+              "y": 28,
+              "width": 112.046875,
+              "height": 24,
+              "visibleAreaApprox": 2689.125
+            },
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "FAQ",
+            "bounds": {
+              "x": 994.109375,
+              "y": 28,
+              "width": 83.25,
+              "height": 24,
+              "visibleAreaApprox": 1998
+            },
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "About Us",
+            "bounds": {
+              "x": 1077.359375,
+              "y": 28,
+              "width": 114.703125,
+              "height": 24,
+              "visibleAreaApprox": 2752.875
+            },
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Blog",
+            "bounds": {
+              "x": 1192.0625,
+              "y": 28,
+              "width": 82.578125,
+              "height": 24,
+              "visibleAreaApprox": 1981.875
+            },
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Contact",
+            "bounds": {
+              "x": 1274.640625,
+              "y": 28,
+              "width": 82.359375,
+              "height": 24,
+              "visibleAreaApprox": 1976.625
+            },
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Search",
+            "bounds": {
+              "x": 1438.5,
+              "y": 27,
+              "width": 1.5,
+              "height": 21,
+              "visibleAreaApprox": 31.5
+            },
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "0.25px",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          }
+        ],
+        "label": [],
+        "link": []
+      },
+      "buttons": [],
+      "images": [
+        {
+          "selector": "img.standard-logo",
+          "src": "https://gardenroomco.com/wp-content/uploads/2021/09/garden_room_co_logo.png",
+          "alt": "The UK's leading specialists in outdoor work spaces.",
+          "bounds": {
+            "x": 30,
+            "y": 12.5,
+            "width": 161,
+            "height": 55,
+            "visibleAreaApprox": 8855
+          },
+          "loaded": true,
+          "objectFit": "fill",
+          "objectPosition": "50% 50%"
+        }
+      ],
+      "surfaceMethod": "visible clipped bounding-box area; independent overlapping boxes; first viewport only",
+      "coloredSurfaces": [
+        {
+          "color": "rgb(255, 255, 255)",
+          "summedVisibleBoxArea": 4046400,
+          "elements": 4,
+          "examples": [
+            {
+              "selector": "body.home.page-template-default.page",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 3540.625,
+                "visibleAreaApprox": 1296000
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "#dima-wrapper",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 3540.625,
+                "visibleAreaApprox": 1296000
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "div.dima-main.clearfix",
+              "bounds": {
+                "x": 0,
+                "y": 80,
+                "width": 1440,
+                "height": 2819.59375,
+                "visibleAreaApprox": 1180800
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "div.page-section-content.section.page-section-6aad1e7bdcdb8",
+              "bounds": {
+                "x": 0,
+                "y": 620,
+                "width": 1440,
+                "height": 190,
+                "visibleAreaApprox": 273600
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(243, 243, 243)",
+          "summedVisibleBoxArea": 129600,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "div.page-section-content.section.page-section-6aad1e7bddace",
+              "bounds": {
+                "x": 0,
+                "y": 810,
+                "width": 1440,
+                "height": 946.5,
+                "visibleAreaApprox": 129600
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(60, 60, 59)",
+          "summedVisibleBoxArea": 115200,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "div.dima-navbar.fix-two.dima-navbar-line",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 80,
+                "visibleAreaApprox": 115200
+              },
+              "opacity": "1"
+            }
+          ]
+        }
+      ],
+      "imageBackgrounds": [
+        {
+          "selector": "div.w-screen.background-image-hide.js-lazy-image-css",
+          "backgroundImage": "url(\"https://gardenroomco.com/wp-content/uploads/2023/06/garden-rooms-north-wales.jpg\")",
+          "backgroundSize": "cover",
+          "backgroundPosition": "50% 50%",
+          "bounds": {
+            "x": 0,
+            "y": 80,
+            "width": 1440,
+            "height": 540,
+            "visibleAreaApprox": 777600
+          }
+        },
+        {
+          "selector": "div.page-section-content.section.page-section-6aad1e7bddace",
+          "backgroundImage": "url(\"https://gardenroomco.com/wp-content/uploads/2021/09/plans-bg.png?id=7650\")",
+          "backgroundSize": "cover",
+          "backgroundPosition": "50% 50%",
+          "bounds": {
+            "x": 0,
+            "y": 810,
+            "width": 1440,
+            "height": 946.5,
+            "visibleAreaApprox": 129600
+          }
+        }
+      ],
+      "fontStatus": "loaded",
+      "fontFaces": [
+        {
+          "family": "Font Awesome 5 Brands",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "weight": "900",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "dearflip",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "vcpb-plugin-icons",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "vc_grid_v1",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Maven Pro",
+          "weight": "500",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "700",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Reem Kufi",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Maven Pro",
+          "weight": "500",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "300",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "300",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "weight": "700",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Reem Kufi",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "revicons",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "fontRenderError": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "brand-390x844.png",
+      "type": "screenshot",
+      "sha256": "0a12fbc414937ead4b103a28e8c9f89d9c496b1db749d0817c8dc765e94b236a"
+    },
+    {
+      "path": "brand-1440x900.png",
+      "type": "screenshot",
+      "sha256": "02c7b3af88dc04d709f08eea839d437fe3ee4299735de91cb4dd0a032c14ded2"
+    }
+  ],
+  "failures": [],
+  "interpretation": "Measurements describe rendered CSS and visible geometry. They do not automatically select the correct brand identity, official font, logo, or design direction.",
+  "limits": [
+    "Surface areas approximate visible bounding-box area in the first viewport. Overlapping parent/child backgrounds are counted independently; these are not pixel shares.",
+    "Computed stacks and FontFace entries alone do not prove glyph fonts. renderedFonts records Chromium evidence for the selected heading and prose samples only.",
+    "Background images, gradients, transparency, pseudo-elements, canvas, and video need screenshot review. No dominant image-color extraction is attempted.",
+    "No cookies or login state are imported. Consent dialogs or anonymous variants can affect the visible sample.",
+    "All write requests are blocked. Normal GET requests still reach the supplied site."
+  ],
+  "completed_at": "2026-09-20T11:11:17.072Z"
+}

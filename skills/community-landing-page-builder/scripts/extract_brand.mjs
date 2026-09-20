@@ -40,7 +40,7 @@ const report = {
   status: 'blocked',
   url: url.href,
   captured_at: new Date().toISOString(),
-  tool: { name: 'extract_brand', version: '1.1.0', node: process.version, browser: browser.version() },
+  tool: { name: 'extract_brand', version: '1.2.0', node: process.version, browser: browser.version() },
   measurements: [], artifacts: [], failures: [],
   interpretation: 'Measurements describe rendered CSS and visible geometry. They do not automatically select the correct brand identity, official font, logo, or design direction.',
   limits: [
@@ -69,6 +69,11 @@ try {
       await Promise.race([document.fonts.ready, new Promise(done => setTimeout(done, 6000))]);
       await Promise.race([Promise.all([...document.images].filter(image => image.getBoundingClientRect().top < innerHeight).map(image => image.decode().catch(() => {}))), new Promise(done => setTimeout(done, 6000))]);
     });
+    // Entrance animations can hide the only heading after fonts and images load.
+    await page.waitForFunction(() => [...document.querySelectorAll('h1')].some(element => {
+      const box = element.getBoundingClientRect(), style = getComputedStyle(element);
+      return element.textContent.trim() && box.width > 0 && box.height > 0 && box.top < innerHeight && box.bottom > 0 && style.visibility !== 'hidden' && Number(style.opacity) > 0;
+    }), null, { timeout: 4000 }).catch(() => {});
     const data = await page.evaluate(() => {
       const selector = element => element.id ? `#${CSS.escape(element.id)}` : element.tagName.toLowerCase() + [...element.classList].slice(0, 3).map(name => `.${CSS.escape(name)}`).join('');
       const bounds = element => {
@@ -128,6 +133,44 @@ try {
     await page.screenshot({ path: screenshot, fullPage: false, animations: 'disabled' });
     const artifact = { path: relative(dirname(output), screenshot), type: 'screenshot', sha256: createHash('sha256').update(await readFile(screenshot)).digest('hex') };
     report.artifacts.push(artifact);
+    // Preserve first-viewport evidence; only seek missing typography below it.
+    for (const [role, query] of Object.entries({ heading: 'h1', body: 'main p,article p,p' })) {
+      if (fontSamples[role]?.renderedFonts?.length) continue;
+      const deadline = Date.now() + 4000;
+      const candidates = page.locator(query);
+      for (let index = 0; index < Math.min(await candidates.count(), 20); index++) {
+        if (Date.now() >= deadline) break;
+        const candidate = candidates.nth(index);
+        const eligible = await candidate.evaluate((element, role) => {
+          const style = getComputedStyle(element), box = element.getBoundingClientRect();
+          return element.textContent.trim().length >= (role === 'body' ? 60 : 1) && style.display !== 'none' && style.visibility !== 'hidden' && box.width > 0 && box.height > 0 && (role !== 'body' || style.textTransform !== 'uppercase');
+        }, role);
+        if (!eligible) continue;
+        try { await candidate.scrollIntoViewIfNeeded({ timeout: Math.max(1, Math.min(1500, deadline - Date.now())) }); } catch { continue; }
+        await page.waitForFunction(element => Number(getComputedStyle(element).opacity) > 0, await candidate.elementHandle(), { timeout: Math.max(1, Math.min(1500, deadline - Date.now())) }).catch(() => {});
+        const sample = await candidate.evaluate(element => {
+          if (Number(getComputedStyle(element).opacity) <= 0) return null;
+          const parts = [];
+          for (let node = element; node?.nodeType === 1; node = node.parentElement) {
+            const siblings = node.parentElement ? [...node.parentElement.children].filter(sibling => sibling.tagName === node.tagName) : [node];
+            parts.unshift(`${node.tagName.toLowerCase()}:nth-of-type(${siblings.indexOf(node) + 1})`);
+          }
+          const style = getComputedStyle(element);
+          return { selector: parts.join(' > '), text: element.textContent.trim().replace(/\s+/g, ' ').slice(0, 180), fontFamily: style.fontFamily, fontSize: style.fontSize, fontWeight: style.fontWeight, textTransform: style.textTransform, sampleScrollY: scrollY };
+        });
+        if (!sample) continue;
+        const glyphs = await readRenderedFonts(page, { [role]: sample });
+        sample.renderedFonts = glyphs.fonts[role] || [];
+        if (!sample.renderedFonts.length) continue;
+        const samplePath = resolve(dirname(output), `brand-${viewport.width}x${viewport.height}-${role}.png`);
+        await page.screenshot({ path: samplePath, fullPage: false, animations: 'disabled' });
+        sample.screenshot = relative(dirname(output), samplePath);
+        report.artifacts.push({ path: sample.screenshot, type: 'screenshot', sha256: createHash('sha256').update(await readFile(samplePath)).digest('hex') });
+        fontSamples[role] = sample;
+        break;
+      }
+    }
+    data.typography = fontSamples;
     report.measurements.push({ viewport, httpStatus: response?.status() ?? null, screenshot: artifact.path, errors, blockedWrites, ...data });
     if (!response || !response.ok()) report.failures.push(`${viewport.width}px: navigation returned ${response?.status() ?? 'no response'}`);
     await context.close();

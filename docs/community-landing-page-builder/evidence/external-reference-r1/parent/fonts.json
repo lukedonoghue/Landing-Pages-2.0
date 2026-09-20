@@ -1,0 +1,94 @@
+[
+  {
+    "url": "https://gardenroomco.com/",
+    "width": 390,
+    "samples": {},
+    "rendered": {
+      "fonts": {},
+      "error": null
+    }
+  },
+  {
+    "url": "http://127.0.0.1:52843/",
+    "width": 390,
+    "samples": {
+      "heading": {
+        "selector": "#hero-title",
+        "text": "Bespoke garden rooms, built around your space.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif"
+      },
+      "body": {
+        "selector": "p",
+        "text": "A quiet office, a creative studio, or somewhere to slow down. We design and build garden rooms to fit the way you want to use yours.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif"
+      }
+    },
+    "rendered": {
+      "fonts": {
+        "heading": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 44
+          }
+        ],
+        "body": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 130
+          }
+        ]
+      },
+      "error": null
+    }
+  },
+  {
+    "url": "https://gardenroomco.com/",
+    "width": 1440,
+    "samples": {},
+    "rendered": {
+      "fonts": {},
+      "error": null
+    }
+  },
+  {
+    "url": "http://127.0.0.1:52843/",
+    "width": 1440,
+    "samples": {
+      "heading": {
+        "selector": "#hero-title",
+        "text": "Bespoke garden rooms, built around your space.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif"
+      },
+      "body": {
+        "selector": "p",
+        "text": "A quiet office, a creative studio, or somewhere to slow down. We design and build garden rooms to fit the way you want to use yours.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif"
+      }
+    },
+    "rendered": {
+      "fonts": {
+        "heading": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 44
+          }
+        ],
+        "body": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 130
+          }
+        ]
+      },
+      "error": null
+    }
+  }
+]
