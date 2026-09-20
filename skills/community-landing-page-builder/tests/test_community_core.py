@@ -111,6 +111,39 @@ class CommunityCoreTests(unittest.TestCase):
             self.assertTrue(any("Image contract failures" in item for item in payload["failures"]))
             self.assertTrue(any("Dead links" in item for item in payload["failures"]))
 
+    def test_form_entry_rejects_section_jump_but_allows_content_navigation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_clean_project(root)
+            form = '<section id="enquire"><form id="lead"><button type="submit">Send</button></form></section>'
+            for target in ("#enquire", "#lead"):
+                with self.subTest(target=target):
+                    html = CLEAN_HTML.replace('</main>', form + '</main>').replace(
+                        'href="tel:+15555550100"', f'href="{target}"')
+                    (root / "index.html").write_text(html, encoding="utf-8")
+                    result = self.run_script(VALIDATE, root)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertEqual(json.loads(result.stdout)["checks"]["primary_form_section_jumps"], [target])
+            html = CLEAN_HTML.replace('</main>', form + '<a href="#enquire">Contact section</a></main>')
+            (root / "index.html").write_text(html, encoding="utf-8")
+            result = self.run_script(VALIDATE, root)
+            self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_popup_marker_requires_dialog_but_does_not_prove_runtime_behavior(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_clean_project(root)
+            opener = '<button type="button" data-primary-action data-open-modal>Enquire</button>'
+            html = CLEAN_HTML.replace('</main>', opener + '</main>')
+            (root / "index.html").write_text(html, encoding="utf-8")
+            result = self.run_script(VALIDATE, root)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertTrue(any("no dialog markup" in f for f in json.loads(result.stdout)["failures"]))
+            dialog = '<dialog><form><button type="submit">Send</button></form></dialog>'
+            (root / "index.html").write_text(html.replace('</main>', dialog + '</main>'), encoding="utf-8")
+            result = self.run_script(VALIDATE, root)
+            self.assertEqual(result.returncode, 0, result.stdout)
+
     def test_catalogue_review_requires_every_page_and_clear_findings(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

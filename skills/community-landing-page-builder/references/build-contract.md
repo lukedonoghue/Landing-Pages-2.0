@@ -53,7 +53,11 @@ Preserve the dominant conversion mechanism and offer of a supplied business page
 
 Record the source conversion contract before implementation: CTA label and offer, conversion type, required fields, consent text, promised delivery or follow-up, destination type, and success behavior. Treat a public endpoint as evidence of the existing architecture, not permission to reuse it or send data to it.
 
-Mark the main CTA controls with `data-primary-action`. Modal openers also use `data-open-modal`. These attributes make short-height and obstruction checks deterministic; they do not replace clear visible labels.
+Mark the main CTA controls with `data-primary-action`. Every form-entry CTA also uses `data-open-modal` and opens the same accessible dialog at the visitor's current page position, not an anchor jump to a form section. Prefer `button type="button"` for openers. A fragment-link fallback must prevent navigation when opening the dialog. Normal navigation, call, email and genuine external booking/purchase/download controls retain their roles.
+
+Default to one modal form. If research supports an inline form as well, reuse the same form component, field definitions, values, errors, pending/confirmed state and submit handler. Moving one form node into the dialog and restoring it on close is one lightweight option; preserve the inline slot's height and page position while it is moved. Never duplicate IDs, independent submissions or reset the form just because its presentation changes. Its own submit button submits; it is not another modal opener.
+
+For local/service businesses, a verified public enquiry phone number is visible and clickable in the header or hero and final contact area at mobile and desktop sizes. Keep it subordinate in styling, not footer-only. Do not hide all visible digits behind an icon or an unexplained person's name. Verify the number from the business source; if no suitable number is public, record that limit rather than inventing one.
 
 For forms:
 

@@ -25,6 +25,7 @@ Write one `build/strategy-brief.md`. Keep it decision-focused:
 - primary objection or perceived risk;
 - source or search intent, supplied or clearly labelled as inferred;
 - source conversion contract: exact CTA and offer, conversion type, required fields, consent, promised delivery or follow-up, destination type, and success behavior;
+- verified public enquiry phone, source and any named contact's supported relationship to the business; record absence/conflict rather than inventing details;
 - typography provenance: verified brand-guide fonts when available, fonts declared by the supplied official page, fonts declared by other current official properties, and any conflict between them;
 - visual tone and brand evidence;
 - optional modules selected and why.
@@ -61,10 +62,10 @@ Rules:
 
 ## Reference and competitor use
 
-For a supplied reference or existing landing page, record only the material comparison:
+For a supplied reference or existing landing page, use the material coverage table from `reference-fidelity.md` inside the same strategy brief:
 
-| Buyer job or media beat | What it accomplishes | Client adaptation | Kept, changed, or omitted and why |
-| --- | --- | --- | --- |
+| Buyer question or media beat | Source | Specific client answer/proof | Final section | Kept, changed, or omitted and why |
+| --- | --- | --- | --- | --- |
 
 Preserve useful buyer questions, proof rhythm, media cadence, and CTA logic. Do not copy wording, proprietary assets, brand styling, or literal geometry.
 

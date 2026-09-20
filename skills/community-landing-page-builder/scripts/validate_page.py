@@ -25,6 +25,8 @@ class PageParser(HTMLParser):
         self.headings: list[tuple[str, str]] = []
         self.images: list[dict[str, str]] = []
         self.forms: list[dict[str, object]] = []
+        self.form_targets: set[str] = set()
+        self.dialogs: list[dict[str, str]] = []
         self.fields: list[dict[str, object]] = []
         self.labels_for: set[str] = set()
         self.links: list[dict[str, str]] = []
@@ -50,6 +52,11 @@ class PageParser(HTMLParser):
             self.images.append(data)
         if tag == "form":
             self.forms.append({"attrs": data, "fields": []})
+            self.form_targets.update(parent["id"] for _, parent in ancestors if parent.get("id"))
+            if data.get("id"):
+                self.form_targets.add(data["id"])
+        if tag == "dialog" or data.get("role") == "dialog":
+            self.dialogs.append(data)
         if tag in {"input", "select", "textarea"}:
             parent_label = any(parent_tag == "label" for parent_tag, _ in ancestors)
             field = {"tag": tag, "attrs": data, "parent_label": parent_label}
@@ -159,6 +166,20 @@ def main() -> int:
 
         if len(index.forms) > 1 and not args.allow_multiple_forms:
             failures.append(f"Found {len(index.forms)} forms; use one conversion form unless multiple forms are intentional")
+
+        form_jumps = [
+            link.get("href", "") for link in index.links
+            if "data-primary-action" in link
+            and link.get("href", "").startswith("#")
+            and unquote(link["href"][1:]) in index.form_targets
+            and "data-open-modal" not in link
+        ]
+        checks["primary_form_section_jumps"] = form_jumps
+        if form_jumps:
+            failures.append("Form-entry CTAs must open the shared popup, not jump to a form section: " + "; ".join(form_jumps))
+        openers = [control for control in index.links + index.buttons if "data-open-modal" in control]
+        if openers and not index.dialogs:
+            failures.append("Modal openers are present but no dialog markup was found; browser behavior still requires verification")
 
     missing_assets: list[str] = []
     image_issues: list[str] = []

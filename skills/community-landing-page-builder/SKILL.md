@@ -25,6 +25,7 @@ These rules override examples and optional modules.
 6. **Accessible by default.** Target WCAG 2.2 AA where applicable. Use semantic structure, a skip link, labels, described field errors, useful alt text, visible focus, keyboard access, sufficient contrast, zoom support, reduced motion, and unobscured focused controls.
 7. **No secret or private-service prerequisite.** Do not ask for API keys, MCP servers, private ad accounts, GitHub access, or hosting credentials to produce the local final. Request only the access needed for a user-selected external action, and only when that action is ready.
 8. **Publishing and live tests need authorization.** A request that explicitly says to publish is authorization for that publication. Otherwise stop at the local final and ask once. Never submit a live lead without permission and clear test labeling.
+9. **Enquiry CTAs open the form in place.** On a form-led page, every enquiry/quote CTA opens the same accessible popup journey without jumping to another page section. A research-supported inline form is additional access, not a substitute for the popup. Preserve one shared form state and submission handler. Phone, navigation, booking, purchase and download controls retain their actual purpose.
 
 ## Choose the smallest valid mode
 
@@ -42,7 +43,7 @@ Do not expand a normal landing-page request into every optional module.
 
 ### 1. Research autonomously
 
-Read [references/research-and-claims.md](references/research-and-claims.md).
+Read [references/research-and-claims.md](references/research-and-claims.md) and [references/reference-fidelity.md](references/reference-fidelity.md). Keep the reference coverage map inside the existing strategy brief, not another report.
 
 - Inspect the official website and the most relevant service, process, FAQ, testimonial, contact, legal, and media pages.
 - When useful, inspect verified official social accounts and credible editorial coverage. Use them to verify facts or discover first-party assets, not as automatic reuse permission.
@@ -56,7 +57,7 @@ Create one compact `build/strategy-brief.md` containing: buyer situation, likely
 
 Read [references/copy-and-structure.md](references/copy-and-structure.md).
 
-Create one implementation-ready copy master at `build/page-copy.md` or `build/page-copy.json`. Cover the buyer jobs supported by evidence: relevance, offer, proof, mechanism or fit, objections, process, conversion, and legal close. Merge related jobs and omit unsupported filler. No fixed section count applies.
+Create one implementation-ready copy master at `build/page-copy.md` or `build/page-copy.json`. Cover the buyer jobs supported by evidence: relevance, offer, proof, mechanism or fit, objections, process, conversion, and legal close. Merge only when the concrete decision help survives; a heading or generic sentence does not establish coverage. Keep the workflow lightweight, not the sales argument thin. No fixed section count applies. Resolve every material question named in the strategy, with sourced detail or an honest explanation of what must be assessed, rather than silently dropping it.
 
 Use one exact primary CTA label. Explain the real operational reason the offer works. Map important benefits to actual capability or proof. Use truthful urgency only when a sourced deadline, capacity limit, or availability constraint exists. Replace generic hype such as `world-class`, `game-changing`, `seamless`, `robust`, or `innovative` with the specific action, limit, mechanism, or evidence unless the term is genuinely necessary and made concrete.
 
@@ -84,7 +85,7 @@ Classify each used image as `decorative`, `proof`, `portrait`, `diagram`, `scree
 
 Read [references/build-contract.md](references/build-contract.md).
 
-Default to semantic HTML, CSS, and JavaScript unless an existing project requires another stack. Derive the selected conversion from the source conversion contract, not from which credentials happen to be available. Choose modal or inline form from the journey; do not create hidden duplicate forms. Use only fields needed for response or routing.
+Default to semantic HTML, CSS, and JavaScript unless an existing project requires another stack. Derive the selected conversion from the source conversion contract, not from which credentials happen to be available. Form-entry CTAs open the same accessible modal without scrolling the page to an inline form. Add an inline placement only when the research supports it; share fields, state and submission logic rather than creating competing forms. Use only fields needed for response or routing. For a local/service business with a verified public enquiry number, show that number as a readable secondary click-to-call in the header or hero and final contact area; do not bury it only in the footer.
 
 Create a thank-you page or success state when a form or gated delivery requires it. If no backend is configured, keep submissions local or disabled, state the limitation clearly, and do not emit a production conversion event.
 
