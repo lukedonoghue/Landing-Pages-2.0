@@ -40,11 +40,11 @@ An empty or hidden paragraph is not evidence for body typography. A separate lon
 
 ## Choose a current audience-fit direction
 
-For a landing-page hero, use relevant photography or an immersive scene as the background with unframed copy, not a split text-and-image-card composition. Choose an asset with room for readable copy while preserving the essential subject. Size the complete header and hero so the beginning of the following content is visible at every required viewport, including mobile and tablet; do not squeeze typography or obscure proof to achieve this.
+For a landing-page hero, use relevant photography or an immersive scene with unframed copy, not a split text-and-image-card composition. Overlay copy only when the photo has genuine negative space outside its proof-bearing subject. Readable text over recognizable glazing is still a collision: a darker scrim does not make that area copy-safe. If no suitable composition exists, choose another verified photo or give photo and copy separate unframed areas of the full-width hero, at desktop as well as mobile. Subject protection takes priority over an overlay layout. Size header and hero so readable content from the following section, not merely a few pixels of its background, appears in the first viewport; do not shrink trust copy to manufacture that fit.
 
 Give the selected primary conversion the strongest filled-button treatment. Secondary phone, email or WhatsApp alternatives should use quieter text or outline styling, not a second equally prominent saturated button. Platform brand colors do not override conversion hierarchy.
 
-Do not shrink meaningful proof or action instructions to fine-print size to preserve a desktop row. On mobile, give trust-strip supporting text normal readable UI sizing (usually 13-14px or larger), shorten it without changing meaning, or reflow the items. Tiny legal text is not a sizing model for conversion evidence.
+Do not shrink meaningful proof or action instructions to fine-print size to preserve a desktop row. Trust-strip supporting text must be at least 13px at every breakpoint; use 14px or larger when space permits. Reflow the strip rather than keep three compressed columns on phones. Check the final computed size after mobile overrides, not just the base declaration. Tiny legal text is not a sizing model for conversion evidence.
 
 State three visual adjectives tied to the buyer and decision. Examples include `credible`, `current`, and `investment-grade` for a high-consideration franchise offer, or `capable`, `local`, and `direct` for a trade service. Do not use generic adjectives without explaining how the type, space, imagery, and color treatment express them.
 

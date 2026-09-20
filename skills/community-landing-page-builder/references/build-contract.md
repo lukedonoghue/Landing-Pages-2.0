@@ -22,7 +22,7 @@ Add `thank-you.html` only when the selected journey needs a separate success pag
 - Use stable layout constraints so text, images, controls, and dynamic states do not shift or overlap.
 - In spanning image grids, place tall items explicitly when needed; inspect the whole gallery for unintended empty tracks, not only each image crop. Prefer a simpler grid over a broken collage.
 - Keep variable-length labels and adjacent headings in normal flow, grid or flex tracks sized for their actual text. Do not reserve a guessed fixed gutter and absolutely position a longer category label into it.
-- Do not scale body or heading type directly with viewport width. Use deliberate responsive steps or bounded fluid sizing only where needed.
+- Do not scale font size with viewport-width units, including inside `clamp()`. Use fixed rem/px sizes with deliberate responsive breakpoints.
 - Avoid fixed minimum widths inside responsive grid tracks and emergency word breaking on short UI labels.
 - Inspect the 1024 to 1199 pixel range for readable prose, not just overflow. Stack testimonial columns before padding and default `blockquote` margins squeeze ordinary copy into one-to-three-word lines; reset those margins when defining a grid.
 - Use at most one persistent mobile CTA. Fixed UI must not cover focused controls, legal links, the final section, or the form action.
@@ -35,7 +35,7 @@ For every downloaded asset or font licence, require a successful HTTP response (
 Mark each meaningful image with `data-image-role="proof|portrait|diagram|screenshot|illustrative"`. Decorative images use `data-image-role="decorative"` and `alt=""`. Add `data-content-bearing="true"` to diagrams, screenshots, infographics, documents, maps, and any image whose internal text or labels must remain visible.
 
 - Meaningful images need factual alt text. Decorative images need empty alt text.
-- Add explicit dimensions and serve appropriately sized, efficiently encoded photo variants at every placement, including repeated and below-fold proof. Do not send an untouched full-resolution source photograph to phones by default; retain the original as research and check the rendered crop and sharpness after optimization.
+- Add explicit dimensions and serve appropriately sized, efficiently encoded photo variants at every placement, including repeated and below-fold proof. Do not send an untouched full-resolution source photograph to phones by default; retain the original as research and check the rendered crop and sharpness after optimization. A good Lighthouse score from an optimized hero does not clear the gallery. Compare source bytes and an appropriate derivative once per asset; a non-multi-megabyte JPG is not automatically optimized.
 - Intrinsic HTML dimensions are not responsive CSS. For a natural-ratio image, use `width: 100%; height: auto`; for a crop, size the actual image box deliberately. An explicit CSS `aspect-ratio` does not override a fixed HTML/CSS height. Verify the rendered ratio at each layout breakpoint.
 - Eager-load the single likely LCP image. Lazy-load below-fold imagery.
 - If preloading a responsive image, match its `imagesrcset` and `imagesizes` to the rendered image, or omit the redundant preload. Check that mobile does not download both a fixed desktop preload and its selected responsive candidate.

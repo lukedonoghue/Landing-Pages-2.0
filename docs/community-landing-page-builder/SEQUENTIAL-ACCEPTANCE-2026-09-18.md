@@ -4,6 +4,8 @@ Status: resumed for business 2 on 2026-09-20 by explicit user direction. Staycle
 
 ## Scope
 
+Current checkpoint: **attempt 4 blocked** after fresh build and independent review. Popup entry and phone/contact fixes work; hero proof overlap, missing location/offer detail and weak proof coverage remain. Parent 56 synthetic assertions pass but do not override product defects. See EXTERNAL-REFERENCE-R4-REVIEW.md. Targeted source corrections are ready for another cold start within the unchanged 50% ceiling; current weekly meter is 47%.
+
 Latest case-2 checkpoint: **attempt 3 acceptance withdrawn** on 2026-09-20 after user review exposed thin reference/buyer-question coverage, inline-only enquiry entry, footer-only phone and an unexplained named contact. See EXTERNAL-REFERENCE-R3-REOPENED.md for exact causes and skill corrections. Earlier technical results remain scoped evidence, not product acceptance. The page and frozen source d8163be remain untouched. Next independent build must verify the new product checks separately from CASE2-CARRYOVER-AUDIT.md. Business 3 and CRM/deployment remain pending; the 50% total-usage ceiling remains in force.
 
 Orchestrator: Astra. Builders: gpt-5.6-sol, reasoning xhigh, one active builder at a time. Fresh agents use fork_context=false. Each receives only a frozen skill folder, a new empty project, a short owner request, and filesystem isolation instructions. They must not read previous attempts, parent conversation, private accounts, or other client projects. These are fresh-context tests with instructed filesystem boundaries, not isolated operating-system containers or new ChatGPT accounts.

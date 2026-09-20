@@ -34,6 +34,8 @@ Ask the user only when a missing answer would materially change one of these dec
 
 The supplied page is evidence of conversion intent even when its production endpoint cannot or should not be reused. A public endpoint is not permission to transmit data, run a live test, or adopt unsafe behavior. If the source form is broken or unsafe, preserve the form offer and buyer journey while rebuilding the local behavior safely.
 
+Inspect the visible content around the source contact/form, not only its fields. Capture commercial differentiators such as a conditional price promise or guarantee with their exact eligibility limits; either use them accurately or record why they are excluded. A missing price list does not imply there is no useful price-related offer. Do not invent terms when they are unclear.
+
 ## Claim ledger
 
 Write `build/claim-ledger.md` for material claims that will appear on the page. Use a compact table:

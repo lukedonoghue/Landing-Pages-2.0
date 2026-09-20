@@ -1,0 +1,1289 @@
+{
+  "status": "pass",
+  "mode": "synthetic browser adapter only, no live leads",
+  "checks": [
+    {
+      "id": "R3-P03",
+      "name": "Phone near top 390",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Call the team 07803 362187",
+          "href": "tel:+447803362187",
+          "fontSize": "11px"
+        }
+      ]
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 1 opens without jump and restores focus 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 0,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 opens without jump and restores focus 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 0,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 opens without jump and restores focus 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 2937,
+          "hash": ""
+        },
+        "during": {
+          "y": 2937,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 2937,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 opens without jump and restores focus 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 7410,
+          "hash": ""
+        },
+        "during": {
+          "y": 7408,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 7408,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Validation reveals full field context 390",
+      "pass": true,
+      "detail": {
+        "focused": "enquiry-name",
+        "top": 359.703125,
+        "bottom": 444.890625,
+        "clipTop": 243.515625,
+        "clipBottom": 734.34375
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction updates summary 390",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link focuses usable control 390",
+      "pass": true
+    },
+    {
+      "id": "C10",
+      "name": "All placed images decode 390",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 139
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/hero-mobile.webp",
+          "loaded": true,
+          "naturalWidth": 840,
+          "renderWidth": 390
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 354
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/dyserth-project.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 354
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/moreton-salon.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 354
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/office-seating.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 362.5789794921875
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow-interior.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 390
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        }
+      ]
+    },
+    {
+      "id": "R3-P03",
+      "name": "Phone near top 768",
+      "pass": true,
+      "detail": [
+        {
+          "text": "07803 362187",
+          "href": "tel:+447803362187",
+          "fontSize": "12px"
+        }
+      ]
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 1 opens without jump and restores focus 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 0,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 opens without jump and restores focus 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 0,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 opens without jump and restores focus 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 2384,
+          "hash": ""
+        },
+        "during": {
+          "y": 2384,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 2384,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 opens without jump and restores focus 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5768,
+          "hash": ""
+        },
+        "during": {
+          "y": 5768,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 5768,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Validation reveals full field context 768",
+      "pass": true,
+      "detail": {
+        "focused": "enquiry-name",
+        "top": 398.515625,
+        "bottom": 483.703125,
+        "clipTop": 282.328125,
+        "clipBottom": 845.09375
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction updates summary 768",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link focuses usable control 768",
+      "pass": true
+    },
+    {
+      "id": "C10",
+      "name": "All placed images decode 768",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 145
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/hero.jpg",
+          "loaded": true,
+          "naturalWidth": 1565,
+          "renderWidth": 768
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 399
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/dyserth-project.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 277
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/moreton-salon.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 277
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/office-seating.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 408.6690673828125
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow-interior.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 768
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        }
+      ]
+    },
+    {
+      "id": "R3-P03",
+      "name": "Phone near top 1024",
+      "pass": true,
+      "detail": [
+        {
+          "text": "07803 362187",
+          "href": "tel:+447803362187",
+          "fontSize": "12px"
+        }
+      ]
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 1 opens without jump and restores focus 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 0,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 opens without jump and restores focus 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 0,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 opens without jump and restores focus 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 2442,
+          "hash": ""
+        },
+        "during": {
+          "y": 2442,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 2442,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 opens without jump and restores focus 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5286,
+          "hash": ""
+        },
+        "during": {
+          "y": 5286,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 5286,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Validation reveals full field context 1024",
+      "pass": true,
+      "detail": {
+        "focused": "enquiry-name",
+        "top": 327.5,
+        "bottom": 412.6875,
+        "clipTop": 211.3125,
+        "clipBottom": 692.109375
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction updates summary 1024",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link focuses usable control 1024",
+      "pass": true
+    },
+    {
+      "id": "C10",
+      "name": "All placed images decode 1024",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 145
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/hero.jpg",
+          "loaded": true,
+          "naturalWidth": 1565,
+          "renderWidth": 1024
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 548.328125
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/dyserth-project.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 383.65625
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/moreton-salon.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 383.65625
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/office-seating.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 561.61669921875
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow-interior.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 512
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        }
+      ]
+    },
+    {
+      "id": "R3-P03",
+      "name": "Phone near top 1280",
+      "pass": true,
+      "detail": [
+        {
+          "text": "07803 362187",
+          "href": "tel:+447803362187",
+          "fontSize": "14px"
+        }
+      ]
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 1 opens without jump and restores focus 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 0,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 opens without jump and restores focus 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 0,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 opens without jump and restores focus 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 2343,
+          "hash": ""
+        },
+        "during": {
+          "y": 2343,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 2343,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 opens without jump and restores focus 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5127,
+          "hash": ""
+        },
+        "during": {
+          "y": 5127,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 5127,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Validation reveals full field context 1280",
+      "pass": true,
+      "detail": {
+        "focused": "enquiry-name",
+        "top": 307.5,
+        "bottom": 392.6875,
+        "clipTop": 191.3125,
+        "clipBottom": 512.109375
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction updates summary 1280",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link focuses usable control 1280",
+      "pass": true
+    },
+    {
+      "id": "C10",
+      "name": "All placed images decode 1280",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/hero.jpg",
+          "loaded": true,
+          "naturalWidth": 1565,
+          "renderWidth": 1280
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 697.65625
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/dyserth-project.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 490.328125
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/moreton-salon.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 490.328125
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/office-seating.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 714.5624389648438
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow-interior.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 640
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        }
+      ]
+    },
+    {
+      "id": "R3-P03",
+      "name": "Phone near top 1440",
+      "pass": true,
+      "detail": [
+        {
+          "text": "07803 362187",
+          "href": "tel:+447803362187",
+          "fontSize": "14px"
+        }
+      ]
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 1 opens without jump and restores focus 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 0,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 opens without jump and restores focus 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 0,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 opens without jump and restores focus 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 2354,
+          "hash": ""
+        },
+        "during": {
+          "y": 2354,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 2354,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 opens without jump and restores focus 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5248,
+          "hash": ""
+        },
+        "during": {
+          "y": 5248,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "focus": true,
+          "y": 5248,
+          "hash": ""
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Validation reveals full field context 1440",
+      "pass": true,
+      "detail": {
+        "focused": "enquiry-name",
+        "top": 336.515625,
+        "bottom": 421.703125,
+        "clipTop": 220.328125,
+        "clipBottom": 783.09375
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction updates summary 1440",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link focuses usable control 1440",
+      "pass": true
+    },
+    {
+      "id": "C10",
+      "name": "All placed images decode 1440",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/hero.jpg",
+          "loaded": true,
+          "naturalWidth": 1565,
+          "renderWidth": 1440
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 700
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/dyserth-project.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 492
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/moreton-salon.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 492
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/office-seating.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 716.9600219726562
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow-interior.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 720
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        }
+      ]
+    },
+    {
+      "id": "C06",
+      "name": "Mixed phone junk rejected",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "One pending call and snapshot locked",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "Pending state retained on reopen",
+      "pass": true
+    },
+    {
+      "id": "C02",
+      "name": "Confirmation received while closed retained on reopen",
+      "pass": true
+    },
+    {
+      "id": "C02",
+      "name": "Confirmed duplicate submit ignored",
+      "pass": true
+    },
+    {
+      "id": "C07",
+      "name": "Result panel compact",
+      "pass": true,
+      "detail": {
+        "x": 19,
+        "y": 269.828125,
+        "width": 352,
+        "height": 304.328125
+      }
+    },
+    {
+      "id": "C02",
+      "name": "Deliberate new enquiry resets fields",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Failure retains entries and enables retry",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Deadline is recoverable uncertainty without auto retry",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "Late old result cannot confirm a new pending request",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Deliberate same-filled retry confirms",
+      "pass": true
+    }
+  ],
+  "viewports": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "phone": [
+        {
+          "text": "Call the team 07803 362187",
+          "href": "tel:+447803362187",
+          "fontSize": "11px"
+        }
+      ],
+      "validation": {
+        "focused": "enquiry-name",
+        "top": 359.703125,
+        "bottom": 444.890625,
+        "clipTop": 243.515625,
+        "clipBottom": 734.34375
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 139
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/hero-mobile.webp",
+          "loaded": true,
+          "naturalWidth": 840,
+          "renderWidth": 390
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 354
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/dyserth-project.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 354
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/moreton-salon.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 354
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/office-seating.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 362.5789794921875
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow-interior.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 390
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "phone": [
+        {
+          "text": "07803 362187",
+          "href": "tel:+447803362187",
+          "fontSize": "12px"
+        }
+      ],
+      "validation": {
+        "focused": "enquiry-name",
+        "top": 398.515625,
+        "bottom": 483.703125,
+        "clipTop": 282.328125,
+        "clipBottom": 845.09375
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 145
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/hero.jpg",
+          "loaded": true,
+          "naturalWidth": 1565,
+          "renderWidth": 768
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 399
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/dyserth-project.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 277
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/moreton-salon.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 277
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/office-seating.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 408.6690673828125
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow-interior.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 768
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800
+      },
+      "phone": [
+        {
+          "text": "07803 362187",
+          "href": "tel:+447803362187",
+          "fontSize": "12px"
+        }
+      ],
+      "validation": {
+        "focused": "enquiry-name",
+        "top": 327.5,
+        "bottom": 412.6875,
+        "clipTop": 211.3125,
+        "clipBottom": 692.109375
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 145
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/hero.jpg",
+          "loaded": true,
+          "naturalWidth": 1565,
+          "renderWidth": 1024
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 548.328125
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/dyserth-project.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 383.65625
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/moreton-salon.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 383.65625
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/office-seating.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 561.61669921875
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow-interior.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 512
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "phone": [
+        {
+          "text": "07803 362187",
+          "href": "tel:+447803362187",
+          "fontSize": "14px"
+        }
+      ],
+      "validation": {
+        "focused": "enquiry-name",
+        "top": 307.5,
+        "bottom": 392.6875,
+        "clipTop": 191.3125,
+        "clipBottom": 512.109375
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/hero.jpg",
+          "loaded": true,
+          "naturalWidth": 1565,
+          "renderWidth": 1280
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 697.65625
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/dyserth-project.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 490.328125
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/moreton-salon.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 490.328125
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/office-seating.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 714.5624389648438
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow-interior.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 640
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "phone": [
+        {
+          "text": "07803 362187",
+          "href": "tel:+447803362187",
+          "fontSize": "14px"
+        }
+      ],
+      "validation": {
+        "focused": "enquiry-name",
+        "top": 336.515625,
+        "bottom": 421.703125,
+        "clipTop": 220.328125,
+        "clipBottom": 783.09375
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/hero.jpg",
+          "loaded": true,
+          "naturalWidth": 1565,
+          "renderWidth": 1440
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 700
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/dyserth-project.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 492
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/moreton-salon.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 492
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/office-seating.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 716.9600219726562
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/walthamstow-interior.jpg",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "renderWidth": 720
+        },
+        {
+          "src": "http://127.0.0.1:4176/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "renderWidth": 161
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "No required radio group or inline form is present.",
+    "All confirmation tests used a local injected adapter; production delivery is disabled.",
+    "Product depth, visual evidence and contact readability require separate review."
+  ]
+}
