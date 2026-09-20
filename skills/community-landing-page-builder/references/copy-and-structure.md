@@ -24,6 +24,8 @@ Write one implementation-ready copy master at `build/page-copy.md` or `build/pag
 - Make section headings useful to skimmers. Avoid labels such as `Our Services` when the benefit or decision can be stated.
 - Explain a feature through what it changes for the buyer.
 - Explain the real delivery mechanism. If no proprietary mechanism exists, describe the actual process plainly.
+- Match a process heading's promised endpoint: a start-to-finish service needs a sourced explanation of delivery after approval, not only steps to obtain a quote. Include material timing uncertainty without inventing a deadline. A pre-sale-only section must say so.
+- Preserve an offer's concrete benefit as well as its conditions. Naming a guarantee or price promise and saying `ask us` does not explain it; state the supported benefit and eligibility together, or record a real reason to omit it.
 - Put important proof near the claim it supports.
 - Keep technical vocabulary that the actual buyer uses. Simplify syntax, not evidence.
 - Keep paragraphs short and bullets concrete. Remove a bullet that merely restates the heading.

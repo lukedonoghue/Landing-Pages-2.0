@@ -59,6 +59,8 @@ Open and inspect every required screenshot at its actual size. Do not infer appr
 
 First-screen claims must match viewport geometry and a viewport-sized capture, not a scaled full-page image. A few pixels of the next background are not readable continuation. Check actual trust-strip text at 13px or larger after breakpoint overrides. If the browser helper cannot identify the hero's following section, check it directly instead of claiming it passed.
 
+A readable, substantive trust strip after the hero counts as that continuation; another editorial heading need not also fit. Do not compress the product into a tiny image strip to satisfy extra fold targets.
+
 For each viewport, record specific observations for:
 
 - brand fidelity and logo visibility;

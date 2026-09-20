@@ -1,5 +1,9 @@
 # Case 2: separate carryover audit
 
+Latest user continuation, 2026-09-20: finish attempt-5 audit, correct the skill and proceed to independent case 3. Absolute stop is now 70% weekly used, preserving 30% for later deployment/CRM. Earlier caps and case-3 holds below are historical. Attempt-5 parent interaction suite passes 81 assertions; product verdict remains pending until the independent visual/source review and warnings are resolved.
+
+Attempt-5 final audit is now recorded in EXTERNAL-REFERENCE-R5-REVIEW.md: overall blocked on concrete offer/process omissions despite technical success. Carry R5-P01 through R5-P04 into case 3 separately. Reviewer first-fold demand was narrowed by parent because readable trust content already qualifies. Both agents closed, unchanged page preserved, four targeted instruction edits and 69 passing package tests. Case-2 acceptance is not implied by starting the next business.
+
 **Current status: business 2 acceptance withdrawn.** See EXTERNAL-REFERENCE-R3-REOPENED.md. Historical technical results below remain evidence of their actual scope, but the attempt-3 overall pass and C11 closure are superseded. Carry R3-P01 through R3-P05 into the next independent build as separate product checks; popup lifecycle is now required, not an absent variant to mark N/A. No business-3 acceptance is authorized by the withdrawn pass.
 
 User direction on 2026-09-20 supersedes the earlier case-1-pass-before-case-2 sequencing. Stayclean attempt 10 remains unaccepted and unchanged. Proceed to external-reference business 2, using it to verify the source fixes below. This document is orchestrator-only and must never be supplied to independent builders.
