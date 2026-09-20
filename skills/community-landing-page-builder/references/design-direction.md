@@ -44,6 +44,8 @@ For a landing-page hero, use relevant photography or an immersive scene as the b
 
 Give the selected primary conversion the strongest filled-button treatment. Secondary phone, email or WhatsApp alternatives should use quieter text or outline styling, not a second equally prominent saturated button. Platform brand colors do not override conversion hierarchy.
 
+Do not shrink meaningful proof or action instructions to fine-print size to preserve a desktop row. On mobile, give trust-strip supporting text normal readable UI sizing (usually 13-14px or larger), shorten it without changing meaning, or reflow the items. Tiny legal text is not a sizing model for conversion evidence.
+
 State three visual adjectives tied to the buyer and decision. Examples include `credible`, `current`, and `investment-grade` for a high-consideration franchise offer, or `capable`, `local`, and `direct` for a trade service. Do not use generic adjectives without explaining how the type, space, imagery, and color treatment express them.
 
 Avoid combinations that make a new page resemble a legacy sales brochure:

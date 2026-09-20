@@ -7,7 +7,7 @@ import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { readRenderedFonts } from './rendered_fonts.mjs';
 
-const VERSION = '1.7.0';
+const VERSION = '1.8.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -439,8 +439,8 @@ try {
     if (brand?.measurements?.length) {
       const source = [...brand.measurements].sort((a, b) => Math.abs(a.viewport.width - viewport.width) - Math.abs(b.viewport.width - viewport.width))[0];
       const expected = {
-        heading: source.roles?.hero_heading?.[0],
-        body: source.roles?.body?.find((item) => item.text?.length >= 60 && item.textTransform !== 'uppercase'),
+        heading: source.typography?.heading || source.roles?.hero_heading?.[0],
+        body: source.typography?.body || source.roles?.body?.find((item) => item.text?.length >= 60 && item.textTransform !== 'uppercase'),
       };
       const family = (value) => (value || '').split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase();
       for (const role of ['heading', 'body']) {

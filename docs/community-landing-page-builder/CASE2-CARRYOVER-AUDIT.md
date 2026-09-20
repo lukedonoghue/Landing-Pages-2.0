@@ -41,3 +41,9 @@ Pre-freeze verification: skill metadata valid; 67 package tests and 23 script te
 External-reference attempt 1 started 2026-09-20 at 14:09 Kyiv: `01a0be81-a80c-7420-935a-05832a41470b` (Plato), gpt-5.6-sol xhigh, fork_context=false. Frozen source 9182397, 174 files, manifest SHA-256 `7165587aee0cf4b84f932f97a7a3378f04be43b7eed838b0f52a5a8d13fb91fa`. Empty project verified before launch. Exact owner prompt is outside builder scope at `work/community-acceptance-20260920/external-reference-r1-prompt.txt` in the parent task. No prior context or findings supplied. Usage at launch: 33% used.
 
 Record general and carryover verdicts separately. Do not mark Stayclean retroactively accepted when business 2 passes.
+
+### Attempt 1 audit
+
+See `EXTERNAL-REFERENCE-R1-REVIEW.md` and `evidence/external-reference-r1/`. Parent form reproduction passed 13 assertions. C01/C02/C03/C06/C07 inline behavior corrected; C05 usable input link passed but grouped-field variant N/A. C08 responsive derivatives and C10 actual image loads passed. C04/C09 remain open in the broader proof-placement sense: laptop copy still crosses glazing. C11 caught overbroad self-acceptance and incomplete saved source typography.
+
+Case-2-specific source fixes before attempt 2: name the protected hero feature and copy-safe area in the existing image plan; check intermediate laptop composition against that feature; avoid fine-print trust text; recover animated/below-fold source typography with bounded deterministic capture. Do not give this matrix or the audit to the next builder.
