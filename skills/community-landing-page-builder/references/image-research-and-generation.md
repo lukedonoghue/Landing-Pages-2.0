@@ -6,7 +6,7 @@ Use imagery where it explains the offer, proves something real, shows the people
 
 For each selected asset, record in `build/image-plan.md` or `build/image-plan.json`:
 
-- section and persuasive purpose;
+- section and persuasive purpose, including the visible subject/action that supports its adjacent message;
 - role: `decorative`, `proof`, `portrait`, `diagram`, `screenshot`, or `illustrative`;
 - whether its pixels contain labels or information that must remain readable;
 - source URL or supplied-file reference and retrieval date;
@@ -16,6 +16,8 @@ For each selected asset, record in `build/image-plan.md` or `build/image-plan.js
 - final local path and review screenshot.
 
 Use a compact table for a few ordinary first-party assets. Use a structured manifest when the build has several images, proof-sensitive assets, generated images, or many derivatives.
+
+Relevance is separate from realism, provenance and disclosure. Before sourcing or generating, name what the visitor should understand from the picture. A generic workspace or an arbitrary customer's trade is not enough merely because the business serves small businesses. Use a customer-industry scene only when the researched audience and adjacent copy explain that specific connection. Otherwise show the actual service, a truthful illustrative service activity, or useful process information. Do not invent a client relationship. Choose the number of images from distinct useful roles; neither two attractive scenes nor a numerical quota proves adequate visual coverage.
 
 ## Research order
 
@@ -73,6 +75,7 @@ Review every used image in its actual desktop and mobile placement. Evidence mus
 For each image confirm:
 
 - the intended file loaded;
+- its dominant visible subject/action supports the adjacent offer or message without needing a vague caption to explain the connection; inspect the pixels, not only the prompt. A realistic, correctly disclosed image can still fail relevance. Replace or redesign it when it suggests a different service or adds only generic atmosphere to a service-explanation section;
 - the subject and all labels remain visible;
 - the crop is deliberate at every tested viewport;
 - no text collision or false implication exists;
