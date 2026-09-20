@@ -97,7 +97,11 @@ A separate preview thank-you page is still part of the visitor experience, not a
 
 A modal may be single-step or multi-step. Use native `dialog` or an equivalent document-level focus guard, restore focus to the opener, support Escape, and test programmatic focus escape. Internal scrolling is acceptable only when the action remains obvious and reachable.
 
+Keep the dialog title and visible close control inside the viewport throughout validation, field focus, scrolling and result states. Prefer a non-scrolling header and a separately scrolling form body; any sticky header must remain unobscured and must not cover focused labels or errors. Scrolling an invalid field into view must not scroll the dialog's exit off-screen. Escape support does not substitute for a visible pointer/touch exit.
+
 For a phone, email, booking, or download action, verify the actual `tel:`, `mailto:`, URL, or file. Do not use `href="#"` or a fake success screen as the primary destination.
+
+For an email-led source journey, prefer its direct email action over inserting a mandatory data-entry form. If researched visitor needs justify a draft-preparation form, disclose beside the entry CTA, before opening it, that an email app and a separate Send step are required; retain a direct email fallback. Do not require fields merely to generate a mailto link when an ordinary email already serves the offer. A prepared draft is not a submitted enquiry.
 
 ## Accessibility and behavior
 

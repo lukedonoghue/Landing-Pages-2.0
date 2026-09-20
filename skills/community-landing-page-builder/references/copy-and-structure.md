@@ -30,6 +30,7 @@ Write one implementation-ready copy master at `build/page-copy.md` or `build/pag
 - Keep technical vocabulary that the actual buyer uses. Simplify syntax, not evidence.
 - Keep paragraphs short and bullets concrete. Remove a bullet that merely restates the heading.
 - Give each section a distinct buyer decision or supporting reason. A service catalogue followed by the same catalogue under a benefit heading is repetition, not added depth. Use supported delivery/communication advantages, add different evidence, or merge the repeated section; do not invent differentiation.
+- Apply this to the first post-hero strip too: add a sourced decision aid rather than restating every hero promise. Preserve a material source-first-screen qualification or price cue near the offer when it helps buyers assess fit, with its scope and conditions intact. If omitted or moved down, record the buyer-focused reason; do not invent prices or proof to fill the strip.
 - Use urgency or scarcity only when a verifiable deadline, capacity, or availability constraint exists.
 - Avoid unsupported superlatives and effortless-outcome promises.
 - Replace generic AI language such as `innovative`, `world-class`, `seamless`, `robust`, `game-changing`, and `comprehensive` with a concrete action, limit, mechanism, or proof unless the word is both necessary and made specific.

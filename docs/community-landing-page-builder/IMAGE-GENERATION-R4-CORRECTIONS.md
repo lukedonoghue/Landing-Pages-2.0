@@ -1,0 +1,12 @@
+# Clarentis attempt 4 corrections
+
+Attempt 4 is blocked, not accepted as local final. Its builder's technical checks did not establish full visual acceptance. The fresh reviewer inspected the actual four source images and placements and found adequate service relevance and distinct scenes. The user's new clarification makes repeated content pictures prohibited, not merely excluded from the four-image count.
+
+## Traced findings and source changes
+
+- P1: script.js focusField centers the invalid field group while the whole capped dialog scrolls. At 390x844 the close control ends at y=-18..18; at 1280x600 it ends at y=-34..2. The title is clipped too. Existing guidance protected the error target but did not explicitly preserve the dialog header during that scroll. build-contract.md now preserves a visible title/close control and quality-gates.md checks the settled error state and close action in the existing mobile/short-height test. No additional review round.
+- P2: the hero and first reassurance strip repeat consultation, fixed-fee proposal and audience. The general distinct-section rule was present but not applied to the small strip. copy-and-structure.md now explicitly includes that strip and preservation of material, qualified early price/fit cues. No unconditional price invention or fixed layout.
+- P2: the source uses direct email; the new page inserts a four-required-field form before an email draft link. Its eventual disclosure is honest, but the entry CTA hides the external-app step. build-contract.md now prefers direct source email and requires pre-entry disclosure plus direct fallback if an evidence-backed draft form is selected. No new CRM or live submission is implied.
+- User clarification: four different pictures is a minimum, normally five to ten from research. SKILL.md and image-research-and-generation.md now prohibit repeated content placements, including transformed copies and near-duplicate compositions. Responsive variants at one placement remain allowed; repeated brand/interface assets do not count.
+
+Historical page files remain unchanged as evidence. The separate reviewer report and screenshots are retained under evidence/image-generation-r4/independent-review/. All existing tests will be rerun before a fresh independent build. Those tests do not prove the new visual rules work. The PDF deliverable-type question remains unresolved; this correction does not silently choose a new PDF default.

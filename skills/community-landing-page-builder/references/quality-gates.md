@@ -110,6 +110,8 @@ For validation and success, confirm that the focused target is actually visible 
 
 In the existing validation test, include one empty submission from the scrolled submit position at 1440 x 900 as well as mobile. Inspect the settled label, focus outline and field error or focused summary, not only the input's bounding box. A prior CTA jump must not be required for correct error framing.
 
+In the same empty-submit test at mobile and 1280 x 600, inspect the settled dialog title and close control as well as the invalid field. The full close target must remain visible, unobscured and clickable without scrolling back. Exercise it from that error state and verify focus/page-position restoration. A passing initial-modal screenshot does not clear validation-state scrolling.
+
 For source forms, confirm that no public production endpoint was reused without authorization, success waits for a confirmed selected destination, and raw contact data is absent from analytics and data-layer events.
 
 ## 5. Accessibility and performance gate
