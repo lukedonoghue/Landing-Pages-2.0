@@ -4,7 +4,7 @@ Status: resumed for business 2 on 2026-09-20 by explicit user direction. Staycle
 
 ## Scope
 
-Latest case-2 checkpoint: attempt 1 rejected for laptop proof occlusion and small mobile trust text; deterministic brand capture also corrected. See EXTERNAL-REFERENCE-R1-REVIEW.md. Attempt 2 started 2026-09-20 14:42 Kyiv from source 9e6dbbd, fresh Sol xhigh context and blank output. Carryover results remain separate in CASE2-CARRYOVER-AUDIT.md.
+Latest case-2 checkpoint: attempt 2 corrected the prior hero, mobile trust text and source-font gaps, but fresh review found desktop validation losing its label context. Parent reproduced, source instructions narrowed, and attempt 3 started 2026-09-20 15:20 Kyiv from d8163be with fresh Sol xhigh context and blank output. See EXTERNAL-REFERENCE-R1-REVIEW.md and EXTERNAL-REFERENCE-R2-REVIEW.md. Carryover results remain separate in CASE2-CARRYOVER-AUDIT.md. Usage at rerun decision: 40%; absolute stop: 50%.
 
 Orchestrator: Astra. Builders: gpt-5.6-sol, reasoning xhigh, one active builder at a time. Fresh agents use fork_context=false. Each receives only a frozen skill folder, a new empty project, a short owner request, and filesystem isolation instructions. They must not read previous attempts, parent conversation, private accounts, or other client projects. These are fresh-context tests with instructed filesystem boundaries, not isolated operating-system containers or new ChatGPT accounts.
 
