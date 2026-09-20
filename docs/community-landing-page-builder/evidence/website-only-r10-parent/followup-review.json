@@ -1,0 +1,18 @@
+[
+  {
+    "case": "keyboard activation of frequency error",
+    "focus": "BODY",
+    "dialogOpen": true
+  },
+  {
+    "case": "next tab",
+    "focus": "name"
+  },
+  {
+    "case": "alphabetic phone and held request",
+    "requests": 1,
+    "error": "",
+    "button": "Sending...",
+    "disabled": true
+  }
+]

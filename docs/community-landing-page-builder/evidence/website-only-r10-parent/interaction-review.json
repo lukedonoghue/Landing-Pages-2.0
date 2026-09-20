@@ -1,0 +1,208 @@
+[
+  {
+    "label": "empty validation",
+    "received": 0,
+    "focus": "form-errors",
+    "focusBox": {
+      "x": 37,
+      "y": 275.78125,
+      "width": 316,
+      "height": 366.71875
+    },
+    "focusVisible": true,
+    "summary": "Check the highlighted fields\nService needed: Choose the service you need.\nCleaning frequency: Choose one-off or regular cleaning.\nYour name: Enter your name.\nEmail: Enter your email address.\nPhone number: Enter your phone number.\nAddress: Enter the property address.\nPostcode: Enter the property postcode.",
+    "summaryHidden": false,
+    "formHidden": false,
+    "successVisible": false,
+    "submitDisabled": false,
+    "name": "",
+    "success": "Thanks. Your quote request has been sent."
+  },
+  {
+    "label": "frequency summary link",
+    "received": 0,
+    "focus": "BODY",
+    "focusBox": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 9997.265625
+    },
+    "focusVisible": false,
+    "summary": "Check the highlighted fields\nService needed: Choose the service you need.\nCleaning frequency: Choose one-off or regular cleaning.\nYour name: Enter your name.\nEmail: Enter your email address.\nPhone number: Enter your phone number.\nAddress: Enter the property address.\nPostcode: Enter the property postcode.",
+    "summaryHidden": false,
+    "formHidden": false,
+    "successVisible": false,
+    "submitDisabled": false,
+    "name": "",
+    "success": "Thanks. Your quote request has been sent."
+  },
+  {
+    "label": "tab after frequency link",
+    "received": 0,
+    "focus": "name",
+    "focusBox": {
+      "x": 37,
+      "y": 240.0625,
+      "width": 316,
+      "height": 48
+    },
+    "focusVisible": true,
+    "summary": "Check the highlighted fields\nService needed: Choose the service you need.\nCleaning frequency: Choose one-off or regular cleaning.\nYour name: Enter your name.\nEmail: Enter your email address.\nPhone number: Enter your phone number.\nAddress: Enter the property address.\nPostcode: Enter the property postcode.",
+    "summaryHidden": false,
+    "formHidden": false,
+    "successVisible": false,
+    "submitDisabled": false,
+    "name": "",
+    "success": "Thanks. Your quote request has been sent."
+  },
+  {
+    "label": "correct one field",
+    "count": 6
+  },
+  {
+    "label": "malformed validation",
+    "received": 0,
+    "focus": "form-errors",
+    "focusBox": {
+      "x": 37,
+      "y": 275.78125,
+      "width": 316,
+      "height": 161.96875
+    },
+    "focusVisible": true,
+    "summary": "Check the highlighted fields\nYour name: Enter your name.\nEmail: Enter a valid email address.\nPhone number: Enter a usable phone number.",
+    "summaryHidden": false,
+    "formHidden": false,
+    "successVisible": false,
+    "submitDisabled": false,
+    "name": "   ",
+    "success": "Thanks. Your quote request has been sent."
+  },
+  {
+    "label": "duplicate pending",
+    "received": 1
+  },
+  {
+    "label": "failure",
+    "received": 1,
+    "focus": "submit-error",
+    "focusBox": {
+      "x": 37,
+      "y": 530.265625,
+      "width": 316,
+      "height": 132.375
+    },
+    "focusVisible": true,
+    "summary": "\n            Check the highlighted fields\n            \n          ",
+    "summaryHidden": true,
+    "formHidden": false,
+    "successVisible": false,
+    "submitDisabled": false,
+    "name": "Synthetic Reviewer",
+    "success": "Thanks. Your quote request has been sent."
+  },
+  {
+    "label": "same form retry success",
+    "received": 2,
+    "focus": "quote-success",
+    "focusBox": {
+      "x": 19,
+      "y": 155,
+      "width": 352,
+      "height": 277.984375
+    },
+    "focusVisible": true,
+    "summary": "\n            Check the highlighted fields\n            \n          ",
+    "summaryHidden": true,
+    "formHidden": true,
+    "successVisible": true,
+    "submitDisabled": false,
+    "name": "Synthetic Reviewer",
+    "success": "Preview complete. Nothing was sent."
+  },
+  {
+    "label": "reopen after success",
+    "received": 2,
+    "focus": "service",
+    "focusBox": {
+      "x": 37,
+      "y": 308.375,
+      "width": 316,
+      "height": 48
+    },
+    "focusVisible": true,
+    "summary": "\n            Check the highlighted fields\n            \n          ",
+    "summaryHidden": true,
+    "formHidden": false,
+    "successVisible": false,
+    "submitDisabled": false,
+    "name": "Synthetic Reviewer",
+    "success": "Preview complete. Nothing was sent."
+  },
+  {
+    "label": "resubmit unchanged after success",
+    "received": 3
+  },
+  {
+    "label": "old request completes in edited reopened form",
+    "received": 3,
+    "focus": "quote-success",
+    "focusBox": {
+      "x": 19,
+      "y": 155,
+      "width": 352,
+      "height": 277.984375
+    },
+    "focusVisible": true,
+    "summary": "\n            Check the highlighted fields\n            \n          ",
+    "summaryHidden": true,
+    "formHidden": true,
+    "successVisible": true,
+    "submitDisabled": false,
+    "name": "Different Synthetic Person",
+    "success": "Preview complete. Nothing was sent."
+  },
+  {
+    "label": "refresh does not submit",
+    "received": 3
+  },
+  {
+    "label": "320 reflow",
+    "overflow": false,
+    "heroHeight": 560,
+    "cta": {
+      "x": 16,
+      "y": 519.125,
+      "width": 288,
+      "height": 104,
+      "top": 519.125,
+      "right": 304,
+      "bottom": 623.125,
+      "left": 16
+    }
+  },
+  {
+    "label": "short zoom-equivalent validation",
+    "received": 3,
+    "focus": "form-errors",
+    "focusBox": {
+      "x": 50,
+      "y": 125.28125,
+      "width": 540,
+      "height": 249.90625
+    },
+    "focusVisible": true,
+    "summary": "Check the highlighted fields\nService needed: Choose the service you need.\nCleaning frequency: Choose one-off or regular cleaning.\nYour name: Enter your name.\nEmail: Enter your email address.\nPhone number: Enter your phone number.\nAddress: Enter the property address.\nPostcode: Enter the property postcode.",
+    "summaryHidden": false,
+    "formHidden": false,
+    "successVisible": false,
+    "submitDisabled": false,
+    "name": "",
+    "success": "Thanks. Your quote request has been sent."
+  },
+  {
+    "label": "console",
+    "errors": []
+  }
+]

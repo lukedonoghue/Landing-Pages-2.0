@@ -77,6 +77,8 @@ Review each used image with asset-specific evidence. Review every modal step and
 
 Crop warnings name the actual asset and placement. Resolve each one separately; a reviewed hero does not clear unrelated service-image warnings. An explicit image ratio that disagrees with its rendered box indicates a sizing conflict to fix, not proof that the declared ratio took effect.
 
+Before treating an image-load failure as a page defect, scroll the named placement into view and wait for that image to decode within a bounded interval. Check its response and pixels. Report a confirmed broken asset separately from a capture-timing failure; do not repair a valid page to satisfy a premature screenshot. Include tablet overlays and every repeated image placement in the existing pixel review, and inspect both compact success and long form states.
+
 ## 4. Conversion gate
 
 Test the selected real action, not a substitute.
@@ -93,6 +95,8 @@ Use synthetic local data. A direct thank-you visit, refresh, rejected action, or
 Exercise outcomes, not proxies: include whitespace-only required text and malformed contact input; inspect failure visibility at the real submit position before any test-driven focus or scroll. Then restore the local test adapter, retry the same filled form, and observe success with values preserved. To verify duplicate prevention, hold the first local request open, dispatch a second submit event, and assert exactly one receiver/adapter invocation. Clicking an already disabled button is not that test. Keep simulation results explicitly separate from backend delivery evidence.
 
 After an invalid submission, correct one field and verify that both its inline error and its entry in the summary disappear while the other errors remain. Then correct the rest. Merely hiding the summary after every error is cleared does not test consistency during correction.
+
+Within that same form test, keyboard-activate an error-summary link, including a grouped field when present, and verify focus reaches its usable control. Include obvious alphabetic phone junk. Hold a synthetic request, close/reopen the form and attempt to edit; resolve the old response and verify it cannot confirm unsubmitted changes. After success, reopen and confirm the completed state is retained or a deliberate new-enquiry reset is required. Exercise the configured request deadline with a controllable test clock or short test-only timeout; an unresolved response needs recoverable uncertainty, not permanent `Sending...` or an automatic duplicate request. These are assertions in the existing conversion test, not separate review rounds.
 
 For validation and success, confirm that the focused target is actually visible after layout and scrolling settle. Include an ordinary-motion check, not only reduced-motion captures. A transient off-screen position during smooth scrolling is not a persistent defect; focus that finishes off-screen is.
 

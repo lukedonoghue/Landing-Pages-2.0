@@ -35,7 +35,7 @@ For every downloaded asset or font licence, require a successful HTTP response (
 Mark each meaningful image with `data-image-role="proof|portrait|diagram|screenshot|illustrative"`. Decorative images use `data-image-role="decorative"` and `alt=""`. Add `data-content-bearing="true"` to diagrams, screenshots, infographics, documents, maps, and any image whose internal text or labels must remain visible.
 
 - Meaningful images need factual alt text. Decorative images need empty alt text.
-- Add explicit dimensions and serve appropriately sized, efficiently encoded photo variants. Do not send an untouched full-resolution source photograph to phones by default; retain the original as research and check the rendered crop and sharpness after optimization.
+- Add explicit dimensions and serve appropriately sized, efficiently encoded photo variants at every placement, including repeated and below-fold proof. Do not send an untouched full-resolution source photograph to phones by default; retain the original as research and check the rendered crop and sharpness after optimization.
 - Intrinsic HTML dimensions are not responsive CSS. For a natural-ratio image, use `width: 100%; height: auto`; for a crop, size the actual image box deliberately. An explicit CSS `aspect-ratio` does not override a fixed HTML/CSS height. Verify the rendered ratio at each layout breakpoint.
 - Eager-load the single likely LCP image. Lazy-load below-fold imagery.
 - If preloading a responsive image, match its `imagesrcset` and `imagesizes` to the rendered image, or omit the redundant preload. Check that mobile does not download both a fixed desktop preload and its selected responsive candidate.
@@ -62,6 +62,7 @@ For forms:
 - allow paste and autofill;
 - trim required text before checking for emptiness; native `required` alone accepts spaces, and `type="tel"` does not validate a phone number. Reject blank-after-trim values and obviously unusable phone input without requiring a narrow national format;
 - preserve an entered international phone country code and avoid cursor-jumping masks;
+- reject arbitrary alphabetic junk in phone input, not just values with too few digits after stripping characters; allow normal international separators and a deliberate extension format, and submit the validated representation;
 - associate every custom error with its field using `aria-describedby` or a native validation relationship;
 - show errors near the field and in an announced summary when useful;
 - keep the primary action visible at short viewport heights;
@@ -70,9 +71,13 @@ For forms:
 - keep field errors and the error summary consistent as fields are corrected;
 - guard the submit handler against re-entry with an in-flight flag set before the first asynchronous operation and cleared in `finally`; disabling the button is additional UI feedback, not the guard.
 
+Treat submission as a small state machine: editing, pending, failed/uncertain, and confirmed. Bind each response to its submitted snapshot and request/session identity. Closing and reopening must not turn an old response into confirmation of newly edited values. A simple default is to retain the pending or confirmed view on reopen and offer an explicit `New enquiry` reset after confirmation. Disable conflicting edits while pending or keep them separate from the submitted snapshot. Use a bounded request wait and recoverable uncertainty message; cancelling a browser request does not prove that server-side processing stopped, so never retry automatically or promise that nothing arrived without evidence.
+
 In a scrolling form or modal, a submission failure must become visible and announced without visitor exploration: place it beside the action or move focus to a focusable error summary and reveal it. Keep entered values for retry. Calling `.focus()` on an ordinary non-focusable element is not sufficient. Test failure from the actual submit position, not after the test script scrolls to the message.
 
 Choose one visible focus destination for each validation or result state. For validation, keep focus on a useful linked summary or reveal and focus the first invalid field; do not focus the summary and then redirect focus elsewhere with `preventScroll`. Check the focused target after layout and any scrolling settle, including ordinary motion as well as reduced-motion behavior.
+
+Each summary link must reveal and focus its usable control. For a radio group, focus the selected or first radio, not a non-focusable error span after the group.
 
 Persistent form actions must not cover fields reached by keyboard. Prefer a separate action row outside the scrolling field region; if using an overlapping sticky bar, reserve its actual height in the scroll layout and scroll padding. Tab through the form normally at mobile and short-height sizes. A visible submit button and a visible failure message do not prove the intervening inputs remain visible.
 
@@ -80,7 +85,7 @@ When production form wiring is pending, still build and test the complete form-f
 
 For a disconnected preview, use plain visitor wording such as `This preview does not send details. Your entries are still here.` The error and success states remain visitor-facing even when the owner is testing them. Put provider names, endpoints and instructions to connect, configure or replace anything only in the owner handoff, never in those states.
 
-A synthetic success can simply say `Preview complete. Nothing was sent.` Keep explanations of adapters, receivers, QA and future production behavior in the owner handoff.
+A synthetic success can simply say `Preview complete. Nothing was sent.` Keep explanations of adapters, receivers, QA, form journeys and future production behavior in the owner handoff. Let the result panel fit its content within the viewport; do not retain the tall scrolling form's empty shell after its fields disappear.
 
 A separate preview thank-you page is still part of the visitor experience, not a second owner setup guide.
 
