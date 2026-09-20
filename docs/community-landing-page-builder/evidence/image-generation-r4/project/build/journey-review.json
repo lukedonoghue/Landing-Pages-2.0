@@ -1,0 +1,19 @@
+{
+  "status": "pass",
+  "url": "http://127.0.0.1:43877/",
+  "checks": [
+    "Four quote entry points are present",
+    "All entry points open one dialog in place; Escape restores the opener",
+    "Empty submission reveals four errors and focuses the first field",
+    "Correcting one field updates both inline and summary errors; summary link focuses control",
+    "Malformed email, alphabetic phone junk and whitespace-only support are rejected",
+    "Valid details create an addressed email draft; page makes no write request or delivery claim",
+    "Editing regenerates the draft; reopening retains the handoff and entered state",
+    "Phone destination and local privacy page resolve",
+    "Mobile quote journey reaches the compact handoff state",
+    "320px first screen has no horizontal overflow"
+  ],
+  "syntheticOnly": true,
+  "liveEmailSent": false,
+  "writes": []
+}
