@@ -1,0 +1,17 @@
+{
+  "menuOpened": true,
+  "projectsLink": true,
+  "primaryAction": true,
+  "faqOpened": true,
+  "faqClosed": true,
+  "links": {
+    "projects": [
+      "https://gardenroomco.com/portfolio/walthamstow-home-office-guest-suite-and-dual-storage/",
+      "https://gardenroomco.com/portfolio/relaxing-garden-room-dyserth/",
+      "https://gardenroomco.com/portfolio/bespoke-garden-salon-moreton/"
+    ],
+    "faq": "https://gardenroomco.com/faq/",
+    "privacy": "https://gardenroomco.com/privacy-policy/",
+    "phone": "tel:+447803362187"
+  }
+}

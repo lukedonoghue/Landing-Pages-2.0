@@ -1,0 +1,30 @@
+[
+  {
+    "label": "business",
+    "url": "https://gardenroomco.com/",
+    "status": 200,
+    "title": "Bespoke Garden Rooms, Garden Offices & Garden Studios",
+    "heading": {
+      "text": "Stunning Garden Rooms",
+      "font": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif"
+    },
+    "paragraph": {
+      "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+      "font": "Poppins, Helvetica, Arial, sans-serif"
+    }
+  },
+  {
+    "label": "presentation-example",
+    "url": "https://www.greenretreats.co.uk/",
+    "status": 200,
+    "title": "Garden Buildings | The UKs Leading Provider | Green Retreats",
+    "heading": {
+      "text": "Grow your home\nwith Green Retreats",
+      "font": "omnes-pro, sans-serif"
+    },
+    "paragraph": {
+      "text": "Add space, value and comfort to your home",
+      "font": "omnes-pro, serif"
+    }
+  }
+]

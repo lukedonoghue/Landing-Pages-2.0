@@ -1,0 +1,282 @@
+{
+  "status": "pass",
+  "mode": "intercepted synthetic local requests only",
+  "checks": [
+    {
+      "id": "C06",
+      "name": "Mixed alphabetic phone junk rejected without a request",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Actual error link focuses the phone input",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "One pending request; actual international phone representation and trimmed name submitted",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "Pending fields cannot be edited",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "Returning by primary CTA preserves pending state and original fields",
+      "pass": true
+    },
+    {
+      "id": "C02",
+      "name": "Returning after confirmation preserves success instead of resubmitting old fields",
+      "pass": true
+    },
+    {
+      "id": "C07",
+      "name": "Success is plain preview text in a content-sized panel",
+      "pass": true
+    },
+    {
+      "id": "C02",
+      "name": "Only deliberate New enquiry resets confirmed state",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Rejected response leaves recoverable state and original values",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Unresolved request reaches bounded uncertain state without auto retry",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "Late response after timeout cannot confirm the abandoned request",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Deliberate same-filled retry confirms one new local request",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All image placements load at five widths",
+      "pass": true
+    }
+  ],
+  "images": [
+    {
+      "width": 390,
+      "images": [
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "naturalWidth": 161,
+          "renderedWidth": 145,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/hero-640.webp",
+          "naturalWidth": 390,
+          "renderedWidth": 390,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/walthamstow.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 351.12451171875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/dyserth.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 350,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/moreton.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 350.1796875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "naturalWidth": 161,
+          "renderedWidth": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "images": [
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "naturalWidth": 161,
+          "renderedWidth": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/hero-1024.webp",
+          "naturalWidth": 768,
+          "renderedWidth": 768,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/walthamstow.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 369.763916015625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/dyserth.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 319.546875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/moreton.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 319.546875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "naturalWidth": 161,
+          "renderedWidth": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "images": [
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "naturalWidth": 161,
+          "renderedWidth": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/hero-1024.webp",
+          "naturalWidth": 778,
+          "renderedWidth": 778.234375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/walthamstow.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 501.6356201171875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/dyserth.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 433.484375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/moreton.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 433.484375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "naturalWidth": 161,
+          "renderedWidth": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "images": [
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "naturalWidth": 161,
+          "renderedWidth": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/hero-1024.webp",
+          "naturalWidth": 972,
+          "renderedWidth": 972.796875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/walthamstow.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 624.608642578125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/dyserth.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 541.390625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/moreton.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 541.390625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "naturalWidth": 161,
+          "renderedWidth": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "images": [
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "naturalWidth": 161,
+          "renderedWidth": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/hero-1565.webp",
+          "naturalWidth": 1094,
+          "renderedWidth": 1094.390625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/walthamstow.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 626.50439453125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/dyserth.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 541.390625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/moreton.jpg",
+          "naturalWidth": 768,
+          "renderedWidth": 541.390625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "naturalWidth": 161,
+          "renderedWidth": 161,
+          "loaded": true
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Inline form has no modal reopen or grouped required field: those exact Stayclean variants remain unproven.",
+    "Intercepted requests do not prove production delivery, persistence or server idempotency."
+  ]
+}

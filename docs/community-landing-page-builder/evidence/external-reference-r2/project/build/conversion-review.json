@@ -1,0 +1,171 @@
+{
+  "status": "pass",
+  "url": "http://127.0.0.1:4199/",
+  "checks": [
+    {
+      "check": "390x844 has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "check": "390x844 has loaded images",
+      "pass": true
+    },
+    {
+      "check": "390x844 hero action visible",
+      "pass": true
+    },
+    {
+      "check": "390x844 next section begins in viewport",
+      "pass": true
+    },
+    {
+      "check": "768x1024 has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "check": "768x1024 has loaded images",
+      "pass": true
+    },
+    {
+      "check": "768x1024 hero action visible",
+      "pass": true
+    },
+    {
+      "check": "768x1024 next section begins in viewport",
+      "pass": true
+    },
+    {
+      "check": "1024x800 has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "check": "1024x800 has loaded images",
+      "pass": true
+    },
+    {
+      "check": "1024x800 hero action visible",
+      "pass": true
+    },
+    {
+      "check": "1024x800 next section begins in viewport",
+      "pass": true
+    },
+    {
+      "check": "1280x600 has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "check": "1280x600 has loaded images",
+      "pass": true
+    },
+    {
+      "check": "1280x600 hero action visible",
+      "pass": true
+    },
+    {
+      "check": "1280x600 next section begins in viewport",
+      "pass": true
+    },
+    {
+      "check": "1440x900 has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "check": "1440x900 has loaded images",
+      "pass": true
+    },
+    {
+      "check": "1440x900 hero action visible",
+      "pass": true
+    },
+    {
+      "check": "1440x900 next section begins in viewport",
+      "pass": true
+    },
+    {
+      "check": "hero action reaches the single enquiry form",
+      "pass": true
+    },
+    {
+      "check": "blank submit focuses name",
+      "pass": true
+    },
+    {
+      "check": "blank submit shows three required errors",
+      "pass": true
+    },
+    {
+      "check": "whitespace and malformed contact values rejected",
+      "pass": true
+    },
+    {
+      "check": "corrected field clears from summary",
+      "pass": true
+    },
+    {
+      "check": "summary link focuses the phone control",
+      "pass": true
+    },
+    {
+      "check": "all corrected errors clear",
+      "pass": true
+    },
+    {
+      "check": "failure keeps fields available",
+      "pass": true
+    },
+    {
+      "check": "failure moves focus to visible message",
+      "pass": true
+    },
+    {
+      "check": "synthetic receiver confirms success",
+      "pass": true
+    },
+    {
+      "check": "success has visible focus",
+      "pass": true
+    },
+    {
+      "check": "new enquiry resets the form",
+      "pass": true
+    },
+    {
+      "check": "refresh does not create a conversion",
+      "pass": true
+    },
+    {
+      "check": "mobile menu opens",
+      "pass": true
+    },
+    {
+      "check": "mobile menu closes after navigation",
+      "pass": true
+    },
+    {
+      "check": "FAQ opens by click",
+      "pass": true
+    },
+    {
+      "check": "duplicate dispatch sends one request",
+      "pass": true
+    },
+    {
+      "check": "pending disables editing",
+      "pass": true
+    },
+    {
+      "check": "timeout is recoverable",
+      "pass": true
+    },
+    {
+      "check": "live switch hides preview notice",
+      "pass": true
+    },
+    {
+      "check": "live switch waits for receiver and shows receipt copy",
+      "pass": true
+    }
+  ],
+  "synthetic_only": true
+}

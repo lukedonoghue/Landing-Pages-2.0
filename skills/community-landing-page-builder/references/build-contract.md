@@ -77,6 +77,8 @@ In a scrolling form or modal, a submission failure must become visible and annou
 
 Choose one visible focus destination for each validation or result state. For validation, keep focus on a useful linked summary or reveal and focus the first invalid field; do not focus the summary and then redirect focus elsewhere with `preventScroll`. Check the focused target after layout and any scrolling settle, including ordinary motion as well as reduced-motion behavior.
 
+Reveal validation context, not just the input rectangle: the field's label, focus outline and inline error must remain visible. Native focus scrolling can align an input to the top edge and hide its label when submission starts farther down the page. Reveal its containing field group with sensible scroll spacing, or focus and reveal the error summary; keep one focus destination.
+
 Each summary link must reveal and focus its usable control. For a radio group, focus the selected or first radio, not a non-focusable error span after the group.
 
 Persistent form actions must not cover fields reached by keyboard. Prefer a separate action row outside the scrolling field region; if using an overlapping sticky bar, reserve its actual height in the scroll layout and scroll padding. Tab through the form normally at mobile and short-height sizes. A visible submit button and a visible failure message do not prove the intervening inputs remain visible.

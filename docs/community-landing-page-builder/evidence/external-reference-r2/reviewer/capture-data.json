@@ -1,0 +1,471 @@
+{
+  "url": "http://127.0.0.1:4199/",
+  "capturedAt": "2026-09-20T12:10:44.552Z",
+  "viewports": [
+    {
+      "size": "390x844",
+      "scrollWidth": 390,
+      "viewportWidth": 390,
+      "hero": {
+        "x": 0,
+        "y": 72,
+        "width": 390,
+        "height": 572
+      },
+      "evidence": {
+        "x": 0,
+        "y": 644,
+        "width": 390,
+        "height": 144.65625
+      },
+      "heroAction": {
+        "x": 20,
+        "y": 531.203125,
+        "width": 350,
+        "height": 56
+      },
+      "logo": {
+        "x": 20,
+        "y": 11.234375,
+        "width": 145,
+        "height": 49.53125
+      },
+      "fonts": {
+        "heading": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "body": "Poppins, Helvetica, Arial, sans-serif",
+        "loaded": [
+          "Reem Kufi",
+          "Poppins",
+          "Poppins"
+        ]
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "alt": "The Garden Room Co.",
+          "complete": true,
+          "naturalWidth": 161,
+          "naturalHeight": 55
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/hero-640.webp",
+          "alt": "Cedar-clad garden room with wide glazed doors opening onto a patio",
+          "complete": true,
+          "naturalWidth": 390,
+          "naturalHeight": 219
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/walthamstow.jpg",
+          "alt": "Black-clad Walthamstow garden room with an open glazed front and furnished interior",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 576
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/dyserth.jpg",
+          "alt": "Dark-clad garden room in Dyserth with two glazed door sets",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 512
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/moreton.jpg",
+          "alt": "Cedar-clad garden salon in Moreton with glazed patio doors",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 512
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "alt": "The Garden Room Co.",
+          "complete": false,
+          "naturalWidth": 161,
+          "naturalHeight": 55
+        }
+      ],
+      "errors": []
+    },
+    {
+      "size": "768x1024",
+      "scrollWidth": 768,
+      "viewportWidth": 768,
+      "hero": {
+        "x": 0,
+        "y": 72,
+        "width": 768,
+        "height": 720
+      },
+      "evidence": {
+        "x": 0,
+        "y": 792,
+        "width": 768,
+        "height": 122.96875
+      },
+      "heroAction": {
+        "x": 28,
+        "y": 656.5625,
+        "width": 297.046875,
+        "height": 56
+      },
+      "logo": {
+        "x": 28,
+        "y": 8.5,
+        "width": 161,
+        "height": 55
+      },
+      "fonts": {
+        "heading": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "body": "Poppins, Helvetica, Arial, sans-serif",
+        "loaded": [
+          "Reem Kufi",
+          "Poppins",
+          "Poppins"
+        ]
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "alt": "The Garden Room Co.",
+          "complete": true,
+          "naturalWidth": 161,
+          "naturalHeight": 55
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/hero-1024.webp",
+          "alt": "Cedar-clad garden room with wide glazed doors opening onto a patio",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 432
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/walthamstow.jpg",
+          "alt": "Black-clad Walthamstow garden room with an open glazed front and furnished interior",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 576
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/dyserth.jpg",
+          "alt": "Dark-clad garden room in Dyserth with two glazed door sets",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 512
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/moreton.jpg",
+          "alt": "Cedar-clad garden salon in Moreton with glazed patio doors",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 512
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "alt": "The Garden Room Co.",
+          "complete": false,
+          "naturalWidth": 161,
+          "naturalHeight": 55
+        }
+      ],
+      "errors": []
+    },
+    {
+      "size": "1024x800",
+      "scrollWidth": 1024,
+      "viewportWidth": 1024,
+      "hero": {
+        "x": 0,
+        "y": 78,
+        "width": 1024,
+        "height": 640
+      },
+      "evidence": {
+        "x": 0,
+        "y": 718,
+        "width": 1024,
+        "height": 100.03125
+      },
+      "heroAction": {
+        "x": 28,
+        "y": 565.5625,
+        "width": 297.046875,
+        "height": 56
+      },
+      "logo": {
+        "x": 28,
+        "y": 11.5,
+        "width": 161,
+        "height": 55
+      },
+      "fonts": {
+        "heading": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "body": "Poppins, Helvetica, Arial, sans-serif",
+        "loaded": [
+          "Reem Kufi",
+          "Poppins",
+          "Poppins"
+        ]
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "alt": "The Garden Room Co.",
+          "complete": true,
+          "naturalWidth": 161,
+          "naturalHeight": 55
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/hero-1024.webp",
+          "alt": "Cedar-clad garden room with wide glazed doors opening onto a patio",
+          "complete": true,
+          "naturalWidth": 778,
+          "naturalHeight": 437
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/walthamstow.jpg",
+          "alt": "Black-clad Walthamstow garden room with an open glazed front and furnished interior",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 576
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/dyserth.jpg",
+          "alt": "Dark-clad garden room in Dyserth with two glazed door sets",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 512
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/moreton.jpg",
+          "alt": "Cedar-clad garden salon in Moreton with glazed patio doors",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 512
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "alt": "The Garden Room Co.",
+          "complete": false,
+          "naturalWidth": 161,
+          "naturalHeight": 55
+        }
+      ],
+      "errors": []
+    },
+    {
+      "size": "1280x600",
+      "scrollWidth": 1280,
+      "viewportWidth": 1280,
+      "hero": {
+        "x": 0,
+        "y": 78,
+        "width": 1280,
+        "height": 482
+      },
+      "evidence": {
+        "x": 0,
+        "y": 560,
+        "width": 1280,
+        "height": 100.03125
+      },
+      "heroAction": {
+        "x": 40,
+        "y": 442.5625,
+        "width": 297.046875,
+        "height": 56
+      },
+      "logo": {
+        "x": 40,
+        "y": 11.5,
+        "width": 161,
+        "height": 55
+      },
+      "fonts": {
+        "heading": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "body": "Poppins, Helvetica, Arial, sans-serif",
+        "loaded": [
+          "Reem Kufi",
+          "Poppins",
+          "Poppins"
+        ]
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "alt": "The Garden Room Co.",
+          "complete": true,
+          "naturalWidth": 161,
+          "naturalHeight": 55
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/hero-1024.webp",
+          "alt": "Cedar-clad garden room with wide glazed doors opening onto a patio",
+          "complete": true,
+          "naturalWidth": 972,
+          "naturalHeight": 547
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/walthamstow.jpg",
+          "alt": "Black-clad Walthamstow garden room with an open glazed front and furnished interior",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 576
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/dyserth.jpg",
+          "alt": "Dark-clad garden room in Dyserth with two glazed door sets",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 512
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/moreton.jpg",
+          "alt": "Cedar-clad garden salon in Moreton with glazed patio doors",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 512
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "alt": "The Garden Room Co.",
+          "complete": false,
+          "naturalWidth": 161,
+          "naturalHeight": 55
+        }
+      ],
+      "errors": []
+    },
+    {
+      "size": "1440x900",
+      "scrollWidth": 1440,
+      "viewportWidth": 1440,
+      "hero": {
+        "x": 0,
+        "y": 78,
+        "width": 1440,
+        "height": 640
+      },
+      "evidence": {
+        "x": 0,
+        "y": 718,
+        "width": 1440,
+        "height": 100.03125
+      },
+      "heroAction": {
+        "x": 120,
+        "y": 565.5625,
+        "width": 297.046875,
+        "height": 56
+      },
+      "logo": {
+        "x": 120,
+        "y": 11.5,
+        "width": 161,
+        "height": 55
+      },
+      "fonts": {
+        "heading": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "body": "Poppins, Helvetica, Arial, sans-serif",
+        "loaded": [
+          "Reem Kufi",
+          "Poppins",
+          "Poppins"
+        ]
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "alt": "The Garden Room Co.",
+          "complete": true,
+          "naturalWidth": 161,
+          "naturalHeight": 55
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/hero-1565.webp",
+          "alt": "Cedar-clad garden room with wide glazed doors opening onto a patio",
+          "complete": true,
+          "naturalWidth": 1094,
+          "naturalHeight": 615
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/walthamstow.jpg",
+          "alt": "Black-clad Walthamstow garden room with an open glazed front and furnished interior",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 576
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/dyserth.jpg",
+          "alt": "Dark-clad garden room in Dyserth with two glazed door sets",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 512
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/moreton.jpg",
+          "alt": "Cedar-clad garden salon in Moreton with glazed patio doors",
+          "complete": true,
+          "naturalWidth": 768,
+          "naturalHeight": 512
+        },
+        {
+          "src": "http://127.0.0.1:4199/assets/logo.png",
+          "alt": "The Garden Room Co.",
+          "complete": false,
+          "naturalWidth": 161,
+          "naturalHeight": 55
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "forms": [
+    {
+      "size": "390x844",
+      "validation": "Please check these fields:\n\nEnter your name.\nEnter your email.\nEnter your project details.",
+      "validationFocus": {
+        "focusedId": "name",
+        "nameTop": 396.28125,
+        "nameBottom": 448.671875,
+        "summaryTop": 223.8125,
+        "summaryBottom": 347.1875,
+        "scrollY": 5229,
+        "maxScrollY": 5991
+      },
+      "failure": "We could not confirm this enquiry. Your entries are still here. Please try again.",
+      "success": "✓\nPreview complete.\n\nNo enquiry was sent to the business.\n\nStart a new enquiry →",
+      "interceptedPosts": 2
+    },
+    {
+      "size": "1280x600",
+      "validation": "Please check these fields:\n\nEnter your name.\nEnter your email.\nEnter your project details.",
+      "validationFocus": {
+        "focusedId": "name",
+        "nameTop": 274.1875,
+        "nameBottom": 326.578125,
+        "summaryTop": 101.71875,
+        "summaryBottom": 225.09375,
+        "scrollY": 3786,
+        "maxScrollY": 4427
+      },
+      "failure": "We could not confirm this enquiry. Your entries are still here. Please try again.",
+      "success": "✓\nPreview complete.\n\nNo enquiry was sent to the business.\n\nStart a new enquiry →",
+      "interceptedPosts": 2
+    },
+    {
+      "size": "1440x900",
+      "validation": "Please check these fields:\n\nEnter your name.\nEnter your email.\nEnter your project details.",
+      "validationFocus": {
+        "focusedId": "name",
+        "nameTop": 0.1875,
+        "nameBottom": 52.578125,
+        "summaryTop": -172.28125,
+        "summaryBottom": -48.90625,
+        "scrollY": 4218,
+        "maxScrollY": 4285
+      },
+      "failure": "We could not confirm this enquiry. Your entries are still here. Please try again.",
+      "success": "✓\nPreview complete.\n\nNo enquiry was sent to the business.\n\nStart a new enquiry →",
+      "interceptedPosts": 2
+    }
+  ]
+}
