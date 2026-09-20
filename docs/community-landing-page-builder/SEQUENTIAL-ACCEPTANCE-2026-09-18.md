@@ -4,6 +4,8 @@ Status: resumed for business 2 on 2026-09-20 by explicit user direction. Staycle
 
 ## Scope
 
+Latest case-2 checkpoint: attempt 1 rejected for laptop proof occlusion and small mobile trust text; deterministic brand capture also corrected. See EXTERNAL-REFERENCE-R1-REVIEW.md. Attempt 2 started 2026-09-20 14:42 Kyiv from source 9e6dbbd, fresh Sol xhigh context and blank output. Carryover results remain separate in CASE2-CARRYOVER-AUDIT.md.
+
 Orchestrator: Astra. Builders: gpt-5.6-sol, reasoning xhigh, one active builder at a time. Fresh agents use fork_context=false. Each receives only a frozen skill folder, a new empty project, a short owner request, and filesystem isolation instructions. They must not read previous attempts, parent conversation, private accounts, or other client projects. These are fresh-context tests with instructed filesystem boundaries, not isolated operating-system containers or new ChatGPT accounts.
 
 Stop at the local build before Cloudflare authentication, provisioning, publishing, live form submissions, or external account connection. Earlier session permission to deploy Byrider does not apply to these businesses.
