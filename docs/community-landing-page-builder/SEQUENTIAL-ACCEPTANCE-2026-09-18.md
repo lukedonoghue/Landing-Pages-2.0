@@ -2,6 +2,8 @@
 
 ## Current authorization, 2026-09-20
 
+Latest progress: case 3 image-generation attempt 3 launched at 19:26 Kyiv after full parent/independent reviews of attempts 1 and 2. Latest source `38148fd` pushed to the separate branch. See CASE3-IMAGE-GENERATION-AUDIT.md and IMAGE-GENERATION-R2-REVIEW.md. Usage 56% used; cap 70%. No case-3 pass yet, and earlier business statuses remain unchanged.
+
 The user extended the absolute stop to **70% weekly used (30% remaining)** after the meter reached 50%. Finish the Garden Room attempt-5 audit, correct confirmed skill-source failures, then run case 3 (Clarentis, image generation) independently. This supersedes the earlier 50% cap and case-3 hold below. Reserve the remaining 30% for later deployment/CRM work; those modules are not authorized in this continuation. One builder at a time, Sol 5.6 xhigh, fresh context and frozen skill. No timed update automation.
 
 Attempt 5 completed and audit finished: **blocked on process/offer copy completeness**, with 81 parent interaction assertions passing. See EXTERNAL-REFERENCE-R5-REVIEW.md for independent findings, parent calibration, warning disposition and source corrections. The original page remains unchanged. User authorizes proceeding to Clarentis with the corrected skill, not accepting Garden Room retrospectively. All 69 package tests pass after the four-file instruction patch; no new helper or review round was added.
