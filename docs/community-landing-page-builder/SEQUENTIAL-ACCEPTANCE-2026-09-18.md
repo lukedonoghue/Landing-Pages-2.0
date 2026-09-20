@@ -6,6 +6,8 @@ The user extended the absolute stop to **70% weekly used (30% remaining)** after
 
 Attempt 5 completed and audit finished: **blocked on process/offer copy completeness**, with 81 parent interaction assertions passing. See EXTERNAL-REFERENCE-R5-REVIEW.md for independent findings, parent calibration, warning disposition and source corrections. The original page remains unchanged. User authorizes proceeding to Clarentis with the corrected skill, not accepting Garden Room retrospectively. All 69 package tests pass after the four-file instruction patch; no new helper or review round was added.
 
+Case 3 began 2026-09-20 at 18:34 Kyiv: Clarentis image-generation attempt 1, Bernoulli `01a0bf74-8593-7a33-8204-a3afdeb19e56`, Sol 5.6 xhigh, no context fork. See CASE3-IMAGE-GENERATION-AUDIT.md for frozen-source identity, exact independence limits and separate carryover matrix. Source/audit checkpoint 95665e6 is pushed to the separate branch. Usage 51% used at launch; stop 70%.
+
 Status: resumed for business 2 on 2026-09-20 by explicit user direction. Stayclean attempt 10 remains unaccepted after parent review. User authorizes carrying its fixes into a separate audit of the next independent business instead of rebuilding Stayclean again. Current baseline is 33% used; stop at 50% total usage. Heartbeat remains paused and no scheduled 15-minute reports are wanted. Report build completions and audits. No reset credits. See CASE2-CARRYOVER-AUDIT.md and WEBSITE-ONLY-R10-PARENT-REVIEW.md. This direction supersedes the earlier case-1-first acceptance ordering and 32% stop.
 
 ## Scope
