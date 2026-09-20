@@ -8,6 +8,8 @@ Attempt 5 completed and audit finished: **blocked on process/offer copy complete
 
 Case 3 began 2026-09-20 at 18:34 Kyiv: Clarentis image-generation attempt 1, Bernoulli `01a0bf74-8593-7a33-8204-a3afdeb19e56`, Sol 5.6 xhigh, no context fork. See CASE3-IMAGE-GENERATION-AUDIT.md for frozen-source identity, exact independence limits and separate carryover matrix. Source/audit checkpoint 95665e6 is pushed to the separate branch. Usage 51% used at launch; stop 70%.
 
+Case 3 attempt 1 completed and independently audited: blocked on hidden mobile/tablet illustration disclosure, with a narrow-screen pacing issue and generation provenance/efficiency gaps. Source corrections are in two existing reference files, 69 package tests pass. See IMAGE-GENERATION-R1-REVIEW.md. All four R5 content/font carryovers pass in this different business; Garden Room itself stays blocked. Next is a fresh image-generation attempt, not a manually corrected page.
+
 Status: resumed for business 2 on 2026-09-20 by explicit user direction. Stayclean attempt 10 remains unaccepted after parent review. User authorizes carrying its fixes into a separate audit of the next independent business instead of rebuilding Stayclean again. Current baseline is 33% used; stop at 50% total usage. Heartbeat remains paused and no scheduled 15-minute reports are wanted. Report build completions and audits. No reset credits. See CASE2-CARRYOVER-AUDIT.md and WEBSITE-ONLY-R10-PARENT-REVIEW.md. This direction supersedes the earlier case-1-first acceptance ordering and 32% stop.
 
 ## Scope

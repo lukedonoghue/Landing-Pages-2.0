@@ -33,4 +33,4 @@ Starting weekly usage 51% used; absolute stop 70% used, preserving 30% for deplo
 
 ## Result
 
-Build running. No acceptance claimed. Garden Room attempt 5 and Stayclean remain independently unaccepted; success here cannot retroactively pass them.
+Attempt 1 completed, audited and **blocked**. See IMAGE-GENERATION-R1-REVIEW.md: the hero disclosure paints behind the image on mobile/tablet, despite passing interaction and general browser checks. Parent confirms native generation, source copy/fee fidelity and all four R5 carryovers; records tool-result handling waste and missing portable generation detail. Two existing reference files corrected, with no new helper or review round. Proceed to a fresh attempt 2, not a repair of this page. Garden Room attempt 5 and Stayclean remain independently unaccepted; success here cannot retroactively pass them.
