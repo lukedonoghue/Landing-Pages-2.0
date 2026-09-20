@@ -28,6 +28,8 @@ Replacement or omission needs a concrete rationale. Keeping the page concise, cl
 
 For a considered local-service purchase, examine suitability/use, service area, scope and options, what affects the quote, team credibility, proof, practical constraints and what the consultation delivers before commitment. Include what matters to this buyer, not a mandatory section for every item. When no price is verified, explain supported quote factors and the actual quoting process; never borrow competitor prices or fabricate a range. Distribute supported proof near relevant claims instead of assuming one short testimonial proves every benefit. A missing video or brochure does not require manufacturing one, but preserve its persuasive job through available evidence.
 
+For a location-dependent service, answer geographic fit in the visible copy. A registered address is not a service-area answer; verify published coverage or ask visitors to check their location without promising unsupported reach. When several genuine customer accounts support distinct important claims, select complementary evidence near those claims or explain the omission. No review-count quota applies, but one budget/design quote does not corroborate unrelated workmanship or delivery claims. Resolve missing material coverage before calling the final table complete.
+
 Compare the planned final with the benchmark on content depth, media cadence, proof density, visual variety and CTA journey. Record `equal_or_stronger` or a researched `justified_difference` with evidence for each dimension.
 
 ## Build for perceived completeness

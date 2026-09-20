@@ -57,7 +57,7 @@ Block on:
 
 Open and inspect every required screenshot at its actual size. Do not infer approval from a file existing or a broad boolean.
 
-First-screen claims must match viewport geometry and a viewport-sized capture, not a scaled full-page image. If the browser helper cannot identify the hero's following section, check it directly instead of claiming it passed.
+First-screen claims must match viewport geometry and a viewport-sized capture, not a scaled full-page image. A few pixels of the next background are not readable continuation. Check actual trust-strip text at 13px or larger after breakpoint overrides. If the browser helper cannot identify the hero's following section, check it directly instead of claiming it passed.
 
 For each viewport, record specific observations for:
 
@@ -75,7 +75,7 @@ Also compare the complete page with the reference hierarchy in `design-direction
 
 In this same review, apply `reference-fidelity.md` to the final copy and existing strategy coverage table. Block unanswered material buyer questions, unexplained removal of relevant evidence, or generic sentences counted as complete answers. Inspect phone discoverability near the top as well as the footer and explain any named contact as a first-time visitor would need. Technical or visual polish cannot compensate for an incomplete conversion argument.
 
-Review each used image with asset-specific evidence. Review every modal step and validation state that exists. If a brochure exists, review every rendered page using the catalogue workflow.
+Review each used image with asset-specific evidence. For an overlaid hero, name its protected subject detail and inspect that detail at each width, not just whether the whole building or person is recognizable. A mobile-only repair does not clear desktop. Review every modal step and validation state that exists, including the exact visitor wording in success and failure. Keep research framing and future setup explanations out of that wording. If a brochure exists, review every rendered page using the catalogue workflow.
 
 Crop warnings name the actual asset and placement. Resolve each one separately; a reviewed hero does not clear unrelated service-image warnings. An explicit image ratio that disagrees with its rendered box indicates a sizing conflict to fix, not proof that the declared ratio took effect.
 
