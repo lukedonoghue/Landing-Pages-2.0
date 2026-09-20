@@ -79,3 +79,7 @@ Starting weekly usage 44%; absolute ceiling remains 50%. Page-only preview, no C
 ### Attempt 4 result
 
 **Blocked**, see EXTERNAL-REFERENCE-R4-REVIEW.md. Popup and phone/contact behavior improve, and parent 56 assertions pass. C01/C02/C03 modal lifecycle is now actually exercised and passes; C05 ordinary-field links pass while required group remains absent; C06 phone representation passes; C07 compact result passes geometrically but future-setup wording needs editorial correction; C10 images decode. C04/C09 hero proof overlap recurs at tablet/desktop, C08 all-placement responsive image optimization remains incomplete, and C11 product acceptance is correctly withheld. R3-P01 completeness remains unresolved. Independent reviewer also rejects the product. Page untouched, evidence saved, minimal source clarifications made. Weekly meter 47%.
+
+### Attempt 5 launch
+
+2026-09-20 about 17:49 Kyiv: Galileo `01a0bf4a-f9a7-7d10-b79c-054da237bb8c`, gpt-5.6-sol xhigh, fork_context=false. Source 6bc6076 (skill change in 909c7c6), 175 files; before manifest SHA-256 `a393d5d43128c2657f65ec413cfabf2891e2ac23a328545360d2479f91c7271f` using the same JSON/en-localeCompare procedure. Empty output verified. Same owner prompt, only paths changed. No prior feedback, audits or conversation supplied. Previous agents closed; only this builder active. Current usage 47%, absolute cap 50%; if the cap arrives before audit completion, preserve partial work and explicitly withhold acceptance rather than spend beyond the cap or claim success.
