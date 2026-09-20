@@ -1,0 +1,1400 @@
+{
+  "checks": [
+    {
+      "name": "Readable top phone 320",
+      "pass": false,
+      "detail": {
+        "size": 13,
+        "text": "07803 362187",
+        "href": "tel:+447803362187"
+      }
+    },
+    {
+      "name": "Popup CTA 1 320",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 2 320",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 4933,
+          "hash": ""
+        },
+        "during": {
+          "y": 4933,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 4933,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 3 320",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 8070,
+          "hash": ""
+        },
+        "during": {
+          "y": 8070,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 8070,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Validation close and title 320",
+      "pass": true,
+      "detail": {
+        "close": {
+          "top": 23,
+          "bottom": 67,
+          "height": 44,
+          "visible": true,
+          "uncovered": true
+        },
+        "title": {
+          "top": 47.796875,
+          "bottom": 120.21875,
+          "height": 72.421875,
+          "visible": true,
+          "uncovered": true
+        }
+      }
+    },
+    {
+      "name": "Error-summary link 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard containment and visibility 320",
+      "pass": false,
+      "detail": [
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "postcode",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "The Garden Room Co. privacy po",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "top",
+          "visible": false,
+          "inside": false
+        },
+        {
+          "id": "dialog-close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your name.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your email address.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Tell us what you have in mind.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "Touch close after errors 320",
+      "pass": true
+    },
+    {
+      "name": "At least four distinct loaded content assets 320",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:50525/assets/hero-780.webp",
+          "key": "assets/hero.webp",
+          "alt": "Timber-clad garden room with corner glazing opening onto a broad deck",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/dyserth-640.webp",
+          "key": "assets/dyserth.webp",
+          "alt": "Dark-clad garden room with glazed doors in a planted garden",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/walthamstow-640.webp",
+          "key": "assets/walthamstow.webp",
+          "alt": "Dark-clad garden room with an open glazed front and furnished interior",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/moreton-640.webp",
+          "key": "assets/moreton.webp",
+          "alt": "Cedar-clad garden room with wide glazing and a seating area",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/machynlleth-640.webp",
+          "key": "assets/machynlleth.webp",
+          "alt": "Timber and dark-clad garden room on an open lawn",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/garden-gym-640.webp",
+          "key": "assets/garden-gym.webp",
+          "alt": "Exercise equipment inside a finished garden gym",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/small-office-640.webp",
+          "key": "assets/small-office.webp",
+          "alt": "Compact timber garden office at the end of a garden",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "No horizontal overflow 320",
+      "pass": true
+    },
+    {
+      "name": "Readable top phone 390",
+      "pass": true,
+      "detail": {
+        "size": 14,
+        "text": "07803 362187",
+        "href": "tel:+447803362187"
+      }
+    },
+    {
+      "name": "Popup CTA 1 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 2 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 4764,
+          "hash": ""
+        },
+        "during": {
+          "y": 4764,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 4764,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 3 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 7602,
+          "hash": ""
+        },
+        "during": {
+          "y": 7602,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 7602,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Validation close and title 390",
+      "pass": true,
+      "detail": {
+        "close": {
+          "top": 23,
+          "bottom": 67,
+          "height": 44,
+          "visible": true,
+          "uncovered": true
+        },
+        "title": {
+          "top": 47.796875,
+          "bottom": 96.078125,
+          "height": 48.28125,
+          "visible": true,
+          "uncovered": true
+        }
+      }
+    },
+    {
+      "name": "Error-summary link 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard containment and visibility 390",
+      "pass": false,
+      "detail": [
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "postcode",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "The Garden Room Co. privacy po",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "top",
+          "visible": false,
+          "inside": false
+        },
+        {
+          "id": "dialog-close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your name.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your email address.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Tell us what you have in mind.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "Touch close after errors 390",
+      "pass": true
+    },
+    {
+      "name": "At least four distinct loaded content assets 390",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:50525/assets/hero-780.webp",
+          "key": "assets/hero.webp",
+          "alt": "Timber-clad garden room with corner glazing opening onto a broad deck",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/dyserth-640.webp",
+          "key": "assets/dyserth.webp",
+          "alt": "Dark-clad garden room with glazed doors in a planted garden",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/walthamstow-640.webp",
+          "key": "assets/walthamstow.webp",
+          "alt": "Dark-clad garden room with an open glazed front and furnished interior",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/moreton-640.webp",
+          "key": "assets/moreton.webp",
+          "alt": "Cedar-clad garden room with wide glazing and a seating area",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/machynlleth-640.webp",
+          "key": "assets/machynlleth.webp",
+          "alt": "Timber and dark-clad garden room on an open lawn",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/garden-gym-640.webp",
+          "key": "assets/garden-gym.webp",
+          "alt": "Exercise equipment inside a finished garden gym",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/small-office-640.webp",
+          "key": "assets/small-office.webp",
+          "alt": "Compact timber garden office at the end of a garden",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "No horizontal overflow 390",
+      "pass": true
+    },
+    {
+      "name": "Readable top phone 768",
+      "pass": true,
+      "detail": {
+        "size": 14,
+        "text": "07803 362187",
+        "href": "tel:+447803362187"
+      }
+    },
+    {
+      "name": "Popup CTA 1 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 2 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 3954,
+          "hash": ""
+        },
+        "during": {
+          "y": 3954,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 3954,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 3 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 6049,
+          "hash": ""
+        },
+        "during": {
+          "y": 6049,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 6049,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Validation close and title 768",
+      "pass": true,
+      "detail": {
+        "close": {
+          "top": 47.625,
+          "bottom": 91.625,
+          "height": 44,
+          "visible": true,
+          "uncovered": true
+        },
+        "title": {
+          "top": 72.421875,
+          "bottom": 101.578125,
+          "height": 29.15625,
+          "visible": true,
+          "uncovered": true
+        }
+      }
+    },
+    {
+      "name": "Error-summary link 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard containment and visibility 768",
+      "pass": false,
+      "detail": [
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "postcode",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "The Garden Room Co. privacy po",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "top",
+          "visible": false,
+          "inside": false
+        },
+        {
+          "id": "dialog-close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your name.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your email address.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Tell us what you have in mind.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "Touch close after errors 768",
+      "pass": true
+    },
+    {
+      "name": "At least four distinct loaded content assets 768",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:50525/assets/hero.webp",
+          "key": "assets/hero.webp",
+          "alt": "Timber-clad garden room with corner glazing opening onto a broad deck",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/dyserth.webp",
+          "key": "assets/dyserth.webp",
+          "alt": "Dark-clad garden room with glazed doors in a planted garden",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/walthamstow.webp",
+          "key": "assets/walthamstow.webp",
+          "alt": "Dark-clad garden room with an open glazed front and furnished interior",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/moreton.webp",
+          "key": "assets/moreton.webp",
+          "alt": "Cedar-clad garden room with wide glazing and a seating area",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/machynlleth.webp",
+          "key": "assets/machynlleth.webp",
+          "alt": "Timber and dark-clad garden room on an open lawn",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/garden-gym.webp",
+          "key": "assets/garden-gym.webp",
+          "alt": "Exercise equipment inside a finished garden gym",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/small-office.webp",
+          "key": "assets/small-office.webp",
+          "alt": "Compact timber garden office at the end of a garden",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "No horizontal overflow 768",
+      "pass": true
+    },
+    {
+      "name": "Readable top phone 1024",
+      "pass": true,
+      "detail": {
+        "size": 14,
+        "text": "07803 362187",
+        "href": "tel:+447803362187"
+      }
+    },
+    {
+      "name": "Popup CTA 1 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 2 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 2946,
+          "hash": ""
+        },
+        "during": {
+          "y": 2946,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 2946,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 3 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5121,
+          "hash": ""
+        },
+        "during": {
+          "y": 5121,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 5121,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Validation close and title 1024",
+      "pass": true,
+      "detail": {
+        "close": {
+          "top": 41,
+          "bottom": 85,
+          "height": 44,
+          "visible": true,
+          "uncovered": true
+        },
+        "title": {
+          "top": 65.796875,
+          "bottom": 94.953125,
+          "height": 29.15625,
+          "visible": true,
+          "uncovered": true
+        }
+      }
+    },
+    {
+      "name": "Error-summary link 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard containment and visibility 1024",
+      "pass": false,
+      "detail": [
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "postcode",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "The Garden Room Co. privacy po",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "top",
+          "visible": false,
+          "inside": false
+        },
+        {
+          "id": "dialog-close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your name.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your email address.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Tell us what you have in mind.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "Touch close after errors 1024",
+      "pass": true
+    },
+    {
+      "name": "At least four distinct loaded content assets 1024",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:50525/assets/hero.webp",
+          "key": "assets/hero.webp",
+          "alt": "Timber-clad garden room with corner glazing opening onto a broad deck",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/dyserth.webp",
+          "key": "assets/dyserth.webp",
+          "alt": "Dark-clad garden room with glazed doors in a planted garden",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/walthamstow.webp",
+          "key": "assets/walthamstow.webp",
+          "alt": "Dark-clad garden room with an open glazed front and furnished interior",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/moreton.webp",
+          "key": "assets/moreton.webp",
+          "alt": "Cedar-clad garden room with wide glazing and a seating area",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/machynlleth.webp",
+          "key": "assets/machynlleth.webp",
+          "alt": "Timber and dark-clad garden room on an open lawn",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/garden-gym.webp",
+          "key": "assets/garden-gym.webp",
+          "alt": "Exercise equipment inside a finished garden gym",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/small-office.webp",
+          "key": "assets/small-office.webp",
+          "alt": "Compact timber garden office at the end of a garden",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "No horizontal overflow 1024",
+      "pass": true
+    },
+    {
+      "name": "Readable top phone 1280",
+      "pass": true,
+      "detail": {
+        "size": 14,
+        "text": "07803 362187",
+        "href": "tel:+447803362187"
+      }
+    },
+    {
+      "name": "Popup CTA 0 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 1 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 2 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 2740,
+          "hash": ""
+        },
+        "during": {
+          "y": 2740,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 2740,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 3 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 4961,
+          "hash": ""
+        },
+        "during": {
+          "y": 4961,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 4961,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Validation close and title 1280",
+      "pass": true,
+      "detail": {
+        "close": {
+          "top": 41,
+          "bottom": 85,
+          "height": 44,
+          "visible": true,
+          "uncovered": true
+        },
+        "title": {
+          "top": 65.796875,
+          "bottom": 94.953125,
+          "height": 29.15625,
+          "visible": true,
+          "uncovered": true
+        }
+      }
+    },
+    {
+      "name": "Error-summary link 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard containment and visibility 1280",
+      "pass": false,
+      "detail": [
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "postcode",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "The Garden Room Co. privacy po",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "top",
+          "visible": false,
+          "inside": false
+        },
+        {
+          "id": "dialog-close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your name.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your email address.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Tell us what you have in mind.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "Touch close after errors 1280",
+      "pass": true
+    },
+    {
+      "name": "At least four distinct loaded content assets 1280",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:50525/assets/hero.webp",
+          "key": "assets/hero.webp",
+          "alt": "Timber-clad garden room with corner glazing opening onto a broad deck",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/dyserth.webp",
+          "key": "assets/dyserth.webp",
+          "alt": "Dark-clad garden room with glazed doors in a planted garden",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/walthamstow.webp",
+          "key": "assets/walthamstow.webp",
+          "alt": "Dark-clad garden room with an open glazed front and furnished interior",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/moreton.webp",
+          "key": "assets/moreton.webp",
+          "alt": "Cedar-clad garden room with wide glazing and a seating area",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/machynlleth.webp",
+          "key": "assets/machynlleth.webp",
+          "alt": "Timber and dark-clad garden room on an open lawn",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/garden-gym.webp",
+          "key": "assets/garden-gym.webp",
+          "alt": "Exercise equipment inside a finished garden gym",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/small-office.webp",
+          "key": "assets/small-office.webp",
+          "alt": "Compact timber garden office at the end of a garden",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "No horizontal overflow 1280",
+      "pass": true
+    },
+    {
+      "name": "Readable top phone 1440",
+      "pass": true,
+      "detail": {
+        "size": 14,
+        "text": "07803 362187",
+        "href": "tel:+447803362187"
+      }
+    },
+    {
+      "name": "Popup CTA 0 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 1 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 2 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 2740,
+          "hash": ""
+        },
+        "during": {
+          "y": 2740,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 2740,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Popup CTA 3 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 4854,
+          "hash": ""
+        },
+        "during": {
+          "y": 4854,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 4854,
+          "focused": true
+        }
+      }
+    },
+    {
+      "name": "Validation close and title 1440",
+      "pass": true,
+      "detail": {
+        "close": {
+          "top": 41,
+          "bottom": 85,
+          "height": 44,
+          "visible": true,
+          "uncovered": true
+        },
+        "title": {
+          "top": 65.796875,
+          "bottom": 94.953125,
+          "height": 29.15625,
+          "visible": true,
+          "uncovered": true
+        }
+      }
+    },
+    {
+      "name": "Error-summary link 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard containment and visibility 1440",
+      "pass": false,
+      "detail": [
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "postcode",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "The Garden Room Co. privacy po",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "top",
+          "visible": false,
+          "inside": false
+        },
+        {
+          "id": "dialog-close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your name.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Enter your email address.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Tell us what you have in mind.",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "Touch close after errors 1440",
+      "pass": true
+    },
+    {
+      "name": "At least four distinct loaded content assets 1440",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:50525/assets/hero.webp",
+          "key": "assets/hero.webp",
+          "alt": "Timber-clad garden room with corner glazing opening onto a broad deck",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/dyserth.webp",
+          "key": "assets/dyserth.webp",
+          "alt": "Dark-clad garden room with glazed doors in a planted garden",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/walthamstow.webp",
+          "key": "assets/walthamstow.webp",
+          "alt": "Dark-clad garden room with an open glazed front and furnished interior",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/moreton.webp",
+          "key": "assets/moreton.webp",
+          "alt": "Cedar-clad garden room with wide glazing and a seating area",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/machynlleth.webp",
+          "key": "assets/machynlleth.webp",
+          "alt": "Timber and dark-clad garden room on an open lawn",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/garden-gym.webp",
+          "key": "assets/garden-gym.webp",
+          "alt": "Exercise equipment inside a finished garden gym",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:50525/assets/small-office.webp",
+          "key": "assets/small-office.webp",
+          "alt": "Compact timber garden office at the end of a garden",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "No horizontal overflow 1440",
+      "pass": true
+    },
+    {
+      "name": "Whitespace, email and phone rejection",
+      "pass": true
+    },
+    {
+      "name": "Pending duplicate guard",
+      "pass": true
+    },
+    {
+      "name": "Pending reopen locks snapshot",
+      "pass": true
+    },
+    {
+      "name": "Confirmed while closed preserved",
+      "pass": true
+    },
+    {
+      "name": "Confirmed duplicate guard",
+      "pass": true
+    },
+    {
+      "name": "Compact success",
+      "pass": false,
+      "detail": {
+        "top": 151.09375,
+        "bottom": 692.890625,
+        "height": 541.796875,
+        "visible": true,
+        "uncovered": true
+      }
+    },
+    {
+      "name": "Deliberate reset",
+      "pass": true
+    },
+    {
+      "name": "Failure preserves retry",
+      "pass": true
+    },
+    {
+      "name": "Actual local receiver retry",
+      "pass": true
+    },
+    {
+      "name": "Bounded timeout remains recoverable",
+      "pass": true
+    },
+    {
+      "name": "Timeout retry confirms locally",
+      "pass": true
+    }
+  ],
+  "limits": [
+    "Local synthetic receiver only. No production submission, CRM or deployment proof.",
+    "No required grouped field or shared inline form is present."
+  ],
+  "status": "blocked"
+}

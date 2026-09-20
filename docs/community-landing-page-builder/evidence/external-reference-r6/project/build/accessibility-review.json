@@ -1,0 +1,54 @@
+{
+  "tool": "axe-core",
+  "states": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "page",
+      "violations": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "modal",
+      "violations": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "validation",
+      "violations": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "page",
+      "violations": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "modal",
+      "violations": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "validation",
+      "violations": []
+    }
+  ],
+  "status": "pass"
+}

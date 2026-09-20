@@ -1,0 +1,2094 @@
+{
+  "schema_version": 1,
+  "kind": "rendered_brand_measurement",
+  "status": "pass",
+  "url": "https://www.greenretreats.co.uk/",
+  "captured_at": "2026-09-20T19:56:01.549Z",
+  "tool": {
+    "name": "extract_brand",
+    "version": "1.2.0",
+    "node": "v22.17.1",
+    "browser": "138.0.7204.168"
+  },
+  "measurements": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "httpStatus": 200,
+      "screenshot": "brand-390x844.png",
+      "errors": [
+        "Unexpected identifier 'E'"
+      ],
+      "blockedWrites": [
+        {
+          "method": "POST",
+          "url": "https://log.cookieyes.com/api/v1/log"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-4HB5GL05HS&gtm=45Pe69g1v892327799za200zd892327799xf1&_p=1789934162438&gcs=G100&gcd=13u3u3-3u5l1&npa=1&dma_cps=-&dma=0&gdid=dY2Q2ZW.dZTNiMT&ecid=1484407499&_eu=AAAAAGAC&are=1&cid=1697262950.1789934163&ec_mode=a&frm=0&pscdl=denied&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Not)A%253BBrand%3B8.0.0.0%7CChromium%3B138.0.7204.168&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-gb&gaf=2&_s=1&tag_exp=115616986~115938465~115938469~118897920~118897930~120213116~120385423~120469145~120469153&sid=1789934162&sct=1&seg=0&dl=https%3A%2F%2Fwww.greenretreats.co.uk%2F&dt=Garden%20Buildings%20%7C%20The%20UKs%20Leading%20Provider%20%7C%20Green%20Retreats&_tu=CA&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=1164"
+        },
+        {
+          "method": "POST",
+          "url": "https://pagead2.googlesyndication.com/ccm/collect?rcb=17&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fwww.greenretreats.co.uk%2F&scrsrc=www.googletagmanager.com&rnd=462187086.1789934163&navt=n&npa=1&ep.ads_data_redaction=0&gdid=dY2Q2ZW.dZTNiMT&_tu=CA&gtm=45He69g1v72401204za200zd72401204xeaxf1&gcs=G100&gcd=13u3u3-3u5l1&dma_cps=-&dma=0&tag_exp=115938465~115938469~118897920~118897930~120385422~120469145~120469153&tft=1789934163086&tfd=1172&fmt=8"
+        },
+        {
+          "method": "POST",
+          "url": "https://pagead2.googlesyndication.com/ccm/collect?rcb=15&frm=0&apvc=0&tid=DC-14237137&en=page_view&dl=https%3A%2F%2Fwww.greenretreats.co.uk%2F&scrsrc=www.googletagmanager.com&rnd=462187086.1789934163&navt=n&npa=1&gdid=dY2Q2ZW.dZTNiMT&_tu=KA&gtm=45fe69g1v9190800660z872401204za20gzb72401204zd72401204xecxf1&gcs=G100&gcd=13u3u3-3u5l1&dma_cps=-&dma=0&tag_exp=115938465~115938469~118897920~118897930~120213116~120385422~120469145~120469153&tft=1789934163087&tfd=1173&tids=DC-14237137&fmt=8"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google.com/g/collect?v=2&tid=G-4HB5GL05HS&gtm=45Pe69g1v892327799za200zd892327799xf1&_p=1789934162438&gcs=G100&gcd=13u3u3-3u5l1&npa=1&dma_cps=-&dma=0&gdid=dY2Q2ZW.dZTNiMT&ecid=1484407499&_eu=AAAAAGAC&are=1&cid=1697262950.1789934163&ec_mode=a&frm=0&pscdl=denied&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Not)A%253BBrand%3B8.0.0.0%7CChromium%3B138.0.7204.168&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-gb&gaf=3&_s=1&tag_exp=115616986~115938465~115938469~118897920~118897930~120213116~120385423~120469145~120469153&sid=1789934162&sct=1&seg=0&dl=https%3A%2F%2Fwww.greenretreats.co.uk%2F&dt=Garden%20Buildings%20%7C%20The%20UKs%20Leading%20Provider%20%7C%20Green%20Retreats&_tu=CA&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=1164"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google.com/recaptcha/api2/reload?k=6Le6E7cUAAAAAGCCEnnIm5SdvU3sRGUzDkWLJNRL"
+        }
+      ],
+      "title": "Garden Buildings | The UKs Leading Provider | Green Retreats",
+      "finalUrl": "https://www.greenretreats.co.uk/",
+      "roles": {
+        "hero_heading": [
+          {
+            "selector": "h1.h2.mb-3.mb-lg-0",
+            "text": "Grow your home with Green Retreats",
+            "bounds": {
+              "x": 31.5,
+              "y": 720.109375,
+              "width": 327,
+              "height": 52.78125,
+              "visibleAreaApprox": 17259.46875
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "22px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "26.4px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(59, 62, 57)",
+            "fontStackAvailable": true,
+            "renderedFonts": [
+              {
+                "familyName": "Omnes Light",
+                "postScriptName": "OmnesLight",
+                "isCustomFont": true,
+                "glyphCount": 19
+              },
+              {
+                "familyName": "Omnes",
+                "postScriptName": "Omnes-Regular",
+                "isCustomFont": true,
+                "glyphCount": 14
+              }
+            ]
+          }
+        ],
+        "section_heading": [],
+        "subheading": [],
+        "body": [
+          {
+            "selector": "p.accent-highlight-p",
+            "text": "Grow Your Home",
+            "bounds": {
+              "x": 31.5,
+              "y": 271.75,
+              "width": 112.0625,
+              "height": 22,
+              "visibleAreaApprox": 2465.375
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "12px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "20px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.homepage-redesign-title",
+            "text": "Garden Rooms, Offices & Pods",
+            "bounds": {
+              "x": 31.5,
+              "y": 309.75,
+              "width": 327,
+              "height": 68,
+              "visibleAreaApprox": 22236
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "28px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.homepage-redesign-strapline.mb-0",
+            "text": "Add space, value and comfort to your home",
+            "bounds": {
+              "x": 31.5,
+              "y": 387.75,
+              "width": 327,
+              "height": 27.203125,
+              "visibleAreaApprox": 8895.421875
+            },
+            "fontFamily": "omnes-pro, serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "27.2px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.accent-highlight-p",
+            "text": "Visit Our Showrooms",
+            "bounds": {
+              "x": 31.5,
+              "y": 271.75,
+              "width": 135.296875,
+              "height": 22,
+              "visibleAreaApprox": 2976.53125
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "12px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "20px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.homepage-redesign-title",
+            "text": "Buckinghamshire & London Showrooms",
+            "bounds": {
+              "x": 31.5,
+              "y": 309.75,
+              "width": 327,
+              "height": 68,
+              "visibleAreaApprox": 22236
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "28px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.homepage-redesign-strapline.mb-0",
+            "text": "Be our guest & experience the quality yourself.",
+            "bounds": {
+              "x": 31.5,
+              "y": 387.75,
+              "width": 327,
+              "height": 27.203125,
+              "visibleAreaApprox": 8895.421875
+            },
+            "fontFamily": "omnes-pro, serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "27.2px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.accent-highlight-p",
+            "text": "Kevin McCloud",
+            "bounds": {
+              "x": 31.5,
+              "y": 271.75,
+              "width": 101.546875,
+              "height": 22,
+              "visibleAreaApprox": 2234.03125
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "12px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "20px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.homepage-redesign-title",
+            "text": "Green Retreats Brand Ambassador",
+            "bounds": {
+              "x": 31.5,
+              "y": 309.75,
+              "width": 327,
+              "height": 68,
+              "visibleAreaApprox": 22236
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "28px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          }
+        ],
+        "navigation": [
+          {
+            "selector": "a.navbar-brand",
+            "text": "",
+            "bounds": {
+              "x": 34.5,
+              "y": -3,
+              "width": 154,
+              "height": 70,
+              "visibleAreaApprox": 10318
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "20px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgba(0, 0, 0, 0.9)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.call-menu",
+            "text": "",
+            "bounds": {
+              "x": 276.5,
+              "y": 18,
+              "width": 28,
+              "height": 29,
+              "visibleAreaApprox": 812
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "24px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(104, 127, 106)",
+            "fontStackAvailable": true
+          }
+        ],
+        "label": [],
+        "link": [
+          {
+            "selector": "a.homepage-redesign-button.btn-primary-rounded",
+            "text": "Shop our Garden Rooms",
+            "bounds": {
+              "x": 31.5,
+              "y": 429.953125,
+              "width": 253.796875,
+              "height": 37,
+              "visibleAreaApprox": 9390.484375
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "uppercase",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.homepage-redesign-button.btn-primary-rounded",
+            "text": "Our Showrooms",
+            "bounds": {
+              "x": 31.5,
+              "y": 429.953125,
+              "width": 194.125,
+              "height": 37,
+              "visibleAreaApprox": 7182.625
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "uppercase",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.homepage-redesign-button.btn-primary-rounded-purple",
+            "text": "Find out more",
+            "bounds": {
+              "x": 31.5,
+              "y": 429.953125,
+              "width": 173.609375,
+              "height": 37,
+              "visibleAreaApprox": 6423.546875
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "uppercase",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.btn-primary-rounded-white.mx-3.mt-2",
+            "text": "Find Out More",
+            "bounds": {
+              "x": 118.84375,
+              "y": 603.109375,
+              "width": 152.3125,
+              "height": 30,
+              "visibleAreaApprox": 4569.375
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "14px",
+            "letterSpacing": "normal",
+            "textTransform": "uppercase",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          }
+        ]
+      },
+      "buttons": [
+        {
+          "selector": "a.homepage-redesign-button.btn-primary-rounded",
+          "text": "Shop our Garden Rooms",
+          "bounds": {
+            "x": 31.5,
+            "y": 429.953125,
+            "width": 253.796875,
+            "height": 37,
+            "visibleAreaApprox": 9390.484375
+          },
+          "fontFamily": "omnes-pro, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "16px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(104, 127, 106)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "10px 43px 11px 20px"
+        },
+        {
+          "selector": "a.homepage-redesign-button.btn-primary-rounded",
+          "text": "Our Showrooms",
+          "bounds": {
+            "x": 31.5,
+            "y": 429.953125,
+            "width": 194.125,
+            "height": 37,
+            "visibleAreaApprox": 7182.625
+          },
+          "fontFamily": "omnes-pro, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "16px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(104, 127, 106)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "10px 43px 11px 20px"
+        },
+        {
+          "selector": "a.homepage-redesign-button.btn-primary-rounded-purple",
+          "text": "Find out more",
+          "bounds": {
+            "x": 31.5,
+            "y": 429.953125,
+            "width": 173.609375,
+            "height": 37,
+            "visibleAreaApprox": 6423.546875
+          },
+          "fontFamily": "omnes-pro, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "16px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(83, 51, 77)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "10px 43px 11px 20px"
+        },
+        {
+          "selector": "#slick-slide-control10",
+          "text": "1",
+          "bounds": {
+            "x": 32.3046875,
+            "y": 498.953125,
+            "width": 105.125,
+            "height": 10,
+            "visibleAreaApprox": 1051.25
+          },
+          "fontFamily": "omnes-pro, serif",
+          "fontSize": "0px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "0px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgba(0, 0, 0, 0)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "borderColor": "rgba(0, 0, 0, 0)",
+          "borderWidth": "0px",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "padding": "5px"
+        },
+        {
+          "selector": "#slick-slide-control11",
+          "text": "2",
+          "bounds": {
+            "x": 147.4296875,
+            "y": 498.953125,
+            "width": 105.125,
+            "height": 10,
+            "visibleAreaApprox": 1051.25
+          },
+          "fontFamily": "omnes-pro, serif",
+          "fontSize": "0px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "0px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgba(0, 0, 0, 0)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "borderColor": "rgba(0, 0, 0, 0)",
+          "borderWidth": "0px",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "padding": "5px"
+        },
+        {
+          "selector": "#slick-slide-control12",
+          "text": "3",
+          "bounds": {
+            "x": 262.5546875,
+            "y": 498.953125,
+            "width": 105.125,
+            "height": 10,
+            "visibleAreaApprox": 1051.25
+          },
+          "fontFamily": "omnes-pro, serif",
+          "fontSize": "0px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "0px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgba(0, 0, 0, 0)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "borderColor": "rgba(0, 0, 0, 0)",
+          "borderWidth": "0px",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "padding": "5px"
+        },
+        {
+          "selector": "a.btn-primary-rounded-white.mx-3.mt-2",
+          "text": "Find Out More",
+          "bounds": {
+            "x": 118.84375,
+            "y": 603.109375,
+            "width": 152.3125,
+            "height": 30,
+            "visibleAreaApprox": 4569.375
+          },
+          "fontFamily": "omnes-pro, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "14px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(219, 49, 85)",
+          "backgroundImage": "none",
+          "borderColor": "rgba(0, 0, 0, 0)",
+          "borderWidth": "1px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "7px 40px 7px 14px"
+        }
+      ],
+      "images": [
+        {
+          "selector": "img",
+          "src": "https://www.greenretreats.co.uk/wp-content/themes/greenretreats-child/img/svg/menu-logo.svg",
+          "alt": "Green Retreats Logo",
+          "bounds": {
+            "x": 34.5,
+            "y": -3,
+            "width": 154,
+            "height": 70,
+            "visibleAreaApprox": 10318
+          },
+          "loaded": true,
+          "objectFit": "fill",
+          "objectPosition": "50% 50%"
+        }
+      ],
+      "surfaceMethod": "visible clipped bounding-box area; independent overlapping boxes; first viewport only",
+      "coloredSurfaces": [
+        {
+          "color": "rgb(255, 255, 255)",
+          "summedVisibleBoxArea": 379080,
+          "elements": 3,
+          "examples": [
+            {
+              "selector": "body.home.wp-singular.page-template-default",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 15439.34375,
+                "visibleAreaApprox": 329160
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "header.shadow-sm",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 64,
+                "visibleAreaApprox": 24960
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "nav.navbar.navbar-expand-lg.navbar-light",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 64,
+                "visibleAreaApprox": 24960
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(166, 51, 78)",
+          "summedVisibleBoxArea": 47640.9375,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "#banner-strip",
+              "bounds": {
+                "x": 0,
+                "y": 533.953125,
+                "width": 390,
+                "height": 122.15625,
+                "visibleAreaApprox": 47640.9375
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(104, 127, 106)",
+          "summedVisibleBoxArea": 17961.109375,
+          "elements": 4,
+          "examples": [
+            {
+              "selector": "#search_open-btn",
+              "bounds": {
+                "x": 234.5,
+                "y": 21,
+                "width": 24,
+                "height": 24,
+                "visibleAreaApprox": 576
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.call-menu",
+              "bounds": {
+                "x": 276.5,
+                "y": 18,
+                "width": 28,
+                "height": 29,
+                "visibleAreaApprox": 812
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.homepage-redesign-button.btn-primary-rounded",
+              "bounds": {
+                "x": 31.5,
+                "y": 429.953125,
+                "width": 253.796875,
+                "height": 37,
+                "visibleAreaApprox": 9390.484375
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.homepage-redesign-button.btn-primary-rounded",
+              "bounds": {
+                "x": 31.5,
+                "y": 429.953125,
+                "width": 194.125,
+                "height": 37,
+                "visibleAreaApprox": 7182.625
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(83, 51, 77)",
+          "summedVisibleBoxArea": 6423.546875,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "a.homepage-redesign-button.btn-primary-rounded-purple",
+              "bounds": {
+                "x": 31.5,
+                "y": 429.953125,
+                "width": 173.609375,
+                "height": 37,
+                "visibleAreaApprox": 6423.546875
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(219, 49, 85)",
+          "summedVisibleBoxArea": 4569.375,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "a.btn-primary-rounded-white.mx-3.mt-2",
+              "bounds": {
+                "x": 118.84375,
+                "y": 603.109375,
+                "width": 152.3125,
+                "height": 30,
+                "visibleAreaApprox": 4569.375
+              },
+              "opacity": "1"
+            }
+          ]
+        }
+      ],
+      "imageBackgrounds": [
+        {
+          "selector": "i.navbar-toggler-icon",
+          "backgroundImage": "url(\"data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(74, 122, 123, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e\")",
+          "backgroundSize": "100%",
+          "backgroundPosition": "50% 50%",
+          "bounds": {
+            "x": 324.90625,
+            "y": 15.59375,
+            "width": 30,
+            "height": 30,
+            "visibleAreaApprox": 900
+          }
+        },
+        {
+          "selector": "#homeBanner-two",
+          "backgroundImage": "url(\"https://www.greenretreats.co.uk/wp-content/uploads/Gardenroom-16-1920x800.jpeg\")",
+          "backgroundSize": "cover",
+          "backgroundPosition": "92% 50%",
+          "bounds": {
+            "x": 0,
+            "y": 36,
+            "width": 390,
+            "height": 497.953125,
+            "visibleAreaApprox": 194201.71875
+          }
+        }
+      ],
+      "fontStatus": "loaded",
+      "fontFaces": [
+        {
+          "family": "omnes-pro",
+          "weight": "500",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-pro",
+          "weight": "600",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "weight": "700",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "weight": "700",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-thin",
+          "weight": "200",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-thin",
+          "weight": "200",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "weight": "700",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "weight": "700",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond-thin",
+          "weight": "200",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond-thin",
+          "weight": "200",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "weight": "700",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "weight": "700",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow-thin",
+          "weight": "200",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow-thin",
+          "weight": "200",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "weight": "700",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "weight": "700",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond-thin",
+          "weight": "200",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond-thin",
+          "weight": "200",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Brands",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Free",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Free",
+          "weight": "900",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Brands",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "weight": "900",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "vcpb-plugin-icons",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "vc_grid_v1",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Defaults",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "slick",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "ult-silk",
+          "weight": "normal",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "gform-icons-theme",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "fontRenderError": null,
+      "typography": {
+        "heading": {
+          "selector": "h1.h2.mb-3.mb-lg-0",
+          "text": "Grow your home with Green Retreats",
+          "bounds": {
+            "x": 31.5,
+            "y": 720.109375,
+            "width": 327,
+            "height": 52.78125,
+            "visibleAreaApprox": 17259.46875
+          },
+          "fontFamily": "omnes-pro, sans-serif",
+          "fontSize": "22px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "26.4px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(59, 62, 57)",
+          "fontStackAvailable": true,
+          "renderedFonts": [
+            {
+              "familyName": "Omnes Light",
+              "postScriptName": "OmnesLight",
+              "isCustomFont": true,
+              "glyphCount": 19
+            },
+            {
+              "familyName": "Omnes",
+              "postScriptName": "Omnes-Regular",
+              "isCustomFont": true,
+              "glyphCount": 14
+            }
+          ]
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "httpStatus": 200,
+      "screenshot": "brand-1440x900.png",
+      "errors": [
+        "Unexpected identifier 'E'"
+      ],
+      "blockedWrites": [
+        {
+          "method": "POST",
+          "url": "https://log.cookieyes.com/api/v1/log"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-4HB5GL05HS&gtm=45Pe69g1v892327799za200zd892327799xf1&_p=1789934165404&gcs=G100&gcd=13u3u3-3u5l1&npa=1&dma_cps=-&dma=0&gdid=dY2Q2ZW.dZTNiMT&ecid=728115407&_eu=AAAAAGAC&are=1&cid=403502414.1789934166&ec_mode=a&frm=0&pscdl=denied&rcb=13&sr=1440x900&uaa=arm&uab=64&uafvl=Not)A%253BBrand%3B8.0.0.0%7CChromium%3B138.0.7204.168&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-gb&gaf=2&_s=1&tag_exp=115616986~115938466~115938469~118897920~118897930~120213116~120385422~120469145~120469153&sid=1789934165&sct=1&seg=0&dl=https%3A%2F%2Fwww.greenretreats.co.uk%2F&dt=Garden%20Buildings%20%7C%20The%20UKs%20Leading%20Provider%20%7C%20Green%20Retreats&_tu=CA&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=1103"
+        },
+        {
+          "method": "POST",
+          "url": "https://pagead2.googlesyndication.com/ccm/collect?rcb=9&frm=0&apvc=1&ae=g&en=page_view&dl=https%3A%2F%2Fwww.greenretreats.co.uk%2F&scrsrc=www.googletagmanager.com&rnd=208621950.1789934166&navt=n&npa=1&ep.ads_data_redaction=0&gdid=dY2Q2ZW.dZTNiMT&_tu=CA&gtm=45He69g1h1v72401204za200zd72401204xeaxf1&gcs=G100&gcd=13u3u3-3u5l1&dma_cps=-&dma=0&tag_exp=115938466~115938469~118897920~118897930~120385423~120469145~120469153&tft=1789934166096&tfd=1110&fmt=8"
+        },
+        {
+          "method": "POST",
+          "url": "https://pagead2.googlesyndication.com/ccm/collect?rcb=9&frm=0&apvc=0&tid=DC-14237137&en=page_view&dl=https%3A%2F%2Fwww.greenretreats.co.uk%2F&scrsrc=www.googletagmanager.com&rnd=208621950.1789934166&navt=n&npa=1&gdid=dY2Q2ZW.dZTNiMT&_tu=KA&gtm=45fe69g1h1v9190800660z872401204za20gzb72401204zd72401204xecxf1&gcs=G100&gcd=13u3u3-3u5l1&dma_cps=-&dma=0&tag_exp=115616985~115938466~115938468~118897920~118897930~120213116~120385422~120469145~120469153&tft=1789934166096&tfd=1111&tids=DC-14237137&fmt=8"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google.com/g/collect?v=2&tid=G-4HB5GL05HS&gtm=45Pe69g1v892327799za200zd892327799xf1&_p=1789934165404&gcs=G100&gcd=13u3u3-3u5l1&npa=1&dma_cps=-&dma=0&gdid=dY2Q2ZW.dZTNiMT&ecid=728115407&_eu=AAAAAGAC&are=1&cid=403502414.1789934166&ec_mode=a&frm=0&pscdl=denied&rcb=13&sr=1440x900&uaa=arm&uab=64&uafvl=Not)A%253BBrand%3B8.0.0.0%7CChromium%3B138.0.7204.168&uam=&uamb=0&uap=macOS&uapv=15.7.4&uaw=0&ul=en-gb&gaf=3&_s=1&tag_exp=115616986~115938466~115938469~118897920~118897930~120213116~120385422~120469145~120469153&sid=1789934165&sct=1&seg=0&dl=https%3A%2F%2Fwww.greenretreats.co.uk%2F&dt=Garden%20Buildings%20%7C%20The%20UKs%20Leading%20Provider%20%7C%20Green%20Retreats&_tu=CA&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=1103"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google.com/recaptcha/api2/reload?k=6Le6E7cUAAAAAGCCEnnIm5SdvU3sRGUzDkWLJNRL"
+        }
+      ],
+      "title": "Garden Buildings | The UKs Leading Provider | Green Retreats",
+      "finalUrl": "https://www.greenretreats.co.uk/",
+      "roles": {
+        "hero_heading": [],
+        "section_heading": [],
+        "subheading": [],
+        "body": [
+          {
+            "selector": "#ckyBannerTitle",
+            "text": "We use cookies",
+            "bounds": {
+              "x": 527,
+              "y": 345,
+              "width": 386,
+              "height": 24,
+              "visibleAreaApprox": 9264
+            },
+            "fontFamily": "omnes-pro, serif",
+            "fontSize": "18px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "24px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(51, 51, 51)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.accent-highlight-p",
+            "text": "Grow Your Home",
+            "bounds": {
+              "x": 174,
+              "y": 508.796875,
+              "width": 112.0625,
+              "height": 22,
+              "visibleAreaApprox": 2465.375
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "12px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "20px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.homepage-redesign-title",
+            "text": "Garden Rooms, Offices & Pods",
+            "bounds": {
+              "x": 174,
+              "y": 546.796875,
+              "width": 840.828125,
+              "height": 144,
+              "visibleAreaApprox": 121079.25
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "72px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "72px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.homepage-redesign-strapline.mb-0",
+            "text": "Add space, value and comfort to your home",
+            "bounds": {
+              "x": 174,
+              "y": 700.796875,
+              "width": 1092,
+              "height": 27.203125,
+              "visibleAreaApprox": 29705.8125
+            },
+            "fontFamily": "omnes-pro, serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "27.2px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.accent-highlight-p",
+            "text": "Visit Our Showrooms",
+            "bounds": {
+              "x": 174,
+              "y": 508.796875,
+              "width": 135.296875,
+              "height": 22,
+              "visibleAreaApprox": 2976.53125
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "12px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "20px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.homepage-redesign-title",
+            "text": "Buckinghamshire & London Showrooms",
+            "bounds": {
+              "x": 174,
+              "y": 546.796875,
+              "width": 840.828125,
+              "height": 144,
+              "visibleAreaApprox": 121079.25
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "72px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "72px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.homepage-redesign-strapline.mb-0",
+            "text": "Be our guest & experience the quality yourself.",
+            "bounds": {
+              "x": 174,
+              "y": 700.796875,
+              "width": 1092,
+              "height": 27.203125,
+              "visibleAreaApprox": 29705.8125
+            },
+            "fontFamily": "omnes-pro, serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "27.2px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.accent-highlight-p",
+            "text": "Kevin McCloud",
+            "bounds": {
+              "x": 174,
+              "y": 508.796875,
+              "width": 101.546875,
+              "height": 22,
+              "visibleAreaApprox": 2234.03125
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "12px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "20px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          }
+        ],
+        "navigation": [
+          {
+            "selector": "a.navbar-brand",
+            "text": "",
+            "bounds": {
+              "x": 162,
+              "y": 3.09375,
+              "width": 193,
+              "height": 77,
+              "visibleAreaApprox": 14861
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "20px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "30px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgba(0, 0, 0, 0.9)",
+            "fontStackAvailable": true
+          }
+        ],
+        "label": [],
+        "link": [
+          {
+            "selector": "a.homepage-redesign-button.btn-primary-rounded",
+            "text": "Shop our Garden Rooms",
+            "bounds": {
+              "x": 174,
+              "y": 743,
+              "width": 253.796875,
+              "height": 37,
+              "visibleAreaApprox": 9390.484375
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "uppercase",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.homepage-redesign-button.btn-primary-rounded",
+            "text": "Our Showrooms",
+            "bounds": {
+              "x": 174,
+              "y": 743,
+              "width": 194.125,
+              "height": 37,
+              "visibleAreaApprox": 7182.625
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "uppercase",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.homepage-redesign-button.btn-primary-rounded-purple",
+            "text": "Find out more",
+            "bounds": {
+              "x": 174,
+              "y": 743,
+              "width": 173.609375,
+              "height": 37,
+              "visibleAreaApprox": 6423.546875
+            },
+            "fontFamily": "omnes-pro, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "16px",
+            "letterSpacing": "normal",
+            "textTransform": "uppercase",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          }
+        ]
+      },
+      "buttons": [
+        {
+          "selector": "button.cky-btn.cky-btn-customize",
+          "text": "Cookie Settings",
+          "bounds": {
+            "x": 527,
+            "y": 511,
+            "width": 205.125,
+            "height": 44,
+            "visibleAreaApprox": 9025.5
+          },
+          "fontFamily": "omnes-pro, serif",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "fontStyle": "normal",
+          "lineHeight": "24px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(51, 51, 51)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(222, 223, 224)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(222, 223, 224)",
+          "borderWidth": "2px",
+          "borderRadius": "2px",
+          "boxShadow": "none",
+          "padding": "8px"
+        },
+        {
+          "selector": "button.cky-btn.cky-btn-accept",
+          "text": "Accept All",
+          "bounds": {
+            "x": 740.125,
+            "y": 511,
+            "width": 172.890625,
+            "height": 44,
+            "visibleAreaApprox": 7607.1875
+          },
+          "fontFamily": "omnes-pro, serif",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "fontStyle": "normal",
+          "lineHeight": "24px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(83, 51, 77)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(83, 51, 77)",
+          "borderWidth": "2px",
+          "borderRadius": "2px",
+          "boxShadow": "none",
+          "padding": "8px"
+        },
+        {
+          "selector": "a.homepage-redesign-button.btn-primary-rounded",
+          "text": "Shop our Garden Rooms",
+          "bounds": {
+            "x": 174,
+            "y": 743,
+            "width": 253.796875,
+            "height": 37,
+            "visibleAreaApprox": 9390.484375
+          },
+          "fontFamily": "omnes-pro, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "16px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(104, 127, 106)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "10px 43px 11px 20px"
+        },
+        {
+          "selector": "a.homepage-redesign-button.btn-primary-rounded",
+          "text": "Our Showrooms",
+          "bounds": {
+            "x": 174,
+            "y": 743,
+            "width": 194.125,
+            "height": 37,
+            "visibleAreaApprox": 7182.625
+          },
+          "fontFamily": "omnes-pro, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "16px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(104, 127, 106)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "10px 43px 11px 20px"
+        },
+        {
+          "selector": "a.homepage-redesign-button.btn-primary-rounded-purple",
+          "text": "Find out more",
+          "bounds": {
+            "x": 174,
+            "y": 743,
+            "width": 173.609375,
+            "height": 37,
+            "visibleAreaApprox": 6423.546875
+          },
+          "fontFamily": "omnes-pro, sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "16px",
+          "letterSpacing": "normal",
+          "textTransform": "uppercase",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(83, 51, 77)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "10px 43px 11px 20px"
+        },
+        {
+          "selector": "#slick-slide-control10",
+          "text": "1",
+          "bounds": {
+            "x": 177.5,
+            "y": 815,
+            "width": 358.328125,
+            "height": 10,
+            "visibleAreaApprox": 3583.28125
+          },
+          "fontFamily": "omnes-pro, serif",
+          "fontSize": "0px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "0px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgba(0, 0, 0, 0)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "borderColor": "rgba(0, 0, 0, 0)",
+          "borderWidth": "0px",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "padding": "5px"
+        },
+        {
+          "selector": "#slick-slide-control11",
+          "text": "2",
+          "bounds": {
+            "x": 545.828125,
+            "y": 815,
+            "width": 358.328125,
+            "height": 10,
+            "visibleAreaApprox": 3583.28125
+          },
+          "fontFamily": "omnes-pro, serif",
+          "fontSize": "0px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "0px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgba(0, 0, 0, 0)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "borderColor": "rgba(0, 0, 0, 0)",
+          "borderWidth": "0px",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "padding": "5px"
+        },
+        {
+          "selector": "#slick-slide-control12",
+          "text": "3",
+          "bounds": {
+            "x": 914.15625,
+            "y": 815,
+            "width": 358.328125,
+            "height": 10,
+            "visibleAreaApprox": 3583.28125
+          },
+          "fontFamily": "omnes-pro, serif",
+          "fontSize": "0px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "0px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgba(0, 0, 0, 0)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "borderColor": "rgba(0, 0, 0, 0)",
+          "borderWidth": "0px",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "padding": "5px"
+        }
+      ],
+      "images": [
+        {
+          "selector": "img",
+          "src": "https://www.greenretreats.co.uk/wp-content/themes/greenretreats-child/img/svg/menu-logo.svg",
+          "alt": "Green Retreats Logo",
+          "bounds": {
+            "x": 162,
+            "y": 3.09375,
+            "width": 193,
+            "height": 77,
+            "visibleAreaApprox": 14861
+          },
+          "loaded": true,
+          "objectFit": "fill",
+          "objectPosition": "50% 50%"
+        }
+      ],
+      "surfaceMethod": "visible clipped bounding-box area; independent overlapping boxes; first viewport only",
+      "coloredSurfaces": [
+        {
+          "color": "rgb(255, 255, 255)",
+          "summedVisibleBoxArea": 1646460,
+          "elements": 4,
+          "examples": [
+            {
+              "selector": "body.home.wp-singular.page-template-default",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 9634.890625,
+                "visibleAreaApprox": 1296000
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "div.cky-consent-bar",
+              "bounds": {
+                "x": 500,
+                "y": 324,
+                "width": 440,
+                "height": 252,
+                "visibleAreaApprox": 110880
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "header.shadow-sm",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 83.1875,
+                "visibleAreaApprox": 119790
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "nav.navbar.navbar-expand-lg.navbar-light",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 83.1875,
+                "visibleAreaApprox": 119790
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "summedVisibleBoxArea": 1296000,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "div.cky-overlay",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 900,
+                "visibleAreaApprox": 1296000
+              },
+              "opacity": "0.4"
+            }
+          ]
+        },
+        {
+          "color": "rgb(104, 127, 106)",
+          "summedVisibleBoxArea": 16573.109375,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "a.homepage-redesign-button.btn-primary-rounded",
+              "bounds": {
+                "x": 174,
+                "y": 743,
+                "width": 253.796875,
+                "height": 37,
+                "visibleAreaApprox": 9390.484375
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.homepage-redesign-button.btn-primary-rounded",
+              "bounds": {
+                "x": 174,
+                "y": 743,
+                "width": 194.125,
+                "height": 37,
+                "visibleAreaApprox": 7182.625
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(83, 51, 77)",
+          "summedVisibleBoxArea": 14030.734375,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "button.cky-btn.cky-btn-accept",
+              "bounds": {
+                "x": 740.125,
+                "y": 511,
+                "width": 172.890625,
+                "height": 44,
+                "visibleAreaApprox": 7607.1875
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.homepage-redesign-button.btn-primary-rounded-purple",
+              "bounds": {
+                "x": 174,
+                "y": 743,
+                "width": 173.609375,
+                "height": 37,
+                "visibleAreaApprox": 6423.546875
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(222, 223, 224)",
+          "summedVisibleBoxArea": 9025.5,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "button.cky-btn.cky-btn-customize",
+              "bounds": {
+                "x": 527,
+                "y": 511,
+                "width": 205.125,
+                "height": 44,
+                "visibleAreaApprox": 9025.5
+              },
+              "opacity": "1"
+            }
+          ]
+        }
+      ],
+      "imageBackgrounds": [
+        {
+          "selector": "i.navbar-toggler-icon",
+          "backgroundImage": "url(\"data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(74, 122, 123, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e\")",
+          "backgroundSize": "100%",
+          "backgroundPosition": "50% 50%",
+          "bounds": {
+            "x": 1254.40625,
+            "y": 25.1875,
+            "width": 30,
+            "height": 30,
+            "visibleAreaApprox": 900
+          }
+        },
+        {
+          "selector": "div.bg",
+          "backgroundImage": "url(\"https://www.greenretreats.co.uk/wp-content/uploads/Headbanner-garden-rooms-office-pods.jpg\")",
+          "backgroundSize": "cover",
+          "backgroundPosition": "50% 50%",
+          "bounds": {
+            "x": -16.83905029296875,
+            "y": 70.41110229492188,
+            "width": 1473.67822265625,
+            "height": 839.177734375,
+            "visibleAreaApprox": 1194608.0126953125
+          }
+        },
+        {
+          "selector": "div.bg",
+          "backgroundImage": "url(\"https://www.greenretreats.co.uk/wp-content/uploads/Banner-showroom-2.png\")",
+          "backgroundSize": "cover",
+          "backgroundPosition": "50% 50%",
+          "bounds": {
+            "x": 0,
+            "y": 80,
+            "width": 1440,
+            "height": 820,
+            "visibleAreaApprox": 1180800
+          }
+        },
+        {
+          "selector": "div.bg",
+          "backgroundImage": "url(\"https://www.greenretreats.co.uk/wp-content/uploads/kevin-mccloud-outside-1920x800.jpg\")",
+          "backgroundSize": "cover",
+          "backgroundPosition": "50% 50%",
+          "bounds": {
+            "x": 0,
+            "y": 80,
+            "width": 1440,
+            "height": 820,
+            "visibleAreaApprox": 1180800
+          }
+        }
+      ],
+      "fontStatus": "loaded",
+      "fontFaces": [
+        {
+          "family": "omnes-pro",
+          "weight": "500",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "weight": "400",
+          "style": "italic",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "weight": "600",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "weight": "700",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "weight": "700",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-thin",
+          "weight": "200",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-thin",
+          "weight": "200",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "weight": "700",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "weight": "700",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond-thin",
+          "weight": "200",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond-thin",
+          "weight": "200",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "weight": "700",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "weight": "700",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow-thin",
+          "weight": "200",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow-thin",
+          "weight": "200",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "weight": "400",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "weight": "700",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "weight": "700",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond-thin",
+          "weight": "200",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond-thin",
+          "weight": "200",
+          "style": "italic",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Brands",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Free",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Free",
+          "weight": "900",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "Font Awesome 5 Brands",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "weight": "900",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "vcpb-plugin-icons",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "vc_grid_v1",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "Defaults",
+          "weight": "normal",
+          "style": "normal",
+          "status": "unloaded"
+        },
+        {
+          "family": "slick",
+          "weight": "400",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "ult-silk",
+          "weight": "normal",
+          "style": "normal",
+          "status": "loaded"
+        },
+        {
+          "family": "gform-icons-theme",
+          "weight": "400",
+          "style": "normal",
+          "status": "unloaded"
+        }
+      ],
+      "fontRenderError": null,
+      "typography": {
+        "heading": {
+          "selector": "html:nth-of-type(1) > body:nth-of-type(1) > article:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1)",
+          "text": "Grow your home with Green Retreats",
+          "fontFamily": "omnes-pro, sans-serif",
+          "fontSize": "24px",
+          "fontWeight": "400",
+          "textTransform": "none",
+          "sampleScrollY": 557,
+          "renderedFonts": [
+            {
+              "familyName": "Omnes Light",
+              "postScriptName": "OmnesLight",
+              "isCustomFont": true,
+              "glyphCount": 19
+            },
+            {
+              "familyName": "Omnes",
+              "postScriptName": "Omnes-Regular",
+              "isCustomFont": true,
+              "glyphCount": 14
+            }
+          ],
+          "screenshot": "brand-1440x900-heading.png"
+        }
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "brand-390x844.png",
+      "type": "screenshot",
+      "sha256": "753434307d1a7a76c4a07b584a4628340023dc48ce14ac719c55d10309c4f2ec"
+    },
+    {
+      "path": "brand-1440x900.png",
+      "type": "screenshot",
+      "sha256": "f4cf7afe984058deddf80aa13825819c446240642d1e91f9cb8d9ccea01dce71"
+    },
+    {
+      "path": "brand-1440x900-heading.png",
+      "type": "screenshot",
+      "sha256": "cc9d8fb27131108b3ff01c36528732caad3b009d2f6a5f049737abb5e3275a08"
+    }
+  ],
+  "failures": [],
+  "interpretation": "Measurements describe rendered CSS and visible geometry. They do not automatically select the correct brand identity, official font, logo, or design direction.",
+  "limits": [
+    "Surface areas approximate visible bounding-box area in the first viewport. Overlapping parent/child backgrounds are counted independently; these are not pixel shares.",
+    "Computed stacks and FontFace entries alone do not prove glyph fonts. renderedFonts records Chromium evidence for the selected heading and prose samples only.",
+    "Background images, gradients, transparency, pseudo-elements, canvas, and video need screenshot review. No dominant image-color extraction is attempted.",
+    "No cookies or login state are imported. Consent dialogs or anonymous variants can affect the visible sample.",
+    "All write requests are blocked. Normal GET requests still reach the supplied site."
+  ],
+  "completed_at": "2026-09-20T19:56:10.651Z"
+}

@@ -7,7 +7,7 @@ import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { readRenderedFonts } from './rendered_fonts.mjs';
 
-const VERSION = '1.8.0';
+const VERSION = '1.8.1';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -416,6 +416,26 @@ async function inspectModal(page, viewport, name) {
   return { present: true, opened: true, action: actionResult, focusContained, keyboard, screenshot };
 }
 
+async function inspectDisplayedPhone(page, viewport) {
+  const numbers = await page.locator('a[href^="tel:"]').evaluateAll((links) => links.flatMap((link) => {
+    const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT);
+    const samples = [];
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      if (!/\d{3}/.test(node.textContent)) continue;
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      const box = range.getBoundingClientRect();
+      const style = getComputedStyle(node.parentElement);
+      if (!box.width || box.bottom <= 0 || box.top >= innerHeight || style.visibility === 'hidden') continue;
+      samples.push({ text: node.textContent.trim(), fontSize: parseFloat(style.fontSize) });
+    }
+    return samples;
+  }));
+  if (numbers.length) check('displayed_phone_readable', numbers.every(item => item.fontSize >= 14), JSON.stringify(numbers), { viewport });
+  return numbers;
+}
+
 try {
   for (const viewport of viewports) {
     const name = `${viewport.width}x${viewport.height}`;
@@ -464,6 +484,7 @@ try {
       }
     }
     const screenshot = await addShot(page, `${name}-landing`);
+    await inspectDisplayedPhone(page, viewport);
     check('horizontal_overflow', metrics.pageWidth <= viewport.width + 1 && metrics.overflow.length === 0, JSON.stringify({ pageWidth: metrics.pageWidth, overflow: metrics.overflow }), { viewport, screenshot });
     check('visible_h1', metrics.h1Count === 1, `Visible H1 count: ${metrics.h1Count}`, { viewport });
     if (metrics.heroContinuation) {
@@ -494,6 +515,13 @@ try {
     check('console_errors', consoleErrors.length === 0, consoleErrors.join('; ') || 'No console errors', { viewport });
     check('network_errors', networkErrors.length === 0, JSON.stringify(networkErrors), { viewport });
     report.viewports.push({ ...viewport, screenshot, metrics, modal, consoleErrors, networkErrors });
+    if (viewport.label === 'mobile') {
+      const narrow = { width: 320, height: 700, label: 'narrow-spot' };
+      await page.setViewportSize(narrow);
+      await page.evaluate(() => scrollTo(0, 0));
+      const screenshot = await addShot(page, '320x700-first', false);
+      report.narrowSpot = { ...narrow, screenshot, phones: await inspectDisplayedPhone(page, narrow) };
+    }
     await context.close();
   }
 

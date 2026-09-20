@@ -33,7 +33,7 @@ def main():
         root = Path(directory)
         prose = 'A local service team provides a clear quotation after reviewing the property and the work required.'
         brand_path = root / 'brand.json'
-        cases = ['visible', 'below', 'overlap', 'font-drift', 'modal-covered', 'modal-clear', 'font-fallback', 'font-loaded', 'image-fixed-height', 'image-responsive']
+        cases = ['visible', 'below', 'overlap', 'font-drift', 'modal-covered', 'modal-clear', 'font-fallback', 'font-loaded', 'image-fixed-height', 'image-responsive', 'phone-narrow', 'phone-readable']
         for name in cases:
             height = '110vh' if name == 'below' else '200px'
             label_offset = '30px' if name == 'overlap' else '180px'
@@ -50,6 +50,12 @@ def main():
                     'src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27800%27 height=%27600%27 fill=%27green%27/%3E%3C/svg%3E">'
                 )
             trigger = '<a href="tel:+15555550100" data-primary-action>Call</a>'
+            if name.startswith('phone-'):
+                narrow_size = 13 if name == 'phone-narrow' else 14
+                trigger = (
+                    f'<style>.phone-number{{font-size:14px}}@media(max-width:359px){{.phone-number{{font-size:{narrow_size}px}}}}</style>'
+                    '<a href="tel:+15555550100" data-primary-action><span class="phone-number">555 555 0100</span></a>'
+                )
             if name.startswith('modal-'):
                 trigger = '<button type="button" data-open-modal data-primary-action>Get a quote</button>'
                 fields = ''.join(f'<label>Field {n}<input id="field-{n}" name="field-{n}"></label>' for n in range(14))
@@ -132,11 +138,19 @@ def main():
                 assert len(image_checks) == 5, image_checks
                 expected_image = 'blocked' if name == 'image-fixed-height' else 'pass'
                 assert all(c['status'] == expected_image for c in image_checks), image_checks
-                assert (result.returncode == 0) == (name in ['visible', 'font-drift', 'modal-clear', 'font-loaded', 'image-responsive']), report['failures']
+                phones = [c for c in report['checks'] if c['name'] == 'displayed_phone_readable']
+                if name.startswith('phone-'):
+                    assert len(phones) == 6, phones
+                    for phone in phones:
+                        expected_phone = 'blocked' if name == 'phone-narrow' and phone['viewport']['width'] == 320 else 'pass'
+                        assert phone['status'] == expected_phone, phone
+                else:
+                    assert not phones, phones
+                assert (result.returncode == 0) == (name in ['visible', 'font-drift', 'modal-clear', 'font-loaded', 'image-responsive', 'phone-readable']), report['failures']
         finally:
             server.shutdown()
             server.server_close()
-    print('PASS: ten hero, text, rendered-font, image-ratio and modal keyboard fixtures at all five viewports')
+    print('PASS: twelve hero, text, font, image-ratio, modal and phone fixtures with a narrow phone spot check')
 
 
 if __name__ == '__main__':
