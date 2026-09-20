@@ -12,7 +12,7 @@ Cover the buyer jobs supported by evidence:
 - process and next step;
 - final reassurance and legal close.
 
-Merge related jobs. Omit unsupported jobs. Add a section only when it answers a real buyer question. A supplied reference is a completeness benchmark, but its literal section count and order are not requirements.
+Merge related jobs only when their specific answers and supporting proof survive. Omit unsupported claims, not important buyer questions merely because an exact figure is unavailable. Use the coverage table from `reference-fidelity.md`; add sections when needed to answer real questions. A supplied reference is a completeness benchmark, but its literal section count and order are not requirements. Concise paragraphs must not become a thin page with generic assurances.
 
 Write one implementation-ready copy master at `build/page-copy.md` or `build/page-copy.json`. Include the page title and description, H1, supporting copy, primary CTA, every section, form or external-action wording, success or thank-you wording, and any selected brochure promise.
 
@@ -35,6 +35,8 @@ Write one implementation-ready copy master at `build/page-copy.md` or `build/pag
 ## Primary action
 
 The CTA must name the real next step. All controls opening the same primary journey use its exact label; do not rename a full quote form as a postcode checker or another narrower action. A visitor should not have to infer what happens.
+
+For a form-led offer, every form-entry CTA opens the same popup without moving the visitor to another page section. An inline form may supplement it when justified in research. Navigation links can scroll to content; enquiry CTAs cannot. Show a verified public service/enquiry phone number near the top and at final contact, visually secondary to the form action. Secondary means lower emphasis, not buried. Do not introduce an unexplained first name at the point of contact: identify the person's verified relationship to the business, or use `Call the team` with the number. Never invent a role.
 
 - `Download the guide` must lead to a real guide after the stated condition.
 - `Book a consultation` must reach a real booking flow.

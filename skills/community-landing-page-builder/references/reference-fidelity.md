@@ -1,10 +1,10 @@
 # Reference fidelity and perceived completeness
 
-Use this whenever the user supplies a reference page or the client already has a landing page. This is the product-quality contract. Automated tests cannot replace it.
+Read this during default research and final acceptance. Use the supplied reference for its stated role, the relevant client pages for facts, and the built-in benchmarks in `design-direction.md` for structure and execution. This is the product-quality contract. Automated tests cannot replace it.
 
 ## Establish the benchmark
 
-Capture the supplied reference and relevant existing client page at full-page desktop and mobile sizes. Inventory, in order:
+Inspect the full supplied reference and relevant client pages, not only their first screens. Reuse desktop/mobile captures and source notes from the normal research pass. Inventory the material buyer decisions and media beats, in order:
 
 - every visible section and its persuasive job;
 - every factual/proof element, offer detail, objection and CTA transition;
@@ -15,14 +15,18 @@ When several sources exist, use the richest relevant buyer journey. Do not defau
 
 ## Map coverage before design
 
-Create `build/reference-fidelity.json`. Give every inventoried reference/client section a stable ID and map it to one of:
+Use one compact coverage table in `build/strategy-brief.md`: buyer question or reference beat, source, specific client answer/proof, final section, and disposition. Reuse an existing `build/reference-fidelity.json` if already present; do not maintain both. Map each material beat to one of:
 
 - `preserved`: the same persuasive job remains;
 - `adapted`: the job remains but is expressed for this brand/audience;
 - `replaced`: stronger researched material performs the same job;
 - `omitted`: buyer research proves the job is irrelevant or unsupported.
 
-Replacement or omission needs a concrete rationale. “Keeping the page concise,” “cleaner design,” lack of supplied assets, implementation time, or a generic best practice are not valid rationales.
+Projects using the optional legacy `workflow.py` scaffold retain its structured `build/reference-fidelity.json` contract. The default lightweight build uses the brief table; do not invoke that legacy full-funnel gate just to validate this table.
+
+Replacement or omission needs a concrete rationale. Keeping the page concise, cleaner design, lack of supplied assets, implementation time, or a generic best practice are not valid rationales. A reference's unsupported claim is omitted, but its underlying buyer question may still need an honest client-specific answer. Do not reduce a rich reference to four generic labels such as hero, gallery, process and CTA and call that fidelity.
+
+For a considered local-service purchase, examine suitability/use, service area, scope and options, what affects the quote, team credibility, proof, practical constraints and what the consultation delivers before commitment. Include what matters to this buyer, not a mandatory section for every item. When no price is verified, explain supported quote factors and the actual quoting process; never borrow competitor prices or fabricate a range. Distribute supported proof near relevant claims instead of assuming one short testimonial proves every benefit. A missing video or brochure does not require manufacturing one, but preserve its persuasive job through available evidence.
 
 Compare the planned final with the benchmark on content depth, media cadence, proof density, visual variety and CTA journey. Record `equal_or_stronger` or a researched `justified_difference` with evidence for each dimension.
 
@@ -34,13 +38,14 @@ Section count, page height and image count are observations, not targets. A shor
 
 ## Final side-by-side review
 
-After implementation, view full-page desktop and mobile screenshots beside the benchmark captures. Ask:
+After implementation, view full-page desktop and mobile screenshots beside the inspected reference captures and read the final copy against the coverage table. Use readable section captures for text; a scaled full-page image establishes composition, not copy completeness. If a benchmark is inaccessible, use a clearly dated bundled capture when available and disclose the limitation. Ask:
 
 - Does the final look materially smaller or emptier?
 - Did rich media become text cards or generic icon grids?
 - Is proof as visible, specific and well distributed?
 - Are section compositions varied enough to sustain attention?
 - Does each scroll reveal a new reason to continue?
+- Are the strategy's important questions actually answered rather than merely mentioned or deferred to a call?
 - Is the offer and next action at least as tangible?
 - Does the final feel custom to this business rather than generated from a starter?
 

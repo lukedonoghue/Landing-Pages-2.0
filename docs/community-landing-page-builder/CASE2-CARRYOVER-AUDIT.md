@@ -1,5 +1,7 @@
 # Case 2: separate carryover audit
 
+**Current status: business 2 acceptance withdrawn.** See EXTERNAL-REFERENCE-R3-REOPENED.md. Historical technical results below remain evidence of their actual scope, but the attempt-3 overall pass and C11 closure are superseded. Carry R3-P01 through R3-P05 into the next independent build as separate product checks; popup lifecycle is now required, not an absent variant to mark N/A. No business-3 acceptance is authorized by the withdrawn pass.
+
 User direction on 2026-09-20 supersedes the earlier case-1-pass-before-case-2 sequencing. Stayclean attempt 10 remains unaccepted and unchanged. Proceed to external-reference business 2, using it to verify the source fixes below. This document is orchestrator-only and must never be supplied to independent builders.
 
 ## Budget and execution

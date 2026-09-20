@@ -1,4 +1,8 @@
-# External-reference attempt 3: accepted local result
+# External-reference attempt 3: acceptance withdrawn
+
+**CURRENT STATUS: BLOCKED / NOT ACCEPTED.** The user identified missing product requirements after this review. See EXTERNAL-REFERENCE-R3-REOPENED.md for traced causes and source corrections. The earlier conclusion below is retained as historical evidence, not current approval. Passing technical assertions does not resolve content depth, popup entry, phone discoverability or unexplained contact names. The page remains unchanged and needs a new independent build from the corrected skill.
+
+## Historical review, superseded
 
 **Result: local acceptance passed for business 2 on 2026-09-20.** No confirmed blocker remains in the inspected page-only scope. Preview: http://127.0.0.1:4175/ . No parent repair was made to the generated page. No CRM, Cloudflare connection, live lead or deployment occurred.
 

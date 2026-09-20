@@ -73,6 +73,8 @@ For each viewport, record specific observations for:
 
 Also compare the complete page with the reference hierarchy in `design-direction.md`. Blue Mountain is a structural benchmark, not a style target. Clean Slate is a minimum execution-quality benchmark, not a template to copy. Block a technically sound page when the full composition still reads as a legacy sales brochure, an enlarged logo palette, or an audience-inappropriate design. Fix the underlying type, palette proportions, spacing, imagery treatment, or repeated motifs and then recapture every affected viewport.
 
+In this same review, apply `reference-fidelity.md` to the final copy and existing strategy coverage table. Block unanswered material buyer questions, unexplained removal of relevant evidence, or generic sentences counted as complete answers. Inspect phone discoverability near the top as well as the footer and explain any named contact as a first-time visitor would need. Technical or visual polish cannot compensate for an incomplete conversion argument.
+
 Review each used image with asset-specific evidence. Review every modal step and validation state that exists. If a brochure exists, review every rendered page using the catalogue workflow.
 
 Crop warnings name the actual asset and placement. Resolve each one separately; a reviewed hero does not clear unrelated service-image warnings. An explicit image ratio that disagrees with its rendered box indicates a sizing conflict to fix, not proof that the declared ratio took effect.
@@ -82,6 +84,8 @@ Before treating an image-load failure as a page defect, scroll the named placeme
 ## 4. Conversion gate
 
 Test the selected real action, not a substitute.
+
+On form-led pages, activate every distinct enquiry/quote CTA placement. Each must open the same dialog without a page-section jump or URL-fragment change; closing restores the opener and original page position. An inline form does not exempt these checks. Test at least header/hero, middle and final entry points when present within the existing conversion pass. Shared inline/modal access must retain the same entered, pending and confirmed state without duplicate requests. A `data-open-modal` attribute alone does not prove this behavior.
 
 Before testing behavior, compare the final action with the source conversion contract. Block the build when a supplied source form, booking, quote, purchase, or download journey was replaced merely because credentials or production access were unavailable. Confirm that the offer, delivery promise, consent, and next step remain materially faithful or that a source-supported change is documented.
 
@@ -145,6 +149,8 @@ The acceptance report must include:
 - fixes made and retested;
 - unresolved limits;
 - final result: `blocked`, `local final`, `publish-ready`, or `live and verified`.
+
+Keep product acceptance separate from technical test results: explicitly state reference/buyer-question coverage, all form-entry CTA behavior, and verified phone/contact clarity. Do not declare the page accepted on assertion counts, Lighthouse scores or collision-free screenshots alone. A failed required interaction is not an N/A variant just because the builder chose not to implement it.
 
 A selected optional module can be incomplete without blocking the base page only when it is clearly excluded from the delivered claim. Never call the whole result complete while presenting that module as working.
 
