@@ -38,4 +38,6 @@ Full parent report: `WEBSITE-ONLY-R10-PARENT-REVIEW.md`; portable evidence under
 
 Pre-freeze verification: skill metadata valid; 67 package tests and 23 script tests pass; all ten existing browser fixtures pass expected outcomes at five viewports. New delayed-image recovery and genuine broken-image fixtures also pass at all five sizes. The helper is v1.7.0 and only spends its bounded recheck on undecoded images; no extra model review stage is added. Page code is unchanged.
 
-Pending first external-reference build. Record each attempt's frozen source, prompt hash, agent, time, evidence and general/carryover verdict here or in its linked review. Do not mark Stayclean retroactively accepted when business 2 passes.
+External-reference attempt 1 started 2026-09-20 at 14:09 Kyiv: `01a0be81-a80c-7420-935a-05832a41470b` (Plato), gpt-5.6-sol xhigh, fork_context=false. Frozen source 9182397, 174 files, manifest SHA-256 `7165587aee0cf4b84f932f97a7a3378f04be43b7eed838b0f52a5a8d13fb91fa`. Empty project verified before launch. Exact owner prompt is outside builder scope at `work/community-acceptance-20260920/external-reference-r1-prompt.txt` in the parent task. No prior context or findings supplied. Usage at launch: 33% used.
+
+Record general and carryover verdicts separately. Do not mark Stayclean retroactively accepted when business 2 passes.
