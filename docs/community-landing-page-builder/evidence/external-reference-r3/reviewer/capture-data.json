@@ -1,0 +1,657 @@
+[
+  {
+    "name": "390x844",
+    "metrics": {
+      "documentWidth": 390,
+      "viewportWidth": 390,
+      "hero": {
+        "x": 0,
+        "y": 68,
+        "width": 390,
+        "height": 638
+      },
+      "trust": {
+        "x": 0,
+        "y": 706,
+        "width": 390,
+        "height": 157
+      },
+      "h1": {
+        "x": 18,
+        "y": 339,
+        "width": 354,
+        "height": 124
+      },
+      "heroAction": {
+        "x": 18,
+        "y": 589,
+        "width": 174,
+        "height": 52
+      },
+      "headerLogo": {
+        "x": 18,
+        "y": 9,
+        "width": 145,
+        "height": 50
+      },
+      "headingFont": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "images": [
+        {
+          "src": "logo.png",
+          "naturalWidth": 161,
+          "naturalHeight": 55,
+          "fit": "contain",
+          "box": {
+            "width": 145,
+            "height": 50
+          }
+        },
+        {
+          "src": "hero-800.webp",
+          "naturalWidth": 390,
+          "naturalHeight": 219,
+          "fit": "cover",
+          "box": {
+            "width": 390,
+            "height": 238
+          }
+        },
+        {
+          "src": "office-640.webp",
+          "naturalWidth": 350,
+          "naturalHeight": 233,
+          "fit": "cover",
+          "box": {
+            "width": 354,
+            "height": 236
+          }
+        },
+        {
+          "src": "walthamstow-600.webp",
+          "naturalWidth": 353,
+          "naturalHeight": 265,
+          "fit": "cover",
+          "box": {
+            "width": 354,
+            "height": 249
+          }
+        },
+        {
+          "src": "dyserth-600.webp",
+          "naturalWidth": 353,
+          "naturalHeight": 236,
+          "fit": "cover",
+          "box": {
+            "width": 354,
+            "height": 249
+          }
+        },
+        {
+          "src": "moreton-600.webp",
+          "naturalWidth": 353,
+          "naturalHeight": 236,
+          "fit": "cover",
+          "box": {
+            "width": 354,
+            "height": 249
+          }
+        },
+        {
+          "src": "logo.png",
+          "naturalWidth": 161,
+          "naturalHeight": 55,
+          "fit": "contain",
+          "box": {
+            "width": 161,
+            "height": 55
+          }
+        }
+      ]
+    },
+    "invalid": {
+      "summary": "Please check these fields:\nEnter your name.\nEnter your email address.\nTell us a little about the room you have in mind.",
+      "focused": "validation-summary",
+      "rect": {
+        "top": 48.078125,
+        "bottom": 219.015625
+      }
+    },
+    "failure": {
+      "status": "The preview could not confirm your enquiry. Your details are still here. Please try again.",
+      "focused": "form-status"
+    },
+    "success": {
+      "text": "✓\nPreview complete\n\nYour details were not sent to The Garden Room Co.\n\nNew enquiry",
+      "focused": "form-success"
+    },
+    "posts": 2,
+    "problems": [
+      "HTTP 503: http://127.0.0.1:4175/api/enquiries"
+    ]
+  },
+  {
+    "name": "768x1024",
+    "metrics": {
+      "documentWidth": 768,
+      "viewportWidth": 768,
+      "hero": {
+        "x": 0,
+        "y": 72,
+        "width": 768,
+        "height": 638
+      },
+      "trust": {
+        "x": 0,
+        "y": 710,
+        "width": 768,
+        "height": 83
+      },
+      "h1": {
+        "x": 20,
+        "y": 425,
+        "width": 640,
+        "height": 106
+      },
+      "heroAction": {
+        "x": 20,
+        "y": 614,
+        "width": 162,
+        "height": 52
+      },
+      "headerLogo": {
+        "x": 20,
+        "y": 9,
+        "width": 161,
+        "height": 55
+      },
+      "headingFont": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "images": [
+        {
+          "src": "logo.png",
+          "naturalWidth": 161,
+          "naturalHeight": 55,
+          "fit": "contain",
+          "box": {
+            "width": 161,
+            "height": 55
+          }
+        },
+        {
+          "src": "hero-800.webp",
+          "naturalWidth": 768,
+          "naturalHeight": 432,
+          "fit": "cover",
+          "box": {
+            "width": 768,
+            "height": 330
+          }
+        },
+        {
+          "src": "office.webp",
+          "naturalWidth": 727,
+          "naturalHeight": 485,
+          "fit": "cover",
+          "box": {
+            "width": 728,
+            "height": 486
+          }
+        },
+        {
+          "src": "walthamstow-600.webp",
+          "naturalWidth": 230,
+          "naturalHeight": 172,
+          "fit": "cover",
+          "box": {
+            "width": 232,
+            "height": 185
+          }
+        },
+        {
+          "src": "dyserth-600.webp",
+          "naturalWidth": 230,
+          "naturalHeight": 153,
+          "fit": "cover",
+          "box": {
+            "width": 232,
+            "height": 185
+          }
+        },
+        {
+          "src": "moreton-600.webp",
+          "naturalWidth": 230,
+          "naturalHeight": 153,
+          "fit": "cover",
+          "box": {
+            "width": 232,
+            "height": 185
+          }
+        },
+        {
+          "src": "logo.png",
+          "naturalWidth": 161,
+          "naturalHeight": 55,
+          "fit": "contain",
+          "box": {
+            "width": 161,
+            "height": 55
+          }
+        }
+      ]
+    },
+    "invalid": {
+      "summary": "Please check these fields:\nEnter your name.\nEnter your email address.\nTell us a little about the room you have in mind.",
+      "focused": "validation-summary",
+      "rect": {
+        "top": 80.53125,
+        "bottom": 224.28125
+      }
+    },
+    "failure": {
+      "status": "The preview could not confirm your enquiry. Your details are still here. Please try again.",
+      "focused": "form-status"
+    },
+    "success": {
+      "text": "✓\nPreview complete\n\nYour details were not sent to The Garden Room Co.\n\nNew enquiry",
+      "focused": "form-success"
+    },
+    "posts": 2,
+    "problems": [
+      "HTTP 503: http://127.0.0.1:4175/api/enquiries"
+    ]
+  },
+  {
+    "name": "1024x800",
+    "metrics": {
+      "documentWidth": 1024,
+      "viewportWidth": 1024,
+      "hero": {
+        "x": 0,
+        "y": 76,
+        "width": 1024,
+        "height": 564
+      },
+      "trust": {
+        "x": 0,
+        "y": 640,
+        "width": 1024,
+        "height": 83
+      },
+      "h1": {
+        "x": 32,
+        "y": 462,
+        "width": 483,
+        "height": 140
+      },
+      "heroAction": {
+        "x": 555,
+        "y": 550,
+        "width": 162,
+        "height": 52
+      },
+      "headerLogo": {
+        "x": 32,
+        "y": 11,
+        "width": 161,
+        "height": 55
+      },
+      "headingFont": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "images": [
+        {
+          "src": "logo.png",
+          "naturalWidth": 161,
+          "naturalHeight": 55,
+          "fit": "contain",
+          "box": {
+            "width": 161,
+            "height": 55
+          }
+        },
+        {
+          "src": "hero.webp",
+          "naturalWidth": 1024,
+          "naturalHeight": 575,
+          "fit": "cover",
+          "box": {
+            "width": 1024,
+            "height": 360
+          }
+        },
+        {
+          "src": "office-640.webp",
+          "naturalWidth": 460,
+          "naturalHeight": 307,
+          "fit": "cover",
+          "box": {
+            "width": 478,
+            "height": 440
+          }
+        },
+        {
+          "src": "walthamstow-600.webp",
+          "naturalWidth": 307,
+          "naturalHeight": 230,
+          "fit": "cover",
+          "box": {
+            "width": 305,
+            "height": 220
+          }
+        },
+        {
+          "src": "dyserth-600.webp",
+          "naturalWidth": 307,
+          "naturalHeight": 205,
+          "fit": "cover",
+          "box": {
+            "width": 305,
+            "height": 220
+          }
+        },
+        {
+          "src": "moreton-600.webp",
+          "naturalWidth": 307,
+          "naturalHeight": 205,
+          "fit": "cover",
+          "box": {
+            "width": 305,
+            "height": 220
+          }
+        },
+        {
+          "src": "logo.png",
+          "naturalWidth": 161,
+          "naturalHeight": 55,
+          "fit": "contain",
+          "box": {
+            "width": 161,
+            "height": 55
+          }
+        }
+      ]
+    },
+    "invalid": {
+      "summary": "Please check these fields:\nEnter your name.\nEnter your email address.\nTell us a little about the room you have in mind.",
+      "focused": "validation-summary",
+      "rect": {
+        "top": 47.734375,
+        "bottom": 191.484375
+      }
+    },
+    "failure": {
+      "status": "The preview could not confirm your enquiry. Your details are still here. Please try again.",
+      "focused": "form-status"
+    },
+    "success": {
+      "text": "✓\nPreview complete\n\nYour details were not sent to The Garden Room Co.\n\nNew enquiry",
+      "focused": "form-success"
+    },
+    "posts": 2,
+    "problems": [
+      "HTTP 503: http://127.0.0.1:4175/api/enquiries"
+    ]
+  },
+  {
+    "name": "1280x600",
+    "metrics": {
+      "documentWidth": 1280,
+      "viewportWidth": 1280,
+      "hero": {
+        "x": 0,
+        "y": 76,
+        "width": 1280,
+        "height": 448
+      },
+      "trust": {
+        "x": 0,
+        "y": 524,
+        "width": 1280,
+        "height": 83
+      },
+      "h1": {
+        "x": 50,
+        "y": 370,
+        "width": 583,
+        "height": 130
+      },
+      "heroAction": {
+        "x": 703,
+        "y": 452,
+        "width": 162,
+        "height": 48
+      },
+      "headerLogo": {
+        "x": 50,
+        "y": 11,
+        "width": 161,
+        "height": 55
+      },
+      "headingFont": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "images": [
+        {
+          "src": "logo.png",
+          "naturalWidth": 161,
+          "naturalHeight": 55,
+          "fit": "contain",
+          "box": {
+            "width": 161,
+            "height": 55
+          }
+        },
+        {
+          "src": "hero.webp",
+          "naturalWidth": 1280,
+          "naturalHeight": 719,
+          "fit": "cover",
+          "box": {
+            "width": 1280,
+            "height": 270
+          }
+        },
+        {
+          "src": "office-640.webp",
+          "naturalWidth": 550,
+          "naturalHeight": 366,
+          "fit": "cover",
+          "box": {
+            "width": 575,
+            "height": 440
+          }
+        },
+        {
+          "src": "walthamstow-600.webp",
+          "naturalWidth": 380,
+          "naturalHeight": 285,
+          "fit": "cover",
+          "box": {
+            "width": 379,
+            "height": 260
+          }
+        },
+        {
+          "src": "dyserth-600.webp",
+          "naturalWidth": 380,
+          "naturalHeight": 253,
+          "fit": "cover",
+          "box": {
+            "width": 379,
+            "height": 260
+          }
+        },
+        {
+          "src": "moreton-600.webp",
+          "naturalWidth": 380,
+          "naturalHeight": 253,
+          "fit": "cover",
+          "box": {
+            "width": 379,
+            "height": 260
+          }
+        },
+        {
+          "src": "logo.png",
+          "naturalWidth": 161,
+          "naturalHeight": 55,
+          "fit": "contain",
+          "box": {
+            "width": 161,
+            "height": 55
+          }
+        }
+      ]
+    },
+    "invalid": {
+      "summary": "Please check these fields:\nEnter your name.\nEnter your email address.\nTell us a little about the room you have in mind.",
+      "focused": "validation-summary",
+      "rect": {
+        "top": 48.03125,
+        "bottom": 191.78125
+      }
+    },
+    "failure": {
+      "status": "The preview could not confirm your enquiry. Your details are still here. Please try again.",
+      "focused": "form-status"
+    },
+    "success": {
+      "text": "✓\nPreview complete\n\nYour details were not sent to The Garden Room Co.\n\nNew enquiry",
+      "focused": "form-success"
+    },
+    "posts": 2,
+    "problems": [
+      "HTTP 503: http://127.0.0.1:4175/api/enquiries"
+    ]
+  },
+  {
+    "name": "1440x900",
+    "metrics": {
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "hero": {
+        "x": 0,
+        "y": 76,
+        "width": 1440,
+        "height": 624
+      },
+      "trust": {
+        "x": 0,
+        "y": 700,
+        "width": 1440,
+        "height": 83
+      },
+      "h1": {
+        "x": 130,
+        "y": 522,
+        "width": 583,
+        "height": 140
+      },
+      "heroAction": {
+        "x": 783,
+        "y": 610,
+        "width": 162,
+        "height": 52
+      },
+      "headerLogo": {
+        "x": 130,
+        "y": 11,
+        "width": 161,
+        "height": 55
+      },
+      "headingFont": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "images": [
+        {
+          "src": "logo.png",
+          "naturalWidth": 161,
+          "naturalHeight": 55,
+          "fit": "contain",
+          "box": {
+            "width": 161,
+            "height": 55
+          }
+        },
+        {
+          "src": "hero.webp",
+          "naturalWidth": 1439,
+          "naturalHeight": 809,
+          "fit": "cover",
+          "box": {
+            "width": 1440,
+            "height": 420
+          }
+        },
+        {
+          "src": "office-640.webp",
+          "naturalWidth": 550,
+          "naturalHeight": 366,
+          "fit": "cover",
+          "box": {
+            "width": 575,
+            "height": 440
+          }
+        },
+        {
+          "src": "walthamstow-600.webp",
+          "naturalWidth": 380,
+          "naturalHeight": 285,
+          "fit": "cover",
+          "box": {
+            "width": 379,
+            "height": 260
+          }
+        },
+        {
+          "src": "dyserth-600.webp",
+          "naturalWidth": 380,
+          "naturalHeight": 253,
+          "fit": "cover",
+          "box": {
+            "width": 379,
+            "height": 260
+          }
+        },
+        {
+          "src": "moreton-600.webp",
+          "naturalWidth": 380,
+          "naturalHeight": 253,
+          "fit": "cover",
+          "box": {
+            "width": 379,
+            "height": 260
+          }
+        },
+        {
+          "src": "logo.png",
+          "naturalWidth": 161,
+          "naturalHeight": 55,
+          "fit": "contain",
+          "box": {
+            "width": 161,
+            "height": 55
+          }
+        }
+      ]
+    },
+    "invalid": {
+      "summary": "Please check these fields:\nEnter your name.\nEnter your email address.\nTell us a little about the room you have in mind.",
+      "focused": "validation-summary",
+      "rect": {
+        "top": 47.53125,
+        "bottom": 191.28125
+      }
+    },
+    "failure": {
+      "status": "The preview could not confirm your enquiry. Your details are still here. Please try again.",
+      "focused": "form-status"
+    },
+    "success": {
+      "text": "✓\nPreview complete\n\nYour details were not sent to The Garden Room Co.\n\nNew enquiry",
+      "focused": "form-success"
+    },
+    "posts": 2,
+    "problems": [
+      "HTTP 503: http://127.0.0.1:4175/api/enquiries"
+    ]
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "skip": {
+    "active": false,
+    "top": "-80px",
+    "rectTop": -80
+  },
+  "publicPages": [
+    {
+      "url": "https://gardenroomco.com/",
+      "result": {
+        "title": "Bespoke Garden Rooms, Garden Offices & Garden Studios",
+        "heading": {
+          "text": "Stunning Garden Rooms",
+          "family": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+          "size": "64px"
+        },
+        "body": {
+          "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every a",
+          "family": "Poppins, Helvetica, Arial, sans-serif",
+          "size": "16px"
+        },
+        "background": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "url": "https://www.greenretreats.co.uk/",
+      "result": {
+        "title": "Garden Buildings | The UKs Leading Provider | Green Retreats",
+        "heading": {
+          "text": "Grow your home\nwith Green Retreats",
+          "family": "omnes-pro, sans-serif",
+          "size": "24px"
+        },
+        "body": {
+          "text": "Add space, value and comfort to your home",
+          "family": "omnes-pro, serif",
+          "size": "16px"
+        },
+        "background": "rgb(255, 255, 255)"
+      }
+    }
+  ]
+}

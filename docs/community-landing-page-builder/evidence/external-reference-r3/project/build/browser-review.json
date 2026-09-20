@@ -1,0 +1,2636 @@
+{
+  "schema_version": 1,
+  "gate": "browser-page",
+  "status": "pass_with_warnings",
+  "executed_at": "2026-09-20T12:45:55.731Z",
+  "tool": {
+    "name": "measure_page",
+    "version": "1.8.0"
+  },
+  "target": {
+    "url": "http://127.0.0.1:4175/"
+  },
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "label": "mobile",
+      "screenshot": "build/screenshots/390x844-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Bespoke garden rooms, made for your life.",
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Reem Kufi",
+                "postScriptName": "ReemKufi-Regular",
+                "isCustomFont": true,
+                "glyphCount": 39
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "An office to focus in. A studio to create in. Space to make your own. We design and build around your garden and what you want to do there.",
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Poppins",
+                "postScriptName": "Poppins-Regular",
+                "isCustomFont": true,
+                "glyphCount": 136
+              }
+            ]
+          }
+        },
+        "pageWidth": 390,
+        "pageHeight": 7623,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:4175/assets/logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 9.234375,
+              "right": 163,
+              "bottom": 58.765625,
+              "width": 145,
+              "height": 49.53125
+            }
+          },
+          {
+            "selector": "img.hero-photo",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:4175/assets/hero-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1565 / 880",
+            "ratioMismatch": false,
+            "cropFraction": 0.0798319327731093,
+            "box": {
+              "left": 0,
+              "top": 68,
+              "right": 390,
+              "bottom": 306,
+              "width": 390,
+              "height": 238
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:4175/assets/office-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1100 / 734",
+            "ratioMismatch": false,
+            "cropFraction": 0.002155285667028939,
+            "box": {
+              "left": 18,
+              "top": 1491.15625,
+              "right": 372,
+              "bottom": 1727.328125,
+              "width": 354,
+              "height": 236.171875
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:4175/assets/walthamstow-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "1.42 / 1",
+            "ratioMismatch": false,
+            "cropFraction": 0.06197333706427899,
+            "box": {
+              "left": 18,
+              "top": 2106.65625,
+              "right": 372,
+              "bottom": 2355.9375,
+              "width": 354,
+              "height": 249.28125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:4175/assets/dyserth-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "1.42 / 1",
+            "ratioMismatch": false,
+            "cropFraction": 0.05059624323613099,
+            "box": {
+              "left": 18,
+              "top": 2508.078125,
+              "right": 372,
+              "bottom": 2757.359375,
+              "width": 354,
+              "height": 249.28125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:4175/assets/moreton-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "1.42 / 1",
+            "ratioMismatch": false,
+            "cropFraction": 0.05059624323613099,
+            "box": {
+              "left": 18,
+              "top": 2909.5,
+              "right": 372,
+              "bottom": 3158.78125,
+              "width": 354,
+              "height": 249.28125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:4175/assets/logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 7116.40625,
+              "right": 179,
+              "bottom": 7171.40625,
+              "width": 161,
+              "height": 55
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button",
+            "text": "Enquire online",
+            "box": {
+              "left": 18,
+              "top": 589.109375,
+              "right": 192,
+              "bottom": 641.109375,
+              "width": 174,
+              "height": 52
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.text-link",
+            "text": "Enquire online",
+            "box": {
+              "left": 18,
+              "top": 1425.15625,
+              "right": 120.34375,
+              "bottom": 1457.15625,
+              "width": 102.34375,
+              "height": 32
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "a.button",
+            "text": "Enquire online",
+            "box": {
+              "left": 18,
+              "top": 4159.296875,
+              "right": 179.65625,
+              "bottom": 4211.296875,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "#submit-button",
+            "text": "Enquire online",
+            "box": {
+              "left": 36,
+              "top": 6876.015625,
+              "right": 354,
+              "bottom": 6928.015625,
+              "width": 318,
+              "height": 52
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "div.trust-strip",
+          "nextTop": 705.5,
+          "visiblePixels": 138.5,
+          "viewportHeight": 844
+        },
+        "primaryDeclared": 5,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "label": "tablet",
+      "screenshot": "build/screenshots/768x1024-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Bespoke garden rooms, made for your life.",
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Reem Kufi",
+                "postScriptName": "ReemKufi-Regular",
+                "isCustomFont": true,
+                "glyphCount": 40
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "An office to focus in. A studio to create in. Space to make your own. We design and build around your garden and what you want to do there.",
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Poppins",
+                "postScriptName": "Poppins-Regular",
+                "isCustomFont": true,
+                "glyphCount": 138
+              }
+            ]
+          }
+        },
+        "pageWidth": 768,
+        "pageHeight": 6070,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:4175/assets/logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 8.5,
+              "right": 181,
+              "bottom": 63.5,
+              "width": 161,
+              "height": 55
+            }
+          },
+          {
+            "selector": "img.hero-photo",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:4175/assets/hero-800.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1565 / 880",
+            "ratioMismatch": false,
+            "cropFraction": 0.23611111111111116,
+            "box": {
+              "left": 0,
+              "top": 72,
+              "right": 768,
+              "bottom": 402,
+              "width": 768,
+              "height": 330
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:4175/assets/office.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1100 / 734",
+            "ratioMismatch": false,
+            "cropFraction": 0.00020277233091681168,
+            "box": {
+              "left": 20,
+              "top": 1310.9375,
+              "right": 748,
+              "bottom": 1796.703125,
+              "width": 728,
+              "height": 485.765625
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:4175/assets/walthamstow-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 675",
+            "ratioMismatch": false,
+            "cropFraction": 0.0621856639247943,
+            "box": {
+              "left": 20,
+              "top": 2164.8125,
+              "right": 252,
+              "bottom": 2349.8125,
+              "width": 232,
+              "height": 185
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:4175/assets/dyserth-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 601",
+            "ratioMismatch": false,
+            "cropFraction": 0.1657814336075205,
+            "box": {
+              "left": 268,
+              "top": 2164.8125,
+              "right": 500,
+              "bottom": 2349.8125,
+              "width": 232,
+              "height": 185
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:4175/assets/moreton-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 601",
+            "ratioMismatch": false,
+            "cropFraction": 0.1657814336075205,
+            "box": {
+              "left": 516,
+              "top": 2164.8125,
+              "right": 748,
+              "bottom": 2349.8125,
+              "width": 232,
+              "height": 185
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:4175/assets/logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 20,
+              "top": 5821.203125,
+              "right": 181,
+              "bottom": 5876.203125,
+              "width": 161,
+              "height": 55
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button",
+            "text": "Enquire online",
+            "box": {
+              "left": 20,
+              "top": 613.984375,
+              "right": 181.65625,
+              "bottom": 665.984375,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.text-link",
+            "text": "Enquire online",
+            "box": {
+              "left": 20,
+              "top": 1244.9375,
+              "right": 122.34375,
+              "bottom": 1276.9375,
+              "width": 102.34375,
+              "height": 32
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "a.button",
+            "text": "Enquire online",
+            "box": {
+              "left": 20,
+              "top": 3117.890625,
+              "right": 181.65625,
+              "bottom": 3169.890625,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "#submit-button",
+            "text": "Enquire online",
+            "box": {
+              "left": 54,
+              "top": 5593.203125,
+              "right": 215.65625,
+              "bottom": 5645.203125,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "div.trust-strip",
+          "nextTop": 709.984375,
+          "visiblePixels": 83,
+          "viewportHeight": 1024
+        },
+        "primaryDeclared": 5,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1024,
+      "height": 800,
+      "label": "laptop",
+      "screenshot": "build/screenshots/1024x800-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Bespoke garden rooms, made for your life.",
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Reem Kufi",
+                "postScriptName": "ReemKufi-Regular",
+                "isCustomFont": true,
+                "glyphCount": 40
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "An office to focus in. A studio to create in. Space to make your own. We design and build around your garden and what you want to do there.",
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Poppins",
+                "postScriptName": "Poppins-Regular",
+                "isCustomFont": true,
+                "glyphCount": 137
+              }
+            ]
+          }
+        },
+        "pageWidth": 1024,
+        "pageHeight": 4883,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:4175/assets/logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 32,
+              "top": 10.5,
+              "right": 193,
+              "bottom": 65.5,
+              "width": 161,
+              "height": 55
+            }
+          },
+          {
+            "selector": "img.hero-photo",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:4175/assets/hero.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1565 / 880",
+            "ratioMismatch": false,
+            "cropFraction": 0.3739130434782608,
+            "box": {
+              "left": 0,
+              "top": 76,
+              "right": 1024,
+              "bottom": 436,
+              "width": 1024,
+              "height": 360
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:4175/assets/office-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1100 / 734",
+            "ratioMismatch": false,
+            "cropFraction": 0.2753969552865613,
+            "box": {
+              "left": 514.28125,
+              "top": 823.515625,
+              "right": 992,
+              "bottom": 1263.515625,
+              "width": 477.71875,
+              "height": 440
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:4175/assets/walthamstow-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 675",
+            "ratioMismatch": false,
+            "cropFraction": 0.038240666780882115,
+            "box": {
+              "left": 32,
+              "top": 1598.734375,
+              "right": 337.328125,
+              "bottom": 1818.734375,
+              "width": 305.328125,
+              "height": 220
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:4175/assets/dyserth-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 601",
+            "ratioMismatch": false,
+            "cropFraction": 0.07325635734379621,
+            "box": {
+              "left": 359.328125,
+              "top": 1598.734375,
+              "right": 664.65625,
+              "bottom": 1818.734375,
+              "width": 305.328125,
+              "height": 220
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:4175/assets/moreton-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 601",
+            "ratioMismatch": false,
+            "cropFraction": 0.07320893174415155,
+            "box": {
+              "left": 686.65625,
+              "top": 1598.734375,
+              "right": 992,
+              "bottom": 1818.734375,
+              "width": 305.34375,
+              "height": 220
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:4175/assets/logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 32,
+              "top": 4634.390625,
+              "right": 193,
+              "bottom": 4689.390625,
+              "width": 161,
+              "height": 55
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-small",
+            "text": "Enquire online",
+            "box": {
+              "left": 858.96875,
+              "top": 17,
+              "right": 992,
+              "bottom": 59,
+              "width": 133.03125,
+              "height": 42
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button",
+            "text": "Enquire online",
+            "box": {
+              "left": 554.984375,
+              "top": 550.1875,
+              "right": 716.640625,
+              "bottom": 602.1875,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.text-link",
+            "text": "Enquire online",
+            "box": {
+              "left": 32,
+              "top": 1283.953125,
+              "right": 134.34375,
+              "bottom": 1315.953125,
+              "width": 102.34375,
+              "height": 32
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "a.button",
+            "text": "Enquire online",
+            "box": {
+              "left": 32,
+              "top": 2518.171875,
+              "right": 193.65625,
+              "bottom": 2570.171875,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "#submit-button",
+            "text": "Enquire online",
+            "box": {
+              "left": 518.078125,
+              "top": 4404.390625,
+              "right": 679.734375,
+              "bottom": 4456.390625,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "div.trust-strip",
+          "nextTop": 640.1875,
+          "visiblePixels": 83,
+          "viewportHeight": 800
+        },
+        "primaryDeclared": 5,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1280,
+      "height": 600,
+      "label": "short-laptop",
+      "screenshot": "build/screenshots/1280x600-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Bespoke garden rooms, made for your life.",
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Reem Kufi",
+                "postScriptName": "ReemKufi-Regular",
+                "isCustomFont": true,
+                "glyphCount": 40
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "An office to focus in. A studio to create in. Space to make your own. We design and build around your garden and what you want to do there.",
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Poppins",
+                "postScriptName": "Poppins-Regular",
+                "isCustomFont": true,
+                "glyphCount": 137
+              }
+            ]
+          }
+        },
+        "pageWidth": 1280,
+        "pageHeight": 4862,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:4175/assets/logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 50,
+              "top": 10.5,
+              "right": 211,
+              "bottom": 65.5,
+              "width": 161,
+              "height": 55
+            }
+          },
+          {
+            "selector": "img.hero-photo",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:4175/assets/hero.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1565 / 880",
+            "ratioMismatch": false,
+            "cropFraction": 0.6244784422809457,
+            "box": {
+              "left": 0,
+              "top": 76,
+              "right": 1280,
+              "bottom": 346,
+              "width": 1280,
+              "height": 270
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:4175/assets/office-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1100 / 734",
+            "ratioMismatch": false,
+            "cropFraction": 0.1306082128099173,
+            "box": {
+              "left": 655.15625,
+              "top": 706.6875,
+              "right": 1230,
+              "bottom": 1146.6875,
+              "width": 574.84375,
+              "height": 440
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:4175/assets/walthamstow-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 675",
+            "ratioMismatch": false,
+            "cropFraction": 0.08448185744546244,
+            "box": {
+              "left": 50,
+              "top": 1499.5625,
+              "right": 428.65625,
+              "bottom": 1759.5625,
+              "width": 378.65625,
+              "height": 260
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:4175/assets/dyserth-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 601",
+            "ratioMismatch": false,
+            "cropFraction": 0.030324044787449322,
+            "box": {
+              "left": 450.65625,
+              "top": 1499.5625,
+              "right": 829.328125,
+              "bottom": 1759.5625,
+              "width": 378.671875,
+              "height": 260
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:4175/assets/moreton-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 601",
+            "ratioMismatch": false,
+            "cropFraction": 0.030364056174088994,
+            "box": {
+              "left": 851.328125,
+              "top": 1499.5625,
+              "right": 1229.984375,
+              "bottom": 1759.5625,
+              "width": 378.65625,
+              "height": 260
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:4175/assets/logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 50,
+              "top": 4613.296875,
+              "right": 211,
+              "bottom": 4668.296875,
+              "width": 161,
+              "height": 55
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-small",
+            "text": "Enquire online",
+            "box": {
+              "left": 1096.96875,
+              "top": 17,
+              "right": 1230,
+              "bottom": 59,
+              "width": 133.03125,
+              "height": 42
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button",
+            "text": "Enquire online",
+            "box": {
+              "left": 702.75,
+              "top": 452.1875,
+              "right": 864.40625,
+              "bottom": 499.6875,
+              "width": 161.65625,
+              "height": 47.5
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.text-link",
+            "text": "Enquire online",
+            "box": {
+              "left": 50,
+              "top": 1138.328125,
+              "right": 152.34375,
+              "bottom": 1170.328125,
+              "width": 102.34375,
+              "height": 32
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "a.button",
+            "text": "Enquire online",
+            "box": {
+              "left": 50,
+              "top": 2465.109375,
+              "right": 211.65625,
+              "bottom": 2517.109375,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "#submit-button",
+            "text": "Enquire online",
+            "box": {
+              "left": 639.6875,
+              "top": 4365.296875,
+              "right": 801.34375,
+              "bottom": 4417.296875,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "div.trust-strip",
+          "nextTop": 523.6875,
+          "visiblePixels": 76.3125,
+          "viewportHeight": 600
+        },
+        "primaryDeclared": 5,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "label": "desktop",
+      "screenshot": "build/screenshots/1440x900-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "Bespoke garden rooms, made for your life.",
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Reem Kufi",
+                "postScriptName": "ReemKufi-Regular",
+                "isCustomFont": true,
+                "glyphCount": 40
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero-lead",
+            "text": "An office to focus in. A studio to create in. Space to make your own. We design and build around your garden and what you want to do there.",
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Poppins",
+                "postScriptName": "Poppins-Regular",
+                "isCustomFont": true,
+                "glyphCount": 137
+              }
+            ]
+          }
+        },
+        "pageWidth": 1440,
+        "pageHeight": 5039,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:4175/assets/logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 130,
+              "top": 10.5,
+              "right": 291,
+              "bottom": 65.5,
+              "width": 161,
+              "height": 55
+            }
+          },
+          {
+            "selector": "img.hero-photo",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:4175/assets/hero.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1565 / 880",
+            "ratioMismatch": false,
+            "cropFraction": 0.4812010712814173,
+            "box": {
+              "left": 0,
+              "top": 76,
+              "right": 1440,
+              "bottom": 496,
+              "width": 1440,
+              "height": 420
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:4175/assets/office-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1100 / 734",
+            "ratioMismatch": false,
+            "cropFraction": 0.1306082128099173,
+            "box": {
+              "left": 735.15625,
+              "top": 883.1875,
+              "right": 1310,
+              "bottom": 1323.1875,
+              "width": 574.84375,
+              "height": 440
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:4175/assets/walthamstow-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 675",
+            "ratioMismatch": false,
+            "cropFraction": 0.08448185744546244,
+            "box": {
+              "left": 130,
+              "top": 1676.0625,
+              "right": 508.65625,
+              "bottom": 1936.0625,
+              "width": 378.65625,
+              "height": 260
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:4175/assets/dyserth-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 601",
+            "ratioMismatch": false,
+            "cropFraction": 0.030324044787449322,
+            "box": {
+              "left": 530.65625,
+              "top": 1676.0625,
+              "right": 909.328125,
+              "bottom": 1936.0625,
+              "width": 378.671875,
+              "height": 260
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:4175/assets/moreton-600.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 900 / 601",
+            "ratioMismatch": false,
+            "cropFraction": 0.030364056174088994,
+            "box": {
+              "left": 931.328125,
+              "top": 1676.0625,
+              "right": 1309.984375,
+              "bottom": 1936.0625,
+              "width": 378.65625,
+              "height": 260
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:4175/assets/logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "contain",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 130,
+              "top": 4789.796875,
+              "right": 291,
+              "bottom": 4844.796875,
+              "width": 161,
+              "height": 55
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "a.button.button-small",
+            "text": "Enquire online",
+            "box": {
+              "left": 1176.96875,
+              "top": 17,
+              "right": 1310,
+              "bottom": 59,
+              "width": 133.03125,
+              "height": 42
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.button",
+            "text": "Enquire online",
+            "box": {
+              "left": 782.75,
+              "top": 610.1875,
+              "right": 944.40625,
+              "bottom": 662.1875,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "a.text-link",
+            "text": "Enquire online",
+            "box": {
+              "left": 130,
+              "top": 1314.828125,
+              "right": 232.34375,
+              "bottom": 1346.828125,
+              "width": 102.34375,
+              "height": 32
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "a.button",
+            "text": "Enquire online",
+            "box": {
+              "left": 130,
+              "top": 2641.609375,
+              "right": 291.65625,
+              "bottom": 2693.609375,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "#submit-button",
+            "text": "Enquire online",
+            "box": {
+              "left": 719.6875,
+              "top": 4541.796875,
+              "right": 881.34375,
+              "bottom": 4593.796875,
+              "width": 161.65625,
+              "height": 52
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "div.trust-strip",
+          "nextTop": 700.1875,
+          "visiblePixels": 83,
+          "viewportHeight": 900
+        },
+        "primaryDeclared": 5,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": []
+      },
+      "modal": {
+        "present": false
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/screenshots/390x844-landing.png",
+      "type": "screenshot",
+      "sha256": "e5a3b5a2417bc567892e22e092dfccb51045541d58737d2f847cab8800293f1b"
+    },
+    {
+      "path": "build/screenshots/768x1024-landing.png",
+      "type": "screenshot",
+      "sha256": "f0d4cadee4af07ac522d8c2b8ef0d83d36c4d285a74ba43f085dae8d4606e488"
+    },
+    {
+      "path": "build/screenshots/1024x800-landing.png",
+      "type": "screenshot",
+      "sha256": "1adb957da895e0d80f94d47eaaf6825aa27b74bdaf8f6c0e5d7ba6382215b96e"
+    },
+    {
+      "path": "build/screenshots/1280x600-landing.png",
+      "type": "screenshot",
+      "sha256": "21470e4d579e8136fdb4782d20109828aad75596dd9162939efc93b8ac920336"
+    },
+    {
+      "path": "build/screenshots/1440x900-landing.png",
+      "type": "screenshot",
+      "sha256": "83cf1a798b98d33199ef33572d256679101a133dd4459b31794e2d070056e782"
+    }
+  ],
+  "checks": [
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Reem Kufi; page renders Reem Kufi",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Poppins; page renders Poppins",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":390,\"overflow\":[]}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "screenshot": "build/screenshots/390x844-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"div.trust-strip\",\"nextTop\":705.5,\"visiblePixels\":138.5,\"viewportHeight\":844}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"a.button\",\"text\":\"Enquire online\",\"box\":{\"left\":18,\"top\":589.109375,\"right\":192,\"bottom\":641.109375,\"width\":174,\"height\":52},\"unobscured\":true},{\"selector\":\"a.text-link\",\"text\":\"Enquire online\",\"box\":{\"left\":18,\"top\":1425.15625,\"right\":120.34375,\"bottom\":1457.15625,\"width\":102.34375,\"height\":32},\"unobscured\":false},{\"selector\":\"a.button\",\"text\":\"Enquire online\",\"box\":{\"left\":18,\"top\":4159.296875,\"right\":179.65625,\"bottom\":4211.296875,\"width\":161.65625,\"height\":52},\"unobscured\":false},{\"selector\":\"#submit-button\",\"text\":\"Enquire online\",\"box\":{\"left\":36,\"top\":6876.015625,\"right\":354,\"bottom\":6928.015625,\"width\":318,\"height\":52},\"unobscured\":false}]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Reem Kufi; page renders Reem Kufi",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Poppins; page renders Poppins",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":768,\"overflow\":[]}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "screenshot": "build/screenshots/768x1024-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"div.trust-strip\",\"nextTop\":709.984375,\"visiblePixels\":83,\"viewportHeight\":1024}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Reem Kufi; page renders Reem Kufi",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Poppins; page renders Poppins",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1024,\"overflow\":[]}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "screenshot": "build/screenshots/1024x800-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"div.trust-strip\",\"nextTop\":640.1875,\"visiblePixels\":83,\"viewportHeight\":800}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Reem Kufi; page renders Reem Kufi",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Poppins; page renders Poppins",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1280,\"overflow\":[]}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "screenshot": "build/screenshots/1280x600-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"div.trust-strip\",\"nextTop\":523.6875,\"visiblePixels\":76.3125,\"viewportHeight\":600}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"a.button.button-small\",\"text\":\"Enquire online\",\"box\":{\"left\":1096.96875,\"top\":17,\"right\":1230,\"bottom\":59,\"width\":133.03125,\"height\":42},\"unobscured\":true},{\"selector\":\"a.button\",\"text\":\"Enquire online\",\"box\":{\"left\":702.75,\"top\":452.1875,\"right\":864.40625,\"bottom\":499.6875,\"width\":161.65625,\"height\":47.5},\"unobscured\":true},{\"selector\":\"a.text-link\",\"text\":\"Enquire online\",\"box\":{\"left\":50,\"top\":1138.328125,\"right\":152.34375,\"bottom\":1170.328125,\"width\":102.34375,\"height\":32},\"unobscured\":false},{\"selector\":\"a.button\",\"text\":\"Enquire online\",\"box\":{\"left\":50,\"top\":2465.109375,\"right\":211.65625,\"bottom\":2517.109375,\"width\":161.65625,\"height\":52},\"unobscured\":false},{\"selector\":\"#submit-button\",\"text\":\"Enquire online\",\"box\":{\"left\":639.6875,\"top\":4365.296875,\"right\":801.34375,\"bottom\":4417.296875,\"width\":161.65625,\"height\":52},\"unobscured\":false}]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Reem Kufi; page renders Reem Kufi",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Poppins; page renders Poppins",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1440,\"overflow\":[]}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "screenshot": "build/screenshots/1440x900-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"div.trust-strip\",\"nextTop\":700.1875,\"visiblePixels\":83,\"viewportHeight\":900}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    }
+  ],
+  "failures": [],
+  "warnings": [
+    "1280x600: aggressive crop at image 1 (http://127.0.0.1:4175/assets/hero.webp); 62% cropped",
+    "1440x900: aggressive crop at image 1 (http://127.0.0.1:4175/assets/hero.webp); 48% cropped"
+  ],
+  "typographyComparison": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.vc_custom_heading.wpb_animate_when_almost_visible.wpb_fadeIn",
+        "text": "Stunning Garden Rooms",
+        "bounds": {
+          "x": 37.046875,
+          "y": 287.65625,
+          "width": 315.890625,
+          "height": 192,
+          "visibleAreaApprox": 60651
+        },
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "fontSize": "64px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "64px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 19
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Bespoke garden rooms, made for your life.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 39
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "role": "body",
+      "source": {
+        "selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "textTransform": "none",
+        "sampleScrollY": 915,
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 219
+          },
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Bold",
+            "isCustomFont": true,
+            "glyphCount": 56
+          }
+        ],
+        "screenshot": "brand-390x844-body.png"
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "An office to focus in. A studio to create in. Space to make your own. We design and build around your garden and what you want to do there.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 136
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.vc_custom_heading.wpb_animate_when_almost_visible.wpb_fadeIn",
+        "text": "Stunning Garden Rooms",
+        "bounds": {
+          "x": 37.046875,
+          "y": 287.65625,
+          "width": 315.890625,
+          "height": 192,
+          "visibleAreaApprox": 60651
+        },
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "fontSize": "64px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "64px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 19
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Bespoke garden rooms, made for your life.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "role": "body",
+      "source": {
+        "selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "textTransform": "none",
+        "sampleScrollY": 915,
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 219
+          },
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Bold",
+            "isCustomFont": true,
+            "glyphCount": 56
+          }
+        ],
+        "screenshot": "brand-390x844-body.png"
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "An office to focus in. A studio to create in. Space to make your own. We design and build around your garden and what you want to do there.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 138
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.vc_custom_heading.wpb_animate_when_almost_visible.wpb_fadeIn",
+        "text": "Stunning Garden Rooms",
+        "bounds": {
+          "x": 135,
+          "y": 309,
+          "width": 1170,
+          "height": 64,
+          "visibleAreaApprox": 74880
+        },
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "fontSize": "64px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "64px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 21
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Bespoke garden rooms, made for your life.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "textTransform": "none",
+        "sampleScrollY": 566,
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 224
+          },
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Bold",
+            "isCustomFont": true,
+            "glyphCount": 57
+          }
+        ],
+        "screenshot": "brand-1440x900-body.png"
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "An office to focus in. A studio to create in. Space to make your own. We design and build around your garden and what you want to do there.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 137
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.vc_custom_heading.wpb_animate_when_almost_visible.wpb_fadeIn",
+        "text": "Stunning Garden Rooms",
+        "bounds": {
+          "x": 135,
+          "y": 309,
+          "width": 1170,
+          "height": 64,
+          "visibleAreaApprox": 74880
+        },
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "fontSize": "64px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "64px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 21
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Bespoke garden rooms, made for your life.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "textTransform": "none",
+        "sampleScrollY": 566,
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 224
+          },
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Bold",
+            "isCustomFont": true,
+            "glyphCount": 57
+          }
+        ],
+        "screenshot": "brand-1440x900-body.png"
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "An office to focus in. A studio to create in. Space to make your own. We design and build around your garden and what you want to do there.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 137
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.vc_custom_heading.wpb_animate_when_almost_visible.wpb_fadeIn",
+        "text": "Stunning Garden Rooms",
+        "bounds": {
+          "x": 135,
+          "y": 309,
+          "width": 1170,
+          "height": 64,
+          "visibleAreaApprox": 74880
+        },
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "fontSize": "64px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "64px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 21
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "Bespoke garden rooms, made for your life.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 40
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "textTransform": "none",
+        "sampleScrollY": 566,
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 224
+          },
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Bold",
+            "isCustomFont": true,
+            "glyphCount": 57
+          }
+        ],
+        "screenshot": "brand-1440x900-body.png"
+      },
+      "applied": {
+        "selector": "p.hero-lead",
+        "text": "An office to focus in. A studio to create in. Space to make your own. We design and build around your garden and what you want to do there.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 137
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    }
+  ],
+  "limits": [
+    "Measurements do not replace visual review of the screenshot pixels.",
+    "The run does not submit forms or prove a live backend destination.",
+    "Automated overlap checks cannot identify every face or focal subject."
+  ],
+  "completed_at": "2026-09-20T12:46:03.883Z"
+}

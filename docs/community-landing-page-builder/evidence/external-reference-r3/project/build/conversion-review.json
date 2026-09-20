@@ -1,0 +1,152 @@
+{
+  "viewportChecks": [
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "heroBottom": 706,
+      "followingTop": 706,
+      "actionBottom": 641,
+      "small": [],
+      "pageWidth": 390,
+      "viewportWidth": 390
+    },
+    {
+      "label": "tablet",
+      "width": 768,
+      "height": 1024,
+      "heroBottom": 710,
+      "followingTop": 710,
+      "actionBottom": 666,
+      "small": [],
+      "pageWidth": 768,
+      "viewportWidth": 768
+    },
+    {
+      "label": "laptop",
+      "width": 1024,
+      "height": 800,
+      "heroBottom": 640,
+      "followingTop": 640,
+      "actionBottom": 602,
+      "small": [],
+      "pageWidth": 1024,
+      "viewportWidth": 1024
+    },
+    {
+      "label": "short-laptop",
+      "width": 1280,
+      "height": 600,
+      "heroBottom": 524,
+      "followingTop": 524,
+      "actionBottom": 500,
+      "small": [],
+      "pageWidth": 1280,
+      "viewportWidth": 1280
+    },
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 900,
+      "heroBottom": 700,
+      "followingTop": 700,
+      "actionBottom": 662,
+      "small": [],
+      "pageWidth": 1440,
+      "viewportWidth": 1440
+    }
+  ],
+  "conversion": [
+    {
+      "ok": true,
+      "label": "Empty form reveals summary",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Empty form focuses summary",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Whitespace name error available",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Whitespace name stays invalid",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Corrected name clears inline error",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Corrected name clears summary entry",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Other summary errors remain",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Summary link focuses email control",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Alphabetic phone junk rejected",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Receiver failure is visible",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Failure retains values",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Success waits for local confirmation",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Refresh does not retain a conversion",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Desktop validation summary visible from submit position",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Inputs locked while pending",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Second submit event does not create another request",
+      "detail": "1"
+    },
+    {
+      "ok": true,
+      "label": "Timed-out request shows uncertainty",
+      "detail": ""
+    },
+    {
+      "ok": true,
+      "label": "Timeout preserves values",
+      "detail": ""
+    }
+  ],
+  "failures": []
+}

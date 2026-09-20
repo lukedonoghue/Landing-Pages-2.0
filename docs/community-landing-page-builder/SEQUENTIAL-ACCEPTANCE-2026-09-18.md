@@ -4,7 +4,7 @@ Status: resumed for business 2 on 2026-09-20 by explicit user direction. Staycle
 
 ## Scope
 
-Latest case-2 checkpoint: attempt 2 corrected the prior hero, mobile trust text and source-font gaps, but fresh review found desktop validation losing its label context. Parent reproduced, source instructions narrowed, and attempt 3 started 2026-09-20 15:20 Kyiv from d8163be with fresh Sol xhigh context and blank output. See EXTERNAL-REFERENCE-R1-REVIEW.md and EXTERNAL-REFERENCE-R2-REVIEW.md. Carryover results remain separate in CASE2-CARRYOVER-AUDIT.md. Usage at rerun decision: 40%; absolute stop: 50%.
+Latest case-2 checkpoint: **attempt 3 passed bounded local acceptance** on 2026-09-20 after parent 30-assertion reproduction and fresh five-viewport visual review. Frozen source d8163be, fresh Sol xhigh context and blank output; no parent page repairs. See EXTERNAL-REFERENCE-R3-REVIEW.md for exact evidence and accepted limits, and earlier R1/R2 reports for the failures and source fixes. Carryover remains separate in CASE2-CARRYOVER-AUDIT.md; Stayclean and absent modal/group cases are not retroactively accepted. Business 3 and CRM/deployment remain pending. Stop this continuation below its 50% ceiling rather than run unnecessary case-2 builds.
 
 Orchestrator: Astra. Builders: gpt-5.6-sol, reasoning xhigh, one active builder at a time. Fresh agents use fork_context=false. Each receives only a frozen skill folder, a new empty project, a short owner request, and filesystem isolation instructions. They must not read previous attempts, parent conversation, private accounts, or other client projects. These are fresh-context tests with instructed filesystem boundaries, not isolated operating-system containers or new ChatGPT accounts.
 

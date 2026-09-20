@@ -1,0 +1,582 @@
+{
+  "status": "pass",
+  "mode": "intercepted synthetic requests only",
+  "checks": [
+    {
+      "id": "C06",
+      "name": "Mixed phone junk rejected without a request",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Keyboard error link reaches actual phone control",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "One pending request with trimmed submitted snapshot",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "Pending fields locked",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "Returning via CTA retains pending state",
+      "pass": true
+    },
+    {
+      "id": "C02",
+      "name": "Confirmed state retained on CTA return",
+      "pass": true
+    },
+    {
+      "id": "C02",
+      "name": "Confirmed handler rejects a repeated submit event",
+      "pass": true
+    },
+    {
+      "id": "C07",
+      "name": "Compact and plain preview confirmation",
+      "pass": true
+    },
+    {
+      "id": "C02",
+      "name": "Deliberate reset clears prior details",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Failure preserves entries and permits deliberate recovery",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Actual deadline produces uncertainty without auto retry",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "Late aborted response cannot confirm",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Same-filled retry confirms only its own request",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Visible settled summary 390px direct",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Name group context visible after error link 390px",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Visible settled summary 390px CTA",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Name group context visible after error link 390px",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Visible settled summary 1280px direct",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Name group context visible after error link 1280px",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Visible settled summary 1280px CTA",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Name group context visible after error link 1280px",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Visible settled summary 1440px direct",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Name group context visible after error link 1440px",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Visible settled summary 1440px CTA",
+      "pass": true
+    },
+    {
+      "id": "R2-01",
+      "name": "Name group context visible after error link 1440px",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All placements loaded 390px",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All placements loaded 768px",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All placements loaded 1024px",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All placements loaded 1280px",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All placements loaded 1440px",
+      "pass": true
+    }
+  ],
+  "validation": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fromCTA": false,
+      "focus": "validation-summary",
+      "summary": {
+        "x": 36,
+        "y": 48.078125,
+        "width": 318,
+        "height": 170.9375,
+        "top": 48.078125,
+        "right": 354,
+        "bottom": 219.015625,
+        "left": 36
+      },
+      "label": {
+        "x": 36,
+        "y": 294.203125,
+        "width": 318,
+        "height": 19.59375,
+        "top": 294.203125,
+        "right": 354,
+        "bottom": 313.796875,
+        "left": 36
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fromCTA": true,
+      "focus": "validation-summary",
+      "summary": {
+        "x": 36,
+        "y": 48.078125,
+        "width": 318,
+        "height": 170.9375,
+        "top": 48.078125,
+        "right": 354,
+        "bottom": 219.015625,
+        "left": 36
+      },
+      "label": {
+        "x": 36,
+        "y": 294.203125,
+        "width": 318,
+        "height": 19.59375,
+        "top": 294.203125,
+        "right": 354,
+        "bottom": 313.796875,
+        "left": 36
+      }
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "fromCTA": false,
+      "focus": "validation-summary",
+      "summary": {
+        "x": 639.6875,
+        "y": 48.03125,
+        "width": 556.3125,
+        "height": 143.75,
+        "top": 48.03125,
+        "right": 1196,
+        "bottom": 191.78125,
+        "left": 639.6875
+      },
+      "label": {
+        "x": 639.6875,
+        "y": 266.96875,
+        "width": 269.15625,
+        "height": 19.59375,
+        "top": 266.96875,
+        "right": 908.84375,
+        "bottom": 286.5625,
+        "left": 639.6875
+      }
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "fromCTA": true,
+      "focus": "validation-summary",
+      "summary": {
+        "x": 639.6875,
+        "y": 48.03125,
+        "width": 556.3125,
+        "height": 143.75,
+        "top": 48.03125,
+        "right": 1196,
+        "bottom": 191.78125,
+        "left": 639.6875
+      },
+      "label": {
+        "x": 639.6875,
+        "y": 266.96875,
+        "width": 269.15625,
+        "height": 19.59375,
+        "top": 266.96875,
+        "right": 908.84375,
+        "bottom": 286.5625,
+        "left": 639.6875
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fromCTA": false,
+      "focus": "validation-summary",
+      "summary": {
+        "x": 719.6875,
+        "y": 47.53125,
+        "width": 556.3125,
+        "height": 143.75,
+        "top": 47.53125,
+        "right": 1276,
+        "bottom": 191.28125,
+        "left": 719.6875
+      },
+      "label": {
+        "x": 719.6875,
+        "y": 266.46875,
+        "width": 269.15625,
+        "height": 19.59375,
+        "top": 266.46875,
+        "right": 988.84375,
+        "bottom": 286.0625,
+        "left": 719.6875
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fromCTA": true,
+      "focus": "validation-summary",
+      "summary": {
+        "x": 719.6875,
+        "y": 47.53125,
+        "width": 556.3125,
+        "height": 143.75,
+        "top": 47.53125,
+        "right": 1276,
+        "bottom": 191.28125,
+        "left": 719.6875
+      },
+      "label": {
+        "x": 719.6875,
+        "y": 266.46875,
+        "width": 269.15625,
+        "height": 19.59375,
+        "top": 266.46875,
+        "right": 988.84375,
+        "bottom": 286.0625,
+        "left": 719.6875
+      }
+    }
+  ],
+  "images": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4175/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "width": 145
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/hero-800.webp",
+          "loaded": true,
+          "naturalWidth": 390,
+          "width": 390
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/office-640.webp",
+          "loaded": true,
+          "naturalWidth": 350,
+          "width": 354
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/walthamstow-600.webp",
+          "loaded": true,
+          "naturalWidth": 353,
+          "width": 354
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/dyserth-600.webp",
+          "loaded": true,
+          "naturalWidth": 353,
+          "width": 354
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/moreton-600.webp",
+          "loaded": true,
+          "naturalWidth": 353,
+          "width": 354
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "width": 161
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4175/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "width": 161
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/hero-800.webp",
+          "loaded": true,
+          "naturalWidth": 768,
+          "width": 768
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/office.webp",
+          "loaded": true,
+          "naturalWidth": 727,
+          "width": 728
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/walthamstow-600.webp",
+          "loaded": true,
+          "naturalWidth": 230,
+          "width": 232
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/dyserth-600.webp",
+          "loaded": true,
+          "naturalWidth": 230,
+          "width": 232
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/moreton-600.webp",
+          "loaded": true,
+          "naturalWidth": 230,
+          "width": 232
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "width": 161
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4175/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "width": 161
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/hero.webp",
+          "loaded": true,
+          "naturalWidth": 1024,
+          "width": 1024
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/office-640.webp",
+          "loaded": true,
+          "naturalWidth": 460,
+          "width": 477.71875
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/walthamstow-600.webp",
+          "loaded": true,
+          "naturalWidth": 307,
+          "width": 305.328125
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/dyserth-600.webp",
+          "loaded": true,
+          "naturalWidth": 307,
+          "width": 305.328125
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/moreton-600.webp",
+          "loaded": true,
+          "naturalWidth": 307,
+          "width": 305.34375
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "width": 161
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4175/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "width": 161
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/hero.webp",
+          "loaded": true,
+          "naturalWidth": 1280,
+          "width": 1280
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/office-640.webp",
+          "loaded": true,
+          "naturalWidth": 550,
+          "width": 574.84375
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/walthamstow-600.webp",
+          "loaded": true,
+          "naturalWidth": 380,
+          "width": 378.65625
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/dyserth-600.webp",
+          "loaded": true,
+          "naturalWidth": 380,
+          "width": 378.671875
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/moreton-600.webp",
+          "loaded": true,
+          "naturalWidth": 380,
+          "width": 378.65625
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "width": 161
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:4175/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "width": 161
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/hero.webp",
+          "loaded": true,
+          "naturalWidth": 1439,
+          "width": 1440
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/office-640.webp",
+          "loaded": true,
+          "naturalWidth": 550,
+          "width": 574.84375
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/walthamstow-600.webp",
+          "loaded": true,
+          "naturalWidth": 380,
+          "width": 378.65625
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/dyserth-600.webp",
+          "loaded": true,
+          "naturalWidth": 380,
+          "width": 378.671875
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/moreton-600.webp",
+          "loaded": true,
+          "naturalWidth": 380,
+          "width": 378.65625
+        },
+        {
+          "src": "http://127.0.0.1:4175/assets/logo.png",
+          "loaded": true,
+          "naturalWidth": 161,
+          "width": 161
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "No modal or required grouped field: exact Stayclean variants remain untested.",
+    "No production storage/delivery/idempotency verified."
+  ]
+}
