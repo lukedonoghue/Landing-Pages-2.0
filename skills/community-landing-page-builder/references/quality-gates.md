@@ -100,6 +100,8 @@ Within that same form test, keyboard-activate an error-summary link, including a
 
 For validation and success, confirm that the focused target is actually visible after layout and scrolling settle. Include an ordinary-motion check, not only reduced-motion captures. A transient off-screen position during smooth scrolling is not a persistent defect; focus that finishes off-screen is.
 
+In the existing validation test, include one empty submission from the scrolled submit position at 1440 x 900 as well as mobile. Inspect the settled label, focus outline and field error or focused summary, not only the input's bounding box. A prior CTA jump must not be required for correct error framing.
+
 For source forms, confirm that no public production endpoint was reused without authorization, success waits for a confirmed selected destination, and raw contact data is absent from analytics and data-layer events.
 
 ## 5. Accessibility and performance gate
