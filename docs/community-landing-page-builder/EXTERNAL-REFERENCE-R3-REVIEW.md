@@ -58,3 +58,5 @@ Parent evidence: `parent/parent-checks.json` contains **30 passing assertions**:
 Accepted page and raw build evidence: `evidence/external-reference-r3/project/`. Start its local receiver with `PORT=4175 node server.mjs` from that directory, choosing a free port if necessary. Only publish static page files after the later authorized connection work; never expose its server, build reports or QA tools as site assets. Parent restarted this same unchanged preview server after closing the completed agents.
 
 Source and all three attempt audits are on the separate `community/pro-review-handoff-20260918` branch. Luke's original README-BOHDAN.md remains unchanged. Stop rerunning this business now that bounded local acceptance passed; do not consume the remaining allowance simply to reach 50%.
+
+Stopped at 15:56 Kyiv with the tracked weekly usage meter at 43%, below the 50% ceiling. No agent remains active; only the requested loopback preview server is left running.
