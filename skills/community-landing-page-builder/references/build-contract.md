@@ -114,6 +114,7 @@ For an email-led source journey, prefer its direct email action over inserting a
 - Respect `prefers-reduced-motion`; content is visible without JavaScript animation.
 - Ensure consent and chat controls can be reached and dismissed without obscuring conversion content.
 - Preserve a logical heading and tab order.
+- When Escape closes a mobile navigation panel while focus is inside it, return focus to its visible toggle; do not leave focus on a hidden link or lose it to the page body.
 
 ## Metadata and destinations
 
