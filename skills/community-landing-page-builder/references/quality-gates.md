@@ -43,6 +43,8 @@ The helper reads `<project>/build/brand.json` automatically, or an explicit `--b
 
 The same browser pass tabs through an open modal and checks the focused control against the pixels on top of it. Do not replace this with `.fill()`, direct focus or test-driven scrolling, which can hide sticky-footer obstruction. Review inline forms and later form steps the same way when they exist.
 
+In the existing first-screen captures, check the displayed enquiry number's actual computed font size after breakpoint overrides: at least 14px, visible and readable near the top. Do not approve a tiny number merely because its link is clickable.
+
 Block on:
 
 - horizontal overflow, missing images, serious console or network errors;

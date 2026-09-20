@@ -19,6 +19,7 @@ Add `thank-you.html` only when the selected journey needs a separate success pag
 - Use semantic landmarks and one clear H1.
 - Include a keyboard-visible skip link.
 - Make the brand, offer, and primary action clear in the first viewport.
+- Keep a displayed enquiry phone number at least 14px at every breakpoint. Reflow the header or reduce nonessential gaps before shrinking contact text; a phone number merely existing in the DOM is not a readable contact cue.
 - Use stable layout constraints so text, images, controls, and dynamic states do not shift or overlap.
 - In spanning image grids, place tall items explicitly when needed; inspect the whole gallery for unintended empty tracks, not only each image crop. Prefer a simpler grid over a broken collage.
 - Keep variable-length labels and adjacent headings in normal flow, grid or flex tracks sized for their actual text. Do not reserve a guessed fixed gutter and absolutely position a longer category label into it.
