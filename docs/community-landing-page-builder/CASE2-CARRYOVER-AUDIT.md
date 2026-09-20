@@ -57,3 +57,7 @@ Pre-freeze tests: 67 package and 23 script tests passed, ten existing five-viewp
 ### Attempt 2 audit
 
 See `EXTERNAL-REFERENCE-R2-REVIEW.md`. The prior hero, trust-text and source-font fixes succeeded in the independent rerun. Parent's 13 carryover assertions passed, and keyboard navigation was usable at three sizes. Fresh reviewer found one new desktop validation-framing failure; parent reproduced it only when submitting from the scrolled action position, not after a CTA jump. Attempt 2 remains unaccepted. Source now requires the label/outline/error context to remain visible and adds one desktop invalid-submit assertion within the existing form test. C11 remains open until a fresh rerun clears this gap; exact modal/group variants remain untested. Usage: 40% used.
+
+### Attempt 3 launch
+
+Started 2026-09-20 at 15:20 Kyiv: Hubble, `01a0bec3-01a7-77e1-8e7b-8cf67071e348`, gpt-5.6-sol xhigh, fork_context=false. Frozen source `d8163be`, 175 files, manifest SHA-256 `6cd9eb20d2d0910c556cfd7c75ef324461dbf8bc8fbdbff16790ea3558be4621`. Output verified empty; identical owner prompt except paths. Previous builder/reviewer closed. No feedback or previous code supplied. Two narrowly scoped instruction paragraphs changed, no new helper or review round. The 67 package tests passed after the change. All previous artifacts and audits pushed to the separate community branch before launch.
