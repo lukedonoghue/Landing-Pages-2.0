@@ -34,3 +34,7 @@ Starting weekly usage 51% used; absolute stop 70% used, preserving 30% for deplo
 ## Result
 
 Attempt 1 completed, audited and **blocked**. See IMAGE-GENERATION-R1-REVIEW.md: the hero disclosure paints behind the image on mobile/tablet, despite passing interaction and general browser checks. Parent confirms native generation, source copy/fee fidelity and all four R5 carryovers; records tool-result handling waste and missing portable generation detail. Two existing reference files corrected, with no new helper or review round. Proceed to a fresh attempt 2, not a repair of this page. Garden Room attempt 5 and Stayclean remain independently unaccepted; success here cannot retroactively pass them.
+
+## Attempt 2 launch
+
+2026-09-20 19:00 Kyiv: Aquinas `01a0bf8c-0c10-7941-87c5-61cc6e36cb11`, Sol 5.6 xhigh, `fork_context=false`. Same owner prompt as attempt 1, changing run paths only. Source `ede9f88`, 175 files, frozen manifest `4f500f34b8803ad4b70851683e510bbc2b9e949693e1ccbee3c6532680c4645e`. New project verified empty. Prior builder and reviewer closed. No findings, earlier output or parent context supplied. Source/audit checkpoint pushed before launch. All 69 package tests pass after the source correction. Weekly usage 53% used; cap 70%. Review I1-P01 through I1-P04 separately from R5 carryovers; do not equate launch with success.
