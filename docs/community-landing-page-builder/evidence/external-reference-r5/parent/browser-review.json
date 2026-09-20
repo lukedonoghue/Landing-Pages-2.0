@@ -1,0 +1,3871 @@
+{
+  "schema_version": 1,
+  "gate": "browser-page",
+  "status": "pass_with_warnings",
+  "executed_at": "2026-09-20T15:25:34.874Z",
+  "tool": {
+    "name": "measure_page",
+    "version": "1.8.0"
+  },
+  "target": {
+    "url": "http://127.0.0.1:8787/"
+  },
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "label": "mobile",
+      "screenshot": "../../../audit/external-reference-r5/screenshots/390x844-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "A garden room made for what comes next.",
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Reem Kufi",
+                "postScriptName": "ReemKufi-Regular",
+                "isCustomFont": true,
+                "glyphCount": 38
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero__lead",
+            "text": "Make space for work, movement or a new venture. We design around your plans and your garden, then manage the build from start to finish.",
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Poppins",
+                "postScriptName": "Poppins-Regular",
+                "isCustomFont": true,
+                "glyphCount": 133
+              }
+            ]
+          }
+        },
+        "pageWidth": 390,
+        "pageHeight": 8536,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 15,
+              "top": 13.21875,
+              "right": 125,
+              "bottom": 50.78125,
+              "width": 110,
+              "height": 37.5625
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:8787/assets/hero-900.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1565 / 880",
+            "ratioMismatch": false,
+            "cropFraction": 0.22621756941283566,
+            "box": {
+              "left": 0,
+              "top": 436.03125,
+              "right": 390,
+              "bottom": 606.03125,
+              "width": 390,
+              "height": 170
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "16 / 10",
+            "ratioMismatch": false,
+            "cropFraction": 0.16509433962264164,
+            "box": {
+              "left": 18,
+              "top": 1119.359375,
+              "right": 372,
+              "bottom": 1340.609375,
+              "width": 354,
+              "height": 221.25
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "16 / 10",
+            "ratioMismatch": false,
+            "cropFraction": 0.0625,
+            "box": {
+              "left": 18,
+              "top": 1437.59375,
+              "right": 372,
+              "bottom": 1658.84375,
+              "width": 354,
+              "height": 221.25
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "16 / 10",
+            "ratioMismatch": false,
+            "cropFraction": 0.375,
+            "box": {
+              "left": 18,
+              "top": 1755.828125,
+              "right": 372,
+              "bottom": 1977.078125,
+              "width": 354,
+              "height": 221.25
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.0018832391713747842,
+            "box": {
+              "left": 18,
+              "top": 2559.21875,
+              "right": 372,
+              "bottom": 2824.71875,
+              "width": 354,
+              "height": 265.5
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1024 / 1365",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 2885.9375,
+              "right": 248,
+              "bottom": 3192.9375,
+              "width": 230,
+              "height": 307
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 7,
+            "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1600 / 1066",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 4273.8125,
+              "right": 372,
+              "bottom": 4509.984375,
+              "width": 354,
+              "height": 236.171875
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 8,
+            "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 18,
+              "top": 8298.40625,
+              "right": 179,
+              "bottom": 8353.40625,
+              "width": 161,
+              "height": 55
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 22,
+              "top": 316.65625,
+              "right": 179.609375,
+              "bottom": 368.65625,
+              "width": 157.609375,
+              "height": 52
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.text-action",
+            "text": "Enquire online",
+            "box": {
+              "left": 18,
+              "top": 2155.65625,
+              "right": 129.125,
+              "bottom": 2199.65625,
+              "width": 111.125,
+              "height": 44
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 18,
+              "top": 5488.546875,
+              "right": 175.609375,
+              "bottom": 5540.546875,
+              "width": 157.609375,
+              "height": 52
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 18,
+              "top": 8091.359375,
+              "right": 228,
+              "bottom": 8143.359375,
+              "width": 210,
+              "height": 52
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "div.trust-bar",
+          "nextTop": 606.03125,
+          "visiblePixels": 138.78125,
+          "viewportHeight": 844
+        },
+        "primaryDeclared": 5,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": [
+          "a",
+          "a",
+          "a",
+          "a"
+        ]
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 760,
+            "bottom": 812,
+            "left": 30,
+            "right": 360
+          }
+        },
+        "focusContained": true,
+        "keyboard": {
+          "complete": true,
+          "escaped": false,
+          "stops": [
+            {
+              "identity": 254,
+              "contained": true,
+              "control": true,
+              "selector": "#name",
+              "unobscured": true,
+              "box": {
+                "top": 291.78125,
+                "bottom": 337.375,
+                "left": 30,
+                "right": 356
+              },
+              "hit": "input#name"
+            },
+            {
+              "identity": 259,
+              "contained": true,
+              "control": true,
+              "selector": "#email",
+              "unobscured": true,
+              "box": {
+                "top": 379.375,
+                "bottom": 424.96875,
+                "left": 30,
+                "right": 356
+              },
+              "hit": "input#email"
+            },
+            {
+              "identity": 265,
+              "contained": true,
+              "control": true,
+              "selector": "#phone",
+              "unobscured": true,
+              "box": {
+                "top": 466.96875,
+                "bottom": 512.5625,
+                "left": 30,
+                "right": 356
+              },
+              "hit": "input#phone"
+            },
+            {
+              "identity": 270,
+              "contained": true,
+              "control": true,
+              "selector": "#location",
+              "unobscured": true,
+              "box": {
+                "top": 554.5625,
+                "bottom": 600.15625,
+                "left": 30,
+                "right": 356
+              },
+              "hit": "input#location"
+            },
+            {
+              "identity": 275,
+              "contained": true,
+              "control": true,
+              "selector": "#message",
+              "unobscured": true,
+              "box": {
+                "top": 575.15625,
+                "bottom": 697.53125,
+                "left": 30,
+                "right": 356
+              },
+              "hit": "textarea#message"
+            },
+            {
+              "identity": 279,
+              "contained": true,
+              "control": true,
+              "selector": "#marketing",
+              "unobscured": true,
+              "box": {
+                "top": 619.875,
+                "bottom": 639.875,
+                "left": 30,
+                "right": 50
+              },
+              "hit": "input#marketing"
+            },
+            {
+              "identity": 282,
+              "contained": true,
+              "control": true,
+              "selector": "a[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 707.96875,
+                "bottom": 724.96875,
+                "left": 87.625,
+                "right": 175.359375
+              },
+              "hit": "a"
+            },
+            {
+              "identity": 286,
+              "contained": true,
+              "control": true,
+              "selector": "#submit-enquiry",
+              "unobscured": true,
+              "box": {
+                "top": 760,
+                "bottom": 812,
+                "left": 30,
+                "right": 360
+              },
+              "hit": "button#submit-enquiry.button.button--primary"
+            },
+            {
+              "identity": 240,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 32,
+                "bottom": 76,
+                "left": 307.453125,
+                "right": 360
+              },
+              "hit": "button.dialog-close"
+            }
+          ]
+        },
+        "screenshot": "../../../audit/external-reference-r5/screenshots/390x844-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "label": "tablet",
+      "screenshot": "../../../audit/external-reference-r5/screenshots/768x1024-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "A garden room made for what comes next.",
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Reem Kufi",
+                "postScriptName": "ReemKufi-Regular",
+                "isCustomFont": true,
+                "glyphCount": 37
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero__lead",
+            "text": "Make space for work, movement or a new venture. We design around your plans and your garden, then manage the build from start to finish.",
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Poppins",
+                "postScriptName": "Poppins-Regular",
+                "isCustomFont": true,
+                "glyphCount": 133
+              }
+            ]
+          }
+        },
+        "pageWidth": 768,
+        "pageHeight": 6134,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 22,
+              "top": 11.5,
+              "right": 183,
+              "bottom": 66.5,
+              "width": 161,
+              "height": 55
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1565 / 880",
+            "ratioMismatch": false,
+            "cropFraction": 0.5681533546325879,
+            "box": {
+              "left": 384,
+              "top": 78,
+              "right": 768,
+              "bottom": 578,
+              "width": 384,
+              "height": 500
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.002755289081346257,
+            "box": {
+              "left": 22,
+              "top": 983.96875,
+              "right": 248.65625,
+              "bottom": 1153.953125,
+              "width": 226.65625,
+              "height": 169.984375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.11482559935739012,
+            "box": {
+              "left": 270.65625,
+              "top": 983.96875,
+              "right": 497.328125,
+              "bottom": 1153.96875,
+              "width": 226.671875,
+              "height": 170
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.2500172330599021,
+            "box": {
+              "left": 519.328125,
+              "top": 983.96875,
+              "right": 746,
+              "bottom": 1153.96875,
+              "width": 226.671875,
+              "height": 170
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 22,
+              "top": 1781.109375,
+              "right": 430.625,
+              "bottom": 2087.578125,
+              "width": 408.625,
+              "height": 306.46875
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1024 / 1365",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 500.3125,
+              "top": 1684.40625,
+              "right": 700.3125,
+              "bottom": 1951.359375,
+              "width": 200,
+              "height": 266.953125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 7,
+            "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1600 / 1066",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 439.359375,
+              "top": 2582.65625,
+              "right": 746,
+              "bottom": 2787.234375,
+              "width": 306.640625,
+              "height": 204.578125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 8,
+            "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 22,
+              "top": 5973.90625,
+              "right": 183,
+              "bottom": 6028.90625,
+              "width": 161,
+              "height": 55
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 26,
+              "top": 449.03125,
+              "right": 183.609375,
+              "bottom": 501.03125,
+              "width": 157.609375,
+              "height": 52
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.text-action",
+            "text": "Enquire online",
+            "box": {
+              "left": 634.875,
+              "top": 1307.9375,
+              "right": 746,
+              "bottom": 1351.9375,
+              "width": 111.125,
+              "height": 44
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 22,
+              "top": 3788.6875,
+              "right": 179.609375,
+              "bottom": 3840.6875,
+              "width": 157.609375,
+              "height": 52
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 536,
+              "top": 5716.453125,
+              "right": 746,
+              "bottom": 5768.453125,
+              "width": 210,
+              "height": 52
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "div.trust-bar",
+          "nextTop": 578,
+          "visiblePixels": 113.1875,
+          "viewportHeight": 1024
+        },
+        "primaryDeclared": 5,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": [
+          "a",
+          "a",
+          "a",
+          "a"
+        ]
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 838.421875,
+            "bottom": 890.421875,
+            "left": 92,
+            "right": 264
+          }
+        },
+        "focusContained": true,
+        "keyboard": {
+          "complete": true,
+          "escaped": false,
+          "stops": [
+            {
+              "identity": 254,
+              "contained": true,
+              "control": true,
+              "selector": "#name",
+              "unobscured": true,
+              "box": {
+                "top": 311.953125,
+                "bottom": 357.546875,
+                "left": 92,
+                "right": 672
+              },
+              "hit": "input#name"
+            },
+            {
+              "identity": 259,
+              "contained": true,
+              "control": true,
+              "selector": "#email",
+              "unobscured": true,
+              "box": {
+                "top": 399.546875,
+                "bottom": 445.140625,
+                "left": 92,
+                "right": 672
+              },
+              "hit": "input#email"
+            },
+            {
+              "identity": 265,
+              "contained": true,
+              "control": true,
+              "selector": "#phone",
+              "unobscured": true,
+              "box": {
+                "top": 487.140625,
+                "bottom": 532.734375,
+                "left": 92,
+                "right": 375
+              },
+              "hit": "input#phone"
+            },
+            {
+              "identity": 270,
+              "contained": true,
+              "control": true,
+              "selector": "#location",
+              "unobscured": true,
+              "box": {
+                "top": 487.140625,
+                "bottom": 532.734375,
+                "left": 389,
+                "right": 672
+              },
+              "hit": "input#location"
+            },
+            {
+              "identity": 275,
+              "contained": true,
+              "control": true,
+              "selector": "#message",
+              "unobscured": true,
+              "box": {
+                "top": 574.734375,
+                "bottom": 697.109375,
+                "left": 92,
+                "right": 672
+              },
+              "hit": "textarea#message"
+            },
+            {
+              "identity": 279,
+              "contained": true,
+              "control": true,
+              "selector": "#marketing",
+              "unobscured": true,
+              "box": {
+                "top": 735.28125,
+                "bottom": 755.28125,
+                "left": 92,
+                "right": 112
+              },
+              "hit": "input#marketing"
+            },
+            {
+              "identity": 282,
+              "contained": true,
+              "control": true,
+              "selector": "a[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 786.1875,
+                "bottom": 803.1875,
+                "left": 477.921875,
+                "right": 565.65625
+              },
+              "hit": "a"
+            },
+            {
+              "identity": 286,
+              "contained": true,
+              "control": true,
+              "selector": "#submit-enquiry",
+              "unobscured": true,
+              "box": {
+                "top": 838.421875,
+                "bottom": 890.421875,
+                "left": 92,
+                "right": 264
+              },
+              "hit": "button#submit-enquiry.button.button--primary"
+            },
+            {
+              "identity": 240,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 133.5625,
+                "bottom": 177.5625,
+                "left": 623.453125,
+                "right": 676
+              },
+              "hit": "button.dialog-close"
+            }
+          ]
+        },
+        "screenshot": "../../../audit/external-reference-r5/screenshots/768x1024-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1024,
+      "height": 800,
+      "label": "laptop",
+      "screenshot": "../../../audit/external-reference-r5/screenshots/1024x800-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "A garden room made for what comes next.",
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Reem Kufi",
+                "postScriptName": "ReemKufi-Regular",
+                "isCustomFont": true,
+                "glyphCount": 37
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero__lead",
+            "text": "Make space for work, movement or a new venture. We design around your plans and your garden, then manage the build from start to finish.",
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Poppins",
+                "postScriptName": "Poppins-Regular",
+                "isCustomFont": true,
+                "glyphCount": 133
+              }
+            ]
+          }
+        },
+        "pageWidth": 1024,
+        "pageHeight": 6223,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 32,
+              "top": 11.5,
+              "right": 193,
+              "bottom": 66.5,
+              "width": 161,
+              "height": 55
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1565 / 880",
+            "ratioMismatch": false,
+            "cropFraction": 0.4592596193915821,
+            "box": {
+              "left": 471.03125,
+              "top": 78,
+              "right": 1023.984375,
+              "bottom": 653,
+              "width": 552.953125,
+              "height": 575
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.0011015408671016802,
+            "box": {
+              "left": 32,
+              "top": 1033.296875,
+              "right": 337.328125,
+              "bottom": 1262.28125,
+              "width": 305.328125,
+              "height": 228.984375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.11246772507956404,
+            "box": {
+              "left": 359.328125,
+              "top": 1033.296875,
+              "right": 664.65625,
+              "bottom": 1262.28125,
+              "width": 305.328125,
+              "height": 228.984375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.250025585917511,
+            "box": {
+              "left": 686.65625,
+              "top": 1033.296875,
+              "right": 992,
+              "bottom": 1262.296875,
+              "width": 305.34375,
+              "height": 229
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.001056839069830784,
+            "box": {
+              "left": 32,
+              "top": 1862.453125,
+              "right": 571.390625,
+              "bottom": 2266.984375,
+              "width": 539.390625,
+              "height": 404.53125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1024 / 1365",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 669.6875,
+              "top": 1799.9375,
+              "right": 929.6875,
+              "bottom": 2146.96875,
+              "width": 260,
+              "height": 347.03125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 7,
+            "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1600 / 1066",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 598.390625,
+              "top": 2745.234375,
+              "right": 992,
+              "bottom": 3007.84375,
+              "width": 393.609375,
+              "height": 262.609375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 8,
+            "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 32,
+              "top": 6062.484375,
+              "right": 193,
+              "bottom": 6117.484375,
+              "width": 161,
+              "height": 55
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 768.71875,
+              "top": 17,
+              "right": 902.640625,
+              "bottom": 61,
+              "width": 133.921875,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 32,
+              "top": 502.953125,
+              "right": 189.609375,
+              "bottom": 554.953125,
+              "width": 157.609375,
+              "height": 52
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.text-action",
+            "text": "Enquire online",
+            "box": {
+              "left": 880.875,
+              "top": 1395.28125,
+              "right": 992,
+              "bottom": 1439.28125,
+              "width": 111.125,
+              "height": 44
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 32,
+              "top": 3827.40625,
+              "right": 189.609375,
+              "bottom": 3879.40625,
+              "width": 157.609375,
+              "height": 52
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 782,
+              "top": 5805.03125,
+              "right": 992,
+              "bottom": 5857.03125,
+              "width": 210,
+              "height": 52
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "div.trust-bar",
+          "nextTop": 653,
+          "visiblePixels": 92.3125,
+          "viewportHeight": 800
+        },
+        "primaryDeclared": 5,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": [
+          "a",
+          "a",
+          "a",
+          "a"
+        ]
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 716,
+            "bottom": 768,
+            "left": 220,
+            "right": 392
+          }
+        },
+        "focusContained": true,
+        "keyboard": {
+          "complete": true,
+          "escaped": false,
+          "stops": [
+            {
+              "identity": 254,
+              "contained": true,
+              "control": true,
+              "selector": "#name",
+              "unobscured": true,
+              "box": {
+                "top": 210.390625,
+                "bottom": 255.984375,
+                "left": 220,
+                "right": 800
+              },
+              "hit": "input#name"
+            },
+            {
+              "identity": 259,
+              "contained": true,
+              "control": true,
+              "selector": "#email",
+              "unobscured": true,
+              "box": {
+                "top": 297.984375,
+                "bottom": 343.578125,
+                "left": 220,
+                "right": 800
+              },
+              "hit": "input#email"
+            },
+            {
+              "identity": 265,
+              "contained": true,
+              "control": true,
+              "selector": "#phone",
+              "unobscured": true,
+              "box": {
+                "top": 385.578125,
+                "bottom": 431.171875,
+                "left": 220,
+                "right": 503
+              },
+              "hit": "input#phone"
+            },
+            {
+              "identity": 270,
+              "contained": true,
+              "control": true,
+              "selector": "#location",
+              "unobscured": true,
+              "box": {
+                "top": 385.578125,
+                "bottom": 431.171875,
+                "left": 517,
+                "right": 800
+              },
+              "hit": "input#location"
+            },
+            {
+              "identity": 275,
+              "contained": true,
+              "control": true,
+              "selector": "#message",
+              "unobscured": true,
+              "box": {
+                "top": 473.171875,
+                "bottom": 595.546875,
+                "left": 220,
+                "right": 800
+              },
+              "hit": "textarea#message"
+            },
+            {
+              "identity": 279,
+              "contained": true,
+              "control": true,
+              "selector": "#marketing",
+              "unobscured": true,
+              "box": {
+                "top": 633.71875,
+                "bottom": 653.71875,
+                "left": 220,
+                "right": 240
+              },
+              "hit": "input#marketing"
+            },
+            {
+              "identity": 282,
+              "contained": true,
+              "control": true,
+              "selector": "a[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 672.625,
+                "bottom": 689.625,
+                "left": 605.921875,
+                "right": 693.65625
+              },
+              "hit": "a"
+            },
+            {
+              "identity": 286,
+              "contained": true,
+              "control": true,
+              "selector": "#submit-enquiry",
+              "unobscured": true,
+              "box": {
+                "top": 716,
+                "bottom": 768,
+                "left": 220,
+                "right": 392
+              },
+              "hit": "button#submit-enquiry.button.button--primary"
+            },
+            {
+              "identity": 240,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 32,
+                "bottom": 76,
+                "left": 751.453125,
+                "right": 804
+              },
+              "hit": "button.dialog-close"
+            }
+          ]
+        },
+        "screenshot": "../../../audit/external-reference-r5/screenshots/1024x800-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1280,
+      "height": 600,
+      "label": "short-laptop",
+      "screenshot": "../../../audit/external-reference-r5/screenshots/1280x600-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "A garden room made for what comes next.",
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Reem Kufi",
+                "postScriptName": "ReemKufi-Regular",
+                "isCustomFont": true,
+                "glyphCount": 37
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero__lead",
+            "text": "Make space for work, movement or a new venture. We design around your plans and your garden, then manage the build from start to finish.",
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Poppins",
+                "postScriptName": "Poppins-Regular",
+                "isCustomFont": true,
+                "glyphCount": 134
+              }
+            ]
+          }
+        },
+        "pageWidth": 1280,
+        "pageHeight": 5930,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 32,
+              "top": 5.5,
+              "right": 193,
+              "bottom": 60.5,
+              "width": 161,
+              "height": 55
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1565 / 880",
+            "ratioMismatch": false,
+            "cropFraction": 0.17422757675760736,
+            "box": {
+              "left": 588.796875,
+              "top": 66,
+              "right": 1279.984375,
+              "bottom": 536.65625,
+              "width": 691.1875,
+              "height": 470.65625
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.000026664533503972798,
+            "box": {
+              "left": 32,
+              "top": 876.75,
+              "right": 422.65625,
+              "bottom": 1169.734375,
+              "width": 390.65625,
+              "height": 292.984375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.11109926052332197,
+            "box": {
+              "left": 444.65625,
+              "top": 876.75,
+              "right": 835.328125,
+              "bottom": 1169.75,
+              "width": 390.671875,
+              "height": 293
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.2500199984001279,
+            "box": {
+              "left": 857.328125,
+              "top": 876.75,
+              "right": 1247.984375,
+              "bottom": 1169.734375,
+              "width": 390.65625,
+              "height": 292.984375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-overview-1024.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.000022683452421401462,
+            "box": {
+              "left": 32,
+              "top": 1713.859375,
+              "right": 720.828125,
+              "bottom": 2230.46875,
+              "width": 688.828125,
+              "height": 516.609375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1024 / 1365",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 872.40625,
+              "top": 1707.390625,
+              "right": 1132.40625,
+              "bottom": 2054.421875,
+              "width": 260,
+              "height": 347.03125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 7,
+            "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1600 / 1066",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 749.4375,
+              "top": 2579.765625,
+              "right": 1248,
+              "bottom": 2912.390625,
+              "width": 498.5625,
+              "height": 332.625
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 8,
+            "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 32,
+              "top": 5769.15625,
+              "right": 193,
+              "bottom": 5824.15625,
+              "width": 161,
+              "height": 55
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 1114.078125,
+              "top": 11,
+              "right": 1248,
+              "bottom": 55,
+              "width": 133.921875,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 32,
+              "top": 428.96875,
+              "right": 189.609375,
+              "bottom": 480.96875,
+              "width": 157.609375,
+              "height": 52
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.text-action",
+            "text": "Enquire online",
+            "box": {
+              "left": 1136.875,
+              "top": 1302.734375,
+              "right": 1248,
+              "bottom": 1346.734375,
+              "width": 111.125,
+              "height": 44
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 32,
+              "top": 3639.6875,
+              "right": 189.609375,
+              "bottom": 3691.6875,
+              "width": 157.609375,
+              "height": 52
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 1038,
+              "top": 5511.703125,
+              "right": 1248,
+              "bottom": 5563.703125,
+              "width": 210,
+              "height": 52
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "div.trust-bar",
+          "nextTop": 536.65625,
+          "visiblePixels": 63.34375,
+          "viewportHeight": 600
+        },
+        "primaryDeclared": 5,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": [
+          "a",
+          "a",
+          "a",
+          "a"
+        ]
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 516,
+            "bottom": 568,
+            "left": 348,
+            "right": 520
+          }
+        },
+        "focusContained": true,
+        "keyboard": {
+          "complete": true,
+          "escaped": false,
+          "stops": [
+            {
+              "identity": 254,
+              "contained": true,
+              "control": true,
+              "selector": "#name",
+              "unobscured": true,
+              "box": {
+                "top": 210.390625,
+                "bottom": 255.984375,
+                "left": 348,
+                "right": 928
+              },
+              "hit": "input#name"
+            },
+            {
+              "identity": 259,
+              "contained": true,
+              "control": true,
+              "selector": "#email",
+              "unobscured": true,
+              "box": {
+                "top": 297.984375,
+                "bottom": 343.578125,
+                "left": 348,
+                "right": 928
+              },
+              "hit": "input#email"
+            },
+            {
+              "identity": 265,
+              "contained": true,
+              "control": true,
+              "selector": "#phone",
+              "unobscured": true,
+              "box": {
+                "top": 385.578125,
+                "bottom": 431.171875,
+                "left": 348,
+                "right": 631
+              },
+              "hit": "input#phone"
+            },
+            {
+              "identity": 270,
+              "contained": true,
+              "control": true,
+              "selector": "#location",
+              "unobscured": true,
+              "box": {
+                "top": 385.578125,
+                "bottom": 431.171875,
+                "left": 645,
+                "right": 928
+              },
+              "hit": "input#location"
+            },
+            {
+              "identity": 275,
+              "contained": true,
+              "control": true,
+              "selector": "#message",
+              "unobscured": true,
+              "box": {
+                "top": 348.171875,
+                "bottom": 470.546875,
+                "left": 348,
+                "right": 928
+              },
+              "hit": "textarea#message"
+            },
+            {
+              "identity": 279,
+              "contained": true,
+              "control": true,
+              "selector": "#marketing",
+              "unobscured": true,
+              "box": {
+                "top": 413.71875,
+                "bottom": 433.71875,
+                "left": 348,
+                "right": 368
+              },
+              "hit": "input#marketing"
+            },
+            {
+              "identity": 282,
+              "contained": true,
+              "control": true,
+              "selector": "a[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 464.625,
+                "bottom": 481.625,
+                "left": 733.921875,
+                "right": 821.65625
+              },
+              "hit": "a"
+            },
+            {
+              "identity": 286,
+              "contained": true,
+              "control": true,
+              "selector": "#submit-enquiry",
+              "unobscured": true,
+              "box": {
+                "top": 516,
+                "bottom": 568,
+                "left": 348,
+                "right": 520
+              },
+              "hit": "button#submit-enquiry.button.button--primary"
+            },
+            {
+              "identity": 240,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 32,
+                "bottom": 76,
+                "left": 879.453125,
+                "right": 932
+              },
+              "hit": "button.dialog-close"
+            }
+          ]
+        },
+        "screenshot": "../../../audit/external-reference-r5/screenshots/1280x600-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "label": "desktop",
+      "screenshot": "../../../audit/external-reference-r5/screenshots/1440x900-landing.png",
+      "metrics": {
+        "typography": {
+          "heading": {
+            "selector": "#hero-title",
+            "text": "A garden room made for what comes next.",
+            "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Reem Kufi",
+                "postScriptName": "ReemKufi-Regular",
+                "isCustomFont": true,
+                "glyphCount": 37
+              }
+            ]
+          },
+          "body": {
+            "selector": "p.hero__lead",
+            "text": "Make space for work, movement or a new venture. We design around your plans and your garden, then manage the build from start to finish.",
+            "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+            "renderedFonts": [
+              {
+                "familyName": "Poppins",
+                "postScriptName": "Poppins-Regular",
+                "isCustomFont": true,
+                "glyphCount": 134
+              }
+            ]
+          }
+        },
+        "pageWidth": 1440,
+        "pageHeight": 6081,
+        "h1Count": 1,
+        "images": [
+          {
+            "selector": "img",
+            "imageIndex": 0,
+            "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 60,
+              "top": 11.5,
+              "right": 221,
+              "bottom": 66.5,
+              "width": 161,
+              "height": 55
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 1,
+            "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "auto 1565 / 880",
+            "ratioMismatch": false,
+            "cropFraction": 0.23958049729129038,
+            "box": {
+              "left": 662.390625,
+              "top": 78,
+              "right": 1439.984375,
+              "bottom": 653,
+              "width": 777.59375,
+              "height": 575
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 2,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.0014580855323780284,
+            "box": {
+              "left": 60,
+              "top": 993.09375,
+              "right": 485.328125,
+              "bottom": 1312.078125,
+              "width": 425.328125,
+              "height": 318.984375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 3,
+            "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.11207500420094696,
+            "box": {
+              "left": 507.328125,
+              "top": 993.09375,
+              "right": 932.65625,
+              "bottom": 1312.078125,
+              "width": 425.328125,
+              "height": 318.984375
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 4,
+            "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.25001836749687756,
+            "box": {
+              "left": 954.65625,
+              "top": 993.09375,
+              "right": 1380,
+              "bottom": 1312.09375,
+              "width": 425.34375,
+              "height": 319
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 5,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-overview-1024.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "cover",
+            "declaredAspectRatio": "4 / 3",
+            "ratioMismatch": false,
+            "cropFraction": 0.000013897574873356078,
+            "box": {
+              "left": 60,
+              "top": 1849.734375,
+              "right": 809.53125,
+              "bottom": 2411.875,
+              "width": 749.53125,
+              "height": 562.140625
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 6,
+            "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1024 / 1365",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 982.75,
+              "top": 1866.015625,
+              "right": 1242.75,
+              "bottom": 2213.046875,
+              "width": 260,
+              "height": 347.03125
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 7,
+            "src": "http://127.0.0.1:8787/assets/moreton-salon-1200.webp",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 1600 / 1066",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 838.796875,
+              "top": 2740.59375,
+              "right": 1380,
+              "bottom": 3101.390625,
+              "width": 541.203125,
+              "height": 360.796875
+            }
+          },
+          {
+            "selector": "img",
+            "imageIndex": 8,
+            "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+            "loaded": true,
+            "role": "proof",
+            "contentBearing": false,
+            "objectFit": "fill",
+            "declaredAspectRatio": "auto 161 / 55",
+            "ratioMismatch": false,
+            "cropFraction": 0,
+            "box": {
+              "left": 60,
+              "top": 5920.15625,
+              "right": 221,
+              "bottom": 5975.15625,
+              "width": 161,
+              "height": 55
+            }
+          }
+        ],
+        "primary": [
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 1246.078125,
+              "top": 17,
+              "right": 1380,
+              "bottom": 61,
+              "width": 133.921875,
+              "height": 44
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 60,
+              "top": 501.140625,
+              "right": 217.609375,
+              "bottom": 553.140625,
+              "width": 157.609375,
+              "height": 52
+            },
+            "unobscured": true
+          },
+          {
+            "selector": "button.text-action",
+            "text": "Enquire online",
+            "box": {
+              "left": 1268.875,
+              "top": 1445.078125,
+              "right": 1380,
+              "bottom": 1489.078125,
+              "width": 111.125,
+              "height": 44
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 60,
+              "top": 3790.6875,
+              "right": 217.609375,
+              "bottom": 3842.6875,
+              "width": 157.609375,
+              "height": 52
+            },
+            "unobscured": false
+          },
+          {
+            "selector": "button.button.button--primary",
+            "text": "Enquire online",
+            "box": {
+              "left": 1170,
+              "top": 5662.703125,
+              "right": 1380,
+              "bottom": 5714.703125,
+              "width": 210,
+              "height": 52
+            },
+            "unobscured": false
+          }
+        ],
+        "heroContinuation": {
+          "hero": "#top",
+          "following": "div.trust-bar",
+          "nextTop": 653,
+          "visiblePixels": 71.4375,
+          "viewportHeight": 900
+        },
+        "primaryDeclared": 5,
+        "overflow": [],
+        "overlayConflicts": [],
+        "contentCollisions": [],
+        "positionedTextCollisions": [],
+        "footerGapIssues": [],
+        "smallPrimary": [],
+        "smallTargets": [
+          "a",
+          "a",
+          "a",
+          "a"
+        ]
+      },
+      "modal": {
+        "present": true,
+        "opened": true,
+        "action": {
+          "found": true,
+          "visibleInViewport": true,
+          "unobscured": true,
+          "box": {
+            "top": 776.421875,
+            "bottom": 828.421875,
+            "left": 428,
+            "right": 600
+          }
+        },
+        "focusContained": true,
+        "keyboard": {
+          "complete": true,
+          "escaped": false,
+          "stops": [
+            {
+              "identity": 254,
+              "contained": true,
+              "control": true,
+              "selector": "#name",
+              "unobscured": true,
+              "box": {
+                "top": 249.953125,
+                "bottom": 295.546875,
+                "left": 428,
+                "right": 1008
+              },
+              "hit": "input#name"
+            },
+            {
+              "identity": 259,
+              "contained": true,
+              "control": true,
+              "selector": "#email",
+              "unobscured": true,
+              "box": {
+                "top": 337.546875,
+                "bottom": 383.140625,
+                "left": 428,
+                "right": 1008
+              },
+              "hit": "input#email"
+            },
+            {
+              "identity": 265,
+              "contained": true,
+              "control": true,
+              "selector": "#phone",
+              "unobscured": true,
+              "box": {
+                "top": 425.140625,
+                "bottom": 470.734375,
+                "left": 428,
+                "right": 711
+              },
+              "hit": "input#phone"
+            },
+            {
+              "identity": 270,
+              "contained": true,
+              "control": true,
+              "selector": "#location",
+              "unobscured": true,
+              "box": {
+                "top": 425.140625,
+                "bottom": 470.734375,
+                "left": 725,
+                "right": 1008
+              },
+              "hit": "input#location"
+            },
+            {
+              "identity": 275,
+              "contained": true,
+              "control": true,
+              "selector": "#message",
+              "unobscured": true,
+              "box": {
+                "top": 512.734375,
+                "bottom": 635.109375,
+                "left": 428,
+                "right": 1008
+              },
+              "hit": "textarea#message"
+            },
+            {
+              "identity": 279,
+              "contained": true,
+              "control": true,
+              "selector": "#marketing",
+              "unobscured": true,
+              "box": {
+                "top": 673.28125,
+                "bottom": 693.28125,
+                "left": 428,
+                "right": 448
+              },
+              "hit": "input#marketing"
+            },
+            {
+              "identity": 282,
+              "contained": true,
+              "control": true,
+              "selector": "a[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 724.1875,
+                "bottom": 741.1875,
+                "left": 813.921875,
+                "right": 901.65625
+              },
+              "hit": "a"
+            },
+            {
+              "identity": 286,
+              "contained": true,
+              "control": true,
+              "selector": "#submit-enquiry",
+              "unobscured": true,
+              "box": {
+                "top": 776.421875,
+                "bottom": 828.421875,
+                "left": 428,
+                "right": 600
+              },
+              "hit": "button#submit-enquiry.button.button--primary"
+            },
+            {
+              "identity": 240,
+              "contained": true,
+              "control": true,
+              "selector": "button[name=\"\"]",
+              "unobscured": true,
+              "box": {
+                "top": 71.5625,
+                "bottom": 115.5625,
+                "left": 959.453125,
+                "right": 1012
+              },
+              "hit": "button.dialog-close"
+            }
+          ]
+        },
+        "screenshot": "../../../audit/external-reference-r5/screenshots/1440x900-modal.png"
+      },
+      "consoleErrors": [],
+      "networkErrors": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "../../../audit/external-reference-r5/screenshots/390x844-landing.png",
+      "type": "screenshot",
+      "sha256": "c9c40754554bbcb1e7cd540fe69198262627e2b98c1b0d35358f848f5512e614"
+    },
+    {
+      "path": "../../../audit/external-reference-r5/screenshots/390x844-modal.png",
+      "type": "screenshot",
+      "sha256": "8c469439bcd7aa2ec44af8252e0ccb3802df46316a8a954e34c269b4cd216325"
+    },
+    {
+      "path": "../../../audit/external-reference-r5/screenshots/768x1024-landing.png",
+      "type": "screenshot",
+      "sha256": "d3c8612185a042a01aea75fb90ab255207a70a2c7e4ce784ed3b7f22d08fbd38"
+    },
+    {
+      "path": "../../../audit/external-reference-r5/screenshots/768x1024-modal.png",
+      "type": "screenshot",
+      "sha256": "5f66e9c0c32b2161bba91661f177fb8218888601ad2cd8ddf308a6f5080181fb"
+    },
+    {
+      "path": "../../../audit/external-reference-r5/screenshots/1024x800-landing.png",
+      "type": "screenshot",
+      "sha256": "c58106c6e5ec337773fd60a4ff656fa2e82bcf09187005dda49425e0aeee2bf0"
+    },
+    {
+      "path": "../../../audit/external-reference-r5/screenshots/1024x800-modal.png",
+      "type": "screenshot",
+      "sha256": "27ac000606775c0df42b089459adef94788fcdb69e8cfc831cef2dfe733d6613"
+    },
+    {
+      "path": "../../../audit/external-reference-r5/screenshots/1280x600-landing.png",
+      "type": "screenshot",
+      "sha256": "6610c8d63a91038e229d50c7911da759adb854bb333c6cef273fd58a272930ac"
+    },
+    {
+      "path": "../../../audit/external-reference-r5/screenshots/1280x600-modal.png",
+      "type": "screenshot",
+      "sha256": "76ab7e03d3e678eba59e32383e6daa24825b3be9348d1c58fb719bd68db091b1"
+    },
+    {
+      "path": "../../../audit/external-reference-r5/screenshots/1440x900-landing.png",
+      "type": "screenshot",
+      "sha256": "83a0cdecaaa3a81230a89469f5ba69bf26468a5f7ff617f9d960d321481cfe90"
+    },
+    {
+      "path": "../../../audit/external-reference-r5/screenshots/1440x900-modal.png",
+      "type": "screenshot",
+      "sha256": "d69ced620eb7d7c281c1957535021cb8ba114642c2e5ef5a104842726e018160"
+    }
+  ],
+  "checks": [
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Reem Kufi; page renders Reem Kufi",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Poppins; page renders Poppins",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":390,\"overflow\":[]}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "screenshot": "../../../audit/external-reference-r5/screenshots/390x844-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"div.trust-bar\",\"nextTop\":606.03125,\"visiblePixels\":138.78125,\"viewportHeight\":844}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"button.button.button--primary\",\"text\":\"Enquire online\",\"box\":{\"left\":22,\"top\":316.65625,\"right\":179.609375,\"bottom\":368.65625,\"width\":157.609375,\"height\":52},\"unobscured\":true},{\"selector\":\"button.text-action\",\"text\":\"Enquire online\",\"box\":{\"left\":18,\"top\":2155.65625,\"right\":129.125,\"bottom\":2199.65625,\"width\":111.125,\"height\":44},\"unobscured\":false},{\"selector\":\"button.button.button--primary\",\"text\":\"Enquire online\",\"box\":{\"left\":18,\"top\":5488.546875,\"right\":175.609375,\"bottom\":5540.546875,\"width\":157.609375,\"height\":52},\"unobscured\":false},{\"selector\":\"button.button.button--primary\",\"text\":\"Enquire online\",\"box\":{\"left\":18,\"top\":8091.359375,\"right\":228,\"bottom\":8143.359375,\"width\":210,\"height\":52},\"unobscured\":false}]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":760,\"bottom\":812,\"left\":30,\"right\":360}}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_tab_focus_unobscured",
+      "status": "pass",
+      "detail": "{\"complete\":true,\"escaped\":false,\"stopCount\":9,\"obscured\":[]}",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Reem Kufi; page renders Reem Kufi",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Poppins; page renders Poppins",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":768,\"overflow\":[]}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "screenshot": "../../../audit/external-reference-r5/screenshots/768x1024-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"div.trust-bar\",\"nextTop\":578,\"visiblePixels\":113.1875,\"viewportHeight\":1024}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":838.421875,\"bottom\":890.421875,\"left\":92,\"right\":264}}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_tab_focus_unobscured",
+      "status": "pass",
+      "detail": "{\"complete\":true,\"escaped\":false,\"stopCount\":9,\"obscured\":[]}",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Reem Kufi; page renders Reem Kufi",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Poppins; page renders Poppins",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1024,\"overflow\":[]}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "screenshot": "../../../audit/external-reference-r5/screenshots/1024x800-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"div.trust-bar\",\"nextTop\":653,\"visiblePixels\":92.3125,\"viewportHeight\":800}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":716,\"bottom\":768,\"left\":220,\"right\":392}}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_tab_focus_unobscured",
+      "status": "pass",
+      "detail": "{\"complete\":true,\"escaped\":false,\"stopCount\":9,\"obscured\":[]}",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Reem Kufi; page renders Reem Kufi",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Poppins; page renders Poppins",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1280,\"overflow\":[]}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "screenshot": "../../../audit/external-reference-r5/screenshots/1280x600-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"div.trust-bar\",\"nextTop\":536.65625,\"visiblePixels\":63.34375,\"viewportHeight\":600}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "primary_action_visible_in_first_view",
+      "status": "pass",
+      "detail": "[{\"selector\":\"button.button.button--primary\",\"text\":\"Enquire online\",\"box\":{\"left\":1114.078125,\"top\":11,\"right\":1248,\"bottom\":55,\"width\":133.921875,\"height\":44},\"unobscured\":true},{\"selector\":\"button.button.button--primary\",\"text\":\"Enquire online\",\"box\":{\"left\":32,\"top\":428.96875,\"right\":189.609375,\"bottom\":480.96875,\"width\":157.609375,\"height\":52},\"unobscured\":true},{\"selector\":\"button.text-action\",\"text\":\"Enquire online\",\"box\":{\"left\":1136.875,\"top\":1302.734375,\"right\":1248,\"bottom\":1346.734375,\"width\":111.125,\"height\":44},\"unobscured\":false},{\"selector\":\"button.button.button--primary\",\"text\":\"Enquire online\",\"box\":{\"left\":32,\"top\":3639.6875,\"right\":189.609375,\"bottom\":3691.6875,\"width\":157.609375,\"height\":52},\"unobscured\":false},{\"selector\":\"button.button.button--primary\",\"text\":\"Enquire online\",\"box\":{\"left\":1038,\"top\":5511.703125,\"right\":1248,\"bottom\":5563.703125,\"width\":210,\"height\":52},\"unobscured\":false}]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":516,\"bottom\":568,\"left\":348,\"right\":520}}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_tab_focus_unobscured",
+      "status": "pass",
+      "detail": "{\"complete\":true,\"escaped\":false,\"stopCount\":9,\"obscured\":[]}",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "heading: source renders Reem Kufi; page renders Reem Kufi",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "declared_brand_font_really_renders",
+      "status": "pass",
+      "detail": "body: source renders Poppins; page renders Poppins",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "horizontal_overflow",
+      "status": "pass",
+      "detail": "{\"pageWidth\":1440,\"overflow\":[]}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "screenshot": "../../../audit/external-reference-r5/screenshots/1440x900-landing.png"
+    },
+    {
+      "name": "visible_h1",
+      "status": "pass",
+      "detail": "Visible H1 count: 1",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "hero_reveals_following_content",
+      "status": "pass",
+      "detail": "{\"hero\":\"#top\",\"following\":\"div.trust-bar\",\"nextTop\":653,\"visiblePixels\":71.4375,\"viewportHeight\":900}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "images_loaded",
+      "status": "pass",
+      "detail": "Every rendered image decoded",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "explicit_image_ratio_matches_layout",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_not_cover_cropped",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "content_images_have_no_text_collision",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "positioned_text_does_not_overlap_prose",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "fixed_ui_does_not_cover_conversion_content",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "footer_links_have_gap",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "primary_targets_are_operable",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_opens",
+      "status": "pass",
+      "detail": "Primary modal trigger opens a visible dialog",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_primary_action_visible",
+      "status": "pass",
+      "detail": "{\"found\":true,\"visibleInViewport\":true,\"unobscured\":true,\"box\":{\"top\":776.421875,\"bottom\":828.421875,\"left\":428,\"right\":600}}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_tab_focus_unobscured",
+      "status": "pass",
+      "detail": "{\"complete\":true,\"escaped\":false,\"stopCount\":9,\"obscured\":[]}",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_forced_focus_contained",
+      "status": "pass",
+      "detail": "Programmatic focus cannot remain outside the open dialog",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "modal_escape_and_restore",
+      "status": "pass",
+      "detail": "Escape closes the dialog and restores focus",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "console_errors",
+      "status": "pass",
+      "detail": "No console errors",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    },
+    {
+      "name": "network_errors",
+      "status": "pass",
+      "detail": "[]",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      }
+    }
+  ],
+  "failures": [],
+  "warnings": [
+    "390x844: targets smaller than 24 CSS pixels: a, a, a, a",
+    "768x1024: targets smaller than 24 CSS pixels: a, a, a, a",
+    "768x1024: aggressive crop at image 1 (http://127.0.0.1:8787/assets/hero-1565.webp); 57% cropped",
+    "1024x800: targets smaller than 24 CSS pixels: a, a, a, a",
+    "1024x800: aggressive crop at image 1 (http://127.0.0.1:8787/assets/hero-1565.webp); 46% cropped",
+    "1280x600: targets smaller than 24 CSS pixels: a, a, a, a",
+    "1440x900: targets smaller than 24 CSS pixels: a, a, a, a"
+  ],
+  "typographyComparison": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.vc_custom_heading.wpb_animate_when_almost_visible.wpb_fadeIn",
+        "text": "Stunning Garden Rooms",
+        "bounds": {
+          "x": 37.046875,
+          "y": 337.65625,
+          "width": 315.890625,
+          "height": 192,
+          "visibleAreaApprox": 60651
+        },
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "fontSize": "64px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "64px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 19
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "A garden room made for what comes next.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 38
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "label": "mobile"
+      },
+      "role": "body",
+      "source": {
+        "selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "textTransform": "none",
+        "sampleScrollY": 940,
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 219
+          },
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Bold",
+            "isCustomFont": true,
+            "glyphCount": 56
+          }
+        ],
+        "screenshot": "brand-390x844-body.png"
+      },
+      "applied": {
+        "selector": "p.hero__lead",
+        "text": "Make space for work, movement or a new venture. We design around your plans and your garden, then manage the build from start to finish.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 133
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.vc_custom_heading.wpb_animate_when_almost_visible.wpb_fadeIn",
+        "text": "Stunning Garden Rooms",
+        "bounds": {
+          "x": 37.046875,
+          "y": 337.65625,
+          "width": 315.890625,
+          "height": 192,
+          "visibleAreaApprox": 60651
+        },
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "fontSize": "64px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "64px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 19
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "A garden room made for what comes next.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 37
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "label": "tablet"
+      },
+      "role": "body",
+      "source": {
+        "selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "textTransform": "none",
+        "sampleScrollY": 940,
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 219
+          },
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Bold",
+            "isCustomFont": true,
+            "glyphCount": 56
+          }
+        ],
+        "screenshot": "brand-390x844-body.png"
+      },
+      "applied": {
+        "selector": "p.hero__lead",
+        "text": "Make space for work, movement or a new venture. We design around your plans and your garden, then manage the build from start to finish.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 133
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.vc_custom_heading.wpb_animate_when_almost_visible.wpb_fadeIn",
+        "text": "Stunning Garden Rooms",
+        "bounds": {
+          "x": 135,
+          "y": 359,
+          "width": 1170,
+          "height": 64,
+          "visibleAreaApprox": 74880
+        },
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "fontSize": "64px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "64px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 21
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "A garden room made for what comes next.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 37
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 800,
+        "label": "laptop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "textTransform": "none",
+        "sampleScrollY": 616,
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 224
+          },
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Bold",
+            "isCustomFont": true,
+            "glyphCount": 57
+          }
+        ],
+        "screenshot": "brand-1440x900-body.png"
+      },
+      "applied": {
+        "selector": "p.hero__lead",
+        "text": "Make space for work, movement or a new venture. We design around your plans and your garden, then manage the build from start to finish.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 133
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.vc_custom_heading.wpb_animate_when_almost_visible.wpb_fadeIn",
+        "text": "Stunning Garden Rooms",
+        "bounds": {
+          "x": 135,
+          "y": 359,
+          "width": 1170,
+          "height": 64,
+          "visibleAreaApprox": 74880
+        },
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "fontSize": "64px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "64px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 21
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "A garden room made for what comes next.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 37
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 600,
+        "label": "short-laptop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "textTransform": "none",
+        "sampleScrollY": 616,
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 224
+          },
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Bold",
+            "isCustomFont": true,
+            "glyphCount": 57
+          }
+        ],
+        "screenshot": "brand-1440x900-body.png"
+      },
+      "applied": {
+        "selector": "p.hero__lead",
+        "text": "Make space for work, movement or a new venture. We design around your plans and your garden, then manage the build from start to finish.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 134
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "role": "heading",
+      "source": {
+        "selector": "h1.vc_custom_heading.wpb_animate_when_almost_visible.wpb_fadeIn",
+        "text": "Stunning Garden Rooms",
+        "bounds": {
+          "x": 135,
+          "y": 359,
+          "width": 1170,
+          "height": 64,
+          "visibleAreaApprox": 74880
+        },
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "fontSize": "64px",
+        "fontWeight": "300",
+        "fontStyle": "normal",
+        "lineHeight": "64px",
+        "letterSpacing": "normal",
+        "textTransform": "none",
+        "color": "rgb(255, 255, 255)",
+        "fontStackAvailable": true,
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 21
+          }
+        ]
+      },
+      "applied": {
+        "selector": "#hero-title",
+        "text": "A garden room made for what comes next.",
+        "fontFamily": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Reem Kufi",
+            "postScriptName": "ReemKufi-Regular",
+            "isCustomFont": true,
+            "glyphCount": 37
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "label": "desktop"
+      },
+      "role": "body",
+      "source": {
+        "selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every aspect of the project, from sta",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "textTransform": "none",
+        "sampleScrollY": 616,
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 224
+          },
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Bold",
+            "isCustomFont": true,
+            "glyphCount": 57
+          }
+        ],
+        "screenshot": "brand-1440x900-body.png"
+      },
+      "applied": {
+        "selector": "p.hero__lead",
+        "text": "Make space for work, movement or a new venture. We design around your plans and your garden, then manage the build from start to finish.",
+        "fontFamily": "Poppins, Helvetica, Arial, sans-serif",
+        "renderedFonts": [
+          {
+            "familyName": "Poppins",
+            "postScriptName": "Poppins-Regular",
+            "isCustomFont": true,
+            "glyphCount": 134
+          }
+        ]
+      },
+      "matches": true,
+      "renderedMatches": true
+    }
+  ],
+  "limits": [
+    "Measurements do not replace visual review of the screenshot pixels.",
+    "The run does not submit forms or prove a live backend destination.",
+    "Automated overlap checks cannot identify every face or focal subject."
+  ],
+  "completed_at": "2026-09-20T15:25:46.862Z"
+}

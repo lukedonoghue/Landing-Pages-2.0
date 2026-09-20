@@ -1,0 +1,2070 @@
+{
+  "checks": [
+    {
+      "id": "R3-P03",
+      "name": "Top phone 320",
+      "pass": true,
+      "detail": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 320",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 320",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 1711,
+          "hash": ""
+        },
+        "during": {
+          "y": 1711,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 1711,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 320",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5291,
+          "hash": ""
+        },
+        "during": {
+          "y": 5291,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 5291,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 5 320",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 8189,
+          "hash": ""
+        },
+        "during": {
+          "y": 8189,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 8189,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Natural tab focus visible and contained 320",
+      "pass": true,
+      "detail": [
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "privacy policy (opens in a new",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "name": "Invalid summary framed 320",
+      "pass": true,
+      "detail": {
+        "focused": true,
+        "top": 264.78125,
+        "bottom": 410.3125,
+        "clipTop": 264.78125,
+        "clipBottom": 470
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction 320",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link usable 320",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All responsive images decode 320",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 110,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-900.webp",
+          "width": 900,
+          "render": 320,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 284,
+          "render": 284,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 284,
+          "render": 284,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 284,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+          "width": 284,
+          "render": 284,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 230,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+          "width": 284,
+          "render": 284,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 126,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "layout",
+      "name": "No overflow 320",
+      "pass": true
+    },
+    {
+      "id": "R3-P03",
+      "name": "Top phone 390",
+      "pass": true,
+      "detail": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 1720,
+          "hash": ""
+        },
+        "during": {
+          "y": 1720,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 1720,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5057,
+          "hash": ""
+        },
+        "during": {
+          "y": 5057,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 5057,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 5 390",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 7659,
+          "hash": ""
+        },
+        "during": {
+          "y": 7659,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 7659,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Natural tab focus visible and contained 390",
+      "pass": true,
+      "detail": [
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "privacy policy (opens in a new",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "name": "Invalid summary framed 390",
+      "pass": true,
+      "detail": {
+        "focused": true,
+        "top": 264.78125,
+        "bottom": 391.125,
+        "clipTop": 264.78125,
+        "clipBottom": 746
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction 390",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link usable 390",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All responsive images decode 390",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 110,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-900.webp",
+          "width": 900,
+          "render": 390,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 354,
+          "render": 354,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 354,
+          "render": 354,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 354,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+          "width": 354,
+          "render": 354,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 230,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+          "width": 354,
+          "render": 354,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "layout",
+      "name": "No overflow 390",
+      "pass": true
+    },
+    {
+      "id": "R3-P03",
+      "name": "Top phone 768",
+      "pass": true,
+      "detail": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 773,
+          "hash": ""
+        },
+        "during": {
+          "y": 773,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 773,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 3258,
+          "hash": ""
+        },
+        "during": {
+          "y": 3258,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 3258,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 5 768",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5110,
+          "hash": ""
+        },
+        "during": {
+          "y": 5110,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 5110,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Natural tab focus visible and contained 768",
+      "pass": true,
+      "detail": [
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "privacy policy (opens in a new",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "name": "Invalid summary framed 768",
+      "pass": true,
+      "detail": {
+        "focused": true,
+        "top": 185.03125,
+        "bottom": 311.375,
+        "clipTop": 185.03125,
+        "clipBottom": 924.359375
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction 768",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link usable 768",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All responsive images decode 768",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+          "width": 1565,
+          "render": 384,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 238,
+          "render": 226.65625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 238,
+          "render": 226.671875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 226.671875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+          "width": 460,
+          "render": 408.625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 200,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+          "width": 345,
+          "render": 306.640625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "layout",
+      "name": "No overflow 768",
+      "pass": true
+    },
+    {
+      "id": "R3-P03",
+      "name": "Top phone 1024",
+      "pass": true,
+      "detail": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 1 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 972,
+          "hash": ""
+        },
+        "during": {
+          "y": 972,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 972,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 3408,
+          "hash": ""
+        },
+        "during": {
+          "y": 3408,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 3408,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 5 1024",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5386,
+          "hash": ""
+        },
+        "during": {
+          "y": 5386,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 5386,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Natural tab focus visible and contained 1024",
+      "pass": true,
+      "detail": [
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "privacy policy (opens in a new",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "name": "Invalid summary framed 1024",
+      "pass": true,
+      "detail": {
+        "focused": true,
+        "top": 183.390625,
+        "bottom": 309.734375,
+        "clipTop": 183.390625,
+        "clipBottom": 702
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction 1024",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link usable 1024",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All responsive images decode 1024",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+          "width": 1565,
+          "render": 552.953125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 317,
+          "render": 305.328125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 317,
+          "render": 305.328125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 305.34375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+          "width": 614,
+          "render": 539.390625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 260,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+          "width": 460,
+          "render": 393.609375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "layout",
+      "name": "No overflow 1024",
+      "pass": true
+    },
+    {
+      "id": "R3-P03",
+      "name": "Top phone 1280",
+      "pass": true,
+      "detail": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 1 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 980,
+          "hash": ""
+        },
+        "during": {
+          "y": 980,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 980,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 3321,
+          "hash": ""
+        },
+        "during": {
+          "y": 3321,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 3321,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 5 1280",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5193,
+          "hash": ""
+        },
+        "during": {
+          "y": 5193,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 5193,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Natural tab focus visible and contained 1280",
+      "pass": true,
+      "detail": [
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "privacy policy (opens in a new",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "name": "Invalid summary framed 1280",
+      "pass": true,
+      "detail": {
+        "focused": true,
+        "top": 183.390625,
+        "bottom": 309.734375,
+        "clipTop": 183.390625,
+        "clipBottom": 502
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction 1280",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link usable 1280",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All responsive images decode 1280",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+          "width": 1565,
+          "render": 691.1875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 396,
+          "render": 390.65625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 396,
+          "render": 390.671875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 390.65625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-1024.webp",
+          "width": 768,
+          "render": 688.828125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 260,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+          "width": 576,
+          "render": 498.5625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "layout",
+      "name": "No overflow 1280",
+      "pass": true
+    },
+    {
+      "id": "R3-P03",
+      "name": "Top phone 1440",
+      "pass": true,
+      "detail": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 1 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 2 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 0,
+          "hash": ""
+        },
+        "during": {
+          "y": 0,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 0,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 3 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 972,
+          "hash": ""
+        },
+        "during": {
+          "y": 972,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 972,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 4 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 3322,
+          "hash": ""
+        },
+        "during": {
+          "y": 3322,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 3322,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "R3-P02",
+      "name": "CTA 5 1440",
+      "pass": true,
+      "detail": {
+        "before": {
+          "y": 5181,
+          "hash": ""
+        },
+        "during": {
+          "y": 5181,
+          "hash": "",
+          "open": true
+        },
+        "after": {
+          "y": 5181,
+          "focus": true
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Natural tab focus visible and contained 1440",
+      "pass": true,
+      "detail": [
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "message",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "marketing",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "privacy policy (opens in a new",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "submit-enquiry",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "Close",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "name",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "email",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "phone",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "location",
+          "visible": true,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "name": "Invalid summary framed 1440",
+      "pass": true,
+      "detail": {
+        "focused": true,
+        "top": 183.390625,
+        "bottom": 309.734375,
+        "clipTop": 183.390625,
+        "clipBottom": 802
+      }
+    },
+    {
+      "id": "C05",
+      "name": "Partial correction 1440",
+      "pass": true
+    },
+    {
+      "id": "C05",
+      "name": "Error link usable 1440",
+      "pass": true
+    },
+    {
+      "id": "C08/C10",
+      "name": "All responsive images decode 1440",
+      "pass": true,
+      "detail": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+          "width": 1565,
+          "render": 777.59375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 446,
+          "render": 425.328125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 446,
+          "render": 425.328125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 425.34375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-1024.webp",
+          "width": 864,
+          "render": 749.53125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 260,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-1200.webp",
+          "width": 648,
+          "render": 541.203125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "layout",
+      "name": "No overflow 1440",
+      "pass": true
+    },
+    {
+      "id": "validation",
+      "name": "Whitespace, malformed email and alphabetic phone rejected",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "Duplicate pending dispatch guarded",
+      "pass": true
+    },
+    {
+      "id": "C01",
+      "name": "Pending close/reopen preserves locked snapshot",
+      "pass": true
+    },
+    {
+      "id": "C02",
+      "name": "Receipt received while closed retained on reopen",
+      "pass": true
+    },
+    {
+      "id": "C02",
+      "name": "Confirmed duplicate guarded",
+      "pass": true
+    },
+    {
+      "id": "C07",
+      "name": "Compact success",
+      "pass": true,
+      "detail": {
+        "x": 12,
+        "y": 269,
+        "width": 366,
+        "height": 306
+      }
+    },
+    {
+      "id": "C02",
+      "name": "Deliberate reset clears fields",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Failure retains values and permits retry",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Same filled retry reaches actual local receiver",
+      "pass": true
+    },
+    {
+      "id": "receipt",
+      "name": "Mismatched receipt rejected",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Real eight-second deadline is recoverable",
+      "pass": true
+    },
+    {
+      "id": "C03",
+      "name": "Retry after timeout confirms locally",
+      "pass": true
+    }
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "phone": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      },
+      "validation": {
+        "focused": true,
+        "top": 264.78125,
+        "bottom": 410.3125,
+        "clipTop": 264.78125,
+        "clipBottom": 470
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 110,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-900.webp",
+          "width": 900,
+          "render": 320,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 284,
+          "render": 284,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 284,
+          "render": 284,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 284,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+          "width": 284,
+          "render": 284,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 230,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+          "width": 284,
+          "render": 284,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 126,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "phone": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      },
+      "validation": {
+        "focused": true,
+        "top": 264.78125,
+        "bottom": 391.125,
+        "clipTop": 264.78125,
+        "clipBottom": 746
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 110,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-900.webp",
+          "width": 900,
+          "render": 390,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 354,
+          "render": 354,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 354,
+          "render": 354,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 354,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+          "width": 354,
+          "render": 354,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 230,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+          "width": 354,
+          "render": 354,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "phone": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      },
+      "validation": {
+        "focused": true,
+        "top": 185.03125,
+        "bottom": 311.375,
+        "clipTop": 185.03125,
+        "clipBottom": 924.359375
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+          "width": 1565,
+          "render": 384,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 238,
+          "render": 226.65625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 238,
+          "render": 226.671875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 226.671875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+          "width": 460,
+          "render": 408.625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 200,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+          "width": 345,
+          "render": 306.640625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "height": 800,
+      "phone": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      },
+      "validation": {
+        "focused": true,
+        "top": 183.390625,
+        "bottom": 309.734375,
+        "clipTop": 183.390625,
+        "clipBottom": 702
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+          "width": 1565,
+          "render": 552.953125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 317,
+          "render": 305.328125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 317,
+          "render": 305.328125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 305.34375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-640.webp",
+          "width": 614,
+          "render": 539.390625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 260,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+          "width": 460,
+          "render": 393.609375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 600,
+      "phone": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      },
+      "validation": {
+        "focused": true,
+        "top": 183.390625,
+        "bottom": 309.734375,
+        "clipTop": 183.390625,
+        "clipBottom": 502
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+          "width": 1565,
+          "render": 691.1875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 396,
+          "render": 390.65625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 396,
+          "render": 390.671875,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 390.65625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-1024.webp",
+          "width": 768,
+          "render": 688.828125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 260,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-640.webp",
+          "width": 576,
+          "render": 498.5625,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "phone": {
+        "text": "07803 362187",
+        "href": "tel:+447803362187",
+        "visible": true
+      },
+      "validation": {
+        "focused": true,
+        "top": 183.390625,
+        "bottom": 309.734375,
+        "clipTop": 183.390625,
+        "clipBottom": 802
+      },
+      "images": [
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/hero-1565.webp",
+          "width": 1565,
+          "render": 777.59375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-exterior-640.webp",
+          "width": 446,
+          "render": 425.328125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-exterior-640.webp",
+          "width": 446,
+          "render": 425.328125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/dyserth-585.webp",
+          "width": 585,
+          "render": 425.34375,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-overview-1024.webp",
+          "width": 864,
+          "render": 749.53125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/walthamstow-interior-460.webp",
+          "width": 260,
+          "render": 260,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/moreton-salon-1200.webp",
+          "width": 648,
+          "render": 541.203125,
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8787/assets/brand-logo.png",
+          "width": 161,
+          "render": 161,
+          "loaded": true
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Synthetic local receiver only, no live leads.",
+    "No required grouped field or shared inline form exists.",
+    "Visual, source and reference review is separate."
+  ],
+  "status": "pass"
+}

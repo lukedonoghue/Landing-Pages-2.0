@@ -1,5 +1,11 @@
 # Sequential community acceptance
 
+## Current authorization, 2026-09-20
+
+The user extended the absolute stop to **70% weekly used (30% remaining)** after the meter reached 50%. Finish the Garden Room attempt-5 audit, correct confirmed skill-source failures, then run case 3 (Clarentis, image generation) independently. This supersedes the earlier 50% cap and case-3 hold below. Reserve the remaining 30% for later deployment/CRM work; those modules are not authorized in this continuation. One builder at a time, Sol 5.6 xhigh, fresh context and frozen skill. No timed update automation.
+
+Attempt 5 completed and audit finished: **blocked on process/offer copy completeness**, with 81 parent interaction assertions passing. See EXTERNAL-REFERENCE-R5-REVIEW.md for independent findings, parent calibration, warning disposition and source corrections. The original page remains unchanged. User authorizes proceeding to Clarentis with the corrected skill, not accepting Garden Room retrospectively. All 69 package tests pass after the four-file instruction patch; no new helper or review round was added.
+
 Status: resumed for business 2 on 2026-09-20 by explicit user direction. Stayclean attempt 10 remains unaccepted after parent review. User authorizes carrying its fixes into a separate audit of the next independent business instead of rebuilding Stayclean again. Current baseline is 33% used; stop at 50% total usage. Heartbeat remains paused and no scheduled 15-minute reports are wanted. Report build completions and audits. No reset credits. See CASE2-CARRYOVER-AUDIT.md and WEBSITE-ONLY-R10-PARENT-REVIEW.md. This direction supersedes the earlier case-1-first acceptance ordering and 32% stop.
 
 ## Scope

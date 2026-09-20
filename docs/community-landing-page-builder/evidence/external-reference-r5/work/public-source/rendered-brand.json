@@ -1,0 +1,753 @@
+{
+  "client": [
+    {
+      "title": "Bespoke Garden Rooms, Garden Offices & Garden Studios",
+      "heading": {
+        "text": "Stunning Garden Rooms",
+        "tag": "h1",
+        "className": "vc_custom_heading wpb_animate_when_almost_visible wpb_fadeIn fadeIn vc_custom_1725540329637 wpb_start_animation animated",
+        "family": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "weight": "300",
+        "size": "64px",
+        "color": "rgb(255, 255, 255)"
+      },
+      "body": {
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every a",
+        "tag": "p",
+        "className": "",
+        "family": "Poppins, Helvetica, Arial, sans-serif",
+        "weight": "400",
+        "size": "16px",
+        "color": "rgb(68, 68, 68)"
+      },
+      "fonts": [
+        {
+          "family": "Font Awesome 5 Brands",
+          "status": "loaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "status": "loaded"
+        },
+        {
+          "family": "dearflip",
+          "status": "unloaded"
+        },
+        {
+          "family": "vcpb-plugin-icons",
+          "status": "unloaded"
+        },
+        {
+          "family": "vc_grid_v1",
+          "status": "unloaded"
+        },
+        {
+          "family": "Maven Pro",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "loaded"
+        },
+        {
+          "family": "Reem Kufi",
+          "status": "loaded"
+        },
+        {
+          "family": "Maven Pro",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "loaded"
+        },
+        {
+          "family": "Reem Kufi",
+          "status": "loaded"
+        },
+        {
+          "family": "revicons",
+          "status": "unloaded"
+        }
+      ],
+      "fontResources": [
+        "https://gardenroomco.com/wp-content/themes/gardemroomco-2021/framework/asset/site/css/styles/webfonts/fa-regular-400.woff2",
+        "https://gardenroomco.com/wp-content/themes/gardemroomco-2021/framework/asset/site/css/styles/webfonts/fa-brands-400.woff2",
+        "https://gardenroomco.com/wp-content/themes/gardemroomco-2021/framework/asset/site/css/styles/webfonts/fa-solid-900.woff2",
+        "https://fonts.gstatic.com/s/reemkufi/v28/2sDPZGJLip7W2J7v7wQZZE1I0yCmYzzQtuZnIGaV2g.ttf",
+        "https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrJJfedw.ttf",
+        "https://fonts.gstatic.com/s/mavenpro/v40/7Auup_AqnyWWAxW2Wk3swUz56MS91Eww8Rf21nejpw.ttf",
+        "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7Z1xlEA.ttf"
+      ],
+      "images": [
+        {
+          "src": "https://gardenroomco.com/wp-content/uploads/2021/09/garden_room_co_logo.png",
+          "alt": "The UK's leading specialists in outdoor work spaces.",
+          "loaded": true
+        },
+        {
+          "src": "https://gardenroomco.com/wp-content/uploads/2021/09/garden_room_co_logo.png",
+          "alt": "The UK's leading specialists in outdoor work spaces.",
+          "loaded": true
+        }
+      ],
+      "status": 200,
+      "url": "https://gardenroomco.com/",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "title": "Bespoke Garden Rooms, Garden Offices & Garden Studios",
+      "heading": {
+        "text": "Stunning Garden Rooms",
+        "tag": "h1",
+        "className": "vc_custom_heading wpb_animate_when_almost_visible wpb_fadeIn fadeIn vc_custom_1725540329637 wpb_start_animation animated",
+        "family": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+        "weight": "300",
+        "size": "64px",
+        "color": "rgb(255, 255, 255)"
+      },
+      "body": {
+        "text": "Upgrade your outdoor space with our fully insured premium garden room solutions. With 20+ years experience our dedicated in-house team handles every a",
+        "tag": "p",
+        "className": "",
+        "family": "Poppins, Helvetica, Arial, sans-serif",
+        "weight": "400",
+        "size": "16px",
+        "color": "rgb(68, 68, 68)"
+      },
+      "fonts": [
+        {
+          "family": "Font Awesome 5 Brands",
+          "status": "loaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "status": "loaded"
+        },
+        {
+          "family": "dearflip",
+          "status": "unloaded"
+        },
+        {
+          "family": "vcpb-plugin-icons",
+          "status": "unloaded"
+        },
+        {
+          "family": "vc_grid_v1",
+          "status": "unloaded"
+        },
+        {
+          "family": "Maven Pro",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "loaded"
+        },
+        {
+          "family": "Reem Kufi",
+          "status": "loaded"
+        },
+        {
+          "family": "Maven Pro",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "unloaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "loaded"
+        },
+        {
+          "family": "Poppins",
+          "status": "loaded"
+        },
+        {
+          "family": "Reem Kufi",
+          "status": "loaded"
+        },
+        {
+          "family": "revicons",
+          "status": "unloaded"
+        }
+      ],
+      "fontResources": [
+        "https://gardenroomco.com/wp-content/themes/gardemroomco-2021/framework/asset/site/css/styles/webfonts/fa-regular-400.woff2",
+        "https://gardenroomco.com/wp-content/themes/gardemroomco-2021/framework/asset/site/css/styles/webfonts/fa-brands-400.woff2",
+        "https://gardenroomco.com/wp-content/themes/gardemroomco-2021/framework/asset/site/css/styles/webfonts/fa-solid-900.woff2",
+        "https://fonts.gstatic.com/s/reemkufi/v28/2sDPZGJLip7W2J7v7wQZZE1I0yCmYzzQtuZnIGaV2g.ttf",
+        "https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrJJfedw.ttf",
+        "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7Z1xlEA.ttf",
+        "https://fonts.gstatic.com/s/mavenpro/v40/7Auup_AqnyWWAxW2Wk3swUz56MS91Eww8Rf21nejpw.ttf"
+      ],
+      "images": [
+        {
+          "src": "https://gardenroomco.com/wp-content/uploads/2021/09/garden_room_co_logo.png",
+          "alt": "The UK's leading specialists in outdoor work spaces.",
+          "loaded": true
+        },
+        {
+          "src": "https://gardenroomco.com/wp-content/uploads/2021/09/garden_room_co_logo.png",
+          "alt": "The UK's leading specialists in outdoor work spaces.",
+          "loaded": true
+        }
+      ],
+      "status": 200,
+      "url": "https://gardenroomco.com/",
+      "viewport": [
+        1440,
+        900
+      ]
+    }
+  ],
+  "reference": [
+    {
+      "title": "Garden Buildings | The UKs Leading Provider | Green Retreats",
+      "heading": {
+        "text": "Grow your home with Green Retreats",
+        "tag": "h1",
+        "className": "h2 mb-3 mb-lg-0",
+        "family": "omnes-pro, sans-serif",
+        "weight": "400",
+        "size": "22px",
+        "color": "rgb(59, 62, 57)"
+      },
+      "body": {
+        "text": "Add space, value and comfort to your home",
+        "tag": "p",
+        "className": "homepage-redesign-strapline mb-0",
+        "family": "omnes-pro, serif",
+        "weight": "400",
+        "size": "16px",
+        "color": "rgb(255, 255, 255)"
+      },
+      "fonts": [
+        {
+          "family": "omnes-pro",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Brands",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Free",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Free",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Brands",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "status": "unloaded"
+        },
+        {
+          "family": "vcpb-plugin-icons",
+          "status": "unloaded"
+        },
+        {
+          "family": "vc_grid_v1",
+          "status": "unloaded"
+        },
+        {
+          "family": "Defaults",
+          "status": "unloaded"
+        },
+        {
+          "family": "slick",
+          "status": "loaded"
+        },
+        {
+          "family": "ult-silk",
+          "status": "loaded"
+        },
+        {
+          "family": "gform-icons-theme",
+          "status": "unloaded"
+        }
+      ],
+      "fontResources": [
+        "https://www.greenretreats.co.uk/wp-content/plugins/Ultimate_VC_Addons/assets/css/fonts/ult-silk.woff",
+        "https://www.greenretreats.co.uk/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/fonts/slick.woff"
+      ],
+      "images": [
+        {
+          "src": "https://cdn-cookieyes.com/assets/images/close.svg",
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "src": "https://www.greenretreats.co.uk/wp-content/themes/greenretreats-child/img/svg/icons/search-alt-light.svg",
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "src": "https://www.greenretreats.co.uk/wp-content/themes/greenretreats-child/img/svg/menu-logo.svg",
+          "alt": "Green Retreats Logo",
+          "loaded": true
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20220%20124'%3E%3C/svg%3E",
+          "alt": "basebox garden room 3d render",
+          "loaded": true
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20220%20124'%3E%3C/svg%3E",
+          "alt": "g1 garden room 3d render",
+          "loaded": true
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20220%20124'%3E%3C/svg%3E",
+          "alt": "apex garden room 3d render",
+          "loaded": true
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20220%20124'%3E%3C/svg%3E",
+          "alt": "X1 garden room 3d render",
+          "loaded": true
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20220%20124'%3E%3C/svg%3E",
+          "alt": "annexe garden house render",
+          "loaded": true
+        }
+      ],
+      "status": 200,
+      "url": "https://www.greenretreats.co.uk/",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "title": "Garden Buildings | The UKs Leading Provider | Green Retreats",
+      "heading": {
+        "text": "Grow your home with Green Retreats",
+        "tag": "h1",
+        "className": "h2 mb-3 mb-lg-0",
+        "family": "omnes-pro, sans-serif",
+        "weight": "400",
+        "size": "24px",
+        "color": "rgb(59, 62, 57)"
+      },
+      "body": {
+        "text": "Add space, value and comfort to your home",
+        "tag": "p",
+        "className": "homepage-redesign-strapline mb-0",
+        "family": "omnes-pro, serif",
+        "weight": "400",
+        "size": "16px",
+        "color": "rgb(255, 255, 255)"
+      },
+      "fonts": [
+        {
+          "family": "omnes-pro",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "status": "loaded"
+        },
+        {
+          "family": "omnes-pro",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-cond-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-narrow-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "omnes-semicond-thin",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Brands",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Free",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 6 Free",
+          "status": "loaded"
+        },
+        {
+          "family": "Font Awesome 5 Brands",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "status": "unloaded"
+        },
+        {
+          "family": "Font Awesome 5 Free",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "status": "unloaded"
+        },
+        {
+          "family": "FontAwesome",
+          "status": "unloaded"
+        },
+        {
+          "family": "vcpb-plugin-icons",
+          "status": "unloaded"
+        },
+        {
+          "family": "vc_grid_v1",
+          "status": "unloaded"
+        },
+        {
+          "family": "Defaults",
+          "status": "unloaded"
+        },
+        {
+          "family": "slick",
+          "status": "loaded"
+        },
+        {
+          "family": "ult-silk",
+          "status": "loaded"
+        },
+        {
+          "family": "gform-icons-theme",
+          "status": "unloaded"
+        }
+      ],
+      "fontResources": [
+        "https://www.greenretreats.co.uk/wp-content/plugins/Ultimate_VC_Addons/assets/css/fonts/ult-silk.woff",
+        "https://www.greenretreats.co.uk/wp-content/plugins/megamenu-pro/icons/fontawesome6/webfonts/fa-solid-900.woff2",
+        "https://www.greenretreats.co.uk/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/fonts/slick.woff"
+      ],
+      "images": [
+        {
+          "src": "https://cdn-cookieyes.com/assets/images/close.svg",
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "src": "https://cdn-cookieyes.com/assets/images/poweredbtcky.svg",
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "src": "https://www.greenretreats.co.uk/wp-content/themes/greenretreats-child/img/svg/icons/search-alt-light.svg",
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "src": "https://www.greenretreats.co.uk/wp-content/themes/greenretreats-child/img/svg/menu-logo.svg",
+          "alt": "Green Retreats Logo",
+          "loaded": true
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20220%20124'%3E%3C/svg%3E",
+          "alt": "basebox garden room 3d render",
+          "loaded": true
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20220%20124'%3E%3C/svg%3E",
+          "alt": "g1 garden room 3d render",
+          "loaded": true
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20220%20124'%3E%3C/svg%3E",
+          "alt": "apex garden room 3d render",
+          "loaded": true
+        },
+        {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20220%20124'%3E%3C/svg%3E",
+          "alt": "X1 garden room 3d render",
+          "loaded": true
+        }
+      ],
+      "status": 200,
+      "url": "https://www.greenretreats.co.uk/",
+      "viewport": [
+        1440,
+        900
+      ]
+    }
+  ]
+}

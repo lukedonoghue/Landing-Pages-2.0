@@ -1,0 +1,994 @@
+{
+  "pages": [
+    {
+      "overflow": 0,
+      "hero": {
+        "top": 64,
+        "bottom": 606.03125,
+        "width": 390,
+        "height": 542.03125
+      },
+      "trust": {
+        "top": 606.03125,
+        "bottom": 744.8125,
+        "width": 390,
+        "height": 138.78125
+      },
+      "h1Font": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "trustFont": "13.28px",
+      "heroSource": "http://127.0.0.1:8787/assets/hero-900.webp",
+      "missingImages": [],
+      "phoneVisible": true,
+      "errors": [],
+      "viewport": [
+        390,
+        844
+      ],
+      "modal": [
+        {
+          "index": 1,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 2,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 3,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 4,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        }
+      ],
+      "submitBox": {
+        "x": 30,
+        "y": 760,
+        "width": 330,
+        "height": 52
+      },
+      "tabFlow": [
+        {
+          "id": "email",
+          "top": 379.375,
+          "bottom": 424.96875,
+          "groupTop": 352.375,
+          "groupBottom": 424.96875,
+          "areaTop": 264.78125,
+          "areaBottom": 746,
+          "actionTop": 746,
+          "inDialog": true
+        },
+        {
+          "id": "phone",
+          "top": 466.96875,
+          "bottom": 512.5625,
+          "groupTop": 439.96875,
+          "groupBottom": 512.5625,
+          "areaTop": 264.78125,
+          "areaBottom": 746,
+          "actionTop": 746,
+          "inDialog": true
+        },
+        {
+          "id": "location",
+          "top": 554.5625,
+          "bottom": 600.15625,
+          "groupTop": 527.5625,
+          "groupBottom": 600.15625,
+          "areaTop": 264.78125,
+          "areaBottom": 746,
+          "actionTop": 746,
+          "inDialog": true
+        },
+        {
+          "id": "message",
+          "top": 575.15625,
+          "bottom": 697.53125,
+          "groupTop": 548.15625,
+          "groupBottom": 735.875,
+          "areaTop": 264.78125,
+          "areaBottom": 746,
+          "actionTop": 746,
+          "inDialog": true
+        },
+        {
+          "id": "marketing",
+          "top": 619.875,
+          "bottom": 639.875,
+          "groupTop": 617.875,
+          "groupBottom": 674.734375,
+          "areaTop": 264.78125,
+          "areaBottom": 746,
+          "actionTop": 746,
+          "inDialog": true
+        },
+        {
+          "id": "A",
+          "top": 707.96875,
+          "bottom": 724.96875,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 264.78125,
+          "areaBottom": 746,
+          "actionTop": 746,
+          "inDialog": true
+        },
+        {
+          "id": "submit-enquiry",
+          "top": 760,
+          "bottom": 812,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 264.78125,
+          "areaBottom": 746,
+          "actionTop": 746,
+          "inDialog": true
+        },
+        {
+          "id": "Close enquiry form",
+          "top": 32,
+          "bottom": 76,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 264.78125,
+          "areaBottom": 746,
+          "actionTop": 746,
+          "inDialog": true
+        }
+      ]
+    },
+    {
+      "overflow": 0,
+      "hero": {
+        "top": 78,
+        "bottom": 578,
+        "width": 768,
+        "height": 500
+      },
+      "trust": {
+        "top": 578,
+        "bottom": 691.1875,
+        "width": 768,
+        "height": 113.1875
+      },
+      "h1Font": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "trustFont": "13.92px",
+      "heroSource": "http://127.0.0.1:8787/assets/hero-1565.webp",
+      "missingImages": [],
+      "phoneVisible": true,
+      "errors": [],
+      "viewport": [
+        768,
+        1024
+      ],
+      "modal": [
+        {
+          "index": 1,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 2,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 3,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 4,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        }
+      ],
+      "submitBox": {
+        "x": 92,
+        "y": 838.421875,
+        "width": 172,
+        "height": 52
+      },
+      "tabFlow": [
+        {
+          "id": "email",
+          "top": 399.546875,
+          "bottom": 445.140625,
+          "groupTop": 372.546875,
+          "groupBottom": 445.140625,
+          "areaTop": 284.953125,
+          "areaBottom": 824.421875,
+          "actionTop": 824.421875,
+          "inDialog": true
+        },
+        {
+          "id": "phone",
+          "top": 487.140625,
+          "bottom": 532.734375,
+          "groupTop": 460.140625,
+          "groupBottom": 532.734375,
+          "areaTop": 284.953125,
+          "areaBottom": 824.421875,
+          "actionTop": 824.421875,
+          "inDialog": true
+        },
+        {
+          "id": "location",
+          "top": 487.140625,
+          "bottom": 532.734375,
+          "groupTop": 460.140625,
+          "groupBottom": 532.734375,
+          "areaTop": 284.953125,
+          "areaBottom": 824.421875,
+          "actionTop": 824.421875,
+          "inDialog": true
+        },
+        {
+          "id": "message",
+          "top": 574.734375,
+          "bottom": 697.109375,
+          "groupTop": 547.734375,
+          "groupBottom": 718.28125,
+          "areaTop": 284.953125,
+          "areaBottom": 824.421875,
+          "actionTop": 824.421875,
+          "inDialog": true
+        },
+        {
+          "id": "marketing",
+          "top": 735.28125,
+          "bottom": 755.28125,
+          "groupTop": 733.28125,
+          "groupBottom": 771.1875,
+          "areaTop": 284.953125,
+          "areaBottom": 824.421875,
+          "actionTop": 824.421875,
+          "inDialog": true
+        },
+        {
+          "id": "A",
+          "top": 786.1875,
+          "bottom": 803.1875,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 284.953125,
+          "areaBottom": 824.421875,
+          "actionTop": 824.421875,
+          "inDialog": true
+        },
+        {
+          "id": "submit-enquiry",
+          "top": 838.421875,
+          "bottom": 890.421875,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 284.953125,
+          "areaBottom": 824.421875,
+          "actionTop": 824.421875,
+          "inDialog": true
+        },
+        {
+          "id": "Close enquiry form",
+          "top": 133.5625,
+          "bottom": 177.5625,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 284.953125,
+          "areaBottom": 824.421875,
+          "actionTop": 824.421875,
+          "inDialog": true
+        }
+      ]
+    },
+    {
+      "overflow": 0,
+      "hero": {
+        "top": 78,
+        "bottom": 653,
+        "width": 1024,
+        "height": 575
+      },
+      "trust": {
+        "top": 653,
+        "bottom": 745.3125,
+        "width": 1024,
+        "height": 92.3125
+      },
+      "h1Font": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "trustFont": "13.92px",
+      "heroSource": "http://127.0.0.1:8787/assets/hero-1565.webp",
+      "missingImages": [],
+      "phoneVisible": true,
+      "errors": [],
+      "viewport": [
+        1024,
+        800
+      ],
+      "modal": [
+        {
+          "index": 0,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 1,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 2,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 3,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 4,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        }
+      ],
+      "submitBox": {
+        "x": 220,
+        "y": 716,
+        "width": 172,
+        "height": 52
+      },
+      "tabFlow": [
+        {
+          "id": "email",
+          "top": 297.984375,
+          "bottom": 343.578125,
+          "groupTop": 270.984375,
+          "groupBottom": 343.578125,
+          "areaTop": 183.390625,
+          "areaBottom": 702,
+          "actionTop": 702,
+          "inDialog": true
+        },
+        {
+          "id": "phone",
+          "top": 385.578125,
+          "bottom": 431.171875,
+          "groupTop": 358.578125,
+          "groupBottom": 431.171875,
+          "areaTop": 183.390625,
+          "areaBottom": 702,
+          "actionTop": 702,
+          "inDialog": true
+        },
+        {
+          "id": "location",
+          "top": 385.578125,
+          "bottom": 431.171875,
+          "groupTop": 358.578125,
+          "groupBottom": 431.171875,
+          "areaTop": 183.390625,
+          "areaBottom": 702,
+          "actionTop": 702,
+          "inDialog": true
+        },
+        {
+          "id": "message",
+          "top": 473.171875,
+          "bottom": 595.546875,
+          "groupTop": 446.171875,
+          "groupBottom": 616.71875,
+          "areaTop": 183.390625,
+          "areaBottom": 702,
+          "actionTop": 702,
+          "inDialog": true
+        },
+        {
+          "id": "marketing",
+          "top": 633.71875,
+          "bottom": 653.71875,
+          "groupTop": 631.71875,
+          "groupBottom": 669.625,
+          "areaTop": 183.390625,
+          "areaBottom": 702,
+          "actionTop": 702,
+          "inDialog": true
+        },
+        {
+          "id": "A",
+          "top": 672.625,
+          "bottom": 689.625,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 183.390625,
+          "areaBottom": 702,
+          "actionTop": 702,
+          "inDialog": true
+        },
+        {
+          "id": "submit-enquiry",
+          "top": 716,
+          "bottom": 768,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 183.390625,
+          "areaBottom": 702,
+          "actionTop": 702,
+          "inDialog": true
+        },
+        {
+          "id": "Close enquiry form",
+          "top": 32,
+          "bottom": 76,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 183.390625,
+          "areaBottom": 702,
+          "actionTop": 702,
+          "inDialog": true
+        }
+      ]
+    },
+    {
+      "overflow": 0,
+      "hero": {
+        "top": 66,
+        "bottom": 536.65625,
+        "width": 1280,
+        "height": 470.65625
+      },
+      "trust": {
+        "top": 536.65625,
+        "bottom": 608.09375,
+        "width": 1280,
+        "height": 71.4375
+      },
+      "h1Font": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "trustFont": "13.92px",
+      "heroSource": "http://127.0.0.1:8787/assets/hero-1565.webp",
+      "missingImages": [],
+      "phoneVisible": true,
+      "errors": [],
+      "viewport": [
+        1280,
+        600
+      ],
+      "modal": [
+        {
+          "index": 0,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 1,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 2,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 3,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 4,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        }
+      ],
+      "submitBox": {
+        "x": 348,
+        "y": 516,
+        "width": 172,
+        "height": 52
+      },
+      "tabFlow": [
+        {
+          "id": "email",
+          "top": 297.984375,
+          "bottom": 343.578125,
+          "groupTop": 270.984375,
+          "groupBottom": 343.578125,
+          "areaTop": 183.390625,
+          "areaBottom": 502,
+          "actionTop": 502,
+          "inDialog": true
+        },
+        {
+          "id": "phone",
+          "top": 385.578125,
+          "bottom": 431.171875,
+          "groupTop": 358.578125,
+          "groupBottom": 431.171875,
+          "areaTop": 183.390625,
+          "areaBottom": 502,
+          "actionTop": 502,
+          "inDialog": true
+        },
+        {
+          "id": "location",
+          "top": 385.578125,
+          "bottom": 431.171875,
+          "groupTop": 358.578125,
+          "groupBottom": 431.171875,
+          "areaTop": 183.390625,
+          "areaBottom": 502,
+          "actionTop": 502,
+          "inDialog": true
+        },
+        {
+          "id": "message",
+          "top": 348.171875,
+          "bottom": 470.546875,
+          "groupTop": 321.171875,
+          "groupBottom": 491.71875,
+          "areaTop": 183.390625,
+          "areaBottom": 502,
+          "actionTop": 502,
+          "inDialog": true
+        },
+        {
+          "id": "marketing",
+          "top": 413.71875,
+          "bottom": 433.71875,
+          "groupTop": 411.71875,
+          "groupBottom": 449.625,
+          "areaTop": 183.390625,
+          "areaBottom": 502,
+          "actionTop": 502,
+          "inDialog": true
+        },
+        {
+          "id": "A",
+          "top": 464.625,
+          "bottom": 481.625,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 183.390625,
+          "areaBottom": 502,
+          "actionTop": 502,
+          "inDialog": true
+        },
+        {
+          "id": "submit-enquiry",
+          "top": 516,
+          "bottom": 568,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 183.390625,
+          "areaBottom": 502,
+          "actionTop": 502,
+          "inDialog": true
+        },
+        {
+          "id": "Close enquiry form",
+          "top": 32,
+          "bottom": 76,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 183.390625,
+          "areaBottom": 502,
+          "actionTop": 502,
+          "inDialog": true
+        }
+      ]
+    },
+    {
+      "overflow": 0,
+      "hero": {
+        "top": 78,
+        "bottom": 653,
+        "width": 1440,
+        "height": 575
+      },
+      "trust": {
+        "top": 653,
+        "bottom": 724.4375,
+        "width": 1440,
+        "height": 71.4375
+      },
+      "h1Font": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "trustFont": "13.92px",
+      "heroSource": "http://127.0.0.1:8787/assets/hero-1565.webp",
+      "missingImages": [],
+      "phoneVisible": true,
+      "errors": [],
+      "viewport": [
+        1440,
+        900
+      ],
+      "modal": [
+        {
+          "index": 0,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 1,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 2,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 3,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 4,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        }
+      ],
+      "submitBox": {
+        "x": 428,
+        "y": 776.421875,
+        "width": 172,
+        "height": 52
+      },
+      "tabFlow": [
+        {
+          "id": "email",
+          "top": 337.546875,
+          "bottom": 383.140625,
+          "groupTop": 310.546875,
+          "groupBottom": 383.140625,
+          "areaTop": 222.953125,
+          "areaBottom": 762.421875,
+          "actionTop": 762.421875,
+          "inDialog": true
+        },
+        {
+          "id": "phone",
+          "top": 425.140625,
+          "bottom": 470.734375,
+          "groupTop": 398.140625,
+          "groupBottom": 470.734375,
+          "areaTop": 222.953125,
+          "areaBottom": 762.421875,
+          "actionTop": 762.421875,
+          "inDialog": true
+        },
+        {
+          "id": "location",
+          "top": 425.140625,
+          "bottom": 470.734375,
+          "groupTop": 398.140625,
+          "groupBottom": 470.734375,
+          "areaTop": 222.953125,
+          "areaBottom": 762.421875,
+          "actionTop": 762.421875,
+          "inDialog": true
+        },
+        {
+          "id": "message",
+          "top": 512.734375,
+          "bottom": 635.109375,
+          "groupTop": 485.734375,
+          "groupBottom": 656.28125,
+          "areaTop": 222.953125,
+          "areaBottom": 762.421875,
+          "actionTop": 762.421875,
+          "inDialog": true
+        },
+        {
+          "id": "marketing",
+          "top": 673.28125,
+          "bottom": 693.28125,
+          "groupTop": 671.28125,
+          "groupBottom": 709.1875,
+          "areaTop": 222.953125,
+          "areaBottom": 762.421875,
+          "actionTop": 762.421875,
+          "inDialog": true
+        },
+        {
+          "id": "A",
+          "top": 724.1875,
+          "bottom": 741.1875,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 222.953125,
+          "areaBottom": 762.421875,
+          "actionTop": 762.421875,
+          "inDialog": true
+        },
+        {
+          "id": "submit-enquiry",
+          "top": 776.421875,
+          "bottom": 828.421875,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 222.953125,
+          "areaBottom": 762.421875,
+          "actionTop": 762.421875,
+          "inDialog": true
+        },
+        {
+          "id": "Close enquiry form",
+          "top": 71.5625,
+          "bottom": 115.5625,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 222.953125,
+          "areaBottom": 762.421875,
+          "actionTop": 762.421875,
+          "inDialog": true
+        }
+      ]
+    },
+    {
+      "overflow": 0,
+      "hero": {
+        "top": 64,
+        "bottom": 479.796875,
+        "width": 320,
+        "height": 415.796875
+      },
+      "trust": {
+        "top": 479.796875,
+        "bottom": 618.828125,
+        "width": 320,
+        "height": 139.03125
+      },
+      "h1Font": "\"Reem Kufi\", \"Helvetica Neue\", Helvetica, sans-serif",
+      "bodyFont": "Poppins, Helvetica, Arial, sans-serif",
+      "trustFont": "13.28px",
+      "heroSource": "http://127.0.0.1:8787/assets/hero-900.webp",
+      "missingImages": [],
+      "phoneVisible": true,
+      "errors": [],
+      "viewport": [
+        320,
+        568
+      ],
+      "modal": [
+        {
+          "index": 1,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 2,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 3,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        },
+        {
+          "index": 4,
+          "opened": true,
+          "scrollChange": 0,
+          "restoredFocus": true
+        }
+      ],
+      "submitBox": {
+        "x": 30,
+        "y": 484,
+        "width": 260,
+        "height": 52
+      },
+      "tabFlow": [
+        {
+          "id": "email",
+          "top": 379.375,
+          "bottom": 424.96875,
+          "groupTop": 352.375,
+          "groupBottom": 424.96875,
+          "areaTop": 264.78125,
+          "areaBottom": 470,
+          "actionTop": 470,
+          "inDialog": true
+        },
+        {
+          "id": "phone",
+          "top": 344.96875,
+          "bottom": 390.5625,
+          "groupTop": 317.96875,
+          "groupBottom": 390.5625,
+          "areaTop": 264.78125,
+          "areaBottom": 470,
+          "actionTop": 470,
+          "inDialog": true
+        },
+        {
+          "id": "location",
+          "top": 412.5625,
+          "bottom": 458.15625,
+          "groupTop": 385.5625,
+          "groupBottom": 458.15625,
+          "areaTop": 264.78125,
+          "areaBottom": 470,
+          "actionTop": 470,
+          "inDialog": true
+        },
+        {
+          "id": "message",
+          "top": 336.15625,
+          "bottom": 421.15625,
+          "groupTop": 309.15625,
+          "groupBottom": 459.5,
+          "areaTop": 264.78125,
+          "areaBottom": 470,
+          "actionTop": 470,
+          "inDialog": true
+        },
+        {
+          "id": "marketing",
+          "top": 357.5,
+          "bottom": 377.5,
+          "groupTop": 355.5,
+          "groupBottom": 431.3125,
+          "areaTop": 264.78125,
+          "areaBottom": 470,
+          "actionTop": 470,
+          "inDialog": true
+        },
+        {
+          "id": "A",
+          "top": 431.546875,
+          "bottom": 448.546875,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 264.78125,
+          "areaBottom": 470,
+          "actionTop": 470,
+          "inDialog": true
+        },
+        {
+          "id": "submit-enquiry",
+          "top": 484,
+          "bottom": 536,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 264.78125,
+          "areaBottom": 470,
+          "actionTop": 470,
+          "inDialog": true
+        },
+        {
+          "id": "Close enquiry form",
+          "top": 32,
+          "bottom": 76,
+          "groupTop": null,
+          "groupBottom": null,
+          "areaTop": 264.78125,
+          "areaBottom": 470,
+          "actionTop": 470,
+          "inDialog": true
+        }
+      ]
+    }
+  ],
+  "conversion": [
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "empty": {
+        "summary": true,
+        "focused": "error-summary",
+        "errors": [
+          "name-error",
+          "email-error",
+          "message-error"
+        ]
+      },
+      "malformed": [
+        "name-error",
+        "email-error",
+        "phone-error",
+        "message-error"
+      ],
+      "corrected": {
+        "nameError": "",
+        "summary": "Please check the following:Email addressWhat would you like to create?Phone number"
+      },
+      "summaryLinkFocus": "email",
+      "failure": {
+        "focused": "form-result",
+        "message": "This preview could not be confirmed. Your entries are still here. Please try again.",
+        "name": "Synthetic Preview"
+      },
+      "success": {
+        "focused": "enquiry-success",
+        "text": "\n        Preview complete.\n        This enquiry was not delivered to The Garden Room Co. Your details were used only to test this local preview.\n        New enquiry\n      ",
+        "formHidden": true
+      },
+      "retainedSuccess": true,
+      "newEnquiryName": "",
+      "duplicateRequestCount": 1,
+      "pendingLockedOnReopen": true,
+      "deadlineRecovered": true
+    },
+    {
+      "viewport": [
+        1440,
+        900
+      ],
+      "empty": {
+        "summary": true,
+        "focused": "error-summary",
+        "errors": [
+          "name-error",
+          "email-error",
+          "message-error"
+        ]
+      },
+      "malformed": [
+        "name-error",
+        "email-error",
+        "phone-error",
+        "message-error"
+      ],
+      "corrected": {
+        "nameError": "",
+        "summary": "Please check the following:Email addressWhat would you like to create?Phone number"
+      },
+      "summaryLinkFocus": "email",
+      "failure": {
+        "focused": "form-result",
+        "message": "This preview could not be confirmed. Your entries are still here. Please try again.",
+        "name": "Synthetic Preview"
+      },
+      "success": {
+        "focused": "enquiry-success",
+        "text": "\n        Preview complete.\n        This enquiry was not delivered to The Garden Room Co. Your details were used only to test this local preview.\n        New enquiry\n      ",
+        "formHidden": true
+      },
+      "retainedSuccess": true,
+      "newEnquiryName": "",
+      "duplicateRequestCount": 1,
+      "pendingLockedOnReopen": true,
+      "deadlineRecovered": true
+    }
+  ]
+}
