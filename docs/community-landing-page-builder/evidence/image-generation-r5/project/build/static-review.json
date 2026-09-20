@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "gate": "static-page",
+  "status": "pass",
+  "executed_at": "2026-09-20T18:37:38.346650+00:00",
+  "checks": {
+    "h1_count": 1,
+    "viewport": "width=device-width, initial-scale=1",
+    "primary_form_section_jumps": [],
+    "missing_local_assets": [],
+    "image_issues": [],
+    "form_issues": [],
+    "dead_links": [],
+    "invalid_license_downloads": [],
+    "potential_raw_analytics_fields": []
+  },
+  "failures": [],
+  "warnings": []
+}

@@ -1,0 +1,1203 @@
+{
+  "schema_version": 1,
+  "kind": "rendered_brand_measurement",
+  "status": "pass",
+  "url": "https://clarentis.co.uk/",
+  "captured_at": "2026-09-20T18:27:08.016Z",
+  "tool": {
+    "name": "extract_brand",
+    "version": "1.2.0",
+    "node": "v22.17.1",
+    "browser": "153.0.8010.48"
+  },
+  "measurements": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "httpStatus": 200,
+      "screenshot": "brand-390x844.png",
+      "errors": [],
+      "blockedWrites": [],
+      "title": "Clarentis | Accounting, Tax & Bookkeeping",
+      "finalUrl": "https://clarentis.co.uk/",
+      "roles": {
+        "hero_heading": [
+          {
+            "selector": "h1",
+            "text": "Let us handle the numbers. You focus on growing your business.",
+            "bounds": {
+              "x": 20,
+              "y": 247.5625,
+              "width": 350,
+              "height": 173.75,
+              "visibleAreaApprox": 60812.5
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "44.8px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "43.456px",
+            "letterSpacing": "-2.688px",
+            "textTransform": "none",
+            "color": "rgb(8, 41, 74)",
+            "fontStackAvailable": true,
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Bold",
+                "isCustomFont": false,
+                "glyphCount": 59
+              }
+            ]
+          }
+        ],
+        "section_heading": [
+          {
+            "selector": "h2",
+            "text": "Free initial consultation",
+            "bounds": {
+              "x": 47,
+              "y": 837.46875,
+              "width": 296,
+              "height": 66.53125,
+              "visibleAreaApprox": 1933.25
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "32px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "33.28px",
+            "letterSpacing": "-1.44px",
+            "textTransform": "none",
+            "color": "rgb(8, 41, 74)",
+            "fontStackAvailable": true
+          }
+        ],
+        "subheading": [],
+        "body": [
+          {
+            "selector": "p.eyebrow",
+            "text": "Accounting | Tax | Bookkeeping",
+            "bounds": {
+              "x": 20,
+              "y": 185.828125,
+              "width": 279.984375,
+              "height": 47.015625,
+              "visibleAreaApprox": 13163.640380859375
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "14.72px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "25.024px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(11, 113, 133)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.lead",
+            "text": "Friendly, practical accounting, tax and bookkeeping support for UK startups, sole traders and small limited companies. Fixed, transparent fees with no hidden costs.",
+            "bounds": {
+              "x": 20,
+              "y": 449.3125,
+              "width": 350,
+              "height": 157.734375,
+              "visibleAreaApprox": 55207.03125
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "18.56px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "31.552px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(94, 111, 130)",
+            "fontStackAvailable": true,
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 160
+              }
+            ]
+          },
+          {
+            "selector": "p.offer-label",
+            "text": "Startup offer",
+            "bounds": {
+              "x": 47,
+              "y": 802.046875,
+              "width": 296,
+              "height": 22.3125,
+              "visibleAreaApprox": 6604.5
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "13.12px",
+            "fontWeight": "900",
+            "fontStyle": "normal",
+            "lineHeight": "22.304px",
+            "letterSpacing": "2.8864px",
+            "textTransform": "uppercase",
+            "color": "rgb(11, 113, 133)",
+            "fontStackAvailable": true
+          }
+        ],
+        "navigation": [
+          {
+            "selector": "a.brand",
+            "text": "",
+            "bounds": {
+              "x": 113.09375,
+              "y": 16,
+              "width": 163.796875,
+              "height": 94.828125,
+              "visibleAreaApprox": 15532.550537109375
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(9, 41, 70)",
+            "fontStackAvailable": true
+          }
+        ],
+        "label": [],
+        "link": [
+          {
+            "selector": "a.button.primary",
+            "text": "Request your fixed-fee quote",
+            "bounds": {
+              "x": 20,
+              "y": 641.046875,
+              "width": 270.1875,
+              "height": 42,
+              "visibleAreaApprox": 11347.875
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.button.secondary",
+            "text": "View services",
+            "bounds": {
+              "x": 20,
+              "y": 697.046875,
+              "width": 151.5,
+              "height": 44,
+              "visibleAreaApprox": 6666
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(8, 41, 74)",
+            "fontStackAvailable": true
+          }
+        ]
+      },
+      "buttons": [
+        {
+          "selector": "a.button.primary",
+          "text": "Request your fixed-fee quote",
+          "bounds": {
+            "x": 20,
+            "y": 641.046875,
+            "width": 270.1875,
+            "height": 42,
+            "visibleAreaApprox": 11347.875
+          },
+          "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "800",
+          "fontStyle": "normal",
+          "lineHeight": "normal",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(21, 154, 170)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(21, 154, 170, 0.2) 0px 16px 30px 0px",
+          "padding": "12px 20px"
+        },
+        {
+          "selector": "a.button.secondary",
+          "text": "View services",
+          "bounds": {
+            "x": 20,
+            "y": 697.046875,
+            "width": 151.5,
+            "height": 44,
+            "visibleAreaApprox": 6666
+          },
+          "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "800",
+          "fontStyle": "normal",
+          "lineHeight": "normal",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(8, 41, 74)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(255, 255, 255)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(220, 229, 238)",
+          "borderWidth": "1px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "12px 20px"
+        }
+      ],
+      "images": [
+        {
+          "selector": "img",
+          "src": "https://clarentis.co.uk/clarentis-logo.png",
+          "alt": "Clarentis logo",
+          "bounds": {
+            "x": 113.09375,
+            "y": 16,
+            "width": 163.796875,
+            "height": 94.828125,
+            "visibleAreaApprox": 15532.550537109375
+          },
+          "loaded": true,
+          "objectFit": "fill",
+          "objectPosition": "50% 50%"
+        }
+      ],
+      "surfaceMethod": "visible clipped bounding-box area; independent overlapping boxes; first viewport only",
+      "coloredSurfaces": [
+        {
+          "color": "rgb(246, 248, 251)",
+          "summedVisibleBoxArea": 329160,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "body",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 7401.4375,
+                "visibleAreaApprox": 329160
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgba(255, 255, 255, 0.92)",
+          "summedVisibleBoxArea": 49852.96875,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "header.site-header",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 390,
+                "height": 127.828125,
+                "visibleAreaApprox": 49852.96875
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 255, 255)",
+          "summedVisibleBoxArea": 30799.59375,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "a.button.secondary",
+              "bounds": {
+                "x": 20,
+                "y": 697.046875,
+                "width": 151.5,
+                "height": 44,
+                "visibleAreaApprox": 6666
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "aside.offer-card",
+              "bounds": {
+                "x": 20,
+                "y": 775.046875,
+                "width": 350,
+                "height": 518.515625,
+                "visibleAreaApprox": 24133.59375
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(234, 247, 248)",
+          "summedVisibleBoxArea": 13163.640380859375,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "p.eyebrow",
+              "bounds": {
+                "x": 20,
+                "y": 185.828125,
+                "width": 279.984375,
+                "height": 47.015625,
+                "visibleAreaApprox": 13163.640380859375
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(21, 154, 170)",
+          "summedVisibleBoxArea": 11411.875,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "span",
+              "bounds": {
+                "x": 37,
+                "y": 205.328125,
+                "width": 8,
+                "height": 8,
+                "visibleAreaApprox": 64
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.button.primary",
+              "bounds": {
+                "x": 20,
+                "y": 641.046875,
+                "width": 270.1875,
+                "height": 42,
+                "visibleAreaApprox": 11347.875
+              },
+              "opacity": "1"
+            }
+          ]
+        }
+      ],
+      "imageBackgrounds": [
+        {
+          "selector": "section.hero.section",
+          "backgroundImage": "radial-gradient(circle at 80% 12%, rgba(21, 154, 170, 0.16), rgba(0, 0, 0, 0) 34%), linear-gradient(rgb(255, 255, 255) 0%, rgb(246, 248, 251) 100%)",
+          "backgroundSize": "auto, auto",
+          "backgroundPosition": "0% 0%, 0% 0%",
+          "bounds": {
+            "x": 0,
+            "y": 127.828125,
+            "width": 390,
+            "height": 1223.734375,
+            "visibleAreaApprox": 279307.03125
+          }
+        }
+      ],
+      "fontStatus": "loaded",
+      "fontFaces": [],
+      "fontRenderError": null,
+      "typography": {
+        "heading": {
+          "selector": "h1",
+          "text": "Let us handle the numbers. You focus on growing your business.",
+          "bounds": {
+            "x": 20,
+            "y": 247.5625,
+            "width": 350,
+            "height": 173.75,
+            "visibleAreaApprox": 60812.5
+          },
+          "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "fontSize": "44.8px",
+          "fontWeight": "700",
+          "fontStyle": "normal",
+          "lineHeight": "43.456px",
+          "letterSpacing": "-2.688px",
+          "textTransform": "none",
+          "color": "rgb(8, 41, 74)",
+          "fontStackAvailable": true,
+          "renderedFonts": [
+            {
+              "familyName": ".SF NS",
+              "postScriptName": ".SFNS-Bold",
+              "isCustomFont": false,
+              "glyphCount": 59
+            }
+          ]
+        },
+        "body": {
+          "selector": "p.lead",
+          "text": "Friendly, practical accounting, tax and bookkeeping support for UK startups, sole traders and small limited companies. Fixed, transparent fees with no hidden costs.",
+          "bounds": {
+            "x": 20,
+            "y": 449.3125,
+            "width": 350,
+            "height": 157.734375,
+            "visibleAreaApprox": 55207.03125
+          },
+          "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "fontSize": "18.56px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "31.552px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(94, 111, 130)",
+          "fontStackAvailable": true,
+          "renderedFonts": [
+            {
+              "familyName": ".SF NS",
+              "postScriptName": ".SFNS-Regular",
+              "isCustomFont": false,
+              "glyphCount": 160
+            }
+          ]
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "httpStatus": 200,
+      "screenshot": "brand-1440x900.png",
+      "errors": [],
+      "blockedWrites": [],
+      "title": "Clarentis | Accounting, Tax & Bookkeeping",
+      "finalUrl": "https://clarentis.co.uk/",
+      "roles": {
+        "hero_heading": [
+          {
+            "selector": "h1",
+            "text": "Let us handle the numbers. You focus on growing your business.",
+            "bounds": {
+              "x": 72,
+              "y": 316.734375,
+              "width": 656.625,
+              "height": 357.5625,
+              "visibleAreaApprox": 234784.4765625
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "92.16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "89.3952px",
+            "letterSpacing": "-5.5296px",
+            "textTransform": "none",
+            "color": "rgb(8, 41, 74)",
+            "fontStackAvailable": true,
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Bold",
+                "isCustomFont": false,
+                "glyphCount": 59
+              }
+            ]
+          }
+        ],
+        "section_heading": [
+          {
+            "selector": "h2",
+            "text": "Free initial consultation",
+            "bounds": {
+              "x": 851.625,
+              "y": 397.53125,
+              "width": 473.375,
+              "height": 50.90625,
+              "visibleAreaApprox": 24097.74609375
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "48.96px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "50.9184px",
+            "letterSpacing": "-2.2032px",
+            "textTransform": "none",
+            "color": "rgb(8, 41, 74)",
+            "fontStackAvailable": true
+          }
+        ],
+        "subheading": [],
+        "body": [
+          {
+            "selector": "p.eyebrow",
+            "text": "Accounting | Tax | Bookkeeping",
+            "bounds": {
+              "x": 72,
+              "y": 255,
+              "width": 279.984375,
+              "height": 47.015625,
+              "visibleAreaApprox": 13163.640380859375
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "14.72px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "25.024px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(11, 113, 133)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p.lead",
+            "text": "Friendly, practical accounting, tax and bookkeeping support for UK startups, sole traders and small limited companies. Fixed, transparent fees with no hidden costs.",
+            "bounds": {
+              "x": 72,
+              "y": 702.296875,
+              "width": 656.625,
+              "height": 94.640625,
+              "visibleAreaApprox": 62143.400390625
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "18.56px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "31.552px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(94, 111, 130)",
+            "fontStackAvailable": true,
+            "renderedFonts": [
+              {
+                "familyName": ".SF NS",
+                "postScriptName": ".SFNS-Regular",
+                "isCustomFont": false,
+                "glyphCount": 162
+              }
+            ]
+          },
+          {
+            "selector": "p.offer-label",
+            "text": "Startup offer",
+            "bounds": {
+              "x": 851.625,
+              "y": 362.109375,
+              "width": 473.375,
+              "height": 22.3125,
+              "visibleAreaApprox": 10562.1796875
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "13.12px",
+            "fontWeight": "900",
+            "fontStyle": "normal",
+            "lineHeight": "22.304px",
+            "letterSpacing": "2.8864px",
+            "textTransform": "uppercase",
+            "color": "rgb(11, 113, 133)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "p",
+            "text": "Get practical support with company registration, tax returns, VAT, payroll and bookkeeping from day one.",
+            "bounds": {
+              "x": 851.625,
+              "y": 468.4375,
+              "width": 473.375,
+              "height": 54.375,
+              "visibleAreaApprox": 25739.765625
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "27.2px",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(94, 111, 130)",
+            "fontStackAvailable": true
+          }
+        ],
+        "navigation": [
+          {
+            "selector": "a.brand",
+            "text": "",
+            "bounds": {
+              "x": 72,
+              "y": 16,
+              "width": 190,
+              "height": 110,
+              "visibleAreaApprox": 20900
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(9, 41, 70)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Services",
+            "bounds": {
+              "x": 555.640625,
+              "y": 62,
+              "width": 67.046875,
+              "height": 18,
+              "visibleAreaApprox": 1206.84375
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(94, 111, 130)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Fees",
+            "bounds": {
+              "x": 650.6875,
+              "y": 62,
+              "width": 36.609375,
+              "height": 18,
+              "visibleAreaApprox": 658.96875
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(94, 111, 130)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Onboarding",
+            "bounds": {
+              "x": 715.296875,
+              "y": 62,
+              "width": 91.421875,
+              "height": 18,
+              "visibleAreaApprox": 1645.59375
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(94, 111, 130)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a",
+            "text": "Contact",
+            "bounds": {
+              "x": 834.71875,
+              "y": 62,
+              "width": 61.75,
+              "height": 18,
+              "visibleAreaApprox": 1111.5
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "700",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(94, 111, 130)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.header-cta",
+            "text": "Free consultation",
+            "bounds": {
+              "x": 1190.109375,
+              "y": 50,
+              "width": 177.890625,
+              "height": 42,
+              "visibleAreaApprox": 7471.40625
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          }
+        ],
+        "label": [],
+        "link": [
+          {
+            "selector": "a.button.primary",
+            "text": "Request your fixed-fee quote",
+            "bounds": {
+              "x": 72,
+              "y": 830.9375,
+              "width": 270.1875,
+              "height": 44,
+              "visibleAreaApprox": 11888.25
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.button.secondary",
+            "text": "View services",
+            "bounds": {
+              "x": 356.1875,
+              "y": 830.9375,
+              "width": 151.5,
+              "height": 44,
+              "visibleAreaApprox": 6666
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(8, 41, 74)",
+            "fontStackAvailable": true
+          },
+          {
+            "selector": "a.button.card-button",
+            "text": "Join today",
+            "bounds": {
+              "x": 851.625,
+              "y": 725.8125,
+              "width": 473.375,
+              "height": 42,
+              "visibleAreaApprox": 19881.75
+            },
+            "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "800",
+            "fontStyle": "normal",
+            "lineHeight": "normal",
+            "letterSpacing": "normal",
+            "textTransform": "none",
+            "color": "rgb(255, 255, 255)",
+            "fontStackAvailable": true
+          }
+        ]
+      },
+      "buttons": [
+        {
+          "selector": "a.header-cta",
+          "text": "Free consultation",
+          "bounds": {
+            "x": 1190.109375,
+            "y": 50,
+            "width": 177.890625,
+            "height": 42,
+            "visibleAreaApprox": 7471.40625
+          },
+          "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "800",
+          "fontStyle": "normal",
+          "lineHeight": "normal",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(8, 41, 74)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "12px 20px"
+        },
+        {
+          "selector": "a.button.primary",
+          "text": "Request your fixed-fee quote",
+          "bounds": {
+            "x": 72,
+            "y": 830.9375,
+            "width": 270.1875,
+            "height": 44,
+            "visibleAreaApprox": 11888.25
+          },
+          "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "800",
+          "fontStyle": "normal",
+          "lineHeight": "normal",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(21, 154, 170)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "999px",
+          "boxShadow": "rgba(21, 154, 170, 0.2) 0px 16px 30px 0px",
+          "padding": "12px 20px"
+        },
+        {
+          "selector": "a.button.secondary",
+          "text": "View services",
+          "bounds": {
+            "x": 356.1875,
+            "y": 830.9375,
+            "width": 151.5,
+            "height": 44,
+            "visibleAreaApprox": 6666
+          },
+          "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "800",
+          "fontStyle": "normal",
+          "lineHeight": "normal",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(8, 41, 74)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(255, 255, 255)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(220, 229, 238)",
+          "borderWidth": "1px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "12px 20px"
+        },
+        {
+          "selector": "a.button.card-button",
+          "text": "Join today",
+          "bounds": {
+            "x": 851.625,
+            "y": 725.8125,
+            "width": 473.375,
+            "height": 42,
+            "visibleAreaApprox": 19881.75
+          },
+          "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "fontSize": "16px",
+          "fontWeight": "800",
+          "fontStyle": "normal",
+          "lineHeight": "normal",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(255, 255, 255)",
+          "fontStackAvailable": true,
+          "backgroundColor": "rgb(8, 41, 74)",
+          "backgroundImage": "none",
+          "borderColor": "rgb(255, 255, 255)",
+          "borderWidth": "0px",
+          "borderRadius": "999px",
+          "boxShadow": "none",
+          "padding": "12px 20px"
+        }
+      ],
+      "images": [
+        {
+          "selector": "img",
+          "src": "https://clarentis.co.uk/clarentis-logo.png",
+          "alt": "Clarentis logo",
+          "bounds": {
+            "x": 72,
+            "y": 16,
+            "width": 190,
+            "height": 110,
+            "visibleAreaApprox": 20900
+          },
+          "loaded": true,
+          "objectFit": "fill",
+          "objectPosition": "50% 50%"
+        }
+      ],
+      "surfaceMethod": "visible clipped bounding-box area; independent overlapping boxes; first viewport only",
+      "coloredSurfaces": [
+        {
+          "color": "rgb(246, 248, 251)",
+          "summedVisibleBoxArea": 1296000,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "body",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 4522.703125,
+                "visibleAreaApprox": 1296000
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 255, 255)",
+          "summedVisibleBoxArea": 281712.435546875,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "a.button.secondary",
+              "bounds": {
+                "x": 356.1875,
+                "y": 830.9375,
+                "width": 151.5,
+                "height": 44,
+                "visibleAreaApprox": 6666
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "aside.offer-card",
+              "bounds": {
+                "x": 808.625,
+                "y": 319.109375,
+                "width": 559.375,
+                "height": 491.703125,
+                "visibleAreaApprox": 275046.435546875
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgba(255, 255, 255, 0.92)",
+          "summedVisibleBoxArea": 205920,
+          "elements": 1,
+          "examples": [
+            {
+              "selector": "header.site-header",
+              "bounds": {
+                "x": 0,
+                "y": 0,
+                "width": 1440,
+                "height": 143,
+                "visibleAreaApprox": 205920
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(234, 247, 248)",
+          "summedVisibleBoxArea": 84643.26538085938,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "p.eyebrow",
+              "bounds": {
+                "x": 72,
+                "y": 255,
+                "width": 279.984375,
+                "height": 47.015625,
+                "visibleAreaApprox": 13163.640380859375
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "div.offer-price",
+              "bounds": {
+                "x": 851.625,
+                "y": 548.8125,
+                "width": 473.375,
+                "height": 151,
+                "visibleAreaApprox": 71479.625
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(8, 41, 74)",
+          "summedVisibleBoxArea": 27353.15625,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "a.header-cta",
+              "bounds": {
+                "x": 1190.109375,
+                "y": 50,
+                "width": 177.890625,
+                "height": 42,
+                "visibleAreaApprox": 7471.40625
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.button.card-button",
+              "bounds": {
+                "x": 851.625,
+                "y": 725.8125,
+                "width": 473.375,
+                "height": 42,
+                "visibleAreaApprox": 19881.75
+              },
+              "opacity": "1"
+            }
+          ]
+        },
+        {
+          "color": "rgb(21, 154, 170)",
+          "summedVisibleBoxArea": 11952.25,
+          "elements": 2,
+          "examples": [
+            {
+              "selector": "span",
+              "bounds": {
+                "x": 89,
+                "y": 274.5,
+                "width": 8,
+                "height": 8,
+                "visibleAreaApprox": 64
+              },
+              "opacity": "1"
+            },
+            {
+              "selector": "a.button.primary",
+              "bounds": {
+                "x": 72,
+                "y": 830.9375,
+                "width": 270.1875,
+                "height": 44,
+                "visibleAreaApprox": 11888.25
+              },
+              "opacity": "1"
+            }
+          ]
+        }
+      ],
+      "imageBackgrounds": [
+        {
+          "selector": "section.hero.section",
+          "backgroundImage": "radial-gradient(circle at 80% 12%, rgba(21, 154, 170, 0.16), rgba(0, 0, 0, 0) 34%), linear-gradient(rgb(255, 255, 255) 0%, rgb(246, 248, 251) 100%)",
+          "backgroundSize": "auto, auto",
+          "backgroundPosition": "0% 0%, 0% 0%",
+          "bounds": {
+            "x": 0,
+            "y": 143,
+            "width": 1440,
+            "height": 843.9375,
+            "visibleAreaApprox": 1090080
+          }
+        }
+      ],
+      "fontStatus": "loaded",
+      "fontFaces": [],
+      "fontRenderError": null,
+      "typography": {
+        "heading": {
+          "selector": "h1",
+          "text": "Let us handle the numbers. You focus on growing your business.",
+          "bounds": {
+            "x": 72,
+            "y": 316.734375,
+            "width": 656.625,
+            "height": 357.5625,
+            "visibleAreaApprox": 234784.4765625
+          },
+          "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "fontSize": "92.16px",
+          "fontWeight": "700",
+          "fontStyle": "normal",
+          "lineHeight": "89.3952px",
+          "letterSpacing": "-5.5296px",
+          "textTransform": "none",
+          "color": "rgb(8, 41, 74)",
+          "fontStackAvailable": true,
+          "renderedFonts": [
+            {
+              "familyName": ".SF NS",
+              "postScriptName": ".SFNS-Bold",
+              "isCustomFont": false,
+              "glyphCount": 59
+            }
+          ]
+        },
+        "body": {
+          "selector": "p.lead",
+          "text": "Friendly, practical accounting, tax and bookkeeping support for UK startups, sole traders and small limited companies. Fixed, transparent fees with no hidden costs.",
+          "bounds": {
+            "x": 72,
+            "y": 702.296875,
+            "width": 656.625,
+            "height": 94.640625,
+            "visibleAreaApprox": 62143.400390625
+          },
+          "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "fontSize": "18.56px",
+          "fontWeight": "400",
+          "fontStyle": "normal",
+          "lineHeight": "31.552px",
+          "letterSpacing": "normal",
+          "textTransform": "none",
+          "color": "rgb(94, 111, 130)",
+          "fontStackAvailable": true,
+          "renderedFonts": [
+            {
+              "familyName": ".SF NS",
+              "postScriptName": ".SFNS-Regular",
+              "isCustomFont": false,
+              "glyphCount": 162
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "brand-390x844.png",
+      "type": "screenshot",
+      "sha256": "7c774e09bdae21db5bd72e44712a78dec46248162119b70a31c7612f662c35c7"
+    },
+    {
+      "path": "brand-1440x900.png",
+      "type": "screenshot",
+      "sha256": "241f2642351e293cc65b511851767b817de5cbf0bd09be654c45e06745eadd37"
+    }
+  ],
+  "failures": [],
+  "interpretation": "Measurements describe rendered CSS and visible geometry. They do not automatically select the correct brand identity, official font, logo, or design direction.",
+  "limits": [
+    "Surface areas approximate visible bounding-box area in the first viewport. Overlapping parent/child backgrounds are counted independently; these are not pixel shares.",
+    "Computed stacks and FontFace entries alone do not prove glyph fonts. renderedFonts records Chromium evidence for the selected heading and prose samples only.",
+    "Background images, gradients, transparency, pseudo-elements, canvas, and video need screenshot review. No dominant image-color extraction is attempted.",
+    "No cookies or login state are imported. Consent dialogs or anonymous variants can affect the visible sample.",
+    "All write requests are blocked. Normal GET requests still reach the supplied site."
+  ],
+  "completed_at": "2026-09-20T18:27:10.415Z"
+}

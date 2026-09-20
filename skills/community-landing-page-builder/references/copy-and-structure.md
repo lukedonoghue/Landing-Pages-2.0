@@ -64,7 +64,7 @@ Read the rendered page as a cold visitor and as the target buyer. Check:
 
 - every important noun has a clear antecedent;
 - headings, bullets, and CTAs make sense outside the writer's context;
-- visitor copy speaks directly about the business and next step, not `the site says` or what the researcher could not find; keep source uncertainty in notes and express practical limits plainly to the buyer;
+- visitor copy speaks directly about the business and next step, not `the site says`, `the published service list includes`, or what the researcher could not find; keep source attribution and uncertainty in notes and express practical limits plainly to the buyer. Include expanded FAQ answers in this same editorial pass, not only the initially visible headings;
 - benefits connect to mechanisms or proof;
 - comparative numbers are recalculated and conditions appear beside them;
 - copy density does not hide the primary action or proof;

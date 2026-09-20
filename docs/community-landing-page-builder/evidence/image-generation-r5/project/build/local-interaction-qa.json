@@ -1,0 +1,74 @@
+{
+  "url": "http://127.0.0.1:53621/",
+  "viewport": "320x700",
+  "checks": {
+    "geometry": {
+      "viewportWidth": 320,
+      "scrollWidth": 320,
+      "hero": {
+        "top": 108.390625,
+        "bottom": 637.671875,
+        "width": 320,
+        "height": 529.28125
+      },
+      "photo": {
+        "top": 472.671875,
+        "bottom": 637.671875,
+        "width": 320,
+        "height": 165
+      },
+      "next": {
+        "top": 637.671875,
+        "bottom": 951.171875,
+        "width": 320,
+        "height": 313.5
+      },
+      "h1": {
+        "top": 164.1875,
+        "bottom": 282.921875,
+        "width": 280,
+        "height": 118.734375
+      },
+      "primary": {
+        "top": 403.671875,
+        "bottom": 455.671875,
+        "width": 280,
+        "height": 52
+      }
+    },
+    "primaryActions": [
+      {
+        "text": "Request your fixed-fee quote",
+        "href": "mailto:info@clarentis.co.uk?subject=Fixed-fee%20quote%20enquiry"
+      },
+      {
+        "text": "Request your fixed-fee quote",
+        "href": "mailto:info@clarentis.co.uk?subject=Fixed-fee%20quote%20enquiry"
+      },
+      {
+        "text": "Request your fixed-fee quote",
+        "href": "mailto:info@clarentis.co.uk?subject=Fixed-fee%20quote%20enquiry"
+      },
+      {
+        "text": "Request your fixed-fee quote",
+        "href": "mailto:info@clarentis.co.uk?subject=Fixed-fee%20quote%20enquiry"
+      }
+    ],
+    "phones": [
+      {
+        "text": "07467 474356",
+        "href": "tel:+447467474356"
+      },
+      {
+        "text": "Call 07467 474356",
+        "href": "tel:+447467474356"
+      }
+    ],
+    "firstKeyboardTarget": "Skip to content",
+    "menuOpen": true,
+    "menuDestination": "#fees",
+    "faqOpen": true
+  },
+  "findings": [],
+  "status": "pass"
+}
