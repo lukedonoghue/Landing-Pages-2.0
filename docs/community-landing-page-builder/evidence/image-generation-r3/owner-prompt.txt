@@ -1,0 +1,6 @@
+Use the attached community landing-page skill to build a complete landing page for https://clarentis.co.uk/ . Please create realistic new imagery where the website does not have suitable pictures. I do not have keywords, extra images, or technical experience. Finish everything that can be built and checked locally; I will connect Cloudflare afterwards.
+
+Attached skill: /Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r3/skill/SKILL.md
+Project output: /Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r3/project
+
+Execution boundary: start from this skill and a blank project. Read/write only this run directory for task context and output. Standard installed tool documentation and installed runtimes are available as execution infrastructure. Do not read parent directories, other project/build attempts, other conversation history, global user memories, or private credentials. Do your own public website research. Do not connect Cloudflare, use saved hosting authorization, publish, submit a live form, or access private accounts. Do not edit the attached skill. Apply its instructions without guidance from an orchestrator. Return the built artifact paths, local preview location, and concise verification evidence/limits.
