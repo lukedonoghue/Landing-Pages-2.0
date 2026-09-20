@@ -1,0 +1,117 @@
+{
+  "url": "http://127.0.0.1:4189/",
+  "status": "pass",
+  "checks": [
+    {
+      "name": "quote destination 320",
+      "status": "pass",
+      "detail": "3 visible CTAs use the same direct email address and subject"
+    },
+    {
+      "name": "phone destination 320",
+      "status": "pass",
+      "detail": "3 links use the published number"
+    },
+    {
+      "name": "email-led source parity 320",
+      "status": "pass",
+      "detail": "No mandatory data-entry form or on-site success claim"
+    },
+    {
+      "name": "illustrative images 320",
+      "status": "pass",
+      "detail": "hero-800.webp, bookkeeping-650.webp, tax-650.webp, consultation-650.webp"
+    },
+    {
+      "name": "320px first screen",
+      "status": "pass",
+      "detail": "No horizontal overflow; viewport screenshot captured"
+    },
+    {
+      "name": "quote destination 390",
+      "status": "pass",
+      "detail": "3 visible CTAs use the same direct email address and subject"
+    },
+    {
+      "name": "phone destination 390",
+      "status": "pass",
+      "detail": "3 links use the published number"
+    },
+    {
+      "name": "email-led source parity 390",
+      "status": "pass",
+      "detail": "No mandatory data-entry form or on-site success claim"
+    },
+    {
+      "name": "illustrative images 390",
+      "status": "pass",
+      "detail": "hero-800.webp, bookkeeping-650.webp, tax-650.webp, consultation-650.webp"
+    },
+    {
+      "name": "image placements 390",
+      "status": "pass",
+      "detail": "Four asset-specific rendered figure captures"
+    },
+    {
+      "name": "mobile navigation",
+      "status": "pass",
+      "detail": "Menu opens and Fees link reaches its section"
+    },
+    {
+      "name": "FAQ disclosure",
+      "status": "pass",
+      "detail": "First answer opens and is present in the mobile viewport"
+    },
+    {
+      "name": "quote destination 1440",
+      "status": "pass",
+      "detail": "4 visible CTAs use the same direct email address and subject"
+    },
+    {
+      "name": "phone destination 1440",
+      "status": "pass",
+      "detail": "3 links use the published number"
+    },
+    {
+      "name": "email-led source parity 1440",
+      "status": "pass",
+      "detail": "No mandatory data-entry form or on-site success claim"
+    },
+    {
+      "name": "illustrative images 1440",
+      "status": "pass",
+      "detail": "hero-1600.webp, bookkeeping-1100.webp, tax-1100.webp, consultation-1100.webp"
+    },
+    {
+      "name": "image placements 1440",
+      "status": "pass",
+      "detail": "Four asset-specific rendered figure captures"
+    },
+    {
+      "name": "keyboard start",
+      "status": "pass",
+      "detail": "Skip link receives first keyboard focus"
+    },
+    {
+      "name": "destination placeholders",
+      "status": "pass",
+      "detail": "No empty or # links"
+    }
+  ],
+  "screenshots": [
+    "build/screenshots/320x700-first.png",
+    "build/screenshots/image-hero-390.png",
+    "build/screenshots/image-bookkeeping-390.png",
+    "build/screenshots/image-tax-390.png",
+    "build/screenshots/image-consultation-390.png",
+    "build/screenshots/390x844-menu.png",
+    "build/screenshots/390x844-faq.png",
+    "build/screenshots/image-hero-1440.png",
+    "build/screenshots/image-bookkeeping-1440.png",
+    "build/screenshots/image-tax-1440.png",
+    "build/screenshots/image-consultation-1440.png"
+  ],
+  "limits": [
+    "Email links were checked in-browser without opening a private email application or sending a message."
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "gate": "surface-scan",
+  "status": "pass",
+  "executed_at": "2026-09-20T19:40:59.226463+00:00",
+  "files_scanned": 2,
+  "findings": []
+}

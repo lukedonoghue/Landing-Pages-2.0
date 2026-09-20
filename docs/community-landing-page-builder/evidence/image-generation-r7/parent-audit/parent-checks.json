@@ -1,0 +1,648 @@
+{
+  "checks": [
+    {
+      "name": "Published bytes match index.html",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match styles.css",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/bookkeeping-1100.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/bookkeeping-650.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/bookkeeping.jpg",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/clarentis-logo.png",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/consultation-1100.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/consultation-650.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/consultation.jpg",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/hero-1600.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/hero-800.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/hero.jpg",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/tax-1100.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/tax-650.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/tax.jpg",
+      "pass": true
+    },
+    {
+      "name": "No overflow 320",
+      "pass": true
+    },
+    {
+      "name": "Early phone 320",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is my fixed fee decided? 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my email? 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Do I need everything listed here? 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 320",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 320",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 391.671875,
+          "bottom": 414.859375,
+          "height": 700,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of bookkeeping activity",
+          "top": 455.703125,
+          "bottom": 472.5,
+          "height": 700,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of tax-record review",
+          "top": 455.65625,
+          "bottom": 472.453125,
+          "height": 700,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative consultation scene, not Clarentis staff or a client",
+          "top": 447.140625,
+          "bottom": 480.734375,
+          "height": 700,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 320",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 320",
+      "pass": true
+    },
+    {
+      "name": "No page errors 320",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 320",
+      "pass": true
+    },
+    {
+      "name": "No overflow 390",
+      "pass": true
+    },
+    {
+      "name": "Early phone 390",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is my fixed fee decided? 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my email? 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Do I need everything listed here? 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 390",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 390",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 484.640625,
+          "bottom": 507.828125,
+          "height": 844,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of bookkeeping activity",
+          "top": 550.9375,
+          "bottom": 567.734375,
+          "height": 844,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of tax-record review",
+          "top": 550.90625,
+          "bottom": 567.703125,
+          "height": 844,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative consultation scene, not Clarentis staff or a client",
+          "top": 550.875,
+          "bottom": 567.671875,
+          "height": 844,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 390",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 390",
+      "pass": true
+    },
+    {
+      "name": "No page errors 390",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 390",
+      "pass": true
+    },
+    {
+      "name": "No overflow 768",
+      "pass": true
+    },
+    {
+      "name": "Early phone 768",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is my fixed fee decided? 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my email? 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Do I need everything listed here? 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 768",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 768",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 621.171875,
+          "bottom": 644.359375,
+          "height": 1024,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of bookkeeping activity",
+          "top": 762.828125,
+          "bottom": 779.625,
+          "height": 1024,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of tax-record review",
+          "top": 763.546875,
+          "bottom": 780.34375,
+          "height": 1024,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative consultation scene, not Clarentis staff or a client",
+          "top": 763.015625,
+          "bottom": 779.8125,
+          "height": 1024,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 768",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 768",
+      "pass": true
+    },
+    {
+      "name": "No page errors 768",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 768",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1024",
+      "pass": true
+    },
+    {
+      "name": "Early phone 1024",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is my fixed fee decided? 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my email? 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Do I need everything listed here? 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 1024",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 1024",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 613.8125,
+          "bottom": 637,
+          "height": 800,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of bookkeeping activity",
+          "top": 571.921875,
+          "bottom": 588.71875,
+          "height": 800,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of tax-record review",
+          "top": 575.734375,
+          "bottom": 592.53125,
+          "height": 800,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative consultation scene, not Clarentis staff or a client",
+          "top": 562.59375,
+          "bottom": 579.390625,
+          "height": 800,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 1024",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 1024",
+      "pass": true
+    },
+    {
+      "name": "No page errors 1024",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 1024",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1280",
+      "pass": true
+    },
+    {
+      "name": "Early phone 1280",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is my fixed fee decided? 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my email? 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Do I need everything listed here? 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 1280",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 1280",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 395.296875,
+          "bottom": 418.484375,
+          "height": 600,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of bookkeeping activity",
+          "top": 516.359375,
+          "bottom": 533.15625,
+          "height": 600,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of tax-record review",
+          "top": 520.46875,
+          "bottom": 537.265625,
+          "height": 600,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative consultation scene, not Clarentis staff or a client",
+          "top": 504.3125,
+          "bottom": 521.109375,
+          "height": 600,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 1280",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 1280",
+      "pass": true
+    },
+    {
+      "name": "No page errors 1280",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 1280",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1440",
+      "pass": true
+    },
+    {
+      "name": "Early phone 1440",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is my fixed fee decided? 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my email? 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Do I need everything listed here? 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 1440",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 1440",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 613.8125,
+          "bottom": 637,
+          "height": 900,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of bookkeeping activity",
+          "top": 684.109375,
+          "bottom": 700.90625,
+          "height": 900,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of tax-record review",
+          "top": 688.578125,
+          "bottom": 705.375,
+          "height": 900,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative consultation scene, not Clarentis staff or a client",
+          "top": 671.1875,
+          "bottom": 687.984375,
+          "height": 900,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 1440",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 1440",
+      "pass": true
+    },
+    {
+      "name": "No page errors 1440",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 1440",
+      "pass": true
+    }
+  ],
+  "limits": [
+    "Email/phone clicks intercepted before OS dispatch. No messages sent.",
+    "No form exists: modal/error/grouped-field cases are not validated by this run.",
+    "Visual relevance and composition assessed separately from these assertions."
+  ],
+  "status": "pass"
+}
