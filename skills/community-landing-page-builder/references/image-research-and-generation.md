@@ -47,6 +47,14 @@ Use the available native image-generation tool when generation materially improv
 
 Follow the tool's declared result/display format; do not assume every tool returns an MCP `content` array. For the Codex code-mode `image_url` / `output_hint` result, use `generatedImage(result)` and read `result.output_hint`; never print the base64 payload as text. If response handling fails after a successful call, recover and inspect the returned asset or saved path before generating again. Save selected originals inside the run's research assets, outside published assets. In the existing image plan, retain each exact submitted prompt verbatim (not a summary), returned original filename, local original and final derivatives. Do not leave provenance dependent on private conversation history or a tool-managed temporary directory. Regenerate for a concrete visual defect, not merely a missing display.
 
+For that Codex tool contract, use this result handling, including inside a loop over different prompts. Do not replace it with `text(JSON.stringify(result))`; image bytes inflate output and can truncate the useful file reference.
+
+```js
+const result = await tools.image_gen__imagegen({ prompt });
+generatedImage(result);
+if (result.output_hint) text(result.output_hint);
+```
+
 Generated real-world images should use plausible settings, natural light, realistic materials, coherent anatomy, and restrained post-processing. Avoid glossy generic stock staging when official documentary imagery is present.
 
 Do not request or rely on:

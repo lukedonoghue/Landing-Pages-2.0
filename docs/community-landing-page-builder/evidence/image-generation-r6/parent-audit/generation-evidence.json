@@ -1,0 +1,35 @@
+{
+  "agent": "01a0c029-5bb8-7143-8ca1-d04beafaa8b0",
+  "scope": "Only image tool calls and original asset hashes; no unrelated conversation or internal reasoning exported.",
+  "calls": [
+    {
+      "timestamp": "2026-09-20T18:53:14.146Z",
+      "callId": "call_UtqHVeyA7zUIt1kDr82nC7J5",
+      "invocation": "// @exec: {\"yield_time_ms\": 120000, \"max_output_tokens\": 1000}\nconst prompts=[\n\"Use case: photorealistic-natural. Asset type: full-width accounting landing-page hero photograph. Primary request: realistic editorial photograph of an independent UK small-business owner working through business records at a simple bright studio desk, photographed from an oblique distance, hands arranging plain receipts beside an open laptop and closed notebook. Subject occupies the RIGHT HALF. LEFT HALF is genuinely quiet, uncluttered dark olive painted wall and desk shadow for legible webpage headline overlay. Natural window light, muted olive, warm white, ink-blue and a tiny rust accent. Contemporary, capable, human, restrained. Wide landscape 3:2 framing. No logos, no readable numbers, no text, no certificates, no exaggerated piles of money, no visible client or employee identity. This is an illustrative scene, not a real Clarentis office or client.\",\n\"Use case: photorealistic-natural. Asset type: content image for bookkeeping section of accounting landing page. Primary request: overhead editorial photograph of a tidy UK micro-business bookkeeping workflow, an open laptop with a generic non-readable spreadsheet, plain paper invoices with no legible text, bank card face down, calculator, and two hands reconciling a short stack of receipts. Natural daylight, tactile paper, restrained green and warm white palette, authentic small-business desk rather than glossy corporate stock. Landscape 4:3. No logos, readable figures, names, business marks, sensitive data, or fake proof documents. Clearly illustrative.\",\n\"Use case: photorealistic-natural. Asset type: content image for free initial consultation section of accounting landing page. Primary request: candid editorial scene of two adult people in everyday business clothes discussing small-business finances across a modest meeting table, looking at each other with a closed laptop and blank notepad between them. Bright contemporary UK independent-office setting, natural faces and hands, calm practical mood, honest daylight, muted colors. Landscape 4:3, people fully visible and unobscured. No brand marks, readable paperwork, certificates or financial numbers. Illustrative generic meeting, not Clarentis staff or customers.\",\n\"Use case: photorealistic-natural. Asset type: content image for tax, VAT and payroll support section of accounting landing page. Primary request: close editorial view of a professional working with neatly organised plain folders, a small calculator, an open laptop showing only abstract indistinct rows, and a simple paper calendar with no readable dates; hands checking a page. Natural side light, precise but un-staged, quiet green, white and graphite palette. Landscape 4:3. No logos, names, readable financial data, HMRC marks, people identifiable as Clarentis employees, or proof documents. Clearly illustrative.\"\n];\nfor(let i=0;i<prompts.length;i++){const r=await tools.image_gen__imagegen({prompt:prompts[i]}); text(JSON.stringify({i,result:r}));}\n",
+      "completion": "2026-09-20T18:54:54.297Z"
+    }
+  ],
+  "originals": [
+    {
+      "file": "build/research-assets/hero-original.png",
+      "sha256": "f7aae26530171ef6d35138d60adf1b48eaf0e2bf07444ecbb3ca49e070e3945b",
+      "matchesReturned": "exec-9bc19d1d-d24c-49c3-9dbb-c22b33d54bf9.png"
+    },
+    {
+      "file": "build/research-assets/bookkeeping-original.png",
+      "sha256": "a61d49252770da773644766d6da85a0b2eb62b26662a11ab8197edd245a54b69",
+      "matchesReturned": "exec-46355f7d-0043-4610-b94f-8004cff32f4b.png"
+    },
+    {
+      "file": "build/research-assets/tax-original.png",
+      "sha256": "e7c7dca77962f04dd4c79f46124f75e6e47cab72833bfe6971e032340de2aaa7",
+      "matchesReturned": "exec-b7fd346d-66f3-4bd5-9a6e-4f0d8378414b.png"
+    },
+    {
+      "file": "build/research-assets/consultation-original.png",
+      "sha256": "60d6e03baf6132f793c6a0d1918bcddc46eae1a50f9f4acf231ed6b667b302af",
+      "matchesReturned": "exec-98e652ab-1ed9-46da-9a21-2a01d488edc7.png"
+    }
+  ],
+  "model": "Not reported by tool"
+}

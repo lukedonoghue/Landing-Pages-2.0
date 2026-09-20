@@ -1,0 +1,636 @@
+{
+  "checks": [
+    {
+      "name": "Published bytes match index.html",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match styles.css",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match script.js",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/bookkeeping-1100.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/bookkeeping-720.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/clarentis-logo.png",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/consultation-1100.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/consultation-720.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/hero-1440.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/hero-720.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/tax-1100.webp",
+      "pass": true
+    },
+    {
+      "name": "Published bytes match assets/tax-720.webp",
+      "pass": true
+    },
+    {
+      "name": "No overflow 320",
+      "pass": true
+    },
+    {
+      "name": "Early phone 320",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is the fixed fee worked out? 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Can you help with both bookkeeping and tax? 320",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my first email? 320",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 320",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 413.71875,
+          "bottom": 438.90625,
+          "height": 700,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of a bookkeeping workflow",
+          "top": 460.671875,
+          "bottom": 477.46875,
+          "height": 700,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of records and return preparation",
+          "top": 460.296875,
+          "bottom": 477.09375,
+          "height": 700,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of an initial conversation",
+          "top": 460.640625,
+          "bottom": 477.4375,
+          "height": 700,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 320",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 320",
+      "pass": true
+    },
+    {
+      "name": "No page errors 320",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 320",
+      "pass": true
+    },
+    {
+      "name": "No overflow 390",
+      "pass": true
+    },
+    {
+      "name": "Early phone 390",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is the fixed fee worked out? 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Can you help with both bookkeeping and tax? 390",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my first email? 390",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 390",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 518.140625,
+          "bottom": 543.328125,
+          "height": 844,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of a bookkeeping workflow",
+          "top": 555.234375,
+          "bottom": 572.03125,
+          "height": 844,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of records and return preparation",
+          "top": 555.6875,
+          "bottom": 572.484375,
+          "height": 844,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of an initial conversation",
+          "top": 555.421875,
+          "bottom": 572.21875,
+          "height": 844,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 390",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 390",
+      "pass": true
+    },
+    {
+      "name": "No page errors 390",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 390",
+      "pass": true
+    },
+    {
+      "name": "No overflow 768",
+      "pass": true
+    },
+    {
+      "name": "Early phone 768",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is the fixed fee worked out? 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Can you help with both bookkeeping and tax? 768",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my first email? 768",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 768",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 675.109375,
+          "bottom": 700.296875,
+          "height": 1024,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of a bookkeeping workflow",
+          "top": 692.421875,
+          "bottom": 709.21875,
+          "height": 1024,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of records and return preparation",
+          "top": 794.640625,
+          "bottom": 811.4375,
+          "height": 1024,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of an initial conversation",
+          "top": 794.828125,
+          "bottom": 811.625,
+          "height": 1024,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 768",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 768",
+      "pass": true
+    },
+    {
+      "name": "No page errors 768",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 768",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1024",
+      "pass": true
+    },
+    {
+      "name": "Early phone 1024",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is the fixed fee worked out? 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Can you help with both bookkeeping and tax? 1024",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my first email? 1024",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 1024",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 623.8125,
+          "bottom": 649,
+          "height": 800,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of a bookkeeping workflow",
+          "top": 634.53125,
+          "bottom": 651.328125,
+          "height": 800,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of records and return preparation",
+          "top": 659.921875,
+          "bottom": 676.71875,
+          "height": 800,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of an initial conversation",
+          "top": 641.5,
+          "bottom": 658.296875,
+          "height": 800,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 1024",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 1024",
+      "pass": true
+    },
+    {
+      "name": "No page errors 1024",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 1024",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1280",
+      "pass": true
+    },
+    {
+      "name": "Early phone 1280",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is the fixed fee worked out? 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Can you help with both bookkeeping and tax? 1280",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my first email? 1280",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 1280",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 473.8125,
+          "bottom": 499,
+          "height": 600,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of a bookkeeping workflow",
+          "top": 583.0625,
+          "bottom": 599.859375,
+          "height": 600,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of records and return preparation",
+          "top": 336.84375,
+          "bottom": 353.640625,
+          "height": 600,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of an initial conversation",
+          "top": 583.546875,
+          "bottom": 600.34375,
+          "height": 600,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 1280",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 1280",
+      "pass": true
+    },
+    {
+      "name": "No page errors 1280",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 1280",
+      "pass": true
+    },
+    {
+      "name": "No overflow 1440",
+      "pass": true
+    },
+    {
+      "name": "Early phone 1440",
+      "pass": true
+    },
+    {
+      "name": "Hero email expectation 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard quote action 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Is the initial consultation free? 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ How is the fixed fee worked out? 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ Can you help with both bookkeeping and tax? 1440",
+      "pass": true
+    },
+    {
+      "name": "Keyboard FAQ What should I include in my first email? 1440",
+      "pass": true
+    },
+    {
+      "name": "Visible illustrative captions 1440",
+      "pass": true,
+      "detail": [
+        {
+          "text": "Illustrative image",
+          "top": 623.8125,
+          "bottom": 649,
+          "height": 900,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of a bookkeeping workflow",
+          "top": 747.0625,
+          "bottom": 763.859375,
+          "height": 900,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of records and return preparation",
+          "top": 778.390625,
+          "bottom": 795.1875,
+          "height": 900,
+          "visible": true,
+          "coveredByImage": false
+        },
+        {
+          "text": "Illustrative image of an initial conversation",
+          "top": 753.03125,
+          "bottom": 769.828125,
+          "height": 900,
+          "visible": true,
+          "coveredByImage": false
+        }
+      ]
+    },
+    {
+      "name": "Images decoded 1440",
+      "pass": true
+    },
+    {
+      "name": "Four distinct image placements 1440",
+      "pass": true
+    },
+    {
+      "name": "No page errors 1440",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "Only local loaded resources 1440",
+      "pass": true
+    }
+  ],
+  "limits": [
+    "Email/phone clicks intercepted before OS dispatch. No messages sent.",
+    "No form exists: modal/error/grouped-field cases are not validated by this run.",
+    "Visual relevance and composition assessed separately from these assertions."
+  ],
+  "status": "pass"
+}

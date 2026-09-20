@@ -1,0 +1,146 @@
+{
+  "checkedAt": "2026-09-20T19:11:29.628Z",
+  "baseUrl": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/index.html",
+  "passed": true,
+  "findings": [
+    {
+      "name": "320px first screen",
+      "passed": true,
+      "detail": {
+        "overflow": false,
+        "heroBottom": 626.90625,
+        "factsVisible": true,
+        "ctaVisible": true,
+        "ctaWidth": 288
+      }
+    },
+    {
+      "name": "quote action parity",
+      "passed": true,
+      "detail": [
+        {
+          "label": "Request your fixed-fee quote",
+          "href": "mailto:info@clarentis.co.uk?subject=Fixed-fee%20quote%20request"
+        },
+        {
+          "label": "Request your fixed-fee quote",
+          "href": "mailto:info@clarentis.co.uk?subject=Fixed-fee%20quote%20request"
+        },
+        {
+          "label": "Request your fixed-fee quote",
+          "href": "mailto:info@clarentis.co.uk?subject=Fixed-fee%20quote%20request"
+        },
+        {
+          "label": "Request your fixed-fee quote",
+          "href": "mailto:info@clarentis.co.uk?subject=Fixed-fee%20quote%20request"
+        }
+      ]
+    },
+    {
+      "name": "phone destinations",
+      "passed": true,
+      "detail": [
+        {
+          "href": "tel:+447467474356",
+          "text": "07467 474356"
+        },
+        {
+          "href": "tel:+447467474356",
+          "text": "Or call 07467 474356"
+        }
+      ]
+    },
+    {
+      "name": "mobile menu opens by keyboard",
+      "passed": true,
+      "detail": "Enter opens details"
+    },
+    {
+      "name": "mobile menu closes after navigation",
+      "passed": true,
+      "detail": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/index.html#fees"
+    },
+    {
+      "name": "FAQ expands",
+      "passed": true,
+      "detail": "First answer visible"
+    },
+    {
+      "name": "keyboard focus visible",
+      "passed": true,
+      "detail": {
+        "tag": "A",
+        "visible": true,
+        "outline": "3px"
+      }
+    },
+    {
+      "name": "all images loaded",
+      "passed": true,
+      "detail": [
+        {
+          "src": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/assets/clarentis-logo.png",
+          "loaded": true,
+          "role": "decorative"
+        },
+        {
+          "src": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/assets/hero-720.webp",
+          "loaded": true,
+          "role": "illustrative"
+        },
+        {
+          "src": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/assets/bookkeeping-720.webp",
+          "loaded": true,
+          "role": "illustrative"
+        },
+        {
+          "src": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/assets/tax-720.webp",
+          "loaded": true,
+          "role": "illustrative"
+        },
+        {
+          "src": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/assets/consultation-720.webp",
+          "loaded": true,
+          "role": "illustrative"
+        }
+      ]
+    },
+    {
+      "name": "four distinct content images",
+      "passed": true,
+      "detail": [
+        {
+          "src": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/assets/clarentis-logo.png",
+          "loaded": true,
+          "role": "decorative"
+        },
+        {
+          "src": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/assets/hero-720.webp",
+          "loaded": true,
+          "role": "illustrative"
+        },
+        {
+          "src": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/assets/bookkeeping-720.webp",
+          "loaded": true,
+          "role": "illustrative"
+        },
+        {
+          "src": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/assets/tax-720.webp",
+          "loaded": true,
+          "role": "illustrative"
+        },
+        {
+          "src": "file:///Users/mac/Documents/Codex/2026-09-17/co/work/community-acceptance-20260920/runs/image-generation-r6/project/publish/assets/consultation-720.webp",
+          "loaded": true,
+          "role": "illustrative"
+        }
+      ]
+    },
+    {
+      "name": "visible image disclosures",
+      "passed": true,
+      "detail": "One caption per illustrative image"
+    }
+  ],
+  "limit": "mailto and tel targets were inspected locally; no email app was launched and no live message or call was made."
+}

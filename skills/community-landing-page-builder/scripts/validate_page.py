@@ -16,6 +16,10 @@ from urllib.parse import unquote, urlsplit
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
 REMOTE = {"http", "https", "mailto", "tel", "data", "javascript"}
 IMAGE_ROLES = {"decorative", "proof", "portrait", "diagram", "screenshot", "illustrative"}
+RESEARCH_VOICE = re.compile(
+    r"\bthe\s+(?:published|official)\s+service\s+(?:list|range)\s+(?:includes|lists|describes)\b",
+    re.I,
+)
 
 
 class PageParser(HTMLParser):
@@ -36,6 +40,7 @@ class PageParser(HTMLParser):
         self.ids: set[str] = set()
         self.landmarks: set[str] = set()
         self.current_heading: dict[str, object] | None = None
+        self.visitor_text: list[str] = []
 
     def handle_starttag(self, tag: str, attrs) -> None:
         data = {key: (value or "") for key, value in attrs}
@@ -93,6 +98,9 @@ class PageParser(HTMLParser):
     def handle_data(self, data: str) -> None:
         if self.current_heading:
             self.current_heading["text"].append(data)
+        tags = {tag for tag, _ in self.stack}
+        if tags.intersection({"body", "main"}) and not tags.intersection({"script", "style", "template", "blockquote"}):
+            self.visitor_text.append(data)
 
 
 def parse(path: Path) -> PageParser:
@@ -188,9 +196,12 @@ def main() -> int:
     privacy_present = False
     contact_fields = False
     raw_scripts: list[str] = []
+    research_voice: list[str] = []
 
     for document, parser in documents:
         rel = document.relative_to(root).as_posix()
+        for match in RESEARCH_VOICE.finditer(" ".join(parser.visitor_text)):
+            research_voice.append(f"{rel}: {match.group(0)}")
         for reference in parser.local_refs:
             if is_local(reference) and not resolve_ref(root, document, reference).exists():
                 missing_assets.append(f"{rel}: {reference}")
@@ -252,6 +263,9 @@ def main() -> int:
     checks["image_issues"] = sorted(set(image_issues))
     checks["form_issues"] = sorted(set(form_issues))
     checks["dead_links"] = sorted(set(dead_links))
+    checks["research_voice_copy"] = sorted(set(research_voice))
+    if research_voice:
+        failures.append("Source-research phrasing in visitor copy; state the business service directly: " + "; ".join(sorted(set(research_voice))))
     invalid_downloads = []
     for asset in (root / "assets").rglob("*"):
         if not asset.is_file() or asset.suffix.lower() not in {".txt", ".md"}:

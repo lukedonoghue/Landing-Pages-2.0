@@ -1,0 +1,30 @@
+# Image plan and provenance
+
+Research date: 2026-09-20. The official Clarentis homepage has a logo but no content photographs. The logo was downloaded from https://clarentis.co.uk/clarentis-logo.png (HTTP 200, image/png) into `assets/clarentis-logo.png`. The four photographs were created with the built-in `image_gen` tool for this local build. The tool did not report a model identity. The user did not supply photos. Generated scenes are illustrative and cannot prove Clarentis people, premises, clients or outcomes. Keep this local preview status until the owner approves publication and the contact route is checked.
+
+| Section / purpose | Role / readable pixels | Original | Final assets | Desktop / mobile treatment | Alt and disclosure |
+| --- | --- | --- | --- | --- | --- |
+| Hero: make small-business record work tangible | illustrative / no essential readable pixels | `build/research-assets/hero-original.png` from `exec-9bc19d1d-d24c-49c3-9dbb-c22b33d54bf9.png` | `assets/hero-1440.webp`, `assets/hero-720.webp` | Full-width background photograph on desktop, copy in real left negative space; stacked, unobstructed photo on mobile. Protect woman's face, hands and receipts on the right. | "Illustrative scene of a small business owner sorting receipts at a desk"; visible "Illustrative image" caption. |
+| Bookkeeping: show reconciliation work | illustrative / no essential readable pixels | `build/research-assets/bookkeeping-original.png` from `exec-46355f7d-0043-4610-b94f-8004cff32f4b.png` | `assets/bookkeeping-1100.webp`, `assets/bookkeeping-720.webp` | Figure beside explanation, then full width mobile. Keep hands, receipts and laptop visible. | "Illustrative overhead view of receipts being checked beside a laptop and calculator"; visible disclosure. |
+| Returns and payroll: show organised records | illustrative / no essential readable pixels | `build/research-assets/tax-original.png` from `exec-b7fd346d-66f3-4bd5-9a6e-4f0d8378414b.png` | `assets/tax-1100.webp`, `assets/tax-720.webp` | Figure to right of service list, then below copy mobile. The laptop and calendar are generic, not information sources. | "Illustrative view of organised folders and paperwork being reviewed beside a laptop"; visible disclosure. |
+| Consultation and onboarding: make first conversation concrete | illustrative / no essential readable pixels | `build/research-assets/consultation-original.png` from `exec-98e652ab-1ed9-46da-9a21-2a01d488edc7.png` | `assets/consultation-1100.webp`, `assets/consultation-720.webp` | Figure left of process; below process on mobile. Protect both faces and hands. | "Illustrative scene of two people discussing business finances at a table"; visible disclosure. |
+
+All originals are distinct scenes. Responsive derivatives of an original appear at only one page placement. No generated image is described as proof. Publication rights basis for generated assets: created for this user's local page with the built-in tool; no third-party stock photo is reused. Logo is first-party public website media, used for a local owner preview. Final placement review will be recorded in `build/qa-summary.md` after browser captures.
+
+## Exact generation prompts
+
+Hero:
+
+> Use case: photorealistic-natural. Asset type: full-width accounting landing-page hero photograph. Primary request: realistic editorial photograph of an independent UK small-business owner working through business records at a simple bright studio desk, photographed from an oblique distance, hands arranging plain receipts beside an open laptop and closed notebook. Subject occupies the RIGHT HALF. LEFT HALF is genuinely quiet, uncluttered dark olive painted wall and desk shadow for legible webpage headline overlay. Natural window light, muted olive, warm white, ink-blue and a tiny rust accent. Contemporary, capable, human, restrained. Wide landscape 3:2 framing. No logos, no readable numbers, no text, no certificates, no exaggerated piles of money, no visible client or employee identity. This is an illustrative scene, not a real Clarentis office or client.
+
+Bookkeeping:
+
+> Use case: photorealistic-natural. Asset type: content image for bookkeeping section of accounting landing page. Primary request: overhead editorial photograph of a tidy UK micro-business bookkeeping workflow, an open laptop with a generic non-readable spreadsheet, plain paper invoices with no legible text, bank card face down, calculator, and two hands reconciling a short stack of receipts. Natural daylight, tactile paper, restrained green and warm white palette, authentic small-business desk rather than glossy corporate stock. Landscape 4:3. No logos, readable figures, names, business marks, sensitive data, or fake proof documents. Clearly illustrative.
+
+Consultation:
+
+> Use case: photorealistic-natural. Asset type: content image for free initial consultation section of accounting landing page. Primary request: candid editorial scene of two adult people in everyday business clothes discussing small-business finances across a modest meeting table, looking at each other with a closed laptop and blank notepad between them. Bright contemporary UK independent-office setting, natural faces and hands, calm practical mood, honest daylight, muted colors. Landscape 4:3, people fully visible and unobscured. No brand marks, readable paperwork, certificates or financial numbers. Illustrative generic meeting, not Clarentis staff or customers.
+
+Tax:
+
+> Use case: photorealistic-natural. Asset type: content image for tax, VAT and payroll support section of accounting landing page. Primary request: close editorial view of a professional working with neatly organised plain folders, a small calculator, an open laptop showing only abstract indistinct rows, and a simple paper calendar with no readable dates; hands checking a page. Natural side light, precise but un-staged, quiet green, white and graphite palette. Landscape 4:3. No logos, names, readable financial data, HMRC marks, people identifiable as Clarentis employees, or proof documents. Clearly illustrative.

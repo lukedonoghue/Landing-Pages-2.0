@@ -62,6 +62,32 @@ class CommunityCoreTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn(json.loads(result.stdout)["status"], {"pass", "pass_with_warnings"})
 
+    def test_static_validator_catches_research_voice_in_collapsed_faq(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_clean_project(root)
+            for phrase in ("The published service list includes", "The <strong>published</strong> service range includes", "The official service range describes"):
+                with self.subTest(phrase=phrase):
+                    faq = f'<details><summary>Can you help?</summary><p>{phrase} bookkeeping.</p></details>'
+                    (root / "index.html").write_text(CLEAN_HTML.replace('</main>', faq + '</main>'), encoding="utf-8")
+                    result = self.run_script(VALIDATE, root)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertTrue(json.loads(result.stdout)["checks"]["research_voice_copy"])
+
+    def test_research_voice_check_preserves_prices_quotes_and_internal_notes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_clean_project(root)
+            content = '''<p>Published fees are indicative. We provide bookkeeping.</p>
+<blockquote>The published service range includes bookkeeping.</blockquote>
+<script>const sourceNote = "The published service range includes bookkeeping";</script>
+<template><p>The official service list includes bookkeeping.</p></template>'''
+            (root / "index.html").write_text(CLEAN_HTML.replace('</main>', content + '</main>'), encoding="utf-8")
+            (root / "research.md").write_text("The published service list includes bookkeeping.", encoding="utf-8")
+            result = self.run_script(VALIDATE, root)
+            self.assertEqual(result.returncode, 0, result.stdout)
+            self.assertEqual(json.loads(result.stdout)["checks"]["research_voice_copy"], [])
+
     def test_report_paths_are_relative_to_invocation_directory(self):
         with tempfile.TemporaryDirectory() as directory:
             workspace = Path(directory)
