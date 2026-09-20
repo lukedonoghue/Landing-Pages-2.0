@@ -43,6 +43,8 @@ The helper reads `<project>/build/brand.json` automatically, or an explicit `--b
 
 The same browser pass tabs through an open modal and checks the focused control against the pixels on top of it. Do not replace this with `.fill()`, direct focus or test-driven scrolling, which can hide sticky-footer obstruction. Review inline forms and later form steps the same way when they exist.
 
+Distinguish focus reaching an outside page control from a native browser-chrome transition. If `activeElement` is the body while `document.hasFocus()` is false, verify the next Tab returns inside the dialog and that outside controls still cannot receive focus before reporting an escape. Do not add a custom trap merely to prevent access to the browser's own controls.
+
 In the existing first-screen captures, check the displayed enquiry number's actual computed font size after breakpoint overrides: at least 14px, visible and readable near the top. The helper measures displayed telephone digits, including the 320px spot capture; custom browser checks must preserve that assertion. Presence and clickability do not establish readable size. A source with no public enquiry number remains a documented exception, not an invented number.
 
 Block on:
@@ -79,6 +81,8 @@ For each viewport, record specific observations for:
 
 Also compare the complete page with the reference hierarchy in `design-direction.md`. Blue Mountain is a structural benchmark, not a style target. Clean Slate is a minimum execution-quality benchmark, not a template to copy. Block a technically sound page when the full composition still reads as a legacy sales brochure, an enlarged logo palette, or an audience-inappropriate design. Fix the underlying type, palette proportions, spacing, imagery treatment, or repeated motifs and then recapture every affected viewport.
 
+While inspecting each image, compare its alt text and caption with the actual visible subject and setting, not only its filename or source-page topic.
+
 In this same review, apply `reference-fidelity.md` to the final copy and existing strategy coverage table. Block unanswered material buyer questions, unexplained removal of relevant evidence, or generic sentences counted as complete answers. Inspect phone discoverability near the top as well as the footer and explain any named contact as a first-time visitor would need. Technical or visual polish cannot compensate for an incomplete conversion argument.
 
 Review each used image with asset-specific evidence. For an overlaid hero, name its protected subject detail and inspect that detail at each width, not just whether the whole building or person is recognizable. A mobile-only repair does not clear desktop. Review every modal step and validation state that exists, including the exact visitor wording in success and failure. Keep research framing and future setup explanations out of that wording. If a brochure exists, review every rendered page using the catalogue workflow.
@@ -100,6 +104,8 @@ Before testing behavior, compare the final action with the source conversion con
 - Phone or email: actual `tel:` or `mailto:` destination and visible fallback.
 - Download: real file, correct type, readable content, and honest delivery wording.
 
+Read the rendered pending, failure and success messages during these same tests, not only their visibility booleans. Apply the build contract's plain visitor wording to every state; descriptions of receivers, adapters or test journeys belong in the owner handoff. After confirmation, remove stale form invitations and repeated notices, retaining the result, honest delivery status and useful next action. No extra capture round or fixed success-panel height is needed.
+
 Use synthetic local data. A direct thank-you visit, refresh, rejected action, or denied consent must not create a conversion. Do not submit a production lead without explicit permission.
 
 Exercise outcomes, not proxies: include whitespace-only required text and malformed contact input; inspect failure visibility at the real submit position before any test-driven focus or scroll. Then restore the local test adapter, retry the same filled form, and observe success with values preserved. To verify duplicate prevention, hold the first local request open, dispatch a second submit event, and assert exactly one receiver/adapter invocation. Clicking an already disabled button is not that test. Keep simulation results explicitly separate from backend delivery evidence.
@@ -119,6 +125,8 @@ For source forms, confirm that no public production endpoint was reused without 
 ## 5. Accessibility and performance gate
 
 Run an automated accessibility scan when available, then manually test keyboard order, visible focus, modal containment, zoom, labels, errors, reduced motion, and contrast. Automated tools do not replace these checks.
+
+Include existing navigation and FAQ disclosures in that keyboard pass. After Escape closes a mobile menu from one of its links, focus must return to the visible menu toggle; inspect expanded FAQ text for clipping or overlap.
 
 Run one local mobile Lighthouse pass before delivery. Target:
 

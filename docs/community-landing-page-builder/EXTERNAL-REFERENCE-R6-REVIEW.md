@@ -1,5 +1,7 @@
 # Garden Room attempt 6: parent review and reserve checkpoint
 
+Follow-up review is complete on 2026-09-21. See EXTERNAL-REFERENCE-R6-FINAL-REVIEW.md for the final verdict, resolved focus discrepancy, additional findings and source corrections. The checkpoint below is preserved as historical evidence, not current unfinished-review status.
+
 Reviewed 2026-09-20. **Not accepted as a clean first-run pass.** The independent builder completed its local final; parent targeted checks found a narrow-phone violation. Full fresh visual/editorial acceptance remains pending. Do not promote the builder's self-review to independent acceptance.
 
 ## Fixes preceded launch
