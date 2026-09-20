@@ -47,3 +47,9 @@ Record general and carryover verdicts separately. Do not mark Stayclean retroact
 See `EXTERNAL-REFERENCE-R1-REVIEW.md` and `evidence/external-reference-r1/`. Parent form reproduction passed 13 assertions. C01/C02/C03/C06/C07 inline behavior corrected; C05 usable input link passed but grouped-field variant N/A. C08 responsive derivatives and C10 actual image loads passed. C04/C09 remain open in the broader proof-placement sense: laptop copy still crosses glazing. C11 caught overbroad self-acceptance and incomplete saved source typography.
 
 Case-2-specific source fixes before attempt 2: name the protected hero feature and copy-safe area in the existing image plan; check intermediate laptop composition against that feature; avoid fine-print trust text; recover animated/below-fold source typography with bounded deterministic capture. Do not give this matrix or the audit to the next builder.
+
+### Attempt 2 launch
+
+Started 2026-09-20 at 14:42 Kyiv: Jason, `01a0be9f-f959-7ff0-88f4-83c1a2807c9f`, gpt-5.6-sol xhigh, fork_context=false. Source `9e6dbbd`, frozen 175 files, JSON sorted path/hash manifest SHA-256 `7117ccaf16d8ea62864f0339cfa30e3392ea2ef4e0f477a85bd7c59793f141d9`. Project directory verified empty. Same owner prompt with only run paths changed. No parent feedback or prior artifacts supplied. Both previous agents closed before launch. Usage: 36% used; stop remains 50%.
+
+Pre-freeze tests: 67 package and 23 script tests passed, ten existing five-viewport browser fixtures passed, new animated-heading/below-fold-prose fixture passed, and the corrected helper recovered actual source glyphs at both source widths. Skill metadata entrypoint was not changed; standalone `quick_validate.py` rerun was unavailable because both system and bundled Python lack PyYAML. Do not present that command as passed. The ordinary package tests still passed. Original README-BOHDAN.md verified unchanged against 1693490.
