@@ -46,3 +46,11 @@ Attempt 2 completed and independently audited; see IMAGE-GENERATION-R2-REVIEW.md
 ## Attempt 3 launch
 
 2026-09-20 19:26 Kyiv: Sagan `01a0bfa4-1023-7732-8a20-1803519480d6`, Sol 5.6 xhigh, `fork_context=false`. Same plain owner prompt, only run paths changed. Source `38148fd`, frozen 175 files, manifest `a0ac43864e0f96ba8ae696f6b6f2b8ecb06e3f728bae8515c1a00111eaaec692`. Output verified empty, no prior audit/context/repair instructions provided. Previous agents closed. Source and evidence pushed before launch; 69 package tests passed. Usage 56% used, absolute cap 70%. Inspect I2-P01 through I2-P04 plus previous disclosure and R5 carryovers in the parent audit; builder must not receive that list.
+
+Attempt 3 builder completed and reported two illustrative images, five viewport checks and Lighthouse 100 performance/accessibility. These are builder reports, not parent acceptance. It predates the new image relevance rule and the user's explicit four-image minimum. Preserve its artifacts; do not count it as validating those requirements. Builder closed before attempt 4.
+
+## Attempt 4 launch
+
+2026-09-20 19:55 Kyiv (16:55 UTC): Banach `01a0bfbe-2173-72c1-a5da-21d5cfdec024`, Sol 5.6 xhigh, `fork_context=false`. Source `83c6c13` includes relevance correction d342a3a and the user-requested minimum four distinct relevant content images, normally five to ten selected through research. Frozen 175 files, manifest SHA-256 `f7531a6501a2aac3e0dacb6ca0d381f5f2a84bf576ed08589059a6bb0ea7bf90`. New project verified empty before launch. Same plain owner prompt, only run paths changed. No old page, previous findings, parent conversation or repair coaching supplied. Shared-host filesystem boundaries remain instructed, not an OS sandbox. Previous builder closed; one builder active.
+
+Run: `work/community-acceptance-20260920/runs/image-generation-r4`. Prompt and manifest retained under `evidence/image-generation-r4/`. All 69 existing package tests passed; these do not establish visual or instruction-following acceptance. Last measured weekly usage 57% used, cap 70%. No Cloudflare/CRM/live lead work. The clarification about brochure versus page-capture PDFs remains unanswered; no new PDF default was silently selected for this run.
