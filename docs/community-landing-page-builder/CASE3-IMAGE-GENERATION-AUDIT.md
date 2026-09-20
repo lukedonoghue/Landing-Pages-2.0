@@ -2,6 +2,8 @@
 
 Orchestrator-only record. Never include this file, prior findings, prior outputs or a repair brief in the independent builder context.
 
+2026-09-20 user correction: attempt 2's studio picture fails service/adjacent-copy relevance. The prior reviewer classified that mismatch as taste; parent acceptance of that classification was wrong. See PDF-AND-IMAGE-RELEVANCE-CORRECTION.md for the prompt-level trace and optional-PDF scope error. Attempt 3 predates this source correction and cannot validate it. PDF coverage is untested, not passed.
+
 ## Launch
 
 2026-09-20 18:34 Kyiv: Bernoulli `01a0bf74-8593-7a33-8204-a3afdeb19e56`, Sol 5.6 xhigh, `fork_context=false`. Source commit `95665e6`, frozen 175-file skill, manifest SHA-256 `1cd8a17415c595ec8ae8c4bc00e20fc1d7de7bd5dba8890a53c796393fcf1c19` (JSON path/SHA pairs sorted with JS en localeCompare). Project verified empty before dispatch. All prior builders and reviewers are closed. No context fork or parent coaching. Filesystem isolation is instructed on a shared host, not an OS sandbox or separate account.
