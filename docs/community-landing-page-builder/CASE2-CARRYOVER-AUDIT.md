@@ -61,3 +61,9 @@ See `EXTERNAL-REFERENCE-R2-REVIEW.md`. The prior hero, trust-text and source-fon
 ### Attempt 3 launch
 
 Started 2026-09-20 at 15:20 Kyiv: Hubble, `01a0bec3-01a7-77e1-8e7b-8cf67071e348`, gpt-5.6-sol xhigh, fork_context=false. Frozen source `d8163be`, 175 files, manifest SHA-256 `6cd9eb20d2d0910c556cfd7c75ef324461dbf8bc8fbdbff16790ea3558be4621`. Output verified empty; identical owner prompt except paths. Previous builder/reviewer closed. No feedback or previous code supplied. Two narrowly scoped instruction paragraphs changed, no new helper or review round. The 67 package tests passed after the change. All previous artifacts and audits pushed to the separate community branch before launch.
+
+### Attempt 3 final result
+
+**Business 2 local acceptance passed.** See `EXTERNAL-REFERENCE-R3-REVIEW.md` and its separate parent/reviewer evidence. Parent 30 assertions and fresh five-viewport visual review pass. Previous hero, trust-text, source-font and desktop-validation failures are corrected in the untouched independent output. C01/C02/C03/C06/C07 lifecycle cases pass; C04/C08/C09/C10 pass for this page with explicitly accepted short-height crop. C05 input-link behavior passes but grouped-field branch remains N/A. C11 actual inspected acceptance now passes. Exact modal-close/reopen and required-group cases remain unproven; do not mark them globally fixed or accept Stayclean retrospectively.
+
+No more case-2 rebuilds are needed for the bounded result. Business 3, CRM and Cloudflare remain unstarted in this continuation. Both final agents were closed and parent restarted the unchanged loopback preview. Usage remained below the 50% ceiling (42% at the third-build audit start); final meter recorded in the final handoff.
