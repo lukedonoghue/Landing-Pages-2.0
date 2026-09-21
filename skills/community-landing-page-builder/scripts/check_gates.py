@@ -105,15 +105,17 @@ def local_journey_errors(root, report):
         return json.loads(resolve_inside(root,matches[0]['path']).read_text())
     try:
         proof=evidence('db_receipt');events=evidence('event_trace');trace=evidence('http_trace');dashboard=evidence('dashboard_result')
-        for key in ('lead_id','receipt_id','stored_receipt_id','visit_event_id'):UUID(proof[key])
+        for key in ('lead_id','receipt_id','stored_receipt_id'):UUID(proof[key])
+        measured=proof.get('visit_event_id') is not None
+        if measured:UUID(proof['visit_event_id'])
         if proof.get('evidence_source')!='authenticated-worker-api-backed-by-D1' or proof.get('database_id')!='local-D1' or proof['receipt_id']!=proof['stored_receipt_id']:
             errors.append('Local stored receipt is not correlated with the accepted lead')
         observed=report.get('observations',{})
         if any(observed.get(key)!=proof.get(key) for key in ('lead_id','receipt_id','stored_receipt_id','visit_event_id','database_id','evidence_source')):
             errors.append('Local report observations differ from the receipt artifact')
-        matched=[event for event in events if isinstance(event,dict) and event.get('event_id')==proof['visit_event_id'] and event.get('linked_lead_id')==proof['lead_id'] and all(event.get(key) is True for key in ('analytics_consent','valid_visitor_id','measured'))]
+        matched=[event for event in events if isinstance(event,dict) and event.get('event_id')==proof['visit_event_id'] and event.get('linked_lead_id')==proof['lead_id'] and all(event.get(key) is measured for key in ('analytics_consent','valid_visitor_id','measured'))]
         if not matched or matched[0].get('dimensions')!=dashboard.get('filters'):
-            errors.append('Local measured visit and dashboard cohort do not match the saved lead')
+            errors.append('Local visit policy and dashboard cohort do not match the saved lead')
         lead_path='/api/admin/leads/'+proof['lead_id']
         required=[('/api/leads','POST'),(lead_path,'GET'),(lead_path+'/notes','POST'),('/api/auth/logout','POST')]
         if any(not any(isinstance(row,dict) and row.get('path')==route and row.get('method')==method and row.get('status') in (200,201) for row in trace) for route,method in required):
@@ -126,8 +128,9 @@ def local_journey_errors(root, report):
         values=[before[key] for key in ('visitors','conversions','leads')]+[after[key] for key in ('visitors','conversions','leads','conversion_rate')]
         if any(isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or value<0 for value in values):
             raise ValueError('Local dashboard evidence has invalid measurements')
-        if any(after[key]<before[key]+1 for key in ('visitors','conversions','leads')) or after['conversions']>after['visitors']:
-            errors.append('Local dashboard did not gain the verified visit, conversion and lead')
+        cohort_ok=(all(after[key]>=before[key]+1 for key in ('visitors','conversions','leads')) if measured else after['visitors']==before['visitors'] and after['conversions']==before['conversions'] and after['leads']>=before['leads']+1)
+        if not cohort_ok or after['conversions']>after['visitors']:
+            errors.append('Local dashboard does not match the configured measurement policy and accepted lead')
         expected=after['conversions']/after['visitors']*100 if after['visitors'] else 0
         if abs(after['conversion_rate']-expected)>0.011:errors.append('Local conversion rate does not match its cohort')
     except (OSError,ValueError,KeyError,TypeError,AttributeError) as error:
