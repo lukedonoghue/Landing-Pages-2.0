@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "executed_at": "2026-09-21T09:45:37.667Z",
+  "target": "https://clarentis-demo-20260921-r1.shevabody.workers.dev",
+  "action": "rotate-password",
+  "synthetic": true,
+  "checks": [
+    {
+      "name": "retained_session_matches_target",
+      "passed": true
+    },
+    {
+      "name": "pre_rotation_session_revoked",
+      "passed": true,
+      "detail": "HTTP 401"
+    },
+    {
+      "name": "old_password_rejected",
+      "passed": true,
+      "detail": "HTTP 401"
+    },
+    {
+      "name": "new_password_login_accepted",
+      "passed": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "new_session_cookie_returned",
+      "passed": true
+    },
+    {
+      "name": "new_session_reaches_authenticated_account",
+      "passed": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "new_session_logout_accepted",
+      "passed": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "logged_out_new_session_rejected",
+      "passed": true,
+      "detail": "HTTP 401"
+    }
+  ],
+  "failures": [],
+  "completed_at": "2026-09-21T09:45:38.504Z",
+  "passwords_printed": false,
+  "old_password_retained_for_evidence": ".secrets/pre-rotation-production-admin-password.txt"
+}

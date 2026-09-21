@@ -31,7 +31,7 @@ Use a separate demonstration Worker and D1 database. Only clearly synthetic enqu
 
 ## Current Status
 
-Assisted continuation deployed at 09:31 UTC. The independent first pass produced the local page and local CRM evidence, but omitted formal release-readiness records. The parent audit and subsequent recovery are recorded in FULL-FUNNEL-R1-PARENT-AUDIT.md. Live login/logout and all 15 campaign/click-ID fields passed; final live stage/note/reporting and owner-recovery results are being collected. GTM/Ads destination IDs remain missing; this does not block the built-in CRM deployment.
+Assisted continuation deployed at 09:31 UTC and CRM/recovery verification completed at 09:45 UTC. The independent first pass produced the local page and local CRM evidence, but omitted formal release-readiness records. The parent audit and subsequent recovery are recorded in FULL-FUNNEL-R1-PARENT-AUDIT.md. Live form/storage, stage/note/reporting, login/logout, all 15 campaign/click-ID fields and actual owner password rotation passed. GTM/Ads destination IDs remain missing; this does not block the built-in CRM deployment.
 
 Usage at launch was 71% used; the next observed account-wide reading was 72% used. Source/evidence checkpoints remain on `community/pro-review-handoff-20260918`. Luke's original files and README are untouched.
 
@@ -66,3 +66,9 @@ Latest observed account-wide budget at this checkpoint: 78% used, 22% remaining.
 - Latest account-wide usage observed: 86% used, 14% remaining. No reset credit redeemed.
 
 This is an intervention-assisted demonstration, not a new independent first-pass acceptance or a launch-ready client page. No custom-domain/DNS operation or real advertising-container change was performed.
+
+## Final CRM Verification
+
+The guarded live journey passed 32 checks; all-field attribution passed 27; compact deployed CRM UI passed 20. Actual owner password rotation passed eight checks at 09:45 UTC: target match, old-session rejection, old-password rejection, new login, session issuance, authenticated access, logout and logged-out rejection. The first attempt was throttled with HTTP 429 because successive independent verifiers exhausted the eight-login/15-minute quota. This was retained as inconclusive, not treated as wrong-password evidence. The retry waited for the normal window; rate-limit records and protections were not changed. Canonical QA guidance now budgets authentication attempts across checks.
+
+Parent rechecked live health after recovery: the same expected version/release/fingerprint remains active and D1 connected. Final credential is only in the private local handoff, excluded from Git and the skill ZIP. No self-service email reset exists. Latest usage observed: 87% used, 13% remaining. Final canonical Python regression: 82 tests pass. No reset credit redeemed.
