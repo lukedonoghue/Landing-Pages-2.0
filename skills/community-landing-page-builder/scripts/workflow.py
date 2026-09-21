@@ -118,7 +118,8 @@ def record(root, kind, message, message_id, fixture=False, allow_test_lead=False
         if fixture and kind == 'publish': raise ValueError('Fixture approvals can never authorize publishing.')
         if kind == 'copy': current = copy_state(root)
         else:
-            copy_result = check_copy_approval(root)
+            config = read(root/'funnel.json')
+            copy_result = check_copy_approval(root) if config.get('approvals',{}).get('copy_before_design') else copy_state(root)
             if copy_result['status'] == 'blocked': raise ValueError('; '.join(copy_result['failures']))
             current = check_gates.check(root,'handoff',root/'build/gates.json')
         if current['status'] == 'blocked': raise ValueError('; '.join(current['failures']))

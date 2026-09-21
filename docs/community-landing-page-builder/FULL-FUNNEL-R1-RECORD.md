@@ -31,7 +31,7 @@ Use a separate demonstration Worker and D1 database. Only clearly synthetic enqu
 
 ## Current Status
 
-Assisted continuation in progress. The independent first pass produced the local page and local CRM evidence, but omitted formal release-readiness records. The parent audit and subsequent recovery are recorded in FULL-FUNNEL-R1-PARENT-AUDIT.md. No new deployment or live CRM success is claimed yet. GTM/Ads destination IDs remain missing; this does not block the built-in CRM deployment.
+Assisted continuation deployed at 09:31 UTC. The independent first pass produced the local page and local CRM evidence, but omitted formal release-readiness records. The parent audit and subsequent recovery are recorded in FULL-FUNNEL-R1-PARENT-AUDIT.md. Live login/logout and all 15 campaign/click-ID fields passed; final live stage/note/reporting and owner-recovery results are being collected. GTM/Ads destination IDs remain missing; this does not block the built-in CRM deployment.
 
 Usage at launch was 71% used; the next observed account-wide reading was 72% used. Source/evidence checkpoints remain on `community/pro-review-handoff-20260918`. Luke's original files and README are untouched.
 
@@ -50,3 +50,19 @@ Create only a new uniquely named Clarentis demo Worker and D1 database. No exist
 The canonical publishing guide explicitly reuses a selected valid connection. If disconnected, start one fresh Wrangler login and open its URL in the user's computer/system browser, not the Codex in-app browser; keep the localhost callback process running. Prior refused-connection and stale-state/CSRF failures remain documented. Credentials are excluded from this record and source checkpoint.
 
 Latest observed account-wide budget at this checkpoint: 78% used, 22% remaining. This is the deployment reserve authorized by the user's subsequent full-process request, not a new page-only testing budget.
+
+## Deployed Demo Checkpoint
+
+- Page: https://clarentis-demo-20260921-r1.shevabody.workers.dev/
+- Login: https://clarentis-demo-20260921-r1.shevabody.workers.dev/login
+- CRM: https://clarentis-demo-20260921-r1.shevabody.workers.dev/admin/
+- Worker: clarentis-demo-20260921-r1. D1: clarentis-demo-20260921-r1-crm, ff4b75ac-adea-4384-ae59-32b1b99743c9.
+- Deployment: c09ed6a7-e077-4d23-aa11-db7e9270482c. Version: 37bb6b61-e96a-4bd4-9d19-3bc8f729d016.
+- Release: 59a1278c-4fbe-4232-9c88-0c1f87bf30ac. Source fingerprint: ee193a80e8eb3d0adfc4493cb410282f81a131760fd1aec18166cca402c38e4a.
+- Parent independently fetched health and confirmed database connectivity and the exact version/release/fingerprint. Public page/login return 200; anonymous admin redirects to login and leads API returns 401.
+- Live attribution report: 27 passing checks, no failures, warning that email reset is not implemented. All nine supported UTM fields and six click identifiers match the stored lead. Synthetic receipt b4b7d833-accc-4759-ba0c-5e8597e2f57c, lead 124f333d-28d3-42e2-ba0c-38037afc04d2.
+- Configured regression: 201 tests pass, no failures/skips. Earlier unsupported-runtime failure is retained separately.
+- Evidence: acceptance/clarentis-full-funnel-r1/deployment/. Credentials and local databases are not in Git.
+- Latest account-wide usage observed: 86% used, 14% remaining. No reset credit redeemed.
+
+This is an intervention-assisted demonstration, not a new independent first-pass acceptance or a launch-ready client page. No custom-domain/DNS operation or real advertising-container change was performed.
