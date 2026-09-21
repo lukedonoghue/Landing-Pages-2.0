@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -10,6 +11,21 @@ CRITERIA = {
     'message_match', 'claim_support', 'outcome_and_mechanism', 'objection_coverage',
     'headline_story', 'voice_and_density', 'offer_consistency', 'reference_adaptation',
 }
+
+CUSTOMER_COPY_PATTERNS = (
+    (re.compile(r"\bthe page adds no unsupported\b", re.I), "editorial assurance belongs in the review, not customer copy"),
+    (re.compile(r"\bthe (?:published|official) (?:service (?:list|range)|onboarding (?:path|sequence)|process)\b", re.I), "source narration should be rewritten as direct buyer information"),
+)
+DEMO_CONTEXT = re.compile(r"\b(?:independent (?:demo|demonstration)|synthetic (?:details|enquiry|contact)|not commissioned)\b", re.I)
+DEMO_OPERATOR_PATTERNS = (
+    (re.compile(r"\boptional (?:advertising|analytics|tracking).{0,100}\bdisabled because no .{0,80}\b(?:GTM|advertising IDs?|consent provider)\b", re.I), "demo implementation status belongs in the owner handoff"),
+    (re.compile(r"\buse the protected CRM login to verify (?:the )?receipt\b", re.I), "demo CRM verification belongs in the owner handoff"),
+    (re.compile(r"\bremove the synthetic contact from the CRM\b", re.I), "demo cleanup belongs in the owner handoff"),
+    (re.compile(r"\bverify the same synthetic enquiry\b", re.I), "demo CRM verification belongs in the owner handoff"),
+    (re.compile(r"\btest the (?:complete )?enquiry(?:-to-CRM)? journey\b", re.I), "the demo action should describe a buyer outcome, not QA"),
+    (re.compile(r"\bdemo operator\b", re.I), "demo operator instructions belong in the owner handoff"),
+)
+DEMO_OPERATOR_CTA = re.compile(r"\b(?:test|verify)\b.{0,40}\b(?:demo|enquiry|form|journey|CRM)\b|\bQA\b", re.I)
 
 
 def read(path):
@@ -43,6 +59,29 @@ def text(path):
                 if key not in {'id', 'claim_ids', 'source_ids', 'notes', 'evidence', 'approved_asset'}:
                     yield from strings(item)
     return '\n'.join(strings(read(path)))
+
+
+def customer_copy_issues(path):
+    """Inspect the canonical customer wording itself, not reviewer declarations."""
+    corpus = text(path)
+    issues = []
+    for pattern, reason in CUSTOMER_COPY_PATTERNS:
+        for match in pattern.finditer(corpus):
+            issues.append(f'{reason}: {match.group(0)}')
+    demo_context = bool(DEMO_CONTEXT.search(corpus))
+    if demo_context:
+        for pattern, reason in DEMO_OPERATOR_PATTERNS:
+            for match in pattern.finditer(corpus):
+                issues.append(f'{reason}: {match.group(0)}')
+    if path.suffix == '.json':
+        value = read(path)
+        ctas = [('primary_cta', value.get('primary_cta'))]
+        ctas += [(f'sections/{index}/cta', section.get('cta'))
+                 for index, section in enumerate(value.get('sections', [])) if isinstance(section, dict)]
+        for location, cta in ctas:
+            if demo_context and isinstance(cta, str) and DEMO_OPERATOR_CTA.search(cta):
+                issues.append(f'{location} invites operator testing instead of a buyer outcome: {cta}')
+    return list(dict.fromkeys(issues))
 
 
 def nonempty(value):
@@ -83,6 +122,8 @@ def verify(root, snapshot_path, review_path):
         if digest(path) != row.get('sha256'):
             failures.append(f'Input changed after review preparation: {key}')
         corpora[key] = text(path)
+    copy_issues = customer_copy_issues(inside(root, inputs['copy']['path']))
+    failures.extend(f'Customer copy contamination: {issue}' for issue in copy_issues)
     reviewer = review.get('reviewer', {})
     if not isinstance(reviewer, dict) or reviewer.get('mode') not in {'independent', 'self_review'} or not nonempty(reviewer.get('identity')):
         failures.append('Record the actual reviewer identity and independent/self_review mode')
@@ -128,7 +169,7 @@ def verify(root, snapshot_path, review_path):
     return {
         'status': 'blocked' if failures else 'pass', 'failures': failures,
         'warnings': ['Review is self-review, not independent'] if isinstance(reviewer, dict) and reviewer.get('mode') == 'self_review' else [],
-        'limits': 'Validates current evidence and review completeness, not semantic truth, reviewer independence, conversion uplift or best possible copy.',
+        'limits': 'Validates current evidence, review completeness and bounded customer-copy anti-patterns; it does not prove semantic truth, reviewer independence, conversion uplift or best possible copy.',
     }
 
 

@@ -8,6 +8,7 @@ For a complete landing-page build, create a useful PDF by default. Research dete
 - Organize the document around the buyer's decisions, not a company-history template.
 - Use the actual cover or a verified page spread as the page preview.
 - Keep page copy in the canonical copy master before layout.
+- Keep the document useful to its reader. A necessary independent-demo disclosure can state provenance, fictional-data limits and no real-business routing in a compact note. Receipt checks, CRM cleanup, QA steps, GTM and consent setup are owner-handoff material, not brochure content.
 - Use available PDF/document tooling and embedded fonts with known rights.
 - Link the real locally hosted PDF visibly from the funnel. For a genuinely gated offer, verify its promised delivery from the confirmed success state. Never claim email delivery unless configured and tested.
 - Keep actionable PDF links within the funnel, apart from appropriate phone/email or required third-party conversion destinations. Do not link back to the main business website. Research citations belong in owner notes.
@@ -22,6 +23,7 @@ Classify every image before layout.
 - Do not place text over a face or the subject needed to understand the photo.
 - Do not enlarge portraits until heads, hands, or meaningful context are clipped.
 - Do not use `cover` behavior for information-bearing figures.
+- Reusing a page photograph inside the guide can be intentional. A rendered cover or composite that contains that photograph remains the same source original and cannot earn another on-page original in the image minimum.
 
 ## Required render review
 

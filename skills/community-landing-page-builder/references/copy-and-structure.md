@@ -52,6 +52,7 @@ Record a compact edit note beside the master or in the existing editorial review
 - Keep technical vocabulary that the actual buyer uses. Simplify syntax, not evidence.
 - Keep paragraphs short and bullets concrete. Remove a bullet that merely restates the heading.
 - Give each section a distinct buyer decision or supporting reason. A service catalogue followed by the same catalogue under a benefit heading is repetition, not added depth. Use supported delivery/communication advantages, add different evidence, or merge the repeated section; do not invent differentiation.
+- In an uncommissioned demo, keep a compact disclosure and fictional-data warning, then return to the buyer's decision. Put research narration, tracking/consent configuration, CRM verification, cleanup and QA instructions in review evidence or owner handoff, including when writing the PDF.
 - Apply this to the first post-hero strip too: add a sourced decision aid rather than restating every hero promise. Preserve a material source-first-screen qualification or price cue near the offer when it helps buyers assess fit, with its scope and conditions intact. If omitted or moved down, record the buyer-focused reason; do not invent prices or proof to fill the strip.
 - Use urgency or scarcity only when a verifiable deadline, capacity, or availability constraint exists.
 - Avoid unsupported superlatives and effortless-outcome promises.
@@ -60,7 +61,7 @@ Record a compact edit note beside the master or in the existing editorial review
 
 ## Primary action
 
-The CTA must name the real next step. All controls opening the same primary journey use its exact label; do not rename a full quote form as a postcode checker or another narrower action. A visitor should not have to infer what happens.
+The CTA must name the real next step. All controls opening the same primary journey use its exact label; do not rename a full quote form as a postcode checker or another narrower action. A visitor should not have to infer what happens. A demo CTA should name the buyer action being demonstrated, with its independent-demo boundary nearby; `test`, `verify`, `QA` and `open the CRM` are operator tasks, not primary offers.
 
 For a form-led offer, every form-entry CTA opens the same popup without moving the visitor to another page section. An inline form may supplement it when justified in research. Navigation links can scroll to content; enquiry CTAs cannot. Show a verified public service/enquiry phone number near the top and at final contact, visually secondary to the form action. Secondary means lower emphasis, not buried. Do not introduce an unexplained first name at the point of contact: identify the person's verified relationship to the business, or use `Call the team` with the number. Never invent a role.
 

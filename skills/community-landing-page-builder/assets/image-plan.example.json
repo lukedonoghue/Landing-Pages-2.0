@@ -1,5 +1,6 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
+  "minimum_distinct_content_originals": 4,
   "client_website": "https://client.example",
   "allowed_hosts": ["client.example"],
   "generation_budget": {
@@ -21,6 +22,8 @@
       "purpose": "Show the real service and setting described in the approved headline",
       "role": "Primary service photograph; above the fold",
       "trust_class": "client-proof",
+      "source_original_ids": ["hero-client-project"],
+      "counts_toward_content_minimum": true,
       "required": true,
       "allow_generation": false,
       "alt": "Replace with a factual description of the actual supplied image",
@@ -37,6 +40,8 @@
       "purpose": "Explain the service process without depicting an actual client result",
       "role": "Supporting editorial illustration",
       "trust_class": "illustrative",
+      "source_original_ids": ["service-process-illustration"],
+      "counts_toward_content_minimum": true,
       "required": false,
       "allow_generation": true,
       "generation": {

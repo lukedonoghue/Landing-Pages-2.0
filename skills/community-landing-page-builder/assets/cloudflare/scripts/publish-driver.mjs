@@ -202,7 +202,12 @@ export async function publish(root,args,runtime={}) {
     } else sameReleaseIdentity(identity,read(path.join(out,'identity.json')));
     persist('verification_started',{attempt,resumed_journey:resumeJourney});
     const verifyArgs={url,'allow-remote':true,fixture:path.join(packageRoot,state.fixture),'project-root':packageRoot,snapshot:'build/live/snapshot.json',out,'deployment-record':path.join(out,'identity.json'),identity:path.join(out,'identity.json')};
-    if(login){Object.assign(verifyArgs,login.options,{'allow-test-lead':true});}
+    if(login){
+      Object.assign(verifyArgs,login.options,{'allow-test-lead':true});
+      // The frozen allow_test_lead approval uses the documented bounded scope: a new
+      // journey soft-removes its own contact; a resume keeps its sealed cleanup scope.
+      if(!resumeJourney || checkpoint.binding?.cleanup_test_lead===true)verifyArgs['cleanup-test-lead']=true;
+    }
     else verifyArgs['read-only']=true;
     if(resumeJourney)verifyArgs['resume-journey']=true;
     const result=await (runtime.verify||runLiveVerify)(verifyArgs,{env:{...process.env,ADMIN_USERNAME:login?.auth.username},fetch:fetcher});

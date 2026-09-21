@@ -9,7 +9,7 @@ import { createRequire } from 'node:module';
 import { readRenderedFonts } from './rendered_fonts.mjs';
 import { inspectModalChrome } from './modal_chrome.mjs';
 
-const VERSION = '1.1.0';
+const VERSION = '1.2.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const i = argv.indexOf(`--${name}`);
@@ -164,6 +164,17 @@ async function measure(page) {
     }).slice(0, 30).map((el) => ({ selector: describe(el), box: box(el), overflowX: getComputedStyle(el).overflowX }));
     const sample = el => el ? { selector: describe(el), text: el.textContent.trim().replace(/\s+/g, ' ').slice(0, 180), fontFamily: getComputedStyle(el).fontFamily } : null;
     const hero = document.querySelector('h1')?.closest('[data-hero],.hero,section');
+    const explicitHeroMedia = hero ? [...hero.querySelectorAll('[data-primary-media]')] : [];
+    const heroMediaElements = explicitHeroMedia.length ? explicitHeroMedia : (hero ? [...hero.querySelectorAll('img,video')] : []);
+    const mediaPainted = (element) => {
+      if (!visible(element)) return false;
+      if (element.tagName === 'IMG') return element.complete && element.naturalWidth > 0;
+      if (element.tagName === 'VIDEO') return element.readyState >= 1 || Boolean(element.poster);
+      const style = getComputedStyle(element);
+      return style.backgroundImage !== 'none' || [...element.querySelectorAll('img,video,canvas')].some(visible);
+    };
+    const heroMedia = { declared: heroMediaElements.length, visible: heroMediaElements.filter(mediaPainted).length,
+      items: heroMediaElements.map((media) => ({ selector: describe(media), src: media.currentSrc || media.src || getComputedStyle(media).backgroundImage, visible: mediaPainted(media) })) };
     let next = hero?.nextElementSibling;
     while (next && !visible(next)) next = next.nextElementSibling;
     const nextText = next && [...next.querySelectorAll('h2,h3,p,li,span')].filter(visible).find(el => el.textContent.trim());
@@ -171,6 +182,7 @@ async function measure(page) {
     return { pageWidth: document.documentElement.scrollWidth, viewportWidth: innerWidth, viewportHeight: innerHeight,
       typography: { heading: sample(document.querySelector('h1')), body: sample([...document.querySelectorAll('main p,article p,p')].filter(visible).find(el => el.textContent.trim().length >= 60 && getComputedStyle(el).textTransform !== 'uppercase')) },
       continuation: next ? { visibleText: Boolean(nextBox && nextBox.top + Math.min(nextBox.height, 24) <= innerHeight), selector: nextText ? describe(nextText) : null } : null,
+      heroMedia,
       overflow, headings, images, ctas, fontStatus: document.fonts.status,
       loadedFonts: [...document.fonts].map((font) => ({ family: font.family, style: font.style, weight: font.weight, status: font.status })),
       links: [...document.querySelectorAll('a[href]')].map((a) => ({ text: a.textContent.trim(), href: a.href })) };
@@ -272,6 +284,7 @@ try {
     check('explicit_image_ratio_matches_layout', landing.images.every(img => !img.ratioMismatch), JSON.stringify(landing.images.filter(img => img.ratioMismatch)), { viewport });
     check('content_images_not_cover_cropped', landing.images.every(img => !img.contentBearing || img.objectFit !== 'cover'), 'Information-bearing images are not cover-cropped', { viewport });
     if (landing.continuation) check('hero_reveals_following_content', landing.continuation.visibleText, JSON.stringify(landing.continuation), { viewport });
+    if (landing.heroMedia.declared) check('hero_media_visible', landing.heroMedia.visible > 0, JSON.stringify(landing.heroMedia), { viewport });
     if (funnel.client?.phone_display) {
       const contact = await page.evaluate(phone => {
         const digits = value => value.replace(/\D/g, '');

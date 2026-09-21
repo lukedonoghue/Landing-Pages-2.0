@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url';
 import { readRenderedFonts } from './rendered_fonts.mjs';
 import { inspectModalChrome } from './modal_chrome.mjs';
 
-const VERSION = '1.9.0';
+const VERSION = '1.10.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -203,6 +203,20 @@ async function measure(page) {
     const primary = primaryElements.map((element) => ({ selector: describe(element), text: element.textContent.trim(), box: rect(element), unobscured: unobscured(element) }));
 
     const hero = document.querySelector('h1')?.closest('[data-hero], .hero, section');
+    const explicitHeroMedia = hero ? [...hero.querySelectorAll('[data-primary-media]')] : [];
+    const heroMediaElements = explicitHeroMedia.length ? explicitHeroMedia : (hero ? [...hero.querySelectorAll('img,video')] : []);
+    const mediaPainted = (element) => {
+      if (!visible(element)) return false;
+      if (element.tagName === 'IMG') return element.complete && element.naturalWidth > 0;
+      if (element.tagName === 'VIDEO') return element.readyState >= 1 || Boolean(element.poster);
+      const style = getComputedStyle(element);
+      return style.backgroundImage !== 'none' || [...element.querySelectorAll('img,video,canvas')].some(visible);
+    };
+    const heroMedia = {
+      declared: heroMediaElements.length,
+      visible: heroMediaElements.filter(mediaPainted).length,
+      items: heroMediaElements.map((media) => ({ selector: describe(media), src: media.currentSrc || media.src || getComputedStyle(media).backgroundImage, visible: mediaPainted(media) })),
+    };
     let following = hero?.nextElementSibling;
     while (following && !visible(following)) following = following.nextElementSibling;
     const heroContinuation = hero && following ? {
@@ -311,6 +325,7 @@ async function measure(page) {
       images,
       primary,
       heroContinuation,
+      heroMedia,
       primaryDeclared: [...document.querySelectorAll('[data-primary-action]')].length,
       overflow,
       overlayConflicts,
@@ -496,6 +511,9 @@ try {
     } else {
       warn(`${name}: hero continuation not identifiable; verify the following content in the first viewport manually`);
     }
+    if (metrics.heroMedia.declared) {
+      check('hero_media_visible', metrics.heroMedia.visible > 0, JSON.stringify(metrics.heroMedia), { viewport });
+    }
     check('images_loaded', metrics.images.every((image) => image.loaded), 'Every rendered image decoded', { viewport });
     check('explicit_image_ratio_matches_layout', metrics.images.every(image => !image.ratioMismatch),
       JSON.stringify(metrics.images.filter(image => image.ratioMismatch)), { viewport });
@@ -524,7 +542,11 @@ try {
       await page.setViewportSize(narrow);
       await page.evaluate(() => scrollTo(0, 0));
       const screenshot = await addShot(page, '320x700-first', false);
-      report.narrowSpot = { ...narrow, screenshot, phones: await inspectDisplayedPhone(page, narrow), modal: await inspectModal(page, narrow, '320x700') };
+      const narrowMetrics = await measure(page);
+      if (narrowMetrics.heroMedia.declared) {
+        check('hero_media_visible', narrowMetrics.heroMedia.visible > 0, JSON.stringify(narrowMetrics.heroMedia), { viewport: narrow, screenshot });
+      }
+      report.narrowSpot = { ...narrow, screenshot, heroMedia: narrowMetrics.heroMedia, phones: await inspectDisplayedPhone(page, narrow), modal: await inspectModal(page, narrow, '320x700') };
     }
     await context.close();
   }

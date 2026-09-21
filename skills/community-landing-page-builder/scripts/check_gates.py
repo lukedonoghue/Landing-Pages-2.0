@@ -258,6 +258,34 @@ def validate_report(root, report, snapshot, gate):
     elif gate == 'visual':
         if 'screenshot' not in kinds or not report.get('reviewer') or not report.get('observations'):
             errors.append('Visual evidence requires reviewer, specific observations, and screenshots')
+        provenance = report.get('review_provenance', {})
+        mode = provenance.get('mode') if isinstance(provenance, dict) else None
+        required = ('reviewer_identity', 'reviewer_task_id', 'builder_identity', 'builder_task_id')
+        if mode not in {'independent', 'self_review'} or any(not isinstance(provenance.get(key), str) or not provenance[key].strip() for key in required):
+            errors.append('Visual acceptance must disclose independent/self_review mode and reviewer/builder task provenance')
+        elif mode == 'independent' and provenance['reviewer_task_id'] == provenance['builder_task_id']:
+            errors.append('Independent visual acceptance requires a separate reviewer task; a second pass in the builder task is self_review')
+        elif mode == 'self_review' and provenance['reviewer_task_id'] != provenance['builder_task_id']:
+            errors.append('Self-review provenance must identify the same builder task')
+        if report.get('reviewed_source_fingerprint') != snapshot['source_fingerprint']:
+            errors.append('Visual acceptance must name the exact reviewed source fingerprint')
+        findings, retests = report.get('findings'), report.get('retests')
+        if not isinstance(findings, list) or not isinstance(retests, list):
+            errors.append('Visual acceptance must include findings and retests lists in the existing report')
+        else:
+            finding_ids = set()
+            for finding in findings:
+                if not isinstance(finding, dict) or not finding.get('id') or not finding.get('finding') or not finding.get('evidence') or finding.get('disposition') not in {'fixed', 'accepted_limit', 'blocked', 'no_change'}:
+                    errors.append('Each visual finding needs id, concrete finding, evidence and truthful disposition')
+                    continue
+                finding_ids.add(finding['id'])
+            retest_ids = {row.get('finding_id') for row in retests if isinstance(row, dict) and row.get('result') == 'pass' and row.get('evidence')}
+            if any(finding.get('disposition') == 'fixed' and finding.get('id') not in retest_ids for finding in findings if isinstance(finding, dict)):
+                errors.append('Every fixed visual finding needs a passing evidence-backed retest')
+            if any(isinstance(row, dict) and row.get('finding_id') not in finding_ids for row in retests):
+                errors.append('Visual retests must refer to a recorded finding')
+        if not isinstance(report.get('limits'), list):
+            errors.append('Visual acceptance must state unresolved limits')
     elif gate == 'catalogue':
         count = report.get('page_count', 0)
         if not isinstance(count, int) or count < 1 or report.get('reviewed_pages', []) != list(range(1, count + 1)):

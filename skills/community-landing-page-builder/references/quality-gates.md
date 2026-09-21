@@ -29,7 +29,7 @@ Serve the project over local HTTP. Test at least:
 - 1280 x 600 short-height laptop;
 - 1440 x 900 desktop.
 
-For a text-heavy stacked mobile hero, add one 320 x 700 first-screen spot capture to this pass. Check readable continuation and useful image scale, not only horizontal overflow; this does not require another full interaction matrix or report. Do not meet a fold target by hiding action-destination explanations, offer qualifiers or necessary disclosures at narrow widths. Shorten or redistribute supporting copy and spacing while preserving the information needed to decide or act. Inspect that content at the smallest breakpoint, not just its presence in the HTML.
+For a text-heavy stacked mobile hero, add one 320 x 700 first-screen spot capture to this pass. Check readable continuation and useful image scale, not only horizontal overflow; this does not require another full interaction matrix or report. Mark the primary hero image, video or background-media container with `data-primary-media`; do not misuse image truth roles to remove it from QA. Planned hero media must remain visibly painted at 320, mobile, tablet, laptop and desktop widths. Do not meet a fold target by hiding primary imagery, action-destination explanations, offer qualifiers or necessary disclosures. Resize or reorder media, shorten supporting copy, and redistribute spacing while preserving the information needed to decide or act. Inspect that content at the smallest breakpoint, not just its presence in the HTML.
 
 Use `scripts/measure_page.mjs` when Playwright is available:
 
@@ -54,6 +54,7 @@ Block on:
 - horizontal overflow, missing images, serious console or network errors;
 - primary form action not visible or unobscured at 1280 x 600;
 - the hero hiding all following content below the first viewport on mobile, tablet or desktop;
+- planned hero media present in the DOM but hidden at any reviewed breakpoint;
 - consent, chat, or fixed UI covering the H1, primary CTA, form action, legal links, or final content;
 - a content-bearing image cropped with `cover` or missing labels;
 - copy physically overlapping an information-bearing image;
@@ -112,7 +113,7 @@ Before testing behavior, compare the final action with the source conversion con
 
 Read the rendered pending, failure and success messages during these same tests, not only their visibility booleans. Apply the build contract's plain visitor wording to every state; descriptions of receivers, adapters or test journeys belong in the owner handoff. After confirmation, remove stale form invitations and repeated notices, retaining the result, honest delivery status and useful next action. No extra capture round or fixed success-panel height is needed.
 
-Use synthetic local data. A direct thank-you visit, refresh, rejected action, or denied consent must not create a conversion. Do not submit a production lead without explicit permission.
+Use synthetic local data. A direct thank-you visit, refresh, rejected action, or denied consent must not create a conversion. The initial form must not display failure, interrupted-submission or unknown-result copy. Capture that wording only after exercising its actual failure or uncertain state, then prove retry behavior. Do not submit a production lead without explicit permission.
 
 Exercise outcomes, not proxies: include whitespace-only required text and malformed contact input; inspect failure visibility at the real submit position before any test-driven focus or scroll. Then restore the local test adapter, retry the same filled form, and observe success with values preserved. To verify duplicate prevention, hold the first local request open, dispatch a second submit event, and assert exactly one receiver/adapter invocation. Clicking an already disabled button is not that test. Keep simulation results explicitly separate from backend delivery evidence.
 
@@ -159,6 +160,8 @@ Unthrottled local PerformanceObserver timings are diagnostics, not a Lighthouse 
 After all fixes, review the final outputs from the beginning without relying on earlier pass labels. Check once whether a fresh-context reviewer is available in the current tools. If available, give it only the skill and final page artifacts, not the builder's QA conclusions, and ask for one critical visual review. Verify findings against the current pixels or behavior before changing code; reject stale or unsupported findings. Fix confirmed issues and recapture affected states. A second independent review is needed only after substantial redesign, not for every small correction. This is a short review of the existing build, not another build or research run.
 
 If no independent reviewer is available, reopen the raw viewport captures and full-page sections at readable size, concentrating on subject/CTA collisions and adjacent text before writing acceptance prose. State that this was self-review; a second paragraph by the same builder is not independent evidence. Do not install an external service or require an account to obtain a reviewer.
+
+Use the existing visual acceptance report, not a second report. Its compact provenance must name `independent` or `self_review`, reviewer identity/task, builder identity/task, and the exact reviewed source fingerprint. Independent mode requires a different reviewer task. Record findings and retests in that same artifact; every finding marked fixed needs a passing retest tied to current evidence.
 
 The acceptance report must include:
 
