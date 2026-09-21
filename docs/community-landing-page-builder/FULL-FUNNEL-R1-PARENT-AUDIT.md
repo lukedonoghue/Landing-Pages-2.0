@@ -4,6 +4,8 @@ Date: 2026-09-21. Independent builder: gpt-5.6-sol xhigh, no forked conversation
 
 ## Verdict
 
+Final CRM update, 09:47 UTC: the deployed CRM's form/storage/stage/note/reporting journey, all 15 attribution values, compact UI and actual owner password rotation all passed. The parent independently confirmed unchanged release identity and healthy D1 after rotation. This closes the requested disposable CRM/deployment test, not the unresolved PDF/page-design, two-host custom-domain, email-reset or account-side advertising work. The first recovery verification received HTTP 429; a bounded retry after the normal cooldown passed, without altering rate limiting.
+
 Latest update, 09:33 UTC: the assisted demo is now deployed. Parent read-only checks independently confirm connected live D1, expected release/version/fingerprint, public login and protected CRM boundaries. The live owner/attribution report confirms all 15 fields, login and logout. See FULL-FUNNEL-R1-RECORD.md for URLs and exact identifiers. Remaining page-quality findings and missing advertising destinations are not cleared by deployment.
 
 Update at 09:20 UTC: the assisted continuation now has all nine local revision-bound gates recorded without failures, with explicit demo warnings. The supported-runtime regression passed 200/200 tests. The selected connected Cloudflare account and disposable synthetic-contact scope are authorized; remote deployment is still pending confirmation. The earlier findings below describe the initial independent run and must not be mistaken for the current assisted state.
