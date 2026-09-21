@@ -4,6 +4,8 @@ Date: 2026-09-21. Independent builder: gpt-5.6-sol xhigh, no forked conversation
 
 ## Verdict
 
+Update at 09:20 UTC: the assisted continuation now has all nine local revision-bound gates recorded without failures, with explicit demo warnings. The supported-runtime regression passed 200/200 tests. The selected connected Cloudflare account and disposable synthetic-contact scope are authorized; remote deployment is still pending confirmation. The earlier findings below describe the initial independent run and must not be mistaken for the current assisted state.
+
 The local Worker/D1 CRM journey is evidenced. The page is not fully visually accepted, not deployed, and not proven publish-ready. GTM import and enhanced-conversion delivery remain pending real destination inputs. Do not turn the builder's automated passes into an end-to-end success claim.
 
 The user explicitly requested continuing this demo through CRM/deployment while saving the new PDF/default and main-site-exit corrections for the next fresh build. Those changes do not retroactively clear this run.
@@ -57,3 +59,13 @@ Two deterministic source defects were also reproduced and fixed in the canonical
 Canonical tests after these changes: 76 Python package tests pass; the focused Node publishing-preflight regression passes. The generated project's 193-test run is separate evidence, not a claim that the new canonical source has passed a new independent full build.
 
 At 07:59 UTC the parent requested a coached recovery to assemble genuine missing local workflow evidence without page redesign or remote writes. The parent supplied its actual remaining visual findings and prohibited claiming them passed. Any resulting continuation is intervention-assisted, not the untouched first-run acceptance. The original frozen skill and page are preserved. Account selection and privacy/Ads details remain unresolved.
+
+## Assisted CRM Integration, 09:20 UTC
+
+The user subsequently authorized the connected Cloudflare account and synthetic disposable-demo contacts. The frozen skill remains unchanged. The generated project received the documented canonical attribution/UI fixes and minimal consent/copy repairs, so the earlier statement that its page is entirely unchanged no longer applies to this assisted continuation. GTM destination IDs and an owned custom domain remain unsupplied.
+
+The lead list now shows Contact, Phone, Stage, Source and Received. Full answers and exact campaign identifiers are in expandable submission details. All nine supported UTMs and six click IDs persisted through a real local submission and authenticated Worker API retrieval: utm_source, utm_medium, utm_campaign, utm_id, utm_term, utm_content, utm_source_platform, utm_creative_format, utm_marketing_tactic, gclid, dclid, gbraid, wbraid, fbclid and msclkid. Unknown query parameters are deliberately excluded to avoid collecting arbitrary personal data. Consent and opt-outs remain enforced.
+
+Evidence: `build/owner-attribution-verification.json`, executed 09:17 UTC against localhost:8899, has 27 passing checks and no failures. It verifies separate login, invalid-password rejection, authenticated login, logout revocation and persisted identifiers. It explicitly reports no interactive/email forgot-password endpoint; owner-assisted CLI recovery is a different feature. Local lead a48224b1-6073-4da7-9aa9-34f9a5342a33 matches receipt 49c49647-7e18-4a61-8d76-b67c62b833ea. These are not remote deployment evidence.
+
+The first final Node suite used an unsupported inherited npm runtime and failed four tests. The supported-runtime rerun (`regression-final-supported.tap`) passed 200/200, zero skips. Canonical instructions now require setting PATH for npm and child processes, not merely using an absolute Node executable for one command. The native-image exact-model contradiction and bounded scroll-reachable copy-capture repair are separately recorded source fixes. None converts this into an unaided first-pass success.
