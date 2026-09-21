@@ -85,9 +85,12 @@ export function initUsersPanel(host, { request, currentUser }) {
       const row = make('tr');
       const identity = make('td'); identity.append(make('strong', account.username || 'Pending user'));
       if (account.id === currentUser?.id) identity.append(make('span', 'You', 'user-you'));
-      const emailCell = make('td'); emailCell.append(document.createTextNode(account.email || '-'));
+      const emailCell = make('td'); const invited = ['invited', 'pending'].includes(account.status);
+      const emailInput = invited ? make('input') : null;
+      if (emailInput) { emailInput.type = 'email'; emailInput.value = account.email || ''; emailInput.required = true; emailInput.maxLength = 254; emailInput.setAttribute('aria-label', `Email for ${account.username}`); emailCell.append(emailInput); }
+      else emailCell.append(document.createTextNode(account.email || '-'));
       if (account.email_verified_at) emailCell.append(make('span', 'Verified', 'user-verified'));
-      const immutable = account.id === 'owner' || account.id === currentUser?.id; const invited = ['invited', 'pending'].includes(account.status);
+      const immutable = account.id === 'owner' || account.id === currentUser?.id;
       const roleCell = make('td'); const roleSelect = make('select'); roleSelect.setAttribute('aria-label', `Role for ${account.username}`);
       for (const value of ['admin', 'manager', 'viewer']) { const option = make('option', roleLabel(value)); option.value = value; roleSelect.append(option); }
       roleSelect.value = account.role; roleSelect.disabled = immutable; roleCell.append(roleSelect);
@@ -98,7 +101,7 @@ export function initUsersPanel(host, { request, currentUser }) {
       const actions = make('td'); const actionGroup = make('div', undefined, 'user-actions');
       if (!immutable) {
         const save = make('button', 'Save', 'button secondary'); save.type = 'button';
-        save.addEventListener('click', () => run(save, () => request(`/api/admin/users/${encodeURIComponent(account.id)}`, { method: 'PATCH', body: JSON.stringify({ role: roleSelect.value, ...(invited ? {} : {status:statusSelect.value}) }) }), invited ? 'Role updated. Resend the invitation to issue a current link.' : 'User access updated.'));
+        save.addEventListener('click', () => run(save, () => request(`/api/admin/users/${encodeURIComponent(account.id)}`, { method: 'PATCH', body: JSON.stringify({ role: roleSelect.value, ...(invited ? {email:emailInput.value.trim()} : {status:statusSelect.value}) }) }), invited ? 'Invitation corrected. Resend it to issue a current link.' : 'User access updated.'));
         actionGroup.append(save);
         if (invited) {
           const disable = make('button', 'Disable', 'text-button'); disable.type = 'button';

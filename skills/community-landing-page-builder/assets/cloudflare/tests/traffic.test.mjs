@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { classifyDevice, classifyTraffic, eventId, normalizeTrafficFilters, normalizeVisitAttribution } from '../src/traffic.js';
+import { serializeLead } from '../src/repository.js';
 
 test('click identifiers and explicit media classify traffic without treating every Meta click as paid', () => {
   for (const key of ['gclid', 'dclid', 'gbraid', 'wbraid']) assert.deepEqual(classifyTraffic({ [key]: 'click', utm_source: 'email' }), { traffic_source: 'google', traffic_type: 'paid' });
@@ -18,6 +19,14 @@ test('visit normalization preserves supported campaign extensions and rejects UR
   const tags = {utm_id:'campaign',utm_source_platform:'platform',utm_creative_format:'format',utm_marketing_tactic:'tactic',dclid:'display-click',ttclid:'tiktok-click'};
   assert.deepEqual(normalizeVisitAttribution({...tags,email:'private@example.invalid',utm_private:'discard'}),tags);
   assert.throws(() => normalizeVisitAttribution({utm_id:'x'.repeat(513)}));
+});
+test('CRM serialization preserves distinct full first/latest touches and returns latest direct fields',()=>{
+  const keys=['utm_source','utm_medium','utm_campaign','utm_id','utm_term','utm_content','utm_source_platform','utm_creative_format','utm_marketing_tactic','gclid','dclid','gbraid','wbraid','fbclid','msclkid','ttclid'];
+  const first=Object.fromEntries(keys.map(key=>[key,`first-${key}`])),latest=Object.fromEntries(keys.map(key=>[key,`latest-${key}`]));latest.utm_source='email';
+  const lead=serializeLead({id:'synthetic',payload_hash:'private',idempotency_key:'private',visitor_hash:null,deleted_at:null,form_data:'{}',attribution:JSON.stringify({first_touch:{...first},latest_touch:{...latest}}),source:'',referrer:''});
+  for(const [key,value] of Object.entries(first))assert.equal(lead.attribution.first_touch[key],value);
+  for(const [key,value] of Object.entries(latest)){assert.equal(lead.attribution.latest_touch[key],value);assert.equal(lead[key],value);}
+  assert.equal(lead.source,'email');assert.equal('payload_hash' in lead,false);assert.equal('visitor_hash' in lead,false);
 });
 test('referrer matching uses exact domains and known search referrers are organic only without paid evidence', () => {
   for (const hostname of ['google.com', 'www.google.com', 'google.co.uk', 'www.google.co.uk', 'images.google.com']) assert.deepEqual(classifyTraffic({}, `https://${hostname}/search`), { traffic_source: 'google', traffic_type: 'organic' });

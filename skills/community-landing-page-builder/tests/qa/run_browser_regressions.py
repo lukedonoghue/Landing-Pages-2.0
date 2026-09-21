@@ -32,9 +32,12 @@ def main():
     out = args.out or Path(tempfile.mkdtemp(prefix='funnel-browser-regression-'))
     out.mkdir(parents=True, exist_ok=True)
     results = []
-    for kind in ['neutral', 'broken']:
+    for kind in ['neutral', 'broken', 'contract-broken']:
         root = out / kind
         shutil.copytree(Path(__file__).parent / 'neutral', root, dirs_exist_ok=True)
+        page = root / 'index.html'
+        page.write_text(page.read_text().replace('A neutral fixture for testing the browser harness.',
+            'A neutral local service fixture with a clear consultation process and a written project quotation.'))
         if kind == 'broken':
             path = root / 'index.html'
             path.write_text(path.read_text() + '<style>main{width:1900px;max-width:none}body{min-width:1900px}</style><img src="/missing-image.png" width="100" height="100" alt="Broken fixture">')
@@ -42,6 +45,16 @@ def main():
         thread = Thread(target=server.serve_forever, daemon=True)
         thread.start()
         try:
+            extraction = subprocess.run([args.node, str(skill / 'scripts/extract_brand.mjs'),
+                f'http://127.0.0.1:{server.server_port}/', '--out', str(root / 'build/brand.json'),
+                '--playwright-module', args.playwright_module, '--browser-executable', args.browser_executable],
+                capture_output=True, text=True, timeout=90)
+            assert extraction.returncode == 0, extraction.stdout + extraction.stderr
+            if kind == 'contract-broken':
+                page.write_text(page.read_text() + '<style>h1{font-family:Georgia,serif}.ratio-fixture{width:200px;aspect-ratio:4/3;object-fit:cover}'
+                    '#dialog{position:relative}[data-close-modal]{position:absolute;top:24px;left:24px}</style>'
+                    '<img class="ratio-fixture" width="800" height="600" alt="Ratio fixture" '
+                    'src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27800%27 height=%27600%27 fill=%27green%27/%3E%3C/svg%3E">')
             subprocess.run([sys.executable, str(skill / 'scripts/check_gates.py'), 'snapshot', str(root), '--mode', 'preview'], check=True, capture_output=True)
             command = [args.node, str(skill / 'scripts/measure_funnel.mjs'), f'http://127.0.0.1:{server.server_port}/', '--project-root', str(root), '--out', str(root / 'build/layout-audit.json'), '--playwright-module', args.playwright_module, '--browser-executable', args.browser_executable, '--form-fixture', str(root / 'form-fixture.json')]
             process = subprocess.run(command, capture_output=True, text=True, timeout=150)
@@ -50,12 +63,16 @@ def main():
             report = json.loads((root / 'build/layout-audit.json').read_text())
             if kind == 'neutral':
                 assert process.returncode == 0, report['failures']
-                assert len(report['viewports']) == 9, 'viewport coverage'
+                assert len(report['viewports']) == 10, 'viewport coverage'
                 assert any(item['name'] == 'modal_focus_trap' for item in report['checks']), 'modal coverage'
-            else:
+            elif kind == 'broken':
                 assert process.returncode != 0, 'broken page must fail'
                 assert any('page_overflow' in item for item in report['failures']), report['failures']
                 assert any('loaded_images' in item for item in report['failures']), report['failures']
+            else:
+                assert process.returncode != 0, 'invalid acceptance contract must fail'
+                for name in ['source_brand_font_matches', 'explicit_image_ratio_matches_layout', 'modal_close_has_clear_space']:
+                    assert any(name in item for item in report['failures']), (name, report['failures'])
             results.append({'fixture': kind, 'expected_status_verified': True, 'status': report['status'], 'viewports': len(report['viewports']), 'report': str(root / 'build/layout-audit.json')})
         finally:
             server.shutdown()

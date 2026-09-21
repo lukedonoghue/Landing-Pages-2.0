@@ -1,13 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
+import { spawnSync } from 'node:child_process';
 import { checkedTarget, sameOriginUrl, loadFixture, makeReport, parseArgs, runBrowserCompat, waitForPageImages } from '../scripts/browser-compat.mjs';
 import { DEFAULT_BUDGETS, extractMetrics, budgetChecks, runPerformance, readBudgets, browserLaunchFlags } from '../scripts/performance-audit.mjs';
-import { credentials, testRunOptions, verifyCorrelation, publicChecks, runLiveVerify } from '../scripts/live-verify.mjs';
-const fixture = { synthetic: true, path: '/', thank_you_path: '/thank-you.html', pdf_path: '/guide.pdf', fields: { email: 'synthetic@example.invalid' }, selectors: { openModal: '[data-open-modal]', modal: '#lead-modal', step: '.wizard__step', next: '[data-next]', submit: '[data-submit]', closeModal: '[data-close-modal]', error: '[data-form-error]' }, query: { utm_source: 'google', utm_medium: 'cpc' }, expected_dimensions: { source: 'google', traffic: 'paid', device: 'desktop' } };
+import { ATTRIBUTION_KEYS, credentials, testRunOptions, verifyAttribution, verifyCorrelation, expectedStoredDimensions, publicChecks, runLiveVerify } from '../scripts/live-verify.mjs';
+const campaignQuery = Object.fromEntries(ATTRIBUTION_KEYS.map((key,index)=>[key,`synthetic-${index + 1}`]));
+campaignQuery.utm_source='google';campaignQuery.utm_medium='cpc';
+const latestQuery = Object.fromEntries(ATTRIBUTION_KEYS.map((key,index)=>[key,`synthetic-latest-${index + 1}`]));
+latestQuery.utm_source='google';latestQuery.utm_medium='cpc';
+const expectedPolicy={analytics_mode:'disabled',attribution_mode:'lead',advertising_user_data_mode:'disabled',browser_opt_out:false};
+const fixture = { synthetic: true, path: '/', thank_you_path: '/thank-you.html', pdf_path: '/guide.pdf', fields: { email: 'synthetic@example.invalid' }, selectors: { openModal: '[data-open-modal]', modal: '#lead-modal', step: '.wizard__step', next: '[data-next]', submit: '[data-submit]', closeModal: '[data-close-modal]', error: '[data-form-error]' }, query: campaignQuery, latest_query:latestQuery, excluded_query:{email:'excluded@example.invalid',token:'synthetic-secret-not-captured',unknown_campaign:'ignored-value'}, expected_policy:expectedPolicy, expected_features:{first_party_attribution:true,measured_visit:false}, expected_dimensions: { source: 'google', traffic: 'paid', device: 'desktop' } };
 const temporary = t => { const dir = mkdtempSync(path.join(tmpdir(), 'funnel-verifier-')); t.after(() => rmSync(dir, { recursive: true, force: true })); return dir; };
 test('container browser flags apply only to an explicit synthetic loopback CI audit', t => {
   const root = temporary(t), local = checkedTarget('http://127.0.0.1:8787');
@@ -95,12 +101,18 @@ test('WebKit waits for a delayed image even when decode rejects, and still rejec
   } finally { release(); await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 });
 test('live test writes require explicit authorization and a synthetic fixture', () => {
+  const incompleteQuery={...campaignQuery};delete incompleteQuery.dclid;
   for(const key of ['read-only','allow-test-lead','cleanup-test-lead','resume-journey'])assert.throws(()=>testRunOptions({[key]:'false'},fixture),/booleans/);
   assert.deepEqual(testRunOptions({}, fixture), { readOnly: true });
   assert.throws(() => testRunOptions({ 'allow-test-lead': true, 'read-only': true }, fixture));
   assert.throws(() => testRunOptions({ 'cleanup-test-lead': true }, fixture));
   assert.throws(() => testRunOptions({ 'allow-test-lead': true }, { ...fixture, synthetic: false }));
   assert.throws(() => testRunOptions({ 'allow-test-lead': true }, { ...fixture, query: { email: 'real@example.com' } }));
+  assert.throws(() => testRunOptions({ 'allow-test-lead': true }, { ...fixture, expected_policy:undefined }),/expected privacy policy/);
+  assert.throws(() => testRunOptions({ 'allow-test-lead': true }, { ...fixture, expected_policy:{...expectedPolicy,attribution_mode:'disabled'} }),/agree/);
+  assert.throws(() => testRunOptions({ 'allow-test-lead': true }, { ...fixture, query:incompleteQuery }),/all supported/);
+  assert.throws(() => testRunOptions({ 'allow-test-lead': true }, { ...fixture, latest_query:campaignQuery }),/distinct/);
+  assert.throws(() => testRunOptions({ 'allow-test-lead': true }, { ...fixture, excluded_query:{gclid:'not-excluded'} }),/outside the attribution allowlist/);
   assert.deepEqual(testRunOptions({ 'allow-test-lead': true }, fixture), { readOnly: false });
 });
 test('credential helpers use environment/private files, never credential CLI arguments', t => {
@@ -119,7 +131,52 @@ test('receipt proof rejects mismatched CRM receipt, missing consent, and wrong s
   assert.equal(verifyCorrelation(receipt, stored, { ...submitted, analytics_consent: false }, visit, fixture.expected_dimensions).measured_visit, false);
   assert.equal(verifyCorrelation(receipt, stored, submitted, visit, { ...fixture.expected_dimensions, source: 'facebook' }).traffic_dimensions, false);
   const disabledSubmitted={analytics_consent:false,visitor_id:''},disabledStored={lead:{...stored.lead,visit_event_id:null}};
-  assert.equal(Object.values(verifyCorrelation(receipt,disabledStored,disabledSubmitted,undefined,fixture.expected_dimensions,false)).every(Boolean),true);
+  const unmeasured=verifyCorrelation(receipt,disabledStored,disabledSubmitted,undefined,fixture.expected_dimensions,false);
+  assert.equal(Object.values(unmeasured).every(Boolean),true);
+  assert.equal(unmeasured.unmeasured_visit_policy,true);assert.equal('measured_visit' in unmeasured,false);
+});
+test('all 16 attribution fields must survive submitted and stored first/latest touch while excluded query stays absent',()=>{
+  const first={...campaignQuery,landing_page:'/',referrer:'',captured_at:'2026-09-21T00:00:00.000Z'},latest={...latestQuery,landing_page:'/',referrer:'',captured_at:'2026-09-21T00:01:00.000Z'};
+  const submitted={attribution:{first_touch:{...first},latest_touch:{...latest}},landing_page:'/',referrer:''};
+  const stored={lead:{attribution:{first_touch:{...first},latest_touch:{...latest}},landing_page:'/',referrer:''}};
+  const expected={first_touch:campaignQuery,latest_touch:latestQuery};
+  const checks=verifyAttribution(submitted,stored,expected,fixture.excluded_query);
+  assert.equal(Object.keys(checks).length,ATTRIBUTION_KEYS.length*4+2);
+  assert.equal(Object.values(checks).every(Boolean),true);
+  delete stored.lead.attribution.latest_touch.dclid;
+  assert.equal(verifyAttribution(submitted,stored,expected,fixture.excluded_query).stored_latest_touch_dclid,false);
+  stored.lead.attribution.latest_touch.dclid=latestQuery.dclid;submitted.attribution.first_touch.token=fixture.excluded_query.token;
+  assert.equal(verifyAttribution(submitted,stored,expected,fixture.excluded_query).excluded_query_absent_from_submitted_context,false);
+});
+test('sync config enforces requested attribution and supports unified or distinct host routing',t=>{
+  const root=temporary(t);mkdirSync(path.join(root,'scripts'),{recursive:true});mkdirSync(path.join(root,'src'),{recursive:true});
+  copyFileSync(new URL('../scripts/sync-config.mjs',import.meta.url),path.join(root,'scripts/sync-config.mjs'));
+  writeFileSync(path.join(root,'package.json'),JSON.stringify({type:'module'}));writeFileSync(path.join(root,'src/site-config.json'),'{}');
+  const base={client:{name:'Synthetic'},form_fields:[{name:'email',type:'email',required:true}],analytics:{mode:'disabled',attribution_mode:'lead',required_attribution_mode:'lead'},privacy:{consent_ui:'disabled'},tracking:{customer_data_mode:'disabled',gtm:{container_id:''}}};
+  const run=value=>{writeFileSync(path.join(root,'funnel.json'),JSON.stringify(value));return spawnSync(process.execPath,['scripts/sync-config.mjs'],{cwd:root,encoding:'utf8'});};
+  let result=run({...base,requested_hosts:{public:'',crm:''}});assert.equal(result.status,0,result.stderr);let site=JSON.parse(readFileSync(path.join(root,'src/site-config.json')));assert.equal(site.attributionMode,'lead');assert.equal(site.publicHost,'');assert.equal(site.crmHost,'');
+  result=run({...base,requested_hosts:{public:'public.example',crm:''}});assert.notEqual(result.status,0);assert.match(result.stderr,/distinct public and CRM hostnames, or neither/);
+  result=run({...base,requested_hosts:{public:'same.example',crm:'same.example'}});assert.notEqual(result.status,0);assert.match(result.stderr,/distinct public and CRM hostnames, or neither/);
+  result=run({...base,requested_hosts:{public:'public.example',crm:'crm.example'}});assert.equal(result.status,0,result.stderr);site=JSON.parse(readFileSync(path.join(root,'src/site-config.json')));assert.equal(site.publicHost,'public.example');assert.equal(site.crmHost,'crm.example');
+  result=run({...base,analytics:{...base.analytics,attribution_mode:'disabled'}});assert.notEqual(result.status,0);assert.match(result.stderr,/Required attribution mode lead/);
+  result=run({...base,analytics:{mode:'disabled',attribution_mode:'disabled'}});assert.equal(result.status,0,result.stderr);assert.equal(JSON.parse(readFileSync(path.join(root,'src/site-config.json'))).attributionMode,'disabled');
+});
+test('preflight blocks attribution drift without selecting a global policy',t=>{
+  const root=temporary(t);for(const dir of ['scripts','src','public'])mkdirSync(path.join(root,dir),{recursive:true});
+  for(const name of ['preflight','free-plan'])copyFileSync(new URL(`../scripts/${name}.mjs`,import.meta.url),path.join(root,`scripts/${name}.mjs`));
+  writeFileSync(path.join(root,'scripts/check_gates.py'),'raise SystemExit(0)\n');writeFileSync(path.join(root,'package.json'),JSON.stringify({type:'module'}));
+  writeFileSync(path.join(root,'wrangler.jsonc'),JSON.stringify({name:'config-fixture',assets:{run_worker_first:true},d1_databases:[{database_id:'11111111-1111-4111-8111-111111111111'}]}));
+  const html='<script src="funnel.js"></script><a class="brand">Synthetic client</a>';for(const name of ['index.html','thank-you.html','privacy.html'])writeFileSync(path.join(root,'public',name),html);for(const name of ['funnel.js','privacy-controls.js','privacy-controls.css'])writeFileSync(path.join(root,'public',name),'fixture');
+  writeFileSync(path.join(root,'funnel.json'),JSON.stringify({analytics:{attribution_mode:'lead',required_attribution_mode:'lead'}}));
+  writeFileSync(path.join(root,'src/site-config.json'),JSON.stringify({name:'Synthetic client',attributionMode:'disabled'}));
+  const run=()=>spawnSync(process.execPath,['scripts/preflight.mjs'],{cwd:root,encoding:'utf8'});let result=run();assert.notEqual(result.status,0);assert.match(result.stderr,/Attribution policy drift/);
+  writeFileSync(path.join(root,'src/site-config.json'),JSON.stringify({name:'Synthetic client',attributionMode:'lead'}));result=run();assert.equal(result.status,0,result.stderr);
+  writeFileSync(path.join(root,'funnel.json'),JSON.stringify({}));writeFileSync(path.join(root,'src/site-config.json'),JSON.stringify({name:'Synthetic client'}));result=run();assert.equal(result.status,0,result.stderr);
+});
+test('disabled attribution verifies the dimensions the Worker actually stores', () => {
+  const browserDimensions={source:'google',traffic:'paid',device:'desktop'};
+  assert.deepEqual(expectedStoredDimensions({ attribution_mode: 'disabled' }, browserDimensions), { source: 'unknown', traffic: 'unknown', device: 'unknown' });
+  assert.equal(expectedStoredDimensions({ attribution_mode: 'consent' }, browserDimensions), browserDimensions);
 });
 async function serverFixture(t, options = {}) {
   const requests = [];
@@ -127,7 +184,7 @@ async function serverFixture(t, options = {}) {
     requests.push({ url: req.url, method: req.method, cookie: req.headers.cookie, authorization: req.headers.authorization });
     const route = decodeURIComponent(req.url);
     if (route === '/api/health') { res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify({ ok: true, database: 'connected' })); }
-    else if (route === '/api/privacy-config') { res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');res.end(JSON.stringify({analytics_mode:'consent',attribution_mode:'consent',browser_opt_out:false})); }
+    else if (route === '/api/privacy-config') { res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');res.end(JSON.stringify(options.policy||expectedPolicy)); }
     else if (route.startsWith('/api/')) { res.statusCode = options.exposed ? 200 : 401; res.end('{}'); }
     else if (route.startsWith('/admin/')) { res.statusCode = 302; res.setHeader('Location', '/login.html'); res.end(); }
     else if (route === '/guide.pdf') res.end(options.brokenPdf ? 'not a pdf' : '%PDF-1.7\nFixture');
@@ -152,6 +209,20 @@ test('public access or a fake PDF blocks live verification', async t => {
   const report = makeReport('deployment', target); await publicChecks(target, fixture, report);
   assert.ok(report.failures.includes('/api/admin/leads rejects anonymous requests'));
   assert.ok(report.failures.includes('Brochure is a real downloadable PDF'));
+});
+test('requested attribution cannot pass public checks when runtime capture is disabled',async t=>{
+  const target=checkedTarget('http://localhost:8787'),report=makeReport('deployment',target);
+  const fetcher=async url=>{
+    if(url.pathname==='/api/health')return Response.json({ok:true,database:'connected'});
+    if(url.pathname==='/api/privacy-config')return Response.json({...expectedPolicy,attribution_mode:'disabled'},{headers:{'Cache-Control':'no-store'}});
+    if(url.pathname.startsWith('/api/'))return new Response('{}',{status:401});
+    if(url.pathname.startsWith('/admin/'))return new Response('',{status:302,headers:{Location:'/login.html'}});
+    if(url.pathname===fixture.pdf_path)return new Response('%PDF-1.7 fixture');
+    return new Response('<!doctype html>',{headers:{'Content-Type':'text/html'}});
+  };
+  await publicChecks(target,fixture,report,fetcher);
+  assert.ok(report.failures.includes('Runtime privacy policy matches the fixture expectation'));
+  assert.ok(report.failures.includes('Requested first-party attribution feature is available'));
 });
 test('cross-origin public resource redirects cannot leak a verification request', async () => {
   const target = checkedTarget('http://localhost:8787'), report = makeReport('deployment', target);

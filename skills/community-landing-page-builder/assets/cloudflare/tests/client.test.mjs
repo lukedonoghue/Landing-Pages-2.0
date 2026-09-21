@@ -44,18 +44,22 @@ test('consent acceptance measures a stable browser ID without passing contact da
   assert.equal(state.memory.has('funnel_v2_visitor_id'), false);
 });
 test('expanded campaign fields survive first/latest capture without admitting arbitrary URL data', async () => {
-  const tags = Object.fromEntries(['utm_source','utm_medium','utm_campaign','utm_id','utm_term','utm_content','utm_source_platform','utm_creative_format','utm_marketing_tactic','gclid','dclid','gbraid','wbraid','fbclid','msclkid','ttclid'].map(key => [key, `test-${key}`]));
-  const state = tracker({ url: `https://site.test/?${new URLSearchParams({...tags, email:'private@example.invalid', utm_private:'discard'})}` });
+  const keys=['utm_source','utm_medium','utm_campaign','utm_id','utm_term','utm_content','utm_source_platform','utm_creative_format','utm_marketing_tactic','gclid','dclid','gbraid','wbraid','fbclid','msclkid','ttclid'];
+  const firstTags=Object.fromEntries(keys.map(key=>[key,`first-${key}`])),latestTags=Object.fromEntries(keys.map(key=>[key,`latest-${key}`]));
+  const state = tracker({ url: `https://site.test/?${new URLSearchParams({...firstTags, email:'private@example.invalid', utm_private:'discard'})}` });
   assert.equal(Object.keys((await state.funnel.context()).attribution.first_touch).length, 0);
   state.funnel.setConsent(true);
-  const context = await state.funnel.context();
-  for (const touch of [context.attribution.first_touch, context.attribution.latest_touch]) {
-    for (const [key, value] of Object.entries(tags)) assert.equal(touch[key], value);
+  await state.funnel.context();
+  const later=tracker({sharedMemory:state.memory,url:`https://site.test/?${new URLSearchParams({...latestTags,token:'synthetic-secret',unknown_campaign:'discard'})}`});
+  const context=await later.funnel.context();
+  for (const [touch,expected] of [[context.attribution.first_touch,firstTags],[context.attribution.latest_touch,latestTags]]) {
+    for (const [key, value] of Object.entries(expected)) assert.equal(touch[key], value);
     assert.ok(!('email' in touch)); assert.ok(!('utm_private' in touch));
+    assert.ok(!('token' in touch));assert.ok(!('unknown_campaign' in touch));
   }
-  assert.deepEqual(state.requests[0].body.attribution, tags);
-  state.funnel.setConsent(false);
-  assert.equal(Object.keys((await state.funnel.context()).attribution.latest_touch).length, 0);
+  assert.deepEqual(state.requests[0].body.attribution, firstTags);assert.deepEqual(later.requests[0].body.attribution,latestTags);
+  later.funnel.setConsent(false);
+  assert.equal(Object.keys((await later.funnel.context()).attribution.latest_touch).length, 0);
 });
 test('consent UI can be delegated or disabled without granting optional data', async () => {
   for (const consentUi of ['external', 'disabled']) {
@@ -263,6 +267,7 @@ test('unwritable stale opt-in and unavailable policy fail closed for optional da
 const chromePath = [process.env.CHROME_BIN, chromium.executablePath()].find(path => path && existsSync(path));
 let browser, server, base; let scenario = 'ok'; let submissions = [];
 before(async () => {
+  if(process.env.FUNNEL_UNIT_ONLY==='1')return;
   if (!chromePath) return;
   server = createServer(async (request, response) => {
     if (request.url === '/lightbox.js') { response.setHeader('Content-Type', 'text/javascript'); response.end(await readFile([new URL('../public/script.js', import.meta.url),new URL('../../multistep-lightbox.js', import.meta.url)].find(existsSync), 'utf8')); return; }

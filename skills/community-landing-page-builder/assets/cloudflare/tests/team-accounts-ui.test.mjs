@@ -99,6 +99,10 @@ test('admin sees restrained user management and unavailable email actions stay d
     await row.getByLabel('Role for manager-one').selectOption('viewer'); await row.getByRole('button',{name:'Save'}).click();
     await page.getByText('User access updated.').waitFor();
     assert.ok(calls.some(call => call.method === 'PATCH' && call.path === '/api/admin/users/manager-1' && call.body.role === 'viewer'));
+    const invited = page.locator('.users-table tbody tr').filter({hasText:'invited-user'});
+    await invited.getByLabel('Email for invited-user').fill('corrected@example.invalid'); await invited.getByRole('button',{name:'Save'}).click();
+    await page.getByText('Invitation corrected.').waitFor();
+    assert.ok(calls.some(call => call.method === 'PATCH' && call.path === '/api/admin/users/invited-1' && call.body.email === 'corrected@example.invalid'));
   } finally { await page.close(); }
 });
 

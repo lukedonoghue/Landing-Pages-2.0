@@ -2,6 +2,10 @@
 
 The reusable module is in `assets/cloudflare/`. Scaffold it with `scripts/scaffold_project.py <destination> --client <name>`. This copies source, never credentials, local databases, node_modules, or existing client leads. Re-running the scaffold preserves existing files.
 
+**Reuse the CRM, do not rebuild it for each business.** Treat the bundled Worker, database repository, authentication, account workflows, attribution client and admin UI as one maintained implementation. Customize the business identity, hostnames, form schema, stages, timezone and selected privacy/tracking settings through configuration; build the marketing page around the existing form/API contract. Do not hand-write replacement UTM capture, lead storage or login code. A genuine shared bug is fixed in this module with regression tests, then deliberately propagated to the affected project. Never copy another customer's credentials, database, users or leads. For an existing deployment, preserve its identity and data and apply additive reviewed migrations rather than provisioning a replacement CRM.
+
+During the existing static/configuration pass, run `python3 <skill>/scripts/verify_backend_reuse.py <project> --report <project>/build/backend-reuse.json`. It compares the shared code and migrations with this skill version while excluding per-business configuration. Resolve drift by inspecting the diff; never overwrite newer or client-specific code blindly. A permitted core change requires its reason and regression coverage, not simply refreshing expected hashes. Passing identity checks do not prove attribution settings or delivery: the positive stored-field test in `lead-and-tracking-contract.md` is still required.
+
 ## Architecture
 
 Public HTML/CSS/JS and the brochure live in `public/`. A Worker serves those static assets and handles `/api/leads`, `/api/visits`, and authenticated `/api/admin/*`. `assets.run_worker_first: true` ensures even encoded admin aliases reach authentication. The admin UI has its own assets under `public/admin/`; the marketing page does not load them.
@@ -19,6 +23,8 @@ Default stages are New contact, Qualified, Engaged, Follow-up, Won, and Lost. Th
 Keep the leads table and pipeline cards focused on contact, stage, received time and one concise source label, such as Google CPC, Meta Paid Social or Microsoft CPC. Do not display campaign IDs, UTMs, click IDs, landing URLs or extra form answers as table columns or subtitle clutter. Derive the source label from recorded source/medium/type without treating an unclassified Meta click as paid or a Google click as necessarily CPC.
 
 Opening an enquiry exposes its submitted form answers and an Attribution section. Keep first-touch and latest-touch campaign fields in separate, keyboard-accessible collapsed groups; preserve exact field names and values, including GBRAID/WBRAID. Long IDs wrap without changing the dialog width. Keep a legacy recorded-campaign group for old flattened records and an honest empty state for missing/denied attribution. Use the existing restrained CRM typography, dividers and spacing, not landing-page hero treatments. Check the table and expanded details at desktop and narrow mobile widths with synthetic data.
+
+Lead details close with the close control, Escape or a click on the backdrop, returning focus to the opener. Interior clicks and text-selection drags ending outside must not dismiss them. Reuse the existing form controls and spacing in user management; desktop invitation inputs, selects and submit actions align, and narrow layouts stack without overflow. Password-manager decorations must not introduce extra layout rows or move one input above its peers. Keep these cases in shared UI regression tests rather than asking every new business build to rediscover them.
 
 ## Admin authentication
 

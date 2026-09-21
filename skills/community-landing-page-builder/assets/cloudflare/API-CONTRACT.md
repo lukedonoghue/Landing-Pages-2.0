@@ -87,6 +87,10 @@ Dates are inclusive, zero-filled and interpreted in the configured timezone; def
 
 Lead objects include `id`, `receipt_id`, `created_at`, `updated_at`, `reporting_day`, `name`, `email`, `phone`, `status`, `version`, `form_name`, `form_data`, full first/latest `attribution`, `landing_page`, `referrer` and flattened source/click/UTM fields. Internal idempotency keys, payload hashes and visitor hashes are never returned. Source falls back from latest touch to first touch, then referral/direct. Notes have `id`, `body`, `created_at`. Activity has `id`, `event_type`, `from_status`, `to_status`, `description`, `created_at`.
 
+## Account email delivery
+
+Account-action email delivery is at-least-once across reset-approval lease recovery. If a provider call outlives its 90-second claim, an administrator may retry and the provider may deliver both messages. An action becomes usable only when its post-send database transition still owns the current request claim; a superseded action remains failed, so only the latest approved reset token can be used. Operators should tell recipients to use the latest message and should not treat provider acceptance as proof of inbox delivery.
+
 ## Webhooks and recovery
 
 - `GET /api/admin/webhooks` → `{ webhooks: [{ id, name, url, enabled, created_at, pending_count, failed_count, last_delivered_at }] }`.
@@ -97,7 +101,7 @@ Destinations require a public HTTPS hostname, default HTTPS port, no embedded cr
 
 The outbox sends `{ event: "lead.created", event_id, created_at, lead }` with a stable `X-CRM-Event-ID`. A receiver must deduplicate by `event_id`: delivery is at-least-once, since an interrupted acknowledgment can cause a retry. When `WEBHOOK_SIGNING_SECRET` is configured, `X-CRM-Signature: sha256=<hex>` authenticates the exact `${timestamp}.${rawBody}` using HMAC-SHA256; the timestamp is in `X-CRM-Timestamp`. Receivers should check freshness and compare signatures in constant time. No session secret is sent or reused for this purpose.
 
-Each pass handles at most five jobs to bound Workers work. A claim token and 90-second lease prevent overlapping workers from claiming the same live job. Failed requests back off from one minute exponentially, with five total attempts; exhausted jobs show in the dashboard failed count. A cron trigger must run every minute for durable retry and expired session/rate-bucket cleanup. Do not remove it just because an immediate local request delivered successfully. A crash on the final attempt becomes terminal after its lease expires. Failed-job retry/replay is an operator database action, not a hidden frontend success state.
+Each pass handles at most five jobs to bound Workers work. A claim token and 90-second lease prevent overlapping workers from claiming the same live job. Failed requests become eligible after one minute and then back off exponentially, with five total attempts; the configured five-minute cron processes due work on its next tick, so actual retry latency is rounded up to that cadence. The same scheduled pass performs expired session and rate-bucket cleanup. Do not remove it just because an immediate local request delivered successfully. A crash on the final attempt becomes terminal after its lease expires. Failed-job retry/replay is an operator database action, not a hidden frontend success state.
 
 `GET /api/health` returns only `{ ok: true, database: "connected" }` after a D1 schema query. It does not disclose leads, secrets or account metadata.
 

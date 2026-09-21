@@ -10,6 +10,15 @@ for(const file of ['public/index.html','public/thank-you.html','public/privacy.h
 if(!existsSync('src/site-config.json')) failures.push('Site configuration missing.');
 const site=JSON.parse(readFileSync('src/site-config.json','utf8'));
 if(site.name==='Your business') failures.push('Set the real client brand in src/site-config.json.');
+if(!existsSync('funnel.json'))failures.push('Funnel configuration missing.');
+else{
+ const funnel=JSON.parse(readFileSync('funnel.json','utf8'));
+ const selected=funnel.analytics?.attribution_mode,required=funnel.analytics?.required_attribution_mode;
+ if(selected!==undefined&&!['consent','lead','disabled'].includes(selected))failures.push('analytics.attribution_mode must be consent, lead, or disabled.');
+ if(required!==undefined&&!['consent','lead','disabled'].includes(required))failures.push('analytics.required_attribution_mode must be consent, lead, or disabled when supplied.');
+ if(required&&required!==selected)failures.push(`Required attribution mode ${required} does not match analytics.attribution_mode ${selected}.`);
+ if(selected!==undefined&&site.attributionMode!==selected)failures.push(`Attribution policy drift: funnel.json selects ${selected} but src/site-config.json uses ${site.attributionMode||'missing'}. Run npm run configure.`);
+}
 if(config.assets?.run_worker_first !== true) failures.push('All admin routes must run through the authenticated Worker.');
 
 if(config.d1_databases?.[0]?.database_id==='00000000-0000-0000-0000-000000000000') failures.push('Run npm run setup -- --cloudflare --account-id <account> to bind the production database.');

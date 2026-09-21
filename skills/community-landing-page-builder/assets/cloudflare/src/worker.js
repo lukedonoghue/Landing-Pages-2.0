@@ -30,11 +30,15 @@ export default {
 async function route(request, env, ctx, url) {
   const path = url.pathname;
   const method = request.method;
+  const hostRole = requestHostRole(url);
+  if (hostRole === 'unknown') throw new HttpError(421, 'This hostname is not configured for this service.');
+  const hostResponse = routeHostSurface(url, path, hostRole);
+  if (hostResponse) return hostResponse;
   if (path.startsWith('/api/') && !['GET', 'HEAD'].includes(method)) enforceOrigin(request);
   if (path === '/api/privacy-config' && method === 'GET') return json({analytics_mode:siteConfig.analyticsMode || 'consent',attribution_mode:siteConfig.attributionMode || 'consent',advertising_user_data_mode:siteConfig.advertisingUserDataMode || 'disabled',consent_ui:siteConfig.consentUiMode || 'internal',sensitive_category:siteConfig.sensitiveCategory === true,gtm_container_id:/^GTM-[A-Z0-9]+$/.test(siteConfig.gtmContainerId||'')?siteConfig.gtmContainerId:'',browser_opt_out:privacyOptOut(request)});
   if (path === '/api/health' && method === 'GET') {
     await env.DB.prepare('SELECT id FROM leads LIMIT 1').first();
-    return json({ ok: true, database: 'connected', release: { version_id: env.CF_VERSION_METADATA?.id || null, release_id: env.FUNNEL_RELEASE_ID || null, source_fingerprint: env.FUNNEL_SOURCE_FINGERPRINT || null } });
+    return json({ ok: true, database: 'connected', ...(hostRole === 'unified' ? {} : { host_role: hostRole }), release: { version_id: env.CF_VERSION_METADATA?.id || null, release_id: env.FUNNEL_RELEASE_ID || null, source_fingerprint: env.FUNNEL_SOURCE_FINGERPRINT || null } });
   }
   if (path === '/api/auth/login' && method === 'POST') {
     await rateLimit(env, request, 'login', 8, 900);
@@ -133,4 +137,37 @@ async function route(request, env, ctx, url) {
   }
   if (!env.ASSETS) throw new HttpError(503, 'Site assets are not configured.');
   return env.ASSETS.fetch(request);
+}
+
+function requestHostRole(url) {
+  const host = url.hostname.toLowerCase();
+  const publicHost = (siteConfig.publicHost || '').toLowerCase();
+  const crmHost = (siteConfig.crmHost || '').toLowerCase();
+  if (!publicHost && !crmHost) return 'unified';
+  if (host === publicHost) return 'public';
+  if (host === crmHost) return 'crm';
+  if (['localhost', '127.0.0.1', '[::1]'].includes(host) || host.endsWith('.test') || host.endsWith('.workers.dev')) return 'unified';
+  return 'unknown';
+}
+
+function routeHostSurface(url, path, hostRole) {
+  if (hostRole === 'public') {
+    if (path.startsWith('/api/auth/') || path === '/api/admin' || path.startsWith('/api/admin/')) throw new HttpError(404, 'Endpoint not found.');
+    if (path === '/login' || path === '/login.html' || path === '/admin' || path.startsWith('/admin/')) {
+      const destination = path === '/login' || path === '/login.html' ? '/login.html' : path;
+      return Response.redirect(`https://${siteConfig.crmHost}${destination}`, 302);
+    }
+    if (path === '/account-action' || path === '/account-action.html') throw new HttpError(404, 'Page not found.');
+  }
+  if (hostRole === 'crm') {
+    if (path === '/api/leads' || path === '/api/visits' || path === '/api/privacy-config') throw new HttpError(404, 'Endpoint not found.');
+    if (path === '/') return Response.redirect(`${url.origin}/login.html`, 302);
+    if (['/index.html', '/privacy.html', '/thank-you.html'].includes(path) || path.startsWith('/assets/')) {
+      return Response.redirect(`https://${siteConfig.publicHost}${path}`, 302);
+    }
+    const crmPage = ['/login', '/login.html', '/login.css', '/login.js', '/account-action', '/account-action.html', '/account-action.js'].includes(path) || path === '/admin' || path.startsWith('/admin/');
+    const crmApi = path === '/api/health' || path.startsWith('/api/auth/') || path === '/api/admin' || path.startsWith('/api/admin/');
+    if (!crmPage && !crmApi) throw new HttpError(404, 'Page not found.');
+  }
+  return null;
 }

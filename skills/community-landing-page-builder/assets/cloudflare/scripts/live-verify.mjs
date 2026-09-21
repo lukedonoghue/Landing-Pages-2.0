@@ -9,7 +9,8 @@ import { openJourney, fingerprint, JourneyRecoveryError } from './journey-state.
 import { parseArgs, checkedTarget, sameOriginUrl, loadFixture, makeReport, check, finish, writeReport, artifact, fillSteps } from './browser-compat.mjs';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const QUERY_KEYS = new Set(['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid']);
+export const ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'utm_source_platform', 'utm_creative_format', 'utm_marketing_tactic', 'gclid', 'dclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid'];
+const QUERY_KEYS = new Set(ATTRIBUTION_KEYS);
 export function credentials(args, env = process.env) {
   let values = {};
   if (args['credentials-file']) values = JSON.parse(readFileSync(args['credentials-file'], 'utf8'));
@@ -27,6 +28,17 @@ export function testRunOptions(args, fixture) {
   if (!fixture.query || !fixture.expected_dimensions || !['google', 'facebook', 'instagram', 'microsoft', 'direct', 'other', 'unknown'].includes(fixture.expected_dimensions.source)) throw new Error('Full verification requires a reviewed traffic query and expected dimensions.');
   if (Object.keys(fixture.query).some(key => !QUERY_KEYS.has(key))) throw new Error('Only attribution query parameters are permitted in a test fixture.');
   if (!['paid', 'organic', 'other', 'unknown'].includes(fixture.expected_dimensions.traffic) || !['desktop', 'mobile'].includes(fixture.expected_dimensions.device)) throw new Error('Supply known traffic and device dimensions for the synthetic journey.');
+  const policy=fixture.expected_policy,features=fixture.expected_features;
+  if(!policy||typeof policy!=='object'||Array.isArray(policy)||!['consent','essential','disabled'].includes(policy.analytics_mode)||!['consent','lead','disabled'].includes(policy.attribution_mode)||!['consent','disabled'].includes(policy.advertising_user_data_mode)||typeof policy.browser_opt_out!=='boolean')throw new Error('Full verification requires an explicit expected privacy policy.');
+  if(!features||typeof features!=='object'||Array.isArray(features)||typeof features.first_party_attribution!=='boolean'||typeof features.measured_visit!=='boolean')throw new Error('Full verification requires explicit expected feature support.');
+  if(features.first_party_attribution!==(policy.attribution_mode!=='disabled'&&!policy.browser_opt_out)||features.measured_visit!==(policy.analytics_mode!=='disabled'&&!policy.browser_opt_out))throw new Error('Expected features must agree with the expected privacy policy.');
+  if(features.first_party_attribution&&ATTRIBUTION_KEYS.some(key=>!Object.hasOwn(fixture.query,key)||typeof fixture.query[key]!=='string'||!fixture.query[key]))throw new Error('Attribution acceptance requires all supported campaign fields.');
+  if(fixture.latest_query!==undefined){
+    if(!fixture.latest_query||typeof fixture.latest_query!=='object'||Array.isArray(fixture.latest_query)||Object.keys(fixture.latest_query).some(key=>!QUERY_KEYS.has(key))||ATTRIBUTION_KEYS.some(key=>typeof fixture.latest_query[key]!=='string'||!fixture.latest_query[key]))throw new Error('Latest-touch acceptance requires all supported campaign fields.');
+    if(ATTRIBUTION_KEYS.every(key=>fixture.latest_query[key]===fixture.query[key]))throw new Error('Latest-touch acceptance must use values distinct from the first touch.');
+  }
+  const excluded=fixture.excluded_query;
+  if(!excluded||typeof excluded!=='object'||Array.isArray(excluded)||!Object.keys(excluded).length||Object.entries(excluded).some(([key,value])=>QUERY_KEYS.has(key)||!key||typeof value!=='string'||!value))throw new Error('Full verification requires synthetic excluded query fields outside the attribution allowlist.');
   return { readOnly: false };
 }
 export async function publicChecks(target, fixture, report, fetcher = fetch) {
@@ -47,6 +59,14 @@ export async function publicChecks(target, fixture, report, fetcher = fetch) {
   const privacy=await get('/api/privacy-config');
   let policy;try{policy=await privacy.json();}catch{}
   check(report,'Public privacy policy is valid and uncached',privacy.ok && privacy.headers.get('cache-control')==='no-store' && ['consent','essential','disabled'].includes(policy?.analytics_mode) && ['consent','lead','disabled'].includes(policy?.attribution_mode) && typeof policy?.browser_opt_out==='boolean');
+  const expectedPolicy=fixture.expected_policy;
+  if(expectedPolicy)check(report,'Runtime privacy policy matches the fixture expectation',Object.entries(expectedPolicy).every(([key,value])=>policy?.[key]===value));
+  if(fixture.expected_features){
+    const attributionAvailable=policy?.attribution_mode!=='disabled'&&policy?.browser_opt_out!==true;
+    const measurementAvailable=policy?.analytics_mode!=='disabled'&&policy?.browser_opt_out!==true;
+    check(report,'Requested first-party attribution feature is available',attributionAvailable===fixture.expected_features.first_party_attribution);
+    check(report,'Requested visit-measurement feature state is explicit',measurementAvailable===fixture.expected_features.measured_visit);
+  }
   for (const resource of ['/api/admin/leads', '/api/admin/metrics', '/api/auth/session']) check(report, `${resource} rejects anonymous requests`, (await get(resource)).status === 401);
   for (const resource of ['/admin/', '/admin/index.html', '/%61dmin/']) {
     const response = await get(resource);
@@ -66,10 +86,40 @@ export function verifyCorrelation(receipt, stored, submitted, visit, expected, m
   return {
     accepted_receipt: receipt?.ok === true && UUID.test(receipt.lead_id || '') && UUID.test(receipt.receipt_id || ''),
     persisted_receipt: stored?.lead?.id === receipt?.lead_id && stored?.lead?.receipt_id === receipt?.receipt_id,
-    measured_visit: measurementExpected ? visit?.measured === true && UUID.test(visit.event_id || '') && submitted?.analytics_consent === true && UUID.test(submitted?.visitor_id || '') && submitted?.visit_event_id === visit.event_id : submitted?.analytics_consent === false && !submitted?.visitor_id && !submitted?.visit_event_id && !visit,
-    linked_conversion: measurementExpected ? stored?.lead?.visit_event_id === visit?.event_id && !!visit?.event_id : !stored?.lead?.visit_event_id && !visit,
+    ...(measurementExpected
+      ? { measured_visit: visit?.measured === true && UUID.test(visit.event_id || '') && submitted?.analytics_consent === true && UUID.test(submitted?.visitor_id || '') && submitted?.visit_event_id === visit.event_id,
+          linked_conversion: stored?.lead?.visit_event_id === visit?.event_id && !!visit?.event_id }
+      : { unmeasured_visit_policy: submitted?.analytics_consent === false && !submitted?.visitor_id && !submitted?.visit_event_id && !visit,
+          unlinked_conversion_policy: !stored?.lead?.visit_event_id && !visit }),
     traffic_dimensions: stored?.lead?.traffic_source === expected.source && stored?.lead?.traffic_type === expected.traffic && stored?.lead?.device === expected.device
   };
+}
+function containsExcluded(value, excluded) {
+  const keys=new Set(Object.keys(excluded)),values=new Set(Object.values(excluded));
+  const visit=input=>{
+    if(typeof input==='string')return values.has(input)||[...values].some(item=>input.includes(item));
+    if(!input||typeof input!=='object')return false;
+    return Object.entries(input).some(([key,item])=>keys.has(key)||visit(item));
+  };
+  return visit(value);
+}
+export function verifyAttribution(submitted, stored, expected, excluded = {}) {
+  const checks={};
+  for(const touch of ['first_touch','latest_touch'])for(const key of ATTRIBUTION_KEYS){
+    const value=String((expected[touch]||expected)[key]);
+    checks[`submitted_${touch}_${key}`]=submitted?.attribution?.[touch]?.[key]===value;
+    checks[`stored_${touch}_${key}`]=stored?.lead?.attribution?.[touch]?.[key]===value;
+  }
+  const submittedContext={attribution:submitted?.attribution,landing_page:submitted?.landing_page,referrer:submitted?.referrer};
+  const storedContext={attribution:stored?.lead?.attribution,landing_page:stored?.lead?.landing_page,referrer:stored?.lead?.referrer};
+  checks.excluded_query_absent_from_submitted_context=!containsExcluded(submittedContext,excluded);
+  checks.excluded_query_absent_from_stored_context=!containsExcluded(storedContext,excluded);
+  return checks;
+}
+export function expectedStoredDimensions(policy, browserDimensions) {
+  return policy?.attribution_mode === 'disabled'
+    ? { source: 'unknown', traffic: 'unknown', device: 'unknown' }
+    : browserDimensions;
 }
 export async function runLiveVerify(args, runtime = {}) {
   const target = checkedTarget(args.url, args['allow-remote'] === true);
@@ -106,7 +156,7 @@ export async function runLiveVerify(args, runtime = {}) {
     trace.push(...await publicChecks(target, fixture, report, runtime.fetch || fetch));
     const policyResponse=await (runtime.fetch || fetch)(new URL('/api/privacy-config',target.url),{redirect:'manual',signal:AbortSignal.timeout(15000)});
     const policy=await policyResponse.json();
-    const measurementExpected=policy.analytics_mode!=='disabled';
+    const measurementExpected=fixture.expected_features?.measured_visit??policy.analytics_mode!=='disabled';
     report.limits.push(measurementExpected?'The synthetic journey creates one measured visit and lead. Removing the contact does not erase historical conversion totals.':'Analytics is disabled; the journey requires an unmeasured lead with no visit/conversion linkage.');
     if (report.failures.length) return writeReport(finish(report), out);
     if (options.readOnly) {
@@ -151,7 +201,8 @@ export async function runLiveVerify(args, runtime = {}) {
     };
     report.journey_assertions.named_login = check(report, 'Named administrator can sign in', (await adminRequest('/api/auth/session')).authenticated === true);
     const dimensions = fixture.expected_dimensions;
-    const filters = new URLSearchParams({ source: dimensions.source, traffic: dimensions.traffic, device: dimensions.device, visitor_mode: 'all' });
+    const storedDimensions = expectedStoredDimensions(policy, dimensions);
+    const filters = new URLSearchParams({ source: storedDimensions.source, traffic: storedDimensions.traffic, device: storedDimensions.device, visitor_mode: 'all' });
     let metricsPath = attempt.metrics_path || '/api/admin/metrics?' + filters;
     if (!attempt.baseline) {
       const first = await adminRequest(metricsPath);
@@ -215,10 +266,15 @@ export async function runLiveVerify(args, runtime = {}) {
         }catch(error){routeFailure=error;rejectRoute(error);await route.abort('failed').catch(()=>{});}
       });
       const start=sameOriginUrl(fixture.path,target.url);
-      for(const [key,value] of Object.entries(fixture.query))start.searchParams.set(key,String(value));
+      for(const [key,value] of Object.entries({...fixture.query,...fixture.excluded_query}))start.searchParams.set(key,String(value));
       await page.goto(start.href,{waitUntil:'networkidle'});
       const consentSelector=fixture.selectors.consentAccept;
       if(consentSelector){const consent=page.locator(consentSelector);if(await consent.isVisible())await consent.click();}
+      if(fixture.latest_query){
+        const latest=sameOriginUrl(fixture.latest_path||fixture.path,target.url);
+        for(const [key,value] of Object.entries({...fixture.latest_query,...fixture.excluded_query}))latest.searchParams.set(key,String(value));
+        await page.goto(latest.href,{waitUntil:'networkidle'});
+      }
       await page.locator(fixture.selectors.openModal).first().click();
       await fillSteps(page,fixture);
       if(routeFailure)throw routeFailure;
@@ -260,10 +316,11 @@ export async function runLiveVerify(args, runtime = {}) {
     const stored = await adminRequest('/api/admin/leads/' + createdId);
     let visit;
     for (const body of attempt.visits) if (body.event_id === submitted.visit_event_id) visit = body;
-    const correlation = verifyCorrelation(receipt, stored, submitted, visit, dimensions, measurementExpected);
+    const expectedAttribution={first_touch:fixture.query,latest_touch:fixture.latest_query||fixture.query};
+    const correlation = {...verifyCorrelation(receipt, stored, submitted, visit, storedDimensions, measurementExpected),...(fixture.expected_features.first_party_attribution?verifyAttribution(submitted,stored,expectedAttribution,fixture.excluded_query):{})};
     for (const [name, passed] of Object.entries(correlation)) check(report, name, passed);
     report.journey_assertions.receipt_correlation = Object.values(correlation).every(Boolean);
-    eventTrace.push({ analytics_consent: submitted.analytics_consent === true, valid_visitor_id: UUID.test(submitted.visitor_id || ''), event_id: visit?.event_id || null, measured: visit?.measured === true, linked_lead_id: createdId, dimensions });
+    eventTrace.push({ analytics_consent: submitted.analytics_consent === true, valid_visitor_id: UUID.test(submitted.visitor_id || ''), event_id: visit?.event_id || null, measured: visit?.measured === true, linked_lead_id: createdId, dimensions: storedDimensions, browser_dimensions: dimensions, stored_dimensions: storedDimensions, attribution_fields_verified:fixture.expected_features.first_party_attribution?ATTRIBUTION_KEYS.length:0,excluded_query_fields_verified:Object.keys(fixture.excluded_query||{}).length });
     receiptProof = { evidence_source: 'authenticated-worker-api-backed-by-D1', database_id: deployment?.database_id || 'local-D1', lead_id: createdId, receipt_id: receipt.receipt_id, stored_receipt_id: stored.lead?.receipt_id || null, visit_event_id: stored.lead?.visit_event_id || null };
     const receiptFile = path.join(out, 'stored-receipt.json'); writeFileSync(receiptFile, JSON.stringify(receiptProof, null, 2) + '\n'); report.artifacts.push(artifact(receiptFile, 'db_receipt', args['project-root']));
     phase = 'CRM-status-and-note';
@@ -291,7 +348,7 @@ export async function runLiveVerify(args, runtime = {}) {
     const rateMatches = check(report, 'Conversion calculation agrees with its filtered cohort', totals.conversions <= totals.visitors && Math.abs(totals.conversion_rate - (totals.visitors ? totals.conversions / totals.visitors * 100 : 0)) <= 0.011);
     report.journey_assertions.metrics = cohortMatches && rateMatches;
     check(report, 'Public journey has no JavaScript exceptions', attempt.runtime_errors === 0);
-    const metricsFile = path.join(out, 'dashboard-result.json'); writeFileSync(metricsFile, JSON.stringify({ filters: dimensions, before: baseline.totals, after: totals, synthetic_impact: measurementExpected?'One measured test visit and lead; historical totals retain this test after contact removal.':'One unmeasured test lead; analytics and conversion totals remain unchanged.' }, null, 2) + '\n'); report.artifacts.push(artifact(metricsFile, 'dashboard_result', args['project-root']));
+    const metricsFile = path.join(out, 'dashboard-result.json'); writeFileSync(metricsFile, JSON.stringify({ filters: storedDimensions, browser_dimensions: dimensions, before: baseline.totals, after: totals, synthetic_impact: measurementExpected?'One measured test visit and lead; historical totals retain this test after contact removal.':'One unmeasured test lead; analytics and conversion totals remain unchanged.' }, null, 2) + '\n'); report.artifacts.push(artifact(metricsFile, 'dashboard_result', args['project-root']));
     if(!report.failures.length)journey.retainCore({binding,observations:receiptProof,events:eventTrace,assertions:{...report.journey_assertions},checks:[...report.checks],artifacts:report.artifacts.filter(item=>['db_receipt','crm_recovery','dashboard_result'].includes(item.type))});
     }
     if (args['cleanup-test-lead'] && !report.failures.length) {

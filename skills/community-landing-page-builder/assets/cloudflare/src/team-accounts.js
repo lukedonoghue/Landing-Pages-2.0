@@ -23,6 +23,9 @@ function email(value) {
 function verifiedRecipients(env) {
   try { const values=JSON.parse(env.CRM_VERIFIED_RECIPIENTS || '[]'); return Array.isArray(values)?values.filter(v=>typeof v==='string').map(v=>v.trim().toLowerCase()):[]; } catch { return []; }
 }
+function requireVerifiedRecipient(env, recipient) {
+  if(!verifiedRecipients(env).includes(recipient))throw new HttpError(409,'Cloudflare Free requires this recipient to be verified first. Ask the account owner to complete email verification and add it to the restricted sender configuration, then retry.');
+}
 export function emailConfigured(env) { return !!(env.EMAIL?.send && typeof env.CRM_EMAIL_FROM==='string' && env.CRM_EMAIL_FROM.includes('@') && env.CRM_PUBLIC_ORIGIN && verifiedRecipients(env).length); }
 function emailReady(env, request) {
   if (!emailConfigured(env)) throw new HttpError(503,'Free-plan account email is not configured. Connect a verified Cloudflare sender and verify the recipient addresses first.');
@@ -64,31 +67,39 @@ export async function loginTeam(env,request,body) {
 export async function listUsers(env) {
   const primary=await owner(env);
   const users=await env.DB.prepare(`SELECT ${publicColumns} FROM crm_users ORDER BY created_at,id`).all();
-  const requests=await env.DB.prepare(`SELECT r.id,r.user_id,r.status,r.created_at,u.username,u.email FROM crm_reset_requests r LEFT JOIN crm_users u ON u.id=r.user_id WHERE r.status='pending' ORDER BY r.created_at`).all();
+  const requests=await env.DB.prepare(`SELECT r.id,r.user_id,r.status,r.delivery_state,r.attempts,r.created_at,u.username,u.email FROM crm_reset_requests r LEFT JOIN crm_users u ON u.id=r.user_id WHERE r.status='pending' ORDER BY r.created_at`).all();
   return {email_configured:emailConfigured(env),users:[{id:'owner',username:primary.username,email:primary.email || '',role:'admin',status:'active',email_verified_at:primary.email_verified_at},...users.results],requests:requests.results.map(r=>r.user_id==='owner'?{...r,username:primary.username,email:primary.email}:r)};
 }
 async function sendAction(env,request,user,purpose,actor,override={}) {
   const origin=emailReady(env,request),recipient=override.email || user.email;
-  if(!verifiedRecipients(env).includes(recipient))throw new HttpError(409,'Cloudflare Free requires this recipient to be verified first. Ask the account owner to complete email verification and add it to the restricted sender configuration, then retry.');
+  requireVerifiedRecipient(env,recipient);
   if(!recipient || (purpose==='reset' && !user.email_verified_at))throw new HttpError(409,'The account needs a confirmed registered email first.');
   if(user.status==='disabled')throw new HttpError(409,'This account is disabled.');
   const id=crypto.randomUUID(),token=randomToken(),hash=await hmac(env.SESSION_SECRET,`account-action:${token}`);
   const version=override.version ?? user.version, expires=seconds()+(purpose==='reset'?3600:86400);
-  await env.DB.prepare('INSERT INTO crm_account_actions(id,token_hash,user_id,email,purpose,expected_version,expires_at,created_at,approved_by) VALUES(?,?,?,?,?,?,?,?,?)').bind(id,hash,user.id,recipient,purpose,version,expires,now(),actor.id).run();
+  await env.DB.prepare('INSERT INTO crm_account_actions(id,token_hash,user_id,email,purpose,expected_version,expires_at,created_at,approved_by,reset_request_id) VALUES(?,?,?,?,?,?,?,?,?,?)').bind(id,hash,user.id,recipient,purpose,version,expires,now(),actor.id,override.resetRequestId || null).run();
   const link=`${origin}/account-action.html#token=${token}&purpose=${purpose}`;
   const subject=purpose==='invite'?'Your CRM invitation':purpose==='reset'?'Your approved CRM password reset':'Confirm your CRM email';
   try {
     await env.EMAIL.send({from:env.CRM_EMAIL_FROM,to:recipient,subject,text:`${subject}\n\nOpen this single-use link to continue:\n${link}\n\nThis link expires in ${purpose==='reset'?'one hour':'24 hours'}. If you did not expect this message, contact your CRM administrator. No password is included in this email.`});
   } catch {
-    await env.DB.prepare("UPDATE crm_account_actions SET state='failed' WHERE id=?").bind(id).run();
+    await env.DB.prepare("UPDATE crm_account_actions SET state='failed' WHERE id=? AND state='sending'").bind(id).run();
     throw new HttpError(503,'The email provider did not confirm sending. No account was activated. Retry from Users.');
   }
-  await env.DB.batch([env.DB.prepare("UPDATE crm_account_actions SET state='ready' WHERE id=?").bind(id),audit(env,actor.id,`${purpose}-email-accepted`,user.id)]);
+  const accepted=override.resetRequestId
+    ? await env.DB.prepare("UPDATE crm_account_actions SET state='ready' WHERE id=? AND state='sending' AND EXISTS(SELECT 1 FROM crm_reset_requests WHERE id=? AND status='pending' AND delivery_state='sending' AND claim_token=?) RETURNING id").bind(id,override.resetRequestId,override.resetClaim).first()
+    : await env.DB.prepare("UPDATE crm_account_actions SET state='ready' WHERE id=? AND state='sending' RETURNING id").bind(id).first();
+  if(!accepted) {
+    await env.DB.prepare("UPDATE crm_account_actions SET state='failed' WHERE id=? AND state='sending'").bind(id).run();
+    throw new HttpError(409,'This email was superseded by a newer account action. Use the latest message.');
+  }
+  await audit(env,actor.id,`${purpose}-email-accepted`,user.id).run();
   return {ok:true,email_status:'accepted',expires_at:expires};
 }
 export async function createUser(env,request,actor,body) {
   emailReady(env,request);
   const username=cleanText(body.username,80,'Username',true).toLowerCase(),address=email(body.email);
+  requireVerifiedRecipient(env,address);
   if(!/^[a-z0-9][a-z0-9._-]{2,79}$/.test(username))throw new HttpError(400,'Use 3 to 80 letters, numbers, dots, underscores or hyphens for the username.');
   if(!roles.has(body.role))throw new HttpError(400,'Choose Admin, Manager or View-only.');
   const primary=await adminCredentials(env);
@@ -103,11 +114,21 @@ export async function createUser(env,request,actor,body) {
 export async function updateUser(env,actor,id,body) {
   if(id==='owner')throw new HttpError(403,'The original owner cannot be disabled or demoted.');
   if(id===actor.id)throw new HttpError(403,'Ask another administrator to change your access.');
-  if(Object.keys(body).some(k=>!['role','status'].includes(k)) || (!body.role && !body.status))throw new HttpError(400,'Change only role or status.');
-  const user=await targetUser(env,id),role=body.role ?? user.role,status=body.status ?? user.status;
+  if(Object.keys(body).some(k=>!['role','status','email'].includes(k)) || (!body.role && !body.status && !body.email))throw new HttpError(400,'Change only role, status or an invited user email.');
+  const user=await targetUser(env,id),role=body.role ?? user.role,status=body.status ?? user.status,address=body.email===undefined?user.email:email(body.email);
   if(!roles.has(role) || !['invited','active','disabled'].includes(status) || (body.status && !['active','disabled'].includes(body.status)))throw new HttpError(400,'Invalid role or status.');
+  if(body.email!==undefined) {
+    if(user.status!=='invited' || user.email_verified_at || user.password_hash)throw new HttpError(409,'Only a never-activated invitation email can be corrected.');
+    requireVerifiedRecipient(env,address);
+    const primary=await adminCredentials(env);
+    const conflict=address===primary.username || await env.DB.prepare('SELECT 1 FROM crm_users WHERE id<>? AND email=? UNION ALL SELECT 1 FROM crm_owner_profile WHERE email=? OR pending_email=? LIMIT 1').bind(id,address,address,address).first();
+    if(conflict)throw new HttpError(409,'That email is already registered.');
+  }
   if(status==='active' && !user.email_verified_at)throw new HttpError(409,'The invited user must confirm their email first.');
-  await env.DB.batch([env.DB.prepare('UPDATE crm_users SET role=?,status=?,version=version+1,updated_at=? WHERE id=?').bind(role,status,now(),id),env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(id),audit(env,actor.id,'access-updated',id)]);
+  const identityCorrection=body.email!==undefined;
+  const updated=await env.DB.prepare(`UPDATE OR IGNORE crm_users SET email=?,role=?,status=?,version=version+1,updated_at=? WHERE id=? AND version=?${identityCorrection?" AND status='invited' AND email_verified_at IS NULL AND password_hash IS NULL":''} RETURNING id`).bind(address,role,status,now(),id,user.version).first();
+  if(!updated)throw new HttpError(409,identityCorrection?'The invitation was activated or changed. Refresh before correcting it.':'The account changed. Refresh before updating access.');
+  await env.DB.batch([env.DB.prepare("UPDATE crm_account_actions SET state='failed' WHERE user_id=? AND state IN ('sending','ready') AND used_at IS NULL").bind(id),env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(id),audit(env,actor.id,identityCorrection?'invitation-corrected':'access-updated',id)]);
   return {ok:true};
 }
 export async function inviteOrReset(env,request,actor,id,purpose) {
@@ -135,8 +156,28 @@ export async function reviewReset(env,request,actor,id,approve) {
   const pending=await env.DB.prepare("SELECT * FROM crm_reset_requests WHERE id=? AND status='pending'").bind(id).first();
   if(!pending)throw new HttpError(404,'Pending request not found.');
   if(pending.user_id===actor.id)throw new HttpError(403,'Another administrator must approve your reset. Use your current password to change it, or ask the Cloudflare owner for recovery.');
-  if(approve)await sendAction(env,request,await targetUser(env,pending.user_id),'reset',actor);
-  await env.DB.batch([env.DB.prepare("UPDATE crm_reset_requests SET status=?,reviewed_by=?,reviewed_at=? WHERE id=? AND status='pending'").bind(approve?'approved':'rejected',actor.id,now(),id),audit(env,actor.id,approve?'reset-approved':'reset-rejected',pending.user_id)]);
+  const stamp=now(),current=seconds();
+  if(!approve) {
+    const rejected=await env.DB.prepare("UPDATE crm_reset_requests SET status='rejected',delivery_state='idle',claim_token=NULL,claim_expires_at=NULL,reviewed_by=?,reviewed_at=? WHERE id=? AND status='pending' AND (delivery_state<>'sending' OR claim_expires_at<?) RETURNING id").bind(actor.id,stamp,id,current).first();
+    if(!rejected)throw new HttpError(409,'This reset request is already being processed. Refresh and try again.');
+    await audit(env,actor.id,'reset-rejected',pending.user_id).run();
+    return {ok:true};
+  }
+  const claim=crypto.randomUUID();
+  const claimed=await env.DB.prepare("UPDATE crm_reset_requests SET delivery_state='sending',claim_token=?,claim_expires_at=?,attempts=attempts+1,reviewed_by=?,reviewed_at=? WHERE id=? AND status='pending' AND (delivery_state IN ('idle','failed') OR (delivery_state='sending' AND claim_expires_at<?)) RETURNING user_id").bind(claim,current+90,actor.id,stamp,id,current).first();
+  if(!claimed)throw new HttpError(409,'This reset request is already being processed. Refresh and try again.');
+  try {
+    const ready=await env.DB.prepare("SELECT id FROM crm_account_actions WHERE reset_request_id=? AND state='ready' AND used_at IS NULL AND expires_at>?").bind(id,current).first();
+    if(!ready) {
+      await env.DB.prepare("UPDATE crm_account_actions SET state='failed' WHERE reset_request_id=? AND (state='sending' OR (state='ready' AND expires_at<=?))").bind(id,current).run();
+      await sendAction(env,request,await targetUser(env,claimed.user_id),'reset',actor,{resetRequestId:id,resetClaim:claim});
+    }
+    const results=await env.DB.batch([env.DB.prepare("UPDATE crm_reset_requests SET status='approved',delivery_state='sent',claim_token=NULL,claim_expires_at=NULL WHERE id=? AND status='pending' AND claim_token=?").bind(id,claim),audit(env,actor.id,'reset-approved',claimed.user_id)]);
+    if(results[0].meta.changes!==1)throw new HttpError(409,'The reset request changed while it was being approved.');
+  } catch(error) {
+    await env.DB.prepare("UPDATE crm_reset_requests SET delivery_state='failed',claim_token=NULL,claim_expires_at=NULL WHERE id=? AND status='pending' AND claim_token=?").bind(id,claim).run();
+    throw error;
+  }
   return {ok:true};
 }
 export async function completeAction(env,request,body) {

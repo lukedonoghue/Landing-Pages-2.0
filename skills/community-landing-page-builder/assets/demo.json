@@ -19,7 +19,36 @@
       "service": "Project planning",
       "contact_method": "Email"
     },
-    "query": {"utm_source": "google", "utm_medium": "cpc", "utm_campaign": "local-demo-verification"},
+    "query": {
+      "utm_source": "google",
+      "utm_medium": "cpc",
+      "utm_campaign": "local-demo-verification",
+      "utm_id": "local-demo-campaign-id",
+      "utm_term": "local-demo-term",
+      "utm_content": "local-demo-content",
+      "utm_source_platform": "local-demo-platform",
+      "utm_creative_format": "local-demo-format",
+      "utm_marketing_tactic": "local-demo-tactic",
+      "gclid": "local-demo-gclid",
+      "dclid": "local-demo-dclid",
+      "gbraid": "local-demo-gbraid",
+      "wbraid": "local-demo-wbraid",
+      "fbclid": "local-demo-fbclid",
+      "msclkid": "local-demo-msclkid",
+      "ttclid": "local-demo-ttclid"
+    },
+    "excluded_query": {
+      "email": "excluded-demo@example.invalid",
+      "token": "synthetic-demo-secret-not-captured",
+      "unknown_campaign": "synthetic-demo-unknown-not-captured"
+    },
+    "expected_policy": {
+      "analytics_mode": "consent",
+      "attribution_mode": "consent",
+      "advertising_user_data_mode": "disabled",
+      "browser_opt_out": false
+    },
+    "expected_features": {"first_party_attribution": true, "measured_visit": true},
     "expected_dimensions": {"source": "google", "traffic": "paid", "device": "desktop"},
     "selectors": {
       "openModal": "[data-open-modal]",

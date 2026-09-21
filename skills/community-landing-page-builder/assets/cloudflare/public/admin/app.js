@@ -356,6 +356,10 @@ function openDialog(dialog, trigger) {
   if (!dialog.open) { dialogTriggers.set(dialog, trigger || document.activeElement); dialog.showModal(); }
 }
 function closeDialog(dialog) { dialog.close(); }
+function isDialogBackdropPointer(dialog, event) {
+  const bounds = dialog.getBoundingClientRect();
+  return event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom);
+}
 $$('dialog').forEach(dialog => {
   dialog.addEventListener('close', () => {
     const trigger = dialogTriggers.get(dialog);
@@ -371,7 +375,18 @@ $$('dialog').forEach(dialog => {
     else if (!event.shiftKey && document.activeElement === nodes.at(-1)) { event.preventDefault(); nodes[0].focus(); }
   });
 });
-$('#lead-dialog').addEventListener('close', () => { state.detailRequest += 1; state.detail = null; });
+const leadDialog = $('#lead-dialog');
+let leadBackdropPointerStarted = false;
+leadDialog.addEventListener('pointerdown', event => {
+  leadBackdropPointerStarted = event.isPrimary && event.button === 0 && isDialogBackdropPointer(leadDialog, event);
+});
+leadDialog.addEventListener('pointercancel', () => { leadBackdropPointerStarted = false; });
+leadDialog.addEventListener('click', event => {
+  const closeFromBackdrop = leadBackdropPointerStarted && isDialogBackdropPointer(leadDialog, event);
+  leadBackdropPointerStarted = false;
+  if (closeFromBackdrop) closeDialog(leadDialog);
+});
+leadDialog.addEventListener('close', () => { leadBackdropPointerStarted = false; state.detailRequest += 1; state.detail = null; });
 async function openLead(id, trigger) {
   const request = ++state.detailRequest;
   const dialog = $('#lead-dialog'); const content = empty($('#detail-content'));

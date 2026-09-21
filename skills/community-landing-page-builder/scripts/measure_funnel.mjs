@@ -6,8 +6,10 @@ import { resolve, relative, dirname, isAbsolute } from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
+import { readRenderedFonts } from './rendered_fonts.mjs';
+import { inspectModalChrome } from './modal_chrome.mjs';
 
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const i = argv.indexOf(`--${name}`);
@@ -32,8 +34,11 @@ const hashFile = async (path) => digest(await readFile(path));
 let sourceFingerprint = null;
 let snapshot = null;
 let catalogueRequired = true;
+let funnel = {}, brand = null;
 if (root) {
-  try { catalogueRequired = JSON.parse(await readFile(resolve(root, 'funnel.json'), 'utf8')).catalogue?.enabled !== false; }
+  try { funnel = JSON.parse(await readFile(resolve(root, 'funnel.json'), 'utf8')); catalogueRequired = funnel.catalogue?.enabled !== false; }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
+  try { brand = JSON.parse(await readFile(resolve(root, 'build/brand.json'), 'utf8')); }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
 }
 const sourceNow = () => {
@@ -82,7 +87,7 @@ const check = (name, passed, detail, context = {}) => {
   report.checks.push({ name, status: passed ? 'pass' : 'blocked', detail, ...context });
   if (!passed) report.failures.push(`${name}: ${detail}`);
 };
-const widths = [360, 390, 768, 1024, 1180, 1280, 1440];
+const widths = [320, 360, 390, 768, 1024, 1180, 1280, 1440];
 const viewports = [...widths.map((width) => ({ width, height: width < 768 ? 844 : width < 1280 ? 800 : 900 })), { width: 1280, height: 600 }, { width: 1440, height: 720 }];
 
 async function settle(page) {
@@ -135,8 +140,12 @@ async function measure(page) {
     const images = [...document.images].filter(visible).map((el) => {
       const b = el.getBoundingClientRect(), s = getComputedStyle(el);
       const naturalRatio = el.naturalWidth / (el.naturalHeight || 1), renderedRatio = b.width / b.height;
+      const [rw, rh = 1] = s.aspectRatio.split('/').map(value => Number(value.trim()));
+      const declared = rw / rh;
       return { selector: describe(el), src: el.currentSrc || el.src, loaded: el.complete && el.naturalWidth > 0,
         naturalWidth: el.naturalWidth, naturalHeight: el.naturalHeight, box: box(el), objectFit: s.objectFit, objectPosition: s.objectPosition,
+        ratioMismatch: Number.isFinite(declared) && declared > 0 && Math.abs(renderedRatio / declared - 1) > .05,
+        contentBearing: el.dataset.contentBearing === 'true',
         croppedAreaFraction: s.objectFit === 'cover' ? 1 - Math.min(naturalRatio / renderedRatio, renderedRatio / naturalRatio) : 0 };
     });
     const ctas = [...document.querySelectorAll('[data-open-modal]')].filter(visible).map((el) => {
@@ -153,7 +162,15 @@ async function measure(page) {
       }
       return true;
     }).slice(0, 30).map((el) => ({ selector: describe(el), box: box(el), overflowX: getComputedStyle(el).overflowX }));
+    const sample = el => el ? { selector: describe(el), text: el.textContent.trim().replace(/\s+/g, ' ').slice(0, 180), fontFamily: getComputedStyle(el).fontFamily } : null;
+    const hero = document.querySelector('h1')?.closest('[data-hero],.hero,section');
+    let next = hero?.nextElementSibling;
+    while (next && !visible(next)) next = next.nextElementSibling;
+    const nextText = next && [...next.querySelectorAll('h2,h3,p,li,span')].filter(visible).find(el => el.textContent.trim());
+    const nextBox = nextText?.getBoundingClientRect();
     return { pageWidth: document.documentElement.scrollWidth, viewportWidth: innerWidth, viewportHeight: innerHeight,
+      typography: { heading: sample(document.querySelector('h1')), body: sample([...document.querySelectorAll('main p,article p,p')].filter(visible).find(el => el.textContent.trim().length >= 60 && getComputedStyle(el).textTransform !== 'uppercase')) },
+      continuation: next ? { visibleText: Boolean(nextBox && nextBox.top + Math.min(nextBox.height, 24) <= innerHeight), selector: nextText ? describe(nextText) : null } : null,
       overflow, headings, images, ctas, fontStatus: document.fonts.status,
       loadedFonts: [...document.fonts].map((font) => ({ family: font.family, style: font.style, weight: font.weight, status: font.status })),
       links: [...document.querySelectorAll('a[href]')].map((a) => ({ text: a.textContent.trim(), href: a.href })) };
@@ -176,6 +193,8 @@ async function inspectModal(page, viewport, screenshotName) {
     check('cta_opens_modal', opened, `Trigger ${i + 1}`, { viewport });
     if (!opened) continue;
     if (i === 0) {
+      const chrome = await inspectModalChrome(page, modal);
+      check('modal_close_has_clear_space', chrome.present && chrome.conflicts.length === 0, JSON.stringify(chrome), { viewport });
       let escaped = false;
       for (let tab = 0; tab < 18; tab++) {
         await page.keyboard.press(tab < 12 ? 'Tab' : 'Shift+Tab');
@@ -250,6 +269,37 @@ try {
     await page.goto(url.href, { waitUntil: 'networkidle', timeout: 30000 });
     await settle(page);
     const landing = await measure(page);
+    check('explicit_image_ratio_matches_layout', landing.images.every(img => !img.ratioMismatch), JSON.stringify(landing.images.filter(img => img.ratioMismatch)), { viewport });
+    check('content_images_not_cover_cropped', landing.images.every(img => !img.contentBearing || img.objectFit !== 'cover'), 'Information-bearing images are not cover-cropped', { viewport });
+    if (landing.continuation) check('hero_reveals_following_content', landing.continuation.visibleText, JSON.stringify(landing.continuation), { viewport });
+    if (funnel.client?.phone_display) {
+      const contact = await page.evaluate(phone => {
+        const digits = value => value.replace(/\D/g, '');
+        return [...document.querySelectorAll('header *,[data-hero] *,.hero *')].some(el => {
+          if (el.children.length || !digits(el.textContent).includes(digits(phone))) return false;
+          const b = el.getBoundingClientRect(), s = getComputedStyle(el);
+          return b.width > 0 && b.height > 0 && b.top >= 0 && b.bottom <= innerHeight && s.visibility !== 'hidden' && Number(s.opacity) !== 0 && parseFloat(s.fontSize) >= 14;
+        });
+      }, funnel.client.phone_display);
+      check('verified_phone_visible_near_top', contact, 'Configured public number appears at readable size in the first viewport', { viewport });
+    }
+    if (brand?.measurements?.length) {
+      const source = [...brand.measurements].sort((a,b) => Math.abs(a.viewport.width - viewport.width) - Math.abs(b.viewport.width - viewport.width))[0];
+      const expected = { heading: source.typography?.heading || source.roles?.hero_heading?.[0], body: source.typography?.body || source.roles?.body?.find(item => item.text?.length >= 60 && item.textTransform !== 'uppercase') };
+      const rendered = await readRenderedFonts(page, landing.typography);
+      const family = value => (value || '').split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase();
+      landing.typographyComparison = [];
+      for (const role of ['heading','body']) {
+        const actual = landing.typography[role], fonts = rendered.fonts[role] || [];
+        const matches = Boolean(expected[role]?.fontFamily && actual?.fontFamily && family(expected[role].fontFamily) === family(actual.fontFamily));
+        const expectedRendered = expected[role]?.renderedFonts?.[0]?.familyName;
+        const renderedMatches = Boolean(expectedRendered && fonts[0]?.familyName && family(expectedRendered) === family(fonts[0].familyName));
+        landing.typographyComparison.push({ role, source: expected[role], applied: actual, renderedFonts: fonts, matches, renderedMatches });
+        check('source_brand_font_matches', matches && renderedMatches, JSON.stringify(landing.typographyComparison.at(-1)), { viewport });
+      }
+    } else if (root) {
+      check('source_brand_font_evidence', false, 'Missing build/brand.json; retain actual source/applied font evidence or report the research blocker', { viewport });
+    }
     landing.screenshot = await addShot(page, `${name}-landing`);
     check('page_overflow', landing.pageWidth <= viewport.width + 1, `${landing.pageWidth}px page in ${viewport.width}px viewport`, { viewport, screenshot: landing.screenshot });
     check('loaded_images', landing.images.every((img) => img.loaded), 'All visible images decode after scrolling', { viewport });

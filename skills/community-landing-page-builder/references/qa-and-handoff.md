@@ -17,6 +17,8 @@
 
 Use `pass_with_warnings` only when the remaining issue is genuinely non-blocking for the stated deliverable. Missing CRM receipt is non-blocking for a local preview and blocking for launch readiness.
 
+Before delivery, reconcile the owner-facing QA summary with the current dated reports, actual deployment URL/revision, selected configuration and unresolved blockers. Remove stale present-tense status and copied test counts; preserve older results explicitly as historical evidence. Execute any supplied setup command against a safe synthetic fixture or its documented dry-run/help contract, not just by reading it. Describe the actual configured cron interval and distinguish immediate processing from scheduled retries. Account-email tests using a mail sink prove local behavior, not real provider delivery.
+
 ## Browser test matrix
 
 At minimum:
