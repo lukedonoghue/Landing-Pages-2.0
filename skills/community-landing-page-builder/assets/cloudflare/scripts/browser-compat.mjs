@@ -102,6 +102,20 @@ export async function fillSteps(page, fixture, { inspectField, onStep } = {}) {
   throw new Error('The form did not advance through the reviewed fixture.');
 }
 export async function waitForPageImages(page, timeout = 5000) {
+  // Visit actual image positions: lazy-loading layout shifts can invalidate a
+  // page-height snapshot taken before the scrolling sweep.
+  for (const image of await page.locator('img').all()) {
+    if (!await image.isVisible()) continue;
+    await image.scrollIntoViewIfNeeded();
+    try { await image.evaluate(img => Promise.race([
+      new Promise(resolve => {
+        if (img.complete) return resolve();
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      }),
+      new Promise(resolve => setTimeout(resolve, 1500))
+    ])); } catch { return false; }
+  }
   try {
     await page.waitForFunction(() => [...document.images].filter(img => {
       const box = img.getBoundingClientRect();
@@ -160,7 +174,12 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           check(report, `${label}: no horizontal overflow`, await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
           // decode() can reject before a lazy request completes in WebKit.
           // Wait for the real resource state and still reject broken visible images.
-          check(report, `${label}: images load`, await waitForPageImages(page));
+          const imagesLoaded = await waitForPageImages(page);
+          const unresolved = imagesLoaded ? null : await page.evaluate(() => [...document.images].filter(img => {
+            const box = img.getBoundingClientRect();
+            return box.width > 0 && box.height > 0 && (!img.complete || !img.naturalWidth);
+          }).map(img => ({ src: img.getAttribute('src'), complete: img.complete, naturalWidth: img.naturalWidth })));
+          check(report, `${label}: images load`, imagesLoaded, unresolved);
           await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
           await page.waitForTimeout(100);
           const pageFile = path.join(out, `${engine}-${viewport.width}-page.png`);

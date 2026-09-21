@@ -14,6 +14,8 @@ Legacy contexts with absolute paths remain readable only inside their original p
 
 Read `copy-doctrine.md`. Create `build/client-copy-brief.json` with: `client_name`, `service`, `audience`, `sector`, `offer_type`, `intent`, `primary_cta`, `follow_up_promise`, `required_sections`, `claims`, and optional `buyer_job`, `style`, `primary_reference_url`, `forbidden_claims`.
 
+All entry controls for the same journey share `primary_cta`. If opening the form and submitting it are different named actions, explicitly set optional `form_submit_label` in the brief and use it as `modal.submit_label`; otherwise the submit label defaults to `primary_cta`. Both labels must accurately describe their own action, not promise a different offer or delivery.
+
 Each claim has `id`, `text`, `source`, `evidence`, `approved` and relevant `qualifiers`. Keep the full claim ledger and underlying research alongside this brief. `approved` means permitted for this draft; it is not a substitute for examining the source. Operational promises supplied directly by the user can use the user's dated instruction as evidence. Unknown facts stay unknown.
 
 When a research manifest is available, add `source_manifest` and a `source_id` for each approved website claim. Preparation verifies the supporting excerpt against its saved source. Changes to the manifest or source text invalidate later review. Use `evidence_type: user_instruction` only for facts the user actually supplied. Source matching establishes provenance, not semantic entailment.

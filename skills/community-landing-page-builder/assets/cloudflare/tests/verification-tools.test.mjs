@@ -96,6 +96,9 @@ test('WebKit waits for a delayed image even when decode rejects, and still rejec
     assert.equal(await page.evaluate(() => document.images[0].complete), false);
     setTimeout(release, 150);
     assert.equal(await waitForPageImages(page), true);
+    await page.setContent(`<div style="height:16000px"></div><img loading="lazy" width="16" height="16" src="${url}/slow.svg?lazy">`);
+    await page.route('**/slow.svg?lazy', route => route.fulfill({ contentType: 'image/svg+xml', body: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16"/></svg>' }));
+    assert.equal(await waitForPageImages(page), true);
     await page.goto(url + '/broken', { waitUntil: 'domcontentloaded' });
     assert.equal(await waitForPageImages(page), false);
   } finally { release(); await browser?.close(); await new Promise(resolve => server.close(resolve)); }

@@ -142,6 +142,8 @@ def prepare(directory,brief_path,out,limit):
     if missing:raise ValueError('Missing brief fields: '+', '.join(missing))
     for key in ('client_name','service','audience','sector','offer_type','intent','primary_cta'):
         if not isinstance(brief[key],str) or not brief[key].strip():raise ValueError('Brief field is empty: '+key)
+    if 'form_submit_label' in brief and (not isinstance(brief['form_submit_label'],str) or not brief['form_submit_label'].strip()):
+        raise ValueError('Brief field is empty: form_submit_label')
     if len({c['id'] for c in brief['claims']})!=len(brief['claims']):raise ValueError('Duplicate client claim IDs')
     research=source_evidence(brief,brief_path)
     primary=project_reference(brief,brief_path,research)
@@ -291,7 +293,10 @@ def audit(copy_path,brief_path,context_path,review_path=None):
                 if not complete_text(copy[component].get('text')):failures.append('Complete brochure.text is required before copy approval')
             continue
         if copy[component].get('follow_up_promise')!=brief['follow_up_promise']:failures.append('Follow-up mismatch in '+component)
-    if 'modal' in copy and copy['modal'].get('submit_label')!=brief['primary_cta']:failures.append('Modal submit label differs from primary CTA')
+    submit_label=brief.get('form_submit_label',brief['primary_cta'])
+    if 'form_submit_label' in brief and (not isinstance(submit_label,str) or not submit_label.strip()):failures.append('Brief form_submit_label must be a non-empty string')
+    if 'modal' in copy and copy['modal'].get('submit_label')!=submit_label:
+        failures.append('Modal submit label differs from '+('brief form_submit_label' if 'form_submit_label' in brief else 'primary CTA'))
     # Only customer-facing fields are scanned; evidence IDs and metadata are not rendered copy.
     visible=[]
     skip={'id','claim_ids','source_ids','cta_role','evidence','notes','approved_asset'}

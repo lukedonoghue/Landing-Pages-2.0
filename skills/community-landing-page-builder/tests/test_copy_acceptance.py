@@ -163,6 +163,44 @@ class CopyAcceptanceTests(unittest.TestCase):
         library.prepare(library.DEFAULT, self.root / 'build/client-copy-brief.json', output, 1)
         self.assertEqual(MODULE.read(output)['editorial_contract_version'], 2)
 
+    def test_modal_submit_label_uses_explicit_brief_value_or_primary_cta_fallback(self):
+        spec = importlib.util.spec_from_file_location('copy_library_submit_test', SCRIPT.with_name('copy_library.py'))
+        library = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(library)
+        (self.root / 'build').mkdir()
+        draft = {
+            'h1': 'Synthetic accounting support',
+            'primary_cta': 'Try the consultation form',
+            'sections': [{'id': 'hero', 'headline': 'Accounting support', 'body': self.copy}],
+            'modal': {'submit_label': 'Save demo request', 'follow_up_promise': ''},
+        }
+        brief = {
+            'client_name': 'Synthetic', 'primary_cta': draft['primary_cta'],
+            'form_submit_label': 'Save demo request', 'follow_up_promise': '',
+            'output_mode': 'copy_only', 'claims': [],
+        }
+        self.save('build/page-copy.json', draft)
+        self.save('build/client-copy-brief.json', brief)
+        self.save('build/copy-context.json', {
+            'brief_sha256': MODULE.digest(self.root / 'build/client-copy-brief.json'),
+            'editorial_contract_version': 2,
+        })
+        paths = [self.root / 'build' / name for name in
+                 ('page-copy.json', 'client-copy-brief.json', 'copy-context.json')]
+        self.assertNotIn('Modal submit label', '\n'.join(library.audit(*paths)['failures']))
+
+        draft['modal']['submit_label'] = 'Different submit action'
+        self.save('build/page-copy.json', draft)
+        self.assertIn('Modal submit label differs from brief form_submit_label', library.audit(*paths)['failures'])
+
+        brief.pop('form_submit_label')
+        self.save('build/client-copy-brief.json', brief)
+        self.save('build/copy-context.json', {
+            'brief_sha256': MODULE.digest(self.root / 'build/client-copy-brief.json'),
+            'editorial_contract_version': 2,
+        })
+        self.assertIn('Modal submit label differs from primary CTA', library.audit(*paths)['failures'])
+
 
 if __name__ == '__main__':
     unittest.main()

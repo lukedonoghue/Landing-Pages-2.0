@@ -275,10 +275,18 @@ try {
     if (funnel.client?.phone_display) {
       const contact = await page.evaluate(phone => {
         const digits = value => value.replace(/\D/g, '');
-        return [...document.querySelectorAll('header *,[data-hero] *,.hero *')].some(el => {
-          if (el.children.length || !digits(el.textContent).includes(digits(phone))) return false;
-          const b = el.getBoundingClientRect(), s = getComputedStyle(el);
-          return b.width > 0 && b.height > 0 && b.top >= 0 && b.bottom <= innerHeight && s.visibility !== 'hidden' && Number(s.opacity) !== 0 && parseFloat(s.fontSize) >= 14;
+        return [...document.querySelectorAll('header,[data-hero],.hero')].some(region => {
+          const walker = document.createTreeWalker(region, NodeFilter.SHOW_TEXT);
+          let node;
+          while ((node = walker.nextNode())) {
+            if (!digits(node.textContent).includes(digits(phone))) continue;
+            const s = getComputedStyle(node.parentElement);
+            if (s.visibility === 'hidden' || Number(s.opacity) === 0 || parseFloat(s.fontSize) < 14) continue;
+            const range = document.createRange(); range.selectNodeContents(node);
+            const boxes = [...range.getClientRects()].filter(b => b.width > 0 && b.height > 0);
+            if (boxes.length && boxes.every(b => b.top >= 0 && b.bottom <= innerHeight && b.left >= 0 && b.right <= innerWidth)) return true;
+          }
+          return false;
         });
       }, funnel.client.phone_display);
       check('verified_phone_visible_near_top', contact, 'Configured public number appears at readable size in the first viewport', { viewport });
