@@ -1,5 +1,6 @@
 import { initDataLifecyclePanel } from './data-lifecycle.js';
 import { initAccountPanel } from './account.js';
+import { initUsersPanel } from './users.js';
 import { createDateRangePicker } from './date-range.js';
 import { renderPerformanceChart } from './performance-chart.js';
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -11,12 +12,13 @@ const DEFAULT_STAGES = [
 ];
 const DEFAULT_FILTERS = { visitor_mode: 'unique', device: 'all', traffic: 'blended', source: 'all' };
 const SOURCE_LABELS = {all:'All sources',google:'Google',facebook:'Facebook',instagram:'Instagram',microsoft:'Microsoft / Bing',direct:'Direct',other:'Other sources',unknown:'Unknown / historical'};
-const state = { filters: {...DEFAULT_FILTERS}, leadSource: 'all', chartMode: 'count', view: 'overview', stages: DEFAULT_STAGES, timezone: 'UTC', leads: [], total: 0, page: 1, limit: 100, q: '', status: '', pending: new Set(), listRequest: 0, metricRequest: 0, detailRequest: 0, detail: null, metricDays: [] };
+const state = { filters: {...DEFAULT_FILTERS}, leadSource: 'all', chartMode: 'count', view: 'overview', stages: DEFAULT_STAGES, timezone: 'UTC', leads: [], total: 0, page: 1, limit: 100, q: '', status: '', pending: new Set(), listRequest: 0, metricRequest: 0, detailRequest: 0, detail: null, metricDays: [], user: null, permissions: { manage_users: false, edit_leads: false, export_leads: false, manage_settings: false } };
 let toastTimer;
 let rangePicker;
 let confirmAction;
 let accountPanel;
 let dataPanel;
+let usersPanel;
 
 function element(tag, className = '', text) {
   const node = document.createElement(tag);
@@ -105,16 +107,33 @@ function asObject(value) {
   return {};
 }
 function displayValue(value) { return typeof value === 'object' && value !== null ? JSON.stringify(value, null, 2) : String(value ?? '-'); }
+function can(permission) { return state.permissions[permission] === true; }
+function applySession(session) {
+  if (!session?.authenticated) throw new Error('Your session has ended. Please sign in again.');
+  if (!session.user) {
+    state.user = { id: 'owner', username: 'owner', role: 'admin' };
+    state.permissions = { manage_users: true, edit_leads: true, export_leads: true, manage_settings: true };
+    return;
+  }
+  state.user = session.user;
+  state.permissions = Object.fromEntries(['manage_users', 'edit_leads', 'export_leads', 'manage_settings'].map(key => [key, session.permissions?.[key] === true]));
+}
+function allowedView(view) {
+  if (view === 'users') return can('manage_users');
+  if (view === 'connections') return can('manage_settings');
+  return Boolean(viewCopy[view]);
+}
 
 const viewCopy = {
   overview: ['A clear view of your growth.', 'See who arrives, who enquires, and what happens next.'],
   pipeline: ['Every enquiry. A next step.', 'Move conversations forward, from first contact to a new customer.'],
   leads: ['Your conversations, together.', 'Find an enquiry, review the details, and pick up where you left off.'],
-  account: ['Your workspace, securely managed.', 'Admin access, new enquiries, exports and recovery.'],
-  connections: ['A little less busywork.', 'Connect your enquiries to the tools your team already uses.']
+  account: ['Your workspace, securely managed.', 'Manage your password, sessions and new-enquiry alerts.'],
+  connections: ['A little less busywork.', 'Connect your enquiries to the tools your team already uses.'],
+  users: ['The right access for every person.', 'Invite colleagues, assign roles, and review account recovery requests.']
 };
 function showView(view) {
-  if (!viewCopy[view]) view = 'overview';
+  if (!allowedView(view)) view = 'overview';
   rangePicker?.close();
   closeFilters();
   state.view = view;
@@ -128,11 +147,13 @@ function showView(view) {
   $('#overview-panel').hidden = view !== 'overview';
   $('#leads-panel').hidden = !['pipeline', 'leads'].includes(view);
   $('#connections-panel').hidden = view !== 'connections';
+  $('#users-panel').hidden = view !== 'users';
   $('#account-panel').hidden = view !== 'account';
-  $('#board-hint').hidden = view !== 'pipeline';
+  $('#board-hint').hidden = view !== 'pipeline' || !can('edit_leads');
   history.replaceState(null, '', `#${view}`);
   if (view === 'overview') loadMetrics();
   else if (view === 'connections') loadWebhooks();
+  else if (view === 'users') usersPanel?.refresh();
   else if (view === 'account') accountPanel?.refreshNotifications();
   else loadLeads();
 }
@@ -228,9 +249,9 @@ function stageSelect(lead, className = '') {
   const select = element('select', className);
   select.setAttribute('aria-label', `Stage for ${leadName(lead)}`);
   state.stages.forEach(stage => { const option = element('option', '', stage.label); option.value = stage.id; select.append(option); });
-  select.value = lead.status || 'new'; select.disabled = state.pending.has(String(lead.id));
+  select.value = lead.status || 'new'; select.disabled = !can('edit_leads') || state.pending.has(String(lead.id));
   select.dataset.leadStage = String(lead.id);
-  select.addEventListener('change', () => changeStage(lead, select.value, select));
+  if (can('edit_leads')) select.addEventListener('change', () => changeStage(lead, select.value, select));
   return select;
 }
 function renderBoard() {
@@ -243,27 +264,31 @@ function renderBoard() {
     header.append(title, element('span', 'stage-count', leads.length)); column.append(header);
     if (!leads.length) column.append(element('p', 'empty-column', `No enquiries in ${stage.label.toLowerCase()}.`));
     leads.forEach(lead => {
-      const card = element('article', 'lead-card'); card.draggable = !state.pending.has(String(lead.id)); card.dataset.leadId = lead.id;
+      const card = element('article', 'lead-card'); card.draggable = can('edit_leads') && !state.pending.has(String(lead.id)); card.dataset.leadId = lead.id;
       const top = element('div', 'lead-card-top'); const avatar = element('span', 'avatar', leadName(lead).split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase()); avatar.setAttribute('aria-hidden', 'true');
       const text = element('div');
       const open = button(leadName(lead), 'lead-name', event => openLead(lead.id, event.currentTarget)); open.dataset.openLead = String(lead.id);
       text.append(open, element('p', 'lead-email', lead.email || lead.phone || 'Contact details in enquiry'));
       top.append(avatar, text); card.append(top);
       const meta = element('div', 'lead-card-meta'); meta.append(element('span', 'source-tag', sourceName(lead)), element('time', '', dateLabel(lead.created_at))); card.append(meta, stageSelect(lead, 'card-stage'));
-      card.addEventListener('dragstart', event => {
-        if (event.target.closest('select') || state.pending.has(String(lead.id))) { event.preventDefault(); return; }
-        event.dataTransfer.setData('text/plain', String(lead.id)); event.dataTransfer.effectAllowed = 'move'; card.classList.add('dragging');
-      });
-      card.addEventListener('dragend', () => { card.classList.remove('dragging'); $$('.stage-column').forEach(node => node.classList.remove('drag-over')); });
+      if (can('edit_leads')) {
+        card.addEventListener('dragstart', event => {
+          if (event.target.closest('select') || state.pending.has(String(lead.id))) { event.preventDefault(); return; }
+          event.dataTransfer.setData('text/plain', String(lead.id)); event.dataTransfer.effectAllowed = 'move'; card.classList.add('dragging');
+        });
+        card.addEventListener('dragend', () => { card.classList.remove('dragging'); $$('.stage-column').forEach(node => node.classList.remove('drag-over')); });
+      }
       column.append(card);
     });
-    column.addEventListener('dragover', event => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; column.classList.add('drag-over'); });
-    column.addEventListener('dragleave', event => { if (!column.contains(event.relatedTarget)) column.classList.remove('drag-over'); });
-    column.addEventListener('drop', event => {
-      event.preventDefault(); column.classList.remove('drag-over');
-      const id = event.dataTransfer.getData('text/plain'); const lead = state.leads.find(item => String(item.id) === id);
-      if (lead && lead.status !== stage.id) changeStage(lead, stage.id);
-    });
+    if (can('edit_leads')) {
+      column.addEventListener('dragover', event => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; column.classList.add('drag-over'); });
+      column.addEventListener('dragleave', event => { if (!column.contains(event.relatedTarget)) column.classList.remove('drag-over'); });
+      column.addEventListener('drop', event => {
+        event.preventDefault(); column.classList.remove('drag-over');
+        const id = event.dataTransfer.getData('text/plain'); const lead = state.leads.find(item => String(item.id) === id);
+        if (lead && lead.status !== stage.id) changeStage(lead, stage.id);
+      });
+    }
     board.append(column);
   });
 }
@@ -285,6 +310,7 @@ function renderLeadTable() {
   table.append(body); root.append(table);
 }
 async function changeStage(lead, status, control) {
+  if (!can('edit_leads')) return;
   const id = String(lead.id); const previous = lead.status;
   if (previous === status || state.pending.has(id)) return;
   state.pending.add(id);
@@ -314,8 +340,8 @@ async function changeStage(lead, status, control) {
     }
   } finally {
     state.pending.delete(id);
-    $$('[data-lead-stage]').filter(node => node.dataset.leadStage === id).forEach(node => { node.disabled = false; });
-    $$('.lead-card').filter(node => node.dataset.leadId === id).forEach(node => { node.draggable = true; });
+    $$('[data-lead-stage]').filter(node => node.dataset.leadStage === id).forEach(node => { node.disabled = !can('edit_leads'); });
+    $$('.lead-card').filter(node => node.dataset.leadId === id).forEach(node => { node.draggable = can('edit_leads'); });
     if (control && !$('#lead-dialog').open) {
       const panel = state.view === 'pipeline' ? $('#pipeline-board') : $('#lead-table');
       const replacement = $$('[data-lead-stage]', panel).find(node => node.dataset.leadStage === id);
@@ -389,21 +415,24 @@ function renderDetail(data) {
   const notes = element('div'); const list = element('ul', 'note-list');
   (data.notes || []).forEach(note => { const li = element('li'); li.append(element('p', '', note.body), element('time', '', dateLabel(note.created_at, true))); list.append(li); });
   notes.append(list);
-  if (!data.notes?.length) notes.append(element('p', 'muted small', 'No notes yet. Add context for your next conversation.'));
-  const form = element('form', 'note-form'); const noteLabel = element('label', '', 'Add a note'); noteLabel.htmlFor = 'new-note';
-  const textarea = element('textarea'); textarea.id = 'new-note'; textarea.name = 'body'; textarea.required = true; textarea.maxLength = 4000; textarea.placeholder = 'What should you remember about this enquiry?'; textarea.setAttribute('aria-describedby', 'note-error');
-  const noteError = element('p', 'inline-error'); noteError.id = 'note-error'; noteError.setAttribute('role', 'alert');
-  const submit = element('button', 'button primary', 'Save note'); submit.type = 'submit'; form.append(noteLabel, textarea, noteError, submit);
-  form.addEventListener('submit', async event => {
-    event.preventDefault(); if (!textarea.value.trim()) { noteError.textContent = 'Write a note before saving.'; textarea.focus(); return; }
-    submit.disabled = true; submit.textContent = 'Saving…'; noteError.textContent = '';
-    try {
-      await api(`/api/admin/leads/${encodeURIComponent(lead.id)}/notes`, { method: 'POST', body: JSON.stringify({ body: textarea.value.trim() }) });
-      toast('Note saved.');
-      if ($('#lead-dialog').open && String(state.detail?.lead?.id) === String(lead.id)) { await openLead(lead.id); $('#new-note')?.focus(); }
-    } catch (error) { noteError.textContent = message(error); submit.disabled = false; submit.textContent = 'Save note'; }
-  });
-  notes.append(form); root.append(detailSection('Conversation notes', notes));
+  if (!data.notes?.length) notes.append(element('p', 'muted small', can('edit_leads') ? 'No notes yet. Add context for your next conversation.' : 'No notes have been recorded.'));
+  if (can('edit_leads')) {
+    const form = element('form', 'note-form'); const noteLabel = element('label', '', 'Add a note'); noteLabel.htmlFor = 'new-note';
+    const textarea = element('textarea'); textarea.id = 'new-note'; textarea.name = 'body'; textarea.required = true; textarea.maxLength = 4000; textarea.placeholder = 'What should you remember about this enquiry?'; textarea.setAttribute('aria-describedby', 'note-error');
+    const noteError = element('p', 'inline-error'); noteError.id = 'note-error'; noteError.setAttribute('role', 'alert');
+    const submit = element('button', 'button primary', 'Save note'); submit.type = 'submit'; form.append(noteLabel, textarea, noteError, submit);
+    form.addEventListener('submit', async event => {
+      event.preventDefault(); if (!textarea.value.trim()) { noteError.textContent = 'Write a note before saving.'; textarea.focus(); return; }
+      submit.disabled = true; submit.textContent = 'Saving…'; noteError.textContent = '';
+      try {
+        await api(`/api/admin/leads/${encodeURIComponent(lead.id)}/notes`, { method: 'POST', body: JSON.stringify({ body: textarea.value.trim() }) });
+        toast('Note saved.');
+        if ($('#lead-dialog').open && String(state.detail?.lead?.id) === String(lead.id)) { await openLead(lead.id); $('#new-note')?.focus(); }
+      } catch (error) { noteError.textContent = message(error); submit.disabled = false; submit.textContent = 'Save note'; }
+    });
+    notes.append(form);
+  }
+  root.append(detailSection('Conversation notes', notes));
   const history = element('ul', 'activity-list');
   (data.activity || []).forEach(item => {
     const text = item.description || (item.to_status ? `${item.from_status ? `${stageLabel(item.from_status)} → ` : ''}${stageLabel(item.to_status)}` : String(item.event_type || item.action || 'Enquiry updated').replace(/[_-]/g, ' '));
@@ -411,9 +440,14 @@ function renderDetail(data) {
   });
   if (!data.activity?.length) history.append(element('li', 'muted', 'No activity recorded yet.'));
   root.append(detailSection('Activity', history));
-  const bottom = element('div', 'detail-bottom'); bottom.append(element('span', 'muted small', `Enquiry ${lead.id}`), button('Remove contact', 'text-button', event => confirmRemoval('Remove this contact?', `Remove ${leadName(lead)} from the CRM? Historical reporting is retained.`, 'Remove contact', async () => {
-    await api(`/api/admin/leads/${encodeURIComponent(lead.id)}`, { method: 'DELETE' }); closeDialog($('#lead-dialog')); toast('Contact removed.'); await loadLeads();
-  }, event.currentTarget)), button('Review permanent erasure','text-button',()=>{closeDialog($('#lead-dialog'));showView('account');dataPanel?.reviewErasure([lead.id]);})); root.append(bottom);
+  const bottom = element('div', 'detail-bottom'); bottom.append(element('span', 'muted small', `Enquiry ${lead.id}`));
+  if (can('edit_leads')) {
+    bottom.append(button('Remove contact', 'text-button', event => confirmRemoval('Remove this contact?', `Remove ${leadName(lead)} from the CRM? Historical reporting is retained.`, 'Remove contact', async () => {
+      await api(`/api/admin/leads/${encodeURIComponent(lead.id)}`, { method: 'DELETE' }); closeDialog($('#lead-dialog')); toast('Contact removed.'); await loadLeads();
+    }, event.currentTarget)));
+    if (dataPanel) bottom.append(button('Review permanent erasure','text-button',()=>{closeDialog($('#lead-dialog'));showView('account');dataPanel.reviewErasure([lead.id]);}));
+  }
+  root.append(bottom);
 }
 function confirmRemoval(title, description, actionLabel, action, trigger) {
   $('#confirm-title').textContent = title; $('#confirm-description').textContent = description; $('#accept-confirm').textContent = actionLabel; $('#confirm-error').textContent = ''; confirmAction = action; openDialog($('#confirm-dialog'), trigger); $('#cancel-confirm').focus();
@@ -421,6 +455,7 @@ function confirmRemoval(title, description, actionLabel, action, trigger) {
 
 let webhookRequest = 0;
 async function loadWebhooks() {
+  if (!can('manage_settings')) return;
   const request = ++webhookRequest; const status = $('#webhooks-status'); loading(status, 'Loading connections…'); empty($('#webhooks-list'));
   try {
     const data = await api('/api/admin/webhooks'); if (request !== webhookRequest) return;
@@ -493,7 +528,8 @@ $('#accept-confirm').addEventListener('click', async () => {
 });
 $('#refresh-webhooks').addEventListener('click', loadWebhooks);
 $('#webhook-form').addEventListener('submit', async event => {
-  event.preventDefault(); const form = event.currentTarget; const submit = $('button[type=submit]', form); const error = $('#webhook-error'); const url = $('#webhook-url');
+  event.preventDefault(); if (!can('manage_settings')) return;
+  const form = event.currentTarget; const submit = $('button[type=submit]', form); const error = $('#webhook-error'); const url = $('#webhook-url');
   error.textContent = ''; url.removeAttribute('aria-invalid');
   let endpoint;
   try { endpoint = new URL(url.value.trim()); if (endpoint.protocol !== 'https:' || endpoint.username || endpoint.password) throw new Error(); }
@@ -512,6 +548,9 @@ $('#logout').addEventListener('click', async event => {
 });
 async function start() {
   try {
+    applySession(await api('/api/auth/session'));
+    $('[data-view="connections"]').hidden = !can('manage_settings');
+    $('[data-view="users"]').hidden = !can('manage_users');
     const config = await api('/api/admin/config');
     if (Array.isArray(config.stages) && config.stages.length) state.stages = config.stages.filter(stage => DEFAULT_STAGES.some(allowed => allowed.id === stage.id));
     try { new Intl.DateTimeFormat(undefined, { timeZone: config.timezone }); state.timezone = config.timezone || 'UTC'; } catch {}
@@ -521,8 +560,9 @@ async function start() {
     if (/^#[a-f\d]{6}$/i.test(config.brand?.color || '')) document.documentElement.style.setProperty('--brand', config.brand.color);
     if (typeof config.brand?.logo === 'string' && /^\/(?!\/)/.test(config.brand.logo)) { const img = element('img'); img.src = config.brand.logo; img.alt = ''; empty($('#brand-mark')).append(img); }
     state.stages.forEach(stage => { const option = element('option', '', stage.label); option.value = stage.id; $('#stage-filter').append(option); });
-    accountPanel = initAccountPanel($('#account-panel'), {onNotifications(data){const badge=$('#new-lead-badge');badge.textContent=String(data.unread_count || 0);badge.hidden=!data.unread_count;badge.setAttribute('aria-label',`${data.unread_count || 0} new enquiries`);}});
-    dataPanel = initDataLifecyclePanel($('#account-panel'),{request:api,siteName:config.brand?.name||'Funnel',onChanged(){accountPanel?.refreshNotifications();}});
+    accountPanel = initAccountPanel($('#account-panel'), {currentUser:state.user,permissions:state.permissions,onNotifications(data){const badge=$('#new-lead-badge');badge.textContent=String(data.unread_count || 0);badge.hidden=!data.unread_count;badge.setAttribute('aria-label',`${data.unread_count || 0} new enquiries`);}});
+    if (can('manage_settings')) dataPanel = initDataLifecyclePanel($('#account-panel'),{request:api,siteName:config.brand?.name||'Funnel',onChanged(){accountPanel?.refreshNotifications();}});
+    if (can('manage_users')) usersPanel = initUsersPanel($('#users-panel'), {request:api,currentUser:state.user});
     updateFilters();
     rangePicker = createDateRangePicker($('#date-filter'), { today: todayISO, earliest: () => config.earliest_date || todayISO(), onChange: loadMetrics });
     showView(location.hash.slice(1) || 'overview');

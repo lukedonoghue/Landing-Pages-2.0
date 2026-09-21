@@ -1,11 +1,13 @@
 const node = (tag, text, cls) => { const el = document.createElement(tag); if (text) el.textContent = text; if (cls) el.className = cls; return el; };
-export function initAccountPanel(host, { onSessionEnded = () => window.location.assign('/login.html'), onNotifications = () => {} } = {}) {
+export function initAccountPanel(host, { onSessionEnded = () => window.location.assign('/login.html'), onNotifications = () => {}, currentUser = null, permissions = {} } = {}) {
   let disposed = false; let marker = 0; let pending = false; let exportParams = new URLSearchParams();
+  const canAcknowledge = permissions.edit_leads === true;
+  const canExport = permissions.export_leads === true;
   const section = node('section', '', 'account-panel'); section.setAttribute('aria-label', 'Account and lead alerts');
   const notice = node('div', '', 'account-notice');
   const count = node('span', 'Checking new enquiries…'); count.setAttribute('role', 'status');
   const mark = node('button', 'Mark as seen', 'button secondary'); mark.type = 'button'; mark.disabled = true;
-  notice.append(count, mark);
+  notice.append(count); if (canAcknowledge) notice.append(mark);
   const exportButton = node('button', 'Export contacts CSV', 'button secondary'); exportButton.type = 'button';
   const details = node('details', '', 'account-details'); const summary = node('summary', 'Account & security');
   const user = node('p', 'Loading account…', 'account-username');
@@ -19,9 +21,9 @@ export function initAccountPanel(host, { onSessionEnded = () => window.location.
   const save = node('button', 'Change password & sign out', 'button primary'); save.type = 'submit';
   form.append(currentLabel, nextLabel, confirmLabel, save);
   const revoke = node('button', 'Sign out all devices', 'button secondary'); revoke.type = 'button';
-  const description = node('p', 'Changing the password signs out every device. If you lose access, your Cloudflare account owner can reset it.', 'account-help');
+  const description = node('p', 'Changing your password signs out every device. Forgot-password requests require another administrator’s approval before email delivery.', 'account-help');
   const status = node('p', '', 'account-status'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
-  details.append(summary, user, description, form, revoke); section.append(notice, exportButton, details, status); host.replaceChildren(section);
+  details.append(summary, user, description, form, revoke); section.append(notice); if (canExport) section.append(exportButton); section.append(details, status); host.replaceChildren(section);
   async function request(url, options = {}) {
     const response = await fetch(url, { credentials: 'same-origin', cache: 'no-store', ...options, headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } });
     const data = await response.json();
@@ -36,11 +38,11 @@ export function initAccountPanel(host, { onSessionEnded = () => window.location.
       const data = await request('/api/admin/notifications');
       if (disposed) return;
       marker = data.through; count.textContent = data.unread_count ? `${data.unread_count.toLocaleString()} new ${data.unread_count === 1 ? 'enquiry' : 'enquiries'}` : 'You’re up to date';
-      mark.disabled = !data.unread_count; onNotifications(data); return data;
+      if (canAcknowledge) mark.disabled = !data.unread_count; onNotifications(data); return data;
     } catch (error) { count.textContent = 'Lead alerts unavailable'; report(error); }
     finally { pending = false; }
   }
-  mark.addEventListener('click', async () => {
+  if (canAcknowledge) mark.addEventListener('click', async () => {
     mark.disabled = true;
     try { await request('/api/admin/notifications/acknowledge', { method: 'POST', body: JSON.stringify({ through: marker }) }); await refreshNotifications(); }
     catch (error) { report(error); mark.disabled = false; }
@@ -59,7 +61,7 @@ export function initAccountPanel(host, { onSessionEnded = () => window.location.
     try { await request('/api/admin/account/revoke-sessions', { method: 'POST', body: '{}' }); onSessionEnded(); }
     catch (error) { report(error); revoke.disabled = false; }
   });
-  exportButton.addEventListener('click', async () => {
+  if (canExport) exportButton.addEventListener('click', async () => {
     exportButton.disabled = true; status.textContent = 'Preparing contacts…';
     try {
       const response = await fetch(`/api/admin/leads/export.csv?${exportParams}`, { credentials: 'same-origin', cache: 'no-store' });
@@ -72,7 +74,11 @@ export function initAccountPanel(host, { onSessionEnded = () => window.location.
         : `Downloaded ${response.headers.get('X-Export-Count')} contacts matching your contact-list filters.`;
     } catch (error) { report(error); } finally { exportButton.disabled = false; }
   });
-  request('/api/admin/account').then(data => { if (!disposed) user.textContent = `Signed in as ${data.username}`; }).catch(report);
+  if (currentUser) {
+    const identity = currentUser.username || currentUser.email || 'workspace user';
+    const role = currentUser.role === 'viewer' ? 'View-only' : currentUser.role ? currentUser.role[0].toUpperCase() + currentUser.role.slice(1) : '';
+    user.textContent = `Signed in as ${identity}${role ? ` · ${role}` : ''}`;
+  } else request('/api/admin/account').then(data => { if (!disposed) user.textContent = `Signed in as ${data.username}`; }).catch(report);
   const visible = () => { if (!document.hidden) refreshNotifications(); };
   document.addEventListener('visibilitychange', visible); const timer = setInterval(refreshNotifications, 60000); refreshNotifications();
   return { refreshNotifications, setExportParams(params) {

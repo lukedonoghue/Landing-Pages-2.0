@@ -34,3 +34,12 @@ Official references: https://developers.cloudflare.com/email-service/platform/pr
 ## Remaining work
 
 Finish UI role/confirmation tests and inspect desktop/mobile screenshots. Rerun the full regression after all writers finish. Integrate reviewed files into the generated Clarentis project, preserving client configuration and credentials. Apply additive migration and publish only through the reviewed release workflow, with exact new revision evidence. Verify live original-owner access and server permissions without seeding weak shared credentials. Real invite/reset delivery remains pending authorized sender/recipient setup, not a reason to silently activate accounts or upgrade billing.
+
+## Subsequent checkpoint, 2026-09-21
+
+- User confirmed the connected account is Workers Free. API billing inspection was forbidden (403); the user confirmation is the source of the plan assertion. No account plan changed.
+- Sol completed 18 focused role/UI tests and one desktop/mobile screenshot capture test. Its visual review noted that the mobile People table needs horizontal scrolling without an obvious cue. Screenshots are local in outputs/crm-team-access. Parent visual inspection remains pending.
+- Canonical Python regression passed 82 tests. The final full Node regression passed 214 of 217 tests. Three data-lifecycle browser tests fail because their broad login submit selector now matches both Sign in and Request reset. This is a red regression suite, not full acceptance. Report: work/crm-team-final-regression.tap in the orchestration workspace.
+- New roles and email features remain canonical-source-only, not integrated or deployed. Live remains the single-owner release. Email delivery has not been tested against a real inbox and sender/recipient prerequisites remain unresolved.
+- Model accounting: Sol extra-high handled page build and recent CRM UI/browser tests; Astra handled backend role implementation and integration review. User now requires remaining implementation/testing/deployment on Sol, with Astra orchestrating/reviewing.
+- New priority: user reports all attribution missing on a live test. Attribution acceptance is reopened. Sol is tracing URL capture, privacy policy, POST payload, Worker persistence and CRM rendering. Exact user URL and submission identifier requested, not yet provided. Do not claim prior synthetic passes resolve this report.

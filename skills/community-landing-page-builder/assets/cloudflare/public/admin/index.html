@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/admin/date-range.css">
   <link rel="stylesheet" href="/admin/traffic-filters.css">
   <link rel="stylesheet" href="/admin/account.css">
+  <link rel="stylesheet" href="/admin/users.css">
   <link rel="stylesheet" href="/admin/performance-chart.css">
   <script type="module" src="/admin/app.js"></script>
 <link rel="stylesheet" href="data-lifecycle.css">
@@ -23,6 +24,7 @@
         <button class="nav-item" data-view="pipeline"><span aria-hidden="true">▥</span> Pipeline</button>
         <button class="nav-item" data-view="leads"><span aria-hidden="true">≡</span> All leads</button>
         <button class="nav-item" data-view="connections"><span aria-hidden="true">⌁</span> Connections</button>
+        <button class="nav-item" data-view="users" hidden><span aria-hidden="true">◎</span> Users</button>
         <button class="nav-item" data-view="account"><span aria-hidden="true">⚙</span> Account <span id="new-lead-badge" class="new-lead-badge" hidden></span></button>
       </nav>
       <div class="sidebar-bottom"><a href="/" target="_blank" rel="noopener">View landing page <span aria-hidden="true">↗</span></a><button id="logout" class="quiet">Sign out</button><span class="private-note">Private workspace</span></div>
@@ -96,6 +98,7 @@
         <div class="connections-grid"><section class="panel"><div class="panel-heading"><h2>Your connections</h2><button id="refresh-webhooks" class="button secondary">Refresh</button></div><div id="webhooks-status" class="notice" role="status">Loading connections…</div><div id="webhooks-list"></div></section>
         <section class="panel connection-form-panel"><h2>Add a webhook</h2><p class="muted small">Use an HTTPS endpoint from your automation tool.</p><form id="webhook-form"><label>Connection name<input id="webhook-name" name="name" required maxlength="80" placeholder="Sales follow-up"></label><label>Webhook URL<input id="webhook-url" name="url" type="url" required placeholder="https://…" aria-describedby="webhook-error" autocomplete="off" spellcheck="false"></label><label class="checkbox-label"><input id="webhook-enabled" type="checkbox" checked> Send new enquiries to this connection</label><div id="webhook-error" class="inline-error" role="alert"></div><button type="submit" class="button primary">Save connection</button></form></section></div>
       </section>
+      <section id="users-panel" aria-label="User management" hidden></section>
       <section id="account-panel" aria-label="Account and operations" hidden></section>
       <footer class="workspace-footer"><span>Your next conversation starts here.</span><span id="last-updated"></span></footer>
     </main>
