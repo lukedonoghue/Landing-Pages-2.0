@@ -20,7 +20,7 @@ export async function changePassword(env, request, body) {
     WHERE admin_credentials.version=? RETURNING version`).bind(encoded, nextVersion, new Date().toISOString(), account.username, account.version, account.version).first();
   if (!row) throw new HttpError(409, 'The account changed. Sign in again before changing its password.');
   // Session version checks already invalidate old credentials, even if cleanup fails.
-  await env.DB.prepare('DELETE FROM sessions WHERE credential_version<?').bind(nextVersion).run();
+  await env.DB.prepare('DELETE FROM sessions WHERE user_id IS NULL AND credential_version<?').bind(nextVersion).run();
   return json({ ok: true, signed_out: true }, 200, { 'Set-Cookie': sessionCookie(request, '', 0) });
 }
 export async function revokeSessions(env, request) {
@@ -30,7 +30,7 @@ export async function revokeSessions(env, request) {
   await env.DB.batch([
     env.DB.prepare(`INSERT INTO admin_credentials(id,password_hash,version,updated_at,username) VALUES(1,?,1,?,?)
       ON CONFLICT(id) DO UPDATE SET version=version+1,recovery_id=NULL`).bind(account.password_hash, account.updated_at || '', account.username),
-    env.DB.prepare('DELETE FROM sessions')
+    env.DB.prepare('DELETE FROM sessions WHERE user_id IS NULL')
   ]);
   return json({ ok: true, signed_out: true }, 200, { 'Set-Cookie': sessionCookie(request, '', 0) });
 }

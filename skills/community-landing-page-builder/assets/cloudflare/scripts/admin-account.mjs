@@ -88,8 +88,9 @@ export function recoverySql(operation) {
   const updated = action === 'rotate-password' ? "strftime('%Y-%m-%dT%H:%M:%fZ','now')" : sqlText(operation.previous_updated_at || '');
   return `INSERT INTO admin_credentials(id,password_hash,version,updated_at,username,recovery_id)
 SELECT 1,${sqlText(encoded)},${version + 1},${updated},${sqlText(owner)},${sqlText(id)} WHERE COALESCE((SELECT version FROM admin_credentials WHERE id=1),0)=${version}
+AND NOT EXISTS(SELECT 1 FROM crm_users WHERE username=${sqlText(owner)} OR email=${sqlText(owner)})
 ON CONFLICT(id) DO UPDATE SET password_hash=excluded.password_hash,version=excluded.version,updated_at=excluded.updated_at,username=excluded.username,recovery_id=excluded.recovery_id WHERE admin_credentials.version=${version};
-DELETE FROM sessions WHERE credential_version<=${version};\n`;
+DELETE FROM sessions WHERE user_id IS NULL AND credential_version<=${version};\n`;
 }
 export async function runAccount(args, { run = spawnSync, log = console.log, root = ROOT } = {}) {
   root = path.resolve(root);

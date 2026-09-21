@@ -1,6 +1,6 @@
 # Named owner access, lead operations and recovery
 
-Each generated site has **one named owner account**, initially configured by `ADMIN_USERNAME` (username or email, 3-80 characters), with subsequent owner identity changes retained in D1. This is not a multi-user team/roles system. The password is randomly generated during setup, stored in a private `.secrets/` file for handoff, and saved to the Worker only as a salted PBKDF2 hash. Authentication requires both fields; password-only access is not supported. Save the login in the client's password manager and remove unnecessary plaintext handoff copies afterward.
+Each generated site starts with **one named owner account**, initially configured by `ADMIN_USERNAME` (username or email, 3-80 characters), with subsequent owner identity changes retained in D1. Additional Admin, Manager and View-only accounts use the [team access workflow](team-access.md). The initial password is randomly generated during setup, stored in a private `.secrets/` file for handoff, and saved to the Worker only as a salted PBKDF2 hash. Authentication requires both fields; password-only access is not supported. Always give the user the exact login URL and username together with the separate private password file. Save the login in the client's password manager and remove unnecessary plaintext handoff copies afterward.
 
 ## Client experience
 
@@ -13,9 +13,9 @@ Each generated site has **one named owner account**, initially configured by `AD
 
 ## Lost password / rotation
 
-Recovery belongs to the Cloudflare account owner. There is no reset-email flow dependent on an unconfigured mail service. Confirm the intended project/account/database and use the existing authorized maintenance scope. The agent handles these commands; the user should not need to edit secrets manually. `--dry-run` makes no changes.
+Normal team recovery is requested at login, approved by an Admin inside Users, and completed through a single-use link sent to the account's verified registered email. It requires a configured, tested sender; a provider acceptance is not proof of inbox delivery. Until email is connected, report the missing setup instead of claiming a reset message was sent. Cloudflare-owner CLI recovery remains the backstop when the only administrator is locked out. Confirm the intended project/account/database and use the existing authorized maintenance scope. The agent handles these commands; the user should not need to edit secrets manually. `--dry-run` makes no changes.
 
-The current Worker and owner-maintenance helper require migration `0004_owner_identity.sql`. For an existing generated site, install the current helpers and apply the additive migration through its reviewed update procedure before using the new authentication code. Deploy the current Worker through that reviewed update before using username changes: older Workers do not read the D1 owner-identity override. Existing owner records keep their original bootstrap identity until changed; migration does not rename or reset anyone.
+The current Worker and owner-maintenance helper require migrations through `0006_team_accounts.sql`. For an existing generated site, install the current helpers and apply the additive migrations through its reviewed update procedure before using the new authentication code. Existing owner credentials and leads remain unchanged. Deploy the current Worker through that reviewed update before using username changes: older Workers do not read the D1 owner-identity override. Migration does not rename or reset anyone.
 
 ```bash
 node scripts/admin-account.mjs rotate-password --remote --dry-run

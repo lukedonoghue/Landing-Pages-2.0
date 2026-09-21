@@ -22,9 +22,9 @@ Opening an enquiry exposes its submitted form answers and an Attribution section
 
 ## Admin authentication
 
-Single-team-admin login uses a generated strong password, a salted PBKDF2 hash stored as a Worker secret, and expiring random sessions whose HMAC hashes live in D1. Cookies are HttpOnly, SameSite Strict, and Secure outside localhost. There are no demo credentials and no localStorage authentication. Mutations require a matching Origin. Login and submission endpoints have server-side rate limits. Setup creates separate local and production credentials and never prints them into tool logs.
+The initial named owner uses a generated strong password and a salted PBKDF2 hash. D1 stores subsequent owner changes and additional team accounts. Expiring random sessions are stored only as HMAC hashes and are bound to each account's version. Cookies are HttpOnly, SameSite Strict, and Secure outside localhost. There are no shared demo credentials and no localStorage authentication. Mutations require a matching Origin. Login and submission endpoints have server-side rate limits. Setup creates separate local and production credentials and never prints them into tool logs.
 
-This is intentionally a small-team CRM, not a multi-user roles system. Password rotation must also revoke current sessions. Use Cloudflare Access as an optional additional gate if the client needs identity-provider login. Do not assume an Access app is already configured.
+The CRM supports Admin, Manager and View-only roles, enforced in the Worker as well as the UI. Admin manages users and approved reset requests. Manager has operational access but cannot administer identities. View-only can read leads/reports but cannot mutate operational data, export contacts or access integration settings. Every user can change their own password with the current password and revoke their own sessions. See [team-access.md](team-access.md) for invitations, registered-email confirmation, deployment prerequisites and the focused role matrix. Password changes, disabling accounts and role changes invalidate affected sessions. The original owner cannot be disabled or demoted in the CRM.
 
 ## Metric definitions
 
