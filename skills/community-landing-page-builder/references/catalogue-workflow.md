@@ -1,6 +1,6 @@
-# Optional Brochure or Catalogue Workflow
+# Brochure or Useful PDF Workflow
 
-Activate this workflow only when the user asks for a document or when the real offer includes one. Do not create a generic brochure merely to justify a download CTA.
+For a complete landing-page build, create a useful PDF by default. Research determines its purpose: service overview, options comparison, preparation checklist, catalogue, menu or verified prices. Do not create generic padding or invent a download-led primary offer. Omission requires a concrete buyer-research reason and sources in the existing strategy brief, not merely the absence of a supplied brochure or explicit request. Copy-only and audit-only work does not require a PDF.
 
 ## Content and build
 
@@ -9,6 +9,8 @@ Activate this workflow only when the user asks for a document or when the real o
 - Use the actual cover or a verified page spread as the page preview.
 - Keep page copy in the canonical copy master before layout.
 - Use available PDF/document tooling and embedded fonts with known rights.
+- Link the real locally hosted PDF visibly from the funnel. For a genuinely gated offer, verify its promised delivery from the confirmed success state. Never claim email delivery unless configured and tested.
+- Keep actionable PDF links within the funnel, apart from appropriate phone/email or required third-party conversion destinations. Do not link back to the main business website. Research citations belong in owner notes.
 
 ## Image composition rules
 
