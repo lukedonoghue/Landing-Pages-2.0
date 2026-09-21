@@ -64,7 +64,7 @@ test('health reports only public release markers from the actual runtime binding
 
 test('public privacy configuration shares server policy without exposing private settings',async()=>{
   const result=await jsonCall('/api/privacy-config',{auth:false,headers:{'Sec-GPC':'1'}});
-  assert.equal(result.status,200);assert.deepEqual(result.body,{analytics_mode:'consent',attribution_mode:'lead',advertising_user_data_mode:'disabled',sensitive_category:false,gtm_container_id:'',browser_opt_out:true});assert.equal(result.headers.get('Cache-Control'),'no-store');
+  assert.equal(result.status,200);assert.deepEqual(result.body,{analytics_mode:'consent',attribution_mode:'lead',advertising_user_data_mode:'disabled',consent_ui:'external',sensitive_category:false,gtm_container_id:'',browser_opt_out:true});assert.equal(result.headers.get('Cache-Control'),'no-store');
 });
 
 test('all CRM routes and encoded admin assets require a real session', async () => {
@@ -109,7 +109,7 @@ test('cross-origin mutations, invalid body type, oversized requests and honeypot
 let firstLead;
 test('accepted lead persists, repeated submission deduplicates, changed payload conflicts', async () => {
   const body = leadPayload();
-  const extraTags = {utm_id:'test-campaign-id',utm_source_platform:'test-platform',utm_creative_format:'test-format',utm_marketing_tactic:'test-tactic',dclid:'test-display',gbraid:'test-gbraid',wbraid:'test-wbraid',fbclid:'test-meta',msclkid:'test-microsoft'};
+  const extraTags = {utm_id:'test-campaign-id',utm_source_platform:'test-platform',utm_creative_format:'test-format',utm_marketing_tactic:'test-tactic',dclid:'test-display',gbraid:'test-gbraid',wbraid:'test-wbraid',fbclid:'test-meta',msclkid:'test-microsoft',ttclid:'test-tiktok'};
   Object.assign(body.attribution.first_touch, extraTags, {email:'discard@example.invalid',utm_private:'discard'});
   Object.assign(body.attribution.latest_touch, {utm_id:'test-latest-id'});
   const result = await jsonCall('/api/leads', { method: 'POST', body });
@@ -124,9 +124,16 @@ test('accepted lead persists, repeated submission deduplicates, changed payload 
   const persisted = JSON.parse((await db.prepare('SELECT attribution FROM leads WHERE id=?').bind(firstLead).first()).attribution);
   for (const [key,value] of Object.entries(extraTags)) assert.equal(persisted.first_touch[key],value);
   assert.equal(persisted.latest_touch.utm_id,'test-latest-id'); assert.equal(detail.body.lead.utm_id,'test-latest-id');
-  assert.equal(detail.body.lead.msclkid,'test-microsoft'); assert.ok(!('email' in persisted.first_touch)); assert.ok(!('utm_private' in persisted.first_touch));
+  assert.equal(detail.body.lead.msclkid,'test-microsoft'); assert.equal(detail.body.lead.ttclid,'test-tiktok'); assert.ok(!('email' in persisted.first_touch)); assert.ok(!('utm_private' in persisted.first_touch));
   assert.equal(detail.body.activity.length, 1); assert.equal(detail.body.lead.version, 1);
   assert.ok(!('visitor_hash' in detail.body.lead)); assert.ok(!('payload_hash' in detail.body.lead));
+  const tiktokBody = leadPayload({ attribution: { first_touch: { ttclid: 'tiktok-only-click' }, latest_touch: { ttclid: 'tiktok-only-click' } } });
+  const tiktok = await jsonCall('/api/leads', { method: 'POST', body: tiktokBody });
+  assert.equal(tiktok.status, 201, JSON.stringify(tiktok.body));
+  const tiktokDetail = await jsonCall(`/api/admin/leads/${tiktok.body.lead_id}`);
+  assert.equal(tiktokDetail.body.lead.ttclid, 'tiktok-only-click'); assert.equal(tiktokDetail.body.lead.traffic_source, 'other'); assert.equal(tiktokDetail.body.lead.traffic_type, 'paid');
+  await db.prepare('DELETE FROM activity WHERE lead_id=?').bind(tiktok.body.lead_id).run();
+  await db.prepare('DELETE FROM leads WHERE id=?').bind(tiktok.body.lead_id).run();
 });
 test('concurrent identical submissions commit exactly one CRM record and creation event', async () => {
   const body = leadPayload({ form_name: 'race' });

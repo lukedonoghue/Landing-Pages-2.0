@@ -40,3 +40,9 @@ The user clarified that the skill should not implement a custom on-page consent 
 The exact-URL capture report reproduces 0 of the supplied 15 keys without consent and 14 of 15 with consent (ttclid absent). In a fresh managed browser, the old banner and both buttons were visible, with no failed requests or console errors. The user's absence-of-banner report was therefore not reproduced in that fresh context. Saved preference or browser opt-out are possibilities, not established causes for the user's actual browser.
 
 Parent source review caught two issues before release: stored prior consent must not load GTM when tracking is disabled or an external provider has not supplied its current signal; and returning a new tiktok source enum would violate existing D1 CHECK constraints. Sol was asked to test both and preserve schema compatibility for ttclid-only leads. Mixed test links containing gclid must not be the only TikTok coverage.
+
+## Source Checkpoint Before Deployment
+
+At 7% account usage remaining, canonical source is checkpointed with ttclid support, explicit consent UI modes, fail-closed external-provider initialization and disabled-tracking tag protection. TikTok-only leads retain schema-compatible other/paid dimensions and a descriptive UI label, rather than changing old database constraints. Empty referrer values now remain empty instead of resolving to the current URL.
+
+Sol reports passing focused canonical backend 25/25, client 3/3, traffic 2/2; generated backend 25/25, attribution 5/5, CRM UI 1/1. A full new suite and post-deploy acceptance are not claimed. Runtime local configuration is updated; release copy/gate evidence is being refreshed. Reusable narrative instructions and final live proof remain in progress. This checkpoint is not a deployment declaration.

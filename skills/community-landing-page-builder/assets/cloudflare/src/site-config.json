@@ -5,6 +5,7 @@
   "timezone": "UTC",
   "analyticsMode": "consent",
   "advertisingUserDataMode": "disabled",
+  "consentUiMode": "external",
   "sensitiveCategory": false,
   "gtmContainerId": "",
   "allowedPaths": [

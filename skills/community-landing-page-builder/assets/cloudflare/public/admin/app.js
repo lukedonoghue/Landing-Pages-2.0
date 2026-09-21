@@ -86,12 +86,13 @@ function sourceName(lead) {
   const touches = asObject(lead.attribution), latest = asObject(touches.latest_touch), first = asObject(touches.first_touch);
   const touch = Object.keys(latest).length ? latest : first;
   const raw = String(lead.traffic_source || touch.utm_source || lead.utm_source || lead.source || 'unknown').toLowerCase();
-  const source = ({bing:'microsoft',fb:'facebook',ig:'instagram',meta:'facebook'})[raw] || raw;
-  const name = ({google:'Google',microsoft:'Microsoft',facebook:'Meta',instagram:'Instagram',direct:'Direct',email:'Email',other:'Other',unknown:'Unknown'})[source] || 'Other';
+  let source = ({bing:'microsoft',fb:'facebook',ig:'instagram',meta:'facebook'})[raw] || raw;
+  if (source === 'other' && (touch.ttclid || String(touch.utm_source || '').toLowerCase().replace(/\s/g, '') === 'tiktok')) source = 'tiktok';
+  const name = ({google:'Google',microsoft:'Microsoft',facebook:'Meta',instagram:'Instagram',tiktok:'TikTok',direct:'Direct',email:'Email',other:'Other',unknown:'Unknown'})[source] || 'Other';
   const medium = String(touch.utm_medium || lead.utm_medium || '').toLowerCase().replace(/[\s_-]/g, '');
   if (source === 'direct') return name;
   if (lead.traffic_type === 'organic' || (lead.traffic_type !== 'paid' && ['organic','organicsearch','organicsocial'].includes(medium))) return `${name} Organic`;
-  if (['facebook','instagram'].includes(source) && (lead.traffic_type === 'paid' || ['paidsocial','cpc','ppc','cpm'].includes(medium))) return `${name} Paid Social`;
+  if (['facebook','instagram','tiktok'].includes(source) && (lead.traffic_type === 'paid' || ['paidsocial','cpc','ppc','cpm'].includes(medium))) return `${name} Paid Social`;
   if (['cpc','ppc'].includes(medium)) return `${name} CPC`;
   if (medium === 'paidsearch') return `${name} Paid Search`;
   if (medium === 'display') return `${name} Display`;
@@ -399,7 +400,7 @@ function renderDetail(data) {
   const fields = asObject(lead.form_data);
   if (Object.keys(fields).length) root.append(detailSection('Enquiry details', detailsFields(Object.entries(fields).map(([key, value]) => [key.replace(/[_-]/g, ' '), value]))));
   const attribution = asObject(lead.attribution);
-  const flatAttribution = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'utm_source_platform', 'utm_creative_format', 'utm_marketing_tactic', 'gclid', 'dclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid'].map(key => [key, lead[key]]).filter(([, value]) => value);
+  const flatAttribution = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'utm_source_platform', 'utm_creative_format', 'utm_marketing_tactic', 'gclid', 'dclid', 'gbraid', 'wbraid','fbclid','msclkid','ttclid'].map(key => [key, lead[key]]).filter(([, value]) => value);
   const attributionContent = element('div');
   attributionContent.append(detailsFields([['Source', sourceName(lead)], ['Device', lead.device], ['Landing page', lead.landing_page], ['Referrer', lead.referrer]]));
   const groups = [['First touch', asObject(attribution.first_touch)], ['Latest touch', asObject(attribution.latest_touch)]];
