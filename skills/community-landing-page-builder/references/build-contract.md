@@ -1,5 +1,7 @@
 # Build Contract
 
+Before composing section layouts, read the completed copy master and its short editorial notes. Build around the argument: allow the space, proof placement and section depth needed for the leading advantage and supporting benefits. Do not start from a short template and squeeze the copy into its slots. Resolve layout pressure with responsive composition and focused edits in the master; do not silently remove proof, reasons-to-choose or qualifications from the HTML.
+
 ## Output shape
 
 Use the smallest structure appropriate to the project. A normal static build may contain:

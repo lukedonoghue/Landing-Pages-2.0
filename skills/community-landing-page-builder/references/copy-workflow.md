@@ -40,6 +40,8 @@ python3 scripts/copy_library.py search 'brochure quote home improvement'
 
 ## Writer prompt
 
+Read the leading advantage and ranked supporting reasons from the existing strategy brief. Apply the two bounded passes in `copy-and-structure.md` within this writer/reviewer workflow, not as additional review rounds. Write copy before layout. The brief's `buyer_job` and claim references can carry this positioning; no new mandatory schema fields are needed.
+
 Use the following task framing with the current context and research documents. It can be executed by the current writing agent or the configured copy model; creating a prompt file does not count as executing it.
 
 > Write the complete funnel copy for this client using the current brief and sourced research. Treat client evidence as the only basis for client facts. Use the selected examples for structure, rhythm and rhetorical choices. Read each example's cautions. First produce a short benefit/proof map and assign one distinct persuasive job to each section. Then write complete hero, section, card, testimonial, FAQ, primary CTA, modal, brochure-offer and thank-you wording required by the brief. Preserve scope and qualifiers. Make the headline sequence understandable by itself. Do not invent proof or repeat the same benefit as new sections. Record unknowns separately and keep them out of customer-facing text. Return the complete copy plus claim IDs for the sections that use them.
@@ -59,6 +61,8 @@ Save `build/copy-editorial-review.json` against the final revision, with exact f
 `message_match`, `claim_support`, `outcome_and_mechanism`, `objection_coverage`, `headline_story`, `voice_and_density`, `offer_consistency`, `reference_adaptation`.
 
 Each check has `criterion`, `verdict`, and `evidence` containing a short exact `copy_excerpt` from the final copy and an `explanation`. For claim support, also record which client sources were actually inspected. A pass requires actual inspection; never fill generic pass rows just to satisfy the checker. Compute hashes only after all revisions are saved. Record the reviewer/model and execution result truthfully if another runner is used.
+
+Within `message_match`, assess whether the first screen names a concrete service/offer and buyer benefit instead of only an interchangeable slogan. Within `outcome_and_mechanism`, identify the leading reason to choose, its actual supporting capability/evidence, and whether it is merely a category benefit or a supported advantage. Within `reference_adaptation`, account for the reference's why-choose, benefits, proof and process jobs. Missing evidence of uniqueness means narrower honest positioning, not an invented claim. A structurally complete catalogue cannot pass these checks merely because it mentions every service. Keep the existing eight criterion IDs.
 
 Run:
 

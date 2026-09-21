@@ -172,6 +172,8 @@ The acceptance report must include:
 
 Keep product acceptance separate from technical test results: explicitly state reference/buyer-question coverage, all form-entry CTA behavior, and verified phone/contact clarity. Do not declare the page accepted on assertion counts, Lighthouse scores or collision-free screenshots alone. A failed required interaction is not an N/A variant just because the builder chose not to implement it.
 
+In that same acceptance pass, read the rendered hero and headline sequence against the chosen advantage and copy master. Confirm that the benefit, concrete reason to choose, supporting proof and service process survived design. A generic slogan, service list or a hidden why-choose argument is an editorial finding even when all technical checks pass. Use the existing copy review for evidence; do not add a separate scoring round or infer conversion performance from editorial approval.
+
 A selected optional module can be incomplete without blocking the base page only when it is clearly excluded from the delivered claim. Never call the whole result complete while presenting that module as working.
 
 Block typography acceptance when the applied heading or body stack differs from the supplied production page without a documented permitted reason and a close visual match.
