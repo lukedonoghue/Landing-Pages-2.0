@@ -1,0 +1,10 @@
+Captured public source: GOV.UK, Charge, reclaim and record VAT - Keeping VAT records
+URL: https://www.gov.uk/charge-reclaim-record-vat/keeping-vat-records
+Retrieved: 2026-09-21
+Capture method: public web research during coached recovery
+
+Supporting excerpt:
+You must keep some VAT records digitally unless you are exempt from following Making Tax Digital for VAT rules.
+
+Use in this demonstration:
+Supports the qualified statement that digital VAT records generally apply, with exemptions. It does not support an unqualified statement about any individual visitor.

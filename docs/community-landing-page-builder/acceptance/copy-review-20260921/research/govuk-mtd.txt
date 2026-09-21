@@ -1,0 +1,10 @@
+Captured public source: GOV.UK, Choose the right software for Making Tax Digital for Income Tax
+URL: https://www.gov.uk/guidance/choose-the-right-software-for-making-tax-digital-for-income-tax
+Retrieved: 2026-09-21
+Capture method: public web research during coached recovery
+
+Supporting excerpt:
+From 6 April 2026, some sole traders and landlords must use compatible software to report their income using Making Tax Digital for Income Tax.
+
+Use in this demonstration:
+Supports only the qualified statement that Making Tax Digital for Income Tax applies to some sole traders and landlords. It does not support an unqualified promise or personalised tax advice.

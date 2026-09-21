@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "inputs": {
+    "copy": {
+      "path": "build/page-copy.json",
+      "sha256": "dfe295633b42881928c1181333ae3e3565736f12bd6a48c74885b78b8f36c5e5"
+    },
+    "brief": {
+      "path": "build/strategy-brief.md",
+      "sha256": "b7d921df64b103c1a5776f7d6c3daea51d53d3c1762df0f8b9052d5a1d12d663"
+    },
+    "source1": {
+      "path": "build/claim-ledger.md",
+      "sha256": "6f970b8767da4d0cf4e1e7655659d5b1804d54de4d73ef3bbf04562e8c69dc23"
+    },
+    "source2": {
+      "path": "research/clarentis-homepage.html",
+      "sha256": "192ae8eff5626ad9ff7ff666ef1f5633ae80a3ff7f3434dd9349cbe694adccb2"
+    },
+    "source3": {
+      "path": "research/govuk-mtd.txt",
+      "sha256": "cbd69a0337bd8f89e6512df56ea1b70253347cc74abd595c6fa7ea3ef909e943"
+    },
+    "source4": {
+      "path": "research/govuk-vat-records.txt",
+      "sha256": "d7190d6bd9ad24ecd8a768828455a6f1c13fa7a57a8cb50b0f90fef2886e2459"
+    },
+    "source5": {
+      "path": "research/copy-reference-lessons.md",
+      "sha256": "7614b0a9c592178dd21b2082bd22a3114c0b5fd2e9aa184462c46b43e4a0146e"
+    }
+  }
+}

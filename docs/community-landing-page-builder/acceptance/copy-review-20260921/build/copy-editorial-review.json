@@ -1,0 +1,153 @@
+{
+  "editorial_contract_version": 2,
+  "inputs_sha256": "3615d8c7dbae41a179d12e50dca65c42d33ad1f6ba01da0cece52e9449598b62",
+  "reviewer": {
+    "mode": "independent",
+    "identity": "GPT-5.6 Sol fresh-context reviewer"
+  },
+  "reader_summary": {
+    "offer": {
+      "answer": "Clarentis offers accounting, tax, bookkeeping, payroll, VAT and setup support to UK startups, sole traders and small limited companies, beginning with a free consultation and followed by a scoped fixed-fee proposal.",
+      "copy_excerpt": "Friendly, practical support for UK startups, sole traders and small limited companies. Start with a free consultation, then receive a clear fixed-fee proposal based on the work you actually need."
+    },
+    "buyer_benefit": {
+      "answer": "The buyer gets help bringing records, filings and recurring accounting work under control so the business can keep moving.",
+      "copy_excerpt": "Keep the numbers under control. Keep your business moving."
+    },
+    "reason_to_choose": {
+      "answer": "The strongest concrete reason to choose Clarentis is decision clarity: published indicative fees, a scope review and a fixed-fee proposal before work begins, backed by specific small-business service coverage.",
+      "copy_excerpt": "These are Clarentis's published indicative fees. Your proposal is agreed after a scope review, transaction-volume check and complexity assessment."
+    },
+    "next_step": {
+      "answer": "Despite the repeated quote-request CTA, the actual next step on this deployment is to submit a clearly synthetic test enquiry to an isolated demonstration CRM; Clarentis is not contacted and no quote is requested from the business.",
+      "copy_excerpt": "This demonstration stores a synthetic test enquiry in an isolated CRM. It does not contact Clarentis."
+    }
+  },
+  "checks": [
+    {
+      "criterion": "message_match",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "Friendly, practical support for UK startups, sole traders and small limited companies. Start with a free consultation, then receive a clear fixed-fee proposal based on the work you actually need.",
+        "brief_excerpt": "Buyer situation: A UK startup, sole trader or small limited company needs help bringing business records, tax work and recurring filing tasks under control.",
+        "source_refs": [],
+        "explanation": "The opening combines the service category, intended buyer, useful outcome and offer. The H1 supplies the buyer benefit, while the adjacent support line names the audience, consultation and scoped fixed-fee proposal, so the reader does not need the brief to understand what is being sold."
+      }
+    },
+    {
+      "criterion": "claim_support",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "These are Clarentis's published indicative fees. Your proposal is agreed after a scope review, transaction-volume check and complexity assessment.",
+        "source_refs": [
+          {
+            "id": "source1",
+            "excerpt": "Final fee depends on scope, volume and complexity"
+          },
+          {
+            "id": "source3",
+            "excerpt": "From 6 April 2026, some sole traders and landlords must use compatible software to report their income using Making Tax Digital for Income Tax."
+          },
+          {
+            "id": "source4",
+            "excerpt": "You must keep some VAT records digitally unless you are exempt from following Making Tax Digital for VAT rules."
+          }
+        ],
+        "explanation": "The material audience, service, phone, fee and onboarding claims track the official-site evidence and retain the scope, volume and complexity qualification. The MTD wording says only that the Income Tax rules apply to some sole traders and landlords, then adds that the applicable rules depend on individual circumstances; the VAT sentence says digital records matter rather than claiming universal applicability. No savings, credentials, response times, reviews or client outcomes are invented."
+      }
+    },
+    {
+      "criterion": "outcome_and_mechanism",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "The process starts with fit and scope, then moves into the practical records and access needed for the agreed service.",
+        "source_refs": [
+          {
+            "id": "source2",
+            "excerpt": "We understand your business, deadlines, current records and what support you need."
+          },
+          {
+            "id": "source2",
+            "excerpt": "Final pricing is agreed after a scope review, transaction-volume check and complexity assessment."
+          }
+        ],
+        "explanation": "The page connects the benefit of keeping records and deadlines under control to a credible sequence: review the business and current records, define scope and fee, organise access and setup, then provide scheduled support. Clarentis is not presented as uniquely superior; its honest reason to choose is the evidenced combination of small-business fit, broad practical coverage, fee visibility and scope before work begins."
+      }
+    },
+    {
+      "criterion": "objection_coverage",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "Your records do not need to be perfect before the first conversation",
+        "brief_excerpt": "Primary objection: Uncertainty about cost, the state of existing records, and whether support covers the required tax or payroll work.",
+        "source_refs": [],
+        "explanation": "All three priority objections receive direct answers in decision-relevant sections. Cost is answered by six indicative ranges and their quote factors; imperfect records are addressed before the fee section with what to bring and what the consultation does; service fit is answered through specific bookkeeping, Self-Assessment, VAT, payroll, Corporation Tax and setup descriptions. These answers are not deferred wholesale to the form or FAQ."
+      }
+    },
+    {
+      "criterion": "headline_story",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "From first conversation to ongoing support",
+        "source_refs": [],
+        "explanation": "The heading sequence moves from the desired outcome and small-business fit to service scope, imperfect-record reassurance, fee guidance, onboarding, digital-record readiness, practical questions and a final scope-before-commitment action. The process explicitly continues through setup and ongoing support, so the narrative does not stop at enquiry."
+      }
+    },
+    {
+      "criterion": "voice_and_density",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "Bring the deadlines you know about, the records you already have and the questions that are slowing you down.",
+        "source_refs": [],
+        "explanation": "The language is calm, specific and appropriate for a small-business accounting decision. Concrete nouns and verbs explain records, deadlines, submissions, fees and setup without hype or unsupported superlatives. Some reassurance and fee qualifications repeat, but the repetition clarifies material decisions and does not rise to a blocking density problem."
+      }
+    },
+    {
+      "criterion": "offer_consistency",
+      "verdict": "fail",
+      "evidence": {
+        "copy_excerpt": "This demonstration stores a synthetic test enquiry in an isolated CRM. It does not contact Clarentis.",
+        "source_refs": [],
+        "explanation": "The repeated CTA, modal title and submit label say 'Request your fixed-fee quote', but the form explicitly performs only a synthetic CRM test, sends nothing to Clarentis and ends with a test receipt. A visitor therefore cannot complete the action named by the CTA or receive the expected business follow-up. Disclosure inside the modal and FAQ prevents concealment, but it does not make the action promise accurate."
+      }
+    },
+    {
+      "criterion": "reference_adaptation",
+      "verdict": "fail",
+      "evidence": {
+        "copy_excerpt": "Get a clear scope before you commit",
+        "source_refs": [
+          {
+            "id": "source5",
+            "excerpt": "Explain what the visitor receives and how it helps them decide"
+          },
+          {
+            "id": "source5",
+            "excerpt": "Explain the real path through delivery, not just form submission"
+          }
+        ],
+        "explanation": "The client-specific benefit, scope, fee evidence, mechanism, objections and four-step delivery path are well adapted. The action job is not: the copy promises a quote-request path and clearer scope, while the actual result is only a stored synthetic record and demo receipt. Because the reference lesson requires a tangible and truthful enquiry purpose, the final action cannot be accepted as successfully adapted."
+      }
+    }
+  ],
+  "strongest_challenge": {
+    "copy_excerpt": "Request your fixed-fee quote",
+    "risk": "The dominant action sounds like a real commercial enquiry, but this deployment cannot request a quote or contact the provider. That mismatch can create false expectation at the exact point of conversion and undermines the page's otherwise strong emphasis on clarity.",
+    "resolution": "Choose one real action model and apply it across every CTA, the modal, submission acknowledgement and thank-you state. For a fixed demonstration, rename the action to a synthetic test submission and state that the result is a demo receipt, not a quote. For a real quote journey, route the enquiry to Clarentis and preserve the consultation and proposal follow-up.",
+    "status": "blocked"
+  },
+  "decision": "fail",
+  "unresolved_findings": [
+    {
+      "id": "cta-delivery-mismatch",
+      "priority": "P0",
+      "criteria": [
+        "offer_consistency",
+        "reference_adaptation"
+      ],
+      "copy_excerpt": "Request your fixed-fee quote",
+      "finding": "The primary action promises a fixed-fee quote request, while the only delivered outcome is storage of a synthetic test enquiry in a demonstration CRM with no contact to Clarentis.",
+      "targeted_correction": "If the deployment remains a demonstration, replace every quote-request CTA, the modal title and submit label with a test-specific action and describe the resulting demo receipt. Otherwise, connect the form to a real Clarentis enquiry path and keep the quote-request wording. Recheck all CTA, form and thank-you dependencies after choosing one model."
+    }
+  ]
+}

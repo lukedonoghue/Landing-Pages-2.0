@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "metadata": {
+    "title": "Clarentis | Fixed-fee accounting for small UK businesses",
+    "description": "Practical accounting, tax, payroll and bookkeeping support for UK startups, sole traders and small limited companies. Request a free initial consultation and fixed-fee quote."
+  },
+  "h1": "Keep the numbers under control. Keep your business moving.",
+  "primary_cta": "Request your fixed-fee quote",
+  "sections": [
+    {
+      "id": "hero-support",
+      "headline": "Accounting | Tax | Bookkeeping",
+      "body": [
+        "Friendly, practical support for UK startups, sole traders and small limited companies. Start with a free consultation, then receive a clear fixed-fee proposal based on the work you actually need.",
+        "Call 07467 474356",
+        "Indicative support from £60 per month. Final fees depend on scope, volume and complexity."
+      ],
+      "claim_ids": ["audience", "free-consultation", "fixed-fee-position", "sole-trader-fee", "phone"]
+    },
+    {
+      "id": "fit",
+      "headline": "Built for small business",
+      "items": [
+        {"number": "01", "title": "Built for small business", "body": "Startup, sole trader and limited company support."},
+        {"number": "02", "title": "Clear before you commit", "body": "A defined scope and fixed-fee proposal."},
+        {"number": "03", "title": "Practical coverage", "body": "Records, VAT, payroll, tax returns and deadlines."}
+      ],
+      "claim_ids": ["audience", "fixed-fee-position", "service-scope"]
+    },
+    {
+      "id": "services",
+      "eyebrow": "What Clarentis can help with",
+      "headline": "The accounting work that keeps a small business on track",
+      "body": "Choose one area of help or bring the whole picture. Clarentis can review what is already in place, what is due next and where ongoing support would remove pressure.",
+      "items": [
+        {"number": "01", "title": "Company registration", "body": "Formation support, Companies House registration guidance and first-step tax and accounting setup."},
+        {"number": "02", "title": "Bookkeeping", "body": "Bank and card reconciliation, purchase and sales records, aged payables, invoicing and year-end adjustments."},
+        {"number": "03", "title": "Self-Assessment", "body": "Personal tax return preparation for sole traders, directors, shareholders and people with untaxed income."},
+        {"number": "04", "title": "VAT returns", "body": "VAT registration review, MTD-ready records, return preparation, submission support and deadline tracking."},
+        {"number": "05", "title": "PAYE and payroll", "body": "PAYE setup, payslips, RTI submissions, starters and leavers, P60s, P45s and auto-enrolment pension filings."},
+        {"number": "06", "title": "Corporation Tax", "body": "Corporation Tax computation and return support, with planning around liabilities and filing deadlines."}
+      ],
+      "cta": "Request your fixed-fee quote",
+      "claim_ids": ["service-scope"]
+    },
+    {
+      "id": "reassurance",
+      "headline": "Your records do not need to be perfect before the first conversation",
+      "body": [
+        "Start where you are",
+        "Bring the deadlines you know about, the records you already have and the questions that are slowing you down. The consultation is there to understand the current position, identify the support you need and define the next practical step.",
+        "A clear view of what needs attention",
+        "A scope based on the actual work",
+        "No commitment before the proposal",
+        "Free initial consultation",
+        "Start with the situation you have today.",
+        "The first conversation is for understanding the work, not judging the state of your paperwork."
+      ],
+      "cta": "Request your fixed-fee quote",
+      "claim_ids": ["free-consultation", "fixed-fee-position"]
+    },
+    {
+      "id": "fees",
+      "headline": "A useful starting point for the cost conversation",
+      "body": [
+        "Indicative fee guide",
+        "These are Clarentis's published indicative fees. Your proposal is agreed after a scope review, transaction-volume check and complexity assessment.",
+        "Final pricing is agreed only after the work has been reviewed."
+      ],
+      "items": [
+        {"label": "Sole trader / micro-business support", "price": "£60 - £150", "period": "per month"},
+        {"label": "Small limited company support", "price": "£100 - £350", "period": "per month"},
+        {"label": "VAT return preparation", "price": "£70 - £100", "period": "per quarter"},
+        {"label": "Payroll processing", "price": "£40 - £120", "period": "per month"},
+        {"label": "Self-Assessment filing", "price": "£150 - £300+"},
+        {"label": "MTD setup", "price": "£75 - £160", "period": "one-off"}
+      ],
+      "cta": "Request your fixed-fee quote",
+      "claim_ids": ["sole-trader-fee", "limited-company-fee", "vat-fee", "payroll-fee", "self-assessment-fee", "mtd-setup-fee"]
+    },
+    {
+      "id": "process",
+      "headline": "From first conversation to ongoing support",
+      "body": ["Simple onboarding", "The process starts with fit and scope, then moves into the practical records and access needed for the agreed service."],
+      "items": [
+        {"number": "01", "title": "Free consultation", "body": "Talk through your business, deadlines, current records and the support you need."},
+        {"number": "02", "title": "Fixed-fee proposal", "body": "Receive a clear scope and fee before work begins."},
+        {"number": "03", "title": "HMRC and software setup", "body": "Organise the records, access and practical setup needed for the agreed service."},
+        {"number": "04", "title": "Monthly support", "body": "Keep bookkeeping, payroll, VAT and tax work moving on the agreed schedule."}
+      ],
+      "claim_ids": ["free-consultation", "fixed-fee-position", "service-scope"]
+    },
+    {
+      "id": "digital-records",
+      "headline": "Get ready for the way business records are changing",
+      "body": [
+        "Making Tax Digital",
+        "Digital record keeping already matters for VAT and now applies to some sole traders and landlords under Making Tax Digital for Income Tax.",
+        "Clarentis lists MTD-ready records and MTD setup among its services, so the first conversation can include what applies to you, what records are needed and how software fits the process.",
+        "HMRC rules depend on your circumstances. This page is general information, not tax advice."
+      ],
+      "claim_ids": ["mtd-income-tax", "vat-digital-records", "service-scope"]
+    },
+    {
+      "id": "faq",
+      "headline": "Straight answers to practical questions",
+      "body": ["Before you enquire", "The free consultation is the place to confirm the exact scope. These answers cover the published starting point."],
+      "questions": [
+        {"question": "Is the first consultation free?", "answer": "Yes. Clarentis publishes a free initial consultation. It is used to understand your business, deadlines, current records and the support you need before a proposal is prepared."},
+        {"question": "Are the published prices guaranteed?", "answer": "No. They are indicative ranges. The final fixed fee depends on the agreed scope, transaction volume and complexity."},
+        {"question": "Can I ask about more than one service?", "answer": "Yes. Choose the closest service in the form and describe the wider picture in your message. The scope review can cover connected bookkeeping, payroll, VAT and tax work."},
+        {"question": "Do my books need to be up to date before I enquire?", "answer": "No. Explain what is in place and what feels overdue or unclear. The consultation is designed to establish the current position and the next practical step."},
+        {"question": "Is this the real Clarentis website?", "answer": "No. This is a separate demonstration deployment. Use synthetic test details only. Nothing submitted here is emailed or sent by webhook to Clarentis."}
+      ],
+      "claim_ids": ["free-consultation", "fixed-fee-position", "demo-scope"]
+    },
+    {
+      "id": "final-action",
+      "headline": "Get a clear scope before you commit",
+      "body": ["Free initial consultation", "Start with a conversation and receive a fixed-fee proposal based on your business, records and support needs.", "Or call the team", "07467 474356"],
+      "cta": "Request your fixed-fee quote",
+      "claim_ids": ["free-consultation", "fixed-fee-position", "phone"]
+    },
+    {
+      "id": "legal-close",
+      "headline": "Demonstration page",
+      "body": [
+        "Use synthetic test details only. Enquiries are not sent to Clarentis.",
+        "Accounting, tax and bookkeeping support for UK small businesses.",
+        "Demonstration only. This page is not tax advice and does not send enquiries to Clarentis."
+      ],
+      "claim_ids": ["demo-scope"]
+    }
+  ],
+  "modal": {
+    "eyebrow": "Free initial consultation",
+    "title": "Request your fixed-fee quote",
+    "intro": "This demonstration stores a synthetic test enquiry in an isolated CRM. It does not contact Clarentis.",
+    "follow_up_promise": "The demonstration stores a synthetic test enquiry in its isolated CRM. It sends no email or webhook to Clarentis.",
+    "steps": [
+      {"title": "Your details", "help": "Use obviously synthetic contact details, such as an example.test email and an Ofcom test number.", "fields": ["First name", "Email", "Phone", "Use international format, for example +44 7700 900123."]},
+      {"title": "Your business", "fields": ["Business type", "Choose one", "Startup", "Sole trader", "Limited company", "Other", "Company or trading name (optional)", "What support do you need?", "Choose the closest option", "Company registration", "Bookkeeping", "Self-Assessment", "VAT returns", "PAYE and payroll", "Corporation Tax", "MTD setup", "Not sure yet"]},
+      {"title": "Confirm the test", "fields": ["How should a real enquiry be followed up?", "Phone", "Email", "What would you like help with? (optional)", "I confirm this is a clearly synthetic test enquiry and contains no real personal data."], "privacy": "The isolated CRM stores the submitted synthetic test fields, a receipt and campaign or referrer details attached to this enquiry. Visitor analytics and advertising matching are disabled. Browser privacy signals prevent campaign capture. See privacy information."}
+    ],
+    "submit_label": "Request your fixed-fee quote"
+  },
+  "thank_you": {
+    "notice": "Demonstration page",
+    "follow_up_promise": "The demonstration stores a synthetic test enquiry in its isolated CRM. It sends no email or webhook to Clarentis.",
+    "kicker": "Test enquiry stored",
+    "title": "Your synthetic enquiry is in the demonstration CRM.",
+    "message": "The CRM confirmed the record. Nothing was emailed or sent by webhook to Clarentis.",
+    "primary_action": "Back to the demonstration",
+    "secondary_action": "Open CRM login"
+  },
+  "interface_text": [
+    "Skip to main content", "Services", "Fees", "How it works", "Questions", "Call the team",
+    "Illustrative image", "Privacy information", "Privacy choices", "Visit the real Clarentis site",
+    "Demonstration CRM login", "Close enquiry form", "Continue", "Back", "Step 1 of 3", "Step 2 of 3", "Step 3 of 3",
+    "No enquiry was sent to Clarentis.", "Real business phone", "No confirmed receipt",
+    "There is no confirmed test enquiry in this browser.",
+    "A direct visit or refresh does not create a lead or conversion. Return to the demonstration to submit a clearly labelled synthetic test enquiry.",
+    "Demonstration only. Use synthetic test details.", "Receipt"
+  ],
+  "notes": {
+    "approval": "This canonical recovery record is not user approval.",
+    "known_parity_limit": "The frozen page uses different demo-safe follow-up sentences in the modal and thank-you state, while the workflow requires one exact cross-surface follow_up_promise."
+  }
+}
