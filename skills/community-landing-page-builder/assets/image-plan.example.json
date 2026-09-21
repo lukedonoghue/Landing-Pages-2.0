@@ -41,7 +41,7 @@
       "allow_generation": true,
       "generation": {
         "mode": "native",
-        "requested_model": "gpt-image-2.5-sunburst",
+        "requested_model": null,
         "authorization_evidence": "",
         "allow_unverified_native_model": false,
         "model_exception_evidence": "",

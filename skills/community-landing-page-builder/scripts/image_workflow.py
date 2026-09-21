@@ -268,7 +268,7 @@ def validate_plan(plan):
             require(isinstance(focal, list) and len(focal) == 2 and all(type(n) in (int, float) and 0 <= n <= 1 for n in focal), "Focal point must be [x, y] between zero and one")
         generation = item.get("generation", {})
         if generation:
-            require(generation.get("requested_model") in MODELS, "Choose an exact GPT Image 2.5 Sunburst or Flare model; no silent downgrade")
+            require(generation.get("requested_model") in MODELS or (generation.get("mode", "native") == "native" and generation.get("requested_model") is None), "Use the native default or an explicitly requested supported model; no silent downgrade")
             require(generation.get("mode", "native") in {"native", "bundled-cli"}, "Generation mode must be native or explicitly selected bundled-cli")
             if generation.get("mode") == "bundled-cli":
                 require(nonempty(generation.get("authorization_evidence")), "Bundled CLI mode requires the user's explicit CLI/API/model-path authorization evidence")
@@ -348,9 +348,9 @@ def prepare_generation(plan, image_id, prompt, root=None, imagegen_cli=None, dry
     require(item.get("allow_generation") is True, "Generation is not enabled for this asset")
     require(nonempty(prompt), "Supply a complete production image prompt")
     generation = item.setdefault("generation", {})
-    require(generation.get("requested_model") in MODELS, "Configure the requested GPT Image 2.5 variant before generation")
     mode = generation.get("mode", "native")
     require(mode in {"native", "bundled-cli"}, "Unknown generation mode")
+    require(generation.get("requested_model") in MODELS or (mode == "native" and generation.get("requested_model") is None), "Configure the requested GPT Image 2.5 variant for exact-model generation, or use the native default")
     if mode == "bundled-cli":
         require(nonempty(generation.get("authorization_evidence")), "Bundled CLI mode requires the user's explicit CLI/API/model-path authorization evidence")
         require(root is not None and imagegen_cli is not None, "Bundled CLI preparation needs the project root and --imagegen-cli path")
@@ -365,7 +365,7 @@ def prepare_generation(plan, image_id, prompt, root=None, imagegen_cli=None, dry
     require(sum(a["asset_id"] == image_id for a in attempts) < budget["max_attempts_per_asset"], "Asset generation attempt budget exhausted")
     require(len({a["asset_id"] for a in attempts} | {image_id}) <= budget["max_assets"], "Generated asset budget exhausted")
     full_prompt = prompt.strip() + "\n\nUsage: " + item["section"] + "; " + item["purpose"] + ".\nConstraints: This is illustrative supporting imagery, not documentary evidence. Do not invent client staff, testimonials, logos, certificates, or before/after results. Preserve room and subject placement required by the page composition."
-    attempt = {"id": uuid.uuid4().hex, "asset_id": image_id, "status": "pending", "started_at": now(), "requested_model": generation["requested_model"], "mode": mode, "tool": "image_gen", "request": {"prompt": full_prompt}}
+    attempt = {"id": uuid.uuid4().hex, "asset_id": image_id, "status": "pending", "started_at": now(), "requested_model": generation.get("requested_model"), "mode": mode, "tool": "image_gen", "request": {"prompt": full_prompt}}
     if mode == "bundled-cli":
         prompt_path = safe_path(root, f"research/image-prompts/{image_id}-{attempt['id']}.txt")
         output_path = safe_path(root, f"output/imagegen/{image_id}-{attempt['id']}.png")
@@ -394,7 +394,7 @@ def register_generation(plan, root, image_id, attempt_id, source, tool_evidence,
     item = get_asset(plan, image_id)
     require(item["trust_class"] != "client-proof" and item.get("allow_generation") is True, "Generated images cannot be registered as client proof")
     attempt = pending_attempt(plan, image_id, attempt_id)
-    require(actual_model is None or actual_model == attempt["requested_model"], "Reported model differs from the requested model; do not silently downgrade")
+    require(actual_model is None or attempt["requested_model"] is None or actual_model == attempt["requested_model"], "Reported model differs from the requested model; do not silently downgrade")
     source = Path(source).expanduser().resolve()
     require(source.is_file(), "Generation has no output file; do not mark it complete")
     require(source.stat().st_size <= MAX_BYTES, "Generated image exceeds 12 MiB")
@@ -499,7 +499,21 @@ def review_asset(plan, root, image_id, report_path):
     if provenance.get("kind") == "generated":
         require(nonempty(item.get("generated_disclosure")), "Generated imagery needs disclosure in the image plan and handoff")
         if provenance.get("model_verification") not in {"reported-by-tool", "reported-by-provider", "selected-in-cli-request"}:
-            require(item.get("generation", {}).get("allow_unverified_native_model") is True, "Native model was not reported; exact GPT Image 2.5 remains unverified until the user permits that limitation")
+            generation = item.get("generation", {})
+            requests = [generation.get("requested_model"), provenance.get("requested_model")]
+            requests.extend(a.get("requested_model") for a in plan.get("generation_attempts", []) if a.get("asset_id") == image_id)
+            native_default = (
+                not any(requests)
+                and generation.get("mode", "native") == "native"
+                and provenance.get("mode", "native") == "native"
+                and (provenance.get("provider") == "native-tool" or provenance.get("tool") in {"image_gen", "image_gen.imagegen", "native image generation"})
+                and provenance.get("actual_model") is None
+                and provenance.get("model_verification") in {"unverified", "unreported"}
+            )
+            exception = generation.get("allow_unverified_native_model") is True and nonempty(generation.get("model_exception_evidence"))
+            require(native_default or exception, "Native model was not reported; exact GPT Image 2.5 remains unverified until the user permits that limitation")
+            if native_default:
+                report.setdefault("warnings", []).append("Native generation model was not reported; no exact model was requested or verified.")
     item["review"] = {"at": now(), "report": artifact(root, report_path), "result": report}
     item["stage"] = "reviewed"
     return item["review"]
@@ -562,7 +576,7 @@ def main():
     reg.add_argument("--attempt", required=True)
     reg.add_argument("--file", type=Path, required=True)
     reg.add_argument("--tool-evidence", type=Path, required=True)
-    reg.add_argument("--actual-model", choices=sorted(MODELS))
+    reg.add_argument("--actual-model", help="Only a model identity present in the retained tool result")
     fail = sub.add_parser("generation-failed")
     fail.add_argument("--id", required=True)
     fail.add_argument("--attempt", required=True)

@@ -74,7 +74,7 @@ python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" pre
 python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" register-generation --id service-process-illustration --attempt EXACT_ATTEMPT_ID --file /absolute/path/from/tool/result.png --tool-evidence "$PROJECT/research/image-tool-result.json"
 ```
 
-Add `--actual-model gpt-image-2.5-sunburst` or `--actual-model gpt-image-2.5-flare` **only if that exact model is reported by the actual tool result**. The helper rejects a known model mismatch, keeps absent model information as `unverified`, and refuses missing output files. Never manufacture tool evidence. The acquired artifact is copied into the project before it is referenced by the page.
+Add `--actual-model <reported-model>` **only if that exact model is reported by the actual tool result**. The helper rejects a mismatch with an explicitly requested model, keeps absent model information as `unverified`, and refuses missing output files. The native default uses a null requested model and does not require a model exception to complete genuine rendered review. Never manufacture tool evidence. The acquired artifact is copied into the project before it is referenced by the page.
 
 5. On failure, record what happened:
 
@@ -82,11 +82,11 @@ Add `--actual-model gpt-image-2.5-sunburst` or `--actual-model gpt-image-2.5-fla
 python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" generation-failed --id service-process-illustration --attempt EXACT_ATTEMPT_ID --reason "Actual tool error summary, with no secrets"
 ```
 
-### Exact GPT Image 2.5 requirement
+### Only when the user requests an exact model
 
-The requested models are `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`; their identifiers were checked against [OpenAI's Sunburst documentation](https://developers.openai.com/api/docs/models/gpt-image-2.5-sunburst) and [Flare documentation](https://developers.openai.com/api/docs/models/gpt-image-2.5-flare) on 2026-09-16. Recheck current documentation if model availability changes.
+The legacy exact-model adapter lists `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`. This is not the community default or proof of current availability. Verify the user's explicitly requested model against current official documentation and available tool capabilities before offering that path.
 
-The native tool may not expose a model selector or identify the model used. A prompt mentioning “GPT Image 2.5” is not evidence that this model ran. By default the final image gate keeps an exact-model requirement unresolved if the model is unreported. Explain the actual limitation at the relevant approval checkpoint. If the user expressly accepts the native tool's unspecified model, set `allow_unverified_native_model: true` and record the user's instruction in `model_exception_evidence`; the actual model must still remain `null`/`unverified`.
+The native tool may not expose a model selector or identify the model used. Mentioning a model in a prompt is not evidence that it ran. Only an explicit exact-model request remains unresolved if the model is unreported. For that request, explain the limitation; if the user accepts the unspecified native model instead, set `allow_unverified_native_model: true` and retain the actual instruction in `model_exception_evidence`. The actual model remains null/unverified. Never insert an exact-model requirement into an ordinary native-image request.
 
 If the user explicitly chooses a CLI/API route to require an exact model, use the imagegen skill's supported bundled CLI. Do not silently change to an older model, invent an API flag, modify the imagegen helper, or create a one-off SDK runner. The installed CLI was inspected and accepts exact `gpt-image-*` model strings using `--model`. Capability inspection is not a successful generation or proof of account access.
 
