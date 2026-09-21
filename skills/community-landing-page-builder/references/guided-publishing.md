@@ -29,10 +29,10 @@ A completely new account or external DNS ownership may need a human step. Descri
 
 Treat first-time authorization as part of the guided publishing action. A beginner should not have to discover Wrangler OAuth, callback ports, or account IDs.
 
-1. Run `wrangler whoami` before any remote setup. A currently authenticated account is only a local session, not proof that it is the user's intended destination.
-2. If the session is unrelated, run `wrangler logout`. Never deploy to the account that happened to be logged in.
-3. Start `wrangler login` and keep its callback process running until authorization completes.
-4. Open the generated authorization URL in the Mac system browser. Do not use the Codex in-app browser for Wrangler OAuth because its isolated browser context may not reach the local `http://localhost:8976/oauth/callback` listener.
+1. Run `wrangler whoami` before any remote setup. A currently authenticated account is only a local session, not proof that it is the user's intended destination. When the user explicitly chooses the connected account, reuse that verified connection and proceed to step 7; do not require another login or repeat the account question. Confirm required Worker and D1 permissions first.
+2. If the session is unrelated, guide switching to the user's selected account. Never deploy to the account that happened to be logged in or sign out an unrelated session without the user's account-switch instruction.
+3. Only if disconnected or switching accounts, start `wrangler login` and keep its callback process running until authorization completes.
+4. Open the generated authorization URL in the user's computer browser (the system browser on macOS), not the Codex in-app browser. The in-app browser has failed this flow with callback/CSRF errors and may not reach the local `http://localhost:8976/oauth/callback` listener. If opening the system browser fails, provide the current URL for the user to open there manually while the listener remains active.
 5. Let the user sign in and approve access manually. Do not enter their password, one-time code, or Cloudflare credentials.
 6. After Wrangler reports success, run `wrangler whoami` again. Record the returned account name, account ID, and required Worker and D1 permissions before changing project configuration.
 7. Pass that exact verified account ID to setup. Never infer it from a previous login, repository content, email address, or browser session.

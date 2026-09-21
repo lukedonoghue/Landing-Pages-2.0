@@ -31,7 +31,7 @@ Use a separate demonstration Worker and D1 database. Only clearly synthetic enqu
 
 ## Current Status
 
-Running. The independent builder has scaffolded the new project. No new deployment or live CRM success is claimed. The parent has asked the user to choose the Cloudflare account and provide GTM/Ads destination IDs. Prior Byrider identity is historical evidence only, not permission to silently select that account.
+Assisted continuation in progress. The independent first pass produced the local page and local CRM evidence, but omitted formal release-readiness records. The parent audit and subsequent recovery are recorded in FULL-FUNNEL-R1-PARENT-AUDIT.md. No new deployment or live CRM success is claimed yet. GTM/Ads destination IDs remain missing; this does not block the built-in CRM deployment.
 
 Usage at launch was 71% used; the next observed account-wide reading was 72% used. Source/evidence checkpoints remain on `community/pro-review-handoff-20260918`. Luke's original files and README are untouched.
 
@@ -40,3 +40,13 @@ Usage at launch was 71% used; the next observed account-wide reading was 72% use
 The user subsequently confirmed this run should continue through deployment and CRM tests, while new PDF-default and no-main-site-exit requirements should be fixed in the canonical skill for the next independent run. See PDF-AND-PAID-AD-CONTAINMENT-20260921.md. The builder was told only this scope separation, not given revised design instructions or earlier audit findings. Two progress-only coordination messages requested stage/blockers and relayed that account/Ads inputs remained pending.
 
 At 07:20 UTC the new local Worker at http://127.0.0.1:8899/ served the Clarentis page and /api/health reported a connected database. This is not yet local-journey, deployment or CRM acceptance. The parent's initial asset review found four distinct accounting-related generated images; final placement and disclosure review remains pending. Most recent budget check: 73% used, 27% remaining.
+
+## Connected Account Authorization
+
+On 2026-09-21 the user explicitly instructed: "cloudflare - use connected" and authorized synthetic contact details for this disposable demonstration. A fresh read-only Wrangler identity check verified account ID `5b93d5e3c469e05d9bd13672e7887c4a` with Worker and D1 write permissions. This current selection, not the historical Byrider deployment, authorizes the destination. The builder received the account selection and synthetic-contact scope.
+
+Create only a new uniquely named Clarentis demo Worker and D1 database. No existing site, DNS, database or ad container is in scope. Use a clearly labelled test operator and reserved synthetic contact address. Do not send email/webhooks to the real business. The user's intent to remove the demo later does not authorize deletion now.
+
+The canonical publishing guide explicitly reuses a selected valid connection. If disconnected, start one fresh Wrangler login and open its URL in the user's computer/system browser, not the Codex in-app browser; keep the localhost callback process running. Prior refused-connection and stale-state/CSRF failures remain documented. Credentials are excluded from this record and source checkpoint.
+
+Latest observed account-wide budget at this checkpoint: 78% used, 22% remaining. This is the deployment reserve authorized by the user's subsequent full-process request, not a new page-only testing budget.

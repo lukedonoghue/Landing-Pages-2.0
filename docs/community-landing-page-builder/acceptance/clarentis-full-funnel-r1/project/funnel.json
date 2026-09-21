@@ -1,0 +1,151 @@
+{
+  "schema_version": 3,
+  "quality": {
+    "complete_workflow": true,
+    "browsers": [
+      "chromium",
+      "webkit"
+    ],
+    "performance": {
+      "minimum_score": 90,
+      "lcp_ms": 2500,
+      "cls": 0.1,
+      "tbt_ms": 200
+    }
+  },
+  "approvals": {
+    "copy_before_design": false
+  },
+  "images": {
+    "enabled": true,
+    "preferred_model": "native-image-generation",
+    "max_generated_assets": 4,
+    "max_attempts_per_asset": 2
+  },
+  "client": {
+    "name": "Clarentis",
+    "website": "https://clarentis.co.uk/",
+    "color": "#159aaa",
+    "logo": "/assets/clarentis-logo.png",
+    "phone_display": "07467 474356",
+    "phone_uri": "+447467474356",
+    "region": "United Kingdom",
+    "privacy_url": "/privacy.html"
+  },
+  "reference_urls": [
+    "https://bluemountain1.pagedemo.co/"
+  ],
+  "audience": "UK startups, sole traders and small limited companies looking for practical accounting, tax, payroll or bookkeeping support",
+  "search_intent": "small business accountant UK, fixed-fee accounting, sole trader bookkeeping, startup accountant, VAT and payroll support",
+  "offer": "A free initial consultation followed by a scoped fixed-fee proposal",
+  "cta": "Request your fixed-fee quote",
+  "follow_up_promise": "The demonstration stores a synthetic test enquiry in its isolated CRM. It sends no email or webhook to Clarentis.",
+  "brochure_gated": false,
+  "catalogue": {
+    "enabled": false
+  },
+  "form_fields": [
+    {
+      "name": "first_name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "company_name",
+      "type": "text",
+      "required": false
+    },
+    {
+      "name": "email",
+      "type": "email",
+      "required": true
+    },
+    {
+      "name": "phone",
+      "type": "tel",
+      "required": true
+    },
+    {
+      "name": "service",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Company registration",
+        "Bookkeeping",
+        "Self-Assessment",
+        "VAT returns",
+        "PAYE and payroll",
+        "Corporation Tax",
+        "MTD setup",
+        "Not sure yet"
+      ]
+    },
+    {
+      "name": "business_type",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Startup",
+        "Sole trader",
+        "Limited company",
+        "Other"
+      ]
+    },
+    {
+      "name": "contact_method",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Phone",
+        "Email"
+      ]
+    },
+    {
+      "name": "message",
+      "type": "textarea",
+      "required": false
+    },
+    {
+      "name": "test_confirmation",
+      "type": "checkbox",
+      "required": true
+    }
+  ],
+  "webhook_url": "/api/leads",
+  "backend": {
+    "provider": "cloudflare-d1",
+    "response_contract": "receipt-v1"
+  },
+  "analytics": {
+    "mode": "consent",
+    "attribution_mode": "consent",
+    "timezone": "Europe/London",
+    "conversion": "measured visitor with accepted lead"
+  },
+  "tracking": {
+    "gtm": {
+      "container_id": "",
+      "hostname": ""
+    },
+    "customer_data_mode": "disabled",
+    "sensitive_category": false,
+    "google_ads": {
+      "conversion_id": "",
+      "conversion_label": "",
+      "enhanced_conversions": false
+    },
+    "meta": {
+      "pixel_id": "",
+      "enabled": false
+    },
+    "microsoft": {
+      "uet_tag_id": "",
+      "enabled": false
+    }
+  },
+  "allowed_paths": [
+    "/",
+    "/index.html"
+  ],
+  "publish_target": "cloudflare-workers"
+}

@@ -69,14 +69,16 @@ python3 scripts/build_gtm_container.py \
 
 The builder validates IDs, object references, raw-contact-data keys, event triggers, and sensitive-category blocking. It generates a full new-container import. For a populated GTM container, export it first and merge only the new objects; do not overwrite existing tags or variables blindly.
 
-Google is the primary verified schema target. The generated Google tag, Conversion Linker, Ads conversion, hashed user-data event, receipt transaction ID, and two custom-event triggers are import-ready. Meta and Microsoft adapters consume their dedicated hash maps and are included only when their IDs are supplied.
+Google is the primary template target. Local schema/reference validation does not establish that the current GTM interface accepted the import or that Ads received enhanced-conversion data. Verify the generated Google tag, Conversion Linker, Ads conversion, hashed user-data event, receipt transaction ID and both triggers in the intended container. Meta and Microsoft adapters consume their dedicated hash maps and are included only when their IDs are supplied.
+
+Guide the owner through enabling enhanced conversions and user-provided-data capabilities in the intended Google tag/Ads destination, including their own acceptance of the applicable customer-data terms. An import cannot grant this account-side setting or consent. Follow the current [official Google setup instructions](https://support.google.com/google-ads/answer/13262500?hl=en); do not silently enable automatic raw-field detection when this build's selected contract is explicit browser-hashed data.
 
 ## Required live verification
 
 An import is not proof of delivery. In an isolated test destination:
 
 1. Use GTM Preview and confirm `customer_data_ready` precedes `lead_accepted` for one accepted lead.
-2. Confirm raw email and phone do not appear in the data layer, GTM variables, network payload inspection, console, or saved QA artifacts.
+2. Confirm raw email and phone do not appear in the data layer, GTM variables, advertising/analytics requests, console, or saved QA artifacts. The authorized first-party lead API must receive contact fields to store the enquiry; distinguish that legitimate CRM payload from analytics leakage.
 3. Confirm a direct thank-you visit, refresh, rejected lead, denied consent, DNT/GPC session, and repeated receipt produce no duplicate conversion.
 4. Confirm Google Ads diagnostics receive user-provided data and one conversion with the receipt transaction ID.
 5. Confirm Meta Events Manager/Test Events and Microsoft UET Tag Helper receive exactly one lead. Provider UIs and policies change; these two adapters remain unverified until this destination-specific test is recorded.

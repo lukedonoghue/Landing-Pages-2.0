@@ -1,0 +1,41 @@
+{
+  "synthetic": true,
+  "path": "/",
+  "thank_you_path": "/thank-you.html",
+  "required_resources": [
+    "/styles.css",
+    "/script.js",
+    "/funnel.js"
+  ],
+  "fields": {
+    "first_name": "CLARENTIS SYNTHETIC QA",
+    "email": "clarentis-qa-20260921@example.invalid",
+    "phone": "+447700900123",
+    "business_type": "Startup",
+    "company_name": "SYNTHETIC QA LTD",
+    "service": "Bookkeeping",
+    "contact_method": "Email",
+    "message": "[SYNTHETIC TEST] Clarentis demonstration CRM end-to-end verification. No real prospect.",
+    "test_confirmation": true
+  },
+  "query": {
+    "utm_source": "google",
+    "utm_medium": "cpc",
+    "utm_campaign": "synthetic-clarentis-launch-verification"
+  },
+  "expected_dimensions": {
+    "source": "google",
+    "traffic": "paid",
+    "device": "desktop"
+  },
+  "selectors": {
+    "openModal": "[data-hero-cta]",
+    "modal": "#lead-modal",
+    "step": ".wizard__step",
+    "next": "[data-next]",
+    "submit": "[data-submit]",
+    "closeModal": "[data-close-modal]",
+    "error": "[data-form-error]",
+    "consentAccept": "[data-analytics-consent=\"accept\"]"
+  }
+}
