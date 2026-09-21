@@ -5,12 +5,13 @@ import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { pbkdf2Sync } from 'node:crypto';
-import { publish, argumentsFor, access, localPreconditions } from '../scripts/publish-driver.mjs';
+import { publish, argumentsFor, access, localPreconditions, APPLICATION_TEST_TIMEOUT_MS } from '../scripts/publish-driver.mjs';
 import { atomic, read, validateTarget, chooseOrigin, originsFromOutput, provider, runtimeIdentity, expectedIdentity, sameReleaseIdentity, initialSecrets, testSummary, verifyCredentials } from '../scripts/release-tools.mjs';
 
 const id='11111111-1111-4111-8111-111111111111', db='22222222-2222-4222-8222-222222222222';
 const version='33333333-3333-4333-8333-333333333333', other='44444444-4444-4444-8444-444444444444';
 const fingerprint='a'.repeat(64), url='https://protocol.example';
+test('mandatory serial application regression has a bounded twelve-minute publish budget',()=>assert.equal(APPLICATION_TEST_TIMEOUT_MS,720000));
 const config={name:'protocol-fixture',account_id:'b'.repeat(32),routes:[{pattern:'protocol.example',custom_domain:true}],d1_databases:[{binding:'DB',database_id:db}],assets:{directory:'public',run_worker_first:true},version_metadata:{binding:'CF_VERSION_METADATA'}};
 const target=validateTarget(config);
 const identity={schema_version:1,evidence_source:'cloudflare-wrangler-deployments-and-version-api',...target,version_id:version,release_id:id,source_fingerprint:fingerprint,url,script_etag:'synthetic-etag',active_versions:[{version_id:version,percentage:100}]};

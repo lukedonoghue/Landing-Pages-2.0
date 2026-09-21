@@ -1,0 +1,1228 @@
+TAP version 13
+# Subtest: password recovery confirms a lost response and updates the publisher current credential reference
+ok 1 - password recovery confirms a lost response and updates the publisher current credential reference
+  ---
+  duration_ms: 1241.277667
+  type: 'test'
+  ...
+# Subtest: failed write resumes the identical private password intent without another credential version
+ok 2 - failed write resumes the identical private password intent without another credential version
+  ---
+  duration_ms: 868.147875
+  type: 'test'
+  ...
+# Subtest: losing or corrupting the old credential file does not prevent password recovery
+ok 3 - losing or corrupting the old credential file does not prevent password recovery
+  ---
+  duration_ms: 908.726417
+  type: 'test'
+  ...
+# Subtest: resumed rename retains its explicit current-credential reference
+ok 4 - resumed rename retains its explicit current-credential reference
+  ---
+  duration_ms: 621.658625
+  type: 'test'
+  ...
+# Subtest: interrupted local credential handoff resumes without repeating the remote change
+ok 5 - interrupted local credential handoff resumes without repeating the remote change
+  ---
+  duration_ms: 530.599791
+  type: 'test'
+  ...
+# Subtest: first-use username change revokes old access and survives a Worker restart with stale bootstrap configuration
+ok 6 - first-use username change revokes old access and survives a Worker restart with stale bootstrap configuration
+  ---
+  duration_ms: 584.9665
+  type: 'test'
+  ...
+# Subtest: UI-rotated passwords and renamed usernames remain authoritative through subsequent recovery and restart
+ok 7 - UI-rotated passwords and renamed usernames remain authoritative through subsequent recovery and restart
+  ---
+  duration_ms: 722.460916
+  type: 'test'
+  ...
+# Subtest: an unknown current password leaves an explicit private-reference blocker instead of using the bootstrap password
+ok 8 - an unknown current password leaves an explicit private-reference blocker instead of using the bootstrap password
+  ---
+  duration_ms: 573.610125
+  type: 'test'
+  ...
+# Subtest: a newer account change prevents pending recovery from overwriting it or its current reference
+ok 9 - a newer account change prevents pending recovery from overwriting it or its current reference
+  ---
+  duration_ms: 478.505292
+  type: 'test'
+  ...
+# Subtest: local recovery keeps production access separate and rejects a changed target reference
+ok 10 - local recovery keeps production access separate and rejects a changed target reference
+  ---
+  duration_ms: 517.096833
+  type: 'test'
+  ...
+# Subtest: recovery option parsing never interprets an explicit false string or unknown flag as authorization
+ok 11 - recovery option parsing never interprets an explicit false string or unknown flag as authorization
+  ---
+  duration_ms: 0.291875
+  type: 'test'
+  ...
+# Subtest: named owner authentication rejects password-only and other usernames
+ok 12 - named owner authentication rejects password-only and other usernames
+  ---
+  duration_ms: 476.799417
+  type: 'test'
+  ...
+# Subtest: account, notifications, CSV and password changes all require session and same-origin writes
+ok 13 - account, notifications, CSV and password changes all require session and same-origin writes
+  ---
+  duration_ms: 12.8695
+  type: 'test'
+  ...
+# Subtest: password rotation verifies current password, persists salted hash, revokes both sessions and old secret
+ok 14 - password rotation verifies current password, persists salted hash, revokes both sessions and old secret
+  ---
+  duration_ms: 143.437292
+  type: 'test'
+  ...
+# Subtest: all-device signout advances credential version and new login still works
+ok 15 - all-device signout advances credential version and new login still works
+  ---
+  duration_ms: 32.607625
+  type: 'test'
+  ...
+# Subtest: notification watermark leaves concurrent new leads unread and excludes removed contacts
+ok 16 - notification watermark leaves concurrent new leads unread and excludes removed contacts
+  ---
+  duration_ms: 51.5255
+  type: 'test'
+  ...
+# Subtest: CSV exports all matching pages, excludes deleted contacts and prevents spreadsheet formulas
+ok 17 - CSV exports all matching pages, excludes deleted contacts and prevents spreadsheet formulas
+  ---
+  duration_ms: 19.110625
+  type: 'test'
+  ...
+# Subtest: missing or invalid named-owner configuration fails closed before credentials can be loaded
+ok 18 - missing or invalid named-owner configuration fails closed before credentials can be loaded
+  ---
+  duration_ms: 0.846584
+  type: 'test'
+  ...
+# Subtest: recovery and backup tools require explicit destination, protect credentials and support dry-run
+ok 19 - recovery and backup tools require explicit destination, protect credentials and support dry-run
+  ---
+  duration_ms: 1.773375
+  type: 'test'
+  ...
+# Subtest: CLI revocation prevents stale in-flight login for initial and rotated owners
+ok 20 - CLI revocation prevents stale in-flight login for initial and rotated owners
+  ---
+  duration_ms: 625.4815
+  type: 'test'
+  ...
+# Subtest: portable D1 export creates referenced tables before inserting data and keeps triggers after data
+ok 21 - portable D1 export creates referenced tables before inserting data and keeps triggers after data
+  ---
+  duration_ms: 0.484041
+  type: 'test'
+  ...
+# Subtest: real local D1 backup round-trip restores seeded records and recovery commands keep private permissions
+ok 22 - real local D1 backup round-trip restores seeded records and recovery commands keep private permissions
+  ---
+  duration_ms: 120922.716916
+  type: 'test'
+  ...
+# Subtest: backup reconciliation rejects partial or unsafe suppression records and redacts invalid JSON
+ok 23 - backup reconciliation rejects partial or unsafe suppression records and redacts invalid JSON
+  ---
+  duration_ms: 17.533166
+  type: 'test'
+  ...
+# Subtest: health reports only public release markers from the actual runtime binding
+ok 24 - health reports only public release markers from the actual runtime binding
+  ---
+  duration_ms: 477.894291
+  type: 'test'
+  ...
+# Subtest: public privacy configuration shares server policy without exposing private settings
+ok 25 - public privacy configuration shares server policy without exposing private settings
+  ---
+  duration_ms: 2.359833
+  type: 'test'
+  ...
+# Subtest: all CRM routes and encoded admin assets require a real session
+ok 26 - all CRM routes and encoded admin assets require a real session
+  ---
+  duration_ms: 24.431417
+  type: 'test'
+  ...
+# Subtest: login derives PBKDF2 in the actual Workers runtime and stores only a token hash
+ok 27 - login derives PBKDF2 in the actual Workers runtime and stores only a token hash
+  ---
+  duration_ms: 117.701375
+  type: 'test'
+  ...
+# Subtest: empty reporting history starts today in the configured timezone
+ok 28 - empty reporting history starts today in the configured timezone
+  ---
+  duration_ms: 41.677625
+  type: 'test'
+  ...
+# Subtest: cross-origin mutations, invalid body type, oversized requests and honeypots fail closed
+ok 29 - cross-origin mutations, invalid body type, oversized requests and honeypots fail closed
+  ---
+  duration_ms: 30.043167
+  type: 'test'
+  ...
+# Subtest: accepted lead persists, repeated submission deduplicates, changed payload conflicts
+ok 30 - accepted lead persists, repeated submission deduplicates, changed payload conflicts
+  ---
+  duration_ms: 104.422166
+  type: 'test'
+  ...
+# Subtest: concurrent identical submissions commit exactly one CRM record and creation event
+ok 31 - concurrent identical submissions commit exactly one CRM record and creation event
+  ---
+  duration_ms: 30.384333
+  type: 'test'
+  ...
+# Subtest: stage version prevents lost updates, notes persist, list search is literal and bounded
+ok 32 - stage version prevents lost updates, notes persist, list search is literal and bounded
+  ---
+  duration_ms: 34.910583
+  type: 'test'
+  ...
+# Subtest: note request identifiers make lost-response and concurrent retries idempotent
+ok 33 - note request identifiers make lost-response and concurrent retries idempotent
+  ---
+  duration_ms: 64.116833
+  type: 'test'
+  ...
+# Subtest: analytics respects consent, DNT/GPC, deduplicates visits and counts converted visitors
+ok 34 - analytics respects consent, DNT/GPC, deduplicates visits and counts converted visitors
+  ---
+  duration_ms: 74.71
+  type: 'test'
+  ...
+# Subtest: all-time history includes its earliest visits and removed leads, with complete multi-year leap-day metrics
+ok 35 - all-time history includes its earliest visits and removed leads, with complete multi-year leap-day metrics
+  ---
+  duration_ms: 91.513541
+  type: 'test'
+  ...
+# Subtest: metrics date requests reject invalid or reversed ranges and explicitly bound daily output at 100 calendar years
+ok 36 - metrics date requests reject invalid or reversed ranges and explicitly bound daily output at 100 calendar years
+  ---
+  duration_ms: 107.088917
+  type: 'test'
+  ...
+# Subtest: measured visits, unique browsers and conversions share the exact source/device cohort
+ok 37 - measured visits, unique browsers and conversions share the exact source/device cohort
+  ---
+  duration_ms: 419.292125
+  type: 'test'
+  ...
+# Subtest: an event from a different reporting day or landing page cannot create a conversion
+ok 38 - an event from a different reporting day or landing page cannot create a conversion
+  ---
+  duration_ms: 274.569167
+  type: 'test'
+  ...
+# Subtest: traffic filters reject invalid values and measured visits require a UUID event ID
+ok 39 - traffic filters reject invalid values and measured visits require a UUID event ID
+  ---
+  duration_ms: 27.046333
+  type: 'test'
+  ...
+# Subtest: additive migration preserves historical daily uniques and verified lead attribution without inventing visits or devices
+ok 40 - additive migration preserves historical daily uniques and verified lead attribution without inventing visits or devices
+  ---
+  duration_ms: 356.825959
+  type: 'test'
+  ...
+# Subtest: webhooks reject private destinations, enqueue once, deliver independently with stable event ID
+ok 41 - webhooks reject private destinations, enqueue once, deliver independently with stable event ID
+  ---
+  duration_ms: 116.690208
+  type: 'test'
+  ...
+# Subtest: webhook failure preserves accepted CRM receipt and schedules bounded retries
+ok 42 - webhook failure preserves accepted CRM receipt and schedules bounded retries
+  ---
+  duration_ms: 225.444709
+  type: 'test'
+  ...
+# Subtest: webhook redirects never forward PII to an unvalidated destination
+ok 43 - webhook redirects never forward PII to an unvalidated destination
+  ---
+  duration_ms: 76.775
+  type: 'test'
+  ...
+# Subtest: disabled analytics and invalid browser identifiers are never measured
+ok 44 - disabled analytics and invalid browser identifiers are never measured
+  ---
+  duration_ms: 0.475333
+  type: 'test'
+  ...
+# Subtest: public destination validation rejects private and reserved addresses
+ok 45 - public destination validation rejects private and reserved addresses
+  ---
+  duration_ms: 1.809541
+  type: 'test'
+  ...
+# Subtest: soft deletion removes contact from CRM and blocks reuse of its old receipt
+ok 46 - soft deletion removes contact from CRM and blocks reuse of its old receipt
+  ---
+  duration_ms: 26.476083
+  type: 'test'
+  ...
+# Subtest: login rate limiting persists in D1 and logout revokes the server session
+ok 47 - login rate limiting persists in D1 and logout revokes the server session
+  ---
+  duration_ms: 157.356125
+  type: 'test'
+  ...
+# Subtest: a database failure cannot return an accepted receipt
+ok 48 - a database failure cannot return an accepted receipt
+  ---
+  duration_ms: 25.018208
+  type: 'test'
+  ...
+# Subtest: declined, disabled, DNT and GPC sessions send no visit or conversion event
+ok 49 - declined, disabled, DNT and GPC sessions send no visit or conversion event
+  ---
+  duration_ms: 2121.404541
+  type: 'test'
+  ...
+# Subtest: consent acceptance measures a stable browser ID without passing contact data
+ok 50 - consent acceptance measures a stable browser ID without passing contact data
+  ---
+  duration_ms: 3.633458
+  type: 'test'
+  ...
+# Subtest: expanded campaign fields survive first/latest capture without admitting arbitrary URL data
+ok 51 - expanded campaign fields survive first/latest capture without admitting arbitrary URL data
+  ---
+  duration_ms: 2.272042
+  type: 'test'
+  ...
+# Subtest: consent UI can be delegated or disabled without trusting a stale stored grant
+ok 52 - consent UI can be delegated or disabled without trusting a stale stored grant
+  ---
+  duration_ms: 2.303833
+  type: 'test'
+  ...
+# Subtest: disabled measurement with lead attribution captures only submission attribution and honors browser opt-outs
+ok 53 - disabled measurement with lead attribution captures only submission attribution and honors browser opt-outs
+  ---
+  duration_ms: 3.424792
+  type: 'test'
+  ...
+# Subtest: customer data is hashed, provider-normalized and pushed before the accepted lead
+ok 54 - customer data is hashed, provider-normalized and pushed before the accepted lead
+  ---
+  duration_ms: 4.692666
+  type: 'test'
+  ...
+# Subtest: GTM loads once only after consent and receives consent withdrawal
+ok 55 - GTM loads once only after consent and receives consent withdrawal
+  ---
+  duration_ms: 1.23725
+  type: 'test'
+  ...
+# Subtest: customer data is omitted without consent, for sensitive categories, and for invalid phones
+ok 56 - customer data is omitted without consent, for sensitive categories, and for invalid phones
+  ---
+  duration_ms: 3.007125
+  type: 'test'
+  ...
+# Subtest: repeated acceptance does not resend; withdrawal and regrant start new identifiers
+ok 57 - repeated acceptance does not resend; withdrawal and regrant start new identifiers
+  ---
+  duration_ms: 1.7925
+  type: 'test'
+  ...
+# Subtest: accepted receipts emit once even when the first response is an idempotent retry
+ok 58 - accepted receipts emit once even when the first response is an idempotent retry
+  ---
+  duration_ms: 1.410667
+  type: 'test'
+  ...
+# Subtest: repeated ordinary receipts deduplicate and distinct committed leads remain measurable
+ok 59 - repeated ordinary receipts deduplicate and distinct committed leads remain measurable
+  ---
+  duration_ms: 0.872208
+  type: 'test'
+  ...
+# Subtest: receipt deduplication works without browser storage and rejects uncommitted responses
+ok 60 - receipt deduplication works without browser storage and rejects uncommitted responses
+  ---
+  duration_ms: 0.9025
+  type: 'test'
+  ...
+# Subtest: a direct navigation records current source independently from retained paid lead attribution
+ok 61 - a direct navigation records current source independently from retained paid lead attribution
+  ---
+  duration_ms: 1.568833
+  type: 'test'
+  ...
+# Subtest: new campaign visits use current source while retaining the original CRM first touch
+ok 62 - new campaign visits use current source while retaining the original CRM first touch
+  ---
+  duration_ms: 1.398
+  type: 'test'
+  ...
+# Subtest: internal navigation referrers do not classify as an external traffic source
+ok 63 - internal navigation referrers do not classify as an external traffic source
+  ---
+  duration_ms: 0.702875
+  type: 'test'
+  ...
+# Subtest: unmeasured pages and unsuccessful analytics responses do not claim a measured visit
+ok 64 - unmeasured pages and unsuccessful analytics responses do not claim a measured visit
+  ---
+  duration_ms: 2.2475
+  type: 'test'
+  ...
+# Subtest: blocked browser storage still preserves attribution and submission context for this page
+ok 65 - blocked browser storage still preserves attribution and submission context for this page
+  ---
+  duration_ms: 0.961333
+  type: 'test'
+  ...
+# Subtest: an analytics request that hangs cannot indefinitely block lead submission
+ok 66 - an analytics request that hangs cannot indefinitely block lead submission
+  ---
+  duration_ms: 1507.746917
+  type: 'test'
+  ...
+# Subtest: campaign details remain absent before acceptance and are cleared on withdrawal
+ok 67 - campaign details remain absent before acceptance and are cleared on withdrawal
+  ---
+  duration_ms: 3.4895
+  type: 'test'
+  ...
+# Subtest: attribution policy is separate from measurement and browser privacy overrides both
+ok 68 - attribution policy is separate from measurement and browser privacy overrides both
+  ---
+  duration_ms: 5.035958
+  type: 'test'
+  ...
+# Subtest: accepting additional attribution does not discard an already permitted pending visit
+ok 69 - accepting additional attribution does not discard an already permitted pending visit
+  ---
+  duration_ms: 0.864583
+  type: 'test'
+  ...
+# Subtest: late visit acknowledgement cannot restore a withdrawn identifier or correlation
+ok 70 - late visit acknowledgement cannot restore a withdrawn identifier or correlation
+  ---
+  duration_ms: 0.786833
+  type: 'test'
+  ...
+# Subtest: unwritable stale opt-in and unavailable policy fail closed for optional data
+ok 71 - unwritable stale opt-in and unavailable policy fail closed for optional data
+  ---
+  duration_ms: 1.850667
+  type: 'test'
+  ...
+# Subtest: modal opening skips the hidden honeypot, traps keyboard focus and restores its trigger
+ok 72 - modal opening skips the hidden honeypot, traps keyboard focus and restores its trigger
+  ---
+  duration_ms: 1369.316417
+  type: 'test'
+  ...
+# Subtest: form requires both lead and receipt IDs before showing thank-you
+ok 73 - form requires both lead and receipt IDs before showing thank-you
+  ---
+  duration_ms: 605.838959
+  type: 'test'
+  ...
+# Subtest: response-body stalls time out and make retry available
+ok 74 - response-body stalls time out and make retry available
+  ---
+  duration_ms: 1545.195958
+  type: 'test'
+  ...
+# Subtest: pending submission prevents navigation and duplicate submits
+ok 75 - pending submission prevents navigation and duplicate submits
+  ---
+  duration_ms: 830.743041
+  type: 'test'
+  ...
+# Subtest: Enter while reviewing an earlier completed step advances without submitting
+ok 76 - Enter while reviewing an earlier completed step advances without submitting
+  ---
+  duration_ms: 511.853583
+  type: 'test'
+  ...
+# Subtest: a lost response retries the same submission ID and form payload
+ok 77 - a lost response retries the same submission ID and form payload
+  ---
+  duration_ms: 1556.498209
+  type: 'test'
+  ...
+# Subtest: an erased submission cannot be retried into a new contact and clears the form values
+ok 78 - an erased submission cannot be retried into a new contact and clears the form values
+  ---
+  duration_ms: 646.317625
+  type: 'test'
+  ...
+# Subtest: migration and unconfigured maintenance never delete contacts
+ok 79 - migration and unconfigured maintenance never delete contacts
+  ---
+  duration_ms: 773.0395
+  type: 'test'
+  ...
+# Subtest: data operations require authenticated access, same-origin writes and a valid preview
+ok 80 - data operations require authenticated access, same-origin writes and a valid preview
+  ---
+  duration_ms: 507.051833
+  type: 'test'
+  ...
+# Subtest: erasure removes every enquiry marker, preserves unrelated contacts, changes retained metrics and blocks old retries
+ok 81 - erasure removes every enquiry marker, preserves unrelated contacts, changes retained metrics and blocks old retries
+  ---
+  duration_ms: 1164.704125
+  type: 'test'
+  ...
+# Subtest: removed enquiries remain findable for erasure and disappear after completion
+ok 82 - removed enquiries remain findable for erasure and disappear after completion
+  ---
+  duration_ms: 660.329542
+  type: 'test'
+  ...
+# Subtest: changed selections, expired previews and altered tokens cannot erase data
+ok 83 - changed selections, expired previews and altered tokens cannot erase data
+  ---
+  duration_ms: 521.715041
+  type: 'test'
+  ...
+# Subtest: a delivery already running delays completion, hides the enquiry and prevents replay until it finishes
+ok 84 - a delivery already running delays completion, hides the enquiry and prevents replay until it finishes
+  ---
+  duration_ms: 711.4685
+  type: 'test'
+  ...
+# Subtest: concurrent repeat erasures return one operation without recreating a contact
+ok 85 - concurrent repeat erasures return one operation without recreating a contact
+  ---
+  duration_ms: 748.037584
+  type: 'test'
+  ...
+# Subtest: a failed D1 erasure transaction rolls back its suppression record and remains retryable
+ok 86 - a failed D1 erasure transaction rolls back its suppression record and remains retryable
+  ---
+  duration_ms: 682.720708
+  type: 'test'
+  ...
+# Subtest: retention applies the reviewed removed-only scope and remains idempotent
+ok 87 - retention applies the reviewed removed-only scope and remains idempotent
+  ---
+  duration_ms: 800.422334
+  type: 'test'
+  ...
+# Subtest: retention settings reject unknown periods, preview changes and stale replacement
+ok 88 - retention settings reject unknown periods, preview changes and stale replacement
+  ---
+  duration_ms: 451.858
+  type: 'test'
+  ...
+# Subtest: independent note and campaign expiry leaves contact fields and reporting categories intact
+ok 89 - independent note and campaign expiry leaves contact fields and reporting categories intact
+  ---
+  duration_ms: 599.660791
+  type: 'test'
+  ...
+# Subtest: visit retention removes event links and legacy rows without violating foreign keys
+ok 90 - visit retention removes event links and legacy rows without violating foreign keys
+  ---
+  duration_ms: 599.417625
+  type: 'test'
+  ...
+# Subtest: delivery history retention deletes only old terminal records
+ok 91 - delivery history retention deletes only old terminal records
+  ---
+  duration_ms: 719.143666
+  type: 'test'
+  ...
+# Subtest: soft removal cannot conceal an active delivery lease from permanent erasure
+ok 92 - soft removal cannot conceal an active delivery lease from permanent erasure
+  ---
+  duration_ms: 866.940875
+  type: 'test'
+  ...
+# Subtest: desktop owner can cancel/review/erase and configure retention using the real admin interface
+ok 93 - desktop owner can cancel/review/erase and configure retention using the real admin interface
+  ---
+  duration_ms: 3830.202791
+  type: 'test'
+  ...
+# Subtest: mobile owner can cancel/review/erase and configure retention using the real admin interface
+ok 94 - mobile owner can cancel/review/erase and configure retention using the real admin interface
+  ---
+  duration_ms: 8139.727292
+  type: 'test'
+  ...
+# Subtest: short-mobile owner can cancel/review/erase and configure retention using the real admin interface
+ok 95 - short-mobile owner can cancel/review/erase and configure retention using the real admin interface
+  ---
+  duration_ms: 5784.895084
+  type: 'test'
+  ...
+# Subtest: removing a connection cannot hide an actual in-flight delivery from erasure
+ok 96 - removing a connection cannot hide an actual in-flight delivery from erasure
+  ---
+  duration_ms: 1135.40325
+  type: 'test'
+  ...
+# Subtest: erasure-record pagination freezes its boundary while new erasures are recorded
+ok 97 - erasure-record pagination freezes its boundary while new erasures are recorded
+  ---
+  duration_ms: 2196.001584
+  type: 'test'
+  ...
+# Subtest: a maintenance invocation bounds its D1 statement count and enquiry scope
+ok 98 - a maintenance invocation bounds its D1 statement count and enquiry scope
+  ---
+  duration_ms: 4244.161416
+  type: 'test'
+  ...
+# Subtest: restored connections must be deliberately enabled and never restart old failed jobs
+ok 99 - restored connections must be deliberately enabled and never restart old failed jobs
+  ---
+  duration_ms: 817.052333
+  type: 'test'
+  ...
+# Subtest: interrupted final erasure rolls back its deletes and resumes the accepted operation
+ok 100 - interrupted final erasure rolls back its deletes and resumes the accepted operation
+  ---
+  duration_ms: 846.961833
+  type: 'test'
+  ...
+# Subtest: preset dates match the supplied September reference including complete prior months
+ok 101 - preset dates match the supplied September reference including complete prior months
+  ---
+  duration_ms: 2291.636417
+  type: 'test'
+  ...
+# Subtest: calendar boundaries handle leap days, year changes and empty-data all time
+ok 102 - calendar boundaries handle leap days, year changes and empty-data all time
+  ---
+  duration_ms: 0.639875
+  type: 'test'
+  ...
+# Subtest: preset selection loads exact metrics dates and closes the popover
+ok 103 - preset selection loads exact metrics dates and closes the popover
+  ---
+  duration_ms: 1094.745875
+  type: 'test'
+  ...
+# Subtest: calendar selects custom and reverse ranges, with Escape and outside-click cancellation
+ok 104 - calendar selects custom and reverse ranges, with Escape and outside-click cancellation
+  ---
+  duration_ms: 648.911125
+  type: 'test'
+  ...
+# Subtest: calendar keyboard movement crosses months and navigation disables future dates
+ok 105 - calendar keyboard movement crosses months and navigation disables future dates
+  ---
+  duration_ms: 397.89325
+  type: 'test'
+  ...
+# Subtest: mobile picker fits the viewport and allows scrolling to calendar dates
+ok 106 - mobile picker fits the viewport and allows scrolling to calendar dates
+  ---
+  duration_ms: 475.618917
+  type: 'test'
+  ...
+# Subtest: lost acknowledgement retries the exact request and keeps one real lead/visit
+ok 107 - lost acknowledgement retries the exact request and keeps one real lead/visit
+  ---
+  duration_ms: 5747.081791
+  type: 'test'
+  ...
+# Subtest: a lost measured-visit response recovers the same event before the first lead
+ok 108 - a lost measured-visit response recovers the same event before the first lead
+  ---
+  duration_ms: 4297.834125
+  type: 'test'
+  ...
+# Subtest: after browser completion recovery keeps the original redirect proof and does not resubmit
+ok 109 - after browser completion recovery keeps the original redirect proof and does not resubmit
+  ---
+  duration_ms: 3362.57925
+  type: 'test'
+  ...
+# Subtest: a lost committed note response recovers without adding another note or stage update
+ok 110 - a lost committed note response recovers without adding another note or stage update
+  ---
+  duration_ms: 3467.327125
+  type: 'test'
+  ...
+# Subtest: lost stage response is reconciled through persisted version without another PATCH
+ok 111 - lost stage response is reconciled through persisted version without another PATCH
+  ---
+  duration_ms: 2873.508666
+  type: 'test'
+  ...
+# Subtest: cleanup interruption resumes the retained completed journey without recreating a contact
+ok 112 - cleanup interruption resumes the retained completed journey without recreating a contact
+  ---
+  duration_ms: 2949.9765
+  type: 'test'
+  ...
+# Subtest: changed served source cannot inherit retained browser proof
+ok 113 - changed served source cannot inherit retained browser proof
+  ---
+  duration_ms: 2244.976667
+  type: 'test'
+  ...
+# Subtest: concurrent CRM edits are retained and private payload tampering cannot resubmit
+ok 114 - concurrent CRM edits are retained and private payload tampering cannot resubmit
+  ---
+  duration_ms: 2982.12875
+  type: 'test'
+  ...
+# Subtest: a changed private request is blocked before any retry reaches the lead endpoint
+ok 115 - a changed private request is blocked before any retry reaches the lead endpoint
+  ---
+  duration_ms: 3852.745542
+  type: 'test'
+  ...
+# Subtest: performance graph draws count lines/areas and keyboard shows exact values without bounces
+ok 116 - performance graph draws count lines/areas and keyboard shows exact values without bounces
+  ---
+  duration_ms: 5067.217625
+  type: 'test'
+  ...
+# Subtest: rate graph uses percent axes and leaves unmeasured days undefined
+ok 117 - rate graph uses percent axes and leaves unmeasured days undefined
+  ---
+  duration_ms: 468.368875
+  type: 'test'
+  ...
+# Subtest: single, empty and multi-year ranges remain legible with exact-day inspection
+ok 118 - single, empty and multi-year ranges remain legible with exact-day inspection
+  ---
+  duration_ms: 411.639334
+  type: 'test'
+  ...
+# Subtest: mouse and touch inspect dates with tooltip bounded inside narrow charts
+ok 119 - mouse and touch inspect dates with tooltip bounded inside narrow charts
+  ---
+  duration_ms: 828.030625
+  type: 'test'
+  ...
+# Subtest: invalid numeric data cannot generate broken coordinates or executable markup
+ok 120 - invalid numeric data cannot generate broken coordinates or executable markup
+  ---
+  duration_ms: 512.782666
+  type: 'test'
+  ...
+# Subtest: legitimate business-step legend is not starter content
+ok 121 - legitimate business-step legend is not starter content
+  ---
+  duration_ms: 2.040875
+  type: 'test'
+  ...
+# Subtest: known starter copy and title remain blocked
+ok 122 - known starter copy and title remain blocked
+  ---
+  duration_ms: 0.275584
+  type: 'test'
+  ...
+# Subtest: Chromium desktop: decline, reopen, accept, withdraw, reload and submit without optional data
+ok 123 - Chromium desktop: decline, reopen, accept, withdraw, reload and submit without optional data
+  ---
+  duration_ms: 5663.649125
+  type: 'test'
+  ...
+# Subtest: WebKit mobile: decline, reopen, accept, withdraw, reload and submit without optional data
+ok 124 - WebKit mobile: decline, reopen, accept, withdraw, reload and submit without optional data
+  ---
+  duration_ms: 7367.653792
+  type: 'test'
+  ...
+# Subtest: withdrawal propagates to another tab and no later optional events are emitted
+ok 125 - withdrawal propagates to another tab and no later optional events are emitted
+  ---
+  duration_ms: 3796.915334
+  type: 'test'
+  ...
+# Subtest: a lost accepted response retries after withdrawal without new contact or optional payload
+ok 126 - a lost accepted response retries after withdrawal without new contact or optional payload
+  ---
+  duration_ms: 1792.496833
+  type: 'test'
+  ...
+# Subtest: browser privacy signals override both modes and forms still deliver
+ok 127 - browser privacy signals override both modes and forms still deliver
+  ---
+  duration_ms: 1777.331417
+  type: 'test'
+  ...
+# Subtest: configured independent lead attribution is visible and retained without optional measurement
+ok 128 - configured independent lead attribution is visible and retained without optional measurement
+  ---
+  duration_ms: 2169.321292
+  type: 'test'
+  ...
+# Subtest: server policy strips forbidden metadata and withdrawal cookies override stale consent bodies
+ok 129 - server policy strips forbidden metadata and withdrawal cookies override stale consent bodies
+  ---
+  duration_ms: 2042.568917
+  type: 'test'
+  ...
+# Subtest: legacy submission fingerprints retain the original receipt after withdrawal but reject edited contact fields
+ok 130 - legacy submission fingerprints retain the original receipt after withdrawal but reject edited contact fields
+  ---
+  duration_ms: 1259.310791
+  type: 'test'
+  ...
+# Subtest: unavailable privacy settings do not prevent real lead delivery
+ok 131 - unavailable privacy settings do not prevent real lead delivery
+  ---
+  duration_ms: 1629.26375
+  type: 'test'
+  ...
+# Subtest: banner describes measurement already enabled by policy and does not offer disabled campaign capture
+ok 132 - banner describes measurement already enabled by policy and does not offer disabled campaign capture
+  ---
+  duration_ms: 2957.746125
+  type: 'test'
+  ...
+# Subtest: verified resume preserves a completed summary without another form or upload
+ok 133 - verified resume preserves a completed summary without another form or upload
+  ---
+  duration_ms: 38.435666
+  type: 'test'
+  ...
+# Subtest: imported publication history cannot contact a provider before current user scope is reconciled
+ok 134 - imported publication history cannot contact a provider before current user scope is reconciled
+  ---
+  duration_ms: 25.166167
+  type: 'test'
+  ...
+# Subtest: active version replacement cannot reuse an older journey, even with unchanged markers
+ok 135 - active version replacement cannot reuse an older journey, even with unchanged markers
+  ---
+  duration_ms: 26.7485
+  type: 'test'
+  ...
+# Subtest: saved state cannot substitute for the retained verified identity
+ok 136 - saved state cannot substitute for the retained verified identity
+  ---
+  duration_ms: 27.817583
+  type: 'test'
+  ...
+# Subtest: accepted but incomplete form attempt is retained without another submission
+ok 137 - accepted but incomplete form attempt is retained without another submission
+  ---
+  duration_ms: 37.707125
+  type: 'test'
+  ...
+# Subtest: supported journey recovery stays in the same approved attempt without another upload
+ok 138 - supported journey recovery stays in the same approved attempt without another upload
+  ---
+  duration_ms: 52.1215
+  type: 'test'
+  ...
+# Subtest: recovery cannot expand a frozen read-only approval
+ok 139 - recovery cannot expand a frozen read-only approval
+  ---
+  duration_ms: 32.034459
+  type: 'test'
+  ...
+# Subtest: completed journey resumes finalization without a browser or form retry
+ok 140 - completed journey resumes finalization without a browser or form retry
+  ---
+  duration_ms: 31.493125
+  type: 'test'
+  ...
+# Subtest: uncertain upload adopts its inspected version and performs no second upload
+ok 141 - uncertain upload adopts its inspected version and performs no second upload
+  ---
+  duration_ms: 47.8795
+  type: 'test'
+  ...
+# Subtest: wrong binding blocks uncertain upload recovery before credentials or a test lead
+ok 142 - wrong binding blocks uncertain upload recovery before credentials or a test lead
+  ---
+  duration_ms: 25.479959
+  type: 'test'
+  ...
+# Subtest: an exhausted verification budget and unresolved releases cannot be restarted
+ok 143 - an exhausted verification budget and unresolved releases cannot be restarted
+  ---
+  duration_ms: 32.558167
+  type: 'test'
+  ...
+# Subtest: credential and override errors fail before provider inspection
+ok 144 - credential and override errors fail before provider inspection
+  ---
+  duration_ms: 29.576791
+  type: 'test'
+  ...
+# Subtest: current credential references override original bootstrap password
+ok 145 - current credential references override original bootstrap password
+  ---
+  duration_ms: 35.220291
+  type: 'test'
+  ...
+# Subtest: origin and source guards reject unrelated targets
+ok 146 - origin and source guards reject unrelated targets
+  ---
+  duration_ms: 0.475208
+  type: 'test'
+  ...
+# Subtest: initial secrets must match current login and all tests must actually run
+ok 147 - initial secrets must match current login and all tests must actually run
+  ---
+  duration_ms: 58.701084
+  type: 'test'
+  ...
+# Subtest: provider chooses latest active version and extracts its actual D1 binding
+ok 148 - provider chooses latest active version and extracts its actual D1 binding
+  ---
+  duration_ms: 0.562833
+  type: 'test'
+  ...
+# Subtest: provider ambiguity and unavailable API never become an absent Worker
+ok 149 - provider ambiguity and unavailable API never become an absent Worker
+  ---
+  duration_ms: 0.336292
+  type: 'test'
+  ...
+# Subtest: runtime identity mismatch fails and never follows an origin redirect
+ok 150 - runtime identity mismatch fails and never follows an origin redirect
+  ---
+  duration_ms: 0.217708
+  type: 'test'
+  ...
+# Subtest: current login is checked and its session revoked without exposing credentials
+ok 151 - current login is checked and its session revoked without exposing credentials
+  ---
+  duration_ms: 15.250875
+  type: 'test'
+  ...
+# Subtest: first publish uploads secrets with its version and reconciles a lost CLI response
+ok 152 - first publish uploads secrets with its version and reconciles a lost CLI response
+  ---
+  duration_ms: 130.782292
+  type: 'test'
+  ...
+# Subtest: failed early prerequisites perform no inspection, migration, upload, or secret write
+ok 153 - failed early prerequisites perform no inspection, migration, upload, or secret write
+  ---
+  duration_ms: 51.472459
+  type: 'test'
+  ...
+# Subtest: resume validates an overridden origin before any inspection or mutations
+ok 154 - resume validates an overridden origin before any inspection or mutations
+  ---
+  duration_ms: 22.957125
+  type: 'test'
+  ...
+# Subtest: actual browser prerequisite fails early for an unavailable executable
+ok 155 - actual browser prerequisite fails early for an unavailable executable
+  ---
+  duration_ms: 283.847084
+  type: 'test'
+  ...
+# Subtest: actual browser capture covers disclosures and form steps without sending POSTs
+ok 156 - actual browser capture covers disclosures and form steps without sending POSTs
+  ---
+  duration_ms: 3187.912333
+  type: 'test'
+  ...
+# Subtest: DOM capture preserves inline and scroll-reachable wording while excluding hidden substitutes
+ok 157 - DOM capture preserves inline and scroll-reachable wording while excluding hidden substitutes
+  ---
+  duration_ms: 321.755792
+  type: 'test'
+  ...
+# Subtest: served/local PDF mismatch blocks even when the public browser flow works
+ok 158 - served/local PDF mismatch blocks even when the public browser flow works
+  ---
+  duration_ms: 1776.616541
+  type: 'test'
+  ...
+# Subtest: authored placeholders and dropdown labels are checked without entered values
+ok 159 - authored placeholders and dropdown labels are checked without entered values
+  ---
+  duration_ms: 304.852625
+  type: 'test'
+  ...
+# Subtest: capture inputs cannot escape the project or follow an internal symlink
+ok 160 - capture inputs cannot escape the project or follow an internal symlink
+  ---
+  duration_ms: 3.128958
+  type: 'test'
+  ...
+# Subtest: combined traffic filters reach API together and update totals, table and selected summary
+ok 161 - combined traffic filters reach API together and update totals, table and selected summary
+  ---
+  duration_ms: 2726.610708
+  type: 'test'
+  ...
+# Subtest: Count/Rate toggle changes accessible chart without requerying and the tooltip is keyboard accessible
+ok 162 - Count/Rate toggle changes accessible chart without requerying and the tooltip is keyboard accessible
+  ---
+  duration_ms: 521.256042
+  type: 'test'
+  ...
+# Subtest: CRM lead source filtering is independent from performance filters
+ok 163 - CRM lead source filtering is independent from performance filters
+  ---
+  duration_ms: 502.864792
+  type: 'test'
+  ...
+# Subtest: filter and date popovers remain usable at narrow mobile widths, with Escape and outside dismissal
+ok 164 - filter and date popovers remain usable at narrow mobile widths, with Escape and outside dismissal
+  ---
+  duration_ms: 582.5415
+  type: 'test'
+  ...
+# Subtest: source labels keep paid and organic meanings without guessing Meta clicks are ads
+ok 165 - source labels keep paid and organic meanings without guessing Meta clicks are ads
+  ---
+  duration_ms: 452.605166
+  type: 'test'
+  ...
+# Subtest: lead list shows one source while full campaign fields remain in expandable submission details
+ok 166 - lead list shows one source while full campaign fields remain in expandable submission details
+  ---
+  duration_ms: 3066.922
+  type: 'test'
+  ...
+# Subtest: click identifiers and explicit media classify traffic without treating every Meta click as paid
+ok 167 - click identifiers and explicit media classify traffic without treating every Meta click as paid
+  ---
+  duration_ms: 1.631167
+  type: 'test'
+  ...
+# Subtest: visit normalization preserves supported campaign extensions and rejects URL contact fields
+ok 168 - visit normalization preserves supported campaign extensions and rejects URL contact fields
+  ---
+  duration_ms: 1.174916
+  type: 'test'
+  ...
+# Subtest: referrer matching uses exact domains and known search referrers are organic only without paid evidence
+ok 169 - referrer matching uses exact domains and known search referrers are organic only without paid evidence
+  ---
+  duration_ms: 0.565875
+  type: 'test'
+  ...
+# Subtest: device classification groups phones and tablets, preserves missing and bot devices as unknown
+ok 170 - device classification groups phones and tablets, preserves missing and bot devices as unknown
+  ---
+  duration_ms: 0.606834
+  type: 'test'
+  ...
+# Subtest: filters and event IDs validate strictly including duplicated query arguments
+ok 171 - filters and event IDs validate strictly including duplicated query arguments
+  ---
+  duration_ms: 0.929125
+  type: 'test'
+  ...
+# Subtest: CTA parsing excludes explicitly decorative aria-hidden descendants
+ok 172 - CTA parsing excludes explicitly decorative aria-hidden descendants
+  ---
+  duration_ms: 178.730167
+  type: 'test'
+  ...
+# Subtest: container browser flags apply only to an explicit synthetic loopback CI audit
+ok 173 - container browser flags apply only to an explicit synthetic loopback CI audit
+  ---
+  duration_ms: 5.023708
+  type: 'test'
+  ...
+# Subtest: verification is local-only unless HTTPS remote access is explicit
+ok 174 - verification is local-only unless HTTPS remote access is explicit
+  ---
+  duration_ms: 0.438625
+  type: 'test'
+  ...
+# Subtest: fixtures require explicit paths, actual field values, and selectors
+ok 175 - fixtures require explicit paths, actual field values, and selectors
+  ---
+  duration_ms: 0.273208
+  type: 'test'
+  ...
+# Subtest: named options and current source snapshot bind evidence
+ok 176 - named options and current source snapshot bind evidence
+  ---
+  duration_ms: 4.366334
+  type: 'test'
+  ...
+# Subtest: mobile budgets reject nonnumbers and use measured LCP CLS and TBT
+ok 177 - mobile budgets reject nonnumbers and use measured LCP CLS and TBT
+  ---
+  duration_ms: 0.946833
+  type: 'test'
+  ...
+# Subtest: Lighthouse saves raw measurements, uses three mobile runs, and blocks API writes
+ok 178 - Lighthouse saves raw measurements, uses three mobile runs, and blocks API writes
+  ---
+  duration_ms: 3.272459
+  type: 'test'
+  ...
+# Subtest: failed or missing lab measurements cannot pass and errors do not leak secrets
+ok 179 - failed or missing lab measurements cannot pass and errors do not leak secrets
+  ---
+  duration_ms: 1.676334
+  type: 'test'
+  ...
+# Subtest: missing Chromium and WebKit binaries are blocked, never skipped green
+ok 180 - missing Chromium and WebKit binaries are blocked, never skipped green
+  ---
+  duration_ms: 1.27875
+  type: 'test'
+  ...
+# Subtest: WebKit waits for a delayed image even when decode rejects, and still rejects a broken image
+ok 181 - WebKit waits for a delayed image even when decode rejects, and still rejects a broken image
+  ---
+  duration_ms: 2330.722875
+  type: 'test'
+  ...
+# Subtest: live test writes require explicit authorization and a synthetic fixture
+ok 182 - live test writes require explicit authorization and a synthetic fixture
+  ---
+  duration_ms: 0.790417
+  type: 'test'
+  ...
+# Subtest: credential helpers use environment/private files, never credential CLI arguments
+ok 183 - credential helpers use environment/private files, never credential CLI arguments
+  ---
+  duration_ms: 1.000167
+  type: 'test'
+  ...
+# Subtest: receipt proof rejects mismatched CRM receipt, missing consent, and wrong source
+ok 184 - receipt proof rejects mismatched CRM receipt, missing consent, and wrong source
+  ---
+  duration_ms: 0.363167
+  type: 'test'
+  ...
+# Subtest: read-only live checks use real HTTP but perform no login or form writes and remain partial
+ok 185 - read-only live checks use real HTTP but perform no login or form writes and remain partial
+  ---
+  duration_ms: 69.506459
+  type: 'test'
+  ...
+# Subtest: public access or a fake PDF blocks live verification
+ok 186 - public access or a fake PDF blocks live verification
+  ---
+  duration_ms: 26.222208
+  type: 'test'
+  ...
+# Subtest: cross-origin public resource redirects cannot leak a verification request
+ok 187 - cross-origin public resource redirects cannot leak a verification request
+  ---
+  duration_ms: 1.936084
+  type: 'test'
+  ...
+# Subtest: publish authorization respects a disabled copy approval checkpoint
+ok 188 - publish authorization respects a disabled copy approval checkpoint
+  ---
+  duration_ms: 148.961375
+  type: 'test'
+  ...
+# Subtest: preflight accepts a complete integrity fixture and blocks a changed artifact
+ok 189 - preflight accepts a complete integrity fixture and blocks a changed artifact
+  ---
+  duration_ms: 326.974834
+  type: 'test'
+  ...
+# Subtest: fictional demos reject remote setup before configuration or Cloudflare changes
+ok 190 - fictional demos reject remote setup before configuration or Cloudflare changes
+  ---
+  duration_ms: 66.940041
+  type: 'test'
+  ...
+# Subtest: remote setup rejects the shared starter name before any Cloudflare command
+ok 191 - remote setup rejects the shared starter name before any Cloudflare command
+  ---
+  duration_ms: 61.875167
+  type: 'test'
+  ...
+# Subtest: existing exact-name database is not silently adopted
+ok 192 - existing exact-name database is not silently adopted
+  ---
+  duration_ms: 216.186292
+  type: 'test'
+  ...
+# Subtest: publish refuses missing production credentials before remote mutations
+ok 193 - publish refuses missing production credentials before remote mutations
+  ---
+  duration_ms: 253.268291
+  type: 'test'
+  ...
+# Subtest: preflight rejects public/.env.local even without secret variable names
+ok 194 - preflight rejects public/.env.local even without secret variable names
+  ---
+  duration_ms: 203.250458
+  type: 'test'
+  ...
+# Subtest: preflight rejects public/private-key.pem even without secret variable names
+ok 195 - preflight rejects public/private-key.pem even without secret variable names
+  ---
+  duration_ms: 206.830834
+  type: 'test'
+  ...
+# Subtest: preflight rejects public/credentials.json even without secret variable names
+ok 196 - preflight rejects public/credentials.json even without secret variable names
+  ---
+  duration_ms: 205.0075
+  type: 'test'
+  ...
+# Subtest: preflight rejects public/production-admin-password.txt even without secret variable names
+ok 197 - preflight rejects public/production-admin-password.txt even without secret variable names
+  ---
+  duration_ms: 199.798792
+  type: 'test'
+  ...
+# Subtest: preflight rejects public/erasure-record.json even without secret variable names
+ok 198 - preflight rejects public/erasure-record.json even without secret variable names
+  ---
+  duration_ms: 201.894458
+  type: 'test'
+  ...
+# Subtest: preflight detects the generated production password copied under an innocent public name
+ok 199 - preflight detects the generated production password copied under an innocent public name
+  ---
+  duration_ms: 213.291125
+  type: 'test'
+  ...
+# Subtest: GitHub publishing rejects a same-path origin at another host before stage or push
+ok 200 - GitHub publishing rejects a same-path origin at another host before stage or push
+  ---
+  duration_ms: 867.776541
+  type: 'test'
+  ...
+# Subtest: remote setup cannot contact Cloudflare without explicit existing scope or passing workflow gates
+ok 201 - remote setup cannot contact Cloudflare without explicit existing scope or passing workflow gates
+  ---
+  duration_ms: 207.39025
+  type: 'test'
+  ...
+# Subtest: publish never sends credentials to an unrelated verification URL
+ok 202 - publish never sends credentials to an unrelated verification URL
+  ---
+  duration_ms: 252.489083
+  type: 'test'
+  ...
+# Subtest: preflight blocks a removed persistent privacy control before publishing
+ok 203 - preflight blocks a removed persistent privacy control before publishing
+  ---
+  duration_ms: 202.990042
+  type: 'test'
+  ...
+1..203
+# tests 203
+# suites 0
+# pass 203
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 285909.308084

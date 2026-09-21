@@ -1,5 +1,5 @@
 /** Guarded release driver. The CLI entry holds a project-wide process lock. */
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
@@ -8,6 +8,7 @@ import { credentials, testRunOptions, runLiveVerify } from './live-verify.mjs';
 import { UUID, read, atomic, inside, hash, validateTarget, chooseOrigin, originsFromOutput, initialSecrets, testSummary, localRunner, provider, runtimeIdentity, expectedIdentity, sameReleaseIdentity, verifyCredentials, checkLock } from './release-tools.mjs';
 
 const allowed=new Set(['resume','new-release','url','fixture','credentials-file','password-file','python','browser-executable']);
+export const APPLICATION_TEST_TIMEOUT_MS=720000;
 const success=result=>{if(result.code!==0)throw new Error('A required local/publishing command failed. Inspect the private release diagnostic; no success was assumed.');return result.stdout;};
 export function argumentsFor(argv) {
   const args=parseArgs(argv);
@@ -59,7 +60,9 @@ export async function localPreconditions(root,args,auth,run) {
   success(await run(process.execPath,['scripts/preflight.mjs']));
   if(!existsSync(path.join(root,'tests/backend.test.mjs')))throw new Error('Application regressions are missing.');
   const tests=readdirSync(path.join(root,'tests')).filter(name=>name.endsWith('.test.mjs')).sort().map(name=>'tests/'+name);
-  testSummary(success(await run(process.execPath,['--test','--test-concurrency=1','--test-reporter=tap',...tests])));
+  const testOutput=success(await run(process.execPath,['--test','--test-concurrency=1','--test-reporter=tap',...tests],{timeout:APPLICATION_TEST_TIMEOUT_MS}));
+  writeFileSync(path.join(root,'build/full-regression-publish.tap'),testOutput,{mode:0o600});
+  testSummary(testOutput);
   const wrangler=read(path.join(root,'node_modules/wrangler/package.json'));
   if(wrangler.version!=='4.115.0')throw new Error('Install the locked Wrangler version with npm ci before using this release adapter.');
   return fixture;

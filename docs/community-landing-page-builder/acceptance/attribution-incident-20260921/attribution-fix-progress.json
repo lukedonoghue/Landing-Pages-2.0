@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-09-21T12:46:10Z",
+  "stage": "guarded_publish_blocked_by_internal_test_timeout",
+  "summary": "Attribution root cause diagnosed; ttclid, prompt-free lead attribution, external consent adapter hardening, and empty-referrer correction are implemented in canonical and generated sources.",
+  "passed": {
+    "canonical_backend": "25/25",
+    "canonical_targeted_client": "3/3",
+    "canonical_targeted_traffic": "2/2",
+    "generated_backend": "25/25",
+    "generated_targeted_attribution": "5/5",
+    "generated_targeted_crm_ui": "1/1",
+    "serial_full_regression_before_fixture_repair": "186/203; 17 failures confined to stale legacy internal-consent/measured-visit fixture assumptions",
+    "focused_policy_fixture_regression": "journey-recovery 9/9; privacy 9/10 plus corrected unavailable-policy case 1/1",
+    "fresh_serial_full_regression": "203/203; zero failures; 240189 ms",
+    "fresh_layout_gate": "pass_with_warnings; 9 viewports; 3 preserved heading-wrap warnings",
+    "fresh_performance_gate": "pass; score 100; LCP 1605.5771 ms; CLS 0; TBT 0 ms",
+    "fresh_nine_gates": "pass_with_warnings; all nine registered for frozen source; zero failures",
+    "persistent_full_tap": "build/full-regression-2248.tap; 203/203; zero failures; 285909 ms",
+    "publish_eligibility": "pass_with_warnings; zero failures",
+    "rendered_copy_current_snapshot": "capture pass (22 documents, 2 synthetic localhost submissions); parity pass",
+    "pre_change_live_boundary": "unknown consent 0/0/0; granted consent 15/15/15"
+  },
+  "active_command": null,
+  "active_session_id": null,
+  "blockers": [
+    "Guarded publish stopped before freeze/upload because scripts/release-tools.mjs localRunner hard-codes a 180000 ms command timeout, while the mandatory serial 203-test suite needs 240189-285909 ms. The publisher returned its required-command failure after approximately 180 seconds. No release directory, upload, or Cloudflare mutation was created. Increasing this timeout requires a source change, but source 2248ccf8d5c8624730f82a4043447fe4f504c5dc82515fb1f556bc94c1f28613 is explicitly frozen."
+  ],
+  "cloudflare_mutation_for_this_fix": false,
+  "secrets_included": false
+}
