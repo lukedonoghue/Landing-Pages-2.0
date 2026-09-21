@@ -1,0 +1,264 @@
+{
+  "schema_version": 1,
+  "gate": "crm",
+  "status": "pass_with_warnings",
+  "executed_at": "2026-09-21T09:31:10.621Z",
+  "source_fingerprint": "ee193a80e8eb3d0adfc4493cb410282f81a131760fd1aec18166cca402c38e4a",
+  "target": {
+    "mode": "live",
+    "url": "https://clarentis-demo-20260921-r1.shevabody.workers.dev/"
+  },
+  "tool": {
+    "name": "deployment",
+    "version": "2.2.0"
+  },
+  "execution": {
+    "kind": "automated",
+    "command": "node scripts/live-verify.mjs",
+    "exit_code": 0
+  },
+  "checks": [
+    {
+      "name": "Worker health reports a connected database",
+      "status": "pass"
+    },
+    {
+      "name": "Public privacy policy is valid and uncached",
+      "status": "pass"
+    },
+    {
+      "name": "/api/admin/leads rejects anonymous requests",
+      "status": "pass"
+    },
+    {
+      "name": "/api/admin/metrics rejects anonymous requests",
+      "status": "pass"
+    },
+    {
+      "name": "/api/auth/session rejects anonymous requests",
+      "status": "pass"
+    },
+    {
+      "name": "/admin/ is protected",
+      "status": "pass"
+    },
+    {
+      "name": "/admin/index.html is protected",
+      "status": "pass"
+    },
+    {
+      "name": "/%61dmin/ is protected",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /thank-you.html",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /login.html",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /privacy.html",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /privacy-controls.js",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /privacy-controls.css",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /styles.css",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /script.js",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /funnel.js",
+      "status": "pass"
+    },
+    {
+      "name": "Optional brochure is not selected for this offer",
+      "status": "pass"
+    },
+    {
+      "name": "Named administrator can sign in",
+      "status": "pass"
+    },
+    {
+      "name": "Public form redirects to its intended thank-you page",
+      "status": "pass"
+    },
+    {
+      "name": "No brochure is required for this offer",
+      "status": "pass"
+    },
+    {
+      "name": "accepted_receipt",
+      "status": "pass"
+    },
+    {
+      "name": "persisted_receipt",
+      "status": "pass"
+    },
+    {
+      "name": "measured_visit",
+      "status": "pass"
+    },
+    {
+      "name": "linked_conversion",
+      "status": "pass"
+    },
+    {
+      "name": "traffic_dimensions",
+      "status": "pass"
+    },
+    {
+      "name": "CRM stage and verification note persist",
+      "status": "pass"
+    },
+    {
+      "name": "Filtered dashboard records the measured visit and conversion",
+      "status": "pass"
+    },
+    {
+      "name": "Conversion calculation agrees with its filtered cohort",
+      "status": "pass"
+    },
+    {
+      "name": "Public journey has no JavaScript exceptions",
+      "status": "pass"
+    },
+    {
+      "name": "Administrator logout revokes the session",
+      "status": "pass"
+    },
+    {
+      "name": "Running release identity is unchanged after the journey",
+      "status": "pass"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/live/001/identity.json",
+      "type": "deployment_identity",
+      "sha256": "c5665e5ca57ab8b7e3ee87861a4c28b6ce7ef7a69bac7df1793a29834a086164"
+    },
+    {
+      "path": "build/live/001/runs/001/deployment-record.json",
+      "type": "deployment_record",
+      "sha256": "462b667bf0aff61653adc18a2a65b939529edfcce5f19611ed27d20a76121b67"
+    },
+    {
+      "path": "build/live/001/runs/001/public-thank-you.png",
+      "type": "screenshot",
+      "sha256": "c745d528cb1ae9a43ba4af06d0a7a3daa4a47a52fdb11565a95e8fbfe688cc33"
+    },
+    {
+      "path": "build/live/001/runs/001/public-complete.json",
+      "type": "browser_journey_checkpoint",
+      "sha256": "c53796ec74a0b37d5aea4a76fc1e6c5d5c4646cfac192ed1d7b5a2237b9446df"
+    },
+    {
+      "path": "build/live/001/runs/001/stored-receipt.json",
+      "type": "db_receipt",
+      "sha256": "b24ce83abcf37e35d50fedb9111e9923255eaf2b14dead6d57ffba4cc8054841"
+    },
+    {
+      "path": "build/live/001/runs/001/crm-recovery.json",
+      "type": "crm_recovery",
+      "sha256": "ab5f53259dfb6dbb58799559d3eac08a33ecd22487b7a61557c8f674d3f27072"
+    },
+    {
+      "path": "build/live/001/runs/001/dashboard-result.json",
+      "type": "dashboard_result",
+      "sha256": "9c6fd6977393abbccef0737eea466e5c1bc68e4f6e0ec629553c1d198fe536b8"
+    },
+    {
+      "path": "build/live/001/runs/001/runtime-identity.json",
+      "type": "runtime_identity",
+      "sha256": "dca7bbe0cdbe391c7d3ec79d1d4cf3b5431255e19da91c4df18163522c72ded0"
+    },
+    {
+      "path": "build/live/001/runs/001/http-trace.json",
+      "type": "http_trace",
+      "sha256": "6c13bf4a163b2b7d21f02fc43a733fcdc59270426c9ead5461ead48f358edb80"
+    },
+    {
+      "path": "build/live/001/runs/001/event-trace.json",
+      "type": "event_trace",
+      "sha256": "d29189b73b4475ea717daf5783b614b711c675419e0283258f60b6664af7d8e9"
+    }
+  ],
+  "failures": [],
+  "warnings": [
+    "The controlled test contributes to historical metrics. It is identified in this report and the CRM verification note."
+  ],
+  "fully_verified": true,
+  "mode": "synthetic-browser-journey",
+  "brochure_applicable": false,
+  "journey_assertions": {
+    "named_login": true,
+    "redirect": true,
+    "brochure": true,
+    "receipt_correlation": true,
+    "crm_update": true,
+    "metrics": true,
+    "logout": true
+  },
+  "limits": [
+    "A static/health check alone does not prove contact storage or analytics.",
+    "Browser screenshots are limited to public pages; admin customer data and credentials are never captured.",
+    "The synthetic journey creates one measured visit and lead. Removing the contact does not erase historical conversion totals.",
+    "Authenticated CRM reads are D1-backed API evidence, not an independent direct SQL query."
+  ],
+  "deployment_identity": {
+    "schema_version": 1,
+    "evidence_source": "cloudflare-wrangler-deployments-and-version-api",
+    "account_id": "5b93d5e3c469e05d9bd13672e7887c4a",
+    "worker": "clarentis-demo-20260921-r1",
+    "deployment_id": "c09ed6a7-e077-4d23-aa11-db7e9270482c",
+    "version_id": "37bb6b61-e96a-4bd4-9d19-3bc8f729d016",
+    "active_versions": [
+      {
+        "version_id": "37bb6b61-e96a-4bd4-9d19-3bc8f729d016",
+        "percentage": 100
+      }
+    ],
+    "database_id": "ff4b75ac-adea-4384-ae59-32b1b99743c9",
+    "release_id": "59a1278c-4fbe-4232-9c88-0c1f87bf30ac",
+    "source_fingerprint": "ee193a80e8eb3d0adfc4493cb410282f81a131760fd1aec18166cca402c38e4a",
+    "script_etag": "7d967dcd424a21f41205c3105b90a92de05be39f685570a9497415bc7978cadc",
+    "observed_at": "2026-09-21T09:31:09.707Z",
+    "url": "https://clarentis-demo-20260921-r1.shevabody.workers.dev"
+  },
+  "receipt_id": "9515e86c-ac12-4f0f-8885-1ea92e2939e3",
+  "lead_id": "5ae14c7a-6cdc-4723-b12f-3109a160415c",
+  "cleanup": "retained-synthetic-contact",
+  "synthetic_impact": {
+    "visits": 1,
+    "leads": 1,
+    "historical_metrics_retain_test": true,
+    "lead_id": "5ae14c7a-6cdc-4723-b12f-3109a160415c",
+    "journey_id": "b135f7a8-0618-49ed-a14f-4f358726c39e",
+    "recovery_runs": 1
+  },
+  "observations": {
+    "evidence_source": "authenticated-worker-api-backed-by-D1",
+    "database_id": "ff4b75ac-adea-4384-ae59-32b1b99743c9",
+    "lead_id": "5ae14c7a-6cdc-4723-b12f-3109a160415c",
+    "receipt_id": "9515e86c-ac12-4f0f-8885-1ea92e2939e3",
+    "stored_receipt_id": "9515e86c-ac12-4f0f-8885-1ea92e2939e3",
+    "visit_event_id": "2f55490d-7747-4f6a-abac-a91528b0ef68"
+  },
+  "readiness": "live-journey-verified"
+}

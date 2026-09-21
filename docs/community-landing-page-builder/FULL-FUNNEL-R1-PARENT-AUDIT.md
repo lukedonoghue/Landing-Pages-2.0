@@ -4,6 +4,8 @@ Date: 2026-09-21. Independent builder: gpt-5.6-sol xhigh, no forked conversation
 
 ## Verdict
 
+Latest update, 09:33 UTC: the assisted demo is now deployed. Parent read-only checks independently confirm connected live D1, expected release/version/fingerprint, public login and protected CRM boundaries. The live owner/attribution report confirms all 15 fields, login and logout. See FULL-FUNNEL-R1-RECORD.md for URLs and exact identifiers. Remaining page-quality findings and missing advertising destinations are not cleared by deployment.
+
 Update at 09:20 UTC: the assisted continuation now has all nine local revision-bound gates recorded without failures, with explicit demo warnings. The supported-runtime regression passed 200/200 tests. The selected connected Cloudflare account and disposable synthetic-contact scope are authorized; remote deployment is still pending confirmation. The earlier findings below describe the initial independent run and must not be mistaken for the current assisted state.
 
 The local Worker/D1 CRM journey is evidenced. The page is not fully visually accepted, not deployed, and not proven publish-ready. GTM import and enhanced-conversion delivery remain pending real destination inputs. Do not turn the builder's automated passes into an end-to-end success claim.
@@ -69,3 +71,9 @@ The lead list now shows Contact, Phone, Stage, Source and Received. Full answers
 Evidence: `build/owner-attribution-verification.json`, executed 09:17 UTC against localhost:8899, has 27 passing checks and no failures. It verifies separate login, invalid-password rejection, authenticated login, logout revocation and persisted identifiers. It explicitly reports no interactive/email forgot-password endpoint; owner-assisted CLI recovery is a different feature. Local lead a48224b1-6073-4da7-9aa9-34f9a5342a33 matches receipt 49c49647-7e18-4a61-8d76-b67c62b833ea. These are not remote deployment evidence.
 
 The first final Node suite used an unsupported inherited npm runtime and failed four tests. The supported-runtime rerun (`regression-final-supported.tap`) passed 200/200, zero skips. Canonical instructions now require setting PATH for npm and child processes, not merely using an absolute Node executable for one command. The native-image exact-model contradiction and bounded scroll-reachable copy-capture repair are separately recorded source fixes. None converts this into an unaided first-pass success.
+
+## Live CRM and Reusable Authorization Correction
+
+The guarded live journey passed 32 checks, including accepted form/thank-you, correlated D1-backed receipt, persisted stage/note changes, filtered reporting, conversion calculation and logout. Receipt 9515e86c-ac12-4f0f-8885-1ea92e2939e3 belongs to synthetic lead 5ae14c7a-6cdc-4723-b12f-3109a160415c. The separate live UI report passed 20 checks for the five-column table, Google CPC label, absence of campaign clutter and expanded exact attribution keys. These reports verify the deployed CRM, not GTM account-side delivery or the missing PDF.
+
+The generated continuation found another source mismatch: `check_publish_approval` respected disabled `copy_before_design`, but `record(..., 'publish', ...)` still unconditionally demanded copy approval. The parent reviewed and applied the same conditional to the canonical recorder. Four focused regressions verify actual user publication recording, enabled approval enforcement, and continued blocking on incomplete copy or failed quality gates. All 82 canonical Python tests pass. This removes an unintended extra approval, not the explicit permission required for external publication.

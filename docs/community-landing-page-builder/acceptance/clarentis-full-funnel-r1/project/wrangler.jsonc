@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "branded-lead-funnel",
+  "name": "clarentis-demo-20260921-r1",
   "main": "src/worker.js",
   "compatibility_date": "2026-07-22",
   "workers_dev": true,
@@ -12,8 +12,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "branded-lead-funnel-crm",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_name": "clarentis-demo-20260921-r1-crm",
+      "database_id": "ff4b75ac-adea-4384-ae59-32b1b99743c9",
       "migrations_dir": "migrations"
     }
   ],
@@ -27,5 +27,6 @@
   },
   "version_metadata": {
     "binding": "CF_VERSION_METADATA"
-  }
+  },
+  "account_id": "5b93d5e3c469e05d9bd13672e7887c4a"
 }

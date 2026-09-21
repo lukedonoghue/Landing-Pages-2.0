@@ -43,6 +43,32 @@ function fixture(t) {
 function execute(root, script, args=[], env={}) {
   return spawnSync(node, [`scripts/${script}.mjs`, ...args], {cwd:root, encoding:'utf8', env:{...process.env, CI:'', ...env}});
 }
+
+test('publish authorization respects a disabled copy approval checkpoint', t => {
+  const root = mkdtempSync(join(tmpdir(), 'funnel-workflow-authorization-test-'));
+  t.after(() => rmSync(root, {recursive:true, force:true}));
+  write(root, 'funnel.json', {approvals:{copy_before_design:false}});
+  const script = `
+import json, pathlib, sys
+sys.path.insert(0, ${JSON.stringify(join(template, 'scripts'))})
+import workflow
+root = pathlib.Path(sys.argv[1])
+workflow.copy_state = lambda _root: {'status':'pass_with_warnings','failures':[]}
+def unexpected_copy_approval(_root):
+    raise AssertionError('copy approval must not be required when its checkpoint is disabled')
+workflow.check_copy_approval = unexpected_copy_approval
+workflow.check_gates.check = lambda *_args: {'status':'pass_with_warnings','source_fingerprint':'f'*64,'failures':[]}
+workflow.load = lambda _root: {'schema_version':1,'approvals':{}}
+captured = {}
+workflow.save = lambda _root, state: captured.update(state)
+result = workflow.record(root, 'publish', 'Actual deployment permission', 'message-1', False, True)
+assert result['status'] == 'pass'
+assert captured['approvals']['publish']['actor'] == 'user'
+assert captured['approvals']['publish']['allow_test_lead'] is True
+`;
+  const result = spawnSync('python3', ['-c', script, root], {cwd:template, encoding:'utf8'});
+  assert.equal(result.status, 0, result.stderr + result.stdout);
+});
 function setupScope(root, copyApproved=true) {
   write(root,'build/setup-request.txt','Synthetic regression scope only: set up the fixture Cloudflare project.');
   write(root,'scripts/workflow.py',`import sys\nprint('Synthetic approval plumbing fixture, not real approval')\nsys.exit(${copyApproved ? 0 : 1})\n`);

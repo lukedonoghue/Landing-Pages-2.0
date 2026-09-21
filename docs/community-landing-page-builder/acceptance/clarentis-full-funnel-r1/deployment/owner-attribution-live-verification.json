@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "status": "pass_with_warnings",
+  "executed_at": "2026-09-21T09:31:51.055Z",
+  "source_fingerprint": "ee193a80e8eb3d0adfc4493cb410282f81a131760fd1aec18166cca402c38e4a",
+  "target": "https://clarentis-demo-20260921-r1.shevabody.workers.dev",
+  "browser": {
+    "kind": "playwright-managed-chromium-headless-shell",
+    "executable_path": "/Users/mac/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+  },
+  "synthetic": true,
+  "checks": [
+    {
+      "name": "login_page_loads",
+      "passed": true
+    },
+    {
+      "name": "forgot_password_notice_is_truthful",
+      "passed": true
+    },
+    {
+      "name": "no_email_reset_ui_is_claimed",
+      "passed": true
+    },
+    {
+      "name": "interactive_forgot_password_page_is_absent",
+      "passed": true,
+      "detail": "HTTP 404"
+    },
+    {
+      "name": "invalid_login_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "valid_named_owner_login_redirects",
+      "passed": true
+    },
+    {
+      "name": "logout_revokes_session",
+      "passed": true,
+      "detail": "HTTP 401"
+    },
+    {
+      "name": "synthetic_attribution_enquiry_is_stored",
+      "passed": true
+    },
+    {
+      "name": "api_owner_session_for_receipt_inspection",
+      "passed": true
+    },
+    {
+      "name": "stored_lead_is_readable_in_crm",
+      "passed": true
+    },
+    {
+      "name": "persisted_utm_source",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_utm_medium",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_utm_campaign",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_utm_id",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_utm_term",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_utm_content",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_utm_source_platform",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_utm_creative_format",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_utm_marketing_tactic",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_gclid",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_dclid",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_gbraid",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_wbraid",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_fbclid",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "persisted_msclkid",
+      "passed": true,
+      "detail": "matched"
+    },
+    {
+      "name": "all_supported_utm_and_click_ids_persist",
+      "passed": true
+    },
+    {
+      "name": "api_logout_revokes_receipt_inspection_session",
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "warnings": [
+    "There is no email reset endpoint or interactive forgot-password page. Recovery is an authenticated Cloudflare-owner CLI operation."
+  ],
+  "lead_id": "124f333d-28d3-42e2-ba0c-38037afc04d2",
+  "receipt_id": "b4b7d833-accc-4759-ba0c-5e8597e2f57c",
+  "persisted_keys": [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_id",
+    "utm_term",
+    "utm_content",
+    "utm_source_platform",
+    "utm_creative_format",
+    "utm_marketing_tactic",
+    "gclid",
+    "dclid",
+    "gbraid",
+    "wbraid",
+    "fbclid",
+    "msclkid"
+  ],
+  "browser_closed_in_finally": true,
+  "completed_at": "2026-09-21T09:31:54.873Z"
+}

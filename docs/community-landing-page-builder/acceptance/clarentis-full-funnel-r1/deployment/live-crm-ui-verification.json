@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "executed_at": "2026-09-21T09:34:45.419Z",
+  "target": "https://clarentis-demo-20260921-r1.shevabody.workers.dev",
+  "synthetic": true,
+  "lead_id": "124f333d-28d3-42e2-ba0c-38037afc04d2",
+  "checks": [
+    {
+      "name": "compact_list_has_exact_five_columns",
+      "passed": true,
+      "detail": "Contact | Phone | Stage | Source | Received"
+    },
+    {
+      "name": "compact_list_uses_human_source_label",
+      "passed": true,
+      "detail": "CLARENTIS SYNTHETIC QA clarentis-qa-20260921@example.invalid +447700900123 New contact Qualified Engaged Follow-up Won Lost Google CPC Sep 21, 2026, 10:31 AM"
+    },
+    {
+      "name": "compact_list_omits_campaign_path_and_extra_answers",
+      "passed": true
+    },
+    {
+      "name": "expanded_submission_details_include_attribution_section",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_utm_source",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_utm_medium",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_utm_campaign",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_utm_id",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_utm_term",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_utm_content",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_utm_source_platform",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_utm_creative_format",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_utm_marketing_tactic",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_gclid",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_dclid",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_gbraid",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_wbraid",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_fbclid",
+      "passed": true
+    },
+    {
+      "name": "expanded_details_show_msclkid",
+      "passed": true
+    },
+    {
+      "name": "ui_logout_returns_to_login",
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "warnings": [],
+  "browser_closed_in_finally": true,
+  "completed_at": "2026-09-21T09:34:47.020Z"
+}
