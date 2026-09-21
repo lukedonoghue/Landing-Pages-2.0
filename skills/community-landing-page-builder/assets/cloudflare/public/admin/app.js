@@ -360,7 +360,7 @@ function renderDetail(data) {
   const fields = asObject(lead.form_data);
   if (Object.keys(fields).length) root.append(detailSection('Enquiry details', detailsFields(Object.entries(fields).map(([key, value]) => [key.replace(/[_-]/g, ' '), value]))));
   const attribution = asObject(lead.attribution);
-  const flatAttribution = ['traffic_source', 'traffic_type', 'device', 'source', 'landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'msclkid'].map(key => [key.replace(/_/g, ' '), lead[key]]).filter(([, value]) => value);
+  const flatAttribution = ['traffic_source', 'traffic_type', 'device', 'source', 'landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'utm_source_platform', 'utm_creative_format', 'utm_marketing_tactic', 'gclid', 'dclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid'].map(key => [key.replace(/_/g, ' '), lead[key]]).filter(([, value]) => value);
   const attributionContent = element('div');
   attributionContent.append(detailsFields(flatAttribution));
   for (const [key, touch] of Object.entries(attribution)) {

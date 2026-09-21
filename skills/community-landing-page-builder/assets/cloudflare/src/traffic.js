@@ -69,7 +69,7 @@ export function classifyTraffic(attribution = {}, referrer = '', origin = '') {
   const paid = ['cpc', 'ppc', 'paid', 'paidsearch', 'paidsocial', 'display', 'cpm', 'cpv', 'retargeting', 'remarketing'].includes(medium);
   const explicitOrganic = ['organic', 'organicsearch', 'organicsocial', 'social', 'socialmedia', 'socialnetwork'].includes(medium);
   // Search ad click IDs provide positive paid evidence. fbclid only proves a Meta click.
-  if (attribution.gclid || attribution.gbraid || attribution.wbraid) return { traffic_source: 'google', traffic_type: 'paid' };
+  if (attribution.gclid || attribution.dclid || attribution.gbraid || attribution.wbraid) return { traffic_source: 'google', traffic_type: 'paid' };
   if (attribution.msclkid) return { traffic_source: 'microsoft', traffic_type: 'paid' };
   let refSource = null; let hasExternalReferrer = false; let searchReferrer = false;
   try {
@@ -91,7 +91,7 @@ export function normalizeVisitAttribution(value) {
   if (value == null) return {};
   if (typeof value !== 'object' || Array.isArray(value)) throw new HttpError(400, 'Invalid visit attribution.');
   const result = {};
-  for (const key of ['source', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid']) {
+  for (const key of ['source', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'utm_source_platform', 'utm_creative_format', 'utm_marketing_tactic', 'gclid', 'dclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid']) {
     if (value[key] != null) result[key] = cleanText(value[key], 512, key);
   }
   return result;

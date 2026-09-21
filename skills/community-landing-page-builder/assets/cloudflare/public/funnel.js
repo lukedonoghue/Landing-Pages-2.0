@@ -26,7 +26,7 @@
   const loadGtm=()=>{if(gtmLoaded||choice!==true||browserOptOut()||!/^GTM-[A-Z0-9]+$/.test(gtmContainerId))return;gtmLoaded=true;window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){window.dataLayer.push(arguments);};window.gtag('consent','default',{analytics_storage:'granted',ad_storage:'granted',ad_user_data:advertisingUserDataMode==='consent'&&!sensitiveCategory?'granted':'denied',ad_personalization:'denied'});window.dataLayer.push({'gtm.start':Date.now(),event:'gtm.js'});const first=document.getElementsByTagName?.('script')?.[0],tag=document.createElement('script');tag.async=true;tag.src=`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmContainerId)}`;(first?.parentNode||document.head).insertBefore?.(tag,first||null);};
   const clean=value=>{try{const url=new URL(value,location.href);return ['http:','https:'].includes(url.protocol)?url.origin+url.pathname:'';}catch{return '';}};
   const externalReferrer=()=>{try{const url=new URL(document.referrer);return url.origin===location.origin?'':clean(url.href);}catch{return '';}};
-  const campaignKeys=['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','gbraid','wbraid','fbclid','msclkid'];
+  const campaignKeys=['utm_source','utm_medium','utm_campaign','utm_id','utm_term','utm_content','utm_source_platform','utm_creative_format','utm_marketing_tactic','gclid','dclid','gbraid','wbraid','fbclid','msclkid'];
   const campaign=()=>{const params=new URLSearchParams(location.search);return Object.fromEntries(campaignKeys.filter(name=>params.has(name)).map(name=>[name,params.get(name).slice(0,500)]));};
   const sanitizeTouch=value=>{
     if(!value||typeof value!=='object'||Array.isArray(value))return {};

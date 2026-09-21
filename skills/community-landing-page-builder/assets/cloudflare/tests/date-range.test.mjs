@@ -25,7 +25,7 @@ test('calendar boundaries handle leap days, year changes and empty-data all time
   assert.equal(calendarDays('2026-08-01').at(-1), '2026-09-05');
 });
 
-const chrome = [process.env.CHROME_BIN, '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/chromium', '/usr/bin/google-chrome'].find(p => p && existsSync(p));
+const chrome = [process.env.CHROME_BIN, chromium.executablePath()].find(p => p && existsSync(p));
 let server, browser, origin;
 before(async () => {
   if (!chrome) return;

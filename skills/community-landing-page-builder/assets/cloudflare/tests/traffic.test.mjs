@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { classifyDevice, classifyTraffic, eventId, normalizeTrafficFilters } from '../src/traffic.js';
+import { classifyDevice, classifyTraffic, eventId, normalizeTrafficFilters, normalizeVisitAttribution } from '../src/traffic.js';
 
 test('click identifiers and explicit media classify traffic without treating every Meta click as paid', () => {
-  for (const key of ['gclid', 'gbraid', 'wbraid']) assert.deepEqual(classifyTraffic({ [key]: 'click', utm_source: 'email' }), { traffic_source: 'google', traffic_type: 'paid' });
+  for (const key of ['gclid', 'dclid', 'gbraid', 'wbraid']) assert.deepEqual(classifyTraffic({ [key]: 'click', utm_source: 'email' }), { traffic_source: 'google', traffic_type: 'paid' });
   assert.deepEqual(classifyTraffic({ utm_medium: 'cpc' }), { traffic_source: 'unknown', traffic_type: 'paid' });
   assert.deepEqual(classifyTraffic({ msclkid: 'click' }), { traffic_source: 'microsoft', traffic_type: 'paid' });
   assert.deepEqual(classifyTraffic({ fbclid: 'click' }), { traffic_source: 'facebook', traffic_type: 'unknown' });
@@ -12,6 +12,11 @@ test('click identifiers and explicit media classify traffic without treating eve
   assert.deepEqual(classifyTraffic({ utm_source: 'google', utm_medium: 'organic' }), { traffic_source: 'google', traffic_type: 'organic' });
   for (const utm_medium of ['organic_social', 'organic-social', 'organic social', 'social', 'social_media']) assert.deepEqual(classifyTraffic({ utm_source: 'ig', utm_medium, fbclid: 'click' }), { traffic_source: 'instagram', traffic_type: 'organic' });
   assert.deepEqual(classifyTraffic({ utm_source: 'bing', utm_medium: 'ppc' }), { traffic_source: 'microsoft', traffic_type: 'paid' });
+});
+test('visit normalization preserves supported campaign extensions and rejects URL contact fields', () => {
+  const tags = {utm_id:'campaign',utm_source_platform:'platform',utm_creative_format:'format',utm_marketing_tactic:'tactic',dclid:'display-click'};
+  assert.deepEqual(normalizeVisitAttribution({...tags,email:'private@example.invalid',utm_private:'discard'}),tags);
+  assert.throws(() => normalizeVisitAttribution({utm_id:'x'.repeat(513)}));
 });
 test('referrer matching uses exact domains and known search referrers are organic only without paid evidence', () => {
   for (const hostname of ['google.com', 'www.google.com', 'google.co.uk', 'www.google.co.uk', 'images.google.com']) assert.deepEqual(classifyTraffic({}, `https://${hostname}/search`), { traffic_source: 'google', traffic_type: 'organic' });

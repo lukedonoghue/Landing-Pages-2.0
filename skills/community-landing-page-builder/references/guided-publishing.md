@@ -69,6 +69,8 @@ Run the skill's source/evidence gates, desktop/mobile measurement and actual vis
 
 ## Domain and final verification
 
+For a requested custom domain, first read [domain-and-owner-handoff.md](domain-and-owner-handoff.md). Identify the registrar and authoritative DNS provider separately, prepare the Cloudflare side, and give the owner only the precise external changes that cannot be completed with the available authorization. Do not guess CNAME targets or assume the demonstration business owns a domain the user can change.
+
 A custom domain/subdomain needs an active Cloudflare DNS zone in the selected account. Inspect existing DNS before replacing any record; preserve unrelated live services. If the domain uses another provider, guide the owner through Cloudflare zone/nameserver setup, or use workers.dev for now. A custom domain is optional, and a configured route does not prove DNS/TLS is ready.
 
 After publication, verify `/api/health`, the public page, responsive layouts, brochure and links, admin login, and unauthorized-access rejection. With an authorized controlled test lead, correlate the response receipt with its stored CRM record, move its stage, add a note, and check the selected visitor/source/device/conversion reporting. Verify optional webhooks or advertising tags separately if enabled.
