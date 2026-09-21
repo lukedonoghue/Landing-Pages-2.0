@@ -1,9 +1,10 @@
 import { retentionPolicy, findErasableLeads, previewErasure, beginErasure, erasureStatus, recentErasures, progressErasure, exportErasureLedger, previewRetention, saveRetention, runRetention } from './data-lifecycle.js';
 import siteConfig from './site-config.json';
 import { accountInfo, acknowledgeNotifications, changePassword, exportLeads, notifications, revokeSessions } from './admin-operations.js';
-import { HttpError, adminCredentials, cleanText, secureEqual, enforceOrigin, hmac, json, randomToken, rateLimit, readJson, requireSession, secureResponse, privacyOptOut, sessionCookie, sessionTokenHash, verifyPassword } from './security.js';
+import { HttpError, enforceOrigin, json, rateLimit, readJson, requireSession, secureResponse, privacyOptOut, sessionCookie, sessionTokenHash } from './security.js';
 import { addNote, changeStatus, createLead, deleteLead, earliestReportingDate, getLead, listLeads, metrics, recordVisit } from './repository.js';
 import { addWebhook, deleteWebhook, enableWebhook, listWebhooks, processOutbox } from './webhooks.js';
+import { permissions, authorize, loginTeam, listUsers, createUser, updateUser, inviteOrReset, setOwnerEmail, requestReset, reviewReset, completeAction, memberPassword, memberRevoke } from './team-accounts.js';
 
 export default {
   async fetch(request, env, ctx) {
@@ -39,21 +40,18 @@ async function route(request, env, ctx, url) {
     await rateLimit(env, request, 'login', 8, 900);
     await rateLimit(env, request, 'login-global', 80, 900, true);
     const body = await readJson(request, 2048);
-    cleanText(body.password, 1024, 'Password', true);
-    const account = await adminCredentials(env);
-    const suppliedUsername = typeof body.username === 'string' ? body.username.trim().toLowerCase() : '';
-    const passwordMatches = await verifyPassword(body.password, account.password_hash);
-    if (!secureEqual(suppliedUsername, account.username) || !passwordMatches) throw new HttpError(401, 'Incorrect username or password.');
-    const prior = await sessionTokenHash(env, request);
-    const token = randomToken(); const tokenHash = await hmac(env.SESSION_SECRET, `session:${token}`);
-    const now = Math.floor(Date.now() / 1000);
-    const statements = [env.DB.prepare('INSERT INTO sessions(token_hash,created_at,expires_at,credential_version,username) SELECT ?,?,?,?,? WHERE COALESCE((SELECT version FROM admin_credentials WHERE id=1),0)=? RETURNING token_hash').bind(tokenHash, now, now + 43200, account.version, account.username, account.version)];
-    if (prior) statements.push(env.DB.prepare('DELETE FROM sessions WHERE token_hash=?').bind(prior));
-    const saved = await env.DB.batch(statements);
-    if (!saved[0].results.length) throw new HttpError(401, 'Credentials changed. Please sign in again.');
-    return json({ authenticated: true }, 200, { 'Set-Cookie': sessionCookie(request, token) });
+    return loginTeam(env,request,body);
   }
-  if (path === '/api/auth/session' && method === 'GET') { await requireSession(env, request); return json({ authenticated: true }); }
+  if (path === '/api/auth/session' && method === 'GET') { const {token_hash,...user}=await requireSession(env,request); return json({authenticated:true,user,permissions:permissions(user)}); }
+  if (path === '/api/auth/reset-request' && method === 'POST') {
+    await rateLimit(env,request,'reset-request',4,900);
+    await rateLimit(env,request,'reset-request-global',40,900,true);
+    return json(await requestReset(env,await readJson(request,2048)),202);
+  }
+  if (path === '/api/auth/complete' && method === 'POST') {
+    await rateLimit(env,request,'account-confirmation',8,900);
+    return completeAction(env,request,await readJson(request,4096));
+  }
   if (path === '/api/auth/logout' && method === 'POST') {
     const tokenHash = await sessionTokenHash(env, request);
     if (tokenHash) await env.DB.prepare('DELETE FROM sessions WHERE token_hash=?').bind(tokenHash).run();
@@ -71,8 +69,18 @@ async function route(request, env, ctx, url) {
     return json(result, result.duplicate ? 200 : 201);
   }
   if (path === '/api/admin' || path.startsWith('/api/admin/')) {
-    await requireSession(env, request);
+    const user=await requireSession(env, request);
+    authorize(user,path,method);
     if (!['GET', 'HEAD'].includes(method)) await rateLimit(env, request, 'admin-mutation', 120, 60);
+    if (path.startsWith('/api/admin/users') && method!=='GET') await rateLimit(env,request,'account-management',12,900);
+    if (path==='/api/admin/users' && method==='GET')return json(await listUsers(env));
+    if (path==='/api/admin/users' && method==='POST')return json(await createUser(env,request,user,await readJson(request,4096)),201);
+    if (path==='/api/admin/users/owner-email' && method==='POST')return json(await setOwnerEmail(env,request,user,await readJson(request,4096)));
+    const resetMatch=/^\/api\/admin\/users\/reset-requests\/([a-f0-9-]{36})\/(approve|reject)$/.exec(path);
+    if(resetMatch && method==='POST')return json(await reviewReset(env,request,user,resetMatch[1],resetMatch[2]==='approve'));
+    const userMatch=/^\/api\/admin\/users\/(owner|[a-f0-9-]{36})(?:\/(invite|reset))?$/.exec(path);
+    if(userMatch && method==='PATCH' && !userMatch[2])return json(await updateUser(env,user,userMatch[1],await readJson(request,2048)));
+    if(userMatch && method==='POST' && userMatch[2])return json(await inviteOrReset(env,request,user,userMatch[1],userMatch[2]));
     if(path==='/api/admin/data/retention'&&method==='GET')return json(await retentionPolicy(env));
     if(path==='/api/admin/data/retention/preview'&&method==='POST')return json(await previewRetention(env,await readJson(request,4096)));
     if(path==='/api/admin/data/retention'&&method==='POST')return json(await saveRetention(env,await readJson(request,16384)));
@@ -85,9 +93,9 @@ async function route(request, env, ctx, url) {
     const erasureMatch=/^\/api\/admin\/data\/erasures\/([a-f0-9-]{36})(\/continue)?$/.exec(path);
     if(erasureMatch&&method==='GET'&&!erasureMatch[2])return json(await erasureStatus(env,erasureMatch[1]));
     if(erasureMatch&&method==='POST'&&erasureMatch[2])return json(await progressErasure(env,erasureMatch[1]));
-    if (path === '/api/admin/account' && method === 'GET') return json(await accountInfo(env));
-    if (path === '/api/admin/account/password' && method === 'POST') { await rateLimit(env, request, 'password-change', 5, 900); return changePassword(env, request, await readJson(request, 4096)); }
-    if (path === '/api/admin/account/revoke-sessions' && method === 'POST') return revokeSessions(env, request);
+    if (path === '/api/admin/account' && method === 'GET') return json(user.id==='owner'?await accountInfo(env):{username:user.username,password_changed_at:(await env.DB.prepare('SELECT updated_at FROM crm_users WHERE id=?').bind(user.id).first()).updated_at});
+    if (path === '/api/admin/account/password' && method === 'POST') { await rateLimit(env, request, 'password-change', 5, 900); const body=await readJson(request,4096); return user.id==='owner'?changePassword(env,request,body):memberPassword(env,request,user,body); }
+    if (path === '/api/admin/account/revoke-sessions' && method === 'POST') return user.id==='owner'?revokeSessions(env,request):memberRevoke(env,request,user);
     if (path === '/api/admin/notifications' && method === 'GET') return json(await notifications(env));
     if (path === '/api/admin/notifications/acknowledge' && method === 'POST') return json(await acknowledgeNotifications(env, await readJson(request, 1024)));
     if (path === '/api/admin/leads/export.csv' && method === 'GET') return exportLeads(env, url);

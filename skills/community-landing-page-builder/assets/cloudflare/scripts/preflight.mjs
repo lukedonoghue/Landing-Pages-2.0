@@ -1,7 +1,9 @@
 import {readFileSync,existsSync,readdirSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
+import {freePlanFailures} from './free-plan.mjs';
 const failures=[];
 const config=JSON.parse(readFileSync('wrangler.jsonc','utf8'));
+failures.push(...freePlanFailures(config));
 if(!existsSync('public/index.html')||!existsSync('public/thank-you.html')) failures.push('Build the landing and thank-you pages in public/.');
 for(const file of ['public/funnel.js','public/privacy-controls.js','public/privacy-controls.css','public/privacy.html'])if(!existsSync(file))failures.push(`Visitor privacy controls require ${file}.`);
 for(const file of ['public/index.html','public/thank-you.html','public/privacy.html'])if(existsSync(file)&&!/<script\b[^>]*\bsrc\s*=\s*["'][^"']*\bfunnel\.js(?:[?#][^"']*)?["']/i.test(readFileSync(file,'utf8')))failures.push(`${file} must load funnel.js to keep privacy choices available.`);

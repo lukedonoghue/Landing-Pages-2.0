@@ -11,6 +11,8 @@ Treat the user as a business owner who may have no website, AI, hosting, analyti
 
 Complete the research, strategy, copy, design, implementation, and local QA without asking the user to make technical decisions. Ask only when an unresolved fact would materially change the offer, legal claim, primary action, required form field, or external destination. Do not stop for copy or design approval unless the user requested an approval checkpoint.
 
+All supplied hosting, CRM and account-email workflows must fit Cloudflare Free. Never enable paid plans, metered add-ons or arbitrary-recipient email sending to complete a build. Stop and explain a free-tier quota or setup blocker; only a later explicit user decision may authorize a separate paid configuration. Free account email requires a verified sender and Cloudflare-verified recipients, not a paid sending fallback. See the optional CRM's team-access reference when needed.
+
 The default result is a polished local landing page, a useful downloadable PDF, a real conversion path and concise QA evidence. It is not automatically a CRM, analytics stack, database, reporting product, deployment, or maintenance system.
 
 ## Absolute rules

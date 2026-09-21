@@ -103,10 +103,14 @@ export async function sessionTokenHash(env, request) {
 export async function requireSession(env, request) {
   const tokenHash = await sessionTokenHash(env, request);
   if (!tokenHash) throw new HttpError(401, 'Please sign in.');
+  const member = await env.DB.prepare(`SELECT u.id,u.username,u.email,u.role FROM sessions s JOIN crm_users u ON u.id=s.user_id
+    WHERE s.token_hash=? AND s.expires_at>? AND s.credential_version=u.version AND u.status='active' AND u.email_verified_at IS NOT NULL`).bind(tokenHash, Math.floor(Date.now()/1000)).first();
+  if (member) return {...member, token_hash:tokenHash};
   const credentials = await adminCredentials(env);
-  const session = await env.DB.prepare('SELECT expires_at FROM sessions WHERE token_hash=? AND expires_at>? AND credential_version=? AND username=?').bind(tokenHash, Math.floor(Date.now() / 1000), credentials.version, credentials.username).first();
+  const session = await env.DB.prepare('SELECT expires_at FROM sessions WHERE token_hash=? AND expires_at>? AND credential_version=? AND username=? AND user_id IS NULL').bind(tokenHash, Math.floor(Date.now() / 1000), credentials.version, credentials.username).first();
   if (!session) throw new HttpError(401, 'Your session has expired. Please sign in.');
-  return tokenHash;
+  const profile = await env.DB.prepare('SELECT email FROM crm_owner_profile WHERE id=1').first();
+  return {id:'owner', username:credentials.username, email:profile?.email || '', role:'admin', token_hash:tokenHash};
 }
 export function cleanText(value, maximum, field, required = false) {
   if (value == null && !required) return '';
@@ -120,7 +124,7 @@ export function secureResponse(response, pathname) {
   const headers = new Headers(response.headers);
   headers.set('X-Content-Type-Options', 'nosniff'); headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   headers.set('X-Frame-Options', 'DENY'); headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-  if (pathname.startsWith('/api/') || pathname.startsWith('/admin') || pathname.startsWith('/login')) {
+  if (pathname.startsWith('/api/') || pathname.startsWith('/admin') || pathname.startsWith('/login') || pathname.startsWith('/account-action')) {
     headers.set('Cache-Control', 'no-store'); headers.set('X-Robots-Tag', 'noindex, nofollow');
     headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
   }
