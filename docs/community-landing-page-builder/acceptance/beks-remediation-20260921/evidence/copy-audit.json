@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "gate": "copy",
+  "status": "pass_with_warnings",
+  "source_fingerprint": "65753341a8a942b19f4d9492be6ac570a03fdeb34a4f69d320f30763889f6069",
+  "executed_at": "2026-09-21T18:38:20.888991+00:00",
+  "target": {
+    "mode": "handoff",
+    "url": ""
+  },
+  "tool": {
+    "name": "copy_library audit",
+    "version": "1"
+  },
+  "checks": {
+    "current_editorial_review": true
+  },
+  "copy_audit": {
+    "automated_status": "pass",
+    "overall_status": "pass_with_warnings",
+    "failures": [],
+    "warnings": [
+      "Review absolute/comparative/numeric claims in context; wording scan cannot establish truth"
+    ],
+    "editorial_requirements": [],
+    "input_hashes": {
+      "copy_sha256": "00241e5aadd6f06b89bb6cff5c88b05189e64c52535d888609c8cd178db419d4",
+      "brief_sha256": "6f078baf0fdf365cea2b0327265dbe897c8407e95cdc74b63e4ccccd338cea43",
+      "context_sha256": "336f75e040fc7ba4476b4be81afa4266e56e0c15dd47a50e4db897120ed9d9b1"
+    },
+    "limits": "Checks prove structural integrity and freshness only. Source interpretation, persuasion and rendered-page QA require actual review."
+  },
+  "artifacts": [
+    {
+      "path": "build/copy-review-inputs.json",
+      "type": "copy_review_inputs",
+      "sha256": "17e9b153498848a696ce5a340362a4e8accfa504fd8e8e2ea0c89817eb38abb6"
+    },
+    {
+      "path": "build/page-copy.json",
+      "type": "copy",
+      "sha256": "00241e5aadd6f06b89bb6cff5c88b05189e64c52535d888609c8cd178db419d4"
+    },
+    {
+      "path": "build/client-copy-brief.json",
+      "type": "brief",
+      "sha256": "6f078baf0fdf365cea2b0327265dbe897c8407e95cdc74b63e4ccccd338cea43"
+    },
+    {
+      "path": "build/copy-context.json",
+      "type": "context",
+      "sha256": "336f75e040fc7ba4476b4be81afa4266e56e0c15dd47a50e4db897120ed9d9b1"
+    },
+    {
+      "path": "build/copy-editorial-review.json",
+      "type": "review",
+      "sha256": "2db69a1669d21feab0832f4515a79973e3f223aecf6d0cc71cdf90d0bbaf7696"
+    }
+  ],
+  "failures": [],
+  "warnings": [
+    "Review absolute/comparative/numeric claims in context; wording scan cannot establish truth"
+  ]
+}

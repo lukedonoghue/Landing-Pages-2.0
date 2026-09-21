@@ -19,6 +19,9 @@ The invitation field mismatch was caused by grid layout around the username cont
 - A WebKit image check failed once without asset-level diagnostics. The added check visits real image positions, waits for resource completion and reports failed assets. A delayed/offscreen valid image and a broken image are tested. The original transient cause was not conclusively reproduced.
 - Real email inbox delivery remains unverified. Local mail-sink and concurrency tests are not a substitute. No authorized recipient was supplied during this repair.
 - Real GTM import/enhanced-conversion delivery and custom-domain DNS remain separate configuration work.
+- The first publication attempt passed all 246 application tests but packaging omitted `build/copy-review-inputs.json`. This exact, already-reviewed input was added to the current copy-gate artifacts; a local freeze/portability check then passed. Canonical `workflow.COPY_FILES` now includes it automatically, with an export/extract/freeze regression.
+- A subsequent application-test invocation failed without retaining its output. The canonical publisher now streams each test attempt to a unique private diagnostic and only replaces successful TAP after a complete pass. Current-release diagnosis used the same locked publisher and checks with logging added, not a raw upload or skipped gate.
+- The `project/` directory is the exact reviewed snapshot, not the next-build template. Later canonical packaging/diagnostic helper repairs are in the maintained skill and are intentionally not presented as changes to that reviewed page/CRM source.
 
 ## Deployment Safety
 

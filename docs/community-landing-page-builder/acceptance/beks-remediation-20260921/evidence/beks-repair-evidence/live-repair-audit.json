@@ -1,0 +1,281 @@
+{
+  "started_at": "2026-09-21T18:59:11.953Z",
+  "base": "https://bookkeeping-by-beks-demo-20260921-r1.shevabody.workers.dev",
+  "checks": {
+    "first_party_mode_independent": true,
+    "direct_navigation_preserves_first_latest": true,
+    "accepted_and_redirected": true,
+    "login_return_uses_working_origin": true,
+    "every_campaign_field_persisted": true,
+    "excluded_query_not_stored": true,
+    "backdrop_close_inside_click_and_focus_restore": true,
+    "invitation_controls_aligned": true,
+    "logout_revokes_session": true,
+    "GPC_respected": true,
+    "DNT_respected": true
+  },
+  "fields": [
+    {
+      "touch": "first_touch",
+      "key": "utm_source",
+      "expected": "google",
+      "submitted": "google",
+      "stored": "google"
+    },
+    {
+      "touch": "first_touch",
+      "key": "utm_medium",
+      "expected": "cpc",
+      "submitted": "cpc",
+      "stored": "cpc"
+    },
+    {
+      "touch": "first_touch",
+      "key": "utm_campaign",
+      "expected": "first_utm_campaign_synthetic",
+      "submitted": "first_utm_campaign_synthetic",
+      "stored": "first_utm_campaign_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "utm_id",
+      "expected": "first_utm_id_synthetic",
+      "submitted": "first_utm_id_synthetic",
+      "stored": "first_utm_id_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "utm_term",
+      "expected": "first_utm_term_synthetic",
+      "submitted": "first_utm_term_synthetic",
+      "stored": "first_utm_term_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "utm_content",
+      "expected": "first_utm_content_synthetic",
+      "submitted": "first_utm_content_synthetic",
+      "stored": "first_utm_content_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "utm_source_platform",
+      "expected": "first_utm_source_platform_synthetic",
+      "submitted": "first_utm_source_platform_synthetic",
+      "stored": "first_utm_source_platform_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "utm_creative_format",
+      "expected": "first_utm_creative_format_synthetic",
+      "submitted": "first_utm_creative_format_synthetic",
+      "stored": "first_utm_creative_format_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "utm_marketing_tactic",
+      "expected": "first_utm_marketing_tactic_synthetic",
+      "submitted": "first_utm_marketing_tactic_synthetic",
+      "stored": "first_utm_marketing_tactic_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "gclid",
+      "expected": "first_gclid_synthetic",
+      "submitted": "first_gclid_synthetic",
+      "stored": "first_gclid_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "dclid",
+      "expected": "first_dclid_synthetic",
+      "submitted": "first_dclid_synthetic",
+      "stored": "first_dclid_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "gbraid",
+      "expected": "first_gbraid_synthetic",
+      "submitted": "first_gbraid_synthetic",
+      "stored": "first_gbraid_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "wbraid",
+      "expected": "first_wbraid_synthetic",
+      "submitted": "first_wbraid_synthetic",
+      "stored": "first_wbraid_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "fbclid",
+      "expected": "first_fbclid_synthetic",
+      "submitted": "first_fbclid_synthetic",
+      "stored": "first_fbclid_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "msclkid",
+      "expected": "first_msclkid_synthetic",
+      "submitted": "first_msclkid_synthetic",
+      "stored": "first_msclkid_synthetic"
+    },
+    {
+      "touch": "first_touch",
+      "key": "ttclid",
+      "expected": "first_ttclid_synthetic",
+      "submitted": "first_ttclid_synthetic",
+      "stored": "first_ttclid_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "utm_source",
+      "expected": "google",
+      "submitted": "google",
+      "stored": "google"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "utm_medium",
+      "expected": "cpc",
+      "submitted": "cpc",
+      "stored": "cpc"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "utm_campaign",
+      "expected": "latest_utm_campaign_synthetic",
+      "submitted": "latest_utm_campaign_synthetic",
+      "stored": "latest_utm_campaign_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "utm_id",
+      "expected": "latest_utm_id_synthetic",
+      "submitted": "latest_utm_id_synthetic",
+      "stored": "latest_utm_id_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "utm_term",
+      "expected": "latest_utm_term_synthetic",
+      "submitted": "latest_utm_term_synthetic",
+      "stored": "latest_utm_term_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "utm_content",
+      "expected": "latest_utm_content_synthetic",
+      "submitted": "latest_utm_content_synthetic",
+      "stored": "latest_utm_content_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "utm_source_platform",
+      "expected": "latest_utm_source_platform_synthetic",
+      "submitted": "latest_utm_source_platform_synthetic",
+      "stored": "latest_utm_source_platform_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "utm_creative_format",
+      "expected": "latest_utm_creative_format_synthetic",
+      "submitted": "latest_utm_creative_format_synthetic",
+      "stored": "latest_utm_creative_format_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "utm_marketing_tactic",
+      "expected": "latest_utm_marketing_tactic_synthetic",
+      "submitted": "latest_utm_marketing_tactic_synthetic",
+      "stored": "latest_utm_marketing_tactic_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "gclid",
+      "expected": "latest_gclid_synthetic",
+      "submitted": "latest_gclid_synthetic",
+      "stored": "latest_gclid_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "dclid",
+      "expected": "latest_dclid_synthetic",
+      "submitted": "latest_dclid_synthetic",
+      "stored": "latest_dclid_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "gbraid",
+      "expected": "latest_gbraid_synthetic",
+      "submitted": "latest_gbraid_synthetic",
+      "stored": "latest_gbraid_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "wbraid",
+      "expected": "latest_wbraid_synthetic",
+      "submitted": "latest_wbraid_synthetic",
+      "stored": "latest_wbraid_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "fbclid",
+      "expected": "latest_fbclid_synthetic",
+      "submitted": "latest_fbclid_synthetic",
+      "stored": "latest_fbclid_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "msclkid",
+      "expected": "latest_msclkid_synthetic",
+      "submitted": "latest_msclkid_synthetic",
+      "stored": "latest_msclkid_synthetic"
+    },
+    {
+      "touch": "latest_touch",
+      "key": "ttclid",
+      "expected": "latest_ttclid_synthetic",
+      "submitted": "latest_ttclid_synthetic",
+      "stored": "latest_ttclid_synthetic"
+    }
+  ],
+  "limits": [
+    "Synthetic CRM evidence, not ad-platform delivery or real email verification."
+  ],
+  "release": {
+    "version_id": "811503a7-9eb7-4f0d-ba27-308fa8a9e5a7",
+    "release_id": "f7983ff9-32ec-469b-bb7d-cf1bac8374f6",
+    "source_fingerprint": "65753341a8a942b19f4d9492be6ac570a03fdeb34a4f69d320f30763889f6069"
+  },
+  "receipt": {
+    "ok": true,
+    "lead_id": "57d8ceaf-dc8d-47a5-a06e-ccbb420e6c41",
+    "receipt_id": "f7a84494-8c58-407a-88c2-3c1df5ae64ca",
+    "duplicate": false
+  },
+  "invite_geometry": [
+    {
+      "name": "email",
+      "top": 544.3125,
+      "bottom": 586.3125
+    },
+    {
+      "name": "username",
+      "top": 544.3125,
+      "bottom": 586.3125
+    },
+    {
+      "name": "role",
+      "top": 544.3125,
+      "bottom": 586.3125
+    },
+    {
+      "name": "submit",
+      "top": 544.3125,
+      "bottom": 586.3125
+    }
+  ],
+  "status": "pass",
+  "completed_at": "2026-09-21T18:59:17.920Z"
+}

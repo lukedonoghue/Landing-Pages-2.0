@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "gate": "visual",
+  "status": "pass",
+  "source_fingerprint": "65753341a8a942b19f4d9492be6ac570a03fdeb34a4f69d320f30763889f6069",
+  "executed_at": "2026-09-21T18:39:01.233Z",
+  "target": {
+    "mode": "handoff",
+    "url": "http://127.0.0.1:4177/"
+  },
+  "tool": {
+    "name": "Codex targeted remediation visual review",
+    "version": "1"
+  },
+  "failures": [],
+  "warnings": [],
+  "reviewer": "Parent reviewer: final responsive captures inspected separately from implementation",
+  "checks": {
+    "responsive_frames": true,
+    "phone_disclosure_separated": true,
+    "modal_close_clear": true,
+    "crm_fields_aligned": true
+  },
+  "observations": [
+    "Desktop hero shows business, offer, demo status, phone, both actions and the start of following service content. Lora is visible and actual glyph-font checks passed.",
+    "At 320px the phone wraps without disclosure overlap. The modal reserves a separate close-control area and scrolls to remaining fields. Short-screen field and keyboard checks are automated.",
+    "The cleanup image has a compact 4:3 frame. The tablet dashboard now shows the laptop and participants in a native 3:2 frame instead of a tall cropped strip. The guide cover retains its proportions.",
+    "The synthetic CRM detail shows Google CPC with touch details collapsed. Invitation input baselines align. Browser regressions cover backdrop/interior/drag/focus behavior.",
+    "The mobile hero remains text-led and longer than a short viewport; no claim of conversion uplift or perfect design is made."
+  ],
+  "artifacts": [
+    {
+      "path": "build/screenshots/320x844-landing.png",
+      "type": "screenshot",
+      "sha256": "4435a5c41a5d8b8523b4353bb8de5ebef5d232e54ebfa0c5cab252e1b0624a1e"
+    },
+    {
+      "path": "build/screenshots/320x844-modal.png",
+      "type": "screenshot",
+      "sha256": "4e710a768222929e0a54cb362c72f7fe1a1db28cf684bc434eac67da1d9dad09"
+    },
+    {
+      "path": "build/screenshots/768x800-landing.png",
+      "type": "screenshot",
+      "sha256": "2af7c327984c98dc1446ffc49b685060120fc1b59e63f2ac3c02618211192717"
+    },
+    {
+      "path": "build/screenshots/1440x900-landing.png",
+      "type": "screenshot",
+      "sha256": "79d07e209e7050e9beda7de386f7d5babb09d4cbbbf547388f94d67191688d03"
+    },
+    {
+      "path": "build/screenshots/1280x600-modal.png",
+      "type": "screenshot",
+      "sha256": "17f0466bd96c4ff307ed4bbcd68133f15451418336735df826e7e79431b0c38f"
+    },
+    {
+      "path": "build/screenshots/390x844-thank-you.png",
+      "type": "screenshot",
+      "sha256": "55f7544a243d382679ce0861468d8313b3252ce1541b8d40670fd9a323a5cd3f"
+    },
+    {
+      "path": "build/remediation/visual/invitation-row.png",
+      "type": "screenshot",
+      "sha256": "d140ac343ac3ffd1f2d94ecc15c9ad4c895d4cb8b2b717e97f610ad1cb7540a3"
+    },
+    {
+      "path": "build/remediation/visual/crm-attribution-desktop.png",
+      "type": "screenshot",
+      "sha256": "c12373c0fa0066692181120b1511fa3fc56d45869a2b9deaba5737c8d2249cc4"
+    },
+    {
+      "path": "build/remediation/visual/dashboard-figure-768.png",
+      "type": "screenshot",
+      "sha256": "ab653f394690bee6226fb8479316189ab0f7649d7454d8bfbe90041fe2aacc7f"
+    }
+  ]
+}

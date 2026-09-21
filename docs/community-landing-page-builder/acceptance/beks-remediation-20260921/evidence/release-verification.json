@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "release_id": "f7983ff9-32ec-469b-bb7d-cf1bac8374f6",
+  "verified_at": "2026-09-21T18:58:47.615160+00:00",
+  "source_fingerprint": "65753341a8a942b19f4d9492be6ac570a03fdeb34a4f69d320f30763889f6069",
+  "handoff": {
+    "path": "build/gates.json",
+    "sha256": "7217718622212b2c030100446309453881b1c66a3d82c2e42703f4ab7824c0b6",
+    "scope": "reviewed frozen source; not relabeled live evidence"
+  },
+  "live_snapshot": {
+    "path": "build/live/snapshot.json",
+    "sha256": "e5ea387cd2a0cac9dc75a7de8c3c364005e5e1c1b52c7e413c6de8ef5acf83cd"
+  },
+  "identity": {
+    "path": "build/live/001/identity.json",
+    "sha256": "5279343c381b780a70133f3495d68ee9b2148075866f01675218791bcba82c19"
+  },
+  "live": {
+    "crm": {
+      "path": "build/live/001/crm.json",
+      "sha256": "9d68da6c5d44616797167989ab63a14fa70458a4be3e1e105b31b93bcabe29db",
+      "status": "pass_with_warnings"
+    },
+    "tracking": {
+      "path": "build/live/001/tracking.json",
+      "sha256": "23d47b384383ba832f510dde330ed754ba3e411a1e071448fac7f1e3a255fa7c",
+      "status": "pass_with_warnings"
+    },
+    "deployment": {
+      "path": "build/live/001/deployment.json",
+      "sha256": "b64badc4c8e2363023d7cb9440409e7c3d0ee072cb4541a5a168207e37f55d54",
+      "status": "pass_with_warnings"
+    }
+  },
+  "status": "verified",
+  "url": "https://bookkeeping-by-beks-demo-20260921-r1.shevabody.workers.dev"
+}

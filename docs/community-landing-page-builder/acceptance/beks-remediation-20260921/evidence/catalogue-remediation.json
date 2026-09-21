@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "gate": "catalogue",
+  "status": "pass",
+  "source_fingerprint": "65753341a8a942b19f4d9492be6ac570a03fdeb34a4f69d320f30763889f6069",
+  "executed_at": "2026-09-21T18:39:01.255Z",
+  "target": {
+    "mode": "handoff",
+    "url": "http://127.0.0.1:4177/"
+  },
+  "tool": {
+    "name": "Codex targeted remediation visual review",
+    "version": "1"
+  },
+  "failures": [],
+  "warnings": [],
+  "page_count": 4,
+  "reviewed_pages": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "checks": {
+    "every_page_rendered": true,
+    "no_clipping": true,
+    "no_overlap": true,
+    "direct_download": true
+  },
+  "observations": [
+    "All four existing rendered PDF pages were inspected during this repair. The PDF itself is unchanged (SHA256 42572fdc8bcd5990b041fe143b8ee8e63ab845387a41b1c9837cb32e296c5f81): legible checklist, notes, source attribution and demo contact; no text/image collision. Current rendered-copy parity checks its extracted text."
+  ],
+  "artifacts": [
+    {
+      "path": "public/assets/bookkeeping-month-end-clarity-checklist.pdf",
+      "type": "pdf",
+      "sha256": "42572fdc8bcd5990b041fe143b8ee8e63ab845387a41b1c9837cb32e296c5f81"
+    },
+    {
+      "path": "build/catalogue-pages/page-1.png",
+      "type": "rendered_page",
+      "sha256": "278702166d4b965d24ea3cdbe8699a677cf577d14056c50e6a0b15aa045ed0ab"
+    },
+    {
+      "path": "build/catalogue-pages/page-2.png",
+      "type": "rendered_page",
+      "sha256": "0c87e09c174f4537e26487435be4c5f9a498ca2bcb7c699a96603ea42080717f"
+    },
+    {
+      "path": "build/catalogue-pages/page-3.png",
+      "type": "rendered_page",
+      "sha256": "ea6d09c6db7fac909c3f1e8e886fe8996991044d5ef3032c15511d613313187c"
+    },
+    {
+      "path": "build/catalogue-pages/page-4.png",
+      "type": "rendered_page",
+      "sha256": "de674e3dab02107db55d856d32a8b3b61adfd320b49b1583535cb4d8ab528c7a"
+    }
+  ]
+}

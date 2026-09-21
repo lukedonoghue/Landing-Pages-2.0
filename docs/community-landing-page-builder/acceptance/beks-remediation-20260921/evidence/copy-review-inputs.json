@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "inputs": {
+    "copy": {
+      "path": "build/page-copy.json",
+      "sha256": "00241e5aadd6f06b89bb6cff5c88b05189e64c52535d888609c8cd178db419d4"
+    },
+    "brief": {
+      "path": "build/strategy-brief.md",
+      "sha256": "14572ce26406d1143cf76b702939155b1b6f4d9db65b5fb5b6059851125fa98a"
+    },
+    "source1": {
+      "path": "build/claim-ledger.md",
+      "sha256": "37de0ccbfd6fb1576538fadf73cfd829d3b1f6433b364bde003360974650480d"
+    },
+    "source2": {
+      "path": "research/official-site.txt",
+      "sha256": "6c0b3b9bd0a8b79ae46fd2da017ff3e7b334bfda8d1e98d671ad1b25f6f0b4ea"
+    },
+    "source3": {
+      "path": "research/chamber.txt",
+      "sha256": "fdd500aa853811e335e1bf43a287e2fdb8d1b37524eef7cb1bc62b5dde073818"
+    },
+    "source4": {
+      "path": "research/competitor-gap.txt",
+      "sha256": "827989181a9ba153318cb2416b3c3442264b602ecddecc084c6fa2e3d5058449"
+    },
+    "source5": {
+      "path": "research/user-instructions.txt",
+      "sha256": "0b414c4071e77e0959b497519a65c3a41490c232122ecf3b4f723a5c8117817f"
+    }
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "status": "pass",
+  "files": [
+    {
+      "path": "migrations/0001_crm.sql",
+      "expected_sha256": "8bcea8605b8bcfe0326feeb3699c4db93b7f5db4af4a262a1587f8d24a8875e4",
+      "actual_sha256": "8bcea8605b8bcfe0326feeb3699c4db93b7f5db4af4a262a1587f8d24a8875e4",
+      "matches": true
+    },
+    {
+      "path": "migrations/0002_traffic_dimensions.sql",
+      "expected_sha256": "2cd4d1c17f8e368d8c57e57c66badd575b084a7e1649e1111ec16d12cb3c871c",
+      "actual_sha256": "2cd4d1c17f8e368d8c57e57c66badd575b084a7e1649e1111ec16d12cb3c871c",
+      "matches": true
+    },
+    {
+      "path": "migrations/0003_admin_operations.sql",
+      "expected_sha256": "df8bdf5f330a2b655f6b872c74a0ae0eb4baced7199603830aa5fe4057bdb896",
+      "actual_sha256": "df8bdf5f330a2b655f6b872c74a0ae0eb4baced7199603830aa5fe4057bdb896",
+      "matches": true
+    },
+    {
+      "path": "migrations/0004_owner_identity.sql",
+      "expected_sha256": "d7bee393e2aef2c62b830b3dfb9857f475b8b202324a5fc836e46fb14e85d506",
+      "actual_sha256": "d7bee393e2aef2c62b830b3dfb9857f475b8b202324a5fc836e46fb14e85d506",
+      "matches": true
+    },
+    {
+      "path": "migrations/0005_data_lifecycle.sql",
+      "expected_sha256": "616b5e596fe4292bf1694e31eb395e21e983c6eeb40a971178b9e38f77c5f85e",
+      "actual_sha256": "616b5e596fe4292bf1694e31eb395e21e983c6eeb40a971178b9e38f77c5f85e",
+      "matches": true
+    },
+    {
+      "path": "migrations/0006_team_accounts.sql",
+      "expected_sha256": "959c8b1e656d9759ee87c6265077454d370abfb0c93d9aab832169d45a6eb17d",
+      "actual_sha256": "959c8b1e656d9759ee87c6265077454d370abfb0c93d9aab832169d45a6eb17d",
+      "matches": true
+    },
+    {
+      "path": "migrations/0007_account_delivery_recovery.sql",
+      "expected_sha256": "5b6cc6cb368770f158eb3be9720770bde7bb8e026c080a9732539ded8bd080ac",
+      "actual_sha256": "5b6cc6cb368770f158eb3be9720770bde7bb8e026c080a9732539ded8bd080ac",
+      "matches": true
+    },
+    {
+      "path": "public/account-action.js",
+      "expected_sha256": "4cf7caea1d7be04091bc6d239fede199fa5979b9bb006c7c79c27ecd8f731aeb",
+      "actual_sha256": "4cf7caea1d7be04091bc6d239fede199fa5979b9bb006c7c79c27ecd8f731aeb",
+      "matches": true
+    },
+    {
+      "path": "public/admin/account.css",
+      "expected_sha256": "65ba1e975892410abfec4cb7e98c0601e488ee987f6bbe42ef2add9914154165",
+      "actual_sha256": "65ba1e975892410abfec4cb7e98c0601e488ee987f6bbe42ef2add9914154165",
+      "matches": true
+    },
+    {
+      "path": "public/admin/account.js",
+      "expected_sha256": "24095f37cdf9fe422b312e16954db1640841128e110b432674574b001a018802",
+      "actual_sha256": "24095f37cdf9fe422b312e16954db1640841128e110b432674574b001a018802",
+      "matches": true
+    },
+    {
+      "path": "public/admin/app.js",
+      "expected_sha256": "f505b2d6bcb2a61d9f48e8a96835bc433eac3d467b5d34c5fe0f01c3325018dd",
+      "actual_sha256": "f505b2d6bcb2a61d9f48e8a96835bc433eac3d467b5d34c5fe0f01c3325018dd",
+      "matches": true
+    },
+    {
+      "path": "public/admin/data-lifecycle.css",
+      "expected_sha256": "1f66e30be76c2a708f0a44e4a511523bd6fbd0a0a93460aea78ef3736420693e",
+      "actual_sha256": "1f66e30be76c2a708f0a44e4a511523bd6fbd0a0a93460aea78ef3736420693e",
+      "matches": true
+    },
+    {
+      "path": "public/admin/data-lifecycle.js",
+      "expected_sha256": "21bac1b77c041e891664f46423abd561f239a1650be17deffbc5a65a5afed728",
+      "actual_sha256": "21bac1b77c041e891664f46423abd561f239a1650be17deffbc5a65a5afed728",
+      "matches": true
+    },
+    {
+      "path": "public/admin/date-range.css",
+      "expected_sha256": "4127271ca560c5936bd1eaa60f240c77e8012d94290a8aaaaa612cecc550628e",
+      "actual_sha256": "4127271ca560c5936bd1eaa60f240c77e8012d94290a8aaaaa612cecc550628e",
+      "matches": true
+    },
+    {
+      "path": "public/admin/date-range.js",
+      "expected_sha256": "329276fe57dfa72f564a6edf79a8497fcac5b018d00d10848e509339646983a8",
+      "actual_sha256": "329276fe57dfa72f564a6edf79a8497fcac5b018d00d10848e509339646983a8",
+      "matches": true
+    },
+    {
+      "path": "public/admin/performance-chart.css",
+      "expected_sha256": "99e030c5c6f39d38a82187ce38a3e57c13a58867f0dccbe502c10f455e95d279",
+      "actual_sha256": "99e030c5c6f39d38a82187ce38a3e57c13a58867f0dccbe502c10f455e95d279",
+      "matches": true
+    },
+    {
+      "path": "public/admin/performance-chart.js",
+      "expected_sha256": "a495dd3bcd80f808a066231bf591dd3700d29268f188d698f8864416dd8dc74f",
+      "actual_sha256": "a495dd3bcd80f808a066231bf591dd3700d29268f188d698f8864416dd8dc74f",
+      "matches": true
+    },
+    {
+      "path": "public/admin/style.css",
+      "expected_sha256": "34c3abebd572bc0b01a1767dbde7d799a4ad5b77de898807e536b67517e453a0",
+      "actual_sha256": "34c3abebd572bc0b01a1767dbde7d799a4ad5b77de898807e536b67517e453a0",
+      "matches": true
+    },
+    {
+      "path": "public/admin/traffic-filters.css",
+      "expected_sha256": "11f97e6a181564cb3b59fc46317589374449357a97c61994ea2c5a66c7b5abab",
+      "actual_sha256": "11f97e6a181564cb3b59fc46317589374449357a97c61994ea2c5a66c7b5abab",
+      "matches": true
+    },
+    {
+      "path": "public/admin/users.css",
+      "expected_sha256": "9730958325d12022f9aa6854ae60d2387e4b7815f51b662c4f82c06d66148f8e",
+      "actual_sha256": "9730958325d12022f9aa6854ae60d2387e4b7815f51b662c4f82c06d66148f8e",
+      "matches": true
+    },
+    {
+      "path": "public/admin/users.js",
+      "expected_sha256": "2021ccb3a7962f9e7ba81cd1bafe20e852cadaecd8f1e428e18179f0a5645d2a",
+      "actual_sha256": "2021ccb3a7962f9e7ba81cd1bafe20e852cadaecd8f1e428e18179f0a5645d2a",
+      "matches": true
+    },
+    {
+      "path": "public/funnel.js",
+      "expected_sha256": "b579a32207e19652e50f8c196ccc262d7a944d381bb866ceece024e87bc9432b",
+      "actual_sha256": "b579a32207e19652e50f8c196ccc262d7a944d381bb866ceece024e87bc9432b",
+      "matches": true
+    },
+    {
+      "path": "public/login.css",
+      "expected_sha256": "96998f1a4020141a8e0ec0befd84ffcd0ac5ab63daa60c65a8cad5d00aad42cb",
+      "actual_sha256": "96998f1a4020141a8e0ec0befd84ffcd0ac5ab63daa60c65a8cad5d00aad42cb",
+      "matches": true
+    },
+    {
+      "path": "public/login.js",
+      "expected_sha256": "6a3963b8b1c47310fc44a475d08ab8b7f05db7a1b375a0fc88a6f8f86ec2fa94",
+      "actual_sha256": "6a3963b8b1c47310fc44a475d08ab8b7f05db7a1b375a0fc88a6f8f86ec2fa94",
+      "matches": true
+    },
+    {
+      "path": "public/privacy-controls.css",
+      "expected_sha256": "33496acaf05bbe1949f6ae505a8b82a6b969e52a2eb2edc7bdd2692ee5fc1de3",
+      "actual_sha256": "33496acaf05bbe1949f6ae505a8b82a6b969e52a2eb2edc7bdd2692ee5fc1de3",
+      "matches": true
+    },
+    {
+      "path": "public/privacy-controls.js",
+      "expected_sha256": "f7e8fa7ff79070f2ffb14177997388554ea5779df7ec93a0aca98946078dc919",
+      "actual_sha256": "f7e8fa7ff79070f2ffb14177997388554ea5779df7ec93a0aca98946078dc919",
+      "matches": true
+    },
+    {
+      "path": "src/admin-operations.js",
+      "expected_sha256": "598b697c9a30e8fe24965dd68ab5bf605f8db22a06fb99a35517b97ddc9f5a8c",
+      "actual_sha256": "598b697c9a30e8fe24965dd68ab5bf605f8db22a06fb99a35517b97ddc9f5a8c",
+      "matches": true
+    },
+    {
+      "path": "src/data-lifecycle.js",
+      "expected_sha256": "129e6b0ef91e0ee68c3338e6917b58c45ab3f356a41f1ec4308f8c03fca288a5",
+      "actual_sha256": "129e6b0ef91e0ee68c3338e6917b58c45ab3f356a41f1ec4308f8c03fca288a5",
+      "matches": true
+    },
+    {
+      "path": "src/repository.js",
+      "expected_sha256": "1bebca2d1c915a6e60b98f367c17e8a71a73940f6b07b23cd48470925e9de32c",
+      "actual_sha256": "1bebca2d1c915a6e60b98f367c17e8a71a73940f6b07b23cd48470925e9de32c",
+      "matches": true
+    },
+    {
+      "path": "src/security.js",
+      "expected_sha256": "4c7753ad7c6c43f60c4be25e0df00b2cd60b14bb84f387c339080339669760c2",
+      "actual_sha256": "4c7753ad7c6c43f60c4be25e0df00b2cd60b14bb84f387c339080339669760c2",
+      "matches": true
+    },
+    {
+      "path": "src/team-accounts.js",
+      "expected_sha256": "ef9e7539cc8ec90245d82cab2c93eb36aa70f03df89104e407119d08cbae194d",
+      "actual_sha256": "ef9e7539cc8ec90245d82cab2c93eb36aa70f03df89104e407119d08cbae194d",
+      "matches": true
+    },
+    {
+      "path": "src/traffic.js",
+      "expected_sha256": "987e0f634d85d546b12233e2f3c76a05b3c52f44b6706fb42c8702ddbbeb61a6",
+      "actual_sha256": "987e0f634d85d546b12233e2f3c76a05b3c52f44b6706fb42c8702ddbbeb61a6",
+      "matches": true
+    },
+    {
+      "path": "src/webhooks.js",
+      "expected_sha256": "fcfdc02fe0bb17b2780daad17d29d66df176343d3c2fcf6d9a9cd88cc112e84b",
+      "actual_sha256": "fcfdc02fe0bb17b2780daad17d29d66df176343d3c2fcf6d9a9cd88cc112e84b",
+      "matches": true
+    },
+    {
+      "path": "src/worker.js",
+      "expected_sha256": "438df46be5222891578c54dc370c067eb33ba52608218f8f26f5e95fcd9a8f24",
+      "actual_sha256": "438df46be5222891578c54dc370c067eb33ba52608218f8f26f5e95fcd9a8f24",
+      "matches": true
+    }
+  ],
+  "limits": "Code identity only. Configuration, UI integration and persisted attribution still need their own tests."
+}

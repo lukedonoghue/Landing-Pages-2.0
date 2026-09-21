@@ -1,0 +1,151 @@
+{
+  "schema_version": 2,
+  "inputs_sha256": "17e9b153498848a696ce5a340362a4e8accfa504fd8e8e2ea0c89817eb38abb6",
+  "copy_sha256": "00241e5aadd6f06b89bb6cff5c88b05189e64c52535d888609c8cd178db419d4",
+  "brief_sha256": "6f078baf0fdf365cea2b0327265dbe897c8407e95cdc74b63e4ccccd338cea43",
+  "context_sha256": "336f75e040fc7ba4476b4be81afa4266e56e0c15dd47a50e4db897120ed9d9b1",
+  "reviewer": {
+    "mode": "independent",
+    "identity": "OpenAI Codex (gpt-5.6-sol, high reasoning), fresh independent copy reviewer"
+  },
+  "review_context": {
+    "review_date": "2026-09-21",
+    "prior_verdict_relied_on": false,
+    "writer_verification_report_read": false,
+    "scope": "Bounded copy acceptance review of the exact prepared snapshot. No browser, page implementation, source, deployment, or repository changes.",
+    "cta_contract": "Try the Consultation Form opens the journey; Consultation Form Demo names the modal; Save Demo Request submits synthetic data. These are truthful role-specific labels, not inconsistent primary offers."
+  },
+  "reader_summary": {
+    "offer": {
+      "answer": "QuickBooks Online monthly bookkeeping, cleanup or catch-up, and A/P or A/R, with custom KPI dashboards and consulting available to bring selected measures and business questions into view.",
+      "copy_excerpt": "Monthly bookkeeping, cleanup or catch-up, and A/P or A/R keep records moving. Custom KPI dashboards and consulting help bring selected measures and questions into view."
+    },
+    "buyer_benefit": {
+      "answer": "The buyer can keep bookkeeping records current and gain a regular view of selected measures that supports better operating questions.",
+      "copy_excerpt": "Keep your books current. See the measures that matter."
+    },
+    "reason_to_choose": {
+      "answer": "The supported choice reason is the combination of QuickBooks Online bookkeeping, custom KPI dashboard capability, and strategic advisory context, backed by attributed Chamber directory wording rather than an exclusivity claim.",
+      "copy_excerpt": "The Lawrence Chamber directory lists Bookkeeping by Beks as a Custom KPI Dashboard Builder, Strategic Advisor, and QuickBooks Online ProAdvisor. These are directory-listed service roles, not performance results or certification claims."
+    },
+    "next_step": {
+      "answer": "The visitor can try a demonstration consultation form that saves clearly synthetic data to a private test CRM without booking an appointment or contacting the real business.",
+      "copy_excerpt": "Demo only: This demonstration records your request in a private test CRM. It does not book an appointment or contact Bookkeeping by Beks."
+    }
+  },
+  "checks": [
+    {
+      "criterion": "message_match",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "Keep your books current. See the measures that matter.",
+        "brief_excerpt": "Buyer situation: a small-business owner using or considering QuickBooks Online who needs recurring bookkeeping, cleanup/catch-up, A/P or A/R support, or a clearer view of business metrics.",
+        "source_refs": [],
+        "explanation": "The compact opening now communicates the useful change in buyer language. The eyebrow and 25-word support paragraph immediately identify QuickBooks Online bookkeeping, the practical service categories, KPI dashboards, and consulting, so the benefit is not left as an abstract slogan."
+      }
+    },
+    {
+      "criterion": "claim_support",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "Monthly bookkeeping, cleanup or catch-up, and A/P or A/R keep records moving. Custom KPI dashboards and consulting help bring selected measures and questions into view.",
+        "source_refs": [
+          {
+            "id": "source2",
+            "excerpt": "At Bookkeeping by Beks, we offer monthly bookkeeping services, books clean up and catch up, Accounts Payable/Receivable, and additional consulting services to help your business thrive."
+          },
+          {
+            "id": "source2",
+            "excerpt": "We also provide Metrics Dashboards and personal consulting based on Human Design in addition to bookkeeping services."
+          }
+        ],
+        "explanation": "The copy stays within the published service mix. It no longer imposes a bookkeeping-first prerequisite or an unsupported packaging rule. Fit, metrics, availability, scope, and pricing remain subject to consultation, and no result, timing, certification, or exclusivity claim is invented."
+      }
+    },
+    {
+      "criterion": "outcome_and_mechanism",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "Monthly bookkeeping can keep recurring records current. A custom KPI dashboard can organize selected measures into a regular view. Strategic consulting can help frame questions around those measures. The consultation confirms which metrics and services fit, along with scope and pricing.",
+        "source_refs": [
+          {
+            "id": "source3",
+            "excerpt": "Custom KPI Dashboard Builder. Strategic Advisor. QuickBooks Online ProAdvisor."
+          },
+          {
+            "id": "source4",
+            "excerpt": "Observed message gap: the client can credibly emphasize the connected path from QuickBooks Online bookkeeping to custom KPI dashboards and strategic-advisory context. This is a useful combination, not a verified unique claim."
+          }
+        ],
+        "explanation": "The main benefit has a concrete mechanism: recurring bookkeeping addresses records, a custom dashboard organizes selected measures, and consulting frames questions around them. The page presents this as a useful combination and consultation topic, not a proprietary method or guaranteed business outcome."
+      }
+    },
+    {
+      "criterion": "objection_coverage",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "A custom KPI dashboard can organize selected measures for regular review, and consulting can help frame questions around them. Use the consultation to confirm metrics, availability, scope, and pricing.",
+        "brief_excerpt": "Primary objection: \"Will this be another generic bookkeeper who tidies transactions but leaves me unsure what the numbers mean?\"",
+        "source_refs": [],
+        "explanation": "The principal concern is answered through the dashboard and consulting explanation without promising interpretation results. Separate sections also distinguish recurring bookkeeping from cleanup, address A/P and A/R fit, state QuickBooks Online and geographic fit, preserve the conditional discount, and explain that scope and pricing are confirmed in consultation."
+      }
+    },
+    {
+      "criterion": "headline_story",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "See whether bookkeeping, a selected KPI view, or consulting fits the work in front of you.",
+        "source_refs": [],
+        "explanation": "The headings now progress through outcome, attributed trust, service selection, dashboard value, QuickBooks Online mechanism, consultation process, preparation guide, objections, and a truthful final action. Each major heading adds a distinct decision answer rather than repeating a generic reassurance."
+      }
+    },
+    {
+      "criterion": "voice_and_density",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "Monthly bookkeeping, cleanup or catch-up, and A/P or A/R keep records moving. Custom KPI dashboards and consulting help bring selected measures and questions into view.",
+        "source_refs": [],
+        "explanation": "The final hero is concise, direct, and concrete enough for a narrow mobile viewport while preserving the service and benefit. Necessary source attribution and demo qualification are localized to proof and operational notices; the main argument is no longer dominated by research narration or repeated caveats."
+      }
+    },
+    {
+      "criterion": "offer_consistency",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "Demo only: This demonstration records your request in a private test CRM. It does not book an appointment or contact Bookkeeping by Beks.",
+        "source_refs": [],
+        "explanation": "The primary opener Try the Consultation Form accurately opens the modal, Consultation Form Demo accurately names that modal, and Save Demo Request accurately submits the synthetic record. The labels describe different actions in one truthful demo journey. The modal, pending state, confirmation, thank-you copy, and follow-up promise consistently state that no real booking or business contact occurs."
+      }
+    },
+    {
+      "criterion": "reference_adaptation",
+      "verdict": "pass",
+      "evidence": {
+        "copy_excerpt": "The Lawrence Chamber directory lists Bookkeeping by Beks as a Custom KPI Dashboard Builder, Strategic Advisor, and QuickBooks Online ProAdvisor. These are directory-listed service roles, not performance results or certification claims.",
+        "source_refs": [
+          {
+            "id": "source3",
+            "excerpt": "Custom KPI Dashboard Builder. Strategic Advisor. QuickBooks Online ProAdvisor."
+          },
+          {
+            "id": "source4",
+            "excerpt": "Observed message gap: the client can credibly emphasize the connected path from QuickBooks Online bookkeeping to custom KPI dashboards and strategic-advisory context. This is a useful combination, not a verified unique claim."
+          }
+        ],
+        "explanation": "The final argument retains the required benefit, proof, why-choose, mechanism, objections, process, and action jobs with client-specific substance. The Chamber wording is explicitly attributed and qualified, and the competitor gap is adapted as a useful combination without importing competitor claims or asserting uniqueness."
+      }
+    }
+  ],
+  "strongest_challenge": {
+    "copy_excerpt": "Monthly bookkeeping, cleanup or catch-up, and A/P or A/R keep records moving. Custom KPI dashboards and consulting help bring selected measures and questions into view.",
+    "risk": "Shortening the hero for the 320x740 viewport could have removed the concrete service, weakened the differentiated benefit, or turned the headline into an unsupported outcome promise.",
+    "resolution": "The final hero keeps the service categories and the dashboard/consulting mechanism in 25 supporting words, while the H1 states a modest buyer benefit. The rest of the page supplies attributed proof, scope qualification, fit, pricing limits, and the truthful demo next step. No unsupported outcome or service sequence is introduced.",
+    "status": "resolved"
+  },
+  "decision": "pass",
+  "unresolved_findings": [],
+  "non_blocking_notes": [
+    "The compact hero deliberately defers fit, scope, and pricing detail to later sections; those details remain present and do not need to be restored above the fold.",
+    "The three form labels are intentionally role-specific and should remain distinct unless their underlying actions change."
+  ]
+}
