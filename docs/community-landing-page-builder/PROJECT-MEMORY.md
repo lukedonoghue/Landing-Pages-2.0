@@ -27,7 +27,9 @@ Updated 2026-09-21. This is durable local/Git project memory, not account-wide C
 
 ## Current Priority And Evidence
 
-User reports attribution completely missing from a tagged live submission. Exact URL and submission identity requested. Sol is tracing live URL -> privacy/capture -> request -> Worker -> D1 -> CRM. Do not infer the cause before evidence. Preserve privacy choices and never silently disable consent protections to make a test pass.
+User reports attribution completely missing from a tagged live submission. Exact URL now supplied: nine UTM keys and gclid/gbraid/wbraid/fbclid/msclkid/ttclid. Original submission identity remains unknown. Live reproduction completed: no-choice sends/stores no fields due attributionMode=consent; allowed choice preserves all 15 previously supported fields through CRM display. ttclid is unsupported and being added. See ATTRIBUTION-INCIDENT-20260921.md. User reports never seeing a prompt; do not blame user or claim that exact cause known.
+
+Latest user direction: no custom built-in consent manager; use an external tool where needed. Demo authorized policy is lead attribution independent of optional measurement, with analytics and advertising matching disabled and browser opt-outs respected. Canonical skill should support external consent explicitly, not imply all US deployments are exempt or absence of banner equals consent. Sol implementing narrow source fixes and tests before isolated demo deployment. Parent review identified stale saved consent potentially loading GTM despite disabled tracking/external provider not ready; Sol assigned fail-closed gates and regressions.
 
 Team role implementation is paused behind this incident. Canonical changes include admin/manager/viewer, native email invitations and admin-approved reset flow with Free recipient restrictions. Not integrated/deployed. Real sender domain and verified recipient inputs missing. See CRM-TEAM-ACCESS-FREE-PLAN-20260921.md for implementation/test details.
 
