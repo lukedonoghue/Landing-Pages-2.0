@@ -3,8 +3,9 @@
   "color": "#159aaa",
   "logo": "/assets/clarentis-logo.png",
   "timezone": "Europe/London",
-  "analyticsMode": "consent",
+  "analyticsMode": "disabled",
   "advertisingUserDataMode": "disabled",
+  "consentUiMode": "disabled",
   "sensitiveCategory": false,
   "gtmContainerId": "",
   "allowedPaths": [
@@ -104,5 +105,5 @@
       "required": true
     }
   ],
-  "attributionMode": "consent"
+  "attributionMode": "lead"
 }

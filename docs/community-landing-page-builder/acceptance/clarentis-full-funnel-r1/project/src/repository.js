@@ -3,7 +3,7 @@ import { HttpError, cleanText, digest, reportingDay, visitorHash, attributionAll
 import { classifyDevice, classifyTraffic, dimensionConditions, eventId, normalizeTrafficFilters, normalizeVisitAttribution } from './traffic.js';
 
 export const STATUS_IDS = ['new', 'qualified', 'engaged', 'follow_up', 'won', 'lost'];
-const attributionKeys = ['source', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'utm_source_platform', 'utm_creative_format', 'utm_marketing_tactic', 'gclid', 'dclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid'];
+const attributionKeys = ['source', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'utm_source_platform', 'utm_creative_format', 'utm_marketing_tactic', 'gclid', 'dclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid'];
 function stableJson(value) {
   if (!value || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`;

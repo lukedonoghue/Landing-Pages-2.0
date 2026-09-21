@@ -9,7 +9,7 @@ import { openJourney, fingerprint, JourneyRecoveryError } from './journey-state.
 import { parseArgs, checkedTarget, sameOriginUrl, loadFixture, makeReport, check, finish, writeReport, artifact, fillSteps } from './browser-compat.mjs';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const QUERY_KEYS = new Set(['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid']);
+const QUERY_KEYS = new Set(['utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'utm_source_platform', 'utm_creative_format', 'utm_marketing_tactic', 'gclid', 'dclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid']);
 export function credentials(args, env = process.env) {
   let values = {};
   if (args['credentials-file']) values = JSON.parse(readFileSync(args['credentials-file'], 'utf8'));

@@ -8,7 +8,7 @@ import { chromium } from 'playwright-core';
 
 const chrome=[process.env.CHROME_BIN,chromium.executablePath()].find(p=>p&&existsSync(p));
 let browser,server,origin;const requests=[];
-const campaign = {utm_source:'google',utm_medium:'cpc',utm_campaign:'synthetic-private-campaign',utm_id:'campaign-123',utm_term:'test term',utm_content:'test content',utm_source_platform:'test-platform',utm_creative_format:'test-format',utm_marketing_tactic:'test-tactic',gclid:'synthetic-click-'+ 'x'.repeat(450),dclid:'display-test',gbraid:'gbraid-test',wbraid:'wbraid-test',fbclid:'meta-test',msclkid:'microsoft-test'};
+const campaign = {utm_source:'google',utm_medium:'cpc',utm_campaign:'synthetic-private-campaign',utm_id:'campaign-123',utm_term:'test term',utm_content:'test content',utm_source_platform:'test-platform',utm_creative_format:'test-format',utm_marketing_tactic:'test-tactic',gclid:'synthetic-click-'+ 'x'.repeat(450),dclid:'display-test',gbraid:'gbraid-test',wbraid:'wbraid-test',fbclid:'meta-test',msclkid:'microsoft-test',ttclid:'tiktok-test'};
 const fixtureLead = {id:'demo-lead',name:'Test Enquiry',email:'test@example.invalid',phone:'+44 7700 900123',status:'new',version:1,created_at:'2026-09-21T08:00:00Z',traffic_source:'google',traffic_type:'paid',...campaign,landing_page:'/paid-campaign/',form_data:{service:'Synthetic service'},attribution:{first_touch:{...campaign,utm_campaign:'first-test-campaign'},latest_touch:campaign}};
 before(async()=>{
  if(!chrome)return;

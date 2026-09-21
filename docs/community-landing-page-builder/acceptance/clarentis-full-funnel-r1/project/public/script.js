@@ -16,7 +16,7 @@
   const errorTitle = errorRegion?.querySelector('strong');
   const errorList = errorRegion?.querySelector('[data-error-list]');
   const entryControls = Array.from(form.querySelectorAll('input, select, textarea'));
-  const attributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid'];
+  const attributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'utm_source_platform', 'utm_creative_format', 'utm_marketing_tactic', 'gclid', 'dclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid'];
   const storagePrefix = form.dataset.storagePrefix || 'lead_funnel_';
   const thankYouUrl = form.dataset.thankYou || 'thank-you.html';
   const fallbackPhone = form.dataset.fallbackPhone || '';

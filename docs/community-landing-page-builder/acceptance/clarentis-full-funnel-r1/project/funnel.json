@@ -117,10 +117,13 @@
     "response_contract": "receipt-v1"
   },
   "analytics": {
-    "mode": "consent",
-    "attribution_mode": "consent",
+    "mode": "disabled",
+    "attribution_mode": "lead",
     "timezone": "Europe/London",
     "conversion": "measured visitor with accepted lead"
+  },
+  "privacy": {
+    "consent_ui": "disabled"
   },
   "tracking": {
     "gtm": {
