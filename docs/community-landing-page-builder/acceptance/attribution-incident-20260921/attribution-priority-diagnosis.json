@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "target": "https://clarentis-demo-20260921-r1.shevabody.workers.dev",
+  "executed_at": "2026-09-21T10:37:44.443Z",
+  "keys": [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_id",
+    "utm_term",
+    "utm_content",
+    "utm_source_platform",
+    "utm_creative_format",
+    "utm_marketing_tactic",
+    "gclid",
+    "dclid",
+    "gbraid",
+    "wbraid",
+    "fbclid",
+    "msclkid"
+  ],
+  "cases": [
+    {
+      "label": "no-choice",
+      "grant": false,
+      "privacy_before": {
+        "choice": null,
+        "attribution_allowed": false,
+        "attribution_mode": "consent"
+      },
+      "privacy_at_submit": {
+        "choice": null,
+        "attribution_allowed": false,
+        "attribution_mode": "consent"
+      },
+      "request": {
+        "status": 201,
+        "attribution_consent": false,
+        "analytics_consent": false,
+        "keys_present": [],
+        "landing_page": "https://clarentis-demo-20260921-r1.shevabody.workers.dev/"
+      },
+      "result": {
+        "ok": true,
+        "lead_id": "21518b4d-92b0-47ca-8020-670a98c4453b",
+        "receipt_id": "e99fb836-d2ed-432c-afec-568eac9a4ea1",
+        "duplicate": false
+      },
+      "expected_tags": false,
+      "stored": {
+        "status": 200,
+        "keys_present": [],
+        "traffic_source": "unknown",
+        "traffic_type": "unknown"
+      },
+      "ui": {
+        "source": "Unknown",
+        "keys_present": [],
+        "stored_values_rendered": 0
+      },
+      "boundaries": {
+        "client_request": 0,
+        "stored_api": 0,
+        "crm_ui": 0,
+        "expected": 0
+      }
+    },
+    {
+      "label": "granted",
+      "grant": true,
+      "privacy_before": {
+        "choice": null,
+        "attribution_allowed": false,
+        "attribution_mode": "consent"
+      },
+      "privacy_at_submit": {
+        "choice": true,
+        "attribution_allowed": true,
+        "attribution_mode": "consent"
+      },
+      "request": {
+        "status": 201,
+        "attribution_consent": true,
+        "analytics_consent": true,
+        "keys_present": [
+          "utm_source",
+          "utm_medium",
+          "utm_campaign",
+          "utm_id",
+          "utm_term",
+          "utm_content",
+          "utm_source_platform",
+          "utm_creative_format",
+          "utm_marketing_tactic",
+          "gclid",
+          "dclid",
+          "gbraid",
+          "wbraid",
+          "fbclid",
+          "msclkid"
+        ],
+        "landing_page": "https://clarentis-demo-20260921-r1.shevabody.workers.dev/"
+      },
+      "result": {
+        "ok": true,
+        "lead_id": "e871cbfc-1109-4780-8211-4217822a9fe3",
+        "receipt_id": "025db25b-852a-4d75-b4a0-78a5c87aab6a",
+        "duplicate": false
+      },
+      "expected_tags": true,
+      "stored": {
+        "status": 200,
+        "keys_present": [
+          "utm_source",
+          "utm_medium",
+          "utm_campaign",
+          "utm_id",
+          "utm_term",
+          "utm_content",
+          "utm_source_platform",
+          "utm_creative_format",
+          "utm_marketing_tactic",
+          "gclid",
+          "dclid",
+          "gbraid",
+          "wbraid",
+          "fbclid",
+          "msclkid"
+        ],
+        "traffic_source": "google",
+        "traffic_type": "paid"
+      },
+      "ui": {
+        "source": "Google CPC",
+        "keys_present": [
+          "utm_source",
+          "utm_medium",
+          "utm_campaign",
+          "utm_id",
+          "utm_term",
+          "utm_content",
+          "utm_source_platform",
+          "utm_creative_format",
+          "utm_marketing_tactic",
+          "gclid",
+          "dclid",
+          "gbraid",
+          "wbraid",
+          "fbclid",
+          "msclkid"
+        ],
+        "stored_values_rendered": 15
+      },
+      "boundaries": {
+        "client_request": 15,
+        "stored_api": 15,
+        "crm_ui": 15,
+        "expected": 15
+      }
+    }
+  ],
+  "browser": "playwright-managed-chromium-headless-shell",
+  "status": "pass",
+  "completed_at": "2026-09-21T10:39:56.081Z"
+}

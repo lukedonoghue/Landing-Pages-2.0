@@ -1,0 +1,71 @@
+{
+  "target": "https://clarentis-demo-20260921-r1.shevabody.workers.dev/?utm_source=google&utm_medium=cpc&utm_campaign=test_campaign_name&utm_term=test_keyword&utm_content=test_creative_v1&utm_id=123456789&utm_source_platform=search_ads_360&utm_creative_format=responsive_search_ad&utm_marketing_tactic=lead_generation&gclid=CjwKCAiA_test_gclid_value_123&gbraid=0AAAAAD_test_gbraid_456&wbraid=CjkKEAj_test_wbraid_789&fbclid=IwAR2_test_fbclid_abc123xyz&msclkid=a1b2c3d4e5f6_test_msclkid&ttclid=E_test_ttclid_987654321",
+  "requested_keys": [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_term",
+    "utm_content",
+    "utm_id",
+    "utm_source_platform",
+    "utm_creative_format",
+    "utm_marketing_tactic",
+    "gclid",
+    "gbraid",
+    "wbraid",
+    "fbclid",
+    "msclkid",
+    "ttclid"
+  ],
+  "cases": [
+    {
+      "label": "consent-unknown",
+      "choice": null,
+      "attribution_allowed": false,
+      "captured_keys": []
+    },
+    {
+      "label": "consent-granted",
+      "choice": true,
+      "attribution_allowed": true,
+      "captured_keys": [
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_id",
+        "utm_term",
+        "utm_content",
+        "utm_source_platform",
+        "utm_creative_format",
+        "utm_marketing_tactic",
+        "gclid",
+        "gbraid",
+        "wbraid",
+        "fbclid",
+        "msclkid"
+      ]
+    }
+  ],
+  "failed_requests": [],
+  "console_errors": [],
+  "banner_before_change": {
+    "present": true,
+    "visible": true,
+    "bounds": {
+      "x": 16,
+      "y": 748,
+      "width": 470,
+      "height": 136
+    },
+    "style": {
+      "display": "block",
+      "visibility": "visible",
+      "opacity": "1",
+      "position": "fixed",
+      "z_index": "80"
+    },
+    "accept_visible": true,
+    "decline_visible": true
+  },
+  "status": "pass"
+}
