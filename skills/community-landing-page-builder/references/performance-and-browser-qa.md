@@ -153,3 +153,6 @@ Configure the intended custom domain before final QA/approval when possible. Add
 ## Rendered wording
 
 Run the required [rendered-copy capture and comparison](rendered-copy.md) against the same snapshot for complete Worker funnels. It is read-only by default and complements the actual submission journey. The synthetic quickstart demo captures, compares and records this gate automatically.
+## Bounded browser lifecycle
+
+Give every browser suite and image-readiness wait an overall timeout; lazy off-screen images must use bounded per-image waits rather than an unbounded `Promise.all`. Always close managed browser contexts in `finally`, then inspect descendant PIDs and temporary profile paths after success, failure, or timeout and terminate only verified automation-owned leftovers; never control the user's installed browser or personal profiles.
