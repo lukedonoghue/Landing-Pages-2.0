@@ -27,3 +27,11 @@ The canonical tracker, lead normalizer/serializer, visit normalizer and CRM deta
 Four UI test suites no longer select the installed personal Chrome application automatically. They use the managed Playwright binary or an explicit CHROME_BIN override. Pinned dependencies were installed locally after the first run exposed missing esbuild and skipped browser tests; that first attempt is not a pass. The complete focused rerun passed 72 tests, zero failures and zero skips, covering Worker/D1 persistence, deduplication, privacy, hashed events, form UI, CRM filters, date picker and performance charts. A subsequent focused traffic test adds DCLID classification and normalization-bound checks.
 
 These canonical changes apply to future builds. The frozen Clarentis build does not inherit them silently. Its deployment evidence must identify its own source revision and any assisted recovery changes.
+
+## Requested compact CRM layout
+
+The user's next explicit request adds the expanded attribution fields and compact source-only display to the current assisted CRM build as well as the reusable skill. The lead table now contains Contact, Phone, Stage, Source and Received. Campaign names, landing paths and custom form-answer snippets are removed from the list. The enquiry detail retains all form answers, source context and collapsed First touch / Latest touch groups with exact field names and values. Legacy flattened records use Recorded campaign instead. No data is discarded merely to simplify the interface.
+
+Source labels distinguish Google CPC, Google Paid, Google Organic, Meta Paid Social and Microsoft CPC. A bare FBCLID does not become a paid claim. Six managed-browser interface tests passed without skips, including source semantics, exact campaign values, keyboard expansion, modal dismissal and long-ID containment at 1440, 390 and 320 pixels. The parent inspected the actual desktop table and desktop/mobile expanded-detail screenshots. The synthetic fixture uses reserved contact data only; screenshots contain no real leads. Evidence is in `acceptance/crm-attribution-layout-20260921/`.
+
+The parent handed the canonical source changes to the active builder as an explicit assisted integration before its final snapshot. This is not represented as part of the initial independent success.

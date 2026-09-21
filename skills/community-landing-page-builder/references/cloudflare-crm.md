@@ -14,6 +14,12 @@ Use `funnel.json` for the approved brief, offer, CTA, form schema, tracking mode
 
 Default stages are New contact, Qualified, Engaged, Follow-up, Won, and Lost. The CRM supports drag-and-drop and a keyboard/mobile stage selector, table search/filtering/pagination, full form/attribution details, notes, activity, and removing a contact from the active CRM. Remove contact is a soft delete and preserves historical accepted-lead metrics. Account → Data retention & erasure provides the separate permanent operation and configurable cleanup; read [data-lifecycle.md](data-lifecycle.md) before using them.
 
+## Lead list and submission detail
+
+Keep the leads table and pipeline cards focused on contact, stage, received time and one concise source label, such as Google CPC, Meta Paid Social or Microsoft CPC. Do not display campaign IDs, UTMs, click IDs, landing URLs or extra form answers as table columns or subtitle clutter. Derive the source label from recorded source/medium/type without treating an unclassified Meta click as paid or a Google click as necessarily CPC.
+
+Opening an enquiry exposes its submitted form answers and an Attribution section. Keep first-touch and latest-touch campaign fields in separate, keyboard-accessible collapsed groups; preserve exact field names and values, including GBRAID/WBRAID. Long IDs wrap without changing the dialog width. Keep a legacy recorded-campaign group for old flattened records and an honest empty state for missing/denied attribution. Use the existing restrained CRM typography, dividers and spacing, not landing-page hero treatments. Check the table and expanded details at desktop and narrow mobile widths with synthetic data.
+
 ## Admin authentication
 
 Single-team-admin login uses a generated strong password, a salted PBKDF2 hash stored as a Worker secret, and expiring random sessions whose HMAC hashes live in D1. Cookies are HttpOnly, SameSite Strict, and Secure outside localhost. There are no demo credentials and no localStorage authentication. Mutations require a matching Origin. Login and submission endpoints have server-side rate limits. Setup creates separate local and production credentials and never prints them into tool logs.
