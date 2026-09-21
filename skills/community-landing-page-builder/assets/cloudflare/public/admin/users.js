@@ -95,7 +95,7 @@ export function initUsersPanel(host, { request, currentUser }) {
     provider.dataset.state = emailConfigured ? 'available' : 'required';
     providerTitle.textContent = emailConfigured ? 'Email settings are available' : 'Account email setup required';
     providerCopy.textContent = emailConfigured
-      ? 'Email connection settings are present. Confirm your email below to finish account setup.'
+      ? 'Email connection settings are present. Each new recipient must verify their inbox in Cloudflare before an invitation can be sent.'
       : 'Invitations, password resets and owner email verification are unavailable until the one-time connection is added.';
     if (!setupDisclosureInitialized) {
       setupGuide.open = !emailConfigured;
