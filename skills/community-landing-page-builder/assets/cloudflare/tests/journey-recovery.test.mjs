@@ -23,6 +23,8 @@ const lightbox=[path.join(template,'public/script.js'),path.join(template,'../mu
 async function site(t) {
   const root=mkdtempSync(path.join(os.tmpdir(),'real-journey-recovery-'));const requests=[];let ip=0,dropNote=false,dropStatus=false;
   cpSync(path.join(template,'src'),path.join(root,'src'),{recursive:true});copyFileSync(path.join(template,'tests/fixtures/site-config.json'),path.join(root,'src/site-config.json'));
+  const recoveryConfig=JSON.parse(readFileSync(path.join(root,'src/site-config.json')));
+  writeFileSync(path.join(root,'src/site-config.json'),JSON.stringify({...recoveryConfig,analyticsMode:'consent',attributionMode:'consent',consentUiMode:'internal'},null,2));
   mkdirSync(path.join(root,'public/admin'),{recursive:true});mkdirSync(path.join(root,'public/assets/brochure'),{recursive:true});
   for(const name of ['privacy.html','styles.css','login.html','login.js','login.css','funnel.js','privacy-controls.js','privacy-controls.css'])copyFileSync(path.join(template,'public',name),path.join(root,'public',name));
   for(const name of ['index.html','thank-you.html'])copyFileSync(path.join(template,'tests/fixtures/recovery-'+name),path.join(root,'public',name));
