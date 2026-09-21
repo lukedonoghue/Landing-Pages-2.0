@@ -80,7 +80,23 @@ function calendarLabel(value) {
 }
 function stageLabel(id) { return state.stages.find(stage => stage.id === id)?.label || id || 'New contact'; }
 function leadName(lead) { return lead.name || lead.email || 'Unnamed enquiry'; }
-function sourceName(lead) { if (lead.traffic_source && SOURCE_LABELS[lead.traffic_source]) return SOURCE_LABELS[lead.traffic_source]; return lead.source || lead.utm_source || lead.attribution?.latest_touch?.utm_source || lead.attribution?.first_touch?.utm_source || 'Direct / unknown'; }
+function sourceName(lead) {
+  const touches = asObject(lead.attribution), latest = asObject(touches.latest_touch), first = asObject(touches.first_touch);
+  const touch = Object.keys(latest).length ? latest : first;
+  const raw = String(lead.traffic_source || touch.utm_source || lead.utm_source || lead.source || 'unknown').toLowerCase();
+  const source = ({bing:'microsoft',fb:'facebook',ig:'instagram',meta:'facebook'})[raw] || raw;
+  const name = ({google:'Google',microsoft:'Microsoft',facebook:'Meta',instagram:'Instagram',direct:'Direct',email:'Email',other:'Other',unknown:'Unknown'})[source] || 'Other';
+  const medium = String(touch.utm_medium || lead.utm_medium || '').toLowerCase().replace(/[\s_-]/g, '');
+  if (source === 'direct') return name;
+  if (lead.traffic_type === 'organic' || (lead.traffic_type !== 'paid' && ['organic','organicsearch','organicsocial'].includes(medium))) return `${name} Organic`;
+  if (['facebook','instagram'].includes(source) && (lead.traffic_type === 'paid' || ['paidsocial','cpc','ppc','cpm'].includes(medium))) return `${name} Paid Social`;
+  if (['cpc','ppc'].includes(medium)) return `${name} CPC`;
+  if (medium === 'paidsearch') return `${name} Paid Search`;
+  if (medium === 'display') return `${name} Display`;
+  if (lead.traffic_type === 'paid') return `${name} Paid`;
+  if (medium === 'referral') return `${name} Referral`;
+  return name;
+}
 function integer(value) { return Number(value || 0).toLocaleString(); }
 function percentage(numerator, denominator) { return Number(denominator) > 0 ? `${(Number(numerator || 0) / Number(denominator) * 100).toFixed(1)}%` : '-'; }
 function asObject(value) {
@@ -255,20 +271,17 @@ function renderLeadTable() {
   const root = empty($('#lead-table')); const table = element('table', 'lead-table');
   const caption = element('caption', 'sr-only', 'Enquiries matching the selected search and stage'); table.append(caption);
   const head = element('thead'); const row = element('tr');
-  ['Contact', 'Phone', 'Stage', 'Source / campaign', 'Landing page', 'Received'].forEach(label => { const th = element('th', '', label); th.scope = 'col'; row.append(th); }); head.append(row); table.append(head);
+  ['Contact', 'Phone', 'Stage', 'Source', 'Received'].forEach(label => { const th = element('th', '', label); th.scope = 'col'; row.append(th); }); head.append(row); table.append(head);
   const body = element('tbody');
   state.leads.forEach(lead => {
     const tr = element('tr'); const name = element('td');
     const open = button(leadName(lead), 'text-button', event => openLead(lead.id, event.currentTarget)); open.dataset.openLead = String(lead.id);
     name.append(open, element('p', 'table-email', lead.email));
-    const answers = Object.entries(lead.form_data || {}).filter(([key]) => !['name','first_name','last_name','email','phone','website'].includes(key)).slice(0,2).map(([key,value]) => `${key.replaceAll('_',' ')}: ${String(value).slice(0,80)}`).join(' · ');
-    if (answers) name.append(element('p','table-email',answers));
     const stage = element('td'); stage.append(stageSelect(lead, 'card-stage'));
     const source = element('td', '', sourceName(lead));
-    source.append(element('p','table-email',String(lead.utm_campaign || '').slice(0,80)));
-    tr.append(name, element('td', '', lead.phone || '-'), stage, source, element('td','',lead.landing_page || '/'), element('td', '', dateLabel(lead.created_at, true))); body.append(tr);
+    tr.append(name, element('td', '', lead.phone || '-'), stage, source, element('td', '', dateLabel(lead.created_at, true))); body.append(tr);
   });
-  if (!state.leads.length) { const tr = element('tr'); const td = element('td', 'muted', state.q || state.status || state.leadSource!=='all' ? 'Try another search, stage, or source.' : 'Enquiries will appear when someone submits your form.'); td.colSpan = 6; tr.append(td); body.append(tr); }
+  if (!state.leads.length) { const tr = element('tr'); const td = element('td', 'muted', state.q || state.status || state.leadSource!=='all' ? 'Try another search, stage, or source.' : 'Enquiries will appear when someone submits your form.'); td.colSpan = 5; tr.append(td); body.append(tr); }
   table.append(body); root.append(table);
 }
 async function changeStage(lead, status, control) {
@@ -325,7 +338,7 @@ $$('dialog').forEach(dialog => {
   });
   dialog.addEventListener('keydown', event => {
     if (event.key !== 'Tab') return;
-    const nodes = $$('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),textarea:not(:disabled),[tabindex="0"]', dialog).filter(node => node.getClientRects().length);
+    const nodes = $$('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),textarea:not(:disabled),summary,[tabindex="0"]', dialog).filter(node => node.getClientRects().length);
     if (!nodes.length) { event.preventDefault(); return; }
     if (event.shiftKey && document.activeElement === nodes[0]) { event.preventDefault(); nodes.at(-1).focus(); }
     else if (!event.shiftKey && document.activeElement === nodes.at(-1)) { event.preventDefault(); nodes[0].focus(); }
@@ -360,13 +373,18 @@ function renderDetail(data) {
   const fields = asObject(lead.form_data);
   if (Object.keys(fields).length) root.append(detailSection('Enquiry details', detailsFields(Object.entries(fields).map(([key, value]) => [key.replace(/[_-]/g, ' '), value]))));
   const attribution = asObject(lead.attribution);
-  const flatAttribution = ['traffic_source', 'traffic_type', 'device', 'source', 'landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'msclkid'].map(key => [key.replace(/_/g, ' '), lead[key]]).filter(([, value]) => value);
+  const flatAttribution = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content', 'utm_source_platform', 'utm_creative_format', 'utm_marketing_tactic', 'gclid', 'dclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid'].map(key => [key, lead[key]]).filter(([, value]) => value);
   const attributionContent = element('div');
-  attributionContent.append(detailsFields(flatAttribution));
-  for (const [key, touch] of Object.entries(attribution)) {
-    const group = element('details'); group.append(element('summary', 'text-button', key.replace(/_/g, ' ')), detailsFields(Object.entries(asObject(touch)).map(([name, value]) => [name.replace(/_/g, ' '), value]))); attributionContent.append(group);
+  attributionContent.append(detailsFields([['Source', sourceName(lead)], ['Device', lead.device], ['Landing page', lead.landing_page], ['Referrer', lead.referrer]]));
+  const groups = [['First touch', asObject(attribution.first_touch)], ['Latest touch', asObject(attribution.latest_touch)]];
+  const hasTouches = groups.some(([, touch]) => Object.keys(touch).length);
+  if (!hasTouches && flatAttribution.length) groups.push(['Recorded campaign', Object.fromEntries(flatAttribution)]);
+  for (const [label, touch] of groups) {
+    if (!Object.keys(touch).length) continue;
+    const group = element('details', 'attribution-group');
+    group.append(element('summary', '', label), detailsFields(Object.entries(touch))); attributionContent.append(group);
   }
-  if (!flatAttribution.length && !Object.keys(attribution).length) attributionContent.append(element('p', 'muted small', 'No attribution was recorded for this enquiry.'));
+  if (!flatAttribution.length && !hasTouches) attributionContent.append(element('p', 'muted small', 'No campaign attribution was recorded for this enquiry.'));
   root.append(detailSection('Attribution', attributionContent));
   const notes = element('div'); const list = element('ul', 'note-list');
   (data.notes || []).forEach(note => { const li = element('li'); li.append(element('p', '', note.body), element('time', '', dateLabel(note.created_at, true))); list.append(li); });

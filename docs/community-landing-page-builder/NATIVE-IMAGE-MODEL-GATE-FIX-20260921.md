@@ -13,3 +13,9 @@ The example and both image references now agree with the executable helper. The 
 ## Verification
 
 42 image-workflow tests passed, including real cwebp optimization, native default registration and rendered review, preserving an unknown actual model, exact-model refusal, stale evidence and crop/byte-budget checks. No image was regenerated merely to obtain unavailable metadata. The final deployment must still pass current source-bound gates; this correction alone is not a live release.
+
+The full canonical Python package subsequently passed 78 tests. The assisted source checkpoint also preserves the builder's release-readiness corrections and integrated compact CRM; it excludes credentials, local databases and private request payloads. No remote release is claimed by that checkpoint.
+
+## Related copy-capture finding
+
+The mobile parity checker incorrectly discarded inline privacy-link words that were reachable inside a scrollable dialog enclosed by an overflow-hidden wrapper. The canonical capture now recognizes a scroll port contained by the clipping ancestor, while still rejecting an actually clipped scroll port. Both focused managed-browser tests passed. The broader generated helper's unrestricted `data-copy-dynamic` exclusion was not automatically promoted; the canonical helper continues to capture authored text. This is a focused measurement correction, not permission to skip visual inspection.

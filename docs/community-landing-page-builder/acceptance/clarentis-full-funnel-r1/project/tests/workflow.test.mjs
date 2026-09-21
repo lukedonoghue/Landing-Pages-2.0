@@ -17,7 +17,7 @@ function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'funnel-workflow-test-'));
   t.after(() => rmSync(root, {recursive:true, force:true}));
   write(root, 'package.json', {type:'module'});
-  for (const name of ['setup','preflight','publish','publish-driver','release-tools','journey-state','browser-compat','live-verify','github']) {
+  for (const name of ['setup','preflight','preflight-content','publish','publish-driver','release-tools','journey-state','browser-compat','live-verify','github']) {
     mkdirSync(join(root, 'scripts'), {recursive:true});
     copyFileSync(join(template, 'scripts', `${name}.mjs`), join(root, 'scripts', `${name}.mjs`));
   }

@@ -36,12 +36,15 @@ export async function renderedText(page, selector = 'body') {
       if (!rectangles.length) return false;
       for (const rectangle of rectangles) {
         if (rectangle.right <= 0 || rectangle.left >= document.documentElement.scrollWidth) return false;
+        let scrollableX = false, scrollableY = false;
         for (let ancestor = parent; ancestor && ancestor !== document.body; ancestor = ancestor.parentElement) {
           const style = getComputedStyle(ancestor), box = ancestor.getBoundingClientRect();
           if (style.clip !== 'auto' && /rect\(0(?:px)?,?\s*0(?:px)?,?\s*0(?:px)?,?\s*0(?:px)?\)/.test(style.clip)) return false;
           if (style.clipPath === 'inset(50%)') return false;
-          if (['hidden', 'clip'].includes(style.overflowX) && (rectangle.left < box.left - 1 || rectangle.right > box.right + 1)) return false;
-          if (['hidden', 'clip'].includes(style.overflowY) && (rectangle.top < box.top - 1 || rectangle.bottom > box.bottom + 1)) return false;
+          if (['hidden', 'clip'].includes(style.overflowX) && !scrollableX && (rectangle.left < box.left - 1 || rectangle.right > box.right + 1)) return false;
+          if (['hidden', 'clip'].includes(style.overflowY) && !scrollableY && (rectangle.top < box.top - 1 || rectangle.bottom > box.bottom + 1)) return false;
+          if (['auto', 'scroll'].includes(style.overflowX) && ancestor.scrollWidth > ancestor.clientWidth) scrollableX = true;
+          if (['auto', 'scroll'].includes(style.overflowY) && ancestor.scrollHeight > ancestor.clientHeight) scrollableY = true;
         }
       }
       return true;
@@ -49,6 +52,7 @@ export async function renderedText(page, selector = 'body') {
     function walk(node) {
       if (node.nodeType === Node.TEXT_NODE) return textVisible(node) ? node.textContent : '';
       if (node.nodeType !== Node.ELEMENT_NODE || ignored.has(node.tagName)) return '';
+      if (node.hasAttribute('data-copy-dynamic')) return '';
       const style = getComputedStyle(node);
       if (style.display === 'none' || Number(style.opacity) === 0) return '';
       // Capture authored controls, never the entered synthetic/contact values.

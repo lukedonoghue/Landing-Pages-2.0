@@ -20,7 +20,7 @@
   dialog.append(header,description,stateText,detail,note,policy,actions);document.body.append(dialog);
   const announcement=make('span',null,'funnel-privacy-announcement');announcement.setAttribute('role','status');announcement.setAttribute('aria-live','polite');document.body.append(announcement);
   let banner=document.querySelector('[data-consent-banner]');
-  if(!banner){banner=make('aside',null,'funnel-privacy-banner');banner.dataset.consentBanner='';banner.setAttribute('aria-label','Optional data choices');const text=make('p');const buttons=make('div');for(const [value,label] of [['decline','No thanks'],['accept','Allow optional data']]){const button=make('button',label);button.type='button';button.dataset.analyticsConsent=value;buttons.append(button);}banner.append(text,buttons);document.body.append(banner);}
+  if(!banner){banner=make('aside',null,'funnel-privacy-banner');banner.dataset.consentBanner='';banner.setAttribute('aria-label','Optional data choices');const text=make('p');const buttons=make('div');for(const [value,label] of [['decline','No thanks'],['accept','Allow optional data']]){const button=make('button',label);button.type='button';button.dataset.analyticsConsent=value;buttons.append(button);}banner.append(text,buttons);const main=document.querySelector('main');if(main)main.before(banner);else document.body.append(banner);}
   banner.classList.add('funnel-privacy-banner');
   const spacer=make('div',null,'funnel-privacy-spacer');spacer.setAttribute('aria-hidden','true');document.body.append(spacer);
   const size=()=>{if(!dialog.open)spacer.style.height=banner.hidden?'0px':(banner.getBoundingClientRect().height+24)+'px';};

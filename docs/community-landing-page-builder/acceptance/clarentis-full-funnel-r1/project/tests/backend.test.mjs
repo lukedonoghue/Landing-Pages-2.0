@@ -109,6 +109,9 @@ test('cross-origin mutations, invalid body type, oversized requests and honeypot
 let firstLead;
 test('accepted lead persists, repeated submission deduplicates, changed payload conflicts', async () => {
   const body = leadPayload();
+  const extraTags = {utm_id:'test-campaign-id',utm_source_platform:'test-platform',utm_creative_format:'test-format',utm_marketing_tactic:'test-tactic',dclid:'test-display',gbraid:'test-gbraid',wbraid:'test-wbraid',fbclid:'test-meta',msclkid:'test-microsoft'};
+  Object.assign(body.attribution.first_touch, extraTags, {email:'discard@example.invalid',utm_private:'discard'});
+  Object.assign(body.attribution.latest_touch, {utm_id:'test-latest-id'});
   const result = await jsonCall('/api/leads', { method: 'POST', body });
   assert.equal(result.status, 201, JSON.stringify(result.body)); firstLead = result.body.lead_id;
   assert.equal(result.body.ok, true); assert.equal(result.body.duplicate, false); assert.match(result.body.receipt_id, /^[a-f0-9-]{36}$/);
@@ -118,6 +121,10 @@ test('accepted lead persists, repeated submission deduplicates, changed payload 
   assert.equal((await db.prepare('SELECT COUNT(*) AS n FROM leads').first()).n, 1);
   const detail = await jsonCall(`/api/admin/leads/${firstLead}`);
   assert.equal(detail.body.lead.source, 'email'); assert.equal(detail.body.lead.gclid, 'test-click'); assert.equal(detail.body.lead.name, 'Alex Example');
+  const persisted = JSON.parse((await db.prepare('SELECT attribution FROM leads WHERE id=?').bind(firstLead).first()).attribution);
+  for (const [key,value] of Object.entries(extraTags)) assert.equal(persisted.first_touch[key],value);
+  assert.equal(persisted.latest_touch.utm_id,'test-latest-id'); assert.equal(detail.body.lead.utm_id,'test-latest-id');
+  assert.equal(detail.body.lead.msclkid,'test-microsoft'); assert.ok(!('email' in persisted.first_touch)); assert.ok(!('utm_private' in persisted.first_touch));
   assert.equal(detail.body.activity.length, 1); assert.equal(detail.body.lead.version, 1);
   assert.ok(!('visitor_hash' in detail.body.lead)); assert.ok(!('payload_hash' in detail.body.lead));
 });

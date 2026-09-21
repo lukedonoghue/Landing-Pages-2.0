@@ -43,6 +43,20 @@ test('consent acceptance measures a stable browser ID without passing contact da
   state.funnel.setConsent(false); assert.equal((await state.funnel.context()).visitor_id, '');
   assert.equal(state.memory.has('funnel_v2_visitor_id'), false);
 });
+test('expanded campaign fields survive first/latest capture without admitting arbitrary URL data', async () => {
+  const tags = Object.fromEntries(['utm_source','utm_medium','utm_campaign','utm_id','utm_term','utm_content','utm_source_platform','utm_creative_format','utm_marketing_tactic','gclid','dclid','gbraid','wbraid','fbclid','msclkid'].map(key => [key, `test-${key}`]));
+  const state = tracker({ url: `https://site.test/?${new URLSearchParams({...tags, email:'private@example.invalid', utm_private:'discard'})}` });
+  assert.equal(Object.keys((await state.funnel.context()).attribution.first_touch).length, 0);
+  state.funnel.setConsent(true);
+  const context = await state.funnel.context();
+  for (const touch of [context.attribution.first_touch, context.attribution.latest_touch]) {
+    for (const [key, value] of Object.entries(tags)) assert.equal(touch[key], value);
+    assert.ok(!('email' in touch)); assert.ok(!('utm_private' in touch));
+  }
+  assert.deepEqual(state.requests[0].body.attribution, tags);
+  state.funnel.setConsent(false);
+  assert.equal(Object.keys((await state.funnel.context()).attribution.latest_touch).length, 0);
+});
 test('customer data is hashed, provider-normalized and pushed before the accepted lead', async () => {
   const state = tracker({ advertisingUserDataMode: 'consent' });
   state.funnel.setConsent(true); await state.funnel.ready;
@@ -209,7 +223,7 @@ test('unwritable stale opt-in and unavailable policy fail closed for optional da
   }
 });
 
-const chromePath = [process.env.CHROME_BIN, '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/chromium', '/usr/bin/google-chrome'].find(path => path && existsSync(path));
+const chromePath = [process.env.CHROME_BIN, chromium.executablePath()].find(path => path && existsSync(path));
 let browser, server, base; let scenario = 'ok'; let submissions = [];
 before(async () => {
   if (!chromePath) return;

@@ -36,12 +36,17 @@ export async function renderedText(page, selector = 'body') {
       if (!rectangles.length) return false;
       for (const rectangle of rectangles) {
         if (rectangle.right <= 0 || rectangle.left >= document.documentElement.scrollWidth) return false;
+        let scrollPortX = null, scrollPortY = null;
         for (let ancestor = parent; ancestor && ancestor !== document.body; ancestor = ancestor.parentElement) {
           const style = getComputedStyle(ancestor), box = ancestor.getBoundingClientRect();
           if (style.clip !== 'auto' && /rect\(0(?:px)?,?\s*0(?:px)?,?\s*0(?:px)?,?\s*0(?:px)?\)/.test(style.clip)) return false;
           if (style.clipPath === 'inset(50%)') return false;
-          if (['hidden', 'clip'].includes(style.overflowX) && (rectangle.left < box.left - 1 || rectangle.right > box.right + 1)) return false;
-          if (['hidden', 'clip'].includes(style.overflowY) && (rectangle.top < box.top - 1 || rectangle.bottom > box.bottom + 1)) return false;
+          const reachableX = scrollPortX && scrollPortX.left >= box.left - 1 && scrollPortX.right <= box.right + 1;
+          const reachableY = scrollPortY && scrollPortY.top >= box.top - 1 && scrollPortY.bottom <= box.bottom + 1;
+          if (['hidden', 'clip'].includes(style.overflowX) && !reachableX && (rectangle.left < box.left - 1 || rectangle.right > box.right + 1)) return false;
+          if (['hidden', 'clip'].includes(style.overflowY) && !reachableY && (rectangle.top < box.top - 1 || rectangle.bottom > box.bottom + 1)) return false;
+          if (['auto', 'scroll'].includes(style.overflowX) && ancestor.scrollWidth > ancestor.clientWidth) scrollPortX = box;
+          if (['auto', 'scroll'].includes(style.overflowY) && ancestor.scrollHeight > ancestor.clientHeight) scrollPortY = box;
         }
       }
       return true;

@@ -265,7 +265,6 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
   .hero-copy { padding: 34px 20px 26px; }
   .hero-lead { margin: 16px 0 18px; font-size: 17px; line-height: 1.55; }
   .hero-actions { display: grid; grid-template-columns: 1fr; }
-  .hero-actions .button-secondary { display: none; }
   .hero-note { margin-top: 12px; font-size: 13px; line-height: 1.45; }
   .hero-media { height: 150px; }
   .hero-media img { object-position: 70% center; }

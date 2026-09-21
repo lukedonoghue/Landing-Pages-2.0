@@ -44,10 +44,10 @@ test('actual browser capture covers disclosures and form steps without sending P
     assert.equal(docs.some(d=>d.text.includes('An estimate follows a site review.')),width===1440);
   }
 });
-test('DOM capture preserves inline wording and excludes hidden or clipped substitutes',async()=>{
+test('DOM capture preserves inline and scroll-reachable wording while excluding hidden substitutes',async()=>{
   const browser=await chromium.launch({headless:true});
-  try{const page=await browser.newPage();await page.setContent(`<p>Review <b>the site</b> first.</p><p hidden>hidden qualifier</p><p style="opacity:0">transparent qualifier</p><p style="position:absolute;left:-9999px">offscreen qualifier</p><p style="height:1px;overflow:hidden">clipped qualifier</p><p style="position:absolute;width:1px;height:1px;clip-path:inset(50%)">screen reader qualifier</p>`);
-    assert.equal(await renderedText(page),'Review the site first.');
+  try{const page=await browser.newPage();await page.setContent(`<p>Review <b>the site</b> first.</p><p hidden>hidden qualifier</p><p style="opacity:0">transparent qualifier</p><p style="position:absolute;left:-9999px">offscreen qualifier</p><p style="height:1px;overflow:hidden">clipped qualifier</p><p style="position:absolute;width:1px;height:1px;clip-path:inset(50%)">screen reader qualifier</p><p data-copy-dynamic>Receipt machine-token</p><div style="height:40px;overflow:hidden"><div style="height:40px;overflow-y:auto"><p style="margin-top:80px">Scrollable <a href="#privacy">privacy information</a>.</p></div></div>`);
+    assert.equal(await renderedText(page),'Review the site first.\nScrollable privacy information.');
   }finally{await browser.close();}
 });
 test('served/local PDF mismatch blocks even when the public browser flow works',async t=>{

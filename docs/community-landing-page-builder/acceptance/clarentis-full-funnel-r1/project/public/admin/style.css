@@ -15,4 +15,13 @@ dialog{border:1px solid var(--line);border-radius:16px;padding:0;color:var(--ink
 
 @media(max-width:720px){.sidebar nav{grid-template-columns:repeat(5,minmax(0,1fr))}.nav-item{font-size:.66rem}}
 
+.attribution-group{border-top:1px solid var(--line);margin-top:10px;padding-top:2px}
+.attribution-group summary{cursor:pointer;padding:12px 0;font-size:.82rem;font-weight:600;min-height:44px}
+.attribution-group summary:focus-visible{outline:2px solid var(--accent,#26705b);outline-offset:3px}
+.attribution-group .detail-fields{margin:2px 0 14px;grid-template-columns:minmax(0,1fr)}
+.attribution-group .detail-fields>div{display:grid;grid-template-columns:minmax(110px,1fr) minmax(0,2fr);gap:12px;align-items:start}
+.attribution-group dt,.attribution-group dd{min-width:0;overflow-wrap:anywhere;letter-spacing:0}
+.attribution-group dd{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.78rem;line-height:1.5}
+@media(max-width:480px){.attribution-group .detail-fields>div{grid-template-columns:minmax(0,1fr);gap:4px}}
+
 .nav-item>.new-lead-badge{font-size:10px;width:auto;min-width:17px;padding:2px 4px;border-radius:4px;background:#c8e2c4;color:#153d34}.nav-item[data-view=account]{gap:7px}@media(max-width:720px){.nav-item>.new-lead-badge{display:inline-block;min-width:14px;padding:1px 3px;font-size:9px}.nav-item[data-view=account]{gap:3px}}

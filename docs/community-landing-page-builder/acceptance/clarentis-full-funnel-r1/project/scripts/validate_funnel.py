@@ -66,6 +66,8 @@ class FunnelParser(HTMLParser):
                 return
 
     def handle_data(self, data: str) -> None:
+        if any(attrs.get("aria-hidden", "").lower() == "true" for _, attrs in self.stack):
+            return
         for capture in self.cta_stack:
             capture["text"].append(data)
 

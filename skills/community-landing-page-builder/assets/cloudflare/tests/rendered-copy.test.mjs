@@ -50,6 +50,14 @@ test('DOM capture preserves inline wording and excludes hidden or clipped substi
     assert.equal(await renderedText(page),'Review the site first.');
   }finally{await browser.close();}
 });
+test('scroll-reachable inline wording is captured without accepting a clipped scroll port',async()=>{
+  const browser=await chromium.launch({headless:true});
+  try{
+    const page=await browser.newPage();
+    await page.setContent(`<div style="height:40px;overflow:hidden"><div style="height:40px;overflow-y:auto"><p style="margin-top:80px">Reachable <a href="#privacy">privacy wording</a>.</p></div></div><div style="height:1px;overflow:hidden"><div style="height:40px;overflow-y:auto"><p style="margin-top:80px">Unreachable qualifier.</p></div></div>`);
+    assert.equal(await renderedText(page),'Reachable privacy wording.');
+  }finally{await browser.close();}
+});
 test('served/local PDF mismatch blocks even when the public browser flow works',async t=>{
   const p=await project(t,{catalogue:true,pdfMismatch:true}),report=await runCopyCapture(p.args);
   assert.equal(report.status,'blocked');assert.ok(report.checks.some(c=>c.detail?.includes('brochure')));

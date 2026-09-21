@@ -5,7 +5,7 @@ import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { chromium } from 'playwright-core';
 
-const chrome = [process.env.CHROME_BIN, '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/chromium', '/usr/bin/google-chrome'].find(path => path && existsSync(path));
+const chrome = [process.env.CHROME_BIN, chromium.executablePath()].find(path => path && existsSync(path));
 let server, browser, origin;
 before(async () => {
   if (!chrome) return;
