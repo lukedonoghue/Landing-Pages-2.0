@@ -77,6 +77,22 @@ test('preflight accepts a complete integrity fixture and blocks a changed artifa
   assert.match(result.stdout+result.stderr,/Artifact hash mismatch|stale/i);
 });
 
+test('preflight permits buyer-facing Your business but still rejects starter branding', t => {
+  const root=fixture(t);
+  const shell='<script src="funnel.js" defer></script>';
+  write(root,'public/index.html',shell+'<h1>Keep your business moving</h1><fieldset><legend>Your business</legend></fieldset>');
+  evidence(root);
+  let result=execute(root,'preflight');
+  assert.equal(result.status,0,result.stderr+result.stdout);
+  for(const marker of ['<a class="brand" href="/">Your business</a>','<span class="footer-brand">Your business</span>','<p>This is a development template</p>','<p>Replace this starter with your approved client content</p>']){
+    write(root,'public/index.html',shell+marker);evidence(root);
+    result=execute(root,'preflight');
+    assert.notEqual(result.status,0);
+    assert.match(result.stderr,/unfinished starter content/);
+  }
+  assert.equal(existsSync(join(root,'wrangler-calls.log')),false);
+});
+
 test('fictional demos reject remote setup before configuration or Cloudflare changes', t => {
   const root = fixture(t);
   write(root, 'funnel.json', { development_fixture: true });

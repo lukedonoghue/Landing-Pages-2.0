@@ -61,6 +61,8 @@ Read [references/copy-and-structure.md](references/copy-and-structure.md).
 
 Create one implementation-ready copy master at `build/page-copy.md` or `build/page-copy.json`. Cover the buyer jobs supported by evidence: relevance, offer, proof, mechanism or fit, objections, process, conversion, and legal close. Merge only when the concrete decision help survives; a heading or generic sentence does not establish coverage. Keep the workflow lightweight, not the sales argument thin. No fixed section count applies. Resolve every material question named in the strategy, with sourced detail or an honest explanation of what must be assessed, rather than silently dropping it.
 
+When the selected CRM/publishing scaffold uses the complete guarded Worker workflow, use `build/page-copy.json` from the start and read `references/copy-workflow.md`. Its rendered-copy gate requires the structured master; a Markdown-only capture is not equivalent. Keep the default no-copy-approval setting while preserving real editorial review and publishing authorization.
+
 Use one exact primary CTA label. Explain the real operational reason the offer works. Map important benefits to actual capability or proof. Use truthful urgency only when a sourced deadline, capacity limit, or availability constraint exists. Replace generic hype such as `world-class`, `game-changing`, `seamless`, `robust`, or `innovative` with the specific action, limit, mechanism, or evidence unless the term is genuinely necessary and made concrete.
 
 Every heading, CTA, and bullet must make sense to a first-time visitor. Keep technical terms that the real buyer uses, but simplify sentence structure. Treat word count as an editing signal, not a target.
