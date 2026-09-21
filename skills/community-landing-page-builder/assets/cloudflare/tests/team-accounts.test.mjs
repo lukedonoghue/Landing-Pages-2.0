@@ -104,6 +104,15 @@ test('admin invitation requires email confirmation, stores only token hash, and 
   const user=await db.prepare('SELECT * FROM crm_users WHERE email=?').bind(email).first();
   assert.equal(user.status,'active');assert.ok(user.email_verified_at);
 });
+test('verified recipient may use a different domain than the configured sender',async()=>{
+  const email='consultant@agency.example';
+  await db.prepare('INSERT INTO test_verified_recipients(email) VALUES(?)').bind(email).run();
+  const response=await call('/api/admin/users',{method:'POST',body:{email,username:'outside-domain-consultant',role:'viewer'}});
+  assert.equal(response.status,201,await response.clone().text());
+  const message=JSON.parse((await db.prepare('SELECT payload FROM test_mail WHERE recipient=? ORDER BY sequence DESC LIMIT 1').bind(email).first()).payload);
+  assert.equal(message.from,'crm@example.invalid');assert.equal(message.to,email);
+  assert.notEqual(message.from.split('@')[1],message.to.split('@')[1]);
+});
 test('email failures and expired links never activate accounts',async()=>{
   await db.prepare('UPDATE test_mail_failure SET enabled=1').run();
   const failed=await call('/api/admin/users',{method:'POST',body:{email:'failed@example.invalid',username:'mail-failed',role:'viewer'}});

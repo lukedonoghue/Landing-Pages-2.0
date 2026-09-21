@@ -11,16 +11,45 @@ const dateLabel = value => {
   return Number.isFinite(date.getTime()) ? new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(date) : String(value || '-');
 };
 
+const externalLink = (text, href) => {
+  const link = make('a', text);
+  link.href = href;
+  link.target = '_blank';
+  link.rel = 'noreferrer';
+  return link;
+};
+
 export function initUsersPanel(host, { request, currentUser }) {
   let disposed = false;
   let emailConfigured = false;
+  let setupDisclosureInitialized = false;
   const root = make('div', undefined, 'users-view');
   const heading = make('div', undefined, 'users-heading');
   const headingText = make('div');
   headingText.append(make('p', 'ACCESS & ROLES', 'eyebrow'), make('h2', 'Workspace users'), make('p', 'Invite colleagues and keep each account’s access appropriate.', 'muted'));
   const refresh = make('button', 'Refresh', 'button secondary'); refresh.type = 'button';
   heading.append(headingText, refresh);
-  const provider = make('div', '', 'notice users-provider'); provider.setAttribute('role', 'status');
+  const provider = make('section', undefined, 'notice users-provider'); provider.setAttribute('aria-labelledby', 'users-email-state-title');
+  const providerState = make('div', undefined, 'users-provider-state'); providerState.setAttribute('role', 'status'); providerState.setAttribute('aria-live', 'polite');
+  const providerStateText = make('div');
+  const providerTitle = make('strong', '', 'users-provider-title'); providerTitle.id = 'users-email-state-title';
+  const providerCopy = make('p', '', 'muted small'); providerStateText.append(providerTitle, providerCopy); providerState.append(providerStateText);
+  const setupGuide = make('details', undefined, 'users-security-setup');
+  const setupSummary = make('summary', 'One-time security setup'); setupGuide.append(setupSummary);
+  const setupBody = make('div', undefined, 'users-security-setup-body');
+  if (currentUser?.id === 'owner') {
+    const steps = make('ol', undefined, 'users-setup-steps');
+    const addresses = make('li'); addresses.append(make('strong', 'Choose the inbox and sender.'), make('p', 'Tell Codex your receiving email and the business domain to send from. Codex handles the connection.'));
+    const destinations = make('li'); const destinationCopy = make('p');
+    destinationCopy.append('In Cloudflare, go to Compute > Email Service > Email Routing > Destination Addresses. Add the inbox, open the Cloudflare email, and select Verify email address. See ', externalLink('Cloudflare instructions', 'https://developers.cloudflare.com/email-service/configuration/email-routing-addresses/'), '.');
+    destinations.append(make('strong', 'Verify the inbox in Cloudflare.'), destinationCopy);
+    const ownerRegistration = make('li');
+    ownerRegistration.append(make('strong', 'Confirm the owner email in the CRM.'), make('p', 'After Codex connects email, open Users > Owner email. Enter that inbox and your current password, choose Send verification, and confirm the CRM email.'));
+    steps.append(addresses, destinations, ownerRegistration); setupBody.append(steps, make('p', 'Enter your password only in the CRM.', 'users-setup-safety'));
+  }
+  const teammate = make('div', undefined, 'users-teammate-setup'); teammate.append(make('strong', currentUser?.id === 'owner' ? 'Adding a teammate later' : 'Adding a teammate'));
+  teammate.append(make('p', 'Teammates can use any email domain, including Gmail or an agency address. Verify the recipient in Cloudflare, ask Codex to connect the confirmed recipient, then use Users > Invite a user and choose the role.'));
+  setupBody.append(teammate); setupGuide.append(setupBody); provider.append(providerState, setupGuide);
   const status = make('p', '', 'users-status'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
   const error = make('p', '', 'inline-error users-error'); error.setAttribute('role', 'alert');
 
@@ -58,15 +87,20 @@ export function initUsersPanel(host, { request, currentUser }) {
   function clearMessages() { error.textContent = ''; status.textContent = ''; }
   function failure(reason) { error.textContent = reason?.message || 'Unable to complete this action.'; }
   function setEmailActions() {
-    const reason = 'Email delivery must be configured before this action is available.';
+    const reason = 'Complete the one-time security setup before using email actions.';
     for (const control of [inviteSubmit, ownerSubmit, ...root.querySelectorAll('[data-email-action]')]) {
       control.disabled = !emailConfigured || control.dataset.blocked === 'true';
       control.title = emailConfigured ? '' : reason;
     }
-    provider.classList.toggle('error', !emailConfigured);
-    provider.textContent = emailConfigured
-      ? 'Cloudflare email delivery is configured. Free-plan delivery still requires the sender and each recipient address to be verified before an invitation or reset can be sent.'
-      : 'Cloudflare email delivery is not configured. Add a verified sender, public site origin, and verified-recipient allowlist before sending invitations, reset links, or owner email verification.';
+    provider.dataset.state = emailConfigured ? 'available' : 'required';
+    providerTitle.textContent = emailConfigured ? 'Email settings are available' : 'Account email setup required';
+    providerCopy.textContent = emailConfigured
+      ? 'Email connection settings are present. Confirm your email below to finish account setup.'
+      : 'Invitations, password resets and owner email verification are unavailable until the one-time connection is added.';
+    if (!setupDisclosureInitialized) {
+      setupGuide.open = !emailConfigured;
+      setupDisclosureInitialized = true;
+    }
   }
 
   async function run(control, work, success) {
@@ -89,7 +123,7 @@ export function initUsersPanel(host, { request, currentUser }) {
       const emailInput = invited ? make('input') : null;
       if (emailInput) { emailInput.type = 'email'; emailInput.value = account.email || ''; emailInput.required = true; emailInput.maxLength = 254; emailInput.setAttribute('aria-label', `Email for ${account.username}`); emailCell.append(emailInput); }
       else emailCell.append(document.createTextNode(account.email || '-'));
-      if (account.email_verified_at) emailCell.append(make('span', 'Verified', 'user-verified'));
+      if (account.email_verified_at) emailCell.append(make('span', 'CRM verified', 'user-verified'));
       const immutable = account.id === 'owner' || account.id === currentUser?.id;
       const roleCell = make('td'); const roleSelect = make('select'); roleSelect.setAttribute('aria-label', `Role for ${account.username}`);
       for (const value of ['admin', 'manager', 'viewer']) { const option = make('option', roleLabel(value)); option.value = value; roleSelect.append(option); }
