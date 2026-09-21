@@ -22,6 +22,7 @@ Write one `build/strategy-brief.md`. Keep it decision-focused:
 - offer or result;
 - real process or capability that makes the result plausible;
 - strongest trust anchor;
+- leading reason to choose this business: buyer benefit, specific supporting capability, source and limits, and the alternative or buyer frustration it addresses; distinguish a useful advantage from proven uniqueness;
 - primary objection or perceived risk;
 - source or search intent, supplied or clearly labelled as inferred;
 - source conversion contract: exact CTA and offer, conversion type, required fields, consent, promised delivery or follow-up, destination type, and success behavior;
@@ -31,6 +32,8 @@ Write one `build/strategy-brief.md`. Keep it decision-focused:
 - optional modules selected and why.
 
 Ask the user only when a missing answer would materially change one of these decisions.
+
+Choose the leading advantage rather than collecting an unranked list of positives. In the same brief, compare up to three plausible angles for buyer relevance, evidence strength and specificity, then select one. Map the strongest supporting reasons as `source fact -> buyer consequence -> benefit -> proof/limit -> section`. Read real customer feedback for the customer's problem and language when available. Do not turn inferred concerns into quotations. If competitor evidence is absent, say the advantage is supported but uniqueness is unverified; do not claim it is exclusive. If no distinguishing capability is supported, lead with the clearest specific offer and honest fit, not invented superiority. This is a few rows in the existing brief, not a new research report or prerequisite questionnaire.
 
 The supplied page is evidence of conversion intent even when its production endpoint cannot or should not be reused. A public endpoint is not permission to transmit data, run a live test, or adopt unsafe behavior. If the source form is broken or unsafe, preserve the form offer and buyer journey while rebuilding the local behavior safely.
 

@@ -60,7 +60,9 @@ Create one compact `build/strategy-brief.md` containing: buyer situation, likely
 
 ### 2. Write the conversion argument
 
-Read [references/copy-and-structure.md](references/copy-and-structure.md).
+Read [references/copy-and-structure.md](references/copy-and-structure.md) and [references/copy-doctrine.md](references/copy-doctrine.md) for every build, including static pages without a CRM. The benefit and differentiation review is core work, not an optional publishing check.
+
+Before choosing layout, select an evidence-backed leading advantage in the strategy brief, write the complete copy master, and execute the two short editing passes in `copy-and-structure.md`. The first screen must explain the actual service, buyer benefit and concrete reason to choose this business. A generic outcome slogan or a service catalogue is not a substitute. Complete the copy before composing the page; design may improve its presentation, not silently remove the argument or qualifications.
 
 Create one implementation-ready copy master at `build/page-copy.md` or `build/page-copy.json`. Cover the buyer jobs supported by evidence: relevance, offer, proof, mechanism or fit, objections, process, conversion, and legal close. Merge only when the concrete decision help survives; a heading or generic sentence does not establish coverage. Keep the workflow lightweight, not the sales argument thin. No fixed section count applies. Resolve every material question named in the strategy, with sourced detail or an honest explanation of what must be assessed, rather than silently dropping it.
 

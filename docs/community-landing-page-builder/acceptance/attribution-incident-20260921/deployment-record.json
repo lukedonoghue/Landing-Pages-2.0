@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "evidence_source": "cloudflare-wrangler-deployments-and-version-api",
+  "account_id": "5b93d5e3c469e05d9bd13672e7887c4a",
+  "worker": "clarentis-demo-20260921-r1",
+  "deployment_id": "c1473e1c-68a4-4cb2-850e-e81fc4d6e788",
+  "version_id": "d840e468-b5a7-4b4f-a939-a31c879ea435",
+  "active_versions": [
+    {
+      "version_id": "d840e468-b5a7-4b4f-a939-a31c879ea435",
+      "percentage": 100
+    }
+  ],
+  "database_id": "ff4b75ac-adea-4384-ae59-32b1b99743c9",
+  "release_id": "9bbcac0f-7461-4388-90fe-3b9627d72319",
+  "source_fingerprint": "b0ddb6b732a20010f99c38e50835a6dfa61795551517e4706cde8a02e91c3654",
+  "script_etag": "647ad2af5e42b3ad133efbf59025b4db51f0ed7de9138e172066708f058e72a9",
+  "observed_at": "2026-09-21T13:01:07.636Z",
+  "url": "https://clarentis-demo-20260921-r1.shevabody.workers.dev",
+  "uploaded_at": "2026-09-21T13:01:07.653Z",
+  "verification_pending": false
+}

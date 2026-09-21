@@ -1,5 +1,11 @@
 # Copy and Structure
 
+## Write before layout
+
+Use the selected leading advantage and benefit/proof map from the strategy brief. Write the full copy master before choosing section layouts or building HTML. Research and asset discovery can happen alongside writing; finished design must not dictate how little the business gets to explain. The brief's single leading advantage connects the hero to the supporting reasons, proof and offer.
+
+Read `copy-doctrine.md` and its compact reference analysis. Transfer the references' direct customer voice, specific explanations, benefit-led headings and proof rhythm, not their sentences or business claims. Style matching does not authorize exaggeration, invented uniqueness or awkwardly copying a long headline.
+
 ## Build an adaptive argument
 
 Cover the buyer jobs supported by evidence:
@@ -7,6 +13,7 @@ Cover the buyer jobs supported by evidence:
 - relevance and outcome;
 - offer and primary action;
 - early trust or proof;
+- why choose this business: distinct, evidence-backed benefits rather than another list of services;
 - mechanism, fit, or selection criteria;
 - practical and emotional objections;
 - process and next step;
@@ -15,6 +22,19 @@ Cover the buyer jobs supported by evidence:
 Merge related jobs only when their specific answers and supporting proof survive. Omit unsupported claims, not important buyer questions merely because an exact figure is unavailable. Use the coverage table from `reference-fidelity.md`; add sections when needed to answer real questions. A supplied reference is a completeness benchmark, but its literal section count and order are not requirements. Concise paragraphs must not become a thin page with generic assurances.
 
 Write one implementation-ready copy master at `build/page-copy.md` or `build/page-copy.json`. Include the page title and description, H1, supporting copy, primary CTA, every section, form or external-action wording, success or thank-you wording, and any selected brochure promise.
+
+For a considered lead-generation service, start with this reference-led sequence: clear offer and leading benefit; tangible next step or useful guide; early customer proof; why choose with supported advantages; explanation of how the service delivers the result; scope/fit and practical objections; how it works; remaining questions; final benefit and action. Testimonial, benefits, why-choose and process jobs must be accounted for in the existing coverage map, not silently dropped to make a shorter page. Adapt or merge sections only when the specific argument survives. When no genuine testimonial exists, record that absence and use another relevant proof type, never an invented review. Add or reorder sections when buyer research requires it; the sequence is a starting architecture, not a universal section count.
+
+Write each major benefit as a useful buyer consequence supported by a concrete feature, delivery practice or piece of evidence. For example, a sourced itemised quote can support knowing what work and price are agreed before commitment; it does not establish being cheapest or never having additional charges. A category benefit explains why someone needs the service; a reason-to-choose explains why this provider or offer fits. The page needs both. Keep necessary service details, rather than converting every sentence into an ungrounded emotional promise.
+
+## Two short pre-design editing passes
+
+Run these on the same draft, in the current agent unless a reviewer is already available. They require no user approval, extra model subscription, classification service or extra research round when the evidence is sufficient. Revise affected passages, not the entire page repeatedly.
+
+1. **Benefit and choice pass:** "Read the hero and headings as the intended buyer comparing options. What do I get, why does that matter, and why choose this business? Identify vague outcomes, category-only claims and features without a buyer consequence. Rewrite the weak passages around the strongest supported advantage, preserving the service, scope and proof. Do not invent a USP when only a useful offer is evidenced. Make each section add a different reason, explanation or reassurance."
+2. **Sceptical buyer and reference pass:** "Compare this revision with the client evidence and the inspected reference lessons. Can the opening belong to any competitor unchanged? Are the lead benefit and delivery mechanism concrete? Do why-choose, genuine proof, scope, objections and the full service process support the decision? Read headings alone, then the full copy aloud. Replace inflated, repetitive or researcher-like language. Retain every necessary qualifier and say precisely what happens after the CTA. Fix the weakest remaining passages, not already-good wording."
+
+Record a compact edit note beside the master or in the existing editorial review: weak excerpt, revised excerpt and evidence/reason for the material changes. Do not fabricate changes or claim a pass from a prompt merely being written down. If already following `copy-workflow.md`, these are its draft revision and reviewer pass, not two additional rounds. Recheck corrected passages once. If a material evidence gap remains, narrow the claim or report the gap instead of endlessly polishing. The pre-design copy is ready only when the first screen states a concrete offer and supported benefit/advantage, major benefits have a mechanism or evidence, and the headline sequence explains the buying decision. This is editorial judgment, not a numeric score or a conversion guarantee.
 
 ## Copy rules
 

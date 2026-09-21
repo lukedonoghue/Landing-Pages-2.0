@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "executed_at": "2026-09-21T13:06:32.270Z",
+  "target": "https://clarentis-demo-20260921-r1.shevabody.workers.dev",
+  "release_id": "9bbcac0f-7461-4388-90fe-3b9627d72319",
+  "source_fingerprint": "b0ddb6b732a20010f99c38e50835a6dfa61795551517e4706cde8a02e91c3654",
+  "synthetic": true,
+  "requested_keys": [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_term",
+    "utm_content",
+    "utm_id",
+    "utm_source_platform",
+    "utm_creative_format",
+    "utm_marketing_tactic",
+    "gclid",
+    "gbraid",
+    "wbraid",
+    "fbclid",
+    "msclkid",
+    "ttclid"
+  ],
+  "checks": [
+    {
+      "name": "tagged_page_loads",
+      "passed": true
+    },
+    {
+      "name": "prompt_free_lead_policy",
+      "passed": true,
+      "detail": "{\"analytics_mode\":\"disabled\",\"attribution_mode\":\"lead\",\"advertising_user_data_mode\":\"disabled\",\"consent_ui\":\"disabled\"}"
+    },
+    {
+      "name": "no_visible_consent_ui",
+      "passed": true
+    },
+    {
+      "name": "request_has_all_15_keys",
+      "passed": true,
+      "detail": "15/15"
+    },
+    {
+      "name": "lead_accepted",
+      "passed": true
+    },
+    {
+      "name": "no_measurement_visit",
+      "passed": true,
+      "detail": "0 visit requests"
+    },
+    {
+      "name": "no_optional_third_party_requests",
+      "passed": true,
+      "detail": "0 external requests"
+    },
+    {
+      "name": "stored_record_readable",
+      "passed": true
+    },
+    {
+      "name": "stored_first_touch_15_of_15",
+      "passed": true,
+      "detail": "15/15"
+    },
+    {
+      "name": "stored_latest_touch_15_of_15",
+      "passed": true,
+      "detail": "15/15"
+    },
+    {
+      "name": "compact_crm_source_is_google_cpc",
+      "passed": true
+    },
+    {
+      "name": "expanded_crm_displays_all_15_values",
+      "passed": false,
+      "detail": "0/15"
+    },
+    {
+      "name": "logout_revokes_session",
+      "passed": true
+    }
+  ],
+  "failures": [
+    "expanded_crm_displays_all_15_values"
+  ],
+  "lead_id": "0615944d-3a16-4e7b-b57b-f11f6c7b143a",
+  "receipt_id": "4d78af3f-bc21-4a6d-90df-cfe80864b124",
+  "request_match_count": 15,
+  "stored_first_match_count": 15,
+  "stored_latest_match_count": 15,
+  "crm_display_match_count": 0,
+  "external_request_count": 0,
+  "visit_request_count": 0,
+  "browser_closed_in_finally": true,
+  "completed_at": "2026-09-21T13:06:36.136Z",
+  "status": "blocked"
+}

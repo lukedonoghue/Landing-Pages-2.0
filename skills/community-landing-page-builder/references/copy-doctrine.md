@@ -8,6 +8,8 @@ Direct, specific, customer-centred, outcome-led, natural, and credible. Every se
 
 Blue Mountain's reusable argument is: desired result → tangible brochure/pricing offer → early customer proof → reasons to trust → mechanism and fit → reassurance → clear steps → final benefits and action. Its guarantees, numbers and superiority claims are business-specific assertions and do not transfer. Its longer and question-led headings also show why blanket word limits and a question-headline ban would misdescribe the reference style.
 
+For the inspected reference breakdown and limitations, see [copy-reference-lessons.md](copy-reference-lessons.md). Use it during initial copy research; do not load the entire library to rediscover these default lessons. All builds execute the bounded editing passes in `copy-and-structure.md`; the structured Worker review records those same passes, not a separate writing process.
+
 Use concrete verbs: clear, choose, compare, protect, organize, prepare, install, plan. Select verbs appropriate to the business rather than repeatedly forcing this list. Prefer the buyer's actual task to generic claims of excellence. Features explain benefits; they are not substitutes for the benefit.
 
 Write complete thoughts with natural rhythm. A brief heading or occasional fragment can work, but strings of fragments make explanation harder. A long headline is acceptable when each part adds meaning and it reads clearly on the rendered page. Remove filler, duplicated promises, formulaic introductions and interchangeable slogans.
@@ -79,4 +81,4 @@ Screenshots and unreviewed captures are searchable for exploration but excluded 
 5. Check the claim and qualifier together: a shorter sentence must remain accurate.
 6. Read the offer across page, modal, brochure and thank-you: the transaction must remain the same.
 
-Use the writer/reviewer contract in `copy-workflow.md`. Automated checks establish structure and freshness only; an actual editorial review and rendered-page review remain necessary.
+Use the writer/reviewer contract in `copy-workflow.md` when the structured copy library or complete Worker workflow is selected. Lightweight static builds keep the same editorial standard through `copy-and-structure.md`, without requiring its JSON files or infrastructure. Automated checks establish structure and freshness only; an actual editorial review and rendered-page review remain necessary.
