@@ -1,0 +1,161 @@
+{
+  "measured_at": "2026-09-21T21:10:45.728Z",
+  "root_agent_id": "01a0c58e-fff1-7693-a625-417d7608077d",
+  "started_at": "2026-09-21T20:01:18.450Z",
+  "included_agent_ids": [
+    "01a0c58e-fff1-7693-a625-417d7608077d"
+  ],
+  "cumulative": {
+    "totals": {
+      "input_tokens": 48312625,
+      "cached_input_tokens": 47690368,
+      "output_tokens": 160342,
+      "reasoning_output_tokens": 23996,
+      "total_tokens": 48472967
+    },
+    "samples": [
+      {
+        "agent_id": "01a0c58e-fff1-7693-a625-417d7608077d",
+        "reported_at": "2026-09-21T21:10:19.658Z"
+      }
+    ]
+  },
+  "phases": {
+    "build_started_at": {
+      "at": "2026-09-21T20:01:32Z",
+      "elapsed_seconds": 13.55,
+      "totals": {
+        "input_tokens": 32276,
+        "cached_input_tokens": 13056,
+        "output_tokens": 305,
+        "reasoning_output_tokens": 87,
+        "total_tokens": 32581
+      },
+      "samples": [
+        {
+          "agent_id": "01a0c58e-fff1-7693-a625-417d7608077d",
+          "reported_at": "2026-09-21T20:01:27.325Z"
+        }
+      ]
+    },
+    "page_build_completed_at": {
+      "at": "2026-09-21T20:57:22Z",
+      "elapsed_seconds": 3363.55,
+      "totals": {
+        "input_tokens": 40995154,
+        "cached_input_tokens": 40476288,
+        "output_tokens": 138443,
+        "reasoning_output_tokens": 20195,
+        "total_tokens": 41133597
+      },
+      "samples": [
+        {
+          "agent_id": "01a0c58e-fff1-7693-a625-417d7608077d",
+          "reported_at": "2026-09-21T20:57:18.832Z"
+        }
+      ]
+    },
+    "deployment_started_at": {
+      "at": "2026-09-21T20:57:32Z",
+      "elapsed_seconds": 3373.55,
+      "totals": {
+        "input_tokens": 41111112,
+        "cached_input_tokens": 40589440,
+        "output_tokens": 138849,
+        "reasoning_output_tokens": 20218,
+        "total_tokens": 41249961
+      },
+      "samples": [
+        {
+          "agent_id": "01a0c58e-fff1-7693-a625-417d7608077d",
+          "reported_at": "2026-09-21T20:57:29.761Z"
+        }
+      ]
+    },
+    "crm_completed_at": {
+      "at": "2026-09-21T21:08:27Z",
+      "elapsed_seconds": 4028.55,
+      "totals": {
+        "input_tokens": 46456184,
+        "cached_input_tokens": 45852416,
+        "output_tokens": 154229,
+        "reasoning_output_tokens": 22730,
+        "total_tokens": 46610413
+      },
+      "samples": [
+        {
+          "agent_id": "01a0c58e-fff1-7693-a625-417d7608077d",
+          "reported_at": "2026-09-21T21:08:22.066Z"
+        }
+      ]
+    },
+    "finished_at": {
+      "at": "2026-09-21T21:10:04Z",
+      "elapsed_seconds": 4125.55,
+      "totals": {
+        "input_tokens": 47865939,
+        "cached_input_tokens": 47246464,
+        "output_tokens": 159392,
+        "reasoning_output_tokens": 23816,
+        "total_tokens": 48025331
+      },
+      "samples": [
+        {
+          "agent_id": "01a0c58e-fff1-7693-a625-417d7608077d",
+          "reported_at": "2026-09-21T21:10:01.570Z"
+        }
+      ]
+    }
+  },
+  "intervals": {
+    "page_build": {
+      "status": "measured_interval",
+      "from": "2026-09-21T20:01:18.450Z",
+      "to": "2026-09-21T20:57:22Z",
+      "elapsed_seconds": 3363.55,
+      "tokens": {
+        "input_tokens": 40995154,
+        "cached_input_tokens": 40476288,
+        "output_tokens": 138443,
+        "reasoning_output_tokens": 20195,
+        "total_tokens": 41133597,
+        "uncached_input_tokens": 518866
+      }
+    },
+    "full_run": {
+      "status": "measured_interval",
+      "from": "2026-09-21T20:01:18.450Z",
+      "to": "2026-09-21T21:10:04Z",
+      "elapsed_seconds": 4125.55,
+      "tokens": {
+        "input_tokens": 47865939,
+        "cached_input_tokens": 47246464,
+        "output_tokens": 159392,
+        "reasoning_output_tokens": 23816,
+        "total_tokens": 48025331,
+        "uncached_input_tokens": 619475
+      }
+    },
+    "external_setup_deployment_verification": {
+      "status": "measured_interval",
+      "from": "2026-09-21T20:57:32Z",
+      "to": "2026-09-21T21:10:04Z",
+      "elapsed_seconds": 752,
+      "tokens": {
+        "input_tokens": 6754827,
+        "cached_input_tokens": 6657024,
+        "output_tokens": 20543,
+        "reasoning_output_tokens": 3598,
+        "total_tokens": 6775370,
+        "uncached_input_tokens": 97803
+      }
+    }
+  },
+  "accounting_notes": [
+    "Token figures are reported Codex usage for the builder and its descendants, not inferred from subscription percentages.",
+    "Cached input is included in input tokens; reasoning output is included in output tokens. Do not add these subsets twice.",
+    "Phase snapshots use the last usage event at or before each recorded milestone; an in-flight model response can straddle a boundary.",
+    "Image-generation/tool billing without token events, parent orchestration and unrelated repair agents are not included.",
+    "A missing phase or unfinished run is not a zero-cost completed build."
+  ]
+}

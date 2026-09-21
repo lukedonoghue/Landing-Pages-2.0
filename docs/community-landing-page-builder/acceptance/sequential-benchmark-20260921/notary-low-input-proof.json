@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-09-21T21:32:57.634Z",
+  "agent_id": "01a0c5e2-0f91-7ac3-afe6-0fe0df00033f",
+  "model": "gpt-5.6-sol",
+  "effort": "low",
+  "initial_user_messages": 2,
+  "exact_owner_prompt_matches": 1,
+  "other_initial_messages": [
+    {
+      "characters": 5005,
+      "runtime_context_only": true
+    }
+  ],
+  "prompt_sha256": "fc738d652d3cebe0f7915d37b683da6fd4be298ef6faf976c06290eb27b91cf2",
+  "limitation": "Verifies initial recorded input only. Shared tools, filesystem and provider authorization still exist; this is not an OS isolation claim."
+}
