@@ -6,6 +6,7 @@ test('click identifiers and explicit media classify traffic without treating eve
   for (const key of ['gclid', 'dclid', 'gbraid', 'wbraid']) assert.deepEqual(classifyTraffic({ [key]: 'click', utm_source: 'email' }), { traffic_source: 'google', traffic_type: 'paid' });
   assert.deepEqual(classifyTraffic({ utm_medium: 'cpc' }), { traffic_source: 'unknown', traffic_type: 'paid' });
   assert.deepEqual(classifyTraffic({ msclkid: 'click' }), { traffic_source: 'microsoft', traffic_type: 'paid' });
+  assert.deepEqual(classifyTraffic({ ttclid: 'click' }), { traffic_source: 'other', traffic_type: 'paid' });
   assert.deepEqual(classifyTraffic({ fbclid: 'click' }), { traffic_source: 'facebook', traffic_type: 'unknown' });
   assert.deepEqual(classifyTraffic({ fbclid: 'click', utm_source: 'ig', utm_medium: 'paid_social' }), { traffic_source: 'instagram', traffic_type: 'paid' });
   assert.deepEqual(classifyTraffic({ utm_source: 'fb', utm_medium: 'cpc' }), { traffic_source: 'facebook', traffic_type: 'paid' });
@@ -14,7 +15,7 @@ test('click identifiers and explicit media classify traffic without treating eve
   assert.deepEqual(classifyTraffic({ utm_source: 'bing', utm_medium: 'ppc' }), { traffic_source: 'microsoft', traffic_type: 'paid' });
 });
 test('visit normalization preserves supported campaign extensions and rejects URL contact fields', () => {
-  const tags = {utm_id:'campaign',utm_source_platform:'platform',utm_creative_format:'format',utm_marketing_tactic:'tactic',dclid:'display-click'};
+  const tags = {utm_id:'campaign',utm_source_platform:'platform',utm_creative_format:'format',utm_marketing_tactic:'tactic',dclid:'display-click',ttclid:'tiktok-click'};
   assert.deepEqual(normalizeVisitAttribution({...tags,email:'private@example.invalid',utm_private:'discard'}),tags);
   assert.throws(() => normalizeVisitAttribution({utm_id:'x'.repeat(513)}));
 });

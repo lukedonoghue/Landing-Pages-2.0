@@ -7,12 +7,12 @@ import { runInNewContext } from 'node:vm';
 import { chromium } from 'playwright-core';
 
 const trackingCode = await readFile(new URL('../public/funnel.js', import.meta.url), 'utf8');
-function tracker({ mode = 'consent', attributionMode = 'consent', advertisingUserDataMode = 'disabled', sensitiveCategory = false, gtmContainerId = '', stored = {}, privacy = {}, blockedStorage = false, writeBlocked = false, policyOk = true, deferredVisit = false, hangingVisit = false, sharedMemory, url = 'https://site.test/?utm_source=google&gclid=test-click&email=discard', referrer = 'https://example.com/article?private=discard', measure = true, visitOk = true, visitResult } = {}) {
+function tracker({ mode = 'consent', attributionMode = 'consent', advertisingUserDataMode = 'disabled', consentUi = 'internal', sensitiveCategory = false, gtmContainerId = '', stored = {}, privacy = {}, blockedStorage = false, writeBlocked = false, policyOk = true, deferredVisit = false, hangingVisit = false, sharedMemory, url = 'https://site.test/?utm_source=google&gclid=test-click&email=discard', referrer = 'https://example.com/article?private=discard', measure = true, visitOk = true, visitResult } = {}) {
   const memory = sharedMemory || new Map(Object.entries(stored).map(([key, value]) => [`funnel_v2_${key}`, JSON.stringify(value)]));
   const requests = [];const pendingVisits=[];
   const storage = { getItem(key) { if (blockedStorage) throw new Error('Storage blocked'); return memory.get(key) || null; }, setItem(key, value) { if (blockedStorage || writeBlocked) throw new Error('Storage blocked'); memory.set(key, value); }, removeItem(key) { if (blockedStorage || writeBlocked) throw new Error('Storage blocked'); memory.delete(key); } };
   const loadedScripts=[]; const head={append:element=>loadedScripts.push(element.src),insertBefore:element=>loadedScripts.push(element.src)};
-  const environment = { TextEncoder, Uint8Array, document: { currentScript: { dataset: { analyticsMode: mode, measure: String(measure) }, src:'https://site.test/funnel.js' }, referrer, head, querySelectorAll: () => [], querySelector: () => null, createElement:()=>({}), getElementsByTagName:()=>[{parentNode:head}] }, location: new URL(url), navigator: privacy, crypto, URL, URLSearchParams, Map, Date, Promise, JSON, AbortController, setTimeout, clearTimeout, localStorage: storage, sessionStorage: storage, fetch: async (url, options) => { if(url==='/api/privacy-config')return {ok:policyOk,json:async()=>({analytics_mode:mode,attribution_mode:attributionMode,advertising_user_data_mode:advertisingUserDataMode,sensitive_category:sensitiveCategory,gtm_container_id:gtmContainerId})}; const body = JSON.parse(options.body); requests.push({ url, body }); if(deferredVisit)return new Promise(resolve=>pendingVisits.push(()=>resolve({ok:true,json:async()=>({measured:true,event_id:body.event_id})}))); return hangingVisit ? new Promise(() => {}) : { ok: visitOk, json: async () => visitResult || { measured: true, event_id: body.event_id, duplicate: false } }; } };
+  const environment = { TextEncoder, Uint8Array, document: { currentScript: { dataset: { analyticsMode: mode, measure: String(measure) }, src:'https://site.test/funnel.js' }, referrer, head, querySelectorAll: () => [], querySelector: () => null, createElement:()=>({}), getElementsByTagName:()=>[{parentNode:head}] }, location: new URL(url), navigator: privacy, crypto, URL, URLSearchParams, Map, Date, Promise, JSON, AbortController, setTimeout, clearTimeout, localStorage: storage, sessionStorage: storage, fetch: async (url, options) => { if(url==='/api/privacy-config')return {ok:policyOk,json:async()=>({analytics_mode:mode,attribution_mode:attributionMode,advertising_user_data_mode:advertisingUserDataMode,consent_ui:consentUi,sensitive_category:sensitiveCategory,gtm_container_id:gtmContainerId})}; const body = JSON.parse(options.body); requests.push({ url, body }); if(deferredVisit)return new Promise(resolve=>pendingVisits.push(()=>resolve({ok:true,json:async()=>({measured:true,event_id:body.event_id})}))); return hangingVisit ? new Promise(() => {}) : { ok: visitOk, json: async () => visitResult || { measured: true, event_id: body.event_id, duplicate: false } }; } };
   environment.window = environment;
   runInNewContext(trackingCode, environment);
   return { environment, requests, memory, pendingVisits, loadedScripts, funnel: environment.LeadFunnel };
@@ -44,7 +44,7 @@ test('consent acceptance measures a stable browser ID without passing contact da
   assert.equal(state.memory.has('funnel_v2_visitor_id'), false);
 });
 test('expanded campaign fields survive first/latest capture without admitting arbitrary URL data', async () => {
-  const tags = Object.fromEntries(['utm_source','utm_medium','utm_campaign','utm_id','utm_term','utm_content','utm_source_platform','utm_creative_format','utm_marketing_tactic','gclid','dclid','gbraid','wbraid','fbclid','msclkid'].map(key => [key, `test-${key}`]));
+  const tags = Object.fromEntries(['utm_source','utm_medium','utm_campaign','utm_id','utm_term','utm_content','utm_source_platform','utm_creative_format','utm_marketing_tactic','gclid','dclid','gbraid','wbraid','fbclid','msclkid','ttclid'].map(key => [key, `test-${key}`]));
   const state = tracker({ url: `https://site.test/?${new URLSearchParams({...tags, email:'private@example.invalid', utm_private:'discard'})}` });
   assert.equal(Object.keys((await state.funnel.context()).attribution.first_touch).length, 0);
   state.funnel.setConsent(true);
@@ -56,6 +56,43 @@ test('expanded campaign fields survive first/latest capture without admitting ar
   assert.deepEqual(state.requests[0].body.attribution, tags);
   state.funnel.setConsent(false);
   assert.equal(Object.keys((await state.funnel.context()).attribution.latest_touch).length, 0);
+});
+test('consent UI can be delegated or disabled without granting optional data', async () => {
+  for (const consentUi of ['external', 'disabled']) {
+    const state = tracker({ consentUi, stored: { analytics_consent: true }, gtmContainerId: 'GTM-ABC1234' }); await state.funnel.ready;
+    assert.equal(state.loadedScripts.some(src => src.endsWith('/privacy-controls.js')), false);
+    assert.equal(state.funnel.privacyState().choice, true);
+    assert.equal(state.funnel.privacyState().measurement_allowed, false);
+    assert.equal(state.funnel.privacyState().attribution_allowed, false);
+    assert.equal(state.loadedScripts.some(src => src.includes('googletagmanager.com')), false);
+    if (consentUi === 'external') {
+      state.funnel.setConsent(true);
+      assert.equal(state.funnel.privacyState().measurement_allowed, true);
+      assert.equal(state.funnel.privacyState().attribution_allowed, true);
+      assert.equal(state.loadedScripts.filter(src => src.includes('googletagmanager.com')).length, 1);
+    } else {
+      state.funnel.setConsent(true);
+      assert.equal(state.funnel.privacyState().measurement_allowed, false);
+    }
+  }
+  const internal = tracker(); await internal.funnel.ready;
+  assert.equal(internal.loadedScripts.some(src => src.endsWith('/privacy-controls.js')), true);
+});
+test('disabled measurement with lead attribution captures only submission attribution and honors browser opt-outs', async () => {
+  const tags = Object.fromEntries(['utm_source','utm_medium','utm_campaign','utm_id','utm_term','utm_content','utm_source_platform','utm_creative_format','utm_marketing_tactic','gclid','dclid','gbraid','wbraid','fbclid','msclkid','ttclid'].map(key => [key, `demo-${key}`]));
+  const sharedMemory = new Map([['funnel_v2_analytics_consent', 'true']]);
+  const tagged = tracker({ mode:'disabled', attributionMode:'lead', consentUi:'disabled', gtmContainerId:'GTM-ABC1234', sharedMemory, referrer:'', url:`https://site.test/?${new URLSearchParams(tags)}` });
+  const first = await tagged.funnel.context();
+  for (const key of Object.keys(tags)) { assert.equal(first.attribution.first_touch[key], tags[key]); assert.equal(first.attribution.latest_touch[key], tags[key]); }
+  assert.equal(first.attribution.first_touch.landing_page, 'https://site.test/'); assert.equal(first.attribution.first_touch.referrer, ''); assert.ok(first.attribution.first_touch.captured_at);
+  assert.equal(first.analytics_consent, false); assert.equal(tagged.requests.length, 0); assert.equal(tagged.loadedScripts.length, 0);
+  const plain = tracker({ mode:'disabled', attributionMode:'lead', consentUi:'disabled', sharedMemory, referrer:'', url:'https://site.test/' });
+  const retained = await plain.funnel.context();
+  for (const key of Object.keys(tags)) { assert.equal(retained.attribution.first_touch[key], tags[key]); assert.equal(retained.attribution.latest_touch[key], tags[key]); }
+  for (const privacy of [{doNotTrack:'1'},{globalPrivacyControl:true}]) {
+    const blocked = tracker({ mode:'disabled', attributionMode:'lead', consentUi:'disabled', privacy, referrer:'', url:`https://site.test/?${new URLSearchParams(tags)}` });
+    const context = await blocked.funnel.context(); assert.equal(Object.keys(context.attribution.first_touch).length, 0); assert.equal(Object.keys(context.attribution.latest_touch).length, 0);
+  }
 });
 test('customer data is hashed, provider-normalized and pushed before the accepted lead', async () => {
   const state = tracker({ advertisingUserDataMode: 'consent' });
