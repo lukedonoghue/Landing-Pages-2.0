@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "gate": "deployment",
+  "status": "pass_with_warnings",
+  "executed_at": "2026-09-21T11:21:37.929Z",
+  "source_fingerprint": "c47f9354d46734602901f1614cc58b1236abc2a5802aca5091d3a33f0d794bea",
+  "target": {
+    "mode": "handoff",
+    "url": "http://127.0.0.1:8899/"
+  },
+  "tool": {
+    "name": "deployment",
+    "version": "2.2.0"
+  },
+  "execution": {
+    "kind": "automated",
+    "command": "node scripts/live-verify.mjs",
+    "exit_code": 0
+  },
+  "checks": [
+    {
+      "name": "Worker health reports a connected database",
+      "status": "pass"
+    },
+    {
+      "name": "Public privacy policy is valid and uncached",
+      "status": "pass"
+    },
+    {
+      "name": "/api/admin/leads rejects anonymous requests",
+      "status": "pass"
+    },
+    {
+      "name": "/api/admin/metrics rejects anonymous requests",
+      "status": "pass"
+    },
+    {
+      "name": "/api/auth/session rejects anonymous requests",
+      "status": "pass"
+    },
+    {
+      "name": "/admin/ is protected",
+      "status": "pass"
+    },
+    {
+      "name": "/admin/index.html is protected",
+      "status": "pass"
+    },
+    {
+      "name": "/%61dmin/ is protected",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /thank-you.html",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /login.html",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /privacy.html",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /privacy-controls.js",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /privacy-controls.css",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /styles.css",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /script.js",
+      "status": "pass"
+    },
+    {
+      "name": "Public resource loads: /funnel.js",
+      "status": "pass"
+    },
+    {
+      "name": "Optional brochure is not selected for this offer",
+      "status": "pass"
+    },
+    {
+      "name": "Named administrator can sign in",
+      "status": "pass"
+    },
+    {
+      "name": "Public form redirects to its intended thank-you page",
+      "status": "pass"
+    },
+    {
+      "name": "No brochure is required for this offer",
+      "status": "pass"
+    },
+    {
+      "name": "accepted_receipt",
+      "status": "pass"
+    },
+    {
+      "name": "persisted_receipt",
+      "status": "pass"
+    },
+    {
+      "name": "measured_visit",
+      "status": "pass"
+    },
+    {
+      "name": "linked_conversion",
+      "status": "pass"
+    },
+    {
+      "name": "traffic_dimensions",
+      "status": "pass"
+    },
+    {
+      "name": "CRM stage and verification note persist",
+      "status": "pass"
+    },
+    {
+      "name": "Filtered dashboard records the lead without a measured visit or conversion",
+      "status": "pass"
+    },
+    {
+      "name": "Conversion calculation agrees with its filtered cohort",
+      "status": "pass"
+    },
+    {
+      "name": "Public journey has no JavaScript exceptions",
+      "status": "pass"
+    },
+    {
+      "name": "Administrator logout revokes the session",
+      "status": "pass"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/live-verification-attribution-final/runs/001/public-thank-you.png",
+      "type": "screenshot",
+      "sha256": "fb9d5595b89d3ae6400f17200ff1ba657f112e68deff6ece7fa2c53e30ac74fe"
+    },
+    {
+      "path": "build/live-verification-attribution-final/runs/001/public-complete.json",
+      "type": "browser_journey_checkpoint",
+      "sha256": "73b0a0ee7326200fd2c12251887194c08c4b1b2663e0c6b85b58a5846cd3f914"
+    },
+    {
+      "path": "build/live-verification-attribution-final/runs/001/stored-receipt.json",
+      "type": "db_receipt",
+      "sha256": "afd5be9328b6d8cc6cbcd321fab27e4dc67239f62a262a89cd1390f926ed2358"
+    },
+    {
+      "path": "build/live-verification-attribution-final/runs/001/crm-recovery.json",
+      "type": "crm_recovery",
+      "sha256": "9e98aaa829cd9f77a6d48d192fc68a2088d5c2e20c845c30bbf2db5fd232e8f9"
+    },
+    {
+      "path": "build/live-verification-attribution-final/runs/001/dashboard-result.json",
+      "type": "dashboard_result",
+      "sha256": "58883da68c98234f98e3ec1d23cf3924588e31428b08c1e8fea7a9d4e7c7bb43"
+    },
+    {
+      "path": "build/live-verification-attribution-final/runs/001/http-trace.json",
+      "type": "http_trace",
+      "sha256": "21d50a19f03e3005120b5abb6591f7f33a0bdc64a5e919d4c012e4131eb7bee0"
+    },
+    {
+      "path": "build/live-verification-attribution-final/runs/001/event-trace.json",
+      "type": "event_trace",
+      "sha256": "6989bff8aba0214d3259b1eba05ac684e8af7b7fd20c1cd3281ddbdd4f1e75e0"
+    }
+  ],
+  "failures": [],
+  "warnings": [
+    "The controlled test contributes to historical metrics. It is identified in this report and the CRM verification note."
+  ],
+  "fully_verified": true,
+  "mode": "synthetic-browser-journey",
+  "brochure_applicable": false,
+  "journey_assertions": {
+    "named_login": true,
+    "redirect": true,
+    "brochure": true,
+    "receipt_correlation": true,
+    "crm_update": true,
+    "metrics": true,
+    "logout": true
+  },
+  "limits": [
+    "A static/health check alone does not prove contact storage or analytics.",
+    "Browser screenshots are limited to public pages; admin customer data and credentials are never captured.",
+    "Authenticated CRM reads are D1-backed API evidence, not an independent direct SQL query.",
+    "Analytics is disabled; the journey requires an unmeasured lead with no visit/conversion linkage."
+  ],
+  "receipt_id": "36f67b1c-8f5c-43f5-bc6f-625b447effd2",
+  "lead_id": "36d5f498-cc99-434e-a112-88a81493bcda",
+  "cleanup": "retained-synthetic-contact",
+  "synthetic_impact": {
+    "visits": 1,
+    "leads": 1,
+    "historical_metrics_retain_test": true,
+    "lead_id": "36d5f498-cc99-434e-a112-88a81493bcda",
+    "journey_id": "74954e5d-716a-41b7-bd0e-6724c02d620a",
+    "recovery_runs": 1
+  },
+  "observations": {
+    "evidence_source": "authenticated-worker-api-backed-by-D1",
+    "database_id": "local-D1",
+    "lead_id": "36d5f498-cc99-434e-a112-88a81493bcda",
+    "receipt_id": "36f67b1c-8f5c-43f5-bc6f-625b447effd2",
+    "stored_receipt_id": "36f67b1c-8f5c-43f5-bc6f-625b447effd2",
+    "visit_event_id": null
+  },
+  "readiness": "local-journey-verified"
+}

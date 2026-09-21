@@ -118,6 +118,8 @@ test('receipt proof rejects mismatched CRM receipt, missing consent, and wrong s
   assert.equal(verifyCorrelation(receipt, { lead: { ...stored.lead, receipt_id: event } }, submitted, visit, fixture.expected_dimensions).persisted_receipt, false);
   assert.equal(verifyCorrelation(receipt, stored, { ...submitted, analytics_consent: false }, visit, fixture.expected_dimensions).measured_visit, false);
   assert.equal(verifyCorrelation(receipt, stored, submitted, visit, { ...fixture.expected_dimensions, source: 'facebook' }).traffic_dimensions, false);
+  const disabledSubmitted={analytics_consent:false,visitor_id:''},disabledStored={lead:{...stored.lead,visit_event_id:null}};
+  assert.equal(Object.values(verifyCorrelation(receipt,disabledStored,disabledSubmitted,undefined,fixture.expected_dimensions,false)).every(Boolean),true);
 });
 async function serverFixture(t, options = {}) {
   const requests = [];

@@ -1,0 +1,428 @@
+{
+  "schema_version": 1,
+  "gate": "browser_compat",
+  "status": "pass",
+  "executed_at": "2026-09-21T11:25:19.852Z",
+  "source_fingerprint": "45081849448aaad4386ccae1ce267ed023ac37043f3a8f920951e8049ec8d5c3",
+  "target": {
+    "mode": "handoff",
+    "url": "http://127.0.0.1:8899/"
+  },
+  "tool": {
+    "name": "browser_compat",
+    "version": "2.2.0"
+  },
+  "execution": {
+    "kind": "automated",
+    "command": "node scripts/browser-compat.mjs",
+    "exit_code": 0
+  },
+  "checks": [
+    {
+      "name": "chromium 1440x1000: public page loads",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: no horizontal overflow",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: images load",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: built-in privacy choices stay hidden in disabled mode",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: dialog receives keyboard focus",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: body scrolling locked",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: focus stays in dialog",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: Escape closes and returns focus",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: scrolling restored",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: form fields remain reachable",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: mobile inputs avoid zoom-sized text",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: final action reachable",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 1440x1000: no runtime exceptions",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: public page loads",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: no horizontal overflow",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: images load",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: built-in privacy choices stay hidden in disabled mode",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: dialog receives keyboard focus",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: body scrolling locked",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: focus stays in dialog",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: Escape closes and returns focus",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: scrolling restored",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: form fields remain reachable",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: mobile inputs avoid zoom-sized text",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: final action reachable",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 390x844: no runtime exceptions",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: public page loads",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: no horizontal overflow",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: images load",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: built-in privacy choices stay hidden in disabled mode",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: dialog receives keyboard focus",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: body scrolling locked",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: focus stays in dialog",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: Escape closes and returns focus",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: scrolling restored",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: form fields remain reachable",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: mobile inputs avoid zoom-sized text",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: final action reachable",
+      "status": "pass"
+    },
+    {
+      "name": "chromium 320x568: no runtime exceptions",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: public page loads",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: no horizontal overflow",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: images load",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: built-in privacy choices stay hidden in disabled mode",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: dialog receives keyboard focus",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: body scrolling locked",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: focus stays in dialog",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: Escape closes and returns focus",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: scrolling restored",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: form fields remain reachable",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: mobile inputs avoid zoom-sized text",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: final action reachable",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 1440x1000: no runtime exceptions",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: public page loads",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: no horizontal overflow",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: images load",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: built-in privacy choices stay hidden in disabled mode",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: dialog receives keyboard focus",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: body scrolling locked",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: focus stays in dialog",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: Escape closes and returns focus",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: scrolling restored",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: form fields remain reachable",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: mobile inputs avoid zoom-sized text",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: final action reachable",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 390x844: no runtime exceptions",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: public page loads",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: no horizontal overflow",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: images load",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: built-in privacy choices stay hidden in disabled mode",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: dialog receives keyboard focus",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: body scrolling locked",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: focus stays in dialog",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: Escape closes and returns focus",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: scrolling restored",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: form fields remain reachable",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: mobile inputs avoid zoom-sized text",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: final action reachable",
+      "status": "pass"
+    },
+    {
+      "name": "webkit 320x568: no runtime exceptions",
+      "status": "pass"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/browser-compat-attribution-fix/chromium-1440-page.png",
+      "type": "screenshot",
+      "sha256": "80bdc47c8abbd0611e498f38c043f6fecf69d3f2ac6fa2769a2a99450eae5516"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/chromium-1440-modal.png",
+      "type": "screenshot",
+      "sha256": "16855d6db9813f08f18099c57940a6801167bb248c01f7c925ed6417601e5a3e"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/chromium-390-page.png",
+      "type": "screenshot",
+      "sha256": "83cc31c47912f1341b596afd6a75f54b7b1d237d344e5d27e530dd9bef6f1cd1"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/chromium-390-modal.png",
+      "type": "screenshot",
+      "sha256": "a59a1e0cb1f375dcc4563c34ea472aad0ad9f18ea4ec6fb67396f7a7bf583589"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/chromium-320-page.png",
+      "type": "screenshot",
+      "sha256": "16ce52700cee57cf79c6296f8fd18fa2af18407e03e48e47041b451720990ed7"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/chromium-320-modal.png",
+      "type": "screenshot",
+      "sha256": "e8e31821f24e6242343d546cece8089432996701fe65eca7d59513bef52df02f"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/webkit-1440-page.png",
+      "type": "screenshot",
+      "sha256": "f86c86dacf5efa7d64628d1f2b60351763e1fc521d76e8dedb2ccbde16987684"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/webkit-1440-modal.png",
+      "type": "screenshot",
+      "sha256": "63fd316a396b1a0a56bb6bafb7df4e5a4465dae4ca5ec0ed26d124d73b29032b"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/webkit-390-page.png",
+      "type": "screenshot",
+      "sha256": "fc809058f08d747d0863f2653cdfb0a11fad15cf53ce172e6e9190605d5f9ace"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/webkit-390-modal.png",
+      "type": "screenshot",
+      "sha256": "be4ef4a3ea661c80cd2d8edf6661e81499ebd4ee207bd2c51d4717ae1fedcd8f"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/webkit-320-page.png",
+      "type": "screenshot",
+      "sha256": "9ae16cd6fe6b97b8249cf9be18860c62a683345280322a3b2a3b398736c58208"
+    },
+    {
+      "path": "build/browser-compat-attribution-fix/webkit-320-modal.png",
+      "type": "screenshot",
+      "sha256": "2876afa08b70d62b60ca2cebec34e6ceaa6e2b49f2b88c6cd337056907d318c0"
+    }
+  ],
+  "failures": [],
+  "warnings": [],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 320,
+      "height": 568
+    }
+  ],
+  "engines": [
+    {
+      "name": "chromium",
+      "status": "pass"
+    },
+    {
+      "name": "webkit",
+      "status": "pass"
+    }
+  ],
+  "limits": [
+    "WebKit automation is Safari-engine coverage, not a physical iPhone test.",
+    "The short viewport models available keyboard space; it does not emulate an iOS software keyboard.",
+    "Mutating network requests are blocked. Use live-verify for actual submission and receipt persistence.",
+    "Screenshots require an independent visual review; these measurements do not judge design quality."
+  ]
+}
