@@ -63,6 +63,15 @@ class CommunityCoreTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn(json.loads(result.stdout)["status"], {"pass", "pass_with_warnings"})
 
+    def test_fresh_worker_scaffold_contains_rendered_font_dependency(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "new-project"
+            result = self.run_script(SKILL / "scripts" / "scaffold_project.py", root, "--client", "Synthetic fixture", "--website", "https://example.com/")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            dependency = root / "scripts" / "rendered_fonts.mjs"
+            self.assertTrue(dependency.is_file())
+            self.assertEqual(dependency.read_bytes(), (SKILL / "scripts" / "rendered_fonts.mjs").read_bytes())
+
     def test_pdf_must_be_linked_local_and_have_pdf_signature(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

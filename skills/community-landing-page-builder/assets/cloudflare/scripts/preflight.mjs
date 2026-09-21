@@ -35,7 +35,8 @@ function scan(dir){
   if(/\.(html|js|json|txt)$/.test(p)){
    const text=buffer.toString('utf8');
    if(secretNames.some(key=>text.includes(key))||/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/.test(text))failures.push(`Secret configuration leaked into public asset ${p}`);
-   if(p.endsWith('.html')&&/This is a development template|Replace this starter with your approved client content|Your business/.test(text))failures.push(`${p} contains unfinished starter content.`);
+   const starterBrand=/<(?:a|span|div)\b[^>]*\bclass\s*=\s*["'][^"']*\bbrand\b[^"']*["'][^>]*>\s*Your business\s*<\//i.test(text);
+   if(p.endsWith('.html')&&(starterBrand||/This is a development template|Replace this starter with your approved client content/.test(text)))failures.push(`${p} contains unfinished starter content.`);
    if(p.endsWith('.html')&&/data-local-preview\s*=\s*["']true/.test(text))failures.push(`${p} still uses simulated lead delivery.`);
   }
  }

@@ -24,6 +24,8 @@ For each important applied color, record its source and role in the strategy bri
 
 Do not inherit dated typography, layout, photography treatment, gradients, shadows, badges, or color proportions merely because they appear on the client's current website. Brand fidelity means recognizable identity and truthful assets, not reproduction of every legacy design decision.
 
+Inspect every distinct logo treatment, including the footer. A brightness/invert filter on an opaque logo can turn the entire image into a solid rectangle; it does not remove the background. Use a verified suitable variant or the unmodified mark on a compatible surface.
+
 ## Record typography provenance
 
 Separate typography evidence into three labels:
