@@ -8,10 +8,12 @@ Run from the skill directory:
 
 ```bash
 python3 scripts/scan_surfaces.py /path/to/project --report /path/to/project/build/surface-scan.json
-python3 scripts/validate_page.py /path/to/project --report /path/to/project/build/static-review.json
+python3 scripts/validate_page.py /path/to/project --source-site https://business.example --report /path/to/project/build/static-review.json
 ```
 
-The first command blocks prohibited dash characters/entities and unresolved template markers across customer-facing surfaces. The second checks local assets, links, headings, viewport settings, image classification and alt behavior, basic form relationships, primary destinations, and common privacy/tracking failures.
+The first command blocks prohibited dash characters/entities and unresolved template markers across customer-facing surfaces. The second checks local assets, links, headings, viewport settings, image classification and alt behavior, basic form relationships, primary destinations, and common privacy/tracking failures. Supply the actual main business URL with `--source-site`; repeat for any additional official domains. It also blocks links back to those sites and requires a linked local PDF with a PDF signature. A researched omission uses `--omit-brochure-reason "specific source-supported rationale recorded in the strategy brief"`; this is an auditable exception, not automatic evidence that omission is justified.
+
+In the existing browser review, confirm the visitor can actually download and open the PDF, and inspect redirects or scripted navigation for main-site exits. Render and review all PDF pages and links. The static file/signature check cannot prove a usable document, useful content, visible delivery or valid omission rationale.
 
 Report paths are relative to the shell's working directory, not the project argument; absolute paths also work. Link the actual generated files in the handoff.
 

@@ -10,7 +10,7 @@ import sys
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote, urljoin, urlsplit
 
 
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
@@ -41,9 +41,12 @@ class PageParser(HTMLParser):
         self.landmarks: set[str] = set()
         self.current_heading: dict[str, object] | None = None
         self.visitor_text: list[str] = []
+        self.base_url = ""
 
     def handle_starttag(self, tag: str, attrs) -> None:
         data = {key: (value or "") for key, value in attrs}
+        if tag == "base" and not self.base_url:
+            self.base_url = data.get("href", "")
         ancestors = list(self.stack)
         if data.get("id"):
             self.ids.add(data["id"])
@@ -134,6 +137,8 @@ def main() -> int:
     argp.add_argument("project_root", type=Path)
     argp.add_argument("--report", type=Path, help="Output path, relative to the current working directory or absolute")
     argp.add_argument("--allow-multiple-forms", action="store_true")
+    argp.add_argument("--source-site", action="append", default=[], help="Official business URL whose visitor-facing links are prohibited; repeat for additional domains")
+    argp.add_argument("--omit-brochure-reason", default="", help="Source-supported buyer rationale, also recorded in the strategy brief")
     args = argp.parse_args()
 
     project = args.project_root.expanduser().resolve()
@@ -142,6 +147,13 @@ def main() -> int:
     failures: list[str] = []
     warnings: list[str] = []
     checks: dict[str, object] = {}
+    source_hosts = set()
+    for site in args.source_site:
+        parsed_site = urlsplit(site)
+        if parsed_site.scheme not in {"http", "https"} or not parsed_site.hostname:
+            failures.append("--source-site must be a complete http(s) business URL")
+            continue
+        source_hosts.add(parsed_site.hostname.lower().rstrip(".").removeprefix("www."))
     if not index_path.is_file():
         failures.append("Missing index.html")
         documents: list[tuple[Path, PageParser]] = []
@@ -197,6 +209,8 @@ def main() -> int:
     contact_fields = False
     raw_scripts: list[str] = []
     research_voice: list[str] = []
+    main_site_exits: list[str] = []
+    linked_pdfs: set[str] = set()
 
     for document, parser in documents:
         rel = document.relative_to(root).as_posix()
@@ -207,6 +221,16 @@ def main() -> int:
                 missing_assets.append(f"{rel}: {reference}")
         for link in parser.links:
             href = link.get("href", "").strip()
+            destination = urljoin(parser.base_url, href) if parser.base_url else href
+            host = (urlsplit(destination).hostname or "").lower().rstrip(".")
+            if any(host == source or host.endswith("." + source) for source in source_hosts):
+                main_site_exits.append(f"{rel}: {href}")
+            if not rel.startswith("admin/") and is_local(destination) and urlsplit(destination).path.lower().endswith(".pdf"):
+                pdf = resolve_ref(root, document, destination).resolve()
+                if pdf.is_relative_to(root) and pdf.is_file():
+                    with pdf.open("rb") as stream:
+                        if stream.read(5) == b"%PDF-":
+                            linked_pdfs.add(pdf.relative_to(root).as_posix())
             if href.lower().startswith(("privacy", "/privacy")) or "privacy" in href.lower():
                 privacy_present = True
             if not href or href == "#":
@@ -264,6 +288,19 @@ def main() -> int:
     checks["form_issues"] = sorted(set(form_issues))
     checks["dead_links"] = sorted(set(dead_links))
     checks["research_voice_copy"] = sorted(set(research_voice))
+    checks["main_site_exits"] = sorted(set(main_site_exits))
+    checks["source_site_hosts_checked"] = sorted(source_hosts)
+    checks["linked_pdfs"] = sorted(linked_pdfs)
+    checks["brochure_omission_reason"] = args.omit_brochure_reason.strip()
+    if main_site_exits:
+        failures.append("Paid-ad funnel links back to the main business website: " + "; ".join(sorted(set(main_site_exits))))
+    if not linked_pdfs:
+        if args.omit_brochure_reason.strip():
+            warnings.append("PDF omitted: independently review the source-supported rationale in the strategy brief")
+        else:
+            failures.append("No linked local PDF with a valid PDF signature; provide the useful document or a researched omission reason")
+    if not source_hosts:
+        warnings.append("Main-site exit check needs --source-site with the official business URL")
     if research_voice:
         failures.append("Source-research phrasing in visitor copy; state the business service directly: " + "; ".join(sorted(set(research_voice))))
     invalid_downloads = []

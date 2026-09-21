@@ -34,3 +34,9 @@ Use a separate demonstration Worker and D1 database. Only clearly synthetic enqu
 Running. The independent builder has scaffolded the new project. No new deployment or live CRM success is claimed. The parent has asked the user to choose the Cloudflare account and provide GTM/Ads destination IDs. Prior Byrider identity is historical evidence only, not permission to silently select that account.
 
 Usage at launch was 71% used; the next observed account-wide reading was 72% used. Source/evidence checkpoints remain on `community/pro-review-handoff-20260918`. Luke's original files and README are untouched.
+
+## Mid-Run Scope Record
+
+The user subsequently confirmed this run should continue through deployment and CRM tests, while new PDF-default and no-main-site-exit requirements should be fixed in the canonical skill for the next independent run. See PDF-AND-PAID-AD-CONTAINMENT-20260921.md. The builder was told only this scope separation, not given revised design instructions or earlier audit findings. Two progress-only coordination messages requested stage/blockers and relayed that account/Ads inputs remained pending.
+
+At 07:20 UTC the new local Worker at http://127.0.0.1:8899/ served the Clarentis page and /api/health reported a connected database. This is not yet local-journey, deployment or CRM acceptance. The parent's initial asset review found four distinct accounting-related generated images; final placement and disclosure review remains pending. Most recent budget check: 73% used, 27% remaining.

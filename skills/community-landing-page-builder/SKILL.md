@@ -1,6 +1,6 @@
 ---
 name: community-landing-page-builder
-description: Build or refresh a researched, branded, conversion-focused landing page from a business website, with responsive implementation, honest imagery, an appropriate lead action, and visual QA. Use for one-prompt landing-page work by nontechnical business owners. Brochures, tracking, CRM, deployment, and other infrastructure are optional modules, not default requirements.
+description: Build or refresh a researched, branded, conversion-focused landing page from a business website, with responsive implementation, honest imagery, a useful PDF, an appropriate lead action, and visual QA. Use for one-prompt landing-page work by nontechnical business owners. Tracking, CRM, deployment, and other infrastructure are optional modules.
 ---
 
 # Community Landing Page Builder
@@ -11,7 +11,7 @@ Treat the user as a business owner who may have no website, AI, hosting, analyti
 
 Complete the research, strategy, copy, design, implementation, and local QA without asking the user to make technical decisions. Ask only when an unresolved fact would materially change the offer, legal claim, primary action, required form field, or external destination. Do not stop for copy or design approval unless the user requested an approval checkpoint.
 
-The default result is a polished local landing page with a real conversion path and concise QA evidence. It is not automatically a brochure, CRM, analytics stack, database, reporting product, deployment, or maintenance system.
+The default result is a polished local landing page, a useful downloadable PDF, a real conversion path and concise QA evidence. It is not automatically a CRM, analytics stack, database, reporting product, deployment, or maintenance system.
 
 ## Absolute rules
 
@@ -26,13 +26,15 @@ These rules override examples and optional modules.
 7. **No secret or private-service prerequisite.** Do not ask for API keys, MCP servers, private ad accounts, GitHub access, or hosting credentials to produce the local final. Request only the access needed for a user-selected external action, and only when that action is ready.
 8. **Publishing and live tests need authorization.** A request that explicitly says to publish is authorization for that publication. Otherwise stop at the local final and ask once. Never submit a live lead without permission and clear test labeling.
 9. **Enquiry CTAs open the form in place.** On a form-led page, every enquiry/quote CTA opens the same accessible popup journey without jumping to another page section. A research-supported inline form is additional access, not a substitute for the popup. Preserve one shared form state and submission handler. Phone, navigation, booking, purchase and download controls retain their actual purpose.
+10. **Keep paid-ad visitors in the funnel.** No visitor-facing links back to the business's main website or its subdomains, including logo, navigation, service details, footer, privacy, thank-you and PDF links. Bring verified decision information and relevant legal content into the funnel; keep research citations in owner notes. Call/email actions and a genuinely required third-party booking or payment destination are distinct from main-site browsing. If the only conversion destination is on the main site, resolve that conflict before promising a working path; do not silently break either rule. Verify redirects and scripted navigation as well as HTML links.
+11. **A useful PDF is the default.** Create a concise, researched guide, service overview, options summary, checklist, catalogue or verified price list appropriate to the buyer. Do not invent prices, proof or a lead magnet promise. Omit the PDF only when research establishes a concrete reason it would not help this buyer, recorded with supporting sources in the existing strategy brief. Lack of a supplied PDF, no explicit request, limited time or a page-only default is not a reason. Keep it secondary unless research supports a download-led offer; do not force an enquiry just to access a useful document.
 
 ## Choose the smallest valid mode
 
-- **Default landing page:** researched copy, custom responsive design, purposeful imagery, one real conversion path, local preview, and QA.
+- **Default landing page:** researched copy, custom responsive design, purposeful imagery, a useful PDF unless a researched exception applies, one real conversion path, local preview, and QA.
 - **Refresh:** preserve working behavior, then re-audit claims, brand, imagery, conversion behavior, accessibility, and QA.
 - **Copy-only or audit-only:** produce only the requested analysis or copy. Do not scaffold a site or infrastructure.
-- **Optional brochure:** activate only when the offer genuinely includes a guide, catalogue, menu, or document, or when the user asks for one.
+- **Brochure/PDF:** select its useful content and delivery from research; read [references/catalogue-workflow.md](references/catalogue-workflow.md). A copy-only or audit-only request does not trigger PDF creation.
 - **Optional form backend or CRM:** a source form means lead collection is already selected. Rebuild the form experience locally even when production wiring is pending. Activate backend or CRM infrastructure only when a real destination is requested or authorized.
 - **Optional tracking:** activate only when requested or supplied. Local page quality does not depend on GTM or ad-account access.
 - **Optional deployment or handoff:** activate only when requested. Use the user's chosen provider when stated; otherwise propose one simple supported route after the local final.
@@ -111,7 +113,7 @@ Every severe finding blocks delivery. Resolve each warning or record a specific,
 
 ### 7. Deliver locally before external setup
 
-Present the local page, conversion behavior, representative screenshots, and concise QA result first. Then request only the values needed by selected optional modules. Missing Cloudflare, GitHub, GTM, an ad account, an image API key, a CRM, or a brochure must not block a good local page when that module was not selected.
+Present the local page, PDF or researched omission, conversion behavior, representative screenshots, and concise QA result first. Then request only the values needed by selected optional modules. Missing Cloudflare, GitHub, GTM, an ad account, an image API key or a CRM must not block a good local page when that module was not selected.
 
 Use status language that matches reality:
 
@@ -139,6 +141,7 @@ No optional module may weaken the absolute rules or change a stored lead into an
 ## Default deliverables
 
 - responsive landing page and local assets;
+- a linked, rendered and reviewed useful PDF, or a source-supported omission in the strategy brief;
 - the selected conversion behavior and a thank-you state when applicable;
 - compact strategy, claim, copy, and image notes;
 - representative mobile, tablet, laptop, short-height laptop, and desktop screenshots;

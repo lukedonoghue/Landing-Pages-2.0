@@ -22,7 +22,7 @@ CLEAN_HTML = """<!doctype html>
 <main id="main"><h1>Clear local service</h1>
 <img src="assets/team.webp" width="800" height="600" data-image-role="proof" alt="The service team at work">
 <a data-primary-action href="tel:+15555550100">Call the team</a></main>
-<footer><a href="privacy.html">Privacy</a></footer>
+<footer><a href="privacy.html">Privacy</a><a href="assets/guide.pdf">Service guide</a></footer>
 </body></html>
 """
 
@@ -39,6 +39,7 @@ class CommunityCoreTests(unittest.TestCase):
     def make_clean_project(self, root: Path):
         (root / "assets").mkdir()
         (root / "assets" / "team.webp").write_bytes(b"fake-webp-for-static-path-test")
+        (root / "assets" / "guide.pdf").write_bytes(b"%PDF-1.4\nStatic signature fixture, not render evidence")
         (root / "privacy.html").write_text("<main><h1>Privacy</h1></main>", encoding="utf-8")
         (root / "index.html").write_text(CLEAN_HTML, encoding="utf-8")
 
@@ -61,6 +62,60 @@ class CommunityCoreTests(unittest.TestCase):
             result = self.run_script(VALIDATE, root)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn(json.loads(result.stdout)["status"], {"pass", "pass_with_warnings"})
+
+    def test_pdf_must_be_linked_local_and_have_pdf_signature(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_clean_project(root)
+            cases = [
+                CLEAN_HTML.replace('<a href="assets/guide.pdf">Service guide</a>', ''),
+                CLEAN_HTML.replace('href="assets/guide.pdf"', 'href="https://example.com/guide.pdf"'),
+            ]
+            for html in cases:
+                (root / "index.html").write_text(html, encoding="utf-8")
+                result = self.run_script(VALIDATE, root)
+                self.assertNotEqual(result.returncode, 0, result.stdout)
+                self.assertEqual(json.loads(result.stdout)["checks"]["linked_pdfs"], [])
+            (root / "index.html").write_text(CLEAN_HTML, encoding="utf-8")
+            (root / "assets" / "guide.pdf").write_bytes(b"<html>Missing PDF</html>")
+            result = self.run_script(VALIDATE, root)
+            self.assertNotEqual(result.returncode, 0, result.stdout)
+
+    def test_pdf_omission_is_explicit_and_remains_reviewable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_clean_project(root)
+            (root / "index.html").write_text(CLEAN_HTML.replace('<a href="assets/guide.pdf">Service guide</a>', ''), encoding="utf-8")
+            reason = "Urgent response journey; source-backed buyer analysis in strategy brief"
+            result = self.run_script(VALIDATE, root, "--omit-brochure-reason", reason)
+            self.assertEqual(result.returncode, 0, result.stdout)
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["checks"]["brochure_omission_reason"], reason)
+            self.assertTrue(any("independently review" in text for text in payload["warnings"]))
+
+    def test_main_site_links_block_www_subdomains_and_protocol_relative_urls(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_clean_project(root)
+            for url in ("https://example.com/", "https://WWW.EXAMPLE.COM/services", "//shop.example.com/guide", "https://example.com./"):
+                with self.subTest(url=url):
+                    (root / "index.html").write_text(CLEAN_HTML.replace('</main>', f'<a href="{url}">More</a></main>'), encoding="utf-8")
+                    result = self.run_script(VALIDATE, root, "--source-site", "https://www.example.com/")
+                    self.assertNotEqual(result.returncode, 0, result.stdout)
+                    self.assertTrue(json.loads(result.stdout)["checks"]["main_site_exits"])
+            safe = '<a href="mailto:hello@example.com">Email</a><a href="https://notexample.com/book">Booking</a>'
+            (root / "index.html").write_text(CLEAN_HTML.replace('</main>', safe + '</main>'), encoding="utf-8")
+            result = self.run_script(VALIDATE, root, "--source-site", "https://example.com/")
+            self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_main_site_exit_check_includes_thankyou_and_base_destinations(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_clean_project(root)
+            (root / "thank-you.html").write_text('<base href="https://example.com/"><main><a href="services">Services</a></main>', encoding="utf-8")
+            result = self.run_script(VALIDATE, root, "--source-site", "https://example.com/")
+            self.assertNotEqual(result.returncode, 0, result.stdout)
+            self.assertIn("thank-you.html: services", json.loads(result.stdout)["checks"]["main_site_exits"])
 
     def test_static_validator_catches_research_voice_in_collapsed_faq(self):
         with tempfile.TemporaryDirectory() as directory:

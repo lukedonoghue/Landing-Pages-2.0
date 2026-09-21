@@ -12,7 +12,7 @@ assets/
 build/
 ```
 
-Add `thank-you.html` only when the selected journey needs a separate success page. Add brochure, backend, CRM, tracking, publishing, or handoff files only when that module is active. Use a framework only when the existing project or user requires one.
+Add `thank-you.html` only when the selected journey needs a separate success page. Include a useful PDF and working local download unless the researched omission rule applies. Add backend, CRM, tracking, publishing, or handoff files only when that module is active. Use a framework only when the existing project or user requires one.
 
 ## Responsive page
 
@@ -119,6 +119,8 @@ For an email-led source journey, prefer its direct email action over inserting a
 ## Metadata and destinations
 
 Use a descriptive title and meta description. Add structured data only for supported facts. Keep preview/private/thank-you routes out of search where appropriate, while an intended public landing page remains indexable after launch. Privacy and terms links must resolve to real, relevant destinations.
+
+Do not link paid-ad visitors back to the business's main website, including from the logo, service information, privacy, success page or PDF. Keep relevant information and legal pages within this funnel without inventing legal commitments; unresolved legal content is a launch input. Record source-site hosts for the existing static check. Inspect runtime redirects, scripted links and PDF annotations during the existing browser/PDF review. Research citations in internal notes are not visitor links.
 
 ## Tracking and privacy
 
