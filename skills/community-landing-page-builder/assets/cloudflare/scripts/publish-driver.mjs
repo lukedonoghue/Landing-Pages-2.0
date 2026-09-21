@@ -10,6 +10,19 @@ import { UUID, read, atomic, inside, hash, validateTarget, chooseOrigin, origins
 const allowed=new Set(['resume','new-release','url','fixture','credentials-file','password-file','python','browser-executable']);
 export const APPLICATION_TEST_TIMEOUT_MS=720000;
 const success=result=>{if(result.code!==0)throw new Error('A required local/publishing command failed. Inspect the private release diagnostic; no success was assumed.');return result.stdout;};
+export async function applicationRegressions(root,run) {
+  if(!existsSync(path.join(root,'tests/backend.test.mjs')))throw new Error('Application regressions are missing.');
+  const tests=readdirSync(path.join(root,'tests')).filter(name=>name.endsWith('.test.mjs')).sort().map(name=>'tests/'+name);
+  const log=inside(root,'.secrets/full-regression-publish-'+randomUUID()+'.log',true);
+  let testOutput;
+  try {
+    testOutput=success(await run(process.execPath,['--test','--test-concurrency=1','--test-reporter=tap',...tests],{timeout:APPLICATION_TEST_TIMEOUT_MS,log}));
+    testSummary(testOutput);
+  } catch {
+    throw new Error('Application regressions did not complete and pass. Inspect the private diagnostic: '+log);
+  }
+  writeFileSync(path.join(root,'build/full-regression-publish.tap'),testOutput,{mode:0o600});
+}
 export function argumentsFor(argv) {
   const args=parseArgs(argv);
   if(Object.keys(args).some(key=>!allowed.has(key)))throw new Error('Unsupported publish option. Use private credential files, --resume, or --new-release.');
@@ -58,11 +71,7 @@ export async function localPreconditions(root,args,auth,run) {
   const python=args.python||process.env.FUNNEL_PYTHON||'python3';
   success(await run(python,['scripts/workflow.py','check-publish','.']));
   success(await run(process.execPath,['scripts/preflight.mjs']));
-  if(!existsSync(path.join(root,'tests/backend.test.mjs')))throw new Error('Application regressions are missing.');
-  const tests=readdirSync(path.join(root,'tests')).filter(name=>name.endsWith('.test.mjs')).sort().map(name=>'tests/'+name);
-  const testOutput=success(await run(process.execPath,['--test','--test-concurrency=1','--test-reporter=tap',...tests],{timeout:APPLICATION_TEST_TIMEOUT_MS}));
-  writeFileSync(path.join(root,'build/full-regression-publish.tap'),testOutput,{mode:0o600});
-  testSummary(testOutput);
+  await applicationRegressions(root,run);
   const wrangler=read(path.join(root,'node_modules/wrangler/package.json'));
   if(wrangler.version!=='4.115.0')throw new Error('Install the locked Wrangler version with npm ci before using this release adapter.');
   return fixture;
