@@ -144,7 +144,7 @@ test('available email configuration remains explicitly unverified until the deli
     await page.locator('[data-view=users]').click(); await page.getByRole('heading',{name:'Workspace users'}).waitFor();
     const provider=page.locator('.users-provider'),setup=page.locator('.users-security-setup');
     assert.equal(await provider.getByText('Email settings are available',{exact:true}).isVisible(),true);
-    assert.match(await provider.textContent(),/Email connection settings are present\. Confirm your email below to finish account setup\./);
+    assert.match(await provider.textContent(),/Email connection settings are present\. Each new recipient must verify their inbox in Cloudflare before an invitation can be sent\./);
     assert.doesNotMatch(await provider.textContent(),/email delivery is configured|setup complete/i);
     assert.equal(await setup.evaluate(node=>node.open),false);
     assert.equal(await page.getByRole('button',{name:'Send invitation'}).isEnabled(),true);
