@@ -120,6 +120,8 @@ At minimum:
 
 Every severe finding blocks delivery. Resolve each warning or record a specific, evidence-based acceptance decision. A generic `looks good` or a screenshot path without observations is not review evidence.
 
+Acceptance must compare the delivered behavior with the user's selected features, not just with the current configuration. A deliberately disabled requested feature is an unresolved blocker, not a passing negative test. The complete CRM workflow must retain the same page, copy and brand standards as the lightweight workflow; use the current bundled helpers rather than a frozen older checker. Keep a defect open until the corrected behavior is observed after the last relevant change. A targeted repair is not evidence that a fresh independent build will avoid the defect.
+
 ### 7. Deliver locally before external setup
 
 Present the local page, PDF or researched omission, conversion behavior, representative screenshots, and concise QA result first. Then request only the values needed by selected optional modules. Missing Cloudflare, GitHub, GTM, an ad account, an image API key or a CRM must not block a good local page when that module was not selected.
@@ -143,7 +145,7 @@ When a brochure is selected, read [references/catalogue-workflow.md](references/
 Load these only when selected:
 
 - **Advertising and GTM:** [references/advertising-tracking.md](references/advertising-tracking.md). Keep raw contact data out of analytics. The optional contract uses `customer_data_ready` for consented provider-normalized hashes and `lead_accepted` for the confirmed conversion receipt. Google is primary; Meta and Microsoft require destination-specific verification.
-- **Lead backend and CRM:** [references/lead-and-tracking-contract.md](references/lead-and-tracking-contract.md) and [references/cloudflare-crm.md](references/cloudflare-crm.md).
+- **Lead backend and CRM:** [references/lead-and-tracking-contract.md](references/lead-and-tracking-contract.md) and [references/cloudflare-crm.md](references/cloudflare-crm.md). Reuse the bundled tested backend; customize configuration, not the attribution/storage/auth implementation. Verify both shared-code identity and the requested campaign values persisted in the CRM.
 - **Cloudflare publishing:** [references/guided-publishing.md](references/guided-publishing.md). Deployment is not implied by a local build.
 - **Long-lived handoff, retention, backup, or recovery:** load the matching existing references only when requested.
 

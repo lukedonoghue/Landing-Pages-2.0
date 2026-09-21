@@ -11,6 +11,8 @@ import { atomic, read, validateTarget, chooseOrigin, originsFromOutput, provider
 const id='11111111-1111-4111-8111-111111111111', db='22222222-2222-4222-8222-222222222222';
 const version='33333333-3333-4333-8333-333333333333', other='44444444-4444-4444-8444-444444444444';
 const fingerprint='a'.repeat(64), url='https://protocol.example';
+const attributionKeys=['utm_source','utm_medium','utm_campaign','utm_id','utm_term','utm_content','utm_source_platform','utm_creative_format','utm_marketing_tactic','gclid','dclid','gbraid','wbraid','fbclid','msclkid','ttclid'];
+const campaignQuery=Object.fromEntries(attributionKeys.map(key=>[key,`release-${key}`]));campaignQuery.utm_source='google';campaignQuery.utm_medium='cpc';
 test('mandatory serial application regression has a bounded twelve-minute publish budget',()=>assert.equal(APPLICATION_TEST_TIMEOUT_MS,720000));
 const config={name:'protocol-fixture',account_id:'b'.repeat(32),routes:[{pattern:'protocol.example',custom_domain:true}],d1_databases:[{binding:'DB',database_id:db}],assets:{directory:'public',run_worker_first:true},version_metadata:{binding:'CF_VERSION_METADATA'}};
 const target=validateTarget(config);
@@ -173,7 +175,7 @@ test('resume validates an overridden origin before any inspection or mutations',
   assert.equal(f.calls.inspect,0);assert.equal(f.calls.verify,0);
 });
 test('actual browser prerequisite fails early for an unavailable executable',async t=>{
-  const f=fixture(t);f.put('test-fixture.json',{synthetic:true,path:'/',thank_you_path:'/thank-you.html',pdf_path:'/brochure.pdf',selectors:Object.fromEntries(['openModal','modal','step','next','submit','closeModal','error'].map(key=>[key,'#'+key])),fields:{name:'Synthetic'},query:{utm_source:'google',utm_medium:'cpc'},expected_dimensions:{source:'google',traffic:'paid',device:'desktop'}});
+  const f=fixture(t);f.put('test-fixture.json',{synthetic:true,path:'/',thank_you_path:'/thank-you.html',pdf_path:'/brochure.pdf',selectors:Object.fromEntries(['openModal','modal','step','next','submit','closeModal','error'].map(key=>[key,'#'+key])),fields:{name:'Synthetic'},query:campaignQuery,excluded_query:{email:'excluded-release@example.invalid',token:'synthetic-release-secret'},expected_policy:{analytics_mode:'consent',attribution_mode:'consent',advertising_user_data_mode:'disabled',browser_opt_out:false},expected_features:{first_party_attribution:true,measured_visit:true},expected_dimensions:{source:'google',traffic:'paid',device:'desktop'}});
   f.put('build/workflow.json',{approvals:{publish:{allow_test_lead:true}}});let commands=0;
   await assert.rejects(localPreconditions(f.root,{'browser-executable':'/missing-synthetic-browser'}, {password:'synthetic'},async()=>{commands++;}),/Chromium|fixture/);
   assert.equal(commands,0);

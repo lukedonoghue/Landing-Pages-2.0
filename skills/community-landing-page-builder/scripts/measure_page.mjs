@@ -6,8 +6,9 @@ import { createRequire } from 'node:module';
 import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { readRenderedFonts } from './rendered_fonts.mjs';
+import { inspectModalChrome } from './modal_chrome.mjs';
 
-const VERSION = '1.8.1';
+const VERSION = '1.9.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -386,6 +387,8 @@ async function inspectModal(page, viewport, name) {
   check('modal_primary_action_visible', actionResult.found && actionResult.visibleInViewport && actionResult.unobscured, JSON.stringify(actionResult), { viewport });
 
   const screenshot = await addShot(page, `${name}-modal`, false);
+  const chrome = await inspectModalChrome(page, dialog);
+  check('modal_close_has_clear_space', chrome.present && chrome.conflicts.length === 0, JSON.stringify(chrome), { viewport, screenshot });
   const keyboard = await inspectTabVisibility(page, dialog);
   const obscured = keyboard.stops.filter((stop) => !stop.unobscured);
   check('modal_tab_focus_unobscured', keyboard.complete && !keyboard.escaped && keyboard.stops.length > 0 && obscured.length === 0,
@@ -474,7 +477,8 @@ try {
         const observedFont = observed.renderedFonts?.[0]?.familyName;
         const renderedMatches = expectedFont && observedFont ? family(expectedFont) === family(observedFont) : null;
         report.typographyComparison.push({ viewport, role, source: expected[role], applied: observed, matches, renderedMatches });
-        if (!matches) warn(`${name}: ${role} font differs: source ${expected[role].fontFamily}; applied ${observed.fontFamily}. Restore source font or document a permitted substitution with evidence.`);
+        check('source_brand_font_matches', matches,
+          `${role}: source ${expected[role].fontFamily}; applied ${observed.fontFamily}. Any permitted substitution needs separate source-backed review, not an automatic pass.`, { viewport });
         if (matches && renderedMatches !== null) {
           check('declared_brand_font_really_renders', renderedMatches,
             `${role}: source renders ${expectedFont}; page renders ${observedFont}`, { viewport });
@@ -520,7 +524,7 @@ try {
       await page.setViewportSize(narrow);
       await page.evaluate(() => scrollTo(0, 0));
       const screenshot = await addShot(page, '320x700-first', false);
-      report.narrowSpot = { ...narrow, screenshot, phones: await inspectDisplayedPhone(page, narrow) };
+      report.narrowSpot = { ...narrow, screenshot, phones: await inspectDisplayedPhone(page, narrow), modal: await inspectModal(page, narrow, '320x700') };
     }
     await context.close();
   }

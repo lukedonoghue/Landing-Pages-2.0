@@ -93,6 +93,8 @@ Review each used image with asset-specific evidence. For an overlaid hero, name 
 
 Crop warnings name the actual asset and placement. Resolve each one separately; a reviewed hero does not clear unrelated service-image warnings. An explicit image ratio that disagrees with its rendered box indicates a sizing conflict to fix, not proof that the declared ratio took effect.
 
+Check the actual image box after loading, including `contain` previews: width plus an HTML source-height attribute can create excessive blank space despite an `aspect-ratio` declaration. Preserve intrinsic dimensions for layout stability, but use responsive `height: auto` or a deliberately sized wrapper as appropriate. At the 320px modal spot check, compare the full close-button target with eyebrow/title text, not only its icon or focused state. Keep a verified public number near the top even when a controlled demo must disable real calling; label that demo exception rather than burying contact information.
+
 Before treating an image-load failure as a page defect, scroll the named placement into view and wait for that image to decode within a bounded interval. Check its response and pixels. Report a confirmed broken asset separately from a capture-timing failure; do not repair a valid page to satisfy a premature screenshot. Include tablet overlays and every repeated image placement in the existing pixel review, and inspect both compact success and long form states.
 
 ## 4. Conversion gate

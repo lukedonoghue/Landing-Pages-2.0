@@ -78,6 +78,38 @@ class GtmBuilderTests(unittest.TestCase):
         self.assertIn("Meta Pixel - Lead", raw)
         self.assertIn("Microsoft UET - Lead", raw)
 
+    def test_documented_synthetic_draft_cli_uses_output_and_is_labeled_not_live(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        output = Path(directory.name) / "gtm-container.synthetic-draft-not-live.json"
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--gtm-id",
+                "GTM-SYNTHETIC",
+                "--google-ads-id",
+                "0000000000",
+                "--google-ads-label",
+                "SYNTHETIC_DRAFT_NOT_LIVE",
+                "--action-name",
+                "Synthetic Draft - Not Live",
+                "--client-name",
+                "SYNTHETIC DRAFT - NOT LIVE",
+                "--hostname",
+                "attribution-verification.example.invalid",
+                "--output",
+                str(output),
+            ],
+            text=True,
+            capture_output=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        version = json.loads(output.read_text())["containerVersion"]
+        self.assertEqual(version["container"]["publicId"], "GTM-SYNTHETIC")
+        self.assertEqual(version["container"]["name"], "SYNTHETIC DRAFT - NOT LIVE")
+        self.assertIn("Synthetic Draft - Not Live", output.read_text())
+
 
 if __name__ == "__main__":
     unittest.main()

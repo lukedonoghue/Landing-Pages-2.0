@@ -5,3 +5,9 @@
 
 .link-button{display:inline;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:none;color:#136e63;font-size:inherit;text-decoration:underline}.link-button:hover{background:none;color:#0d584e}.secondary-action{justify-content:center;background:#fff;color:#136e63;border-color:#bfcfc3}.secondary-action:hover{background:#edf3ef}.form-help{font-size:.75rem;line-height:1.6;color:#64796c;margin:10px 0 2px}#reset-error{color:#a32d36;font-size:.8rem;line-height:1.5;margin:10px 0 8px}#reset-error:empty{margin:6px 0}#reset-email{margin-bottom:0}
 #password-fields{display:flex;flex-direction:column}#password-fields input{margin-bottom:20px}#action-error{color:#a32d36;font-size:.8rem;line-height:1.5;margin:10px 0 8px}#action-error:empty{margin:6px 0}#action-status{font-size:.75rem;color:#64796c;line-height:1.5}
+
+/* Final accessibility overrides for muted text and display typography. */
+[hidden]{display:none!important}
+.intro h1{font-size:4rem;letter-spacing:0}.sign-in h2{letter-spacing:0}.eyebrow{color:#4f675a}.description,.help,.form-help,#login-status,#action-status{color:#52685b}
+@media(max-width:800px){.intro h1{font-size:2.8rem}}
+@media(max-width:620px){.intro h1{font-size:2.25rem}}

@@ -8,6 +8,8 @@
   "consentUiMode": "external",
   "sensitiveCategory": false,
   "gtmContainerId": "",
+  "publicHost": "",
+  "crmHost": "",
   "allowedPaths": [
     "/",
     "/index.html"

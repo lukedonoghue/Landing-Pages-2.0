@@ -126,10 +126,11 @@ def main():
                 assert all(c['matches'] for c in font_checks if c['role'] == 'heading'), font_checks
                 assert all(c['renderedMatches'] == (name != 'font-fallback') for c in font_checks if c['role'] == 'heading'), font_checks
                 assert all(c['matches'] == (name != 'font-drift') for c in font_checks if c['role'] == 'body'), font_checks
-                assert any('body font differs' in w for w in report['warnings']) == (name == 'font-drift'), report['warnings']
+                source_font_checks = [c for c in report['checks'] if c['name'] == 'source_brand_font_matches']
+                assert any(c['status'] == 'blocked' for c in source_font_checks) == (name == 'font-drift'), source_font_checks
                 keyboard = [c for c in report['checks'] if c['name'] == 'modal_tab_focus_unobscured']
                 if name.startswith('modal-'):
-                    assert len(keyboard) == 5, keyboard
+                    assert len(keyboard) == 6, keyboard
                     expected_keyboard = 'blocked' if name == 'modal-covered' else 'pass'
                     assert all(c['status'] == expected_keyboard for c in keyboard), keyboard
                 else:
@@ -146,7 +147,7 @@ def main():
                         assert phone['status'] == expected_phone, phone
                 else:
                     assert not phones, phones
-                assert (result.returncode == 0) == (name in ['visible', 'font-drift', 'modal-clear', 'font-loaded', 'image-responsive', 'phone-readable']), report['failures']
+                assert (result.returncode == 0) == (name in ['visible', 'modal-clear', 'font-loaded', 'image-responsive', 'phone-readable']), report['failures']
         finally:
             server.shutdown()
             server.server_close()

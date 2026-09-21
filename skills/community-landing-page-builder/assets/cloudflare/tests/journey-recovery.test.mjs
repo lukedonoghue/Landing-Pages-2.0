@@ -11,14 +11,22 @@ import { spawnSync } from 'node:child_process';
 import { build } from 'esbuild';
 import { Miniflare } from 'miniflare';
 import { unstable_splitSqlQuery } from 'wrangler';
-import { runLiveVerify } from '../scripts/live-verify.mjs';
+import { ATTRIBUTION_KEYS, runLiveVerify, testRunOptions } from '../scripts/live-verify.mjs';
 import { atomic, read, currentSourceFingerprint } from '../scripts/release-tools.mjs';
 
 const template=fileURLToPath(new URL('../',import.meta.url));
-const fixture={synthetic:true,path:'/',thank_you_path:'/thank-you.html',pdf_path:'/assets/brochure/catalogue.pdf',fields:{first_name:'Recovery',last_name:'Synthetic',email:'recovery@example.invalid',phone:'+44 7700 900123',service:'Service one',contact_method:'Email'},selectors:{openModal:'[data-open-modal]',modal:'#lead-modal',step:'.wizard__step',next:'[data-next]',submit:'[data-submit]',closeModal:'[data-close-modal]',error:'[data-form-error]',consentAccept:'[data-analytics-consent="accept"]'},query:{utm_source:'google',utm_medium:'cpc'},expected_dimensions:{source:'google',traffic:'paid',device:'desktop'}};
+const campaignQuery=Object.fromEntries(ATTRIBUTION_KEYS.map(key=>[key,`recovery-${key}`]));campaignQuery.utm_source='google';campaignQuery.utm_medium='cpc';
+const fixture={synthetic:true,path:'/',thank_you_path:'/thank-you.html',pdf_path:'/assets/brochure/catalogue.pdf',fields:{first_name:'Recovery',last_name:'Synthetic',email:'recovery@example.invalid',phone:'+44 7700 900123',service:'Service one',contact_method:'Email'},selectors:{openModal:'[data-open-modal]',modal:'#lead-modal',step:'.wizard__step',next:'[data-next]',submit:'[data-submit]',closeModal:'[data-close-modal]',error:'[data-form-error]',consentAccept:'[data-analytics-consent="accept"]'},query:campaignQuery,excluded_query:{email:'excluded-recovery@example.invalid',token:'synthetic-recovery-secret',unknown_campaign:'synthetic-recovery-unknown'},expected_policy:{analytics_mode:'consent',attribution_mode:'consent',advertising_user_data_mode:'disabled',browser_opt_out:false},expected_features:{first_party_attribution:true,measured_visit:true},expected_dimensions:{source:'google',traffic:'paid',device:'desktop'}};
 const password='private-synthetic-owner-password',salt='1'.repeat(32);
 const encoded=`pbkdf2_sha256$100000$${salt}$${pbkdf2Sync(password,Buffer.from(salt,'hex'),100000,32,'sha256').toString('hex')}`;
 const lightbox=[path.join(template,'public/script.js'),path.join(template,'../multistep-lightbox.js')].find(existsSync);
+
+test('recovery journey fixture satisfies the explicit attribution feature contract',()=>{
+  assert.deepEqual(testRunOptions({'allow-test-lead':true},fixture),{readOnly:false});
+  assert.deepEqual(Object.keys(fixture.query).sort(),[...ATTRIBUTION_KEYS].sort());
+  assert.deepEqual(fixture.expected_features,{first_party_attribution:true,measured_visit:true});
+  assert.ok(Object.keys(fixture.excluded_query).every(key=>!ATTRIBUTION_KEYS.includes(key)));
+});
 
 async function site(t) {
   const root=mkdtempSync(path.join(os.tmpdir(),'real-journey-recovery-'));const requests=[];let ip=0,dropNote=false,dropStatus=false;
@@ -132,7 +140,9 @@ test('concurrent CRM edits are retained and private payload tampering cannot res
   assert.equal(recovered.recovery.code,'contact_changed');assert.match(recovered.recovery.instruction,/preserve those edits/);
   assert.equal((await f.db.prepare('SELECT status FROM leads').first()).status,'engaged');assert.equal(posts(f,'/api/leads'),1);
   await assert.rejects(runLiveVerify({...f.args,'read-only':true,'allow-test-lead':false}),/Preserve/);
-  await assert.rejects(runLiveVerify({...f.args,fixture:{...fixture,query:{utm_source:'changed'}},'resume-journey':true}),/does not match/);
+  await assert.rejects(runLiveVerify({...f.args,fixture:{...fixture,query:{...fixture.query,utm_source:'changed'}},'resume-journey':true}),error=>{
+    assert.equal(error.code,'binding_mismatch');assert.match(error.message,/does not match/);return true;
+  });
 });
 test('a changed private request is blocked before any retry reaches the lead endpoint',async t=>{
   const f=await site(t);await runLiveVerify(f.args,failAt('before-acknowledgement'));
