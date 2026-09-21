@@ -190,6 +190,30 @@ class ImageWorkflowTests(unittest.TestCase):
         with self.assertRaisesRegex(workflow.WorkflowError, "user instruction"):
             workflow.validate_plan(self.plan)
 
+    def test_native_default_does_not_invent_a_requested_model(self):
+        item = self.allow_generation()
+        item["generation"] = {"mode": "native"}
+        workflow.validate_plan(self.plan)
+        attempt = workflow.prepare_generation(self.plan, self.image_id, "Illustration")
+        self.assertIsNone(attempt["requested_model"])
+        workflow.register_generation(self.plan, self.root, self.image_id, attempt["attempt_id"], self.supplied, self.evidence)
+        self.assertIsNone(item["provenance"]["actual_model"])
+
+    @unittest.skipUnless(shutil.which("cwebp"), "cwebp is required for real optimization")
+    def test_native_default_unreported_model_allows_real_rendered_review(self):
+        item = self.allow_generation()
+        item["generation"] = {"mode": "native"}
+        attempt = workflow.prepare_generation(self.plan, self.image_id, "Illustration")
+        workflow.register_generation(self.plan, self.root, self.image_id, attempt["attempt_id"], self.supplied, self.evidence)
+        workflow.optimize(self.plan, self.root, self.image_id)
+        report_path, _ = self.create_review()
+        review = workflow.review_asset(self.plan, self.root, self.image_id, report_path)
+        self.assertIn("model was not reported", review["result"]["warnings"][0])
+        self.assertTrue(workflow.gate(self.plan, self.root)["passed"])
+        self.plan["generation_attempts"][0]["requested_model"] = "gpt-image-2.5-sunburst"
+        with self.assertRaisesRegex(workflow.WorkflowError, "exact GPT Image 2.5 remains unverified"):
+            workflow.review_asset(self.plan, self.root, self.image_id, report_path)
+
     def test_fallback_requires_plan_permission(self):
         item = self.allow_generation()
         item["stage"] = "generation-failed"
