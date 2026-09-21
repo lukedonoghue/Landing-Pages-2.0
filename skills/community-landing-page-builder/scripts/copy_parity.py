@@ -83,9 +83,12 @@ def interface_words(master, funnel, capture):
 
 
 def expected_surfaces(master, catalogue_enabled):
+    modal = master.get("modal", {})
+    if isinstance(modal, dict):
+        modal = {key: value for key, value in modal.items() if key not in {"failure", "uncertain"}}
     expected = {
         "landing": leaves({key: master[key] for key in ("h1", "primary_cta", "sections") if key in master}),
-        "modal": leaves(master.get("modal", {}), "/modal"),
+        "modal": leaves(modal, "/modal"),
         "thank_you": leaves(master.get("thank_you", {}), "/thank_you")
     }
     if catalogue_enabled:
@@ -150,6 +153,9 @@ def compare(master, funnel, capture):
         failures.append('Capture documents must contain actual text strings.')
         documents = []
     neutral = interface_words(master, funnel, capture)
+    state_copy = [value for key in ("failure", "uncertain")
+                  if isinstance(master.get("modal", {}), dict)
+                  and isinstance((value := master["modal"].get(key)), str) and value.strip()]
     rows = []
     for surface in ("landing", "modal", "thank_you"):
         phrases = [value for _, value in expected[surface]]
@@ -157,7 +163,8 @@ def compare(master, funnel, capture):
             matches = [doc for doc in documents if doc.get("surface") == surface and doc.get("width") == width]
             texts = [normalize(doc.get("text", "")) for doc in matches]
             missing = [key for key, value in expected[surface] if not any(contains(text, value) for text in texts)]
-            unexpected = [extra_text(text, phrases + neutral) for text in texts]
+            unexpected = [extra_text(text, phrases + neutral + (state_copy if surface == "modal" and doc.get("state") == "submission-error" else []))
+                          for doc, text in zip(matches, texts)]
             unexpected = [value for value in unexpected if value]
             if not matches:
                 failures.append(f"{surface} {width}: no captured states")
@@ -166,6 +173,25 @@ def compare(master, funnel, capture):
             if unexpected:
                 failures.append(f"{surface} {width}: unapproved rendered text: " + unexpected[0][:240])
             rows.append({"surface": surface, "width": width, "states": len(matches), "missing": missing, "unexpected": unexpected})
+    if state_copy:
+        for width in (390, 1440):
+            initial = [doc for doc in documents if doc.get("surface") == "modal"
+                       and doc.get("width") == width and doc.get("state") == "step-0"]
+            if len(initial) != 1:
+                failures.append(f"modal {width}: one initial step-0 state is required")
+            elif any(contains(normalize(initial[0].get("text", "")), value) for value in state_copy):
+                failures.append(f"modal {width}: failure or uncertain copy is visible before submission")
+            pre_submit = [doc for doc in documents if doc.get("surface") == "modal" and doc.get("width") == width
+                          and (str(doc.get("state", "")).startswith("step-") or doc.get("state") == "final")]
+            if any(contains(normalize(doc.get("text", "")), value) for doc in pre_submit for value in state_copy):
+                failures.append(f"modal {width}: failure or uncertain copy is visible in a pre-submit step")
+            if capture.get("synthetic_submissions_attempted", 0) == 0:
+                errors = [doc for doc in documents if doc.get("surface") == "modal"
+                          and doc.get("width") == width and doc.get("state") == "submission-error"]
+                if len(errors) != 1 or not any(contains(normalize(errors[0].get("text", "")), value) for value in state_copy):
+                    failures.append(f"modal {width}: read-only capture must show actual failure or uncertain copy after a blocked submission")
+        rows.append({"surface": "modal_state_copy", "initial_hidden": True,
+                     "read_only_error_captured": capture.get("synthetic_submissions_attempted", 0) == 0})
     if catalogue_enabled:
         pdf = capture.get("pdf", {})
         if not isinstance(pdf,dict):pdf={}

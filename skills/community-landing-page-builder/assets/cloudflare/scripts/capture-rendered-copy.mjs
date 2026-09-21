@@ -144,6 +144,13 @@ export async function runCopyCapture(args) {
         await page.locator(fixture.selectors.modal).waitFor({ state: 'visible' });
         await fillSteps(page, fixture, { onStep: async (_, step) => capture('modal', 'step-' + step, fixture.selectors.modal) });
         await capture('modal', 'final', fixture.selectors.modal);
+        if (!allowWrites) {
+          phase = 'modal-failure';
+          await page.locator(fixture.selectors.submit).first().click();
+          await page.locator(fixture.selectors.error).first().waitFor({ state: 'visible' });
+          if (new URL(page.url()).pathname !== fixture.path) throw new Error('A failed read-only submission left the reviewed form.');
+          await capture('modal', 'submission-error', fixture.selectors.modal);
+        }
         phase = 'thank-you';
         if (allowWrites) {
           const accepted = page.waitForResponse(response => new URL(response.url()).pathname === '/api/leads' && response.request().method() === 'POST');

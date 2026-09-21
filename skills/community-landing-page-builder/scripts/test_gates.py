@@ -36,7 +36,12 @@ class GatesTest(unittest.TestCase):
         if gate == 'browser':
             report.update(execution={'kind': 'automated'}, viewports=[{'width': w, 'height': 600 if w == 1280 else 844} for w in [360, 390, 768, 1024, 1180, 1280, 1440]], artifacts=[self.artifact('screen.png', 'screenshot')])
         if gate == 'visual':
-            report.update(reviewer='test reviewer', observations=['Inspected fixture screenshot'], artifacts=[self.artifact('visual.png', 'screenshot')])
+            report.update(
+                reviewer='test reviewer', observations=['Inspected fixture screenshot'],
+                review_provenance={'mode':'self_review','reviewer_identity':'fixture builder','reviewer_task_id':'fixture-task',
+                                   'builder_identity':'fixture builder','builder_task_id':'fixture-task'},
+                reviewed_source_fingerprint=self.snapshot['source_fingerprint'], findings=[], retests=[],
+                limits=['Synthetic validator fixture only'], artifacts=[self.artifact('visual.png', 'screenshot')])
         path = self.root / f'build/{gate}.json'
         gates.write_json(path, report)
         self.manifest['gates'][gate] = {'status': 'pass', 'report': f'build/{gate}.json', 'report_sha256': gates.file_hash(path)}
@@ -161,6 +166,22 @@ class GatesTest(unittest.TestCase):
         for checks in [{'submission_saved': False}, {'form': {'passed': False}}, [{'name': 'form', 'status': 'failed'}]]:
             report['checks'] = checks
             self.assertIn('Passing report contains failed or blocked checks', gates.validate_report(self.root, report, self.snapshot, 'visual'))
+
+    def test_visual_review_cannot_claim_independence_without_a_separate_task(self):
+        report = gates.read_json(self.root / 'build/visual.json')
+        report['review_provenance']['mode'] = 'independent'
+        errors = gates.validate_report(self.root, report, self.snapshot, 'visual')
+        self.assertTrue(any('separate reviewer task' in error for error in errors), errors)
+        report['review_provenance']['reviewer_task_id'] = 'independent-task'
+        self.assertFalse(any('separate reviewer task' in error for error in gates.validate_report(self.root, report, self.snapshot, 'visual')))
+
+    def test_fixed_visual_finding_requires_evidence_backed_retest(self):
+        report = gates.read_json(self.root / 'build/visual.json')
+        report['findings'] = [{'id':'hero-media','finding':'Hero image hidden on mobile','evidence':'build/visual.png','disposition':'fixed'}]
+        errors = gates.validate_report(self.root, report, self.snapshot, 'visual')
+        self.assertTrue(any('passing evidence-backed retest' in error for error in errors), errors)
+        report['retests'] = [{'finding_id':'hero-media','result':'pass','evidence':'build/visual.png'}]
+        self.assertFalse(any('passing evidence-backed retest' in error for error in gates.validate_report(self.root, report, self.snapshot, 'visual')))
 
     def test_catalogue_requires_every_page(self):
         report = gates.read_json(self.root / 'build/visual.json')

@@ -51,6 +51,44 @@ class CopyAcceptanceTests(unittest.TestCase):
         self.assertEqual(result['status'], 'pass')
         self.assertIn('self-review', result['warnings'][0])
 
+    def test_canonical_customer_copy_blocks_research_and_operator_narration(self):
+        for contaminated in (
+            'The page adds no unsupported timing or outcome promise.',
+            'Independent demonstration using synthetic details. Optional advertising tags are disabled because no GTM ID or consent provider was supplied.',
+            'Independent demonstration using synthetic details. Use the protected CRM login to verify the receipt, then remove the synthetic contact from the CRM.',
+            'Independent demonstration using synthetic details. Test the complete enquiry journey without contacting the business.',
+        ):
+            with self.subTest(contaminated=contaminated):
+                original = (self.root / 'copy.md').read_text()
+                (self.root / 'copy.md').write_text(original + '\n' + contaminated)
+                self.snapshot = MODULE.prepare(self.root, 'copy.md', 'brief.md', ['source.md'])
+                self.save('snapshot.json', self.snapshot)
+                self.review['inputs_sha256'] = MODULE.digest(self.root / 'snapshot.json')
+                for check in self.review['checks']:
+                    check['evidence']['copy_excerpt'] = self.copy
+                result = self.verify()
+                self.assertEqual(result['status'], 'blocked')
+                self.assertTrue(any('Customer copy contamination' in failure for failure in result['failures']))
+                (self.root / 'copy.md').write_text(original)
+                self.snapshot = MODULE.prepare(self.root, 'copy.md', 'brief.md', ['source.md'])
+                self.save('snapshot.json', self.snapshot)
+                self.review['inputs_sha256'] = MODULE.digest(self.root / 'snapshot.json')
+
+    def test_json_operator_cta_is_rejected(self):
+        self.save('copy.json', {'h1': self.copy + ' Independent demonstration using synthetic details.', 'primary_cta': 'Test the CRM journey', 'sections': []})
+        self.snapshot = MODULE.prepare(self.root, 'copy.json', 'brief.md', ['source.md'])
+        self.save('snapshot.json', self.snapshot)
+        self.review['inputs_sha256'] = MODULE.digest(self.root / 'snapshot.json')
+        for check in self.review['checks']:
+            check['evidence']['copy_excerpt'] = self.copy
+        self.assertTrue(any('buyer outcome' in failure for failure in self.verify()['failures']))
+
+    def test_legitimate_service_language_is_not_blacklisted(self):
+        for copy_text in ('GTM audits for ecommerce teams.', 'CRM login support for new staff.', 'Test your water before choosing treatment.'):
+            with self.subTest(copy_text=copy_text):
+                (self.root / 'copy.md').write_text(copy_text)
+                self.assertEqual(MODULE.customer_copy_issues(self.root / 'copy.md'), [])
+
     def test_each_changed_input_blocks(self):
         for name in ('copy.md', 'brief.md', 'source.md'):
             with self.subTest(name=name):

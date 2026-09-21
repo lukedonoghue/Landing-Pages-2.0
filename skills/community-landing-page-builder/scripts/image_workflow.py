@@ -28,7 +28,7 @@ import uuid
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 MODELS = {"gpt-image-2.5-sunburst", "gpt-image-2.5-flare"}
 MAX_BYTES = 12 * 1024 * 1024
 MAX_PIXELS = 32_000_000
@@ -236,13 +236,19 @@ class ImageInventory(HTMLParser):
 
 
 def validate_plan(plan):
-    require(plan.get("schema_version") == SCHEMA_VERSION, "Unsupported image-plan schema version")
+    schema_version = plan.get("schema_version")
+    require(schema_version in {1, SCHEMA_VERSION}, "Unsupported image-plan schema version")
     require(isinstance(plan.get("assets"), list), "Image plan must contain an assets list")
     require(isinstance(plan.get("inventory"), list), "Image plan must contain an inventory list")
     decision = plan.get("generation_decision")
     require(isinstance(decision, dict), "Image plan must contain a generation_decision")
     require(type(decision.get("needed")) is bool and nonempty(decision.get("reason")), "Generation decision needs a boolean needed value and a specific reason")
     require(isinstance(decision.get("gaps", []), list), "Generation decision gaps must be a list")
+    minimum = plan.get("minimum_distinct_content_originals", 4 if schema_version == SCHEMA_VERSION else 0)
+    require(type(minimum) is int and 0 <= minimum <= 30, "minimum_distinct_content_originals must be an integer from 0 to 30")
+    exception = plan.get("content_minimum_exception")
+    if schema_version == SCHEMA_VERSION and minimum != 4:
+        require(isinstance(exception, dict) and nonempty(exception.get("reason")) and isinstance(exception.get("evidence"), dict), "New complete-page plans require four originals; a different minimum needs a documented existing scope exception and artifact evidence")
     for host in plan.get("allowed_hosts", []):
         require(normalize_host(host) == host, "Use normalized exact hostnames in allowed_hosts")
     budget = plan.get("generation_budget", {})
@@ -259,6 +265,14 @@ def validate_plan(plan):
         require(type(item.get("required")) is bool, "Set required true or false for every image")
         for key in ("section", "purpose", "role"):
             require(nonempty(item.get(key)), f"Missing image {key}")
+        if schema_version == SCHEMA_VERSION:
+            require("source_original_ids" in item and "counts_toward_content_minimum" in item, "New image plans must explicitly record source_original_ids and counts_toward_content_minimum")
+        originals = item.get("source_original_ids", [image_id])
+        require(isinstance(originals, list) and originals and all(nonempty(value) for value in originals), "source_original_ids must name every independent source original represented in the pixels")
+        require(len(originals) == len(set(originals)), "source_original_ids cannot contain duplicates")
+        require(type(item.get("counts_toward_content_minimum", item["trust_class"] != "decorative")) is bool, "counts_toward_content_minimum must be boolean")
+        if item.get("counts_toward_content_minimum") is False and item["trust_class"] != "decorative":
+            require(nonempty(item.get("minimum_exclusion_reason")), "A non-decorative placement excluded from the content minimum needs minimum_exclusion_reason")
         require(isinstance(item.get("alt"), str), "Set image alt text, including empty alt for decoration")
         require(item["trust_class"] == "decorative" or nonempty(item["alt"]), "Informative images need alt text")
         for device in ("desktop", "mobile"):
@@ -521,6 +535,12 @@ def review_asset(plan, root, image_id, report_path):
 
 def gate(plan, root):
     errors = []
+    minimum = plan.get("minimum_distinct_content_originals", 4 if plan.get("schema_version") == SCHEMA_VERSION else 0)
+    if plan.get("schema_version") == SCHEMA_VERSION and minimum != 4:
+        try:
+            check_artifact(root, plan.get("content_minimum_exception", {}).get("evidence"))
+        except (WorkflowError, OSError, KeyError, ValueError) as exc:
+            errors.append("content minimum exception: " + str(exc))
     if not plan["assets"] and not nonempty(plan.get("no_images_reason")):
         errors.append("No image plan: add image placements or document why the design needs no raster imagery")
     for item in plan["assets"]:
@@ -536,7 +556,25 @@ def gate(plan, root):
             review_asset(plan, root, item["id"], path)
         except (WorkflowError, OSError, KeyError, ValueError) as exc:
             errors.append(item["id"] + ": " + str(exc))
-    return {"schema_version": 1, "gate": "images", "passed": not errors, "errors": errors, "asset_count": len(plan["assets"]), "checked_at": now()}
+    distinct_originals = set()
+    source_lineage = {}
+    for item in plan["assets"]:
+        if item.get("trust_class") == "decorative" or item.get("counts_toward_content_minimum", True) is False:
+            continue
+        if not item.get("required") and item.get("omitted_reason") and not item.get("source"):
+            continue
+        originals = set(item.get("source_original_ids", [item["id"]]))
+        distinct_originals.update(originals)
+        source_hash = item.get("source", {}).get("sha256")
+        if source_hash:
+            previous = source_lineage.setdefault(source_hash, originals)
+            if previous != originals:
+                errors.append(f"{item['id']}: identical source bytes use conflicting source_original_ids")
+    if len(distinct_originals) < minimum and not (not plan["assets"] and nonempty(plan.get("no_images_reason"))):
+        errors.append(f"Only {len(distinct_originals)} independent content originals count toward the required {minimum}; derivatives, repeated photos and document previews do not add originals")
+    return {"schema_version": 1, "gate": "images", "passed": not errors, "errors": errors,
+            "asset_count": len(plan["assets"]), "distinct_content_original_count": len(distinct_originals),
+            "distinct_content_original_ids": sorted(distinct_originals), "checked_at": now()}
 
 
 @contextlib.contextmanager

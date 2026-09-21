@@ -23,6 +23,7 @@ For every placement, record:
 - approved source rights, source URL or supplied-file evidence, source hashes and dimensions;
 - requested/actual generation model, disclosure and tool evidence where applicable;
 - exact optimized variants and the rendered review evidence.
+- `source_original_ids`, naming every independent original represented in the pixels, and `counts_toward_content_minimum`. Reused photos, crops, responsive files, PDF cover renders and composites retain their source IDs. Set `minimum_distinct_content_originals` to `4` for a complete landing page. A lower value is only for an already documented non-page scope and needs `content_minimum_exception` with a specific reason plus a hashed project-local evidence artifact.
 
 A proof image means a real project, result, before/after pair, employee, customer, testimonial, certificate, or product whose appearance is itself part of the claim. It **must be actual client evidence**. Missing required proof blocks that placement; generate a different illustrative role only if it does not imply the missing proof and is consistent with approved copy. Do not invent a client project or employee using a lookalike photo. If appropriate, remove an optional image and document `omitted_reason`. Do not set a required image to optional just to make the gate pass. If no raster imagery serves the design, use an empty assets list with a specific `no_images_reason`.
 
@@ -145,7 +146,7 @@ python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" opt
 
 The command invokes the existing repository `optimize_images.py`. It creates WebP variants at 480, 960 and 1600 pixels capped at the original width, in a fresh directory per run. It hashes every variant and records actual dimensions and bytes; it does not upscale or overwrite previous variants. Install `cwebp` if unavailable and rerun rather than recording fictional optimized files.
 
-Use the recorded variant paths in the rendered page. Include width and height, `srcset`/`sizes`, honest alt text, and CSS `object-position` matching the focal points. A focal point of `[0.65, 0.5]` means `object-position: 65% 50%`. Use the approved aspect ratio in each breakpoint. The hero/LCP image loads eagerly; below-fold imagery loads lazily. Serve a brochure cover image instead of rendering the entire PDF on the landing page. Keep generated disclosure in the handoff; add an on-page illustration label when the imagery could otherwise be mistaken for documentary proof.
+Use the recorded variant paths in the rendered page. Include width and height, `srcset`/`sizes`, honest alt text, and CSS `object-position` matching the focal points. A focal point of `[0.65, 0.5]` means `object-position: 65% 50%`. Use the approved aspect ratio in each breakpoint. Mark the hero's primary image, video or CSS-background container with `data-primary-media`; this marker is independent of the proof/illustrative/decorative role. The hero/LCP media loads eagerly and remains visibly painted at every reviewed width. If the stacked mobile hero is too tall, resize or reorder media and tighten supporting spacing; do not set primary media to `display:none` to satisfy the fold check. Below-fold imagery loads lazily. Serve a brochure cover image instead of rendering the entire PDF on the landing page, while recording any reused photograph under the same source original. Keep generated disclosure in the handoff; add an on-page illustration label when the imagery could otherwise be mistaken for documentary proof.
 
 ## Review in the actual page, then enforce the gate
 
@@ -194,7 +195,7 @@ python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" rev
 python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" validate
 ```
 
-The final command exits nonzero for missing source files, changed hashes, absent provenance, unknown exact-model status, missing desktop/mobile rendered reviews, wrong viewport screenshots, oversized delivered variants, or unreviewed required placements. An optional asset must either pass review or have a specific omission reason. Replacing an image or reoptimizing it invalidates its old review. A passing image gate supplements the complete visual review and measured load-speed report; it does not prove page LCP or whole-page quality by itself.
+The final command exits nonzero for missing source files, changed hashes, absent provenance, unknown exact-model status, missing desktop/mobile rendered reviews, wrong viewport screenshots, oversized delivered variants, unreviewed required placements, or fewer independent content originals than the plan minimum. An optional asset must either pass review or have a specific omission reason. Replacing an image or reoptimizing it invalidates its old review. A passing image gate supplements the complete visual review and measured load-speed report; it does not prove page LCP or whole-page quality by itself.
 
 Run offline regression checks with:
 

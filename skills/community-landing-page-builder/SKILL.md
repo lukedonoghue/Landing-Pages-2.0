@@ -74,6 +74,8 @@ Use one exact primary CTA label. Explain the real operational reason the offer w
 
 Every heading, CTA, and bullet must make sense to a first-time visitor. Keep technical terms that the real buyer uses, but simplify sentence structure. Treat word count as an editing signal, not a target.
 
+In an uncommissioned demonstration, keep one clear disclosure near the first action and repeat only the safety boundary where needed: the experience is independent, fictional details only, and nothing is routed to the real business. The rest of the page still speaks to the buyer's decision and desired next step. Do not turn marketing sections, FAQ answers, thank-you copy or the PDF into a QA manual. Research narration, unsupported-claim assurances, GTM/consent setup, receipt verification, CRM cleanup and operator instructions belong in the existing editorial evidence or owner handoff. A demo CTA must name the useful buyer action it simulates, not invite the visitor to test the build.
+
 ### 3. Design for this business
 
 Read [references/design-direction.md](references/design-direction.md).
@@ -92,7 +94,7 @@ Avoid an AI-template or legacy-brochure appearance. Do not default to violet or 
 
 Read [references/image-research-and-generation.md](references/image-research-and-generation.md). Use real first-party imagery for proof. Image search is discovery, not permission. Native image generation may fill a non-proof visual gap without an API key, but generation is never mandatory when a sourced asset or a stronger layout solves the need.
 
-Include at least four distinct, relevant content images on a complete landing page. Normally plan five to ten, choosing the final number and roles from research and page coverage. Do not reuse a content picture in another section, including a different crop, recolor or overlaid version. Responsive derivatives for the same placement are allowed. Logos, icons and decorative textures do not count toward the minimum. Each picture must support its adjacent message; a numerical target never authorizes irrelevant filler or fabricated proof. Follow the image reference if suitable assets cannot be obtained.
+Include at least four distinct, relevant content originals on a complete landing page. Normally plan five to ten placements, choosing the final number and roles from research and page coverage. Do not reuse a content picture in another section, including a different crop, recolor or overlaid version. Responsive derivatives for the same placement are allowed. A PDF cover preview may be useful, but a cover, screenshot or composite made from a page image does not create another original. Record shared source identities in the existing image plan so the image gate counts independent originals rather than rows or filenames. Logos, icons and decorative textures do not count toward the minimum. Each picture must support its adjacent message; a numerical target never authorizes irrelevant filler or fabricated proof. Follow the image reference if suitable assets cannot be obtained.
 
 Classify each used image as `decorative`, `proof`, `portrait`, `diagram`, `screenshot`, or `illustrative`. Also mark whether its pixels contain information that must remain readable. Diagrams, screenshots, infographics, and text-bearing images must not use destructive `cover` crops and must not sit behind overlapping copy. Text must not cover a person's face or the subject needed to understand the image.
 
@@ -117,6 +119,10 @@ At minimum:
 5. Test the real selected conversion path, including validation, failure, success, and destination behavior. Use synthetic data locally. Do not create a live lead without permission.
 6. Run one local mobile Lighthouse pass. If it is not installed, attempt a run-local installation as described in the quality gates; an unsuccessful package lookup alone is not an unavailable-tool exception. Fix failures and repeat marginal results. Aim for Performance 90 or better, LCP at most 2.5 seconds, CLS at most 0.1, and TBT at most 200 milliseconds without deleting necessary proof.
 7. Perform a fresh acceptance pass after the build. Use a separate reviewer or agent when available. Otherwise reopen the final artifacts in an isolated second pass without trusting earlier self-authored pass booleans.
+
+At every measured breakpoint, keep planned hero or primary media visibly rendered. Reorder, resize or reduce hero spacing to preserve both the image and first-screen action/continuation; never satisfy the fold check by hiding the image. In form QA, prove failure and uncertain copy is absent before submission and appears only in the actual matching state.
+
+Record fresh acceptance in the existing visual report with truthful `independent` or `self_review` mode, reviewer and builder task provenance, the exact source fingerprint, concrete findings, fixes and evidence-backed retests, and remaining limits. A builder reread is valid self-review, not independent review.
 
 Every severe finding blocks delivery. Resolve each warning or record a specific, evidence-based acceptance decision. A generic `looks good` or a screenshot path without observations is not review evidence.
 

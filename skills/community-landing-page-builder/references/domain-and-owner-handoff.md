@@ -6,7 +6,7 @@ Read when publishing to an owner-supplied domain or testing owner access. Comple
 
 Accept the root domain and hostnames already in the request. Do not ask the user to repeat them or infer them from the researched business. At local final, proactively send the preview and any external blockers with instructions. Do not wait for a status request, supervising agent or another failed deployment. Continue unaffected authorized work; pause only actions dependent on the missing input. At final handoff, repeat only unresolved actions and label temporary deployment separately from the requested destination.
 
-For each blocker give: affected feature and current state; evidence and time checked; work already completed; the smallest owner action; numbered steps naming the website, screen, setting, exact verified value when available and expected result; what must not be changed; and what the agent will verify/resume after the owner replies. Ask for confirmation of completion, not passwords, tokens or recovery codes. Mention email and advertising blockers separately from domain setup. Do not describe a CLI-assisted reset as working self-service email recovery.
+For each blocker give: affected feature and current state; evidence and time checked; work already completed; the smallest owner action; numbered steps naming the website, screen, setting, exact verified value when available and expected result; what must not be changed; and what the agent will verify/resume after the owner replies. Ask for confirmation of completion, not passwords, tokens or recovery codes. Mention email and advertising blockers separately from domain setup. For email, reuse the short owner checklist and exact Free-plan paths in [team-access.md](team-access.md#one-time-security-setup); do not duplicate a second setup manual in the handoff. State that the page and CRM can operate on workers.dev without a custom app domain, while sending still needs an authorized owned sender domain. Each recipient, including a teammate on Gmail or any other domain, must be Cloudflare-verified; it does not need to match the sender or company domain. Do not offer paid sending, arbitrary recipients or an invented sender, and do not describe a CLI-assisted reset as working self-service email recovery.
 
 Research registrar identity through registry/registrar RDAP and authoritative DNS through NS/SOA. Follow the registry referral when needed. Nameservers alone identify the DNS provider, not the registrar. Link the current provider's official setup help. If lookup is unavailable or ambiguous, say "unverified" and give the owner a precise way to identify their domain dashboard. Do not manufacture provider-specific navigation.
 
@@ -39,7 +39,20 @@ Save a compact `build/owner-handoff.json` alongside the existing status file:
 }
 ```
 
-Include every requested hostname and unresolved selected integration. For a verified domain, set its status to `verified` and include `verification` describing actual DNS, HTTPS and app checks; do not infer it from local host-routing tests. For a user-deferred domain use `deferred`, with `decision` quoting that actual choice. No domains requested means an empty domains list. With no blockers use `status: complete`; otherwise use `action_required` and send the numbered instructions in `message`. Use real observations, not this example's text. Run `python3 <skill>/scripts/validate_owner_handoff.py <project> --hostname go.example.com --hostname crm.example.com`, replacing the flags with every hostname from the actual user request (omit flags when none were requested), before final delivery and send the message contents to the user. Passing the helper validates structure only; never claim it proves delivery, provider identity, DNS or live behavior.
+Include every requested hostname and unresolved selected integration. For a verified domain, set its status to `verified` and include `verification` describing actual DNS, HTTPS and app checks; do not infer it from local host-routing tests. For a user-deferred domain use `deferred`, with `decision` quoting that actual choice. No domains requested means an empty domains list. With no blockers use `status: complete`; otherwise use `action_required` and send the numbered instructions in `message`. Use real observations, not this example's text.
+
+When synthetic-contact cleanup is relevant, add a structured disposition. For verified soft-removal, cite the actual retained guarded live report and include the exact plain owner note in `message`:
+
+```json
+"cleanup": {
+  "disposition": "verified_soft_removed",
+  "report": "build/releases/ACTUAL_RELEASE/package/build/live/001/result.json",
+  "historical_metrics": "retained",
+  "owner_note": "The synthetic contact was soft-removed after verification. Its test visit/conversion remains in historical metrics, so this is not complete erasure."
+}
+```
+
+Never copy the report placeholder. For unfinished or intentionally retained cleanup, use `pending` or `retained` with a truthful `owner_note`, and omit `report` and `historical_metrics` unless they are applicable. Preserve the owner's wording, but do not label either state verified. Omit the object when cleanup is irrelevant. A retained-contact report cannot support `verified_soft_removed`. Run `python3 <skill>/scripts/validate_owner_handoff.py <project> --hostname go.example.com --hostname crm.example.com`, replacing the flags with every hostname from the actual user request (omit flags when none were requested), before final delivery and send the message contents to the user. Passing the helper validates handoff structure and cited cleanup evidence only; never claim it proves delivery, provider identity, DNS or other live behavior.
 
 ## Choose the actual DNS path
 

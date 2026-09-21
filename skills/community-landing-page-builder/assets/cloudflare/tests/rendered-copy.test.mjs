@@ -7,13 +7,13 @@ import { mkdtempSync, realpathSync, mkdirSync, writeFileSync, rmSync, symlinkSyn
 import { chromium } from 'playwright-core';
 import { inside, renderedText, runCopyCapture } from '../scripts/capture-rendered-copy.mjs';
 const fixture = { synthetic: true, path: '/', thank_you_path: '/thank-you.html', pdf_path: '/guide.pdf', fields: { email: 'test@example.invalid' }, selectors: { openModal: '[data-open-modal]', modal: '#lead-modal', step: '.step', next: '[data-next]', submit: '[data-submit]', closeModal: '[data-close-modal]', error: '[data-error]' } };
-const html = `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><style>.mobile-hidden{display:block}@media(max-width:500px){.mobile-hidden{display:none}}</style>
+const html = `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><style>.mobile-hidden{display:block}.submission-error[hidden]{display:none}@media(max-width:500px){.mobile-hidden{display:none}}</style>
 <h1>Plan <em>your</em> project.</h1><p class="mobile-hidden">An estimate follows a site review.</p>
 <details><summary>How do quotes work?</summary><p>Discuss the project before committing.</p></details>
 <button data-open-modal>Request guide</button><div id="lead-modal" hidden><button data-close-modal>×</button><h2>Your guide</h2>
 <div class="step"><p>Tell us how to reach you.</p><label>Email<input name="email"></label></div>
-<div class="step" hidden><p>We discuss your project next.</p></div><button data-next>Continue</button><button data-submit hidden>Request guide</button></div>
-<script>const modal=document.querySelector('#lead-modal');document.querySelector('[data-open-modal]').onclick=()=>modal.hidden=false;document.querySelector('[data-close-modal]').onclick=()=>modal.hidden=true;document.querySelector('[data-next]').onclick=()=>{let s=document.querySelectorAll('.step');s[0].hidden=true;s[1].hidden=false;document.querySelector('[data-next]').hidden=true;document.querySelector('[data-submit]').hidden=false};fetch('/api/visits',{method:'POST',body:'{}'}).catch(()=>{});</script>`;
+<div class="step" hidden><p>We discuss your project next.</p></div><p class="submission-error" data-error hidden>We could not save your request.</p><button data-next>Continue</button><button data-submit hidden>Request guide</button></div>
+<script>const modal=document.querySelector('#lead-modal');document.querySelector('[data-open-modal]').onclick=()=>modal.hidden=false;document.querySelector('[data-close-modal]').onclick=()=>modal.hidden=true;document.querySelector('[data-next]').onclick=()=>{let s=document.querySelectorAll('.step');s[0].hidden=true;s[1].hidden=false;document.querySelector('[data-next]').hidden=true;document.querySelector('[data-submit]').hidden=false};document.querySelector('[data-submit]').onclick=async()=>{try{await fetch('/api/leads',{method:'POST',body:'{}'});throw new Error('fixture rejects success')}catch{document.querySelector('[data-error]').hidden=false}};fetch('/api/visits',{method:'POST',body:'{}'}).catch(()=>{});</script>`;
 async function project(t, { catalogue = false, pdfMismatch = false } = {}) {
   const root = realpathSync(mkdtempSync(path.join(tmpdir(),'copy-capture-'))), requests=[];
   mkdirSync(path.join(root,'build'));mkdirSync(path.join(root,'public'));
@@ -40,6 +40,9 @@ test('actual browser capture covers disclosures and form steps without sending P
     assert.ok(docs.some(d=>d.surface==='landing'&&d.text.includes('Discuss the project before committing.')));
     assert.ok(docs.some(d=>d.surface==='modal'&&d.text.includes('Tell us how to reach you.')));
     assert.ok(docs.some(d=>d.surface==='modal'&&d.text.includes('We discuss your project next.')));
+    const initial=docs.find(d=>d.surface==='modal'&&d.state==='step-0');
+    assert.ok(initial);assert.equal(initial.text.includes('We could not save your request.'),false);
+    assert.ok(docs.some(d=>d.surface==='modal'&&d.state==='submission-error'&&d.text.includes('We could not save your request.')));
     assert.ok(docs.some(d=>d.surface==='thank_you'&&d.text.includes('Your enquiry is saved.')));
     assert.equal(docs.some(d=>d.text.includes('An estimate follows a site review.')),width===1440);
   }

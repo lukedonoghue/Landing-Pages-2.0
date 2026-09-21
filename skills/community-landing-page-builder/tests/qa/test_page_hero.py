@@ -33,7 +33,7 @@ def main():
         root = Path(directory)
         prose = 'A local service team provides a clear quotation after reviewing the property and the work required.'
         brand_path = root / 'brand.json'
-        cases = ['visible', 'below', 'overlap', 'font-drift', 'modal-covered', 'modal-clear', 'font-fallback', 'font-loaded', 'image-fixed-height', 'image-responsive', 'phone-narrow', 'phone-readable']
+        cases = ['visible', 'below', 'overlap', 'font-drift', 'modal-covered', 'modal-clear', 'font-fallback', 'font-loaded', 'image-fixed-height', 'image-responsive', 'phone-narrow', 'phone-readable', 'hero-media-hidden', 'hero-media-visible', 'hero-media-background']
         for name in cases:
             height = '110vh' if name == 'below' else '200px'
             label_offset = '30px' if name == 'overlap' else '180px'
@@ -42,6 +42,17 @@ def main():
             font_face = '@font-face{font-family:FixtureWebFont;src:local("Arial"),local("Liberation Sans"),local("DejaVu Sans")}' if name == 'font-loaded' else ''
             modal = ''
             test_image = ''
+            hero_media = ''
+            if name.startswith('hero-media-'):
+                hidden = '@media(max-width:900px){.hero-primary-media{display:none}}' if name == 'hero-media-hidden' else ''
+                if name == 'hero-media-background':
+                    hero_media = '<div class="hero-primary-media" data-primary-media style="width:80px;height:60px;background-image:linear-gradient(green,green)"></div>'
+                else:
+                    hero_media = (
+                        f'<style>.hero-primary-media{{width:80px;height:auto}}{hidden}</style>'
+                        '<img class="hero-primary-media" width="80" height="60" alt="Service at work" data-image-role="decorative" '
+                        'src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2780%27 height=%2760%27%3E%3Crect width=%2780%27 height=%2760%27 fill=%27green%27/%3E%3C/svg%3E">'
+                    )
             if name.startswith('image-'):
                 image_height = 'height:auto;' if name == 'image-responsive' else ''
                 test_image = (
@@ -86,7 +97,7 @@ def main():
                 '.label-row{position:relative}.category{position:absolute;left:0;top:0;margin:0}'
                 f'.label-row h2{{margin:0 0 0 {label_offset};font-size:24px}}</style>'
                 '<main><section class="hero"><h1>Local service</h1>'
-                f'<p>{prose}</p>'
+                f'<p>{prose}</p>{hero_media}'
                 + trigger + '</section>'
                 '<section><div class="label-row"><p class="category">SPECIALIST ACCESS</p><h2>Service</h2></div></section></main>'
                 + modal + test_image + '</html>'
@@ -147,11 +158,34 @@ def main():
                         assert phone['status'] == expected_phone, phone
                 else:
                     assert not phones, phones
-                assert (result.returncode == 0) == (name in ['visible', 'modal-clear', 'font-loaded', 'image-responsive', 'phone-readable']), report['failures']
+                hero_media_checks = [c for c in report['checks'] if c['name'] == 'hero_media_visible']
+                if name.startswith('hero-media-'):
+                    assert len(hero_media_checks) == 6, hero_media_checks
+                    if name == 'hero-media-hidden':
+                        assert [c['status'] for c in hero_media_checks].count('blocked') == 3, hero_media_checks
+                    else:
+                        assert all(c['status'] == 'pass' for c in hero_media_checks), hero_media_checks
+                else:
+                    assert not hero_media_checks, hero_media_checks
+                assert (result.returncode == 0) == (name in ['visible', 'modal-clear', 'font-loaded', 'image-responsive', 'phone-readable', 'hero-media-visible', 'hero-media-background']), report['failures']
+            for name in ('hero-media-hidden', 'hero-media-background'):
+                report_path = root / name / 'funnel-report.json'
+                subprocess.run([
+                    args.node, str(skill / 'scripts/measure_funnel.mjs'),
+                    f'http://127.0.0.1:{server.server_port}/{name}.html', '--out', str(report_path),
+                    '--playwright-module', args.playwright_module, '--browser-executable', args.browser_executable,
+                ], capture_output=True, text=True, timeout=180)
+                report = json.loads(report_path.read_text())
+                checks = [check for check in report['checks'] if check['name'] == 'hero_media_visible']
+                assert len(checks) == 10, checks
+                if name == 'hero-media-hidden':
+                    assert [check['status'] for check in checks].count('blocked') == 4, checks
+                else:
+                    assert all(check['status'] == 'pass' for check in checks), checks
         finally:
             server.shutdown()
             server.server_close()
-    print('PASS: twelve hero, text, font, image-ratio, modal and phone fixtures with a narrow phone spot check')
+    print('PASS: fifteen hero, text, font, image-ratio, modal and phone fixtures with narrow breakpoint checks')
 
 
 if __name__ == '__main__':

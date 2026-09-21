@@ -59,7 +59,7 @@ function evidence(root) {
   for (const gate of ['static','browser','visual']) {
     const report = {schema_version:1,gate,status:'pass',source_fingerprint:snapshot.source_fingerprint,executed_at:new Date().toISOString(),tool:{name:'synthetic workflow regression fixture',version:'1'},target:{mode:'handoff'},checks:[{name:'synthetic test fixture',status:'pass',detail:'Tests preflight integrity plumbing, not a client build'}]};
     if(gate==='browser')Object.assign(report,{execution:{kind:'automated'},viewports:[360,390,768,1024,1180,1280,1440].map(width=>({width,height:600})),artifacts:[artifact]});
-    if(gate==='visual')Object.assign(report,{reviewer:'synthetic workflow test',observations:['Synthetic fixture only'],artifacts:[artifact]});
+    if(gate==='visual')Object.assign(report,{reviewer:'synthetic workflow test',observations:['Synthetic fixture only'],review_provenance:{mode:'self_review',reviewer_identity:'fixture builder',reviewer_task_id:'fixture-task',builder_identity:'fixture builder',builder_task_id:'fixture-task'},reviewed_source_fingerprint:snapshot.source_fingerprint,findings:[],retests:[],limits:['Synthetic workflow fixture only'],artifacts:[artifact]});
     const text = JSON.stringify(report);
     write(root, `build/${gate}.json`, text);
     manifest.gates[gate]={status:'pass',report:`build/${gate}.json`,report_sha256:digest(text)};

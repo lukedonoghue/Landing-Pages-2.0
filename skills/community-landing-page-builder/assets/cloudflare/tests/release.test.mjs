@@ -58,12 +58,25 @@ test('accepted but incomplete form attempt is retained without another submissio
   await assert.rejects(publish(f.root,{resume:true},f.runtime),/prior verification may have submitted/);assert.equal(f.calls.verify,0);
 });
 test('supported journey recovery stays in the same approved attempt without another upload',async t=>{
-  const f=fixture(t,'verification_failed',1);const checkpoint={schema_version:2,id,form_attempted:true,runs:1,request_key:'synthetic-key'};
+  const f=fixture(t,'verification_failed',1);const checkpoint={schema_version:2,id,form_attempted:true,runs:1,request_key:'synthetic-key',binding:{cleanup_test_lead:true}};
   atomic(path.join(f.pkg,'build/live/001/attempt.json'),checkpoint);atomic(path.join(f.base,'inputs.json'),{approval:{allow_test_lead:true}});
   f.put('.secrets/current.json',{username:'owner',password:'synthetic-current-password'});f.put('.secrets/current-admin-access.json',{credentials_file:path.join(f.root,'.secrets/current.json')});
-  f.runtime.verify=async args=>{f.calls.verify++;assert.equal(args['resume-journey'],true);assert.equal(args.out,path.join(f.pkg,'build/live/001'));assert.equal(args['allow-test-lead'],true);return {fully_verified:true,status:'pass'};};
+  f.runtime.verify=async args=>{f.calls.verify++;assert.equal(args['resume-journey'],true);assert.equal(args.out,path.join(f.pkg,'build/live/001'));assert.equal(args['allow-test-lead'],true);assert.equal(args['cleanup-test-lead'],true);return {fully_verified:true,status:'pass'};};
   await publish(f.root,{resume:true},f.runtime);
   assert.equal(read(path.join(f.base,'state.json')).attempt,1);assert.deepEqual(read(path.join(f.pkg,'build/live/001/attempt.json')),checkpoint);assert.equal(f.calls.verify,1);
+});
+test('new authorized live journey defaults to guarded synthetic-contact cleanup',async t=>{
+  const f=fixture(t);atomic(path.join(f.base,'inputs.json'),{approval:{allow_test_lead:true}});
+  f.put('.secrets/current.json',{username:'owner',password:'synthetic-current-password'});f.put('.secrets/current-admin-access.json',{credentials_file:path.join(f.root,'.secrets/current.json')});
+  f.runtime.verify=async args=>{f.calls.verify++;assert.equal(args['allow-test-lead'],true);assert.equal(args['cleanup-test-lead'],true);return {fully_verified:true,status:'pass'};};
+  await publish(f.root,{resume:true},f.runtime);assert.equal(f.calls.verify,1);
+});
+test('journey recovery does not expand a retained-contact cleanup scope',async t=>{
+  const f=fixture(t,'verification_failed',1);const checkpoint={schema_version:2,id,form_attempted:true,runs:1,request_key:'synthetic-key',binding:{cleanup_test_lead:false}};
+  atomic(path.join(f.pkg,'build/live/001/attempt.json'),checkpoint);atomic(path.join(f.base,'inputs.json'),{approval:{allow_test_lead:true}});
+  f.put('.secrets/current.json',{username:'owner',password:'synthetic-current-password'});f.put('.secrets/current-admin-access.json',{credentials_file:path.join(f.root,'.secrets/current.json')});
+  f.runtime.verify=async args=>{f.calls.verify++;assert.equal(args['resume-journey'],true);assert.equal(args['cleanup-test-lead'],undefined);return {fully_verified:true,status:'pass'};};
+  await publish(f.root,{resume:true},f.runtime);assert.equal(f.calls.verify,1);
 });
 test('recovery cannot expand a frozen read-only approval',async t=>{
   const f=fixture(t,'verification_failed',1);atomic(path.join(f.pkg,'build/live/001/attempt.json'),{schema_version:2,id,form_attempted:true,runs:1});

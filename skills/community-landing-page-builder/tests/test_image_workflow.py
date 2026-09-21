@@ -29,12 +29,14 @@ class ImageWorkflowTests(unittest.TestCase):
         self.root = Path(self.temporary.name).resolve()
         (self.root / "public").mkdir()
         self.plan = json.loads((SKILL / "assets/image-plan.example.json").read_text())
+        self.plan["minimum_distinct_content_originals"] = 1
         self.plan["assets"] = self.plan["assets"][:1]
         self.image_id = self.plan["assets"][0]["id"]
         self.supplied = self.root / "supplied.png"
         self.supplied.write_bytes(png())
         self.evidence = self.root / "source-instruction.txt"
         self.evidence.write_text("Client supplied this photo of their real land-clearing project and authorized its use.")
+        self.plan["content_minimum_exception"] = {"reason": "Focused one-asset workflow fixture, not a complete page.", "evidence": workflow.artifact(self.root, self.evidence)}
         self.plan["inventory"] = [{"id": "supplied-1", "local_file": str(self.supplied), "source_sha256": workflow.sha(self.supplied.read_bytes()), "origin": "client-supplied", "evidence": workflow.artifact(self.root, self.evidence)}]
 
     def tearDown(self):
@@ -83,6 +85,16 @@ class ImageWorkflowTests(unittest.TestCase):
 
     def test_example_validates(self):
         workflow.validate_plan(self.plan)
+
+    def test_new_plan_requires_explicit_lineage_and_documented_minimum_exception(self):
+        item = self.plan["assets"][0]
+        del item["source_original_ids"]
+        with self.assertRaisesRegex(workflow.WorkflowError, "explicitly record"):
+            workflow.validate_plan(self.plan)
+        item["source_original_ids"] = [item["id"]]
+        del self.plan["content_minimum_exception"]
+        with self.assertRaisesRegex(workflow.WorkflowError, "documented existing scope exception"):
+            workflow.validate_plan(self.plan)
 
     def test_proof_cannot_be_enabled_for_generation(self):
         self.plan["assets"][0]["allow_generation"] = True
@@ -238,6 +250,31 @@ class ImageWorkflowTests(unittest.TestCase):
         self.assertFalse(workflow.gate(self.plan, self.root)["passed"])
         self.plan["no_images_reason"] = "A text-only campaign was explicitly requested."
         self.assertTrue(workflow.gate(self.plan, self.root)["passed"])
+
+    def test_derived_document_preview_does_not_create_a_fourth_original(self):
+        self.plan["minimum_distinct_content_originals"] = 4
+        self.plan["assets"] = []
+        for image_id in ("hero", "records", "consultation"):
+            self.plan["assets"].append({
+                "id": image_id, "trust_class": "illustrative", "required": True,
+                "counts_toward_content_minimum": True, "source_original_ids": [image_id],
+            })
+        self.plan["assets"].append({
+            "id": "guide-cover", "trust_class": "illustrative", "required": True,
+            "counts_toward_content_minimum": False, "source_original_ids": ["hero"],
+        })
+        result = workflow.gate(self.plan, self.root)
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["distinct_content_original_count"], 3)
+        self.assertTrue(any("required 4" in error for error in result["errors"]))
+
+    def test_identical_source_bytes_cannot_claim_different_original_ids(self):
+        self.acquire()
+        duplicate = dict(self.plan["assets"][0])
+        duplicate.update({"id": "same-photo-renamed", "source_original_ids": ["invented-second-original"]})
+        self.plan["assets"].append(duplicate)
+        result = workflow.gate(self.plan, self.root)
+        self.assertTrue(any("conflicting source_original_ids" in error for error in result["errors"]), result)
 
     @unittest.skipUnless(shutil.which("cwebp"), "cwebp is required for real optimization")
     def test_full_source_optimize_review_and_stale_gate(self):

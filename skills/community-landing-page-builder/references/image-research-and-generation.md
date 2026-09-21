@@ -2,7 +2,7 @@
 
 ## Plan coverage and distinct roles
 
-For a complete landing page, include at least four distinct, relevant content images, normally five to ten when research supports useful roles. Choose the final number from the offer, buyer questions and page structure. Spread images through the relevant sections rather than collecting them in a filler gallery. Logos, icons, decorative textures, duplicate placements and alternate crops of one picture do not count toward the minimum. A useful diagram or screenshot can count when it explains researched information; it must not fabricate evidence.
+For a complete landing page, include at least four distinct, relevant content originals, normally five to ten placements when research supports useful roles. Choose the final number from the offer, buyer questions and page structure. Spread images through the relevant sections rather than collecting them in a filler gallery. Logos, icons, decorative textures, duplicate placements and alternate crops of one picture do not count toward the minimum. A useful diagram or screenshot can count only when its independent source content explains researched information; a PDF cover screenshot or composite that reuses a page photograph remains that photograph and does not add an original.
 
 Do not display the same content picture twice on the page, even after cropping, mirroring, recoloring, renaming or adding an overlay. Each content placement needs its own genuinely different picture, not a near-duplicate of the same composition. Responsive resolutions/crops used interchangeably at one placement are allowed and count as one image. Repeated brand logos and interface icons are exempt from the reuse ban but never count as content images. Check visual identity and source-to-derivative mappings in the existing image review, not just filenames.
 
@@ -16,6 +16,7 @@ For each selected asset, record in `build/image-plan.md` or `build/image-plan.js
 - intended desktop and mobile treatment; for a hero, name the proof-bearing feature and the copy-safe area in that same note;
 - alt text, or empty alt for decoration;
 - final local path and review screenshot.
+- `source_original_ids` for every independent original represented in the pixels, plus whether the placement counts toward the four-original page minimum. Responsive variants share one ID. A preview/composite lists the source IDs it reuses and normally does not count.
 
 Use a compact table for a few ordinary first-party assets. Use a structured manifest when the build has several images, proof-sensitive assets, generated images, or many derivatives.
 
@@ -84,7 +85,7 @@ Add an adjacent disclosure when a reasonable viewer could mistake the image for 
 
 Review every used image in its actual desktop and mobile placement. Evidence must identify the asset and its rendered element or use an asset-specific crop. Reusing the same generic full-page screenshot for every image is not sufficient.
 
-In this existing review, count distinct qualifying images and check their distribution against the image plan. Fewer than four on a complete page is an unmet requirement, not a final pass. If research, available generation and truthful diagrams cannot supply four suitable images, report the specific missing roles and asset/tool limitation instead of padding the page or silently waiving the minimum. Do not add a separate review round for the count.
+In this existing review, count distinct qualifying source originals and check their distribution against the image plan. Count source identity, not asset rows, filenames, crops, responsive variants, composites or document previews. Fewer than four on a complete page is an unmet requirement, not a final pass. If research, available generation and truthful diagrams cannot supply four suitable originals, report the specific missing roles and asset/tool limitation instead of padding the page or silently waiving the minimum. Do not add a separate review round for the count.
 
 For each image confirm:
 
