@@ -54,6 +54,7 @@ async function adminPage(profile, { emailConfigured = true, legacy = false } = {
     if (url.pathname === '/api/auth/session') json = legacy ? {authenticated:true} : {authenticated:true,...profile};
     else if (url.pathname === '/api/admin/config') json = {brand:{name:'Synthetic team fixture'},timezone:'UTC',earliest_date:'2026-09-01'};
     else if (url.pathname === '/api/admin/metrics') json = {days:[],totals:{visitors:0,conversions:0,leads:0},timezone:'UTC'};
+    else if (url.pathname === '/api/admin/free-usage') json = {connection:'not_connected',status:'unknown',reason:'not_connected',checked_at:null,last_successful_at:null,qualification:'Cloudflare analytics can be delayed.',period:{daily_resets_at:'2026-09-22T00:00:00.000Z',storage_resets:false},metrics:[],dashboard_url:'https://dash.cloudflare.com/'};
     else if (url.pathname === '/api/admin/notifications') json = {through:10,unread_count:2};
     else if (url.pathname === '/api/admin/leads') json = {leads:[lead],total:1,page:1,limit:100};
     else if (url.pathname === '/api/admin/leads/lead-1') json = {lead,notes:[],activity:[]};
@@ -79,6 +80,7 @@ async function adminPage(profile, { emailConfigured = true, legacy = false } = {
 test('admin sees restrained user management and unavailable email actions stay disabled', options, async () => {
   const {page,calls} = await adminPage(profiles.admin,{emailConfigured:false});
   try {
+    assert.match(await page.locator('#free-usage').textContent(),/Ask Codex to connect read-only Cloudflare usage access/);
     const usersNav = page.locator('[data-view=users]'); assert.equal(await usersNav.isVisible(),true); await usersNav.click();
     await page.getByRole('heading',{name:'Workspace users'}).waitFor();
     const provider=page.locator('.users-provider'),setup=page.locator('.users-security-setup');
@@ -115,7 +117,7 @@ test('admin sees restrained user management and unavailable email actions stay d
     await page.setViewportSize({width:1280,height:900});
     const setupToggle=setup.getByText('One-time security setup',{exact:true}); await setupToggle.focus(); await page.keyboard.press('Enter'); assert.equal(await setup.evaluate(node=>node.open),false); await page.keyboard.press('Space'); assert.equal(await setup.evaluate(node=>node.open),true);
     await setupToggle.click(); assert.equal(await setup.evaluate(node=>node.open),false);
-    await Promise.all([page.waitForResponse(response=>new URL(response.url()).pathname==='/api/admin/users'),page.getByRole('button',{name:'Refresh'}).click()]);
+    await Promise.all([page.waitForResponse(response=>new URL(response.url()).pathname==='/api/admin/users'),page.getByRole('button',{name:'Refresh',exact:true}).click()]);
     assert.equal(await setup.evaluate(node=>node.open),false);
     await row.getByLabel('Role for manager-one').selectOption('viewer'); await row.getByRole('button',{name:'Save'}).click();
     await page.getByText('User access updated.').waitFor();
@@ -155,6 +157,7 @@ test('available email configuration remains explicitly unverified until the deli
 test('manager keeps operational controls but cannot see user administration', options, async () => {
   const {page} = await adminPage(profiles.manager);
   try {
+    assert.match(await page.locator('#free-usage').textContent(),/Ask an administrator to connect read-only Cloudflare usage access/);
     assert.equal(await page.locator('[data-view=users]').isHidden(),true);
     assert.equal(await page.locator('[data-view=connections]').isVisible(),true);
     await page.locator('[data-view=leads]').click(); await page.locator('#lead-table').waitFor({state:'visible'});
@@ -167,6 +170,7 @@ test('manager keeps operational controls but cannot see user administration', op
 test('View-only access is read-only while own password and session controls remain', options, async () => {
   const {page,calls} = await adminPage(profiles.viewer);
   try {
+    assert.match(await page.locator('#free-usage').textContent(),/Ask an administrator to connect read-only Cloudflare usage access/);
     assert.equal(await page.locator('[data-view=users]').isHidden(),true);
     assert.equal(await page.locator('[data-view=connections]').isHidden(),true);
     await page.locator('[data-view=leads]').click(); await page.locator('#lead-table').waitFor({state:'visible'});

@@ -3,6 +3,7 @@ import { initAccountPanel } from './account.js';
 import { initUsersPanel } from './users.js';
 import { createDateRangePicker } from './date-range.js';
 import { renderPerformanceChart } from './performance-chart.js';
+import { initFreeUsage } from './free-usage.js';
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const DEFAULT_STAGES = [
@@ -19,6 +20,7 @@ let confirmAction;
 let accountPanel;
 let dataPanel;
 let usersPanel;
+let usageMonitor;
 
 function element(tag, className = '', text) {
   const node = document.createElement(tag);
@@ -565,6 +567,8 @@ $('#logout').addEventListener('click', async event => {
 async function start() {
   try {
     applySession(await api('/api/auth/session'));
+    usageMonitor = initFreeUsage($('#free-usage'), { request:api, currentUser:state.user });
+    usageMonitor.refresh();
     $('[data-view="connections"]').hidden = !can('manage_settings');
     $('[data-view="users"]').hidden = !can('manage_users');
     const config = await api('/api/admin/config');

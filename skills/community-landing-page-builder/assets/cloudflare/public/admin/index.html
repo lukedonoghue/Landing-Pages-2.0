@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/admin/account.css">
   <link rel="stylesheet" href="/admin/users.css">
   <link rel="stylesheet" href="/admin/performance-chart.css">
+  <link rel="stylesheet" href="/admin/free-usage.css">
   <script type="module" src="/admin/app.js"></script>
 <link rel="stylesheet" href="data-lifecycle.css">
 </head>
@@ -32,6 +33,11 @@
     <main id="main" tabindex="-1">
       <header class="page-header"><div><p class="eyebrow">LEAD WORKSPACE</p><h1 id="page-title">A clear view of your growth.</h1><p id="page-description" class="muted">See who arrives, who enquires, and what happens next.</p></div><div class="header-meta"><span class="status-dot" aria-hidden="true"></span><span id="timezone-label">Loading workspace…</span></div></header>
       <div id="global-error" class="notice error" role="alert" hidden></div>
+      <section id="free-usage" class="usage-monitor" data-status="unknown" aria-labelledby="free-usage-heading" aria-live="polite">
+        <span class="usage-indicator" aria-hidden="true"></span>
+        <div class="usage-copy"><h2 id="free-usage-heading" class="usage-heading" data-usage-heading>Checking Free usage</h2><p class="usage-message" data-usage-message>Loading read-only Cloudflare account metrics...</p><details class="usage-details" data-usage-details hidden><summary data-usage-summary>View usage details</summary><div class="usage-metrics" data-usage-metrics></div></details><p class="usage-meta" data-usage-meta></p></div>
+        <div class="usage-actions"><a href="https://dash.cloudflare.com/" target="_blank" rel="noopener" data-usage-dashboard>Cloudflare dashboard</a><button type="button" data-usage-refresh>Refresh usage</button></div>
+      </section>
       <section id="overview-panel" aria-label="Performance overview">
         <div class="date-toolbar">
           <div id="performance-filter" class="performance-filter">

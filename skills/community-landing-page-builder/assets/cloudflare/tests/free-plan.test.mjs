@@ -14,3 +14,11 @@ test('free email requires matching sender and verified-recipient restrictions',(
   config.send_email[0].allowed_destination_addresses.push('not-approved@example.invalid');
   assert.ok(freePlanFailures(config).length);
 });
+test('usage monitor stays optional and rejects public or broad credentials',()=>{
+  assert.deepEqual(freePlanFailures({vars:{}}),[]);
+  assert.deepEqual(freePlanFailures({vars:{CF_USAGE_ACCOUNT_ID:'a'.repeat(32)}}),[]);
+  assert.ok(freePlanFailures({vars:{CF_USAGE_ACCOUNT_ID:'wrong'}}).length);
+  assert.ok(freePlanFailures({vars:{CF_ACCOUNT_ANALYTICS_TOKEN:'must-be-secret'}}).length);
+  assert.ok(freePlanFailures({vars:{CLOUDFLARE_API_TOKEN:'broad-token'}}).length);
+  assert.ok(freePlanFailures({vars:{CLOUDFLARE_API_KEY:'broad-key'}}).length);
+});

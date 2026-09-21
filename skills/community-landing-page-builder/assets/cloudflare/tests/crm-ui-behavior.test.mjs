@@ -48,7 +48,7 @@ const lead = {
   attribution: {}
 };
 
-async function adminPage(viewport = { width: 1280, height: 900 }) {
+async function adminPage(viewport = { width: 1280, height: 900 }, options = {}) {
   const page = await browser.newPage({ viewport });
   page.setDefaultTimeout(6000);
   await page.route('**/api/**', async route => {
@@ -60,7 +60,10 @@ async function adminPage(viewport = { width: 1280, height: 900 }) {
     } else if (url.pathname === '/api/admin/config') {
       json = { brand: { name: 'Synthetic CRM fixture' }, timezone: 'UTC', earliest_date: '2026-09-01' };
     } else if (url.pathname === '/api/admin/metrics') {
+      if (options.metricsFailure) { await route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({error:'Metrics unavailable'})}); return; }
       json = { days: [], totals: { visitors: 0, conversions: 0, leads: 1 }, timezone: 'UTC' };
+    } else if (url.pathname === '/api/admin/free-usage') {
+      json = options.usage || {connection:'not_connected',status:'unknown',coverage:'incomplete',reason:'not_connected',checked_at:null,last_successful_at:null,qualification:'Cloudflare analytics can be delayed.',period:{daily_resets_at:'2026-09-22T00:00:00.000Z',storage_resets:false},metrics:[],dashboard_url:'https://dash.cloudflare.com/'};
     } else if (url.pathname === '/api/admin/notifications') {
       json = { through: 1, unread_count: 0 };
     } else if (url.pathname === '/api/admin/leads/lead-1') {
@@ -79,7 +82,9 @@ async function adminPage(viewport = { width: 1280, height: 900 }) {
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(json) });
   });
   await page.goto(origin + '/admin/');
-  await page.locator('#metric-cards').waitFor({ state: 'visible' });
+  if (options.metricsFailure) await page.locator('#metrics-status.error').waitFor({state:'visible'});
+  else await page.locator('#metric-cards').waitFor({ state: 'visible' });
+  await page.locator('#free-usage-heading').filter({hasNotText:'Checking Free usage'}).waitFor();
   return page;
 }
 
@@ -95,10 +100,11 @@ async function openLeadDialog(page) {
 }
 
 test('CRM UI behavior source includes guarded backdrop handling and stable block labels', async () => {
-  const [app, css, loginCss] = await Promise.all([
+  const [app, css, loginCss, usage] = await Promise.all([
     readFile(new URL('../public/admin/app.js', import.meta.url), 'utf8'),
     readFile(new URL('../public/admin/users.css', import.meta.url), 'utf8'),
-    readFile(new URL('../public/login.css', import.meta.url), 'utf8')
+    readFile(new URL('../public/login.css', import.meta.url), 'utf8'),
+    readFile(new URL('../public/admin/free-usage.js', import.meta.url), 'utf8')
   ]);
   assert.match(app, /isDialogBackdropPointer/);
   assert.match(app, /leadDialog\.addEventListener\('pointerdown'/);
@@ -109,6 +115,34 @@ test('CRM UI behavior source includes guarded backdrop handling and stable block
   assert.match(loginCss, /\[hidden\]\{display:none!important\}/);
   assert.match(loginCss, /\.intro h1\{font-size:4rem;letter-spacing:0\}\.sign-in h2\{letter-spacing:0\}/);
   assert.match(loginCss, /\.description,.help,.form-help,#login-status,#action-status\{color:#52685b\}/);
+  assert.match(usage,/visibilitychange/); assert.match(usage,/5 \* 60 \* 1000/); assert.match(usage,/destroy\(\)/);
+});
+
+test('usage warning survives performance failure and fits narrow mobile screens', browserOptions, async () => {
+  const usage={
+    connection:'connected',status:'urgent',coverage:'incomplete',reason:null,checked_at:'2026-09-21T12:00:00.000Z',last_successful_at:'2026-09-21T12:00:00.000Z',
+    qualification:'Cloudflare analytics can be delayed. Values are provider estimates.',period:{daily_resets_at:'2026-09-22T00:00:00.000Z',storage_resets:false},dashboard_url:'https://dash.cloudflare.com/',
+    metrics:[
+      {id:'workers_requests',label:'Workers requests',value:99_000,limit:100_000,unit:'requests',percent:99,status:'urgent'},
+      {id:'d1_rows_read',label:'D1 rows read',value:120_000,limit:5_000_000,unit:'rows',percent:2.4,status:'ok'},
+      {id:'d1_rows_written',label:'D1 rows written',value:4_000,limit:100_000,unit:'rows',percent:4,status:'ok'},
+      {id:'d1_account_storage',label:'D1 account storage',value:null,limit:5_000_000_000,unit:'bytes',percent:null,status:'unknown'},
+      {id:'d1_database_storage',label:'Largest D1 database',value:null,limit:500_000_000,unit:'bytes',percent:null,status:'unknown'}
+    ]
+  };
+  for (const viewport of [{width:390,height:844},{width:320,height:844}]) {
+    const page=await adminPage(viewport,{metricsFailure:true,usage});
+    try {
+      const banner=page.locator('#free-usage');
+      assert.equal(await banner.getByRole('heading',{name:'Free usage urgent'}).isVisible(),true);
+      assert.match(await banner.textContent(),/at least 95% used/); assert.match(await banner.textContent(),/Some usage figures are unavailable/);
+      assert.equal(await banner.locator('.usage-metric').count(),5); assert.equal(await banner.locator('.usage-metrics').isVisible(),false);
+      await banner.getByText('View 5 usage figures',{exact:true}).click(); assert.equal(await banner.locator('.usage-metrics').isVisible(),true);
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+      const bounds=await banner.boundingBox(); const actions=await banner.locator('.usage-actions').boundingBox();
+      assert.ok(actions.x>=bounds.x-1 && actions.x+actions.width<=bounds.x+bounds.width+1,JSON.stringify({viewport,bounds,actions}));
+    } finally { await page.close(); }
+  }
 });
 
 test('login and forgot-password modes hide, show, and focus the expected controls', browserOptions, async () => {

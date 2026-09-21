@@ -11,7 +11,7 @@ export function authorize(user, path, method) {
   if (path.startsWith('/api/admin/users') && user.role!=='admin') throw new HttpError(403,'Only an administrator can manage users.');
   if (user.role!=='viewer') return;
   const ownAccount = ['/api/admin/account/password','/api/admin/account/revoke-sessions'].includes(path);
-  const reads = ['/api/admin/account','/api/admin/config','/api/admin/metrics','/api/admin/leads','/api/admin/notifications'];
+  const reads = ['/api/admin/account','/api/admin/config','/api/admin/metrics','/api/admin/leads','/api/admin/notifications','/api/admin/free-usage'];
   if ((method==='GET' && (reads.includes(path) || /^\/api\/admin\/leads\/[a-f0-9-]{36}$/.test(path))) || (method==='POST' && ownAccount)) return;
   throw new HttpError(403,'This account has view-only access.');
 }

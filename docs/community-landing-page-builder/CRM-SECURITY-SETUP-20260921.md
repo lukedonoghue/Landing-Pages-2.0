@@ -31,4 +31,6 @@ Dashboard navigation was checked against current official Cloudflare destination
 
 ## Publication
 
-Local implementation is complete. Guarded publication is in progress; this checkpoint does not claim that the new guide is live. Replace this paragraph only after observed release identity and live UI proof. Real email delivery remains pending regardless of UI deployment.
+The concise guide is deployed to the existing Beks Worker/database. Release `2eb2a4d3-69f5-40b6-bd4f-bd7ff27bed9d`, Cloudflare version `71ff4457-4b58-483d-a9d3-eee1f6f264b5`, source `16c88b1581df8894db00eda51c8636a26b6d93a8490d416c72ad09129e60aa5f`. Verified at 2026-09-21T19:55:33Z; provider-guide live browser proof at 19:56:15Z. Final guarded suite passed 249/249. The current 22-document rendered-copy capture made zero submissions; release verification used the previously authorized controlled journey. Existing credentials and D1 were preserved. Owned publisher/browser/server processes were closed.
+
+Real email remains unconfigured and inbox delivery unverified. This release does not yet include the subsequent hosting-usage monitor request.
