@@ -35,6 +35,8 @@ Ask the user only when a missing answer would materially change one of these dec
 
 Choose the leading advantage rather than collecting an unranked list of positives. In the same brief, compare up to three plausible angles for buyer relevance, evidence strength and specificity, then select one. Map the strongest supporting reasons as `source fact -> buyer consequence -> benefit -> proof/limit -> section`. Read real customer feedback for the customer's problem and language when available. Do not turn inferred concerns into quotations. If competitor evidence is absent, say the advantage is supported but uniqueness is unverified; do not claim it is exclusive. If no distinguishing capability is supported, lead with the clearest specific offer and honest fit, not invented superiority. This is a few rows in the existing brief, not a new research report or prerequisite questionnaire.
 
+Label those reasons in the same rows: `table_stakes` (expected category competence), `useful_advantage` (a specific capability/term valuable to this buyer), `supported_comparison` (a scoped difference backed by comparable evidence), or `verified_unique` (exclusivity actually established). A meaningful combination of useful advantages can lead the page; do not force uniqueness. Rank the buyer's material objections by decision impact and mark whether each comes from observed customer evidence or a reasonable hypothesis. Capture a short actual brand/customer language sample when available and describe the intended register; do not infer a fearful emotional state from a keyword alone.
+
 The supplied page is evidence of conversion intent even when its production endpoint cannot or should not be reused. A public endpoint is not permission to transmit data, run a live test, or adopt unsafe behavior. If the source form is broken or unsafe, preserve the form offer and buyer journey while rebuilding the local behavior safely.
 
 Inspect the visible content around the source contact/form, not only its fields. Capture commercial differentiators such as a conditional price promise or guarantee with their exact eligibility limits; either use them accurately or record why they are excluded. A missing price list does not imply there is no useful price-related offer. Do not invent terms when they are unclear.
@@ -47,6 +49,8 @@ Write `build/claim-ledger.md` for material claims that will appear on the page. 
 | --- | --- | --- | --- | --- |
 
 Record numbers, credentials, ratings, awards, guarantees, prices, timing, geographic scope, comparative claims, customer outcomes, and proof-bearing identities. Ordinary descriptions that are directly visible on the official site do not need a separate row unless they can mislead or drift.
+
+In each material claim's existing qualifier column, distinguish company assertion, individual customer experience, demonstration, internal measurement or independent evidence, and state the scope it supports. A communication review does not prove durability; years in business do not establish financial returns; a product demonstration does not prove every customer's result. Safety, financial, regulated-outcome, guarantee and comparison claims need matching evidence and visible material limits. Narrow or omit unsupported claims instead of borrowing stronger language from a reference.
 
 Rules:
 

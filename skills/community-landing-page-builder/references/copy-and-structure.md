@@ -29,6 +29,8 @@ Write each major benefit as a useful buyer consequence supported by a concrete f
 
 ## Two short pre-design editing passes
 
+For the second pass use [copy-acceptance.md](copy-acceptance.md), which defines the actual review questions and evidence verifier for both lightweight and complete builds. Do not add another review round or consider this optional because no CRM was selected.
+
 Run these on the same draft, in the current agent unless a reviewer is already available. They require no user approval, extra model subscription, classification service or extra research round when the evidence is sufficient. Revise affected passages, not the entire page repeatedly.
 
 1. **Benefit and choice pass:** "Read the hero and headings as the intended buyer comparing options. What do I get, why does that matter, and why choose this business? Identify vague outcomes, category-only claims and features without a buyer consequence. Rewrite the weak passages around the strongest supported advantage, preserving the service, scope and proof. Do not invent a USP when only a useful offer is evidenced. Make each section add a different reason, explanation or reassurance."

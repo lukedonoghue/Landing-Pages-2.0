@@ -20,11 +20,15 @@ Live retrieval failed on 2026-09-21. The bundled non-OCR capture is source `6aeb
 
 Do not inherit the weaknesses. The capture juxtaposes lifetime language with a 12-year warranty and contains strong superiority/safety claims that need their own substantiation. Resolve qualifications from current client evidence. The main-site exit also conflicts with this skill's paid-page rules. Neither a source's repetition nor a prominent claim proves it is true or necessary.
 
+The important interaction is between selection help, measurement, installation choice and product fit: these make the enquiry useful before purchase and make the provider more specific than a generic gutter supplier. The brochure alone is not the advantage. The mechanism explanation makes the material benefit intelligible; the reviews primarily reduce service-experience uncertainty, not establish the material's lifetime. A new business should build this connected argument from its own capabilities. Its section titles and image count cannot recreate that argument by themselves.
+
 ## Clean Slate: Outcome With A Recognisable Delivery Experience
 
 Reference: https://www.cleanslatelandsolutions.com/ (live text inspected 2026-09-21).
 
 The opening connects land work to usable property, then reduces uncertainty with planning and communication. An identified owner, customer account, project imagery and guide make the provider and next step more tangible. Its why-choose content links equipment and experience to the job, while the process continues beyond enquiry into assessment and execution. These choices can help a visitor understand the outcome and who will deliver it; they do not prove a conversion uplift. Some broad assurances still need stronger evidence. Copy the explanatory discipline, not generic confidence or every layout choice.
+
+Compared with Blue Mountain's product-fit/selection argument, Clean Slate has a contractor-risk argument: an identifiable team assesses the actual site before defining work. Its useful specificity is the assessment and delivery experience, not the word professional. The source's varied estimate-button labels and navigation are observations, not overrides of this skill's user-required consistent primary CTA and paid-page exit rules. The comparison suggests choosing the dominant buyer uncertainty first, then arranging sections to resolve it.
 
 ## Research Cross-Check
 

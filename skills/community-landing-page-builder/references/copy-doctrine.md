@@ -50,6 +50,10 @@ For each major argument, write this compact chain in the research brief:
 
 Call a capability a useful advantage unless evidence establishes uniqueness. Never derive universal savings, completion times, safety, legal/medical outcomes, property value or customer counts from loose language.
 
+Choose a specific practical change before adding emotional reassurance. "Know the agreed scope and price before committing" is a decision benefit when supported by the quoting process; "peace of mind" alone is not an explanation. After the benefit, state how the capability produces it, then place appropriately scoped proof. Recognition, reassurance, meaningful contrast, explanation and an easy next step are a useful persuasion arc from the older conversion-copywriter system. Do not make fear, a proprietary mechanism, numerical proof, a before/after card or a fixed emotional sequence compulsory.
+
+Repeat the main promise as the reader moves from opening to explanation to final action, but add a new mechanism, relevant evidence or resolved objection at each substantial revisit. Repetition that reinforces one argument is different from cloning a service list into three sections. The default voice borrows the references' direct address, concrete nouns, causal explanations and specific deliverables while keeping the actual client's register. Do not copy their superlatives or manufacture intimacy with an unverified buyer situation.
+
 ## Section jobs
 
 - **Hero:** the relevant service and result, for this visitor, with one clear next action.
@@ -81,4 +85,4 @@ Screenshots and unreviewed captures are searchable for exploration but excluded 
 5. Check the claim and qualifier together: a shorter sentence must remain accurate.
 6. Read the offer across page, modal, brochure and thank-you: the transaction must remain the same.
 
-Use the writer/reviewer contract in `copy-workflow.md` when the structured copy library or complete Worker workflow is selected. Lightweight static builds keep the same editorial standard through `copy-and-structure.md`, without requiring its JSON files or infrastructure. Automated checks establish structure and freshness only; an actual editorial review and rendered-page review remain necessary.
+Use the writer/reviewer contract in `copy-workflow.md` when the structured copy library or complete Worker workflow is selected. Lightweight static builds can keep their copy in Markdown without the library's structured drafting schema or Worker infrastructure; all builds use the small review record and evidence check in `copy-acceptance.md`. Automated checks establish structure and freshness only; an actual editorial review and rendered-page review remain necessary.

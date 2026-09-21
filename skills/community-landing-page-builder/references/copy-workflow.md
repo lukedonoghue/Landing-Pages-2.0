@@ -52,6 +52,8 @@ Shared offer, CTA and follow-up values come from the existing `funnel.json`. The
 
 ## Reviewer prompt
 
+Use [copy-acceptance.md](copy-acceptance.md) for the cold-reader questions, strongest challenge and source-linked evidence. Prepare its input snapshot after drafting and store the added fields in the same `copy-editorial-review.json` described here. New writer contexts carry `editorial_contract_version: 2`; the audit below invokes that evidence gate too. There is one reviewer pass and one report, not two review systems.
+
 Review current copy with the same client facts and reference lessons. Do not provide the writer's self-rating or an old pass score as evidence. A fresh context is useful for substantial work; the workflow also supports a separate sequential review.
 
 > Review this draft against the actual client evidence, user brief and selected reference lessons. Check message match, exact claim support and qualifiers, outcomes and delivery mechanism, objection coverage, the headline-only story, natural brand voice and density, offer/follow-up consistency, and appropriate reference adaptation. For each finding identify the section, quote the problematic text, explain its effect and provide a concrete revision or identify missing evidence. Distinguish blocking factual/brief failures from substantive improvements and optional polish. Do not approve a topic list, unsupported assertion, stale offer or imported client detail. Revise the affected copy, then assess the final revision. Explain any remaining uncertainty. Your review is editorial judgment, not a conversion prediction.
