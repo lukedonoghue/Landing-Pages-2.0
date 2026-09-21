@@ -39,6 +39,7 @@ after(async () => {
 const lead = { id:'lead-1', name:'Synthetic Test Lead', email:'test@example.invalid', phone:'+44 7700 900000', status:'new', version:1, created_at:'2026-09-21T08:00:00Z', traffic_source:'google', traffic_type:'paid', utm_medium:'cpc' };
 const profiles = {
   admin: { user:{id:'owner',username:'owner',email:'owner@example.invalid',role:'admin'}, permissions:{manage_users:true,edit_leads:true,export_leads:true,manage_settings:true} },
+  teammateAdmin: { user:{id:'admin-2',username:'admin-two',email:'admin-two@example.invalid',role:'admin'}, permissions:{manage_users:true,edit_leads:true,export_leads:true,manage_settings:true} },
   manager: { user:{id:'manager-1',username:'manager-one',email:'manager@example.invalid',role:'manager'}, permissions:{manage_users:false,edit_leads:true,export_leads:true,manage_settings:true} },
   viewer: { user:{id:'viewer-1',username:'viewer-one',email:'viewer@example.invalid',role:'viewer'}, permissions:{manage_users:false,edit_leads:false,export_leads:false,manage_settings:false} }
 };
@@ -80,22 +81,42 @@ test('admin sees restrained user management and unavailable email actions stay d
   try {
     const usersNav = page.locator('[data-view=users]'); assert.equal(await usersNav.isVisible(),true); await usersNav.click();
     await page.getByRole('heading',{name:'Workspace users'}).waitFor();
-    assert.match(await page.locator('.users-provider').textContent(),/verified sender.*verified-recipient allowlist/i);
+    const provider=page.locator('.users-provider'),setup=page.locator('.users-security-setup');
+    assert.equal(await provider.getByText('Account email setup required',{exact:true}).isVisible(),true);
+    assert.equal(await setup.evaluate(node=>node.open),true);
+    const setupCopy=await setup.textContent();
+    assert.match(setupCopy,/Tell Codex your receiving email and the business domain to send from/);
+    assert.match(setupCopy,/Compute > Email Service > Email Routing > Destination Addresses/);
+    assert.match(setupCopy,/After Codex connects email, open Users > Owner email/);
+    assert.match(setupCopy,/Teammates can use any email domain, including Gmail or an agency address/);
+    assert.doesNotMatch(setupCopy,/test account|CRM_EMAIL|current CRM address|JSON/i);
+    assert.ok(setupCopy.trim().split(/\s+/).length<=180);
+    assert.equal(await setup.getByRole('link',{name:'Cloudflare instructions'}).getAttribute('href'),'https://developers.cloudflare.com/email-service/configuration/email-routing-addresses/');
     assert.equal(await page.getByRole('button',{name:'Send invitation'}).isDisabled(),true);
     assert.equal(await page.getByRole('button',{name:'Resend invite'}).isDisabled(),true);
+    assert.equal(await page.getByRole('button',{name:'Send verification'}).isDisabled(),true);
+    assert.equal(await page.getByRole('button',{name:'Send reset'}).count(),2);
+    assert.equal(await page.getByRole('button',{name:'Send reset'}).evaluateAll(buttons=>buttons.every(button=>button.disabled)),true);
     assert.equal(await page.getByRole('button',{name:'Another admin required'}).isDisabled(),true);
     assert.equal(await page.getByRole('heading',{name:'Owner email'}).isVisible(),true);
     const row = page.locator('.users-table tbody tr').filter({hasText:'manager-one'});
     await row.waitFor();
     if (process.env.TEST_ARTIFACT_DIR) {
       await mkdir(process.env.TEST_ARTIFACT_DIR,{recursive:true});
-      for (const viewport of [{width:1440,height:1000},{width:390,height:844}]) {
+      for (const viewport of [{width:1440,height:1000},{width:390,height:844},{width:320,height:844}]) {
         await page.setViewportSize(viewport);
-        await page.screenshot({path:join(process.env.TEST_ARTIFACT_DIR,`users-admin-${viewport.width}.png`),fullPage:true});
+        await provider.screenshot({path:join(process.env.TEST_ARTIFACT_DIR,`users-admin-${viewport.width}.png`)});
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),true);
       }
       await page.setViewportSize({width:1280,height:900});
     }
+    await page.setViewportSize({width:320,height:844});
+    assert.deepEqual(await page.locator('.users-table').evaluate(node=>({pageFits:document.documentElement.scrollWidth<=innerWidth,tableScrolls:node.scrollWidth>node.clientWidth})),{pageFits:true,tableScrolls:true});
+    await page.setViewportSize({width:1280,height:900});
+    const setupToggle=setup.getByText('One-time security setup',{exact:true}); await setupToggle.focus(); await page.keyboard.press('Enter'); assert.equal(await setup.evaluate(node=>node.open),false); await page.keyboard.press('Space'); assert.equal(await setup.evaluate(node=>node.open),true);
+    await setupToggle.click(); assert.equal(await setup.evaluate(node=>node.open),false);
+    await Promise.all([page.waitForResponse(response=>new URL(response.url()).pathname==='/api/admin/users'),page.getByRole('button',{name:'Refresh'}).click()]);
+    assert.equal(await setup.evaluate(node=>node.open),false);
     await row.getByLabel('Role for manager-one').selectOption('viewer'); await row.getByRole('button',{name:'Save'}).click();
     await page.getByText('User access updated.').waitFor();
     assert.ok(calls.some(call => call.method === 'PATCH' && call.path === '/api/admin/users/manager-1' && call.body.role === 'viewer'));
@@ -103,6 +124,31 @@ test('admin sees restrained user management and unavailable email actions stay d
     await invited.getByLabel('Email for invited-user').fill('corrected@example.invalid'); await invited.getByRole('button',{name:'Save'}).click();
     await page.getByText('Invitation corrected.').waitFor();
     assert.ok(calls.some(call => call.method === 'PATCH' && call.path === '/api/admin/users/invited-1' && call.body.email === 'corrected@example.invalid'));
+  } finally { await page.close(); }
+});
+
+test('non-owner admin sees teammate setup without owner-only instructions', options, async () => {
+  const {page}=await adminPage(profiles.teammateAdmin,{emailConfigured:false});
+  try {
+    await page.locator('[data-view=users]').click(); await page.getByRole('heading',{name:'Workspace users'}).waitFor();
+    const setup=page.locator('.users-security-setup');
+    assert.match(await setup.textContent(),/Adding a teammate/);
+    assert.equal(await setup.getByText('Choose the inbox and sender.',{exact:true}).count(),0);
+    assert.equal(await page.getByRole('heading',{name:'Owner email'}).isHidden(),true);
+  } finally { await page.close(); }
+});
+
+test('available email configuration remains explicitly unverified until the delivery test', options, async () => {
+  const {page}=await adminPage(profiles.admin,{emailConfigured:true});
+  try {
+    await page.locator('[data-view=users]').click(); await page.getByRole('heading',{name:'Workspace users'}).waitFor();
+    const provider=page.locator('.users-provider'),setup=page.locator('.users-security-setup');
+    assert.equal(await provider.getByText('Email settings are available',{exact:true}).isVisible(),true);
+    assert.match(await provider.textContent(),/Email connection settings are present\. Confirm your email below to finish account setup\./);
+    assert.doesNotMatch(await provider.textContent(),/email delivery is configured|setup complete/i);
+    assert.equal(await setup.evaluate(node=>node.open),false);
+    assert.equal(await page.getByRole('button',{name:'Send invitation'}).isEnabled(),true);
+    assert.equal(await page.getByText('CRM verified',{exact:true}).count(),2);
   } finally { await page.close(); }
 });
 
