@@ -1,0 +1,73 @@
+{
+  "name": "Bookkeeping by Beks",
+  "color": "#5F0B35",
+  "logo": "",
+  "timezone": "America/Chicago",
+  "analyticsMode": "disabled",
+  "advertisingUserDataMode": "disabled",
+  "consentUiMode": "disabled",
+  "sensitiveCategory": false,
+  "gtmContainerId": "",
+  "publicHost": "go.netbean.com",
+  "crmHost": "crm.netbean.com",
+  "allowedPaths": [
+    "/",
+    "/index.html"
+  ],
+  "stages": [
+    {
+      "id": "new",
+      "label": "New contact"
+    },
+    {
+      "id": "qualified",
+      "label": "Qualified"
+    },
+    {
+      "id": "engaged",
+      "label": "Engaged"
+    },
+    {
+      "id": "follow_up",
+      "label": "Follow-up"
+    },
+    {
+      "id": "won",
+      "label": "Won"
+    },
+    {
+      "id": "lost",
+      "label": "Lost"
+    }
+  ],
+  "formFields": [
+    {
+      "name": "first_name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "email",
+      "type": "email",
+      "required": true
+    },
+    {
+      "name": "phone",
+      "type": "tel",
+      "required": false
+    },
+    {
+      "name": "service",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Monthly bookkeeping",
+        "Cleanup or catch-up",
+        "Accounts payable or receivable",
+        "KPI dashboards or consulting",
+        "Not sure yet"
+      ]
+    }
+  ],
+  "attributionMode": "lead"
+}

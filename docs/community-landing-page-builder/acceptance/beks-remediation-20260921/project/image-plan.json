@@ -1,0 +1,824 @@
+{
+  "schema_version": 1,
+  "client_website": "https://bookkeepingbybeks.com/",
+  "allowed_hosts": [
+    "bookkeepingbybeks.com",
+    "img1.wsimg.com"
+  ],
+  "generation_budget": {
+    "max_assets": 3,
+    "max_attempts_per_asset": 2,
+    "max_total_attempts": 6
+  },
+  "inventory": [
+    {
+      "id": "official-portrait-research-only",
+      "source_url": "https://img1.wsimg.com/isteam/ip/73a6f862-dcbb-45a4-940e-4d27c5b0cfb5/IMG_4714_cropped.jpg/",
+      "role": "portrait",
+      "rights_basis": "official-site research only; publication permission not established",
+      "publish": false
+    },
+    {
+      "id": "source-4b2be8ef9e9a",
+      "local_file": "/Users/mac/Documents/Codex/2026-09-17/co/work/community-run-20260921-us-r1/project/build/catalogue-pages/page-1.png",
+      "source_sha256": "4b2be8ef9e9aea8a736a36e6ed613fe18e669b2e6768e4dc4062aa48c86ba883",
+      "origin": "client-supplied",
+      "evidence": {
+        "path": "research/guide-cover-evidence.txt",
+        "sha256": "8513fede2e1ff55a4c519b11e812caaf7b70fc9c0f7e9e71099aa5d238ac0782"
+      }
+    }
+  ],
+  "generation_attempts": [
+    {
+      "id": "initial-unrecorded-hero",
+      "asset_id": "hero-ledger-workspace",
+      "status": "failed",
+      "started_at": "2026-09-21T14:18:00Z",
+      "finished_at": "2026-09-21T14:18:59Z",
+      "requested_model": null,
+      "mode": "native",
+      "tool": "image_gen",
+      "reason": "Discarded from final use because the exact native-tool prompt was not persisted in the project evidence."
+    },
+    {
+      "id": "initial-unrecorded-cleanup",
+      "asset_id": "cleanup-organized-records",
+      "status": "failed",
+      "started_at": "2026-09-21T14:19:00Z",
+      "finished_at": "2026-09-21T14:19:59Z",
+      "requested_model": null,
+      "mode": "native",
+      "tool": "image_gen",
+      "reason": "Discarded from final use because the exact native-tool prompt was not persisted in the project evidence."
+    },
+    {
+      "id": "initial-unrecorded-dashboard",
+      "asset_id": "dashboard-conversation",
+      "status": "failed",
+      "started_at": "2026-09-21T14:20:00Z",
+      "finished_at": "2026-09-21T14:20:59Z",
+      "requested_model": null,
+      "mode": "native",
+      "tool": "image_gen",
+      "reason": "Discarded from final use because the exact native-tool prompt was not persisted in the project evidence."
+    },
+    {
+      "id": "257078be93f0445b9b1be09145855913",
+      "asset_id": "hero-ledger-workspace",
+      "status": "registered",
+      "started_at": "2026-09-21T14:40:28.165493+00:00",
+      "requested_model": null,
+      "mode": "native",
+      "tool": "image_gen",
+      "request": {
+        "prompt": "Create a photorealistic editorial workspace photograph for an independent bookkeeping landing-page demonstration. A calm, tidy small-business desk with an open laptop angled away so no screen text is visible, a calculator, burgundy notebook, pen, coffee mug, and a small stack of generic receipts without legible writing. Warm natural daylight, realistic materials, quiet professional mood, burgundy and muted teal accents. Wide 4:3 horizontal composition with generous uncluttered light wall space across the left half for headline copy; key objects grouped on the right. No people, no logos, no brand marks, no readable text, no currency, no checks, no client names, no awards, no before-and-after framing.\n\nUsage: Hero; Show a calm QuickBooks-oriented bookkeeping workspace with negative space for the first-screen argument.\nConstraints: This is illustrative supporting imagery, not documentary evidence. Do not invent client staff, testimonials, logos, certificates, or before/after results. Preserve room and subject placement required by the page composition."
+      },
+      "finished_at": "2026-09-21T14:40:28.319480+00:00",
+      "output_sha256": "3fa9a076d1418176138c6d7b1d21c2cf828ed9f1535f1c10ca0b093c7d472ea8",
+      "tool_evidence": {
+        "path": "research/image-evidence/hero-ledger-workspace.txt",
+        "sha256": "409a583e48505f7c5bf6c02a6f6d06576b9949fe1525031daeedde3f7d98f60b"
+      },
+      "actual_model": null,
+      "selected_model": null,
+      "model_verification": "unverified"
+    },
+    {
+      "id": "6c2db940b35d490090e063b668f0ec84",
+      "asset_id": "cleanup-organized-records",
+      "status": "registered",
+      "started_at": "2026-09-21T14:40:28.486155+00:00",
+      "requested_model": null,
+      "mode": "native",
+      "tool": "image_gen",
+      "request": {
+        "prompt": "Create a photorealistic editorial overhead photograph for an independent bookkeeping landing-page demonstration. Anonymous adult hands sorting generic receipts, bank-statement-like papers, and plain folders into an orderly monthly filing system on a clean desk. Calm professional natural light, burgundy folder accent, muted teal tab accent, realistic paper texture. Horizontal 4:3 composition with the complete organizing action visible and balanced negative space. No faces, no logos, no brand marks, no readable text, no account numbers, no client names, no currency, no checks, no dramatic mess, no before-and-after comparison.\n\nUsage: Start where your books are; Make cleanup and catch-up tangible without implying a real client file.\nConstraints: This is illustrative supporting imagery, not documentary evidence. Do not invent client staff, testimonials, logos, certificates, or before/after results. Preserve room and subject placement required by the page composition."
+      },
+      "finished_at": "2026-09-21T14:40:28.656496+00:00",
+      "output_sha256": "505d90b5cc8004ee964666423ad515a69d2a071f380654198aa1a55bf29ac468",
+      "tool_evidence": {
+        "path": "research/image-evidence/cleanup-organized-records.txt",
+        "sha256": "ce47f05dee61affe763d3b4f1372638758e8087978b37bbc6224716ec7d0f696"
+      },
+      "actual_model": null,
+      "selected_model": null,
+      "model_verification": "unverified"
+    },
+    {
+      "id": "3f4876953c7c4dbca41468c276078fc6",
+      "asset_id": "dashboard-conversation",
+      "status": "registered",
+      "started_at": "2026-09-21T14:40:28.827231+00:00",
+      "requested_model": null,
+      "mode": "native",
+      "tool": "image_gen",
+      "request": {
+        "prompt": "Create a photorealistic editorial planning photograph for an independent bookkeeping landing-page demonstration. Two anonymous adult small-business colleagues seen from behind or cropped above the shoulders, seated at a table and calmly reviewing a laptop with simple abstract unlabeled bar and line chart shapes. Warm natural daylight, professional but approachable workspace, burgundy and muted teal accents. Wide horizontal 3:2 composition with both people and the complete screen context visible. No recognizable faces, no logos, no brand marks, no readable text, no real metrics, no client names, no testimonials, no exaggerated growth curve, no money imagery.\n\nUsage: See more than a tidy ledger; Illustrate discussion around high-level business metrics without depicting Beks, a customer, or real results.\nConstraints: This is illustrative supporting imagery, not documentary evidence. Do not invent client staff, testimonials, logos, certificates, or before/after results. Preserve room and subject placement required by the page composition."
+      },
+      "finished_at": "2026-09-21T14:40:28.996824+00:00",
+      "output_sha256": "02d55f8ef594483a40d87db095c068b8f457d0c95309f6492a168cc58848be29",
+      "tool_evidence": {
+        "path": "research/image-evidence/dashboard-conversation.txt",
+        "sha256": "c6c64dbaec32067458c9ebada1959cff4e26d6bb060233d5a6b75ca1714c57f5"
+      },
+      "actual_model": null,
+      "selected_model": null,
+      "model_verification": "unverified"
+    }
+  ],
+  "generation_decision": {
+    "needed": true,
+    "reason": "The official homepage supplies only one portrait with unresolved republication rights. Three non-proof illustrations are needed to explain bookkeeping work, cleanup, and dashboard-oriented advice without fabricating client evidence.",
+    "gaps": [
+      "hero service context",
+      "cleanup and catch-up organization",
+      "dashboard and advisory context"
+    ]
+  },
+  "assets": [
+    {
+      "id": "hero-ledger-workspace",
+      "section": "Hero",
+      "purpose": "Show a calm QuickBooks-oriented bookkeeping workspace with negative space for the first-screen argument",
+      "role": "illustrative",
+      "trust_class": "illustrative",
+      "information_bearing": false,
+      "required": true,
+      "allow_generation": true,
+      "generation": {
+        "mode": "native",
+        "requested_model": null,
+        "authorization_evidence": "User requested image generation on 2026-09-21",
+        "allow_unverified_native_model": true,
+        "model_exception_evidence": "Native tool model identity may be unreported",
+        "allow_source_fallback": false
+      },
+      "alt": "Illustrative bookkeeping workspace with a laptop, calculator, notebook, and organized receipts.",
+      "placement": {
+        "desktop": {
+          "aspect_ratio": "4:3",
+          "focal_point": [
+            0.64,
+            0.5
+          ],
+          "copy_safe_area": "left third is uncluttered"
+        },
+        "mobile": {
+          "aspect_ratio": "4:3",
+          "focal_point": [
+            0.55,
+            0.5
+          ]
+        }
+      },
+      "max_bytes": {
+        "desktop": 240000,
+        "mobile": 130000
+      },
+      "stage": "reviewed",
+      "source": {
+        "path": "research/image-originals/hero-ledger-workspace-3fa9a076d1418176.png",
+        "mime": "image/png",
+        "width": 1448,
+        "height": 1086,
+        "bytes": 1849014,
+        "sha256": "3fa9a076d1418176138c6d7b1d21c2cf828ed9f1535f1c10ca0b093c7d472ea8"
+      },
+      "provenance": {
+        "kind": "generated",
+        "attempt_id": "257078be93f0445b9b1be09145855913",
+        "tool": "image_gen",
+        "mode": "native",
+        "provider": "native-tool",
+        "requested_model": null,
+        "actual_model": null,
+        "selected_model": null,
+        "model_verification": "unverified",
+        "evidence": {
+          "path": "research/image-evidence/hero-ledger-workspace.txt",
+          "sha256": "409a583e48505f7c5bf6c02a6f6d06576b9949fe1525031daeedde3f7d98f60b"
+        },
+        "rights": "generated",
+        "rights_evidence": "Generated for this project; retain tool evidence and review rights for any reference inputs."
+      },
+      "generated_disclosure": "AI-generated illustration; does not depict an actual client project, staff member, customer, or result.",
+      "variants": [
+        {
+          "path": "public/assets/images/optimized/hero-ledger-workspace-3fa9a076d141-dcc29393/hero-ledger-workspace-3fa9a076d1418176-480.webp",
+          "mime": "image/webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 19086,
+          "sha256": "2451dba33ff6be9e41a2af91d51b30e8227b759b7fdb2ecb35424c2016a1f1b9"
+        },
+        {
+          "path": "public/assets/images/optimized/hero-ledger-workspace-3fa9a076d141-dcc29393/hero-ledger-workspace-3fa9a076d1418176-960.webp",
+          "mime": "image/webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 46302,
+          "sha256": "010a71b424f5fdadfc6fbeb5a45a1f12955445cbf7a5d7b098e7fbad5ee206c3"
+        },
+        {
+          "path": "public/assets/images/optimized/hero-ledger-workspace-3fa9a076d141-dcc29393/hero-ledger-workspace-3fa9a076d1418176-1448.webp",
+          "mime": "image/webp",
+          "width": 1448,
+          "height": 1086,
+          "bytes": 85774,
+          "sha256": "504afcfd4a9bf63c266e444ada3c26e9bfabc20c56a1ae5656f63878d734779b"
+        }
+      ],
+      "review": {
+        "at": "2026-09-21T18:35:26.545734+00:00",
+        "report": {
+          "path": "build/remediation/image-review/hero-ledger-workspace.json",
+          "sha256": "5d9deb8af58381d38fec88ecb5ec5428a69b6756f9ac5840332e5fa0270b5487"
+        },
+        "result": {
+          "reviewer": "Codex parent remediation review: inspected final page captures and individual rendered figures; measured responsive sources in Chromium",
+          "source_sha256": "3fa9a076d1418176138c6d7b1d21c2cf828ed9f1535f1c10ca0b093c7d472ea8",
+          "variant_sha256": {
+            "public/assets/images/optimized/hero-ledger-workspace-3fa9a076d141-dcc29393/hero-ledger-workspace-3fa9a076d1418176-480.webp": "2451dba33ff6be9e41a2af91d51b30e8227b759b7fdb2ecb35424c2016a1f1b9",
+            "public/assets/images/optimized/hero-ledger-workspace-3fa9a076d141-dcc29393/hero-ledger-workspace-3fa9a076d1418176-960.webp": "010a71b424f5fdadfc6fbeb5a45a1f12955445cbf7a5d7b098e7fbad5ee206c3",
+            "public/assets/images/optimized/hero-ledger-workspace-3fa9a076d141-dcc29393/hero-ledger-workspace-3fa9a076d1418176-1448.webp": "504afcfd4a9bf63c266e444ada3c26e9bfabc20c56a1ae5656f63878d734779b"
+          },
+          "desktop": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/remediation/image-review/desktop.png",
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/hero-ledger-workspace-3fa9a076d141-dcc29393/hero-ledger-workspace-3fa9a076d1418176-1448.webp",
+            "screenshot_evidence": {
+              "path": "build/remediation/image-review/desktop.png",
+              "sha256": "79d07e209e7050e9beda7de386f7d5babb09d4cbbbf547388f94d67191688d03"
+            }
+          },
+          "mobile": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/remediation/image-review/mobile.png",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/hero-ledger-workspace-3fa9a076d141-dcc29393/hero-ledger-workspace-3fa9a076d1418176-960.webp",
+            "screenshot_evidence": {
+              "path": "build/remediation/image-review/mobile.png",
+              "sha256": "dd3c19084af1c075e16aa16e59f4060f7660cf95bfcf19a64cd71510768c6594"
+            }
+          },
+          "notes": "Replaces the earlier acceptance review. Final cleanup and dashboard frames are proportional, captions are separate, and the guide retains intrinsic height. Hero illustration is intentionally subdued behind readable text. Source assets are unchanged.",
+          "warnings": [
+            "Native generation model was not reported; no exact model was requested or verified."
+          ]
+        }
+      }
+    },
+    {
+      "id": "cleanup-organized-records",
+      "section": "Start where your books are",
+      "purpose": "Make cleanup and catch-up tangible without implying a real client file",
+      "role": "illustrative",
+      "trust_class": "illustrative",
+      "information_bearing": false,
+      "required": true,
+      "allow_generation": true,
+      "generation": {
+        "mode": "native",
+        "requested_model": null,
+        "authorization_evidence": "User requested image generation on 2026-09-21",
+        "allow_unverified_native_model": true,
+        "model_exception_evidence": "Native tool model identity may be unreported",
+        "allow_source_fallback": false
+      },
+      "alt": "Illustrative overhead scene of receipts and statements being sorted into an orderly monthly filing system.",
+      "placement": {
+        "desktop": {
+          "aspect_ratio": "4:3",
+          "focal_point": [
+            0.5,
+            0.5
+          ]
+        },
+        "mobile": {
+          "aspect_ratio": "4:3",
+          "focal_point": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "max_bytes": {
+        "desktop": 210000,
+        "mobile": 120000
+      },
+      "stage": "reviewed",
+      "source": {
+        "path": "research/image-originals/cleanup-organized-records-505d90b5cc8004ee.png",
+        "mime": "image/png",
+        "width": 1448,
+        "height": 1086,
+        "bytes": 2161657,
+        "sha256": "505d90b5cc8004ee964666423ad515a69d2a071f380654198aa1a55bf29ac468"
+      },
+      "provenance": {
+        "kind": "generated",
+        "attempt_id": "6c2db940b35d490090e063b668f0ec84",
+        "tool": "image_gen",
+        "mode": "native",
+        "provider": "native-tool",
+        "requested_model": null,
+        "actual_model": null,
+        "selected_model": null,
+        "model_verification": "unverified",
+        "evidence": {
+          "path": "research/image-evidence/cleanup-organized-records.txt",
+          "sha256": "ce47f05dee61affe763d3b4f1372638758e8087978b37bbc6224716ec7d0f696"
+        },
+        "rights": "generated",
+        "rights_evidence": "Generated for this project; retain tool evidence and review rights for any reference inputs."
+      },
+      "generated_disclosure": "AI-generated illustration; does not depict an actual client project, staff member, customer, or result.",
+      "variants": [
+        {
+          "path": "public/assets/images/optimized/cleanup-organized-records-505d90b5cc80-52319217/cleanup-organized-records-505d90b5cc8004ee-480.webp",
+          "mime": "image/webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 21828,
+          "sha256": "78812795db941135098202246494feb3812101192481385df7414206c283d519"
+        },
+        {
+          "path": "public/assets/images/optimized/cleanup-organized-records-505d90b5cc80-52319217/cleanup-organized-records-505d90b5cc8004ee-960.webp",
+          "mime": "image/webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 57564,
+          "sha256": "e76ff2bb96149b8dbae22d54dddb7b9b5850dbd94c2dd4c0cb467e04a0995f42"
+        },
+        {
+          "path": "public/assets/images/optimized/cleanup-organized-records-505d90b5cc80-52319217/cleanup-organized-records-505d90b5cc8004ee-1448.webp",
+          "mime": "image/webp",
+          "width": 1448,
+          "height": 1086,
+          "bytes": 110532,
+          "sha256": "ae18f5d43a7319311a2a21a313c75f5ddba9676566ee3fff390a906e6e601f11"
+        }
+      ],
+      "review": {
+        "at": "2026-09-21T18:35:26.672303+00:00",
+        "report": {
+          "path": "build/remediation/image-review/cleanup-organized-records.json",
+          "sha256": "6048bb54f01e05a024ca0dcc0825c66248edabee33261215fe4bf5d1c3c97e00"
+        },
+        "result": {
+          "reviewer": "Codex parent remediation review: inspected final page captures and individual rendered figures; measured responsive sources in Chromium",
+          "source_sha256": "505d90b5cc8004ee964666423ad515a69d2a071f380654198aa1a55bf29ac468",
+          "variant_sha256": {
+            "public/assets/images/optimized/cleanup-organized-records-505d90b5cc80-52319217/cleanup-organized-records-505d90b5cc8004ee-480.webp": "78812795db941135098202246494feb3812101192481385df7414206c283d519",
+            "public/assets/images/optimized/cleanup-organized-records-505d90b5cc80-52319217/cleanup-organized-records-505d90b5cc8004ee-960.webp": "e76ff2bb96149b8dbae22d54dddb7b9b5850dbd94c2dd4c0cb467e04a0995f42",
+            "public/assets/images/optimized/cleanup-organized-records-505d90b5cc80-52319217/cleanup-organized-records-505d90b5cc8004ee-1448.webp": "ae18f5d43a7319311a2a21a313c75f5ddba9676566ee3fff390a906e6e601f11"
+          },
+          "desktop": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/remediation/image-review/desktop.png",
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/cleanup-organized-records-505d90b5cc80-52319217/cleanup-organized-records-505d90b5cc8004ee-960.webp",
+            "screenshot_evidence": {
+              "path": "build/remediation/image-review/desktop.png",
+              "sha256": "79d07e209e7050e9beda7de386f7d5babb09d4cbbbf547388f94d67191688d03"
+            }
+          },
+          "mobile": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/remediation/image-review/mobile.png",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/cleanup-organized-records-505d90b5cc80-52319217/cleanup-organized-records-505d90b5cc8004ee-480.webp",
+            "screenshot_evidence": {
+              "path": "build/remediation/image-review/mobile.png",
+              "sha256": "dd3c19084af1c075e16aa16e59f4060f7660cf95bfcf19a64cd71510768c6594"
+            }
+          },
+          "notes": "Replaces the earlier acceptance review. Final cleanup and dashboard frames are proportional, captions are separate, and the guide retains intrinsic height. Hero illustration is intentionally subdued behind readable text. Source assets are unchanged.",
+          "warnings": [
+            "Native generation model was not reported; no exact model was requested or verified."
+          ]
+        }
+      }
+    },
+    {
+      "id": "dashboard-conversation",
+      "section": "See more than a tidy ledger",
+      "purpose": "Illustrate discussion around high-level business metrics without depicting Beks, a customer, or real results",
+      "role": "illustrative",
+      "trust_class": "illustrative",
+      "information_bearing": false,
+      "required": true,
+      "allow_generation": true,
+      "generation": {
+        "mode": "native",
+        "requested_model": null,
+        "authorization_evidence": "User requested image generation on 2026-09-21",
+        "allow_unverified_native_model": true,
+        "model_exception_evidence": "Native tool model identity may be unreported",
+        "allow_source_fallback": false
+      },
+      "alt": "Illustrative small-business planning scene with two anonymous people reviewing simple unlabeled charts.",
+      "placement": {
+        "desktop": {
+          "aspect_ratio": "3:2",
+          "focal_point": [
+            0.55,
+            0.48
+          ]
+        },
+        "mobile": {
+          "aspect_ratio": "4:3",
+          "focal_point": [
+            0.55,
+            0.48
+          ]
+        }
+      },
+      "max_bytes": {
+        "desktop": 230000,
+        "mobile": 130000
+      },
+      "stage": "reviewed",
+      "source": {
+        "path": "research/image-originals/dashboard-conversation-02d55f8ef594483a.png",
+        "mime": "image/png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 2130505,
+        "sha256": "02d55f8ef594483a40d87db095c068b8f457d0c95309f6492a168cc58848be29"
+      },
+      "provenance": {
+        "kind": "generated",
+        "attempt_id": "3f4876953c7c4dbca41468c276078fc6",
+        "tool": "image_gen",
+        "mode": "native",
+        "provider": "native-tool",
+        "requested_model": null,
+        "actual_model": null,
+        "selected_model": null,
+        "model_verification": "unverified",
+        "evidence": {
+          "path": "research/image-evidence/dashboard-conversation.txt",
+          "sha256": "c6c64dbaec32067458c9ebada1959cff4e26d6bb060233d5a6b75ca1714c57f5"
+        },
+        "rights": "generated",
+        "rights_evidence": "Generated for this project; retain tool evidence and review rights for any reference inputs."
+      },
+      "generated_disclosure": "AI-generated illustration; does not depict an actual client project, staff member, customer, or result.",
+      "variants": [
+        {
+          "path": "public/assets/images/optimized/dashboard-conversation-02d55f8ef594-c5d7a8a1/dashboard-conversation-02d55f8ef594483a-480.webp",
+          "mime": "image/webp",
+          "width": 480,
+          "height": 320,
+          "bytes": 17852,
+          "sha256": "6b451505201a0a68075097428a7f77972631bd809faa3bf679a64b4bb3cebcab"
+        },
+        {
+          "path": "public/assets/images/optimized/dashboard-conversation-02d55f8ef594-c5d7a8a1/dashboard-conversation-02d55f8ef594483a-960.webp",
+          "mime": "image/webp",
+          "width": 960,
+          "height": 640,
+          "bytes": 44404,
+          "sha256": "a6f1481f18af34cf4ed8258dcfb3d0c23d479a6430a78dfc3bb804b0f706e68a"
+        },
+        {
+          "path": "public/assets/images/optimized/dashboard-conversation-02d55f8ef594-c5d7a8a1/dashboard-conversation-02d55f8ef594483a-1536.webp",
+          "mime": "image/webp",
+          "width": 1536,
+          "height": 1024,
+          "bytes": 86940,
+          "sha256": "4dd8c8e360e9c756e905eeeaaf0422f0634c7adbdf29a52e4f782f92ed17772c"
+        }
+      ],
+      "review": {
+        "at": "2026-09-21T18:35:26.786812+00:00",
+        "report": {
+          "path": "build/remediation/image-review/dashboard-conversation.json",
+          "sha256": "326d499bd4465fe9ddf2de8132bf43165278be33677440907f74728d976a4205"
+        },
+        "result": {
+          "reviewer": "Codex parent remediation review: inspected final page captures and individual rendered figures; measured responsive sources in Chromium",
+          "source_sha256": "02d55f8ef594483a40d87db095c068b8f457d0c95309f6492a168cc58848be29",
+          "variant_sha256": {
+            "public/assets/images/optimized/dashboard-conversation-02d55f8ef594-c5d7a8a1/dashboard-conversation-02d55f8ef594483a-480.webp": "6b451505201a0a68075097428a7f77972631bd809faa3bf679a64b4bb3cebcab",
+            "public/assets/images/optimized/dashboard-conversation-02d55f8ef594-c5d7a8a1/dashboard-conversation-02d55f8ef594483a-960.webp": "a6f1481f18af34cf4ed8258dcfb3d0c23d479a6430a78dfc3bb804b0f706e68a",
+            "public/assets/images/optimized/dashboard-conversation-02d55f8ef594-c5d7a8a1/dashboard-conversation-02d55f8ef594483a-1536.webp": "4dd8c8e360e9c756e905eeeaaf0422f0634c7adbdf29a52e4f782f92ed17772c"
+          },
+          "desktop": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/remediation/image-review/desktop.png",
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/dashboard-conversation-02d55f8ef594-c5d7a8a1/dashboard-conversation-02d55f8ef594483a-960.webp",
+            "screenshot_evidence": {
+              "path": "build/remediation/image-review/desktop.png",
+              "sha256": "79d07e209e7050e9beda7de386f7d5babb09d4cbbbf547388f94d67191688d03"
+            }
+          },
+          "mobile": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/remediation/image-review/mobile.png",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/dashboard-conversation-02d55f8ef594-c5d7a8a1/dashboard-conversation-02d55f8ef594483a-480.webp",
+            "screenshot_evidence": {
+              "path": "build/remediation/image-review/mobile.png",
+              "sha256": "dd3c19084af1c075e16aa16e59f4060f7660cf95bfcf19a64cd71510768c6594"
+            }
+          },
+          "notes": "Replaces the earlier acceptance review. Final cleanup and dashboard frames are proportional, captions are separate, and the guide retains intrinsic height. Hero illustration is intentionally subdued behind readable text. Source assets are unchanged.",
+          "warnings": [
+            "Native generation model was not reported; no exact model was requested or verified."
+          ]
+        }
+      }
+    },
+    {
+      "id": "guide-cover",
+      "section": "Month-end clarity guide",
+      "purpose": "Show the actual downloadable checklist visitors receive",
+      "role": "screenshot",
+      "trust_class": "illustrative",
+      "information_bearing": true,
+      "required": true,
+      "allow_generation": false,
+      "alt": "Cover of the QuickBooks Month-End Clarity Checklist.",
+      "placement": {
+        "desktop": {
+          "aspect_ratio": "letter",
+          "focal_point": [
+            0.5,
+            0.5
+          ],
+          "fit": "contain"
+        },
+        "mobile": {
+          "aspect_ratio": "letter",
+          "focal_point": [
+            0.5,
+            0.5
+          ],
+          "fit": "contain"
+        }
+      },
+      "max_bytes": {
+        "desktop": 180000,
+        "mobile": 110000
+      },
+      "stage": "reviewed",
+      "source": {
+        "path": "research/image-originals/guide-cover-4b2be8ef9e9aea8a.png",
+        "mime": "image/png",
+        "width": 1224,
+        "height": 1584,
+        "bytes": 88157,
+        "sha256": "4b2be8ef9e9aea8a736a36e6ed613fe18e669b2e6768e4dc4062aa48c86ba883"
+      },
+      "provenance": {
+        "kind": "actual",
+        "candidate_id": "source-4b2be8ef9e9a",
+        "source_url": null,
+        "final_url": null,
+        "evidence": {
+          "path": "research/guide-cover-evidence.txt",
+          "sha256": "8513fede2e1ff55a4c519b11e812caaf7b70fc9c0f7e9e71099aa5d238ac0782"
+        },
+        "rights": "client-authorized",
+        "rights_evidence": "Created within this project under the user's explicit request for a useful PDF and page preview.",
+        "client_proof_evidence": ""
+      },
+      "generated_disclosure": null,
+      "variants": [
+        {
+          "path": "public/assets/images/optimized/guide-cover-4b2be8ef9e9a-6ec7a395/guide-cover-4b2be8ef9e9aea8a-480.webp",
+          "mime": "image/webp",
+          "width": 480,
+          "height": 622,
+          "bytes": 9614,
+          "sha256": "3aea24339625271e337321afd882fabaa25561e613bd025586ed7d31af2886d0"
+        },
+        {
+          "path": "public/assets/images/optimized/guide-cover-4b2be8ef9e9a-6ec7a395/guide-cover-4b2be8ef9e9aea8a-960.webp",
+          "mime": "image/webp",
+          "width": 960,
+          "height": 1243,
+          "bytes": 24930,
+          "sha256": "a4edda45387531dad84b85f0622b4961d621c7d58f536e64d587e050f5adc53e"
+        },
+        {
+          "path": "public/assets/images/optimized/guide-cover-4b2be8ef9e9a-6ec7a395/guide-cover-4b2be8ef9e9aea8a-1224.webp",
+          "mime": "image/webp",
+          "width": 1224,
+          "height": 1584,
+          "bytes": 35180,
+          "sha256": "ab7a9e81cd6cee55cbe1982f990bce7035fa25fc13b57c809b0346c83013372c"
+        }
+      ],
+      "review": {
+        "at": "2026-09-21T18:35:26.894737+00:00",
+        "report": {
+          "path": "build/remediation/image-review/guide-cover.json",
+          "sha256": "b467a02a3c6224b949d8903a20496593757c0fc90e555905100653a671d039ae"
+        },
+        "result": {
+          "reviewer": "Codex parent remediation review: inspected final page captures and individual rendered figures; measured responsive sources in Chromium",
+          "source_sha256": "4b2be8ef9e9aea8a736a36e6ed613fe18e669b2e6768e4dc4062aa48c86ba883",
+          "variant_sha256": {
+            "public/assets/images/optimized/guide-cover-4b2be8ef9e9a-6ec7a395/guide-cover-4b2be8ef9e9aea8a-480.webp": "3aea24339625271e337321afd882fabaa25561e613bd025586ed7d31af2886d0",
+            "public/assets/images/optimized/guide-cover-4b2be8ef9e9a-6ec7a395/guide-cover-4b2be8ef9e9aea8a-960.webp": "a4edda45387531dad84b85f0622b4961d621c7d58f536e64d587e050f5adc53e",
+            "public/assets/images/optimized/guide-cover-4b2be8ef9e9a-6ec7a395/guide-cover-4b2be8ef9e9aea8a-1224.webp": "ab7a9e81cd6cee55cbe1982f990bce7035fa25fc13b57c809b0346c83013372c"
+          },
+          "desktop": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/remediation/image-review/desktop.png",
+            "viewport": {
+              "width": 1440,
+              "height": 900
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/guide-cover-4b2be8ef9e9a-6ec7a395/guide-cover-4b2be8ef9e9aea8a-960.webp",
+            "screenshot_evidence": {
+              "path": "build/remediation/image-review/desktop.png",
+              "sha256": "79d07e209e7050e9beda7de386f7d5babb09d4cbbbf547388f94d67191688d03"
+            }
+          },
+          "mobile": {
+            "subject_visible": true,
+            "crop_appropriate": true,
+            "alt_appropriate": true,
+            "no_false_claim": true,
+            "page_layout_checked": true,
+            "screenshot": "build/remediation/image-review/mobile.png",
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "device_pixel_ratio": 1,
+            "served_variant": "public/assets/images/optimized/guide-cover-4b2be8ef9e9a-6ec7a395/guide-cover-4b2be8ef9e9aea8a-480.webp",
+            "screenshot_evidence": {
+              "path": "build/remediation/image-review/mobile.png",
+              "sha256": "dd3c19084af1c075e16aa16e59f4060f7660cf95bfcf19a64cd71510768c6594"
+            }
+          },
+          "notes": "Replaces the earlier acceptance review. Final cleanup and dashboard frames are proportional, captions are separate, and the guide retains intrinsic height. Hero illustration is intentionally subdued behind readable text. Source assets are unchanged."
+        }
+      }
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-09-21T14:40:28.165861+00:00",
+      "event": "prepare-generation",
+      "asset_id": "hero-ledger-workspace"
+    },
+    {
+      "at": "2026-09-21T14:40:28.319607+00:00",
+      "event": "register-generation",
+      "asset_id": "hero-ledger-workspace"
+    },
+    {
+      "at": "2026-09-21T14:40:28.486271+00:00",
+      "event": "prepare-generation",
+      "asset_id": "cleanup-organized-records"
+    },
+    {
+      "at": "2026-09-21T14:40:28.656643+00:00",
+      "event": "register-generation",
+      "asset_id": "cleanup-organized-records"
+    },
+    {
+      "at": "2026-09-21T14:40:28.827344+00:00",
+      "event": "prepare-generation",
+      "asset_id": "dashboard-conversation"
+    },
+    {
+      "at": "2026-09-21T14:40:28.996950+00:00",
+      "event": "register-generation",
+      "asset_id": "dashboard-conversation"
+    },
+    {
+      "at": "2026-09-21T14:40:36.110634+00:00",
+      "event": "inventory-file",
+      "asset_id": null
+    },
+    {
+      "at": "2026-09-21T14:40:36.291923+00:00",
+      "event": "acquire",
+      "asset_id": "guide-cover"
+    },
+    {
+      "at": "2026-09-21T14:40:41.730058+00:00",
+      "event": "optimize",
+      "asset_id": "hero-ledger-workspace"
+    },
+    {
+      "at": "2026-09-21T14:40:42.437037+00:00",
+      "event": "optimize",
+      "asset_id": "cleanup-organized-records"
+    },
+    {
+      "at": "2026-09-21T14:40:43.011303+00:00",
+      "event": "optimize",
+      "asset_id": "dashboard-conversation"
+    },
+    {
+      "at": "2026-09-21T14:40:43.488029+00:00",
+      "event": "optimize",
+      "asset_id": "guide-cover"
+    },
+    {
+      "at": "2026-09-21T15:13:15.805257+00:00",
+      "event": "review",
+      "asset_id": "hero-ledger-workspace"
+    },
+    {
+      "at": "2026-09-21T15:13:20.870558+00:00",
+      "event": "review",
+      "asset_id": "cleanup-organized-records"
+    },
+    {
+      "at": "2026-09-21T15:13:23.218466+00:00",
+      "event": "review",
+      "asset_id": "dashboard-conversation"
+    },
+    {
+      "at": "2026-09-21T15:13:26.580003+00:00",
+      "event": "review",
+      "asset_id": "guide-cover"
+    },
+    {
+      "at": "2026-09-21T18:35:26.547008+00:00",
+      "event": "review",
+      "asset_id": "hero-ledger-workspace"
+    },
+    {
+      "at": "2026-09-21T18:35:26.672919+00:00",
+      "event": "review",
+      "asset_id": "cleanup-organized-records"
+    },
+    {
+      "at": "2026-09-21T18:35:26.787015+00:00",
+      "event": "review",
+      "asset_id": "dashboard-conversation"
+    },
+    {
+      "at": "2026-09-21T18:35:26.894921+00:00",
+      "event": "review",
+      "asset_id": "guide-cover"
+    }
+  ],
+  "updated_at": "2026-09-21T18:35:26.894921+00:00"
+}

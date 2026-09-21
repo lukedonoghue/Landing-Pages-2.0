@@ -1,0 +1,47 @@
+{
+  "schema_version": 3,
+  "quality": {
+    "complete_workflow": true,
+    "browsers": ["chromium", "webkit"],
+    "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}
+  },
+  "approvals": {"copy_before_design": false},
+  "images": {"enabled": true, "preferred_model": null, "max_generated_assets": 3, "max_attempts_per_asset": 2},
+  "client": {
+    "name": "Bookkeeping by Beks",
+    "color": "#5F0B35",
+    "website": "https://bookkeepingbybeks.com/",
+    "phone_display": "(785) 760-7663",
+    "phone_uri": "tel:+17857607663",
+    "region": "Kansas, Missouri, and remote service",
+    "privacy_url": "/privacy.html"
+  },
+  "reference_urls": [],
+  "audience": "Small-business owners using or considering QuickBooks Online who need recurring bookkeeping, cleanup/catch-up, A/P or A/R support, or clearer KPI context.",
+  "search_intent": "QuickBooks Online bookkeeping, monthly bookkeeping, cleanup or catch-up bookkeeping, accounts payable or receivable support, and bookkeeping consultation in Kansas, Missouri, or remotely.",
+  "offer": "A free consultation request to clarify bookkeeping fit, recorded only in the independent demonstration CRM.",
+  "cta": "Try the Consultation Form",
+  "follow_up_promise": "This demonstration records your request in a private test CRM. It does not book an appointment or contact Bookkeeping by Beks.",
+  "brochure_gated": false,
+  "catalogue": {"enabled": true, "path": "/assets/bookkeeping-month-end-clarity-checklist.pdf"},
+  "form_fields": [
+    {"name": "first_name", "type": "text", "required": true},
+    {"name": "email", "type": "email", "required": true},
+    {"name": "phone", "type": "tel", "required": false},
+    {"name": "service", "type": "select", "required": true, "options": ["Monthly bookkeeping", "Cleanup or catch-up", "Accounts payable or receivable", "KPI dashboards or consulting", "Not sure yet"]}
+  ],
+  "webhook_url": "/api/leads",
+  "backend": {"provider": "cloudflare-d1", "response_contract": "receipt-v1"},
+  "privacy": {"consent_ui": "disabled"},
+  "analytics": {"mode": "disabled", "attribution_mode": "lead", "required_attribution_mode": "lead", "timezone": "America/Chicago", "conversion": "accepted synthetic demonstration lead"},
+  "tracking": {
+    "gtm": {"container_id": "", "hostname": "go.netbean.com"},
+    "customer_data_mode": "disabled",
+    "sensitive_category": false,
+    "google_ads": {"conversion_id": "", "conversion_label": "", "enhanced_conversions": false},
+    "meta": {"pixel_id": "", "enabled": false},
+    "microsoft": {"uet_tag_id": "", "enabled": false}
+  },
+  "publish_target": "cloudflare-workers",
+  "requested_hosts": {"public": "go.netbean.com", "crm": "crm.netbean.com", "status": "pending-zone-setup"}
+}

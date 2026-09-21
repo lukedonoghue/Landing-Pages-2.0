@@ -1,0 +1,15 @@
+{
+  "family": "Lora",
+  "source_repository": "https://github.com/google/fonts/tree/main/ofl/lora",
+  "source_font": "https://raw.githubusercontent.com/google/fonts/main/ofl/lora/Lora%5Bwght%5D.ttf",
+  "source_license": "https://raw.githubusercontent.com/google/fonts/main/ofl/lora/OFL.txt",
+  "source_font_sha256": "822a6621ccbe8d97d20ac88c1c41f5615c9c2c202eaa75f272cd452aac6475a7",
+  "bundled_font": "lora-latin-400-700.woff2",
+  "bundled_font_sha256": "707c1c1ff3791bf792e82cd552be0e6a11ef2e06609af1a7b8c066d94e2708b1",
+  "license": "SIL Open Font License 1.1",
+  "license_file": "OFL.txt",
+  "weights": "400-700",
+  "style": "normal",
+  "subsetting": "Latin, Latin Extended, General Punctuation, Euro, and trademark glyphs retained; converted from the verified variable TTF with fontTools 4.60.2.",
+  "retrieved_at": "2026-09-21"
+}

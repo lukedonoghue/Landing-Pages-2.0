@@ -1,0 +1,82 @@
+{
+  "synthetic": true,
+  "path": "/",
+  "thank_you_path": "/thank-you.html",
+  "pdf_path": "/assets/bookkeeping-month-end-clarity-checklist.pdf",
+  "required_resources": [
+    "/styles.css",
+    "/script.js",
+    "/funnel.js"
+  ],
+  "fields": {
+    "first_name": "Taylor Verification",
+    "email": "taylor.verification@example.invalid",
+    "phone": "+1 202-555-0108",
+    "service": "Monthly bookkeeping"
+  },
+  "query": {
+    "utm_source": "google",
+    "utm_medium": "cpc",
+    "utm_campaign": "synthetic-full-attribution",
+    "utm_id": "synthetic-campaign-id",
+    "utm_term": "synthetic-bookkeeping-term",
+    "utm_content": "synthetic-ad-content",
+    "utm_source_platform": "synthetic-google-ads",
+    "utm_creative_format": "synthetic-responsive-search-ad",
+    "utm_marketing_tactic": "synthetic-paid-search",
+    "gclid": "synthetic-gclid",
+    "dclid": "synthetic-dclid",
+    "gbraid": "synthetic-gbraid",
+    "wbraid": "synthetic-wbraid",
+    "fbclid": "synthetic-fbclid",
+    "msclkid": "synthetic-msclkid",
+    "ttclid": "synthetic-ttclid"
+  },
+  "latest_query": {
+    "utm_source": "google",
+    "utm_medium": "cpc",
+    "utm_campaign": "synthetic-latest-attribution",
+    "utm_id": "synthetic-latest-campaign-id",
+    "utm_term": "synthetic-latest-bookkeeping-term",
+    "utm_content": "synthetic-latest-ad-content",
+    "utm_source_platform": "synthetic-latest-google-ads",
+    "utm_creative_format": "synthetic-latest-responsive-search-ad",
+    "utm_marketing_tactic": "synthetic-latest-paid-search",
+    "gclid": "synthetic-latest-gclid",
+    "dclid": "synthetic-latest-dclid",
+    "gbraid": "synthetic-latest-gbraid",
+    "wbraid": "synthetic-latest-wbraid",
+    "fbclid": "synthetic-latest-fbclid",
+    "msclkid": "synthetic-latest-msclkid",
+    "ttclid": "synthetic-latest-ttclid"
+  },
+  "excluded_query": {
+    "email": "excluded-query@example.invalid",
+    "token": "synthetic-secret-must-not-be-captured",
+    "unknown_campaign": "synthetic-unknown-must-not-be-captured"
+  },
+  "expected_policy": {
+    "analytics_mode": "disabled",
+    "attribution_mode": "lead",
+    "advertising_user_data_mode": "disabled",
+    "browser_opt_out": false
+  },
+  "expected_features": {
+    "first_party_attribution": true,
+    "measured_visit": false
+  },
+  "expected_dimensions": {
+    "source": "google",
+    "traffic": "paid",
+    "device": "desktop"
+  },
+  "selectors": {
+    "openModal": "[data-open-modal]",
+    "modal": "#lead-modal",
+    "step": ".wizard__step",
+    "next": "[data-next]",
+    "submit": "[data-submit]",
+    "closeModal": "[data-close-modal]",
+    "error": "[data-form-error]"
+  }
+}

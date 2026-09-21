@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {"id": "source1", "role": "client", "url": "https://bookkeepingbybeks.com/", "retrieved": "2026-09-21", "status": "captured", "text_path": "research/official-site.txt", "sha256": "6c0b3b9bd0a8b79ae46fd2da017ff3e7b334bfda8d1e98d671ad1b25f6f0b4ea"},
+    {"id": "source2", "role": "client_directory", "url": "https://members.lawrencechamber.com/list/searchalpha/b", "retrieved": "2026-09-21", "status": "captured", "text_path": "research/chamber.txt", "sha256": "fdd500aa853811e335e1bf43a287e2fdb8d1b37524eef7cb1bc62b5dde073818"},
+    {"id": "source3", "role": "client_profile", "url": "https://www.linkedin.com/in/beks-abrams-51739813a", "retrieved": "2026-09-21", "status": "captured", "text_path": "research/linkedin.txt", "sha256": "521923ad394d874cbc5c6bf97ef7d3b1b8d837d872e82724f75db4526e34d337"},
+    {"id": "source4", "role": "authority", "url": "https://quickbooks.intuit.com/learn-support/en-us/help-article/statement-reconciliation/reconcile-account-quickbooks-online/L3XzsllsK_US_en_US", "retrieved": "2026-09-21", "status": "captured", "text_path": "research/quickbooks.txt", "sha256": "a2b4815e56eee284715b92b94fa2872164a92b63852ac4d3721649f57cd1bbd1"},
+    {"id": "source5", "role": "authority", "url": "https://www.irs.gov/businesses/small-businesses-self-employed/what-kind-of-records-should-i-keep", "retrieved": "2026-09-21", "status": "captured", "text_path": "research/irs-recordkeeping.txt", "sha256": "5c98101472a1d320dc68cd4d6c1f2f211d7c6f452b54cc7f5ec1484fcd0f5318"},
+    {"id": "source6", "role": "competitor_analysis", "url": "https://www.tidesbookkeeping.com/city-lawrence-ks", "retrieved": "2026-09-21", "status": "captured", "text_path": "research/competitor-gap.txt", "sha256": "827989181a9ba153318cb2416b3c3442264b602ecddecc084c6fa2e3d5058449"},
+    {"id": "source7", "role": "user_instruction", "url": "https://go.netbean.com/", "retrieved": "2026-09-21", "status": "captured", "text_path": "research/user-instructions.txt", "sha256": "0b414c4071e77e0959b497519a65c3a41490c232122ecf3b4f723a5c8117817f"}
+  ]
+}

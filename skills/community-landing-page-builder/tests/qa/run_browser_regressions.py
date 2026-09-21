@@ -38,6 +38,11 @@ def main():
         page = root / 'index.html'
         page.write_text(page.read_text().replace('A neutral fixture for testing the browser harness.',
             'A neutral local service fixture with a clear consultation process and a written project quotation.'))
+        page.write_text(page.read_text().replace('<main>', '<header><p class="phone-fixture">Phone <span>(demo)</span>: (202) 555-0100</p></header><main>'))
+        config_path = root / 'funnel.json'
+        config = json.loads(config_path.read_text()) if config_path.exists() else {}
+        config.setdefault('client', {})['phone_display'] = '(202) 555-0100'
+        config_path.write_text(json.dumps(config))
         if kind == 'broken':
             path = root / 'index.html'
             path.write_text(path.read_text() + '<style>main{width:1900px;max-width:none}body{min-width:1900px}</style><img src="/missing-image.png" width="100" height="100" alt="Broken fixture">')
@@ -52,7 +57,7 @@ def main():
             assert extraction.returncode == 0, extraction.stdout + extraction.stderr
             if kind == 'contract-broken':
                 page.write_text(page.read_text() + '<style>h1{font-family:Georgia,serif}.ratio-fixture{width:200px;aspect-ratio:4/3;object-fit:cover}'
-                    '#dialog{position:relative}[data-close-modal]{position:absolute;top:24px;left:24px}</style>'
+                    '#dialog{position:relative}[data-close-modal]{position:absolute;top:24px;left:24px}.phone-fixture{display:none}</style>'
                     '<img class="ratio-fixture" width="800" height="600" alt="Ratio fixture" '
                     'src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27800%27 height=%27600%27%3E%3Crect width=%27800%27 height=%27600%27 fill=%27green%27/%3E%3C/svg%3E">')
             subprocess.run([sys.executable, str(skill / 'scripts/check_gates.py'), 'snapshot', str(root), '--mode', 'preview'], check=True, capture_output=True)
@@ -71,7 +76,7 @@ def main():
                 assert any('loaded_images' in item for item in report['failures']), report['failures']
             else:
                 assert process.returncode != 0, 'invalid acceptance contract must fail'
-                for name in ['source_brand_font_matches', 'explicit_image_ratio_matches_layout', 'modal_close_has_clear_space']:
+                for name in ['source_brand_font_matches', 'explicit_image_ratio_matches_layout', 'modal_close_has_clear_space', 'verified_phone_visible_near_top']:
                     assert any(name in item for item in report['failures']), (name, report['failures'])
             results.append({'fixture': kind, 'expected_status_verified': True, 'status': report['status'], 'viewports': len(report['viewports']), 'report': str(root / 'build/layout-audit.json')})
         finally:

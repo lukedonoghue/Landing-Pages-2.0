@@ -1,0 +1,16 @@
+Source: https://quickbooks.intuit.com/learn-support/en-us/help-article/statement-reconciliation/reconcile-account-quickbooks-online/L3XzsllsK_US_en_US
+Retrieved: 2026-09-21
+Role: authoritative guide evidence
+
+Reconciling is the process of matching the transactions you've entered in QuickBooks with your bank and credit card statements.
+
+Before you start, have your account statement for the account you want to reconcile ready. Make sure that all transactions for the statement period have been added and categorized in QuickBooks.
+
+After finishing, QuickBooks saves a reconciliation report.
+
+Source: https://quickbooks.intuit.com/learn-support/en-us/help-article/statement-reconciliation/fix-issues-end-reconciliation-quickbooks-online/L3mZimyAb_US_en_US
+Retrieved: 2026-09-21
+
+If the ending balances don't match, find and fix issues, then finish reconciling.
+
+Possible causes named by Intuit include an incorrect ending balance, uncleared transactions, and missing or duplicate transactions.

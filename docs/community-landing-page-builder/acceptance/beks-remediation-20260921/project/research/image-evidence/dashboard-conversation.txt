@@ -1,0 +1,1 @@
+Native image_gen.imagegen completed successfully on 2026-09-21. The result saved exec-669845ab-ffc0-4b49-b411-53aa3366a545.png. The tool did not report a model identity.
