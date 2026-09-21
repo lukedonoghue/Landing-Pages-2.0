@@ -21,7 +21,7 @@ Updating this reusable skill or testing a sample is not an instruction to publis
 
 ## First-time setup inside the guided action
 
-Reuse the user's existing connection and project choices. If Cloudflare is not connected, guide sign-in once. Use the intended client account; if several accounts are available and the project does not identify one, ask for the missing account choice. Use the domain the user supplies, or a workers.dev address until a custom domain is ready.
+Reuse the user's existing connection and project choices. If Cloudflare is not connected, guide sign-in once. Use the intended client account; if several accounts are available and the project does not identify one, ask for the missing account choice. Preserve the domain and hostnames already supplied. A workers.dev fallback is temporary and must be labeled as such; it never replaces the requested destination in the completion criteria.
 
 A completely new account or external DNS ownership may need a human step. Describe the result honestly: one guided publishing flow, with one publishing action after initial sign-in/site setup; do not promise that an unconnected account can publish literally without setup.
 
@@ -70,6 +70,8 @@ Run the skill's source/evidence gates, desktop/mobile measurement and actual vis
 ## Domain and final verification
 
 For a requested custom domain, first read [domain-and-owner-handoff.md](domain-and-owner-handoff.md). Identify the registrar and authoritative DNS provider separately, prepare the Cloudflare side, and give the owner only the precise external changes that cannot be completed with the available authorization. Do not guess CNAME targets or assume the demonstration business owns a domain the user can change.
+
+Run that reference's blocker-handoff checkpoint as soon as local final is ready, not after repeated deployment attempts. Send the owner the researched, numbered instructions yourself. If a prerequisite prevents obtaining exact values, send the prerequisite steps now, mark the dependent step as waiting, and obtain the values after it is resolved. Never end with only "connect your domain" or a list of alternatives without explaining the next action. Verify the final `build/owner-handoff.json` with `scripts/validate_owner_handoff.py <project>`; this checks completeness, not live DNS or the truth of the evidence.
 
 A custom domain/subdomain needs an active Cloudflare DNS zone in the selected account. Inspect existing DNS before replacing any record; preserve unrelated live services. If the domain uses another provider, guide the owner through Cloudflare zone/nameserver setup, or use workers.dev for now. A custom domain is optional, and a configured route does not prove DNS/TLS is ready.
 

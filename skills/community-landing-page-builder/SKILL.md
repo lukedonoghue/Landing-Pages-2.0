@@ -124,6 +124,8 @@ Every severe finding blocks delivery. Resolve each warning or record a specific,
 
 Present the local page, PDF or researched omission, conversion behavior, representative screenshots, and concise QA result first. Then request only the values needed by selected optional modules. Missing Cloudflare, GitHub, GTM, an ad account, an image API key or a CRM must not block a good local page when that module was not selected.
 
+When publication is selected, read `references/domain-and-owner-handoff.md` before external setup and again at handoff. Preserve the user's supplied domain and page/CRM hostnames without asking again. Research the registrar and authoritative DNS provider separately. A missing connection, domain, sender or advertising ID must produce an actionable message in this conversation, not merely a status-file entry. At the local-final checkpoint, send the ready preview plus each external blocker and its numbered owner steps; continue only unaffected authorized work. A delegated builder must return this handoff itself, without waiting for an orchestrator to ask. Before ending, save `build/owner-handoff.json` and run `scripts/validate_owner_handoff.py <project>` as described in that reference. A verified temporary URL does not complete requested custom domains.
+
 Use status language that matches reality:
 
 - `local final` means the selected local experience passed its gates but external delivery may be unconfigured;

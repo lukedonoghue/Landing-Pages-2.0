@@ -2,6 +2,45 @@
 
 Read when publishing to an owner-supplied domain or testing owner access. Complete available authorized setup yourself; leave only registrar login, ownership verification, external DNS changes without access, and genuine destination choices to the owner. A researched business URL is not evidence that the user owns its domain.
 
+## Required blocker handoff
+
+Accept the root domain and hostnames already in the request. Do not ask the user to repeat them or infer them from the researched business. At local final, proactively send the preview and any external blockers with instructions. Do not wait for a status request, supervising agent or another failed deployment. Continue unaffected authorized work; pause only actions dependent on the missing input. At final handoff, repeat only unresolved actions and label temporary deployment separately from the requested destination.
+
+For each blocker give: affected feature and current state; evidence and time checked; work already completed; the smallest owner action; numbered steps naming the website, screen, setting, exact verified value when available and expected result; what must not be changed; and what the agent will verify/resume after the owner replies. Ask for confirmation of completion, not passwords, tokens or recovery codes. Mention email and advertising blockers separately from domain setup. Do not describe a CLI-assisted reset as working self-service email recovery.
+
+Research registrar identity through registry/registrar RDAP and authoritative DNS through NS/SOA. Follow the registry referral when needed. Nameservers alone identify the DNS provider, not the registrar. Link the current provider's official setup help. If lookup is unavailable or ambiguous, say "unverified" and give the owner a precise way to identify their domain dashboard. Do not manufacture provider-specific navigation.
+
+For the standard Free-plan Cloudflare path, instructions must explain that domain registration and the existing website can stay where they are while authoritative DNS changes. Before asking for that change, inventory the existing zone, including mail and verification records; public DNS is not a full zone export. Reconcile imported records, check DNSSEC/DS, and obtain specific authorization for the nameserver switch. Do not automatically migrate the whole zone just because a user requested two subdomains. If authorized and accessible, prepare the free zone and read its actual assigned nameservers yourself. Never supply sample nameservers as real values. When access/approval is missing, give those prerequisite steps first and explicitly say not to switch nameservers yet. After prerequisites, provide the exact values and registrar-specific clicks. Preserve a record of old nameservers and DNSSEC state for recovery.
+
+Example navigation only when Namecheap is verified: sign in to Namecheap in the computer browser, open Domain List, Manage next to the exact domain, then Domain / Nameservers / Custom DNS. Enter only the two nameservers actually assigned to this zone, then save. This is a nameserver change, not an Advanced DNS CNAME to workers.dev. Before using this example, recheck [Namecheap's current instructions](https://www.namecheap.com/support/knowledgebase/article.aspx/767/10/how-to-change-dns-for-a-domain/). Keep unrelated host records and mail intact. Never ask for a registrar transfer, paid plan, or Cloudflare partial setup to satisfy the Free-plan workflow.
+
+Save a compact `build/owner-handoff.json` alongside the existing status file:
+
+```json
+{
+  "status": "action_required",
+  "message": "The local page is ready. Your requested domain still needs setup. Here are the steps...",
+  "domains": [{
+    "hostname": "go.example.com",
+    "status": "blocked",
+    "registrar": {"name": "unverified", "evidence": "RDAP lookup unavailable at the recorded time"},
+    "dns_provider": {"name": "Provider from authoritative NS", "evidence": "NS response and time"},
+    "blocker_id": "domain-setup"
+  }],
+  "blockers": [{
+    "id": "domain-setup",
+    "feature": "Requested custom domains",
+    "evidence": "Exact observed prerequisite and time",
+    "completed": "Local page and CRM checks completed",
+    "steps": [{"action": "Concrete numbered owner action with verified settings or prerequisite", "expected": "Observable result"}],
+    "preserve": "Existing website, email DNS and unrelated records",
+    "resume": "Check zone activation, attach both hosts, then verify HTTPS, form and CRM"
+  }]
+}
+```
+
+Include every requested hostname and unresolved selected integration. For a verified domain, set its status to `verified` and include `verification` describing actual DNS, HTTPS and app checks; do not infer it from local host-routing tests. For a user-deferred domain use `deferred`, with `decision` quoting that actual choice. No domains requested means an empty domains list. With no blockers use `status: complete`; otherwise use `action_required` and send the numbered instructions in `message`. Use real observations, not this example's text. Run `python3 <skill>/scripts/validate_owner_handoff.py <project> --hostname go.example.com --hostname crm.example.com`, replacing the flags with every hostname from the actual user request (omit flags when none were requested), before final delivery and send the message contents to the user. Passing the helper validates structure only; never claim it proves delivery, provider identity, DNS or live behavior.
+
 ## Choose the actual DNS path
 
 1. Confirm the owned root domain and intended hostnames. `go.example.com` for paid traffic and `crm.example.com` for the owner are a supported architectural target, not a claim that the current single-origin starter already separates hosts.
