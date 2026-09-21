@@ -22,6 +22,7 @@ import workflow_progress
 COPY_FILES = {
     'copy': 'build/page-copy.json', 'brief': 'build/client-copy-brief.json',
     'context': 'build/copy-context.json', 'review': 'build/copy-editorial-review.json',
+    'review_inputs': 'build/copy-review-inputs.json',
 }
 
 def now(): return datetime.now(timezone.utc).isoformat()
