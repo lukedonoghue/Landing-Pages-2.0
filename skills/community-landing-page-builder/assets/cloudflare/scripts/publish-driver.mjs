@@ -59,7 +59,7 @@ export async function localPreconditions(root,args,auth,run) {
   success(await run(process.execPath,['scripts/preflight.mjs']));
   if(!existsSync(path.join(root,'tests/backend.test.mjs')))throw new Error('Application regressions are missing.');
   const tests=readdirSync(path.join(root,'tests')).filter(name=>name.endsWith('.test.mjs')).sort().map(name=>'tests/'+name);
-  testSummary(success(await run(process.execPath,['--test','--test-reporter=tap',...tests])));
+  testSummary(success(await run(process.execPath,['--test','--test-concurrency=1','--test-reporter=tap',...tests])));
   const wrangler=read(path.join(root,'node_modules/wrangler/package.json'));
   if(wrangler.version!=='4.115.0')throw new Error('Install the locked Wrangler version with npm ci before using this release adapter.');
   return fixture;

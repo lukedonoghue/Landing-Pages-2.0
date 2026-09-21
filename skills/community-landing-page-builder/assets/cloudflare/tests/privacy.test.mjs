@@ -19,7 +19,9 @@ const fixture={fields:form,selectors:{step:'.wizard__step',next:'[data-next]',su
 const lightbox=[path.join(root,'public/script.js'),path.join(root,'../multistep-lightbox.js')].find(existsSync);
 
 async function site(t,{analyticsMode='consent',attributionMode='consent',engine=chromium,width=390,privacySignal=false,policyUnavailable=false}={}) {
-  const config={...baseConfig,analyticsMode,attributionMode};let ip=0,dropLead=false;
+  // These cases exercise the legacy built-in consent UI explicitly. The shared
+  // fixture defaults to an external CMP for newly scaffolded sites.
+  const config={...baseConfig,analyticsMode,attributionMode,consentUiMode:'internal'};let ip=0,dropLead=false;
   const bundle=await build({entryPoints:[path.join(root,'src/worker.js')],bundle:true,write:false,format:'esm',platform:'browser',target:'es2022',plugins:[{name:'privacy-policy-fixture',setup(build){build.onLoad({filter:/site-config\.json$/},()=>({contents:JSON.stringify(config),loader:'json'}));}}]});
   const mf=new Miniflare({modules:true,script:bundle.outputFiles[0].text,compatibilityDate:'2026-07-22',d1Databases:{DB:'privacy-tests'},bindings:{SESSION_SECRET:'synthetic-private-session-secret-32-characters'},outboundService:()=>new Response('No external calls',{status:503}),serviceBindings:{ASSETS:request=>{
     let pathname=new URL(request.url).pathname;
@@ -48,7 +50,7 @@ async function site(t,{analyticsMode='consent',attributionMode='consent',engine=
   const page=await context.newPage();page.setDefaultTimeout(6000);
   t.after(async()=>{await browser.close();await new Promise(resolve=>server.close(resolve));await mf.dispose();});
   await page.goto(url+'/?utm_source=google&utm_medium=cpc&gclid=synthetic-click',{waitUntil:'networkidle'});
-  await page.waitForFunction(()=>window.LeadFunnel?.privacyState().loading===false&&document.querySelector('[data-privacy-choices]'));
+  await page.waitForFunction(expectChoices=>window.LeadFunnel?.privacyState().loading===false&&(!expectChoices||document.querySelector('[data-privacy-choices]')),!policyUnavailable);
   return {page,context,db,requests,url,config,env:{DB:db,SESSION_SECRET:'synthetic-private-session-secret-32-characters'},dropNextLead:()=>{dropLead=true;}};
 }
 const visitCount=f=>f.requests.filter(row=>row.path==='/api/visits').length;
@@ -142,9 +144,10 @@ test('legacy submission fingerprints retain the original receipt after withdrawa
 
 
 test('unavailable privacy settings do not prevent real lead delivery',async t=>{
-  const f=await site(t,{policyUnavailable:true});await openChoices(f.page);
-  assert.equal(await f.page.locator('[data-privacy-allow]').isEnabled(),false);assert.match(await f.page.locator('.funnel-privacy-state').textContent(),/unavailable/);
-  await f.page.keyboard.press('Escape');await submit(f.page);await f.page.waitForURL('**/thank-you.html');
+  const f=await site(t,{policyUnavailable:true});
+  assert.equal(await f.page.locator('[data-consent-banner]').isVisible(),false);
+  assert.equal(await f.page.locator('[data-privacy-choices]').isVisible(),false);
+  await submit(f.page);await f.page.waitForURL('**/thank-you.html');
   assert.equal(visitCount(f),0);const row=await f.db.prepare('SELECT attribution,traffic_source FROM leads').first();assert.equal(row.traffic_source,'unknown');assert.deepEqual(JSON.parse(row.attribution),{first_touch:{},latest_touch:{}});
 });
 
