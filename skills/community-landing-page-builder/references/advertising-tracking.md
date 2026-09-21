@@ -48,7 +48,7 @@ Use this shape in `funnel.json`:
 }
 ```
 
-Run `npm run configure` so the Worker and browser use the same policy. A valid configured GTM container is loaded only after explicit optional-data consent. Do not paste a second hardcoded GTM loader into the page.
+Run `npm run configure` so the Worker and browser use the same policy. New builds that enable optional tracking use `privacy.consent_ui: "external"`; connect the provider's current-page decision to `LeadFunnel.setConsent(...)`. Do not fabricate that signal, trust a stale built-in choice while the provider is pending, or inject a custom banner. A valid GTM container loads only after the current external signal allows optional data. Builds with optional tracking disabled use `privacy.consent_ui: "disabled"`, show no choices UI, and never load GTM even if old browser storage says consent was granted. Do not paste a second hardcoded GTM loader into the page.
 
 ## Build the import
 

@@ -39,6 +39,7 @@ These rules override examples and optional modules.
 - **Brochure/PDF:** select its useful content and delivery from research; read [references/catalogue-workflow.md](references/catalogue-workflow.md). A copy-only or audit-only request does not trigger PDF creation.
 - **Optional form backend or CRM:** a source form means lead collection is already selected. Rebuild the form experience locally even when production wiring is pending. Activate backend or CRM infrastructure only when a real destination is requested or authorized.
 - **Optional tracking:** activate only when requested or supplied. Local page quality does not depend on GTM or ad-account access.
+- **Attribution and consent UI are separate choices:** first-party lead attribution may be retained with the enquiry when the disclosed policy permits it, while analytics, advertising tags and customer-data matching remain independently disabled or consent-gated. For new builds that need optional tracking, select an external consent provider; do not generate a custom consent banner or treat an earlier stored choice as the provider's current signal. A build with optional tracking disabled uses no consent UI. Continue to honor GPC/DNT and never infer that a jurisdiction needs no privacy controls.
 - **Optional deployment or handoff:** activate only when requested. Use the user's chosen provider when stated; otherwise propose one simple supported route after the local final.
 
 Do not expand a normal landing-page request into every optional module.
