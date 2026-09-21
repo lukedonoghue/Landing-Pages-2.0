@@ -4,6 +4,50 @@ const password = document.querySelector('#password');
 const error = document.querySelector('#login-error');
 const submit = document.querySelector('#submit');
 const status = document.querySelector('#login-status');
+const title = document.querySelector('#login-title');
+const description = document.querySelector('#login-description');
+const resetForm = document.querySelector('#reset-request-form');
+const resetEmail = document.querySelector('#reset-email');
+const resetError = document.querySelector('#reset-error');
+const resetSubmit = document.querySelector('#reset-submit');
+const showReset = document.querySelector('#show-reset');
+const forgotHelp = document.querySelector('#forgot-help');
+
+function showLogin() {
+  resetForm.hidden = true; form.hidden = false; forgotHelp.hidden = false;
+  title.textContent = 'Your workspace awaits.';
+  description.textContent = 'Sign in to see your enquiries and page performance.';
+  resetError.textContent = ''; status.textContent = ''; username.focus();
+}
+
+function showResetRequest() {
+  form.hidden = true; resetForm.hidden = false; forgotHelp.hidden = true;
+  title.textContent = 'Request a password reset.';
+  description.textContent = 'Use the email registered to your workspace account.';
+  error.textContent = ''; status.textContent = ''; resetEmail.focus();
+}
+
+showReset.addEventListener('click', showResetRequest);
+document.querySelector('#back-to-login').addEventListener('click', showLogin);
+
+resetForm.addEventListener('submit', async event => {
+  event.preventDefault(); resetError.textContent = ''; status.textContent = '';
+  resetSubmit.disabled = true; resetSubmit.textContent = 'Submitting…';
+  try {
+    const response = await fetch('/api/auth/reset-request', {
+      method: 'POST', credentials: 'same-origin', cache: 'no-store',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: resetEmail.value.trim() })
+    });
+    let data = {}; try { data = await response.json(); } catch {}
+    if (!response.ok) throw new Error(typeof data.error === 'string' ? data.error : data.error?.message || (response.status === 503 ? 'Password reset email is not configured. Contact your workspace administrator.' : 'The request could not be submitted. Please try again.'));
+    resetForm.reset();
+    status.textContent = 'If an account matches that email, an administrator can review the reset request.';
+  } catch (failure) {
+    resetError.textContent = failure instanceof TypeError ? 'Unable to connect. Check your connection and try again.' : failure.message || 'Unable to request a reset. Please try again.';
+    resetEmail.focus();
+  } finally { resetSubmit.disabled = false; resetSubmit.textContent = 'Request reset →'; }
+});
 
 form.addEventListener('submit', async event => {
   event.preventDefault();

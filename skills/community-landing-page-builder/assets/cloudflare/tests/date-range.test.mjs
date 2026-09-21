@@ -32,6 +32,7 @@ before(async () => {
   server = createServer(async (request, response) => {
     const url = new URL(request.url, 'http://fixture');
     response.setHeader('Content-Type', 'application/json');
+    if (url.pathname === '/api/auth/session') { response.end(JSON.stringify({authenticated:true})); return; }
     if (url.pathname === '/api/admin/config') { response.end(JSON.stringify({ brand:{name:'Calendar preview'},timezone:'UTC',earliest_date:'2021-09-10' })); return; }
     if (url.pathname === '/api/admin/metrics') { response.end(JSON.stringify({days:[],totals:{visitors:0,conversions:0,leads:0},timezone:'UTC'})); return; }
     try {

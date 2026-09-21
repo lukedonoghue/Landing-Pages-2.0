@@ -14,6 +14,7 @@ before(async()=>{
  if(!chrome)return;
  server=createServer(async(req,res)=>{
   const url=new URL(req.url,'http://fixture');res.setHeader('Content-Type','application/json');
+  if(url.pathname==='/api/auth/session'){res.end(JSON.stringify({authenticated:true}));return;}
   if(url.pathname==='/api/admin/config'){res.end(JSON.stringify({brand:{name:'Traffic filter fixture'},timezone:'UTC',earliest_date:'2026-09-01'}));return;}
   if(url.pathname==='/api/admin/metrics'){
    requests.push(new URL(url));const google=url.searchParams.get('source')==='google';const all=url.searchParams.get('visitor_mode')==='all';const visitors=google?(all?12:8):(all?30:20),conversions=google?4:5;
