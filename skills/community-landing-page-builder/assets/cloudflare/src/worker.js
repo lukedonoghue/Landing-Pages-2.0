@@ -5,6 +5,7 @@ import { HttpError, enforceOrigin, json, rateLimit, readJson, requireSession, se
 import { addNote, changeStatus, createLead, deleteLead, earliestReportingDate, getLead, listLeads, metrics, recordVisit } from './repository.js';
 import { addWebhook, deleteWebhook, enableWebhook, listWebhooks, processOutbox } from './webhooks.js';
 import { permissions, authorize, loginTeam, listUsers, createUser, updateUser, inviteOrReset, setOwnerEmail, requestReset, reviewReset, completeAction, memberPassword, memberRevoke } from './team-accounts.js';
+import { freeUsage } from './free-usage.js';
 
 export default {
   async fetch(request, env, ctx) {
@@ -101,6 +102,7 @@ async function route(request, env, ctx, url) {
     if (path === '/api/admin/account/password' && method === 'POST') { await rateLimit(env, request, 'password-change', 5, 900); const body=await readJson(request,4096); return user.id==='owner'?changePassword(env,request,body):memberPassword(env,request,user,body); }
     if (path === '/api/admin/account/revoke-sessions' && method === 'POST') return user.id==='owner'?revokeSessions(env,request):memberRevoke(env,request,user);
     if (path === '/api/admin/notifications' && method === 'GET') return json(await notifications(env));
+    if (path === '/api/admin/free-usage' && method === 'GET') return json(await freeUsage(env));
     if (path === '/api/admin/notifications/acknowledge' && method === 'POST') return json(await acknowledgeNotifications(env, await readJson(request, 1024)));
     if (path === '/api/admin/leads/export.csv' && method === 'GET') return exportLeads(env, url);
     if (path === '/api/admin/config' && method === 'GET') return json({ brand: { name: siteConfig.name, color: siteConfig.color, logo: siteConfig.logo }, stages: siteConfig.stages, timezone: siteConfig.timezone, analytics_mode: siteConfig.analyticsMode, earliest_date: await earliestReportingDate(env, siteConfig) });

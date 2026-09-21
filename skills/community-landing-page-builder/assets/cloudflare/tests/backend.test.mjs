@@ -68,7 +68,7 @@ test('public privacy configuration shares server policy without exposing private
 });
 
 test('all CRM routes and encoded admin assets require a real session', async () => {
-  for (const path of ['/api/admin/leads', '/api/admin/config', '/api/admin/webhooks', '/api/admin/metrics', '/api/admin/unknown']) assert.equal((await call(path, { auth: false })).status, 401, path);
+  for (const path of ['/api/admin/leads', '/api/admin/config', '/api/admin/webhooks', '/api/admin/metrics', '/api/admin/free-usage', '/api/admin/unknown']) assert.equal((await call(path, { auth: false })).status, 401, path);
   for (const path of ['/admin', '/admin/', '/admin/index.html', '/admin/index', '/%61dmin/index.html', '/admin%2findex.html']) {
     const result = await call(path, { auth: false }); assert.equal(result.status, 302, path); assert.equal(result.headers.get('Location'), 'https://site.test/login.html');
   }
@@ -86,6 +86,12 @@ test('login derives PBKDF2 in the actual Workers runtime and stores only a token
   assert.equal((await call('/admin/index.html')).status, 200);
   assert.equal((await call('/api/auth/session')).status, 200);
   assert.equal((await call('/api/admin/config')).headers.get('Cache-Control'), 'no-store');
+});
+test('optional usage monitor is explicit when no read-only provider connection exists', async () => {
+  const result=await jsonCall('/api/admin/free-usage');
+  assert.equal(result.status,200); assert.equal(result.body.connection,'not_connected'); assert.equal(result.body.status,'unknown');
+  assert.equal(result.body.reason,'not_connected'); assert.ok(result.body.metrics.every(item=>item.value===null));
+  assert.equal(result.headers.get('Cache-Control'),'no-store');
 });
 test('empty reporting history starts today in the configured timezone', async () => {
   const config = await jsonCall('/api/admin/config');

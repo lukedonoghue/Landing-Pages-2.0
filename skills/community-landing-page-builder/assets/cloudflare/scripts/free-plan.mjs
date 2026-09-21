@@ -1,5 +1,8 @@
 export function freePlanFailures(config) {
   const failures=[];
+  if(config.vars?.CF_ACCOUNT_ANALYTICS_TOKEN)failures.push('Store CF_ACCOUNT_ANALYTICS_TOKEN as a Worker secret, never as a Wrangler variable.');
+  if(config.vars?.CLOUDFLARE_API_TOKEN||config.vars?.CLOUDFLARE_API_KEY)failures.push('Do not expose a broad Cloudflare credential to the Worker. Usage monitoring accepts only its dedicated Account Analytics Read secret.');
+  if(config.vars?.CF_USAGE_ACCOUNT_ID!==undefined&&!/^[a-f0-9]{32}$/i.test(config.vars.CF_USAGE_ACCOUNT_ID))failures.push('CF_USAGE_ACCOUNT_ID must be the selected 32-character Cloudflare account ID.');
   for(const key of ['ai','browser','images','queues','vectorize','durable_objects','r2_buckets','unsafe']) {
     if(config[key])failures.push(`${key} is outside this skill's reviewed Workers/D1 free-only configuration. Do not enable extra billing to publish.`);
   }

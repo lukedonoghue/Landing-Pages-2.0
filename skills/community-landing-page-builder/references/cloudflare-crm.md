@@ -34,6 +34,8 @@ The CRM supports Admin, Manager and View-only roles, enforced in the Worker as w
 
 ## Metric definitions
 
+Keep Cloudflare hosting usage separate from lead/visitor reporting. Retain the shared all-role usage banner and follow [usage-monitoring.md](usage-monitoring.md) for optional read-only setup, threshold warnings and unavailable coverage. Never infer account quota consumption from lead counts.
+
 - Visitors: Unique mode counts measured browsers once per reporting day; All mode counts every measured page visit. Repeat page refreshes count once in Unique mode and separately in All mode; bots, non-consenting visitors, blocked requests, and cross-device identity cannot be perfectly measured.
 - Conversions: measured browsers (Unique) or visits (All) linked to at least one accepted lead in the selected source/device/traffic cohort. A second accepted enquiry within the same browser/day or visit does not inflate the corresponding count. Rate mode and Count mode are chart presentations of these same selected counts.
 - Conversion rate: conversions divided by visitors, multiplied by 100. Zero visitors displays no rate. The period rate uses the summed numerator and denominator, not an average of daily rates.
