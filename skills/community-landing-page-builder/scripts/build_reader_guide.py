@@ -26,11 +26,11 @@ def build(root, config_path, output, data):
     width = A4[0] - 88
     primary, ink = typesetter.primary, typesetter.ink
     styles = {
-        'body': ParagraphStyle('Body', fontName=regular, fontSize=11, leading=16, textColor=ink, spaceAfter=11),
+        'body': ParagraphStyle('Body', fontName=regular, fontSize=11, leading=15, textColor=ink, spaceAfter=8),
         'title': ParagraphStyle('Title', fontName=bold, fontSize=30, leading=35, textColor=primary, spaceAfter=18),
-        'h1': ParagraphStyle('Heading', fontName=bold, fontSize=24, leading=29, textColor=primary, spaceAfter=16, keepWithNext=True),
-        'h2': ParagraphStyle('Subheading', fontName=bold, fontSize=12, leading=17, textColor=primary, spaceBefore=10, spaceAfter=8, keepWithNext=True),
-        'caption': ParagraphStyle('Caption', fontName=regular, fontSize=9, leading=13, textColor=typesetter.muted, spaceAfter=15),
+        'h1': ParagraphStyle('Heading', fontName=bold, fontSize=24, leading=29, textColor=primary, spaceAfter=14, keepWithNext=True),
+        'h2': ParagraphStyle('Subheading', fontName=bold, fontSize=12, leading=17, textColor=primary, spaceBefore=8, spaceAfter=6, keepWithNext=True),
+        'caption': ParagraphStyle('Caption', fontName=regular, fontSize=9, leading=13, textColor=typesetter.muted, spaceAfter=10),
         'small': ParagraphStyle('Small', fontName=regular, fontSize=8, leading=11, textColor=typesetter.muted, spaceAfter=6),
     }
     def p(text, kind='body'):
