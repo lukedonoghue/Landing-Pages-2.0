@@ -106,6 +106,8 @@ jobs:
           cache-dependency-path: skills/community-landing-page-builder/assets/cloudflare/package-lock.json
       - name: Install locked dependencies
         run: npm ci
+      - name: Reject high-severity application-tool dependencies
+        run: npm audit --audit-level=high
       - name: Install both supported browser engines
         run: npx playwright-core install --with-deps chromium webkit
       - name: Require real browser executables
@@ -135,6 +137,8 @@ jobs:
         if: always()
         with:
           name: community-application-results
-          path: skills/community-landing-page-builder/assets/cloudflare/community-node-results.tap
+          path: |
+            skills/community-landing-page-builder/assets/cloudflare/community-node-results.tap
+            skills/community-landing-page-builder/assets/cloudflare/build/guide-ui-review/
           if-no-files-found: ignore
           retention-days: 14

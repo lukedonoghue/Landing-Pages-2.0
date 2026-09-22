@@ -20,7 +20,8 @@ import workflow
 import workflow_progress
 import workflow_storage as storage
 
-SKILL = Path(__file__).resolve().parents[1]
+from runtime_context import skill_root
+SKILL = skill_root(__file__)
 STATE = 'build/guide-state.json'
 JOURNAL = '.secrets/guide-transaction.json'
 STAGES = ['Start', 'Business', 'Conversion', 'Copy', 'Design', 'Preview', 'Connections', 'Publish', 'Complete']

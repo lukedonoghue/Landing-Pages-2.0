@@ -29,7 +29,8 @@ import guide
 import native_routing as routing
 import workflow_storage as storage
 
-SKILL=Path(__file__).resolve().parents[1]
+from runtime_context import skill_root
+SKILL=skill_root(__file__)
 JOURNAL='.secrets/runner-apply.json'
 FORBIDDEN={'build/guide-business.json','build/workflow.json','build/guide-state.json','build/progress.json','build/static-release.json','build/setup-authorization.json'}
 BUILD_OUTPUTS=('build/discovery.json','build/strategy-brief.md','build/claim-ledger.md','build/page-copy.md','build/page-copy.json',
@@ -212,6 +213,7 @@ def native_execute(root, work, provider, route, beat):
             argv=[executable,'-p','--output-format','json','--json-schema',json.dumps(schema),'--permission-mode','acceptEdits',
                   '--strict-mcp-config','--mcp-config','{"mcpServers":{}}','--setting-sources','']
             if route.get('model'):argv+=['--model',route['model']]
+            if route.get('effort'):argv+=['--effort',route['effort']]
         # Stdin cannot leak private production credentials; only canonical nonsecret artifacts were copied.
         with tempfile.TemporaryFile() as output, tempfile.TemporaryFile() as errors:
             process=subprocess.Popen(argv,cwd=staged,env=native_environment(),stdin=subprocess.PIPE,stdout=output,stderr=errors,start_new_session=True)

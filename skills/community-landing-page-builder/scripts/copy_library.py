@@ -10,6 +10,9 @@ from pathlib import Path
 from urllib.parse import urlsplit,urlunsplit
 
 DEFAULT=Path(__file__).resolve().parents[1]/'references/copy-library'
+# Legacy standalone audits need no bundle; guided projects preserve their library.
+BUNDLED=Path(__file__).resolve().parents[1]/'.community-builder/references/copy-library'
+if BUNDLED.is_dir():DEFAULT=BUNDLED
 def read(p):return json.loads(Path(p).read_text())
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def tokens(s):return set(re.findall(r'[a-z0-9]+',str(s).lower()))

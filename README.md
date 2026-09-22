@@ -4,6 +4,20 @@ The **community landing-page builder is now the main workflow**. Start from `mai
 
 The community builder turns business research into a branded responsive landing page, purposeful imagery, a useful PDF, an honest conversion path and actual visual/functional QA. CRM, advertising tracking and hosting are selected modules, not prerequisites for a local page. It does not require copy/design approval unless you ask for that checkpoint. Publishing and live test leads still require the authorization described in the skill.
 
+## Guided build, automatic repairs and recovery
+
+Start a fresh active ChatGPT/Codex or Claude session with:
+
+> Use the community skill on main to build a landing page for [business website or description] in guided mode. Remember supplied answers, confirm the business and conversion brief, and ask only for genuinely missing decisions. After the first build, compare the rendered page and copy with the Blue Mountain Mesh control, make a concrete improvement checklist, implement the repairs and recapture mobile/desktop output before showing the improved page. Continue toward publication, but obtain the actual scoped setup/publication and live-test permissions when needed.
+
+The guide exposes **Start → Business → Conversion → Copy → Design → Preview → Connections → Publish → Complete**. This is not nine permission screens: routine implementation, comparison, repairs and tests continue automatically. Guided mode adds brief/copy review; automatic mode retains the no-routine-approval behavior. Both modes require fresh control comparison and preserve real publishing authority.
+
+The active agent uses `guide.py` and the persistent `workflow_runner.py`; an optional authenticated loopback wizard uses the same controller and an actual runner bridge. Stable answer/event IDs prevent repeats, task ownership prevents duplicate execution, and bounded repair attempts expose a precise blocker rather than silently stopping or skipping a gate. Unknown external results must be reconciled before retry. A session or local process must remain active to execute; a saved checkpoint is not a background service.
+
+Fresh generated projects keep the complete skill context under `.community-builder/`, outside `public/`. This preserves instructions, templates and the Blue Mountain reference after moving the project or resuming through copied helpers. It contains no client credentials. Existing bundles are not silently overwritten; reconcile a modified runtime explicitly. Do not upload the project root as public assets.
+
+See [guided workflow](skills/community-landing-page-builder/references/guided-workflow.md) and [control comparison](skills/community-landing-page-builder/references/control-comparison.md). Source/test verification does not substitute for a real signed-in native-agent pilot or authorized cloud/domain/email acceptance.
+
 ## Agent GitHub access
 
 AI agents working on this repository must verify GitHub permissions through the connected GitHub action layer before claiming that writes are blocked. **Do not use web search/browser access as evidence that the repository is read-only.** If live repository metadata reports `permissions.push: true` or `permissions.admin: true`, proceed with requested GitHub writes. If write actions are absent from the current session, describe that as a session/tool limitation; if a write call fails, report the exact operation and error. See [AGENTS.md](AGENTS.md) and [CLAUDE.md](CLAUDE.md) for the required preflight.
