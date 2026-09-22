@@ -67,6 +67,26 @@ Block on:
 - dead primary, phone, privacy, booking, or download destinations;
 - footer controls visually merged or too small to operate.
 
+## Review/testimonial provenance gate
+
+When `research/reviews/review-manifest.json` exists, review evidence is part of factual and visual acceptance rather than optional decoration.
+
+Before copy acceptance run:
+
+```bash
+python3 scripts/validate_reviews.py /path/to/project --stage research
+```
+
+After testimonial rendering and before final acceptance, write `build/rendered-testimonials.json` from the actual rendered records and run:
+
+```bash
+python3 scripts/validate_reviews.py /path/to/project --stage rendered
+```
+
+Block on an identity-mismatched source, stale review intelligence/selection, a research-only review rendered as proof, quote changes that are not verbatim shortenings, mismatched reviewer names/ratings/dates, generated or swapped reviewer avatars, publication-state violations, or missing required source attribution/access. If reviews are genuinely unavailable, the validator may return `not_applicable`; use another proof type rather than inventing testimonial completeness.
+
+During the existing visual review, inspect every rendered testimonial at mobile and desktop sizes. Confirm the face belongs to the quoted reviewer when an avatar is used, attribution remains readable, names are not misleadingly truncated, and the testimonial is adjacent to the claim it is meant to substantiate. A technically valid testimonial can still fail visual/proof acceptance when its placement implies a stronger claim than the review actually supports.
+
 ## 3. Visual gate
 
 Open and inspect every required screenshot at its actual size. Do not infer approval from a file existing or a broad boolean. Full-page evidence must contain rendered pixels for every visible section. When CSS uses `content-visibility:auto`, require the browser artifact's visited and held-visible counts to match before review, then inspect the page from top to bottom. A blank intrinsic-size placeholder, a matching file hash, or measurements without section pixels cannot pass the visual gate.
