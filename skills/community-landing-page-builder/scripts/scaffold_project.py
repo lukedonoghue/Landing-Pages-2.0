@@ -214,7 +214,7 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
 
     # PDF delivery is part of every ordinary page build, including explicit
     # static-only projects. CRM/runtime helpers remain conditional above.
-    for name in ("build_catalogue.py", "build_guide.py", "build_reader_guide.py", "guide_quality.py", "thank_you_page.py", "runtime_context.py", "render_catalogue_cover.py"):
+    for name in ("build_catalogue.py", "build_guide.py", "build_reader_guide.py", "guide_quality.py", "thank_you_page.py", "review_workflow.py", "validate_reviews.py", "runtime_context.py", "render_catalogue_cover.py"):
         source = skill_root / "scripts" / name
         target = root / "scripts" / name
         if source.exists() and not target.exists():
