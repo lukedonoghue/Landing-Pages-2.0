@@ -19,7 +19,7 @@
     }
   },
   "roles": {
-    "research": {"agent": "lp-researcher", "tier": "fast", "instruction": "Collect source-linked business facts and source conversion intent. Return uncertainties, not invented proof. No implementation edits."},
+    "research": {"agent": "lp-researcher", "tier": "fast", "instruction": "Collect source-linked business facts and source conversion intent. When review intelligence is enabled, identity-match customer-feedback sources, complete the rights/use manifest, analyze only permitted feedback for problems/benefits/objections/customer language, and compile review insights/testimonial selection. Keep Google Maps content provider-dynamic and out of stored/AI-derived research. Return uncertainties, not invented proof. No implementation edits."},
     "brand": {"agent": "lp-brand", "tier": "standard", "instruction": "Extract actual rendered fonts, source brand identity and asset provenance using existing helpers. Do not design the page before copy acceptance."},
     "copy": {
       "agent": "lp-copy",
@@ -33,7 +33,7 @@
           {"model": "sonnet", "effort": "high"}
         ]
       },
-      "instruction": "Own the complete conversion argument, evidence-backed advantage and copy master. Perform the existing editorial acceptance procedure before layout; do not create new human approval requirements. Stay on the active provider: use Astra then Sol within Codex, or Sonnet within Claude."
+      "instruction": "Own the complete conversion argument, evidence-backed advantage and copy master. Read current review-insights when present for rights-cleared customer problems, benefits, objections and language; use only testimonial-selection for quoted proof. Perform the existing editorial acceptance procedure before layout; do not create new human approval requirements. Stay on the active provider: use Astra then Sol within Codex, or Sonnet within Claude."
     },
     "assets": {"agent": "lp-assets", "tier": "standard", "instruction": "Source, prepare and review purposeful imagery. Use scripts for derivatives. Preserve independent-original lineage and distinguish illustration from proof. Use only image tools actually available; no API-key dependency."},
     "frontend": {"agent": "lp-builder", "tier": "standard", "instruction": "Implement the frozen production contract. Preserve exact copy, CTA semantics, source conversion intent, responsive imagery and accessible form states. Never hide required content to pass a measurement."},
