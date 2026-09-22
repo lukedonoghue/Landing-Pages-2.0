@@ -1,70 +1,54 @@
-# Landing Pages 2.0
+# Landing Pages 2.0: Community Builder
 
-A reusable, research-led funnel-building skill: client website → approved copy → design and images → verified page, brochure, form and CRM → guided Cloudflare publishing.
+The **community landing-page builder is now the main workflow**. Start from `main` and use `skills/community-landing-page-builder/SKILL.md`. The previous branded builder is retained under `skills/branded-lead-funnel-builder/`; its earlier README is preserved as [README-LEGACY.md](README-LEGACY.md).
 
-**For Bohdan:** [Implementation handoff and remaining work](README-BOHDAN.md) lists the prioritized fixes, exact source files, acceptance tests, and live checks still needed before client rollout. It separates confirmed defects from optional integrations and unverified external setup.
+The community builder turns business research into a branded responsive landing page, purposeful imagery, a useful PDF, an honest conversion path and actual visual/functional QA. CRM, advertising tracking and hosting are selected modules, not prerequisites for a local page. It does not require copy/design approval unless you ask for that checkpoint. Publishing and live test leads still require the authorization described in the skill.
 
-**Next release:** [Self-guided beta plan](docs/SELF-GUIDED-BETA-PLAN.md) defines the end-user journey, proposed scope, implementation milestones, and the first-time-user tests required before sharing the skill more widely.
+## Start testing in ChatGPT or Claude
 
-**Current work:** [Development progress](docs/PROGRESS.md) records implemented improvements, new verification results, and remaining acceptance work.
+Open this checkout in a fresh ChatGPT/Codex work session or Claude Code session, signed in with your existing eligible subscription. Native agent profiles are committed in `.codex/agents/` and `.claude/agents/`; project instructions load the same community skill. No Jev, additional model API key, gateway or cross-provider bridge is installed.
 
-## What it builds
+> Use the community landing-page-builder from this main checkout for [BUSINESS URL]. Apply native routing and parallel workers when this session actually supports them. Use my existing signed-in account only; no Jev, model API key or new provider. Research, build and verify the local page and useful PDF. Preserve the source conversion type. Do not deploy or submit a live lead. Report actual worker models/efforts, fallback modes, elapsed page-build time and unresolved findings.
 
-- A branded responsive landing page, accessible multistep form, brochure PDF and thank-you page.
-- A protected mini CRM with named owner login, pipeline, lead table, notes, source attribution, in-app notifications, CSV export and account recovery.
-- Revisitable visitor privacy choices with separately configurable campaign attribution; enquiries still work when measurement is declined.
-- Owner controls for permanent enquiry erasure, optional retention periods and preparing older backups without restoring erased enquiries.
-- Daily reporting with date presets, source/device/paid-organic filters, all/unique visits and Count/Rate charts.
-- Cloudflare Workers for the site/admin/API and D1 for leads, sessions and reporting. No Supabase, Netlify or GitHub hosting dependency.
+In a session without native subagent/model-selection tools, the same workflow runs sequentially with the current model. A skill does not add missing tools to a chat session. Native model availability and usage limits depend on the signed-in account. OpenAI workers run inside ChatGPT/Codex; Claude workers run inside Claude Code. Supporting both does not mean that one subscription can call the other provider's models. Image/browser/PDF capabilities are checked independently; unavailable tools are reported, not simulated.
 
-The included copy library contains 44 curated primary examples, 27 reviewed supporting variants and 112 annotated passages. Quarantined OCR is available for investigation but excluded from default writing context. Reference examples inform structure and style; they are never evidence for a new client's claims.
+## Install into another project
 
-## Install and use
-
-Copy `skills/branded-lead-funnel-builder/` into your Codex skills directory, or run `python3 scripts/install_skill.py` from this repository. Then ask:
-
-> Use $branded-lead-funnel-builder for this client website: [URL]. The reference page, if useful, is [optional URL]. Focus on [optional service/audience] and [optional offer]. Draft and review the copy first, then stop for my approval. After approval, build the complete funnel, source or generate suitable imagery, test desktop/mobile and the real lead journey, and present the finished result for final publishing approval.
-
-The two planned review points are **copy approval before design** and **final approval before publishing**. The agent handles the work between them. A missing reference is fine: the library selects suitable patterns. Business promises and proof must still be grounded in the actual client evidence.
-
-## Tool requirements
-
-Use Python 3.10+ and Node 22.19+ (Node 24 recommended). A generated project installs its locked dependencies with `npm ci`. `npx playwright-core install chromium webkit` supplies cross-browser test engines. PDF/image helpers use the available bundled runtime or the dependencies documented by their scripts. Research uses Firecrawl when configured; unavailable source access must be reported.
-
-Image generation uses the available native tool, with source-first planning, bounded retries and explicit provenance. GPT Image 2.5 is the requested family. If the tool does not report its actual model, exact-model verification remains unresolved; the skill cannot silently label a different or unknown model as 2.5. An optional official bundled image CLI route supports an explicit GPT Image 2.5 selection when the user chooses that API route and supplies its connection; it records the exact request and output without putting API credentials in project assets. Generated images are static assets at deployment time, not a live OpenAI dependency for the site.
-
-## Cloudflare publishing
-
-After account connection and project setup, the user says **“Publish to Cloudflare.”** The agent provisions/binds D1, configures admin access, applies migrations, publishes and verifies the resulting URL. Use workers.dev first or an optional custom domain in the intended account. GitHub is optional source backup/version control only.
-
-The publish command requires current quality evidence and the actual final approval. Full post-deployment verification also requires authorization for a controlled synthetic test lead and private admin credentials. Upload success alone is not launch verification.
-
-## Development and verification
-
-Start with [CONTRIBUTING.md](CONTRIBUTING.md) and the [portable first-run guide](skills/branded-lead-funnel-builder/references/first-run.md). The quickstart can check tools, install local dependencies, generate a fictional page/CRM/PDF demo, verify it end to end, and preserve/reset its local state. It never deploys to Cloudflare.
+From this repository checkout, with the target project directory already created:
 
 ```sh
-python3 scripts/dev.py doctor
-python3 scripts/dev.py bootstrap
-python3 scripts/dev.py check
-python3 scripts/dev.py demo
-python3 scripts/dev.py verify-demo --full
-python3 scripts/dev.py serve
+python3 scripts/install_community.py --project /absolute/path/to/project --runtime codex --copy-skill
+# Claude Code:
+python3 scripts/install_community.py --project /absolute/path/to/project --runtime claude --copy-skill
+# Both sets of native profiles:
+python3 scripts/install_community.py --project /absolute/path/to/project --runtime both --copy-skill
 ```
 
-Use Node 24; pass `--node /path/to/node` if the supported runtime is not on PATH. The original individual regression commands remain available:
+Reload the host after installation so it discovers the native profiles. Existing owner settings and instructions are preserved. Customized/unmanaged file conflicts stop the installation before changes. The self-contained skill includes the same installer at `scripts/install_native.py`. To use inherited host models instead of preferred profiles, add `--inherit-models`; model availability remains a runtime preflight check.
+
+The old `scripts/install_skill.py` is retained for the **legacy branded skill**. Use `scripts/install_community.py` for the current main workflow.
+
+## What routing changes
+
+The coordinator routes narrow research to fast workers, ordinary implementation to standard workers, strategy/copy/review to deeper workers, and difficult diagnosis to critical workers. Mechanical checks stay in scripts. A maximum of four cooperating workers can reserve disjoint tasks. A shared production contract, dependency/input hashes, bounded retries and a frozen independent review keep parallel work coherent. Requested and actually reported models are separate fields.
+
+The default OpenAI policy uses Luna, Terra and GPT-5.6 with task-appropriate effort. The Claude policy uses Haiku, Sonnet and Opus aliases, with supported effort settings. Missing choices use explicit inherited profiles or sequential fallback, without new API credentials. Profiles are generated from one policy; fallback profile/model consistency is regression-tested.
+
+Read [native orchestration](skills/community-landing-page-builder/references/orchestration.md) for the exact dependency graph, capability preflight, native dispatch protocol, private-data boundaries and measurement plan. The local routing helper records/schedules work but does not call any model API or launch an external agent service. Existing copy-before-layout, imagery, PDF, backend, source-fingerprint and publishing gates remain authoritative.
+
+## Offline verification
 
 ```sh
-python3 -m unittest discover -s tests -p 'test_*.py'
-python3 skills/branded-lead-funnel-builder/scripts/test_gates.py
-python3 skills/branded-lead-funnel-builder/tests/test_image_workflow.py
-cd skills/branded-lead-funnel-builder/assets/cloudflare
-npm ci
-npm test
+python3 skills/community-landing-page-builder/tests/test_native_routing.py
+python3 scripts/install_community.py --project . --runtime both --check
 ```
 
-See `docs/VERIFICATION.md` for the actual verification record and limits. Tests use isolated fictional data and mocked remote mutations; no real client lead databases, credentials, local runtime databases or client publishing packages are included.
+The test suite uses fictional temporary projects and the standard library; it does not submit leads, call model providers or deploy anything. Use Python 3.11+ for the suite's TOML parser; the routing/install helpers support Python 3.10+. Existing page generation still needs its documented browser, image/PDF and Node dependencies. See the skill's references for the selected workflow and [CONTRIBUTING.md](CONTRIBUTING.md) for the preserved legacy development commands.
 
-## Ownership and provenance
+Routing changes are **ready for end-to-end testing**, not a claim that every account/model has been exercised or that previously recorded page/deployment issues are resolved. See [implementation and verification record](docs/community-landing-page-builder/NATIVE-ROUTING-20260922.md).
 
-This is a private collaboration repository. Original client/source material in the reference library retains its original rights and provenance; inclusion is not an open-source license grant. The implementation adapts workflow lessons from the reviewed page-builder project and CRM reference, without shipping their old Supabase or Apps Script backends. See the skill's integration-provenance reference.
+## History and ownership
+
+The community baseline is `dcbafa918c1f2a73e66e5e8b6e1de5221eaba2fc` (22 September 2026). Main was previously `6962338ff5d8233f6301bfbc4cb460b695e6421e`. Promotion preserves Git history rather than force-pushing a replacement repository.
+
+This remains a private collaboration repository. Reference/client material retains its original rights and provenance; the word community is not an open-source license grant. No client credentials or live lead data are added by native routing.
