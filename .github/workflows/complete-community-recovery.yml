@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-          fetch-depth: 2
+          fetch-depth: 4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -48,13 +48,19 @@ jobs:
               assert old in text,old
               text=text.replace(old,new)
           app.write_text(text)
+          test=pathlib.Path('skills/community-landing-page-builder/assets/cloudflare/tests/guide-ui.test.mjs')
+          text=test.read_text()
+          for old,new in [("name: 'Pause', exact: true","name: 'Save and pause', exact: true"),("name: 'Resume', exact: true","name: 'Resume work', exact: true")]:
+              assert text.count(old)==1,old
+              text=text.replace(old,new)
+          test.write_text(text)
           workflow=pathlib.Path('.github/workflows/community-release.yml')
           text=workflow.read_text()
           old='          path: skills/community-landing-page-builder/assets/cloudflare/community-node-results.tap'
           assert old in text
           workflow.write_text(text.replace(old,'          path: |\n            skills/community-landing-page-builder/assets/cloudflare/community-node-results.tap\n            skills/community-landing-page-builder/assets/cloudflare/build/guide-ui-review/'))
           manifest=pathlib.Path('recovery-diagnostics/changed-files.json')
-          names=json.loads(manifest.read_text());names.append(str(app));manifest.write_text(json.dumps(names))
+          names=json.loads(manifest.read_text());names.extend([str(app),str(test)]);manifest.write_text(json.dumps(names))
           PY
       - name: Verify complete Python contracts
         shell: bash
