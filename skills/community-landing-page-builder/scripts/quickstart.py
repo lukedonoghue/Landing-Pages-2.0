@@ -124,7 +124,7 @@ def check(node, repository=None):
                 ("catalogue", [sys.executable, SKILL / "tests/test_catalogue.py"])]
     if repository:
         repository = Path(repository).resolve()
-        if (repository / "skills/branded-lead-funnel-builder").resolve() != SKILL:
+        if (repository / "skills/community-landing-page-builder").resolve() != SKILL:
             raise ValueError("The repository test path does not match this skill.")
         commands.insert(0, ("copy-and-tooling", [sys.executable, "-m", "unittest", "discover", "-s", repository / "tests", "-p", "test_*.py"]))
     for name, command in commands:
@@ -292,6 +292,8 @@ def verify_demo(project, node, full=False):
         run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "rendered_copy",
              "--report", "build/rendered-copy/result.json"], project, node, "Rendered copy release evidence")
         if full:
+            run([node, "scripts/extract_brand.mjs", url, "--out", "build/brand.json"],
+                project, node, "Rendered demo brand and font evidence")
             run([node, "scripts/measure_funnel.mjs", url, "--out", "build/layout/result.json",
                  "--project-root", ".", "--mode", "handoff", "--thank-you", "/thank-you.html"],
                 project, node, "Nine-viewport layout verification")

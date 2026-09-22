@@ -24,6 +24,8 @@
       let test=null;if(current.approval_kind==='publish'){const label=create('label');test=create('input');test.type='checkbox';label.append(test,document.createTextNode('Allow one labeled synthetic enquiry test where applicable. Soft-removal leaves historical metrics.'));$('#actions').append(label);}
       $('#actions').append(button(current.approval_kind==='brief'?'Confirm this brief':current.approval_kind==='copy'?'Approve this complete copy':'Publish this reviewed page',()=>api('/api/approve',{kind:current.approval_kind,expected_revision:current.revision,review_fingerprint:current.review_fingerprint,message:'I approve the '+current.approval_kind+' shown in this review.',allow_test_lead:!!test?.checked})));
       $('#actions').append(create('p','To request a wording, offer or design change, tell the active guide. A request for help never counts as approval.'));
+    }else if(current.kind==='image_handoff'){
+      $('#actions').append(create('p','An illustration is needed. Give this saved request to your image-capable active session, then register the actual result. No API key or repeat model run is required.'), create('pre',JSON.stringify({asset_id:current.asset_id,attempt_id:current.attempt_id,arguments:current.arguments},null,2)));
     }else if(!['complete','wait','reconcile'].includes(current.kind))$('#actions').append(button('Continue or recheck',()=>api('/api/run',{})));
   }
   async function refresh(force=false){if(force)lastRevision='';try{render(await api('/api/status'));}catch(e){error(e);}}

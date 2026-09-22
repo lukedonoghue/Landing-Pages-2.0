@@ -79,3 +79,8 @@ Return the real public address, appropriate private owner-access instructions, s
 ## Release validation limits
 
 Unit, synthetic-provider and local browser tests establish mechanical behavior, not novice usability or model-generated page quality. Run packaged cold-start sessions in the actual subscribed Codex and Claude environments, an authorized isolated provider pilot, and independent copy/pixel review before calling every supported path fully self-guided. No guide may claim these pilots occurred merely because its state machine tests pass.
+
+
+## Explicit native guide-image handoff
+
+Use [guide-image-handoff.md](guide-image-handoff.md) when a PDF needs an explanatory image not available from permitted sources. The persisted `image_handoff` action returns the actual native request once; an unavailable tool is a precise handoff, not a repeated model run or new API-key requirement. Resume after registering and linking the real output, or explicitly reconcile a permitted source fallback.

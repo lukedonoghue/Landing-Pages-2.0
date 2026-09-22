@@ -48,7 +48,7 @@ def aggregate(manifest, manifest_sha):
         counts = Counter()
         support = defaultdict(list)
         for review in reviews:
-            for value in review.get("analysis", {}).get(field, []) or []:
+            for value in dict.fromkeys(review.get("analysis", {}).get(field, []) or []):
                 key = str(value).strip()
                 if not key:
                     continue

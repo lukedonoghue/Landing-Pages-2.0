@@ -309,6 +309,10 @@ def next_action(root):
         return action('brief_review','approval','Confirm the business, offer and customer journey shown above. This is not publishing permission.',approval_kind='brief')
     if get(value,'backend.provider')=='cloudflare-d1' and not (root/'src/worker.js').is_file():
         return action('scaffold','local','Prepare the selected private lead inbox locally. No cloud resources will be created.',operation='scaffold')
+    import guide_image_handoff
+    image_action = guide_image_handoff.inspect(root)
+    if image_action:
+        return {**base, **image_action}
     report = workflow_progress.inspect(root)
     stage = report['stage']
     extras = {'progress':report, 'blockers':report.get('blockers',[])}

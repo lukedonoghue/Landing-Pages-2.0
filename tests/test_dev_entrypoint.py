@@ -43,6 +43,23 @@ class DevEntrypointTests(unittest.TestCase):
         self.assertIn("public/assets/brochure/service-guide.pdf", quickstart)
         self.assertNotIn("public/assets/brochure/catalogue.pdf", quickstart)
 
+    def test_demo_copy_contract_matches_current_confirmation_and_modal_surfaces(self):
+        demo_project = (
+            ROOT / "skills/community-landing-page-builder/scripts/demo_project.py"
+        ).read_text()
+        self.assertNotIn(
+            "page.replace('<p data-form-error', '<p>'+html.escape(data['follow_up'])+'</p><p data-form-error')",
+            demo_project,
+        )
+        self.assertIn('\"download_label\": \"Download your service guide\"', demo_project)
+        self.assertIn('\"reader_heading\": \"Read your guide now\"', demo_project)
+        self.assertIn("We could not accept your request. Check your details and try again.", demo_project)
+        self.assertIn("We could not confirm whether your request was saved. Retry to check the same request safely; your details are kept unchanged.", demo_project)
+        self.assertIn("@media(max-width:340px)", demo_project)
+        self.assertIn("@media(min-width:601px) and (max-height:760px)", demo_project)
+        quickstart = (ROOT / "skills/community-landing-page-builder/scripts/quickstart.py").read_text()
+        self.assertIn('"scripts/extract_brand.mjs", url, "--out", "build/brand.json"', quickstart)
+
     def test_readme_leads_with_local_dependency_setup(self):
         readme = (ROOT / "README.md").read_text()
         self.assertIn("## Step one install local dependencies", readme)

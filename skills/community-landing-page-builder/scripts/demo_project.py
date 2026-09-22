@@ -74,7 +74,6 @@ def write_demo_sources(project):
     page = page.replace("Service one", data["services"][0]).replace("Service two", data["services"][1])
     page = page.replace("Replace this starter with your approved client content.", "Fictional local demonstration. Do not enter real customer information.")
     page = page.replace("<body>", '<body><aside class="demo-notice">Local demonstration · fictional business and data · publishing disabled</aside>')
-    page = page.replace('<p data-form-error', '<p>'+html.escape(data['follow_up'])+'</p><p data-form-error')
     page = page.replace("<!-- Copy and adapt the fields only after the form schema is approved. -->",
                         '<section class="demo-guide"><img src="/assets/brochure/cover-600.webp" width="600" height="777" loading="lazy" alt="Cover of the fictional project guide"><div><h2>Your project guide</h2><p>Explore the complete page, form, PDF, CRM and reporting using fictional local data.</p></div></section>')
     page_path.write_text(page)
@@ -85,7 +84,7 @@ def write_demo_sources(project):
     privacy = project / "public/privacy.html"
     privacy.write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Local demo privacy</title><link rel="stylesheet" href="/styles.css"><script src="/funnel.js" data-measure="false" defer></script><main class="support"><h1>Fictional local demo</h1><p>Use synthetic contact details only. This demo stores test enquiries and optional visitor measurements in a local database. No advertising provider or notification destination is configured.</p><p>This is not a privacy policy for a real business. Create a new client project and supply its actual policy before publishing.</p><a href="/">Back to the demonstration</a></main></html>')
     with (project / "public/styles.css").open("a") as output:
-        output.write("\n.demo-notice{padding:10px 20px;text-align:center;background:#e1e9db;color:#203c32;font-size:13px}.demo-guide{max-width:900px;margin:0 auto 60px;padding:24px;display:flex;align-items:center;gap:38px}.demo-guide img{width:220px;height:auto;box-shadow:0 8px 28px #0002}h1,h2{text-wrap:balance}@media(max-width:600px){.demo-guide{flex-direction:column;align-items:flex-start}.demo-guide img{width:160px}}\n")
+        output.write("\n.demo-notice{padding:10px 20px;text-align:center;background:#e1e9db;color:#203c32;font-size:13px}.demo-guide{max-width:900px;margin:0 auto 60px;padding:24px;display:flex;align-items:center;gap:38px}.demo-guide img{width:220px;height:auto;box-shadow:0 8px 28px #0002}h1,h2{text-wrap:balance}@media(max-width:600px){.demo-guide{flex-direction:column;align-items:flex-start}.demo-guide img{width:160px}}@media(max-width:340px){.demo-notice{padding:6px 12px}.hero{padding:28px 18px 24px}.hero h1{font-size:36px;margin:14px auto}.hero .intro{margin:16px auto 20px}}@media(min-width:601px) and (max-height:760px){header{padding-top:12px;padding-bottom:12px}.hero{padding:18px 24px 16px}.hero h1{font-size:clamp(44px,4.2vw,58px);margin:14px auto}.hero .intro{margin:16px auto 20px}.hero .micro{margin:12px auto}}\n")
     write_json(project / "test-fixture.json", data["fixture"])
     write_json(project / "build/demo-copy.json", data)
     steps = [{"title": "Share your project", "body": "Use fictional contact details in the demonstration form."},
@@ -118,10 +117,13 @@ def write_demo_sources(project):
                        {"number": "03", "headline": "Choose your next step", "body": "Discuss your needs before making a commitment."}]},
             {"id": "guide", "headline": "Your project guide", "body": "Explore the complete page, form, PDF, CRM and reporting using fictional local data."}
         ],
-        "modal": {"submit_label": data['cta'], "follow_up_promise": data['follow_up']},
+        "modal": {"submit_label": data['cta'], "follow_up_promise": data['follow_up'],
+                  "failure": "We could not accept your request. Check your details and try again.",
+                  "uncertain": "We could not confirm whether your request was saved. Retry to check the same request safely; your details are kept unchanged."},
         "thank_you": {"eyebrow": "Your next step", "headline": "Here is your project guide.",
                       "body": "Your fictional enquiry is saved in the local CRM. Download the guide below.",
-                      "follow_up_promise": data['follow_up'], "download_label": "Download your project guide"},
+                      "follow_up_promise": data['follow_up'], "download_label": "Download your service guide",
+                      "reader_heading": "Read your guide now"},
         "brochure": {"cover_promise": catalogue['cover']['headline'], "delivery": "Download after a fictional enquiry is saved.",
                      "text": [catalogue['cover']['eyebrow'], catalogue['cover']['headline'], data['body'], catalogue['cover']['label'],
                               catalogue['process']['headline'], catalogue['process']['summary'], "OUR PROCESS",

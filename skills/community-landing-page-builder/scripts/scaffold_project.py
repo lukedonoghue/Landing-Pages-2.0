@@ -150,6 +150,7 @@ def main() -> int:
     # review source has been identity-matched.
     review_example = skill_root / "assets" / "review-manifest.example.json"
     review_target = root / "references" / "review-manifest.example.json"
+    review_target.parent.mkdir(parents=True, exist_ok=True)
     if review_example.exists() and write_if_missing(review_target, review_example.read_text(encoding="utf-8")):
         created.append("references/review-manifest.example.json")
 
@@ -169,7 +170,7 @@ def main() -> int:
                 if args.client and target.suffix == ".html" and relative.parts[0] == "public":
                     target.write_text(target.read_text().replace("Your business", html.escape(args.client)))
                 created.append(str(relative))
-        for name in ("runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "review_workflow.py", "validate_reviews.py", "package_handoff.py", "portable_handoff.py"):
+        for name in ("guide_image_handoff.py", "runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "review_workflow.py", "validate_reviews.py", "package_handoff.py", "portable_handoff.py"):
             source = skill_root / "scripts" / name
             target = root / "scripts" / name
             if source.exists() and not target.exists():
