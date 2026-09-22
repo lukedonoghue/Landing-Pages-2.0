@@ -599,6 +599,17 @@ def inspect(root):
             "Finish the actual page, form, thank-you page and brochure. Once assembled, create a handoff snapshot and execute the required reviews and tests.",
             command=["python3", "scripts/check_gates.py", "snapshot", ".", "--mode", "handoff"],
         )
+    # A review manifest activates testimonial provenance checks at final QA.
+    # This is separate from copy parity and cannot be satisfied by a prompt alone.
+    if (root/'research/reviews/review-manifest.json').exists() or (root/'build/rendered-testimonials.json').exists():
+        import validate_reviews
+        try:
+            review_result = validate_reviews.validate_project(root, 'rendered')
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            review_result = {'status': 'blocked', 'errors': [str(error)]}
+        if review_result['status'] == 'blocked':
+            report['blockers'] += review_result['errors']
+            return at('local_verification', 'Resolve the review/testimonial provenance findings. Run scripts/review_workflow.py all and scripts/validate_reviews.py --stage rendered, then recapture the actual page. Do not invent review text, people or images.', status='blocked')
     if report["quality"]["status"] not in PASS:
         report["blockers"] += report["quality"]["failures"]
         return at(

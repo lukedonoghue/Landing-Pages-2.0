@@ -68,9 +68,11 @@ The coordinator owns the dependency graph, source-bound production contract, art
 
 ### 1. Research autonomously
 
-Read [references/research-and-claims.md](references/research-and-claims.md) and [references/reference-fidelity.md](references/reference-fidelity.md). Keep the reference coverage map inside the existing strategy brief, not another report.
+Read [references/research-and-claims.md](references/research-and-claims.md), [references/review-intelligence-and-testimonials.md](references/review-intelligence-and-testimonials.md), and [references/reference-fidelity.md](references/reference-fidelity.md). Keep the reference coverage map inside the existing strategy brief, not another report.
 
 - Inspect the official website and the most relevant service, process, FAQ, testimonial, contact, legal, and media pages.
+- Research real customer feedback when it is reasonably available. Identity-match the review source to the exact business/location, build `research/reviews/review-manifest.json`, analyse recurring customer problems, desired outcomes, praised capabilities, objections, benefits and voice-of-customer language, then run `review_workflow.py`. Keep aggregate review intelligence separate from publishable testimonial quotations.
+- Select only complementary, provenance-safe testimonials. Preserve one reviewer's real quote, displayed identity, rating/date/source and source-authorized avatar together; never enrich, combine, fabricate or generate reviewer identity. Treat Google/restricted providers as optional compliant integrations rather than scrape targets or prerequisites.
 - When useful, inspect verified official social accounts and credible editorial coverage. Use them to verify facts or discover first-party assets, not as automatic reuse permission.
 - If a reference or existing landing page is supplied, map its useful buyer questions, proof roles, media rhythm, CTA logic, and pacing. Preserve the persuasive jobs, not its wording, assets, or literal section order.
 - When direct competitors are readily discoverable and differentiation is unclear, inspect two or three official competitor pages. Record only the message gap the client can credibly occupy.
@@ -202,3 +204,8 @@ No optional module may weaken the absolute rules or change a stored lead into an
 - concise QA summary with fixed findings and honest external limits.
 
 Optional modules add only their own necessary artifacts. Do not create infrastructure as proof that the page was built.
+
+
+## Explicit native guide-image handoff
+
+Use [references/guide-image-handoff.md](references/guide-image-handoff.md) when a PDF needs an explanatory image not available from permitted sources. The persisted `image_handoff` action returns the actual native request once; an unavailable tool is a precise handoff, not a repeated model run or new API-key requirement. Resume after registering and linking the real output, or explicitly reconcile a permitted source fallback.

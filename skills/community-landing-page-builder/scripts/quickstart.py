@@ -124,7 +124,7 @@ def check(node, repository=None):
                 ("catalogue", [sys.executable, SKILL / "tests/test_catalogue.py"])]
     if repository:
         repository = Path(repository).resolve()
-        if (repository / "skills/branded-lead-funnel-builder").resolve() != SKILL:
+        if (repository / "skills/community-landing-page-builder").resolve() != SKILL:
             raise ValueError("The repository test path does not match this skill.")
         commands.insert(0, ("copy-and-tooling", [sys.executable, "-m", "unittest", "discover", "-s", repository / "tests", "-p", "test_*.py"]))
     for name, command in commands:

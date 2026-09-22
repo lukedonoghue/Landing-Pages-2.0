@@ -71,3 +71,8 @@ python3 scripts/build_guide.py . --check
 The controller advances through **guide_build → thank_you_build → guide_review**, or routes failed review to **guide_repair**. It then performs the mandatory Blue Mountain comparison and affected final gates. Changes to the main page during that comparison trigger confirmation regeneration; stale evidence blocks acceptance. The existing catalogue gate also independently checks the reader guide and confirmation. The native runner allows these artifacts but not edits to business authority, approvals or controller code.
 
 The original catalogue renderer remains for explicit catalogue/legacy work; it is not the default substitute for a newly requested reader guide. A genuine researched omission must be recorded with `catalogue.omission_reason` and `omission_evidence` entries (`path`, `sha256`, exact `excerpt` from captured `research/` sources); missing images, limited time or absent supplied content are not omission reasons. Source/visual judgments remain the actual reviewer's responsibility. Unit tests use explicitly synthetic evidence and do not prove model-generated copy quality, native subscription availability, live customer enquiries or production deployment.
+
+
+## Explicit native guide-image handoff
+
+Use [guide-image-handoff.md](guide-image-handoff.md) when a PDF needs an explanatory image not available from permitted sources. The persisted `image_handoff` action returns the actual native request once; an unavailable tool is a precise handoff, not a repeated model run or new API-key requirement. Resume after registering and linking the real output, or explicitly reconcile a permitted source fallback.
