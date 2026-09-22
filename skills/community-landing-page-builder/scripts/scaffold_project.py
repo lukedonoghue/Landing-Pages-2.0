@@ -62,6 +62,7 @@ def main() -> int:
         "build",
         "docs",
         "research",
+        "research/reviews",
         "screenshots",
     ):
         path = root / relative
@@ -144,6 +145,14 @@ def main() -> int:
     if write_if_missing(root / "build" / "thank-you.json", json.dumps(confirmation, indent=2) + "\n"):
         created.append("build/thank-you.json")
 
+    # Reviews are optional evidence, but the normalized schema is available from the start.
+    # Do not create a fake manifest: the researcher copies the example only when a real
+    # review source has been identity-matched.
+    review_example = skill_root / "assets" / "review-manifest.example.json"
+    review_target = root / "references" / "review-manifest.example.json"
+    if review_example.exists() and write_if_missing(review_target, review_example.read_text(encoding="utf-8")):
+        created.append("references/review-manifest.example.json")
+
     if not args.static_only:
         template = skill_root / "assets" / "cloudflare"
         excluded = {"node_modules", ".wrangler", ".secrets", ".git", ".venv", ".development", "build", "screenshots", "__pycache__"}
@@ -160,7 +169,7 @@ def main() -> int:
                 if args.client and target.suffix == ".html" and relative.parts[0] == "public":
                     target.write_text(target.read_text().replace("Your business", html.escape(args.client)))
                 created.append(str(relative))
-        for name in ("runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "package_handoff.py", "portable_handoff.py"):
+        for name in ("runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "review_workflow.py", "validate_reviews.py", "package_handoff.py", "portable_handoff.py"):
             source = skill_root / "scripts" / name
             target = root / "scripts" / name
             if source.exists() and not target.exists():
@@ -240,7 +249,7 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
                 shutil.copy2(source, target)
         write_if_missing(root / 'START-HERE.md', '# Your guided static page\n\nMarketing files live in public/. Owner tools and guide state never belong there. Ask the active agent to resume the guide. The static publisher uses an explicitly selected existing Cloudflare Pages project, no Worker/D1/CRM. Account setup and publication require separate actual authority.\n')
 
-    for rel in ('config/routing.json', 'assets/guide/questions.json', 'assets/guide/index.html', 'assets/guide/app.js', 'assets/guide/style.css', 'references/control-comparison.md', 'references/control-layout.json', 'references/guided-workflow.md'):
+    for rel in ('config/routing.json', 'assets/guide/questions.json', 'assets/guide/index.html', 'assets/guide/app.js', 'assets/guide/style.css', 'references/control-comparison.md', 'references/control-layout.json', 'references/guided-workflow.md', 'references/review-intelligence-and-testimonials.md'):
         source = skill_root / rel
         target = root / rel
         if (not args.static_only or args.profile) and source.is_file() and not target.exists():
