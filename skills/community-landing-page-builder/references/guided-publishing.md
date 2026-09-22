@@ -109,3 +109,7 @@ For a requested Git integration, Cloudflare remains the host and D1 remains the 
 ## Handoff and recovery
 
 Provide the project source/archive and its publishing guide, plus admin access through a separate secure handover. Cloudflare holds the deployed application, data and secrets; local files or an optional repository hold source history. A code rollback does not undo a database migration. Prefer additive migrations and take an appropriate D1 backup/export before any authorized destructive schema change. Document client account ownership and retention/recovery arrangements.
+
+## Persistent guided mode
+
+For the guided user journey and actual continuation use [guided-workflow.md](guided-workflow.md). The local form shell wakes the subscribed CLI runner when available; active ChatGPT/Claude hosts use the same controller and native tools. Preserve source-bound approvals and distinct setup/publication/live-test scopes. Static actions use the guarded `static_publish.py` adapter for an existing verified Pages project, without manufactured CRM evidence. Run the automatic [first-build comparison and improvement](control-comparison.md) before the final presentation.

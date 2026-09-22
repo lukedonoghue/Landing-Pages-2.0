@@ -154,6 +154,7 @@ test('all 16 attribution fields must survive submitted and stored first/latest t
 test('sync config enforces requested attribution and supports unified or distinct host routing',t=>{
   const root=temporary(t);mkdirSync(path.join(root,'scripts'),{recursive:true});mkdirSync(path.join(root,'src'),{recursive:true});
   copyFileSync(new URL('../scripts/sync-config.mjs',import.meta.url),path.join(root,'scripts/sync-config.mjs'));
+  copyFileSync(new URL('../wrangler.jsonc',import.meta.url),path.join(root,'wrangler.jsonc'));
   writeFileSync(path.join(root,'package.json'),JSON.stringify({type:'module'}));writeFileSync(path.join(root,'src/site-config.json'),'{}');
   const base={client:{name:'Synthetic'},form_fields:[{name:'email',type:'email',required:true}],analytics:{mode:'disabled',attribution_mode:'lead',required_attribution_mode:'lead'},privacy:{consent_ui:'disabled'},tracking:{customer_data_mode:'disabled',gtm:{container_id:''}}};
   const run=value=>{writeFileSync(path.join(root,'funnel.json'),JSON.stringify(value));return spawnSync(process.execPath,['scripts/sync-config.mjs'],{cwd:root,encoding:'utf8'});};

@@ -42,7 +42,12 @@ def main() -> int:
     parser.add_argument("--reference", action="append", default=[])
     parser.add_argument("--static-only", action="store_true", help="Omit Workers/D1/CRM when explicitly requested")
     parser.add_argument("--with-github", action="store_true", help="Optionally include a GitHub Actions workflow; Cloudflare publishing does not require GitHub")
+    parser.add_argument("--profile", choices=["lead_inbox", "static_action"], help="Select from the confirmed visitor journey, not from available credentials")
     args = parser.parse_args()
+    if args.profile:
+        if args.static_only and args.profile != 'static_action':
+            parser.error('--static-only conflicts with --profile lead_inbox')
+        args.static_only = args.profile == 'static_action'
 
     root = args.project_root.expanduser().resolve()
     skill_root = Path(__file__).resolve().parents[1]
@@ -61,11 +66,11 @@ def main() -> int:
         path = root / relative
         path.mkdir(parents=True, exist_ok=True)
 
-    web_root = root if args.static_only else root / "public"
+    web_root = root if args.static_only and not args.profile else root / "public"
     web_root.mkdir(parents=True, exist_ok=True)
     config = {
         "schema_version": 3,
-        "quality": {"complete_workflow": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
+        "quality": {"complete_workflow": True, "contract_version": 2, "control_review": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
         "approvals": {"copy_before_design": False},
         "images": {"enabled": True, "preferred_model": None, "max_generated_assets": 3, "max_attempts_per_asset": 2},
         "client": {
@@ -142,7 +147,7 @@ def main() -> int:
                 if args.client and target.suffix == ".html" and relative.parts[0] == "public":
                     target.write_text(target.read_text().replace("Your business", html.escape(args.client)))
                 created.append(str(relative))
-        for name in ("check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "package_handoff.py", "portable_handoff.py"):
+        for name in ("control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "package_handoff.py", "portable_handoff.py"):
             source = skill_root / "scripts" / name
             target = root / "scripts" / name
             if source.exists() and not target.exists():
@@ -181,6 +186,34 @@ Use GitHub only if requested. `npm run github -- --repo owner/repository` is an 
 
 Never share .secrets/, .dev.vars or local .wrangler data. Production admin access is handed over separately from source files.
 """)
+
+    # Keep controller metadata and reference evidence outside the public assets.
+    if args.profile == 'static_action':
+        for source in sorted((skill_root / 'scripts').glob('*')):
+            if source.is_file() and source.suffix in {'.py', '.mjs'}:
+                target = root / 'scripts' / source.name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                if not target.exists():
+                    shutil.copy2(source, target)
+        for name in ('package.json', 'package-lock.json', '.node-version'):
+            source = skill_root / 'assets/cloudflare' / name
+            target = root / name
+            if not target.exists():
+                shutil.copy2(source, target)
+        write_if_missing(root / 'START-HERE.md', '# Your guided static page\n\nMarketing files live in public/. Owner tools and guide state never belong there. Ask the active agent to resume the guide. The static publisher uses an explicitly selected existing Cloudflare Pages project, no Worker/D1/CRM. Account setup and publication require separate actual authority.\n')
+
+    for rel in ('config/routing.json', 'assets/guide/questions.json', 'assets/guide/index.html', 'assets/guide/app.js', 'assets/guide/style.css', 'references/control-comparison.md', 'references/control-layout.json', 'references/guided-workflow.md'):
+        source = skill_root / rel
+        target = root / rel
+        if (not args.static_only or args.profile) and source.is_file() and not target.exists():
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
+    if not args.static_only:
+        # control_review.reference() also works when helpers live in project/scripts.
+        import sys
+        sys.path.insert(0, str(skill_root/'scripts'))
+        import control_review
+        write_if_missing(root/'references'/'control-reference.json', json.dumps(control_review.reference(), indent=2)+'\n')
 
     target_js = web_root / "script.js"
     source_js = skill_root / "assets" / "multistep-lightbox.js"

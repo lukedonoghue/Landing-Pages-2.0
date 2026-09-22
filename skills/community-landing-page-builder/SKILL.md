@@ -5,6 +5,12 @@ description: Build or refresh a researched, branded, conversion-focused landing 
 
 # Community Landing Page Builder
 
+## Guided execution and automatic improvement
+
+When the user asks for a guided, step-by-step or paint-by-numbers build, read [references/guided-workflow.md](references/guided-workflow.md). Start or resume the persistent guide and use its actual execution loop. Preserve automatic mode for requests without routine approvals. The guide reuses the existing native router, evidence gates and authorization records; no separate model API key or hosted orchestration service is a default prerequisite. Capability-probe the real host and report unsupported native UI or CLI execution honestly.
+
+After the **first actual page build**, automatically execute [references/control-comparison.md](references/control-comparison.md): preserve it, compare the rendered page against the Blue Mountain Mesh copy and layout control, identify a prioritized concrete improvement checklist, apply the improvements, and perform a fresh mobile/desktop copy and pixel review. This is required before final presentation, not an optional audit the owner must request. Emphasize clear, punchy, direct, meaningful benefit/outcome headlines, a supported reason to choose, customer-oriented copy and simple hierarchy. Never substitute generic scorecards or self-authored pass booleans for actual comparison, edits and retests. New scaffolds enforce this through the control-review gate.
+
 ## Product promise
 
 Treat the user as a business owner who may have no website, AI, hosting, analytics, or development experience. A business name or existing website URL is enough to begin. Keywords, a reference page, audience notes, extra images, analytics IDs, hosting access, and code repositories are useful but optional.

@@ -7,7 +7,7 @@ Read this for every default landing-page build. The goal is a current, audience-
 Use references for different jobs instead of treating one page as a template to clone.
 
 1. **Client truth:** the client's logo, official colors, real imagery, offer, proof, and buyer language control brand and factual decisions.
-2. **Conversion architecture:** use [Blue Mountain](https://bluemountain1.pagedemo.co/) as the built-in structural benchmark when the user does not supply a stronger reference. Study its offer clarity, early proof, mechanism, objection coverage, process, and repeated action. Its wording, visual styling, colors, badges, section order, and assets are not defaults. The live page is visually old and must not be used as a modern design benchmark.
+2. **Copy, structure and layout clarity:** use [Blue Mountain Mesh](https://bluemountain1.pagedemo.co/) as the built-in control for clear, punchy, direct, benefit-driven customer copy, meaningful headlines, supported differentiation, early proof, mechanism, objection coverage, process and repeated action. Its simple layout/hierarchy and section rhythm are part of the benchmark, not just its topics. Adapt their persuasive jobs to the actual client; do not copy its wording, brand, proof, assets, dated fine print or literal section count. Execute the mandatory post-build comparison and repair in `control-comparison.md`; `control-layout.json` records the visually reviewed archived screenshot.
 3. **Execution quality:** use [Clean Slate Land Solutions](https://www.cleanslatelandsolutions.com/) as a finish benchmark for hierarchy, spacing, proof presentation, media confidence, and conversion clarity. Do not copy its navy and gold palette, exact layout, wording, or components.
 4. **Contextual references:** use any user-supplied page for the role the user states. If no role is stated, record whether it is mainly a brand, structure, copy, interaction, or visual reference before applying it.
 
@@ -46,7 +46,7 @@ Do not introduce `Inter`, `Roboto`, `Arial`, `Helvetica`, `system-ui`, `Open San
 
 ## Choose a current audience-fit direction
 
-For a landing-page hero, use relevant photography or an immersive scene with unframed copy, not a split text-and-image-card composition. Overlay copy only when the photo has genuine negative space outside its proof-bearing subject. Readable text over recognizable glazing is still a collision: a darker scrim does not make that area copy-safe. If no suitable composition exists, choose another verified photo or give photo and copy separate unframed areas of the full-width hero, at desktop as well as mobile. Subject protection takes priority over an overlay layout. Size header and hero so readable content from the following section, not merely a few pixels of its background, appears in the first viewport; do not shrink trust copy to manufacture that fit.
+For a landing-page hero, choose the simplest composition that makes the offer and next action unmistakable. Blue Mountain's clear media-and-action arrangement is a valid reference where it fits the conversion; a split arrangement is not prohibited merely for being split. Avoid decorative cards that obscure the argument. Use relevant photography or a useful demonstration when supported. Overlay copy only when the photo has genuine negative space outside its proof-bearing subject. Readable text over recognizable glazing is still a collision: a darker scrim does not make that area copy-safe. If no suitable composition exists, choose another verified photo or give photo and copy separate unframed areas of the full-width hero, at desktop as well as mobile. Subject protection takes priority over an overlay layout. Size header and hero so readable content from the following section, not merely a few pixels of its background, appears in the first viewport; do not shrink trust copy to manufacture that fit.
 
 Give the selected primary conversion the strongest filled-button treatment. Secondary phone, email or WhatsApp alternatives should use quieter text or outline styling, not a second equally prominent saturated button. Platform brand colors do not override conversion hierarchy.
 
@@ -91,3 +91,7 @@ During final pixel review, answer:
 - Is the execution at least as intentional as the Clean Slate benchmark while remaining visibly its own design?
 
 A technically correct page fails the visual gate when these questions expose a clear audience-fit or visual-age problem. Fix the system and recheck the full page; do not hide the issue with isolated component polish.
+
+## Required first-build comparison
+
+Before calling an initial build final, execute [control-comparison.md](control-comparison.md). Compare both the actual copy and layout with Blue Mountain, apply the warranted checklist, and freshly inspect the improved result. Clean Slate remains a finish reference; it must not override the owner's requested simple, direct, customer-oriented Blue Mountain discipline.

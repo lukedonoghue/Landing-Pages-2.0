@@ -113,11 +113,11 @@ export async function createLead(env, request, body, config) {
   return { ok: true, lead_id: id, receipt_id: receipt, duplicate: false };
 }
 async function duplicateResult(row, hash) {
-  if (row.deleted_at) throw new HttpError(409, 'This submission was removed. Start a new enquiry.');
+  if (row.deleted_at) throw new HttpError(409, 'This submission was removed. Start a new enquiry.', {}, 'submission_removed');
   // Old records used a fingerprint that included optional attribution. Compare
   // their retained normalized contact fields instead of invalidating safe retries.
   const storedHash = row.payload_hash === hash ? hash : await digest(stableJson({form:JSON.parse(row.form_data),page:row.landing_page,formName:row.form_name}));
-  if (storedHash !== hash) throw new HttpError(409, 'This submission ID was already used for different details.');
+  if (storedHash !== hash) throw new HttpError(409, 'This submission ID was already used for different details.', {}, 'submission_conflict');
   return { ok: true, lead_id: row.id, receipt_id: row.receipt_id, duplicate: true };
 }
 export async function listLeads(env, url) {
@@ -178,9 +178,13 @@ export async function addNote(env, id, body) {
 }
 export async function deleteLead(env, id) {
   const now = new Date().toISOString();
-  const row = await env.DB.prepare('UPDATE leads SET deleted_at=?,updated_at=?,version=version+1 WHERE id=? AND deleted_at IS NULL RETURNING id').bind(now, now, id).first();
-  if (!row) throw new HttpError(404, 'Contact not found.');
-  await env.DB.prepare("UPDATE webhook_outbox SET status='failed',last_error='Contact removed' WHERE lead_id=? AND status IN ('pending','sending')").bind(id).run();
+  // Commit removal and delivery cancellation together. Repeating a lost
+  // acknowledgement reconciles queue state without modifying reporting history.
+  const result = await env.DB.batch([
+    env.DB.prepare('UPDATE leads SET deleted_at=COALESCE(deleted_at,?),updated_at=CASE WHEN deleted_at IS NULL THEN ? ELSE updated_at END,version=version+CASE WHEN deleted_at IS NULL THEN 1 ELSE 0 END WHERE id=? RETURNING id').bind(now, now, id),
+    env.DB.prepare("UPDATE webhook_outbox SET status='failed',last_error='Contact removed' WHERE lead_id=? AND status IN ('pending','sending')").bind(id)
+  ]);
+  if (!result[0].results.length) throw new HttpError(404, 'Contact not found.');
   return { ok: true };
 }
 export async function earliestReportingDate(env, config) {

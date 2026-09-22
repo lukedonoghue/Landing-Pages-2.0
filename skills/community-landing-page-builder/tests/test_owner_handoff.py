@@ -3,7 +3,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.validate_owner_handoff import CLEANUP_CHECK, validate
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+from validate_owner_handoff import CLEANUP_CHECK, validate
 
 
 class OwnerHandoffCleanupTests(unittest.TestCase):

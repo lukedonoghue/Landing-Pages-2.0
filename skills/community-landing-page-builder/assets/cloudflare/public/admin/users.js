@@ -159,6 +159,11 @@ export function initUsersPanel(host, { request, currentUser }) {
         use.addEventListener('click', () => { email.value = recipient.email; email.focus(); status.textContent = 'Recipient added to the invitation form.'; });
         actions.append(use);
       }
+      if (recipient.invitation_pending) {
+        const cancel = make('button', 'Cancel held invitation', 'text-button'); cancel.type = 'button';
+        cancel.addEventListener('click', () => run(cancel, () => request(`/api/admin/users/email-recipients/${encodeURIComponent(recipient.id)}/invitation`, {method:'DELETE',body:'{}'}), 'Held invitation cancelled. The verified inbox and existing accounts are unchanged.'));
+        actions.append(cancel);
+      }
       row.append(details, actions); recipientsList.append(row);
     }
   }
@@ -207,7 +212,7 @@ export function initUsersPanel(host, { request, currentUser }) {
         const resend = make('button', 'Create new invite link', 'text-button'); resend.type = 'button'; resend.dataset.emailAction = '';
         resend.addEventListener('click', () => run(resend, () => request(`/api/admin/users/${encodeURIComponent(account.id)}/invite`, { method: 'POST', body: '{}' }), result => accountOutcome(result, 'Invitation sent.')));
         actionGroup.append(resend);
-      } else if (account.status === 'active') {
+      } else if (account.status === 'active' && !(deliveryMode === 'manual' && account.id === currentUser?.id)) {
         const reset = make('button', 'Create reset link', 'text-button'); reset.type = 'button'; reset.dataset.emailAction = '';
         reset.addEventListener('click', () => run(reset, () => request(`/api/admin/users/${encodeURIComponent(account.id)}/reset`, { method: 'POST', body: '{}' }), result => accountOutcome(result, 'Password reset email sent.')));
         actionGroup.append(reset);

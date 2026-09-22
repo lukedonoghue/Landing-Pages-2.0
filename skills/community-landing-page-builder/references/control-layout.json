@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "basis": "Human/assistant visual inspection of the exact archived screenshot, not live DOM measurements",
+  "source_url": "https://drive.google.com/file/d/1w8eBUHfaqZNNAoFEcO5V8fTtykE-Wjt_/view",
+  "source_name": "screencapture-bluemountain1-pagedemo-co-2024-12-18-18_05_24.png",
+  "source_sha256": "0a4accec20fee47466a7872bf9bd3f79173487b9610f651d900c62177feccf7f",
+  "source_dimensions": [
+    2492,
+    13450
+  ],
+  "captured_at": "2024-12-18",
+  "reviewed_at": "2026-09-22",
+  "principle": "Use clear benefit headlines, proof beside claims and an obvious repeated action; adapt to the client, do not copy proof, wording, colors or dated visual details.",
+  "sections": [
+    {
+      "order": 1,
+      "job": "Immediate identity, reassurance and contact",
+      "layout": "Compact white header: brand left, short credibility statement middle, readable phone right."
+    },
+    {
+      "order": 2,
+      "job": "Offer and concrete customer result before detail",
+      "layout": "Centered outcome headline and explanatory supporting copy; large real demonstration video left, compact brochure/pricing CTA panel right. One high-contrast action."
+    },
+    {
+      "order": 3,
+      "job": "Early reassurance from customer experience",
+      "layout": "Three testimonials across a dark band, middle quote in a contrasting light panel. Do not invent testimonials for a new client."
+    },
+    {
+      "order": 4,
+      "job": "Why trust this specific solution",
+      "layout": "Benefit heading followed by alternating before/after proof images and concise differentiators, not an undifferentiated list of services."
+    },
+    {
+      "order": 5,
+      "job": "Repeat the next useful action",
+      "layout": "Compact proof/video strip alongside a short action headline and the same CTA."
+    },
+    {
+      "order": 6,
+      "job": "Explain how the customer result is achieved",
+      "layout": "White section with a result-led heading and three alternating image/text rows: mechanism, durable outcome, complete solution. Key benefits live in headings, detail stays in short paragraphs."
+    },
+    {
+      "order": 7,
+      "job": "Reduce buying friction",
+      "layout": "Short three-item reassurance strip for response, warranty and price. Only use corresponding client facts when supported."
+    },
+    {
+      "order": 8,
+      "job": "Make the path to the result easy to understand",
+      "layout": "Outcome-led process heading, three ordered image/text steps with downward connectors, repeated CTA below."
+    },
+    {
+      "order": 9,
+      "job": "Summarize meaningful choice reasons and close",
+      "layout": "Question-led choice heading, three simple illustrated benefit columns, each with an outcome headline and concrete explanation; final primary action."
+    }
+  ],
+  "avoid_transferring": [
+    "Control-specific 12-year warranty, 25-year history, customer counts or strength comparison",
+    "Control brand, images or testimonials as client proof",
+    "Tiny faint text, excessive saturated bands or old decorative styling",
+    "Forced literal section counts when buyer questions differ"
+  ]
+}

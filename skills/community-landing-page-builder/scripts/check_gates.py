@@ -13,7 +13,7 @@ from uuid import UUID
 
 VERSION = '1.2.0'
 STATES = {'pass', 'pass_with_warnings', 'blocked', 'not_applicable'}
-GATES = {'copy', 'rendered_copy', 'performance', 'browser_compat', 'images', 'static', 'browser', 'visual', 'catalogue', 'local_journey', 'crm', 'tracking', 'deployment'}
+GATES = {'control_review', 'copy', 'rendered_copy', 'performance', 'browser_compat', 'images', 'static', 'browser', 'visual', 'catalogue', 'local_journey', 'crm', 'tracking', 'deployment'}
 MODES = {'preview', 'handoff', 'live'}
 EXCLUDED_DIRS = {'.secrets', '.git', 'node_modules', 'build', 'screenshots', '.wrangler', '.venv', '__pycache__', '.pytest_cache', 'coverage', 'test-results', 'playwright-report'}
 SECRET_SUFFIXES = {'.pem', '.key', '.p12', '.pfx'}
@@ -233,8 +233,14 @@ def validate_report(root, report, snapshot, gate):
     elif gate == 'images':
         if not report.get('image_review', {}).get('passed') or not report.get('plan_sha256'):
             errors.append('Image review must identify its current plan and reviewed asset results')
+    elif gate == 'control_review':
+        import control_review
+        errors += control_review.inspect(root).get('failures', [])
     elif gate == 'copy':
-        if not report.get('copy_audit') or report['copy_audit'].get('overall_status') not in ('pass','pass_with_warnings'):
+        import workflow
+        if workflow.lightweight(root):
+            errors += workflow.copy_state(root).get('failures', [])
+        elif not report.get('copy_audit') or report['copy_audit'].get('overall_status') not in ('pass','pass_with_warnings'):
             errors.append('Copy evidence needs a current executed copy-library audit')
     elif gate == 'local_journey':
         errors += local_journey_errors(root,report)
@@ -337,6 +343,8 @@ def required_gates(root, mode):
     gates = ['static', 'browser', 'visual']
     config = read_json(root / 'funnel.json') if (root / 'funnel.json').is_file() else {}
     quality = config.get('quality', {})
+    if not config.get('development_fixture') and (quality.get('contract_version',0) >= 2 or quality.get('control_review') or config.get('guided_workflow')):
+        gates.append('control_review')
     if quality.get('complete_workflow'):
         gates += ['copy', 'performance', 'browser_compat']
         if config.get('backend',{}).get('provider')!='none':

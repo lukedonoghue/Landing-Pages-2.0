@@ -81,7 +81,12 @@ export async function processOutbox(env, limit = 5) {
   await env.DB.prepare('DELETE FROM webhooks WHERE removed_at IS NOT NULL AND NOT EXISTS(SELECT 1 FROM webhook_outbox o WHERE o.webhook_id=webhooks.id AND o.claim_token IS NOT NULL AND o.locked_until>?)').bind(now).run();
   // A crashed fifth attempt must become terminal after its lease expires.
   await env.DB.prepare("UPDATE webhook_outbox SET status='failed',last_error='Delivery lease expired after final attempt' WHERE status='sending' AND locked_until<? AND attempts>=?").bind(now, MAX_ATTEMPTS).run();
-  const due = await env.DB.prepare("SELECT id FROM webhook_outbox WHERE attempts<? AND ((status='pending' AND next_attempt_at<=?) OR (status='sending' AND locked_until<?)) ORDER BY next_attempt_at LIMIT ?").bind(MAX_ATTEMPTS, now, now, Math.max(1,Math.min(5,limit))).all();
+  // Reconcile old partial removals in bounded batches. Keep active leases so
+  // erasure can still observe any already-dispatched request until it finishes.
+  await env.DB.prepare("UPDATE webhook_outbox SET status='failed',last_error='Destination or contact is unavailable' WHERE id IN (SELECT o.id FROM webhook_outbox o WHERE o.status IN ('pending','sending') AND NOT EXISTS(SELECT 1 FROM leads l JOIN webhooks w ON w.id=o.webhook_id WHERE l.id=o.lead_id AND l.deleted_at IS NULL AND w.enabled=1 AND w.removed_at IS NULL) LIMIT 100)").run();
+  // Filter before LIMIT: even more than 100 orphaned rows cannot starve a
+  // valid job in a scheduled batch of one.
+  const due = await env.DB.prepare("SELECT o.id FROM webhook_outbox o WHERE attempts<? AND ((status='pending' AND next_attempt_at<=?) OR (status='sending' AND locked_until<?)) AND EXISTS(SELECT 1 FROM leads l JOIN webhooks w ON w.id=o.webhook_id WHERE l.id=o.lead_id AND l.deleted_at IS NULL AND w.enabled=1 AND w.removed_at IS NULL) ORDER BY next_attempt_at,o.id LIMIT ?").bind(MAX_ATTEMPTS, now, now, Math.max(1,Math.min(5,limit))).all();
   for (const item of due.results) {
     const claim = crypto.randomUUID();
     const job = await env.DB.prepare("UPDATE webhook_outbox SET status='sending',attempts=attempts+1,locked_until=?,claim_token=? WHERE id=? AND attempts<? AND ((status='pending' AND next_attempt_at<=?) OR (status='sending' AND locked_until<?)) AND EXISTS(SELECT 1 FROM leads WHERE leads.id=webhook_outbox.lead_id AND leads.deleted_at IS NULL) RETURNING *").bind(now + 90, claim, item.id, MAX_ATTEMPTS, now, now).first();

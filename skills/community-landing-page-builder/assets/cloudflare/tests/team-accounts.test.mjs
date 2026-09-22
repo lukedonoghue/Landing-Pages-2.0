@@ -250,3 +250,42 @@ test('self-service password changes are isolated per user and CSRF remains block
   assert.equal((await call('/api/auth/session',{cookie:manager.cookie})).status,200);
   assert.equal((await call('/api/auth/session')).status,200);
 });
+
+test('manual self-reset requires reauthentication or a different administrator',async()=>{
+  ownerCookie=(await login('owner',newPassword)).cookie;
+  assert.ok(ownerCookie);
+  for(const account of [{id:'owner',cookie:ownerCookie},await seed('admin')]) {
+    const count=await db.prepare('SELECT COUNT(*) AS n FROM crm_account_actions').first('n');
+    const response=await call(`/api/admin/users/${account.id}/reset`,{method:'POST',cookie:account.cookie,headers:{'X-Test-Manual':'1'},body:{}});
+    assert.equal(response.status,403,await response.clone().text());
+    assert.equal(await db.prepare('SELECT COUNT(*) AS n FROM crm_account_actions').first('n'),count);
+  }
+  const target=await seed('manager');
+  const response=await call(`/api/admin/users/${target.id}/reset`,{method:'POST',headers:{'X-Test-Manual':'1'},body:{}});
+  assert.equal(response.status,200);const result=await response.json();assert.equal(result.delivery_mode,'manual');
+  const token=new URL(result.action_url).hash.match(/token=([a-f0-9]{64})/)[1];
+  assert.equal((await call('/api/auth/complete',{method:'POST',cookie:null,headers:{'X-Test-Manual':'1'},body:{token,password:newPassword}})).status,200);
+  assert.equal((await call('/api/auth/session',{cookie:target.cookie})).status,401);
+  assert.equal((await login(target.name,newPassword)).status,200);
+  assert.equal((await call('/api/auth/complete',{method:'POST',cookie:null,headers:{'X-Test-Manual':'1'},body:{token,password}})).status,400);
+});
+
+test('held invitation usernames cannot be claimed by another verified or manual invitation',async()=>{
+  const id=crypto.randomUUID(),stamp=new Date().toISOString(),name='held-reservation';
+  await db.prepare("INSERT INTO crm_email_recipients(id,email,status,requested_by,pending_username,pending_role,created_at,updated_at) VALUES(?,?,'pending','owner',?,'viewer',?,?)").bind(id,'held@example.invalid',name,stamp,stamp).run();
+  await db.prepare("INSERT INTO test_verified_recipients VALUES('new-recipient@example.invalid'),('held@example.invalid')").run();
+  for(const headers of [{},{'X-Test-Manual':'1'}]){
+    const response=await call('/api/admin/users',{method:'POST',headers,body:{email:'new-recipient@example.invalid',username:name.toUpperCase(),role:'viewer'}});
+    assert.equal(response.status,409,await response.clone().text());
+  }
+  assert.equal(await db.prepare('SELECT id FROM crm_users WHERE username=?').bind(name).first(),null);
+  const same=await call('/api/admin/users',{method:'POST',body:{email:'held@example.invalid',username:name,role:'viewer'}});
+  assert.equal(same.status,201,await same.clone().text());
+  const viewer=await seed('viewer');
+  assert.equal((await call(`/api/admin/users/email-recipients/${id}/invitation`,{method:'DELETE',body:{},cookie:viewer.cookie})).status,403);
+  assert.equal((await call(`/api/admin/users/email-recipients/${id}/invitation`,{method:'DELETE',body:{},headers:{Origin:'https://attacker.test'}})).status,403);
+  for(let i=0;i<2;i++)assert.equal((await call(`/api/admin/users/email-recipients/${id}/invitation`,{method:'DELETE',body:{}})).status,200);
+  const row=await db.prepare('SELECT * FROM crm_email_recipients WHERE id=?').bind(id).first();
+  assert.equal(row.pending_username,null);assert.equal(row.email,'held@example.invalid');
+  assert.ok(await db.prepare('SELECT id FROM crm_users WHERE username=?').bind(name).first());
+});

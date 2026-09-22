@@ -32,6 +32,24 @@
   let requestId = crypto.randomUUID();
   let uncertainBody = null;
   let erased = false;
+  let terminalConflict = false;
+  const restartButton = document.createElement('button');
+  restartButton.type = 'button';
+  restartButton.textContent = 'Start a new enquiry';
+  restartButton.dataset.restartEnquiry = '';
+  restartButton.hidden = true;
+  (errorRegion?.parentNode || form).append(restartButton);
+  restartButton.addEventListener('click', () => {
+    if (!terminalConflict || submitting) return;
+    terminalConflict = false;
+    uncertainBody = null;
+    requestId = crypto.randomUUID();
+    restartButton.hidden = true;
+    setPending(false);
+    submitButton.disabled = false;
+    submitButton.textContent = originalSubmitLabel;
+    showStep(0);
+  });
   const entryControls = Array.from(form.querySelectorAll("input, select, textarea"));
   const setPending = (value) => {
     [nextButton, backButton].forEach(button => { if (button) button.disabled = value; });
@@ -84,7 +102,7 @@
     modalTrigger = trigger;
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
-    if (!submitting && !uncertainBody && !erased) showStep(0, false);
+    if (!submitting && !uncertainBody && !erased && !terminalConflict) showStep(0, false);
     const first = Array.from(form.querySelectorAll('input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled])')).find(element => element.getClientRects().length > 0);
     (first || closeButton)?.focus({ preventScroll: true });
   };
@@ -138,7 +156,7 @@
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (submitting || erased) return;
+    if (submitting || erased || terminalConflict) return;
     if (currentStep < steps.length - 1 && !uncertainBody) { if (validateCurrentStep()) showStep(currentStep + 1); return; }
     for (let i = 0; i < steps.length; i++) {
       if (Array.from(steps[i].querySelectorAll('input, select, textarea')).some(field => !field.checkValidity())) {
@@ -183,7 +201,7 @@
             // Ordinary validation/abuse rejection cannot have stored this request.
             if ([400,403,413,415,422,429].includes(response.status)) { uncertainBody = null; requestId = crypto.randomUUID(); }
             const failure = new Error(`Lead endpoint returned HTTP ${response.status}`);
-            if (response.status >= 400 && response.status < 500) { try { const detail=await response.json(); if(typeof detail.error==='string') failure.publicMessage=detail.error.slice(0,200); } catch {} }
+            if (response.status >= 400 && response.status < 500) { try { const detail=await response.json(); if(typeof detail.error==='string') failure.publicMessage=detail.error.slice(0,200); if(response.status===409 && ['submission_removed','submission_conflict'].includes(detail.code)) terminalConflict=true; } catch {} }
             throw failure;
           }
           result = await response.json();
@@ -204,6 +222,7 @@
       submitButton.disabled = false;
       submitButton.textContent = originalSubmitLabel;
       if(erased){setPending(true);submitButton.disabled=true;setError('This enquiry can no longer be retried. Reload the page to start a new enquiry.');errorRegion?.focus();return;}
+      if(terminalConflict){setPending(true);submitButton.disabled=true;restartButton.hidden=false;setError('The previous submission cannot be retried. Start a new enquiry to review and send your details.');restartButton.focus();return;}
       const fallback = fallbackPhone ? ` Please call ${fallbackPhone}.` : '';
       const message = uncertainBody ? `We could not confirm whether your request was saved. Retry to check the same request safely; your details are kept unchanged.${fallback}` : `${error.publicMessage || "We could not accept your request. Check your details and try again."}${fallback}`;
       setError(message);
@@ -214,7 +233,7 @@
 
     if (delivered) {
       // Lead storage succeeded. Analytics failure must not invite a duplicate submission.
-      try { await window.LeadFunnel?.accepted(result, payload, acceptedContext); } catch {}
+      try { await window.LeadFunnel?.accepted(result, acceptedContext.form_data || payload, acceptedContext); } catch {}
     }
 
     window.location.assign(thankYouUrl);
