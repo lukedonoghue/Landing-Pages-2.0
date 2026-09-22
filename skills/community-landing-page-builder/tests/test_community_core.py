@@ -104,6 +104,11 @@ class CommunityCoreTests(unittest.TestCase):
             self.assertTrue(funnel["catalogue"]["enabled"])
             self.assertTrue((root / "public" / "admin" / "index.html").is_file())
             self.assertTrue((root / "build" / "guide.json").is_file())
+            self.assertEqual(funnel["quality"]["review_intelligence_version"], 1)
+            self.assertTrue((root / "research" / "reviews" / "review-manifest.json").is_file())
+            self.assertTrue((root / "scripts" / "review_workflow.py").is_file())
+            self.assertTrue((root / "scripts" / "validate_reviews.py").is_file())
+            self.assertTrue((root / "public" / "assets" / "google-reviews-widget.js").is_file())
             self.assertTrue((root / "scripts" / "build_guide.py").is_file())
             self.assertTrue((root / "scripts" / "build_catalogue.py").is_file())
             self.assertTrue((root / "assets" / "pdf-fonts" / "DejaVuSans.ttf").is_file())
@@ -130,6 +135,9 @@ class CommunityCoreTests(unittest.TestCase):
             self.assertEqual(funnel["backend"]["provider"], "none")
             self.assertFalse((root / "public" / "admin" / "index.html").exists())
             self.assertTrue((root / "scripts" / "build_guide.py").is_file())
+            self.assertTrue((root / "scripts" / "review_workflow.py").is_file())
+            self.assertTrue((root / "scripts" / "validate_reviews.py").is_file())
+            self.assertTrue((root / "assets" / "google-reviews-widget.js").is_file())
             self.assertTrue((root / "assets" / "pdf-fonts" / "DejaVuSans.ttf").is_file())
 
     def test_guide_stage_blocks_template_then_builds_renders_and_verifies_delivery(self):
