@@ -204,3 +204,8 @@ No optional module may weaken the absolute rules or change a stored lead into an
 - concise QA summary with fixed findings and honest external limits.
 
 Optional modules add only their own necessary artifacts. Do not create infrastructure as proof that the page was built.
+
+
+## Explicit native guide-image handoff
+
+Use [references/guide-image-handoff.md](references/guide-image-handoff.md) when a PDF needs an explanatory image not available from permitted sources. The persisted `image_handoff` action returns the actual native request once; an unavailable tool is a precise handoff, not a repeated model run or new API-key requirement. Resume after registering and linking the real output, or explicitly reconcile a permitted source fallback.

@@ -61,6 +61,8 @@ def validate_manifest(manifest):
 
         publication = review.get("publication", {})
         state = publication.get("status")
+        if state in {"publishable_text", "publishable_full"} and not normalize_space(publication.get("rights_basis")):
+            errors.append(f"review {rid}: publication rights basis is missing")
         if state not in VALID_PUBLICATION:
             errors.append(f"review {rid}: invalid publication status")
             continue
@@ -117,11 +119,11 @@ def validate_selection(root, manifest_path, reviews):
             errors.append(f"testimonial {rid}: selected from non-publishable review")
     return errors, warnings
 
-def validate_rendered(root, reviews):
+def validate_rendered(root, reviews, sources=None):
     errors, warnings = [], []
     rendered_path = root / "build/rendered-testimonials.json"
     if not rendered_path.exists():
-        warnings.append("build/rendered-testimonials.json not present; no testimonial rendering evidence validated")
+        errors.append("build/rendered-testimonials.json is required for rendered testimonial acceptance")
         return errors, warnings
 
     rendered = load(rendered_path)
@@ -160,7 +162,12 @@ def validate_rendered(root, reviews):
                 if avatar.get(key) and avatar.get(key) != source_avatar.get(key):
                     errors.append(f"rendered testimonial {rid}: avatar {key} mismatch")
 
-        required = bool(item.get("attribution_required"))
+        source = (sources or {}).get(review.get("source_id"), {})
+        if item.get("source_id") and item["source_id"] != review.get("source_id"):
+            errors.append(f"rendered testimonial {rid}: source identity mismatch")
+        if item.get("source_url") and item["source_url"] != review.get("source_url"):
+            errors.append(f"rendered testimonial {rid}: source URL mismatch")
+        required = bool(source.get("terms", {}).get("attribution_required") or item.get("attribution_required"))
         if required and not normalize_space(item.get("attribution")):
             errors.append(f"rendered testimonial {rid}: required attribution missing")
         if required and not item.get("source_url"):
@@ -168,17 +175,13 @@ def validate_rendered(root, reviews):
 
     return errors, warnings
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("project_root", type=Path)
-    parser.add_argument("--stage", choices=["research", "rendered"], default="research")
-    args = parser.parse_args()
-
-    root = args.project_root.expanduser().resolve()
+def validate_project(root, stage="research"):
+    root = Path(root).resolve()
     manifest_path = root / "research/reviews/review-manifest.json"
     if not manifest_path.exists():
-        print(json.dumps({"status": "not_applicable", "reason": "No review manifest; use another proof type if reviews are unavailable."}, indent=2))
-        return 0
+        if (root / "build/rendered-testimonials.json").exists() and load(root / "build/rendered-testimonials.json").get("testimonials"):
+            return {"status": "blocked", "errors": ["Rendered testimonials require their source review manifest"], "warnings": []}
+        return {"status": "not_applicable", "errors": [], "warnings": []}
 
     manifest = load(manifest_path)
     errors, warnings, sources, reviews = validate_manifest(manifest)
@@ -194,14 +197,14 @@ def main():
     else:
         warnings.append("build/review-insights.json not present")
 
-    if args.stage == "rendered":
-        more_errors, more_warnings = validate_rendered(root, reviews)
+    if stage == "rendered":
+        more_errors, more_warnings = validate_rendered(root, reviews, sources)
         errors += more_errors
         warnings += more_warnings
 
     result = {
         "schema_version": 1,
-        "stage": args.stage,
+        "stage": stage,
         "status": "blocked" if errors else ("pass_with_warnings" if warnings else "pass"),
         "manifest": str(manifest_path.relative_to(root)),
         "source_count": len(sources),
@@ -209,8 +212,20 @@ def main():
         "errors": errors,
         "warnings": warnings,
     }
+    return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("project_root", type=Path)
+    parser.add_argument("--stage", choices=["research", "rendered"], default="research")
+    args = parser.parse_args()
+    try:
+        result = validate_project(args.project_root.expanduser(), args.stage)
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        result = {"status": "blocked", "errors": [str(error)], "warnings": []}
     print(json.dumps(result, indent=2))
-    return 1 if errors else 0
+    return 1 if result["status"] == "blocked" else 0
 
 if __name__ == "__main__":
     raise SystemExit(main())

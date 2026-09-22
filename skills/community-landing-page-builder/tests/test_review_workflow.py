@@ -108,6 +108,37 @@ class ReviewWorkflowTests(unittest.TestCase):
             errors, _ = validator.validate_rendered(root, {x["id"]: x for x in data["reviews"]})
             self.assertTrue(any("quote is not" in e for e in errors))
 
+    def test_duplicate_tags_do_not_inflate_independent_customer_support(self):
+        data = manifest();data['reviews'][0]['analysis']['problems'] *= 3
+        row = workflow.aggregate(data, 'abc')['themes']['problems'][0]
+        self.assertEqual(row['count'], 1)
+        self.assertEqual(row['review_ids'], ['r1'])
+
+    def test_missing_rights_basis_blocks_publication(self):
+        data = manifest();data['reviews'][0]['publication']['rights_basis'] = ''
+        self.assertTrue(any('rights basis' in e for e in validator.validate_manifest(data)[0]))
+
+    def test_required_attribution_cannot_be_disabled_by_rendered_data(self):
+        data = manifest();source = data['sources'][0];source['terms']['attribution_required'] = True
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d);(root/'build').mkdir()
+            item = {'review_id': 'r1', 'quote': data['reviews'][0]['text'], 'display_name': 'A Customer',
+                    'attribution_required': False, 'source_id': 'unrelated', 'source_url': 'https://unrelated.invalid'}
+            (root/'build/rendered-testimonials.json').write_text(json.dumps({'testimonials': [item]}))
+            errors, _ = validator.validate_rendered(root, {r['id']: r for r in data['reviews']}, {'owned': source})
+            self.assertTrue(any('required attribution' in e for e in errors))
+            self.assertTrue(any('source URL' in e for e in errors))
+            self.assertTrue(any('source identity' in e for e in errors))
+
+    def test_rendered_acceptance_needs_evidence_and_a_manifest(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d);(root/'build').mkdir();(root/'research/reviews').mkdir(parents=True)
+            (root/'research/reviews/review-manifest.json').write_text(json.dumps(manifest()))
+            self.assertEqual(validator.validate_project(root, 'rendered')['status'], 'blocked')
+            (root/'research/reviews/review-manifest.json').unlink()
+            (root/'build/rendered-testimonials.json').write_text(json.dumps({'testimonials':[{'review_id':'invented'}]}))
+            self.assertEqual(validator.validate_project(root, 'rendered')['status'], 'blocked')
+
     def test_nonmatched_source_must_be_blocked(self):
         data = manifest()
         data["sources"][0]["business_match"]["status"] = "ambiguous"
