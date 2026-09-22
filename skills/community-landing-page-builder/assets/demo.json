@@ -9,7 +9,7 @@
     "synthetic": true,
     "path": "/",
     "thank_you_path": "/thank-you.html",
-    "pdf_path": "/assets/brochure/catalogue.pdf",
+    "pdf_path": "/assets/brochure/service-guide.pdf",
     "required_resources": ["/styles.css", "/script.js", "/funnel.js"],
     "fields": {
       "first_name": "Demo",
