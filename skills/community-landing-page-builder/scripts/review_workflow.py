@@ -78,7 +78,8 @@ def config(root: Path):
 
 
 def required(root: Path) -> bool:
-    return config(root).get("quality", {}).get("review_intelligence_version", 0) >= 1
+    value = config(root)
+    return value.get("quality", {}).get("review_intelligence_version", 0) >= 1 and value.get("development_fixture") is not True
 
 
 def _string_list(value, label, errors):
