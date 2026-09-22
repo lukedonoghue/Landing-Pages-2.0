@@ -21,8 +21,35 @@ def dump(value,out=None):
     if out:Path(out).parent.mkdir(parents=True,exist_ok=True);Path(out).write_text(text)
     else:print(text,end='')
 def db_at(directory):
-    path=Path(directory)/'library.sqlite3'
-    return sqlite3.connect(path.resolve().as_uri()+'?mode=ro',uri=True)
+    directory = Path(directory)
+    path = directory / 'library.sqlite3'
+    if path.is_file():
+        return sqlite3.connect(path.resolve().as_uri() + '?mode=ro', uri=True)
+    # Portable handoffs exclude databases, including the bundled reference index.
+    # Recreate only the lookup tables in memory from the same normalized records;
+    # never write a new database into the project or change its QA fingerprint.
+    conn = sqlite3.connect(':memory:')
+    try:
+        conn.executescript('CREATE TABLE sources (id TEXT PRIMARY KEY, partition TEXT, status TEXT, record TEXT);'
+                           'CREATE TABLE annotations (source_id TEXT PRIMARY KEY, record TEXT);'
+                           'CREATE VIRTUAL TABLE source_fts USING fts5(id UNINDEXED,title,labels,industry,text);')
+        with (directory / 'sources.jsonl').open(encoding='utf-8') as source:
+            for line in source:
+                if not line.strip():
+                    continue
+                record = json.loads(line)
+                conn.execute('INSERT INTO sources VALUES(?,?,?,?)',
+                             (record['id'], record['partition'], record['status'], json.dumps(record)))
+                conn.execute('INSERT INTO source_fts VALUES(?,?,?,?,?)',
+                             (record['id'], record.get('title', ''), ' '.join(record.get('labels', [])),
+                              ' '.join(record.get('industry', [])), record.get('text', '')))
+        conn.executemany('INSERT INTO annotations VALUES(?,?)',
+                         [(record['source_id'], json.dumps(record)) for record in read(directory / 'annotations.json')])
+        conn.commit()
+        return conn
+    except Exception:
+        conn.close()
+        raise
 def records(conn):
     return [(json.loads(s),json.loads(a)) for s,a in conn.execute('SELECT s.record,a.record FROM sources s JOIN annotations a ON a.source_id=s.id WHERE s.partition="train" AND s.status="curated"')]
 
@@ -108,7 +135,7 @@ def project_reference(brief,brief_path,research):
         if normalized(lesson['source_excerpt']) not in text:raise ValueError('A reference lesson quotes wording that is not in the captured source')
     return {'role':'user_supplied_primary','source_id':source['id'],'url':requested,'name':review['name'],
             'client_claims_allowed':False,'lessons':lessons,'reviewer':review['reviewer'],'reviewed_at':review['reviewed_at'],
-            'source':{'path':source_path.relative_to(root).as_posix(),'sha256':source['sha256']},
+            'source':{'path':source_path.relative_to(root).as_posix(),'sha256':sha(source_path)},
             'review':{'path':review_path.relative_to(root).as_posix(),'sha256':sha(review_path)}}
 
 def select(directory,brief,limit=3):
