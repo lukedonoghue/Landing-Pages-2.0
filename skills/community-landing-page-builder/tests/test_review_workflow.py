@@ -66,6 +66,22 @@ class ReviewWorkflowTests(unittest.TestCase):
     def write_manifest(self, root, value=None):
         (root / review_workflow.MANIFEST).write_text(json.dumps(value or base_manifest(), indent=2))
 
+    def test_explicit_development_fixture_does_not_require_review_research(self):
+        root = self.project()
+        funnel = json.loads((root / "funnel.json").read_text())
+        funnel["development_fixture"] = True
+        (root / "funnel.json").write_text(json.dumps(funnel))
+        self.assertFalse(review_workflow.required(root))
+
+    def test_manifest_business_identity_must_follow_current_client(self):
+        root = self.project(); self.write_manifest(root)
+        funnel = json.loads((root / "funnel.json").read_text())
+        funnel["client"]["name"] = "Different Business"
+        (root / "funnel.json").write_text(json.dumps(funnel))
+        result = review_workflow.validate_manifest(root, "business-v1")
+        self.assertEqual(result["status"], "blocked")
+        self.assertTrue(any("different current business name" in item for item in result["errors"]))
+
     def test_compile_aggregates_rights_cleared_analysis_and_selects_exact_quote(self):
         root = self.project(); self.write_manifest(root)
         result = review_workflow.compile_project(root, "business-v1")
