@@ -70,6 +70,7 @@ A publishable testimonial must remain one person's evidence. Keep together:
 - stable review ID;
 - exact quote;
 - reviewer display name;
+- optional source-displayed public details such as role, company or location when the testimonial source itself provides them and the publication basis covers them;
 - rating when the source provides one;
 - publication/review date when available;
 - source name and source URL;
@@ -80,6 +81,7 @@ A publishable testimonial must remain one person's evidence. Keep together:
 
 Never:
 
+- enrich a reviewer by finding a role, employer, location, social profile or other identifying detail from a separate source;
 - merge reviewers;
 - split one review into several apparent customers;
 - pair one person's quote with another person's image;
