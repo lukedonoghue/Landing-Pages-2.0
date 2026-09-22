@@ -115,6 +115,17 @@ def validate_manifest(root: Path, expected_fingerprint: str | None = None):
     business = data.get("business")
     if not isinstance(business, dict) or not (nonempty(business.get("name")) or nonempty(business.get("website"))):
         errors.append("Review manifest must identify the researched business")
+        business = {}
+    current_client = config(root).get("client", {})
+    current_name, recorded_name = str(current_client.get("name", "")).strip(), str(business.get("name", "")).strip()
+    current_site, recorded_site = str(current_client.get("website", "")).strip().rstrip("/"), str(business.get("website", "")).strip().rstrip("/")
+    current_region, recorded_region = str(current_client.get("region", "")).strip(), str(business.get("location", "")).strip()
+    if current_name and current_name.casefold() != recorded_name.casefold():
+        errors.append("Review manifest belongs to a different current business name")
+    if current_site and current_site.casefold() != recorded_site.casefold():
+        errors.append("Review manifest belongs to a different current business website")
+    if current_region and recorded_region and current_region.casefold() != recorded_region.casefold():
+        errors.append("Review manifest belongs to a different current business location")
 
     discovery = data.get("discovery")
     if not isinstance(discovery, dict) or discovery.get("status") not in DISCOVERY:
@@ -203,6 +214,13 @@ def validate_manifest(root: Path, expected_fingerprint: str | None = None):
             reviewer = {}
         if reviewer.get("profile_url") and not http_url(reviewer.get("profile_url")):
             errors.append(prefix + " has an invalid reviewer profile URL")
+        public_details = reviewer.get("public_details", [])
+        if not isinstance(public_details, list):
+            errors.append(prefix + ".reviewer.public_details must be a list")
+            public_details = []
+        for detail_index, detail in enumerate(public_details):
+            if not isinstance(detail, dict) or not nonempty(detail.get("label")) or not nonempty(detail.get("value")):
+                errors.append(prefix + f".reviewer.public_details[{detail_index}] needs label and source-displayed value")
         avatar = reviewer.get("avatar", {})
         if avatar and not isinstance(avatar, dict):
             errors.append(prefix + ".reviewer.avatar must be an object")
@@ -336,6 +354,7 @@ def _select_static(reviews, limit=4):
             "quote_sha256": text_sha(body["text"].strip()),
             "reviewer_name": reviewer["display_name"].strip(),
             "reviewer_profile_url": reviewer.get("profile_url", ""),
+            "reviewer_public_details": reviewer.get("public_details", []),
             "rating": body.get("rating"),
             "published_at": body.get("published_at", ""),
             "publication_status": permissions["publication_status"],
@@ -428,6 +447,9 @@ def validate_rendered(root: Path, selection):
         source = item.get("source_name", "")
         if source and _normalized(source) not in flat:
             errors.append("Rendered testimonial source is missing: " + rid)
+        for detail in item.get("reviewer_public_details", []):
+            if _normalized(detail.get("value", "")) not in flat:
+                errors.append("Rendered source-displayed reviewer detail is missing: " + rid + " / " + detail.get("label", "detail"))
         if item.get("rating") is not None and str(item["rating"]) not in flat:
             warnings.append("Selected testimonial rating is not visibly rendered: " + rid)
         if item.get("publication_status") == "publishable_full":
