@@ -111,6 +111,27 @@ class ReviewWorkflowTests(unittest.TestCase):
         self.assertEqual(result["status"], "blocked")
         self.assertTrue(any("approved reviewer avatar" in item for item in result["errors"]))
 
+    def test_compiled_selection_cannot_be_tampered_without_manifest_change(self):
+        root = self.project(); self.write_manifest(root); review_workflow.compile_project(root, "business-v1")
+        selection_path = root / review_workflow.SELECTION
+        selection = json.loads(selection_path.read_text())
+        selection["static_testimonials"][0]["reviewer_name"] = "Different person"
+        selection_path.write_text(json.dumps(selection))
+        result = review_workflow.audit_project(root, "business-v1", rendered=False)
+        self.assertEqual(result["status"], "blocked")
+        self.assertTrue(any("differs from the current source records" in item for item in result["failures"]))
+
+    def test_publishable_full_local_avatar_is_hash_bound(self):
+        root = self.project()
+        value = base_manifest()
+        avatar = root / "assets/reviews/alex.webp"; avatar.parent.mkdir(parents=True); avatar.write_bytes(b"synthetic-avatar")
+        value["reviews"][0]["permissions"]["publication_status"] = "publishable_full"
+        value["reviews"][0]["reviewer"]["avatar"] = {"url":"","local_path":"assets/reviews/alex.webp","sha256":review_workflow.sha(avatar),"provenance":"Owner supplied with marketing permission","display_allowed":True}
+        self.write_manifest(root, value)
+        self.assertNotEqual(review_workflow.validate_manifest(root, "business-v1")["status"], "blocked")
+        avatar.write_bytes(b"changed")
+        self.assertEqual(review_workflow.validate_manifest(root, "business-v1")["status"], "blocked")
+
     def test_rendered_static_testimonial_must_keep_id_quote_name_and_source(self):
         root = self.project(); self.write_manifest(root); review_workflow.compile_project(root, "business-v1")
         (root / "public/index.html").write_text(
@@ -130,6 +151,7 @@ class ReviewWorkflowTests(unittest.TestCase):
         self.assertIn("authorAttribution", script)
         self.assertIn("photoURI", script)
         self.assertIn("googleMapsURI", script)
+        self.assertIn("Google Maps", script)
         self.assertNotIn("localStorage", script)
         self.assertNotIn("indexedDB", script)
 
