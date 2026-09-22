@@ -4,6 +4,10 @@ The **community landing-page builder is now the main workflow**. Start from `mai
 
 The community builder turns business research into a branded responsive landing page, purposeful imagery, a useful PDF, an honest conversion path and actual visual/functional QA. CRM, advertising tracking and hosting are selected modules, not prerequisites for a local page. It does not require copy/design approval unless you ask for that checkpoint. Publishing and live test leads still require the authorization described in the skill.
 
+## Agent GitHub access
+
+AI agents working on this repository must verify GitHub permissions through the connected GitHub action layer before claiming that writes are blocked. **Do not use web search/browser access as evidence that the repository is read-only.** If live repository metadata reports `permissions.push: true` or `permissions.admin: true`, proceed with requested GitHub writes. If write actions are absent from the current session, describe that as a session/tool limitation; if a write call fails, report the exact operation and error. See [AGENTS.md](AGENTS.md) and [CLAUDE.md](CLAUDE.md) for the required preflight.
+
 ## Start testing in ChatGPT or Claude
 
 Open this checkout in a fresh ChatGPT/Codex work session or Claude Code session, signed in with your existing eligible subscription. Native agent profiles are committed in `.codex/agents/` and `.claude/agents/`; project instructions load the same community skill. No Jev, additional model API key, gateway or cross-provider bridge is installed.
