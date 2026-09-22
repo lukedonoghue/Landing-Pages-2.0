@@ -35,6 +35,7 @@ JOURNAL='.secrets/runner-apply.json'
 FORBIDDEN={'build/guide-business.json','build/workflow.json','build/guide-state.json','build/progress.json','build/static-release.json','build/setup-authorization.json'}
 BUILD_OUTPUTS=('build/guide.json','build/guide-build.json','build/guide-review.json','build/guide-review-history','build/guide-pages','build/guide-text.txt','build/thank-you.json','build/thank-you-build.json','build/discovery.json','build/strategy-brief.md','build/claim-ledger.md','build/page-copy.md','build/page-copy.json',
     'build/client-copy-brief.json','build/copy-context.json','build/copy-editorial-review.json','build/copy-review-inputs.json',
+    'build/review-insights.json','build/testimonial-selection.json','build/rendered-testimonials.json',
     'build/page-structure.json','build/reference-fidelity.json','build/brand.json','build/image', 'build/layout','build/pdf','build/catalogue',
     'build/visual','build/performance','build/browser','build/copy','build/rendered-copy','build/control-review','build/qa',
     'build/local-journey','build/local-verification','build/gate-snapshot.json','build/gates.json')
