@@ -2,7 +2,7 @@
 
 The **community landing-page builder is now the main workflow**. Start from `main` and use `skills/community-landing-page-builder/SKILL.md`. The previous branded builder is retained under `skills/branded-lead-funnel-builder/`; its earlier README is preserved as [README-LEGACY.md](README-LEGACY.md).
 
-The community builder turns business research into a branded responsive landing page, purposeful imagery, a useful PDF, an honest conversion path and actual visual/functional QA. Form-led pages include the built-in local Cloudflare Workers and D1 CRM by default; external CRM/Sheets connections, advertising tracking and hosting remain optional later-stage modules. It does not require copy/design approval unless you ask for that checkpoint. Publishing and live test leads still require the authorization described in the skill.
+The community builder turns business research into a branded responsive landing page, purposeful imagery, rights-aware review intelligence and testimonial proof, a useful PDF, an honest conversion path and actual visual/functional QA. Form-led pages include the built-in local Cloudflare Workers and D1 CRM by default; external CRM/Sheets connections, advertising tracking and hosting remain optional later-stage modules. It does not require copy/design approval unless you ask for that checkpoint. Publishing and live test leads still require the authorization described in the skill.
 
 ## Step one install local dependencies
 
@@ -23,6 +23,8 @@ Start a fresh active ChatGPT/Codex or Claude session with:
 > Use the community skill on main to build a landing page for [business website or description] in guided mode. Remember supplied answers, confirm the business and conversion brief, and ask only for genuinely missing decisions. After the first build, compare the rendered page and copy with the Blue Mountain Mesh control, make a concrete improvement checklist, implement the repairs and recapture mobile/desktop output before showing the improved page. Continue toward publication, but obtain the actual scoped setup/publication and live-test permissions when needed.
 
 The guide exposes **Start → Business → Conversion → Copy → Design → Preview → Connections → Publish → Complete**. This is not nine permission screens: routine implementation, comparison, repairs and tests continue automatically. Guided mode adds brief/copy review; automatic mode retains the no-routine-approval behavior. Both modes require fresh control comparison and preserve real publishing authority.
+
+Customer-feedback research is part of the business evidence stage on new scaffolds. Rights-cleared reviews can inform problems, benefits, objections and customer language, while selected testimonials retain exact identity/source/avatar provenance. Google Maps reviews use an optional provider-dynamic Places widget rather than scraped/stored review content.
 
 The active agent uses `guide.py` and the persistent `workflow_runner.py`; an optional authenticated loopback wizard uses the same controller and an actual runner bridge. Stable answer/event IDs prevent repeats, task ownership prevents duplicate execution, and bounded repair attempts expose a precise blocker rather than silently stopping or skipping a gate. Unknown external results must be reconciled before retry. A session or local process must remain active to execute; a saved checkpoint is not a background service.
 
