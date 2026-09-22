@@ -74,7 +74,6 @@ def write_demo_sources(project):
     page = page.replace("Service one", data["services"][0]).replace("Service two", data["services"][1])
     page = page.replace("Replace this starter with your approved client content.", "Fictional local demonstration. Do not enter real customer information.")
     page = page.replace("<body>", '<body><aside class="demo-notice">Local demonstration · fictional business and data · publishing disabled</aside>')
-    page = page.replace('<p data-form-error', '<p>'+html.escape(data['follow_up'])+'</p><p data-form-error')
     page = page.replace("<!-- Copy and adapt the fields only after the form schema is approved. -->",
                         '<section class="demo-guide"><img src="/assets/brochure/cover-600.webp" width="600" height="777" loading="lazy" alt="Cover of the fictional project guide"><div><h2>Your project guide</h2><p>Explore the complete page, form, PDF, CRM and reporting using fictional local data.</p></div></section>')
     page_path.write_text(page)
@@ -121,7 +120,8 @@ def write_demo_sources(project):
         "modal": {"submit_label": data['cta'], "follow_up_promise": data['follow_up']},
         "thank_you": {"eyebrow": "Your next step", "headline": "Here is your project guide.",
                       "body": "Your fictional enquiry is saved in the local CRM. Download the guide below.",
-                      "follow_up_promise": data['follow_up'], "download_label": "Download your project guide"},
+                      "follow_up_promise": data['follow_up'], "download_label": "Download your service guide",
+                      "reader_heading": "Read your guide now"},
         "brochure": {"cover_promise": catalogue['cover']['headline'], "delivery": "Download after a fictional enquiry is saved.",
                      "text": [catalogue['cover']['eyebrow'], catalogue['cover']['headline'], data['body'], catalogue['cover']['label'],
                               catalogue['process']['headline'], catalogue['process']['summary'], "OUR PROCESS",

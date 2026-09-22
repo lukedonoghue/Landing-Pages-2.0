@@ -43,6 +43,17 @@ class DevEntrypointTests(unittest.TestCase):
         self.assertIn("public/assets/brochure/service-guide.pdf", quickstart)
         self.assertNotIn("public/assets/brochure/catalogue.pdf", quickstart)
 
+    def test_demo_copy_contract_matches_current_confirmation_and_modal_surfaces(self):
+        demo_project = (
+            ROOT / "skills/community-landing-page-builder/scripts/demo_project.py"
+        ).read_text()
+        self.assertNotIn(
+            "page.replace('<p data-form-error', '<p>'+html.escape(data['follow_up'])+'</p><p data-form-error')",
+            demo_project,
+        )
+        self.assertIn('\"download_label\": \"Download your service guide\"', demo_project)
+        self.assertIn('\"reader_heading\": \"Read your guide now\"', demo_project)
+
     def test_readme_leads_with_local_dependency_setup(self):
         readme = (ROOT / "README.md").read_text()
         self.assertIn("## Step one install local dependencies", readme)
