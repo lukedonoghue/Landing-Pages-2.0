@@ -81,7 +81,7 @@ Keep the selected scope minimal. Copy-only and audit-only requests stop at their
 
 | Stage | Parallel work | Required barrier before proceeding |
 | --- | --- | --- |
-| Evidence | Business/conversion research; brand extraction; reference/asset investigation when useful | Source-linked compact evidence and material unknowns reconciled |
+| Evidence | Business/conversion research; rights-aware review intelligence; brand extraction; reference/asset investigation when useful | Source-linked compact evidence, current review manifest/insights/selection, and material unknowns reconciled |
 | Argument | One owner of strategy and the complete copy master | Real editorial acceptance plus the existing copy checker before layout |
 | Production inputs | Final design direction and image preparation after copy acceptance | Source-bound production contract; existing acquired/optimized image prerequisites before gated assembly |
 | Production | Frontend; useful PDF; selected integration configuration | Disjoint owned files and fixed shared inputs |
@@ -90,7 +90,7 @@ Keep the selected scope minimal. Copy-only and audit-only requests stop at their
 | Acceptance | One fresh reviewer, after all writers stop | Frozen integrated source, readable page/PDF captures and real functional evidence |
 | Optional external work | Coordinator only | Existing selected-scope authorization and guarded publisher/live verifier |
 
-Research can collect source imagery before copy acceptance, but do not design HTML or finish section-specific compositions ahead of the accepted argument. For the guarded CRM scaffold, `workflow.py check-build` still requires acquired/optimized images: do not spoof its image evidence to start sooner. Run checks using their documented CLI, not guessed arguments. Final publication is outside the scheduler and never authorized by a task receipt.
+Research can collect source imagery and rights-cleared customer feedback before copy acceptance, but do not design HTML or finish section-specific compositions ahead of the accepted argument. For `review_intelligence_version: 1`, the research task owns `research/reviews/review-manifest.json`, `build/review-insights.json` and `build/testimonial-selection.json`; copy must not begin while that evidence is missing or stale. For the guarded CRM scaffold, `workflow.py check-build` still requires acquired/optimized images: do not spoof its image evidence to start sooner. Run checks using their documented CLI, not guessed arguments. Final publication is outside the scheduler and never authorized by a task receipt.
 
 ## Shared production contract
 
