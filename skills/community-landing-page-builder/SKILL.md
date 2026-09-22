@@ -156,13 +156,17 @@ Use the visual and fresh-acceptance gates in [references/quality-gates.md](refer
 
 When a brochure is selected, read [references/catalogue-workflow.md](references/catalogue-workflow.md), render every page, inspect each at readable size, and run `scripts/validate_catalogue_review.py`. Any clipping, truncation, unreadable copy, text-on-information collision, or text covering a person blocks the brochure and the final result.
 
+## Required lead storage
+
+Every published lead-generation page with a form must use both the bundled Cloudflare CRM and the Google Sheets mirror. Load [references/lead-and-tracking-contract.md](references/lead-and-tracking-contract.md), [references/cloudflare-crm.md](references/cloudflare-crm.md), and [references/google-sheets-connection.md](references/google-sheets-connection.md). Reuse the bundled tested backend; customize configuration, not the attribution, storage or authentication implementation. D1 is the source of truth, and Sheets receives the same accepted lead through the durable CRM outbox. Generate and privately present the complete Apps Script file before giving the owner the short setup steps. Connect the returned `/exec` URL and verify one authorized synthetic lead, every form field, and complete first/latest attribution in both destinations. The instructions and artifacts must stand alone for any capable LLM or human operator; never require a particular model, product UI, hidden conversation history or vendor-specific agent feature.
+
+A local-only page may be reviewed before external accounts are connected, but it cannot be called `publish-ready` or `live and verified` until both CRM and Google Sheets pass their destination checks.
+
 ## Optional modules
 
 Load these only when selected:
 
 - **Advertising and GTM:** [references/advertising-tracking.md](references/advertising-tracking.md). Keep raw contact data out of analytics. The optional contract uses `customer_data_ready` for consented provider-normalized hashes and `lead_accepted` for the confirmed conversion receipt. Google is primary; Meta and Microsoft require destination-specific verification.
-- **Lead backend and CRM:** [references/lead-and-tracking-contract.md](references/lead-and-tracking-contract.md) and [references/cloudflare-crm.md](references/cloudflare-crm.md). Reuse the bundled tested backend; customize configuration, not the attribution/storage/auth implementation. Verify both shared-code identity and the requested campaign values persisted in the CRM.
-- **CRM plus Google Sheets:** [references/google-sheets-connection.md](references/google-sheets-connection.md). Keep D1 as the source of truth and connect Sheets through the durable CRM outbox. Generate the private Apps Script file, give the owner the short setup steps in the conversation, connect the returned `/exec` URL, and verify one authorized synthetic lead in both CRM and Sheets.
 - **Cloudflare publishing:** [references/guided-publishing.md](references/guided-publishing.md). Deployment is not implied by a local build.
 - **Long-lived handoff, retention, backup, or recovery:** load the matching existing references only when requested.
 

@@ -15,6 +15,7 @@ This design prevents a Sheets outage from losing the CRM lead or showing a false
 - A private setup helper that generates the connection token without printing or committing it.
 - One tightly validated Apps Script response redirect; the lead body is never forwarded to the redirected URL.
 - Exact four-step instructions for a nontechnical owner.
+- A product-neutral handoff that presents the complete private `Code.gs` without requiring Claude, Codex or a vendor-specific file panel.
 - Clear Cloudflare usage wording: hosting access is separate from account analytics permission.
 
 ## Deliberate non-changes
@@ -23,6 +24,7 @@ This design prevents a Sheets outage from losing the CRM lead or showing a false
 - The public page does not contain a Google Apps Script URL or secret.
 - Existing CRM authentication, roles, form validation, attribution capture and deployment routing are unchanged.
 - This branch does not include unrelated local changes from the earlier working directory.
+- Every published lead-generation form requires both the Cloudflare CRM and the Google Sheets mirror.
 
 ## Review path
 

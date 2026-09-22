@@ -1,6 +1,8 @@
 # Google Sheets connection
 
-Load this reference only when the owner selects Google Sheets alongside the Cloudflare CRM. No Google Sheets API key is required. The owner creates a Sheet and deploys its bound Apps Script once; the agent prepares the code, connects the private URL in the CRM, and performs the technical verification.
+Load this reference for every published lead-generation page with a form. Both the Cloudflare CRM and Google Sheets mirror are required. No Google Sheets API key is required. The owner creates a Sheet and deploys its bound Apps Script once; the builder prepares the code, connects the private URL in the CRM, and performs the technical verification.
+
+This workflow is product-neutral. It must work from these written instructions with any capable LLM or human operator that can read the project files and run the documented commands. Do not rely on Claude, Codex, a vendor-specific panel, hidden memory or prior conversation context.
 
 ## Architecture
 
@@ -21,14 +23,16 @@ node scripts/google-sheets-connector.mjs prepare
 
 This creates `.secrets/google-sheets/Code.gs` and `.secrets/google-sheets/connection.json` with mode 0600. They are excluded from Git. The command never prints the token. Do not replace the private file with the public template because the template contains only a marker.
 
+Before asking the owner to use Google Sheets, present the complete generated `.secrets/google-sheets/Code.gs` as a private downloadable file. If the current environment cannot attach a file, present its complete contents once in a fenced `javascript` block in the owner-only conversation. Introduce it as: `This private code securely connects this Sheet to your CRM. Paste all of it in the Apps Script editor.` Never ask a nontechnical owner to locate a filesystem path. Do not put the private file in Git, a public handoff, logs or screenshots.
+
 ## Exact owner message
 
 Send these steps in the conversation, adapted only for the business name:
 
 1. Open Google Sheets and create a blank spreadsheet named `[Business] Landing Page Leads`.
-2. In that spreadsheet choose `Extensions`, then `Apps Script`. Delete the starter code. The agent will open the prepared private `Code.gs`; paste its complete contents and click `Save`.
+2. In that spreadsheet choose `Extensions`, then `Apps Script`. Delete the starter code. Paste all of the private `Code.gs` supplied directly above these steps and click `Save`.
 3. Choose `Deploy`, `New deployment`, then the gear icon and `Web app`. Set `Execute as` to `Me` and `Who has access` to `Anyone`. Click `Deploy`, approve Google's prompt, and copy the URL ending in `/exec`.
-4. Paste only that `/exec` URL into the chat. Do not edit it or add the private token. The agent will connect and test it.
+4. Paste only that `/exec` URL into this conversation. Do not edit it or add the private token. The builder will connect and test it.
 
 If an existing deployment is updated, use `Deploy`, `Manage deployments`, the edit icon, `New version`, then `Deploy`. Keep the same `/exec` URL.
 
@@ -40,7 +44,7 @@ Validate the returned URL and combine it with the private token:
 node scripts/google-sheets-connector.mjs connect --web-app-url 'https://script.google.com/macros/s/.../exec'
 ```
 
-Read `webhook_url` only from `.secrets/google-sheets/connection.json`. Sign in to the CRM as Admin, open Connections, and add it as `Google Sheets`. Never paste the token into chat, Git, screenshots, logs, or a public handoff.
+Read `webhook_url` only from `.secrets/google-sheets/connection.json`. Sign in to the CRM as Admin, open Connections, and add it as `Google Sheets`. Do not repeat the token after privately presenting the generated code. Never place it in Git, screenshots, logs or a public handoff.
 
 The Worker allows one special response path for this receiver: the valid Apps Script endpoint may redirect to Google's exact `script.googleusercontent.com/macros/` response host. The Worker follows that redirect with a body-free GET and requires an acknowledgment containing the same outbox event ID. It never forwards lead data to the redirect. All other webhook redirects remain blocked.
 
