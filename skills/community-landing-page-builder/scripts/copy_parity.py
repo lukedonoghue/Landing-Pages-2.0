@@ -85,7 +85,13 @@ def interface_words(master, funnel, capture):
 def expected_surfaces(master, catalogue_enabled):
     modal = master.get("modal", {})
     if isinstance(modal, dict):
-        modal = {key: value for key, value in modal.items() if key not in {"failure", "uncertain"}}
+        # The shared follow-up contract must appear in the confirmation. The
+        # modal can explain it in future tense without rendering past-tense copy.
+        promise = modal.get("follow_up_promise")
+        if promise and promise != master.get("thank_you", {}).get("follow_up_promise"):
+            raise ValueError("The modal follow-up contract must match thank_you.follow_up_promise for rendered verification.")
+        modal = {key: value for key, value in modal.items()
+                 if key not in {"failure", "uncertain", "follow_up_promise"}}
     expected = {
         "landing": leaves({key: master[key] for key in ("h1", "primary_cta", "sections") if key in master}),
         "modal": leaves(modal, "/modal"),

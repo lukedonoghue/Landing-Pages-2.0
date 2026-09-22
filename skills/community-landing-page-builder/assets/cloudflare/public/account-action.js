@@ -17,7 +17,7 @@ const needsPassword = requestedPurpose === 'invite' || requestedPurpose === 'res
 
 if (!token) {
   title.textContent = 'This link is incomplete.';
-  description.textContent = 'Open the full link from your invitation or password reset email.';
+  description.textContent = 'Open the full one-use link supplied by your workspace administrator.';
 } else {
   title.textContent = needsPassword ? (requestedPurpose === 'invite' ? 'Create your password.' : 'Choose a new password.') : 'Confirm your email.';
   description.textContent = needsPassword ? 'Use at least 16 characters. Completing this action signs out any earlier sessions.' : 'Confirm this email address for your workspace account.';

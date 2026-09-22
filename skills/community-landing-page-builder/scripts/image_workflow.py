@@ -535,14 +535,14 @@ def review_asset(plan, root, image_id, report_path):
 
 def gate(plan, root):
     errors = []
-    minimum = plan.get("minimum_distinct_content_originals", 4 if plan.get("schema_version") == SCHEMA_VERSION else 0)
+    minimum = plan.get("minimum_distinct_content_originals", 4)
     if plan.get("schema_version") == SCHEMA_VERSION and minimum != 4:
         try:
             check_artifact(root, plan.get("content_minimum_exception", {}).get("evidence"))
         except (WorkflowError, OSError, KeyError, ValueError) as exc:
             errors.append("content minimum exception: " + str(exc))
-    if not plan["assets"] and not nonempty(plan.get("no_images_reason")):
-        errors.append("No image plan: add image placements or document why the design needs no raster imagery")
+    if not plan["assets"] and minimum > 0:
+        errors.append("No image plan: a complete landing page requires distinct content imagery")
     for item in plan["assets"]:
         if not item["required"] and item.get("omitted_reason") and not item.get("source"):
             continue
@@ -570,7 +570,7 @@ def gate(plan, root):
             previous = source_lineage.setdefault(source_hash, originals)
             if previous != originals:
                 errors.append(f"{item['id']}: identical source bytes use conflicting source_original_ids")
-    if len(distinct_originals) < minimum and not (not plan["assets"] and nonempty(plan.get("no_images_reason"))):
+    if len(distinct_originals) < minimum:
         errors.append(f"Only {len(distinct_originals)} independent content originals count toward the required {minimum}; derivatives, repeated photos and document previews do not add originals")
     return {"schema_version": 1, "gate": "images", "passed": not errors, "errors": errors,
             "asset_count": len(plan["assets"]), "distinct_content_original_count": len(distinct_originals),

@@ -14,6 +14,7 @@ if(!existsSync('funnel.json'))failures.push('Funnel configuration missing.');
 else{
  const funnel=JSON.parse(readFileSync('funnel.json','utf8'));
  const selected=funnel.analytics?.attribution_mode,required=funnel.analytics?.required_attribution_mode;
+ if(required===undefined)failures.push('Set analytics.required_attribution_mode explicitly from the owner requirement before publishing; omission cannot bypass attribution protection.');
  if(selected!==undefined&&!['consent','lead','disabled'].includes(selected))failures.push('analytics.attribution_mode must be consent, lead, or disabled.');
  if(required!==undefined&&!['consent','lead','disabled'].includes(required))failures.push('analytics.required_attribution_mode must be consent, lead, or disabled when supplied.');
  if(required&&required!==selected)failures.push(`Required attribution mode ${required} does not match analytics.attribution_mode ${selected}.`);

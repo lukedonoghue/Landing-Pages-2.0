@@ -567,7 +567,7 @@ $('#logout').addEventListener('click', async event => {
 async function start() {
   try {
     applySession(await api('/api/auth/session'));
-    usageMonitor = initFreeUsage($('#free-usage'), { request:api, currentUser:state.user });
+    usageMonitor = initFreeUsage($('#free-usage'), { request:api, currentUser:state.user, compactRoot:$('#sidebar-usage') });
     usageMonitor.refresh();
     $('[data-view="connections"]').hidden = !can('manage_settings');
     $('[data-view="users"]').hidden = !can('manage_users');

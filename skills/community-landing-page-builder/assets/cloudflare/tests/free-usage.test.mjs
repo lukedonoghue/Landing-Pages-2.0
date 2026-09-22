@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { authorize } from '../src/team-accounts.js';
 import { FREE_LIMITS, FREE_USAGE_QUERY, freeUsage, normalizeFreeUsage, resetFreeUsageCache, usageLevel } from '../src/free-usage.js';
 
-const env = { CF_ACCOUNT_ANALYTICS_TOKEN:'narrow-read-only-test-token', CF_USAGE_ACCOUNT_ID:'a'.repeat(32) };
+const env = { CF_ACCOUNT_ANALYTICS_TOKEN:'narrow-read-only-test-token', CF_USAGE_ACCOUNT_ID:'a'.repeat(32), CF_USAGE_PLAN:'workers-free' };
 const now = new Date('2026-09-21T12:34:56.000Z');
 
 function payload({ requests=12_000, rowsRead=345_000, rowsWritten=6_700, storage=[120_000_000,80_000_000] } = {}) {
@@ -75,9 +75,10 @@ test('missing and stale provider data stay unknown rather than becoming zero or 
 
 test('no optional credential returns an honest not-connected response without fetching', async () => {
   resetFreeUsageCache(); let calls=0;
-  const result=await freeUsage({}, {now,fetcher:async()=>{calls+=1;return response(payload());}});
+  const result=await freeUsage({CF_USAGE_PLAN:'workers-free'}, {now,fetcher:async()=>{calls+=1;return response(payload());}});
   assert.equal(calls,0); assert.equal(result.connection,'not_connected'); assert.equal(result.status,'unknown');
   assert.equal(result.reason,'not_connected'); assert.equal(result.last_successful_at,null);
+  assert.deepEqual(result.plan,{id:'workers-free',name:'Workers Free',source:'verified_configuration'});
   assert.ok(result.metrics.every(item=>item.value===null));
 });
 

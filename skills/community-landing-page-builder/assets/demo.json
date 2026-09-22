@@ -43,12 +43,12 @@
       "unknown_campaign": "synthetic-demo-unknown-not-captured"
     },
     "expected_policy": {
-      "analytics_mode": "consent",
-      "attribution_mode": "consent",
+      "analytics_mode": "disabled",
+      "attribution_mode": "lead",
       "advertising_user_data_mode": "disabled",
       "browser_opt_out": false
     },
-    "expected_features": {"first_party_attribution": true, "measured_visit": true},
+    "expected_features": {"first_party_attribution": true, "measured_visit": false},
     "expected_dimensions": {"source": "google", "traffic": "paid", "device": "desktop"},
     "selectors": {
       "openModal": "[data-open-modal]",

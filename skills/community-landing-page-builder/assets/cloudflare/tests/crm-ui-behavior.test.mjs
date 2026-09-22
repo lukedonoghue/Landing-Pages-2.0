@@ -1,8 +1,9 @@
 import test, { before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { readFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { chromium } from 'playwright-core';
 
 const chrome = [process.env.CHROME_BIN, chromium.executablePath()].find(path => path && existsSync(path));
@@ -121,6 +122,7 @@ test('CRM UI behavior source includes guarded backdrop handling and stable block
 test('usage warning survives performance failure and fits narrow mobile screens', browserOptions, async () => {
   const usage={
     connection:'connected',status:'urgent',coverage:'incomplete',reason:null,checked_at:'2026-09-21T12:00:00.000Z',last_successful_at:'2026-09-21T12:00:00.000Z',
+    plan:{id:'workers-free',name:'Workers Free',source:'verified_configuration'},
     qualification:'Cloudflare analytics can be delayed. Values are provider estimates.',period:{daily_resets_at:'2026-09-22T00:00:00.000Z',storage_resets:false},dashboard_url:'https://dash.cloudflare.com/',
     metrics:[
       {id:'workers_requests',label:'Workers requests',value:99_000,limit:100_000,unit:'requests',percent:99,status:'urgent'},
@@ -130,10 +132,18 @@ test('usage warning survives performance failure and fits narrow mobile screens'
       {id:'d1_database_storage',label:'Largest D1 database',value:null,limit:500_000_000,unit:'bytes',percent:null,status:'unknown'}
     ]
   };
+  const desktop=await adminPage({width:1280,height:900},{metricsFailure:true,usage});
+  try {
+    const compact=desktop.locator('#sidebar-usage');
+    assert.equal(await compact.isVisible(),true); assert.match(await compact.textContent(),/Workers Free/); assert.match(await compact.textContent(),/Free usage urgent/);
+    assert.equal(await compact.locator('.sidebar-usage-metric').count(),3); assert.equal(await compact.locator('.sidebar-usage-metric').first().textContent(),'Requests99%');
+    if (process.env.TEST_ARTIFACT_DIR) { await mkdir(process.env.TEST_ARTIFACT_DIR,{recursive:true}); await compact.screenshot({path:join(process.env.TEST_ARTIFACT_DIR,'cloudflare-sidebar-usage.png')}); }
+  } finally { await desktop.close(); }
   for (const viewport of [{width:390,height:844},{width:320,height:844}]) {
     const page=await adminPage(viewport,{metricsFailure:true,usage});
     try {
       const banner=page.locator('#free-usage');
+      assert.equal(await page.locator('#sidebar-usage').isVisible(),false);
       assert.equal(await banner.getByRole('heading',{name:'Free usage urgent'}).isVisible(),true);
       assert.match(await banner.textContent(),/at least 95% used/); assert.match(await banner.textContent(),/Some usage figures are unavailable/);
       assert.equal(await banner.locator('.usage-metric').count(),5); assert.equal(await banner.locator('.usage-metrics').isVisible(),false);

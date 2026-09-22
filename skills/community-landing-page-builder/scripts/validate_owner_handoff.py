@@ -205,6 +205,24 @@ def validate(data, requested_hosts=(), project=None):
             required(domain, "decision", label)
         else:
             errors.append(f"{label}: status must be blocked, verified or deferred")
+    if project is not None and (Path(project) / "src/free-usage.js").exists():
+        monitoring = data.get("usage_monitoring")
+        if not isinstance(monitoring, dict):
+            errors.append("CRM handoff requires usage_monitoring status and owner instructions")
+        else:
+            for key in ("evidence", "coverage", "owner_note"):
+                required(monitoring, key, "usage_monitoring")
+            note = monitoring.get("owner_note")
+            if isinstance(note, str) and note not in data.get("message", ""):
+                errors.append("usage_monitoring owner_note must be surfaced in the handoff message")
+            state = monitoring.get("status")
+            if state == "not_connected":
+                if monitoring.get("blocker_id") not in ids:
+                    errors.append("Unconnected usage monitoring requires a linked setup blocker")
+            elif state == "deferred":
+                required(monitoring, "decision", "usage_monitoring")
+            elif state != "verified":
+                errors.append("usage_monitoring status must be verified, not_connected or deferred")
     validate_cleanup(data, project, errors)
     return errors
 

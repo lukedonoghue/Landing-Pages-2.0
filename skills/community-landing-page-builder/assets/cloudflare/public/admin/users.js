@@ -22,6 +22,8 @@ const externalLink = (text, href) => {
 export function initUsersPanel(host, { request, currentUser }) {
   let disposed = false;
   let emailConfigured = false;
+  let deliveryMode = 'unavailable';
+  let recipientOnboardingConfigured = false;
   let setupDisclosureInitialized = false;
   const root = make('div', undefined, 'users-view');
   const heading = make('div', undefined, 'users-heading');
@@ -39,30 +41,40 @@ export function initUsersPanel(host, { request, currentUser }) {
   const setupBody = make('div', undefined, 'users-security-setup-body');
   if (currentUser?.id === 'owner') {
     const steps = make('ol', undefined, 'users-setup-steps');
-    const addresses = make('li'); addresses.append(make('strong', 'Choose the inbox and sender.'), make('p', 'Tell Codex your receiving email and the business domain to send from. Codex handles the connection.'));
+    const addresses = make('li'); addresses.append(make('strong', 'Use secure links on Free.'), make('p', 'Invitations and approved resets create an expiring one-use link. Copy it or open your normal email app. Gmail and other inboxes work without a sending domain.'));
     const destinations = make('li'); const destinationCopy = make('p');
-    destinationCopy.append('In Cloudflare, go to Compute > Email Service > Email Routing > Destination Addresses. Add the inbox, open the Cloudflare email, and select Verify email address. See ', externalLink('Cloudflare instructions', 'https://developers.cloudflare.com/email-service/configuration/email-routing-addresses/'), '.');
-    destinations.append(make('strong', 'Verify the inbox in Cloudflare.'), destinationCopy);
+    destinationCopy.append('The Cloudflare account owner creates one token limited to Email Routing Addresses Write for this account and stores it as a CRM secret. See ', externalLink('Cloudflare instructions', 'https://developers.cloudflare.com/email-service/configuration/email-routing-addresses/'), '.');
+    destinations.append(make('strong', 'Optional automatic email.'), destinationCopy);
     const ownerRegistration = make('li');
-    ownerRegistration.append(make('strong', 'Confirm the owner email in the CRM.'), make('p', 'After Codex connects email, open Users > Owner email. Enter that inbox and your current password, choose Send verification, and confirm the CRM email.'));
+    ownerRegistration.append(make('strong', 'Confirm the owner email in the CRM.'), make('p', 'Open Users > Owner email, enter the inbox and current password, then use the one-use link.'));
     steps.append(addresses, destinations, ownerRegistration); setupBody.append(steps, make('p', 'Enter your password only in the CRM.', 'users-setup-safety'));
   }
   const teammate = make('div', undefined, 'users-teammate-setup'); teammate.append(make('strong', currentUser?.id === 'owner' ? 'Adding a teammate later' : 'Adding a teammate'));
-  teammate.append(make('p', 'Teammates can use any email domain, including Gmail or an agency address. Verify the recipient in Cloudflare, ask Codex to connect the confirmed recipient, then use Users > Invite a user and choose the role.'));
+  teammate.append(make('p', 'Teammates can use any email domain, including Gmail or an agency address. Create the invitation once, then send its one-use link through your normal email app.'));
   setupBody.append(teammate); setupGuide.append(setupBody); provider.append(providerState, setupGuide);
-  const status = make('p', '', 'users-status'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
+  const status = make('div', '', 'users-status'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
   const error = make('p', '', 'inline-error users-error'); error.setAttribute('role', 'alert');
+
+  const recipientsSection = make('section', undefined, 'panel users-section');
+  const recipientsHead = make('div', undefined, 'users-section-heading');
+  recipientsHead.append(make('h3', 'Prepare an owner or recovery inbox'), make('p', 'Add an inbox without inviting a teammate. Cloudflare verification and CRM owner-email confirmation remain separate.', 'muted small'));
+  const recipientForm = make('form', undefined, 'recipient-form');
+  const recipientEmailLabel = make('label', 'Recipient email'); const recipientEmail = make('input'); recipientEmail.type = 'email'; recipientEmail.required = true; recipientEmail.maxLength = 90; recipientEmail.autocomplete = 'email'; recipientEmailLabel.append(recipientEmail);
+  const recipientSubmit = make('button', 'Add recipient', 'button secondary'); recipientSubmit.type = 'submit'; recipientSubmit.dataset.recipientAction = '';
+  recipientForm.append(recipientEmailLabel, recipientSubmit);
+  const recipientsList = make('div', undefined, 'recipient-list');
+  recipientsSection.append(recipientsHead, recipientForm, recipientsList);
 
   const invite = make('section', undefined, 'panel users-section');
   const inviteHead = make('div', undefined, 'users-section-heading');
-  inviteHead.append(make('h3', 'Invite a user'), make('p', 'The invitation is sent to the registered email address.', 'muted small'));
+  inviteHead.append(make('h3', 'Invite a user'), make('p', 'If the inbox is new, this holds one invitation until Cloudflare verification is checked.', 'muted small'));
   const inviteForm = make('form', undefined, 'users-invite-form');
   const emailLabel = make('label', 'Email'); const email = make('input'); email.type = 'email'; email.name = 'email'; email.required = true; email.maxLength = 254; email.autocomplete = 'email'; emailLabel.append(email);
   const usernameLabel = make('label', 'Username'); const username = make('input'); username.name = 'username'; username.required = true; username.maxLength = 80; username.autocomplete = 'off'; username.spellcheck = false; usernameLabel.append(username);
   const roleLabelNode = make('label', 'Role'); const role = make('select'); role.name = 'role';
   for (const [value, label] of [['viewer', 'View-only'], ['manager', 'Manager'], ['admin', 'Admin']]) { const option = make('option', label); option.value = value; role.append(option); }
   roleLabelNode.append(role);
-  const inviteSubmit = make('button', 'Send invitation', 'button primary'); inviteSubmit.type = 'submit';
+  const inviteSubmit = make('button', 'Create invitation', 'button primary'); inviteSubmit.type = 'submit';
   inviteForm.append(emailLabel, usernameLabel, roleLabelNode, inviteSubmit); invite.append(inviteHead, inviteForm);
 
   const usersSection = make('section', undefined, 'panel users-section');
@@ -71,7 +83,7 @@ export function initUsersPanel(host, { request, currentUser }) {
   usersSection.append(usersHead, usersTable);
 
   const requestsSection = make('section', undefined, 'panel users-section');
-  const requestsHead = make('div', undefined, 'users-section-heading'); requestsHead.append(make('h3', 'Password reset requests'), make('p', 'Approving a request sends a one-use reset link to the account email.', 'muted small'));
+  const requestsHead = make('div', undefined, 'users-section-heading'); requestsHead.append(make('h3', 'Password reset requests'), make('p', 'Approving a request creates a one-use reset link. Automatic email sends it when enabled.', 'muted small'));
   const requestsList = make('div', undefined, 'reset-requests'); requestsSection.append(requestsHead, requestsList);
 
   const ownerSection = make('section', undefined, 'panel users-section'); ownerSection.hidden = currentUser?.id !== 'owner';
@@ -79,33 +91,81 @@ export function initUsersPanel(host, { request, currentUser }) {
   const ownerForm = make('form', undefined, 'owner-email-form');
   const ownerEmailLabel = make('label', 'New email'); const ownerEmail = make('input'); ownerEmail.type = 'email'; ownerEmail.required = true; ownerEmail.maxLength = 254; ownerEmail.autocomplete = 'email'; ownerEmailLabel.append(ownerEmail);
   const ownerPasswordLabel = make('label', 'Current password'); const ownerPassword = make('input'); ownerPassword.type = 'password'; ownerPassword.required = true; ownerPassword.maxLength = 1024; ownerPassword.autocomplete = 'current-password'; ownerPasswordLabel.append(ownerPassword);
-  const ownerSubmit = make('button', 'Send verification', 'button primary'); ownerSubmit.type = 'submit';
+  const ownerSubmit = make('button', 'Create verification link', 'button primary'); ownerSubmit.type = 'submit';
   ownerForm.append(ownerEmailLabel, ownerPasswordLabel, ownerSubmit); ownerSection.append(ownerHead, ownerForm);
 
-  root.append(heading, provider, status, error, invite, usersSection, requestsSection, ownerSection); host.replaceChildren(root);
+  root.append(heading, provider, status, error, recipientsSection, invite, usersSection, requestsSection, ownerSection); host.replaceChildren(root);
 
   function clearMessages() { error.textContent = ''; status.textContent = ''; }
   function failure(reason) { error.textContent = reason?.message || 'Unable to complete this action.'; }
+  const accountOutcome = (result, automaticMessage) => result?.delivery_mode === 'manual'
+    ? { actionUrl: result.action_url, recipient: result.recipient, subject: result.subject }
+    : automaticMessage;
+  function showSuccess(message) {
+    if (!message || typeof message === 'string') { status.textContent = message || ''; return; }
+    const panel = make('div', undefined, 'manual-action');
+    panel.append(make('strong', 'One-use link ready'), make('p', `Send this link to ${message.recipient}. It expires automatically and works once.`, 'muted small'));
+    const controls = make('div', undefined, 'manual-action-controls');
+    const value = make('input'); value.type = 'text'; value.readOnly = true; value.value = message.actionUrl; value.setAttribute('aria-label', 'One-use account link');
+    const copy = make('button', 'Copy link', 'button secondary'); copy.type = 'button';
+    copy.addEventListener('click', async () => { try { await navigator.clipboard.writeText(message.actionUrl); copy.textContent = 'Copied'; } catch { value.select(); } });
+    const mail = make('a', 'Open email app', 'button secondary');
+    mail.href = `mailto:${encodeURIComponent(message.recipient)}?subject=${encodeURIComponent(message.subject)}&body=${encodeURIComponent(`Open this one-use link to continue:\n\n${message.actionUrl}`)}`;
+    controls.append(value, copy, mail); panel.append(controls); status.replaceChildren(panel);
+  }
   function setEmailActions() {
-    const reason = 'Complete the one-time security setup before using email actions.';
+    const actionsAvailable = deliveryMode !== 'unavailable';
+    recipientsSection.hidden = deliveryMode !== 'email';
+    const reason = 'Set the public CRM origin before using account actions.';
     for (const control of [inviteSubmit, ownerSubmit, ...root.querySelectorAll('[data-email-action]')]) {
-      control.disabled = !emailConfigured || control.dataset.blocked === 'true';
-      control.title = emailConfigured ? '' : reason;
+      control.disabled = !actionsAvailable || control.dataset.blocked === 'true';
+      control.title = actionsAvailable ? '' : reason;
     }
-    provider.dataset.state = emailConfigured ? 'available' : 'required';
-    providerTitle.textContent = emailConfigured ? 'Email settings are available' : 'Account email setup required';
-    providerCopy.textContent = emailConfigured
-      ? 'Email connection settings are present. Each new recipient must verify their inbox in Cloudflare before an invitation can be sent.'
-      : 'Invitations, password resets and owner email verification are unavailable until the one-time connection is added.';
+    for (const control of root.querySelectorAll('[data-recipient-action]')) {
+      control.disabled = !recipientOnboardingConfigured;
+      control.title = recipientOnboardingConfigured ? '' : 'The Cloudflare account owner must complete the one-time recipient verification connection.';
+    }
+    provider.dataset.state = actionsAvailable ? 'available' : 'required';
+    providerTitle.textContent = deliveryMode === 'email' ? 'Automatic email is ready' : deliveryMode === 'manual' ? 'Secure account links are ready' : 'One-time account setup required';
+    providerCopy.textContent = deliveryMode === 'email'
+      ? 'Cloudflare can send account messages to verified inboxes.'
+      : deliveryMode === 'manual'
+        ? 'Create an expiring one-use link and send it through Gmail or your normal email app. No sending domain is required.'
+        : 'Set the public CRM address once to enable secure manual invitations and resets.';
     if (!setupDisclosureInitialized) {
-      setupGuide.open = !emailConfigured;
+      setupGuide.open = !actionsAvailable;
       setupDisclosureInitialized = true;
+    }
+  }
+
+  function renderRecipients(recipients) {
+    recipientsList.replaceChildren();
+    if (!recipients.length) { recipientsList.append(make('p', 'No recipient inboxes have been added yet.', 'muted small recipient-empty')); return; }
+    for (const recipient of recipients) {
+      const row = make('div', undefined, 'recipient-row');
+      const details = make('div'); details.append(make('strong', recipient.email));
+      const verified = recipient.status === 'verified';
+      const label = recipient.invitation_pending
+        ? (verified ? 'Verified; invitation ready to continue' : 'Waiting for inbox confirmation; invitation is held')
+        : verified ? 'Verified by Cloudflare' : recipient.status === 'pending' ? 'Waiting for inbox confirmation' : 'Needs review in Cloudflare';
+      details.append(make('span', label, `recipient-state ${verified ? 'is-verified' : ''}`));
+      const actions = make('div', undefined, 'user-actions');
+      if (recipient.invitation_pending || !verified) {
+        const check = make('button', recipient.invitation_pending ? 'Check status & continue' : 'Check status', 'button secondary'); check.type = 'button'; check.dataset.recipientAction = '';
+        check.addEventListener('click', () => run(check, () => request(`/api/admin/users/email-recipients/${encodeURIComponent(recipient.id)}/check`, { method: 'POST', body: '{}' }), result => result.invitation_sent ? 'Cloudflare verified the inbox and the CRM invitation was sent.' : result.status === 'verified' ? 'Cloudflare verified the inbox. No teammate invitation was waiting.' : 'Still waiting for the recipient to confirm Cloudflare’s email.'));
+        actions.append(check);
+      } else {
+        const use = make('button', 'Use for invitation', 'text-button'); use.type = 'button';
+        use.addEventListener('click', () => { email.value = recipient.email; email.focus(); status.textContent = 'Recipient added to the invitation form.'; });
+        actions.append(use);
+      }
+      row.append(details, actions); recipientsList.append(row);
     }
   }
 
   async function run(control, work, success) {
     clearMessages(); control.disabled = true; const label = control.textContent; control.textContent = 'Working…';
-    try { await work(); if (disposed) return false; await load(); status.textContent = success; return true; }
+    try { const result=await work(); if (disposed) return false; await load(); showSuccess(typeof success==='function'?success(result):success); return true; }
     catch (reason) { if (!disposed) { await load(); failure(reason); } return false; }
     finally { if (!disposed) { control.textContent = label; control.disabled = false; setEmailActions(); } }
   }
@@ -144,12 +204,12 @@ export function initUsersPanel(host, { request, currentUser }) {
         }
       }
       if (invited) {
-        const resend = make('button', 'Resend invite', 'text-button'); resend.type = 'button'; resend.dataset.emailAction = '';
-        resend.addEventListener('click', () => run(resend, () => request(`/api/admin/users/${encodeURIComponent(account.id)}/invite`, { method: 'POST', body: '{}' }), 'Invitation sent.'));
+        const resend = make('button', 'Create new invite link', 'text-button'); resend.type = 'button'; resend.dataset.emailAction = '';
+        resend.addEventListener('click', () => run(resend, () => request(`/api/admin/users/${encodeURIComponent(account.id)}/invite`, { method: 'POST', body: '{}' }), result => accountOutcome(result, 'Invitation sent.')));
         actionGroup.append(resend);
       } else if (account.status === 'active') {
-        const reset = make('button', 'Send reset', 'text-button'); reset.type = 'button'; reset.dataset.emailAction = '';
-        reset.addEventListener('click', () => run(reset, () => request(`/api/admin/users/${encodeURIComponent(account.id)}/reset`, { method: 'POST', body: '{}' }), 'Password reset email sent.'));
+        const reset = make('button', 'Create reset link', 'text-button'); reset.type = 'button'; reset.dataset.emailAction = '';
+        reset.addEventListener('click', () => run(reset, () => request(`/api/admin/users/${encodeURIComponent(account.id)}/reset`, { method: 'POST', body: '{}' }), result => accountOutcome(result, 'Password reset email sent.')));
         actionGroup.append(reset);
       }
       if (account.id === 'owner') actionGroup.append(make('span', 'Owner account', 'muted small'));
@@ -169,7 +229,7 @@ export function initUsersPanel(host, { request, currentUser }) {
       const actions = make('div', undefined, 'user-actions'); const selfRequest = item.user_id === currentUser?.id;
       const approve = make('button', selfRequest ? 'Another admin required' : 'Approve', 'button secondary'); approve.type = 'button'; approve.dataset.emailAction = ''; approve.dataset.blocked = String(selfRequest); approve.disabled = selfRequest;
       if (selfRequest) approve.title = 'An administrator cannot approve their own password reset request.';
-      else approve.addEventListener('click', () => run(approve, () => request(`/api/admin/users/reset-requests/${encodeURIComponent(item.id)}/approve`, { method: 'POST', body: '{}' }), 'Reset request approved and email sent.'));
+      else approve.addEventListener('click', () => run(approve, () => request(`/api/admin/users/reset-requests/${encodeURIComponent(item.id)}/approve`, { method: 'POST', body: '{}' }), result => accountOutcome(result, 'Reset request approved and email sent.')));
       const reject = make('button', 'Reject', 'text-button'); reject.type = 'button'; reject.addEventListener('click', () => run(reject, () => request(`/api/admin/users/reset-requests/${encodeURIComponent(item.id)}/reject`, { method: 'POST', body: '{}' }), 'Reset request rejected.'));
       actions.append(approve, reject); row.append(text, actions); requestsList.append(row);
     }
@@ -179,18 +239,22 @@ export function initUsersPanel(host, { request, currentUser }) {
     clearMessages(); status.textContent = 'Loading users…'; root.setAttribute('aria-busy', 'true');
     try {
       const data = await request('/api/admin/users'); if (disposed) return;
-      emailConfigured = data.email_configured === true; renderUsers(data.users || []); renderRequests(data.requests || []); status.textContent = ''; setEmailActions();
+      emailConfigured = data.email_configured === true; deliveryMode = ['email','manual','unavailable'].includes(data.account_delivery_mode) ? data.account_delivery_mode : emailConfigured ? 'email' : 'unavailable'; recipientOnboardingConfigured = data.recipient_onboarding_configured === true; renderRecipients(data.recipients || []); renderUsers(data.users || []); renderRequests(data.requests || []); status.textContent = ''; setEmailActions();
     } catch (reason) { if (!disposed) { status.textContent = ''; failure(reason); } }
     finally { if (!disposed) root.removeAttribute('aria-busy'); }
   }
 
   inviteForm.addEventListener('submit', event => {
     event.preventDefault();
-    run(inviteSubmit, () => request('/api/admin/users', { method: 'POST', body: JSON.stringify({ email: email.value.trim(), username: username.value.trim(), role: role.value }) }), 'Invitation sent.').then(saved => { if (saved) inviteForm.reset(); });
+    run(inviteSubmit, () => request('/api/admin/users', { method: 'POST', body: JSON.stringify({ email: email.value.trim(), username: username.value.trim(), role: role.value }) }), result => result.pending_verification ? 'Invitation held. Ask the recipient to confirm Cloudflare’s email, then choose Check status & continue.' : accountOutcome(result, 'Invitation sent.')).then(saved => { if (saved) inviteForm.reset(); });
+  });
+  recipientForm.addEventListener('submit', event => {
+    event.preventDefault();
+    run(recipientSubmit, () => request('/api/admin/users/email-recipients', { method: 'POST', body: JSON.stringify({ email: recipientEmail.value.trim() }) }), result => result.status === 'verified' ? 'Cloudflare already shows this inbox as verified.' : 'Recipient added. Ask them to confirm Cloudflare’s email, then check the status. No CRM invitation is waiting.').then(saved => { if (saved) recipientForm.reset(); });
   });
   ownerForm.addEventListener('submit', event => {
     event.preventDefault();
-    run(ownerSubmit, () => request('/api/admin/users/owner-email', { method: 'POST', body: JSON.stringify({ email: ownerEmail.value.trim(), current_password: ownerPassword.value }) }), 'Verification email sent to the new owner address.').then(saved => { if (saved) ownerForm.reset(); else ownerPassword.value = ''; });
+    run(ownerSubmit, () => request('/api/admin/users/owner-email', { method: 'POST', body: JSON.stringify({ email: ownerEmail.value.trim(), current_password: ownerPassword.value }) }), result => accountOutcome(result, 'Verification email sent to the new owner address.')).then(saved => { if (saved) ownerForm.reset(); else ownerPassword.value = ''; });
   });
   refresh.addEventListener('click', load); load();
   return { refresh: load, dispose() { disposed = true; } };

@@ -96,11 +96,16 @@ class CommunityCoreTests(unittest.TestCase):
             self.make_clean_project(root)
             (root / "index.html").write_text(CLEAN_HTML.replace('<a href="assets/guide.pdf">Service guide</a>', ''), encoding="utf-8")
             reason = "Urgent response journey; source-backed buyer analysis in strategy brief"
+            (root / "build").mkdir()
+            (root / "build" / "strategy-brief.md").write_text(f"PDF omission rationale: {reason}\nSource: https://example.com/urgent-service\n", encoding="utf-8")
             result = self.run_script(VALIDATE, root, "--omit-brochure-reason", reason)
             self.assertEqual(result.returncode, 0, result.stdout)
             payload = json.loads(result.stdout)
             self.assertEqual(payload["checks"]["brochure_omission_reason"], reason)
-            self.assertTrue(any("independently review" in text for text in payload["warnings"]))
+            self.assertTrue(payload["checks"]["brochure_omission_evidence"]["reason_recorded"])
+            (root / "build" / "strategy-brief.md").write_text(f"PDF omission rationale: {reason}\n", encoding="utf-8")
+            result = self.run_script(VALIDATE, root, "--omit-brochure-reason", reason)
+            self.assertNotEqual(result.returncode, 0, result.stdout)
 
     def test_main_site_links_block_www_subdomains_and_protocol_relative_urls(self):
         with tempfile.TemporaryDirectory() as directory:

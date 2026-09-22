@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url';
 import { readRenderedFonts } from './rendered_fonts.mjs';
 import { inspectModalChrome } from './modal_chrome.mjs';
 
-const VERSION = '1.10.0';
+const VERSION = '1.11.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const index = argv.indexOf(`--${name}`);
@@ -80,11 +80,66 @@ const report = {
 
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const evidencePath = (path) => root ? relative(root, path).split('\\').join('/') : path;
+const prepareFullPageCapture = async (page) => page.evaluate(async () => {
+  const frame = () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+  const describe = (element) => element.id
+    ? `#${CSS.escape(element.id)}`
+    : `${element.tagName.toLowerCase()}${[...element.classList].slice(0, 2).map((name) => `.${CSS.escape(name)}`).join('')}`;
+  const candidates = [...document.querySelectorAll('body *')].filter((element) => {
+    const style = getComputedStyle(element);
+    const box = element.getBoundingClientRect();
+    return style.contentVisibility === 'auto' && style.display !== 'none' && style.visibility !== 'hidden'
+      && box.width > 0 && box.height > 0;
+  });
+  const visited = [];
+  for (const element of candidates) {
+    element.scrollIntoView({ block: 'center', inline: 'nearest' });
+    await frame();
+    await Promise.all([...element.querySelectorAll('img')].map((image) => image.decode().catch(() => {})));
+    const box = element.getBoundingClientRect();
+    if (box.width > 0 && box.height > 0) visited.push(describe(element));
+  }
+  window.__qaFullPageVisibility = candidates.map((element) => ({
+    element,
+    value: element.style.getPropertyValue('content-visibility'),
+    priority: element.style.getPropertyPriority('content-visibility'),
+  }));
+  for (const { element } of window.__qaFullPageVisibility) {
+    element.style.setProperty('content-visibility', 'visible', 'important');
+  }
+  await frame();
+  const heldVisibleCount = candidates.filter((element) => getComputedStyle(element).contentVisibility === 'visible').length;
+  scrollTo(0, 0);
+  await frame();
+  return {
+    eligibleCount: candidates.length,
+    visitedCount: visited.length,
+    heldVisibleCount,
+    regions: visited,
+    pageHeight: document.documentElement.scrollHeight,
+  };
+});
+const restoreFullPageCapture = async (page) => page.evaluate(() => {
+  for (const { element, value, priority } of window.__qaFullPageVisibility || []) {
+    if (value) element.style.setProperty('content-visibility', value, priority);
+    else element.style.removeProperty('content-visibility');
+  }
+  delete window.__qaFullPageVisibility;
+  scrollTo(0, 0);
+});
 const addShot = async (page, name, fullPage = true) => {
   const path = resolve(dirname(output), 'screenshots', `${name}.png`);
   await mkdir(dirname(path), { recursive: true });
-  await page.screenshot({ path, fullPage, animations: 'disabled' });
-  report.artifacts.push({ path: evidencePath(path), type: 'screenshot', sha256: digest(await readFile(path)) });
+  const capture = fullPage ? await prepareFullPageCapture(page) : null;
+  try {
+    await page.screenshot({ path, fullPage, animations: 'disabled' });
+  } finally {
+    if (capture) await restoreFullPageCapture(page);
+  }
+  report.artifacts.push({ path: evidencePath(path), type: 'screenshot', sha256: digest(await readFile(path)), ...(capture ? { capture } : {}) });
+  if (capture) check('full_page_capture_rendered_sections',
+    capture.visitedCount === capture.eligibleCount && capture.heldVisibleCount === capture.eligibleCount,
+    JSON.stringify(capture), { screenshot: evidencePath(path) });
   return evidencePath(path);
 };
 const check = (name, passed, detail, context = {}) => {

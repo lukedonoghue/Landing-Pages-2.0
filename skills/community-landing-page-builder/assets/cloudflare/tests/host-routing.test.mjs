@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { build } from 'esbuild';
 import { Miniflare } from 'miniflare';
 
-const hosts={publicHost:'go.example.com',crmHost:'crm.example.com'};
+const hosts={publicHost:'go.example.com',crmHost:'crm.example.com',pagesGatewayHost:'synthetic-gateway.pages.dev'};
 let mf;
 
 before(async () => {
@@ -47,6 +47,9 @@ test('CRM host isolates auth and routes the login return path to the public host
 
 test('workers.dev stays unified while unknown custom hosts fail closed', async () => {
   assert.equal((await fetchAt('https://fixture.account.workers.dev','/login.html')).status,200);
+  assert.equal((await fetchAt('https://synthetic-gateway.pages.dev','/login.html')).status,200);
+  assert.equal((await fetchAt('https://preview.synthetic-gateway.pages.dev','/login.html')).status,421);
+  assert.equal((await fetchAt('https://other.pages.dev','/login.html')).status,421);
   const health=await fetchAt('https://go.example.com','/api/health');
   assert.equal((await health.json()).host_role,'public');
   assert.equal((await fetchAt('https://unknown.example.com','/')).status,421);

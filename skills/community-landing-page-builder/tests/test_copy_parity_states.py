@@ -17,10 +17,15 @@ class CopyParityStateTests(unittest.TestCase):
             'sections': [{'headline': 'Know what is included'}],
             'modal': {
                 'title': 'Tell us what you need',
+                'follow_up_promise': 'Nothing was sent to the real business.',
                 'failure': 'We could not save your enquiry. Please try again.',
                 'uncertain': 'The result is not confirmed yet.',
             },
-            'thank_you': {'headline': 'Your enquiry is saved'},
+            'thank_you': {
+                'headline': 'Your enquiry is saved',
+                'body': 'Nothing was sent to the real business.',
+                'follow_up_promise': 'Nothing was sent to the real business.',
+            },
         }
 
     def capture(self, initial_error=False, later_error=False, include_error_state=True):
@@ -30,7 +35,8 @@ class CopyParityStateTests(unittest.TestCase):
                 {'surface':'landing','state':'initial','width':width,'text':'Clear accounting support Discuss your needs Know what is included'},
                 {'surface':'modal','state':'step-0','width':width,'text':'Tell us what you need' + (' We could not save your enquiry. Please try again.' if initial_error else '')},
                 {'surface':'modal','state':'step-2','width':width,'text':'Tell us what you need' + (' We could not save your enquiry. Please try again.' if later_error else '')},
-                {'surface':'thank_you','state':'confirmation','width':width,'text':'Your enquiry is saved'},
+                {'surface':'thank_you','state':'confirmation','width':width,
+                 'text':'Your enquiry is saved Nothing was sent to the real business.'},
             ]
             if include_error_state:
                 documents.append({'surface':'modal','state':'submission-error','width':width,
@@ -42,6 +48,18 @@ class CopyParityStateTests(unittest.TestCase):
     def test_failure_copy_is_absent_initially_and_captured_after_submit(self):
         result = MODULE.compare(self.master(), {'catalogue':{'enabled':False}}, self.capture())
         self.assertTrue(result['passed'], result['failures'])
+
+    def test_post_submit_promise_is_not_required_in_pre_submit_modal(self):
+        result = MODULE.compare(self.master(), {'catalogue':{'enabled':False}}, self.capture())
+        self.assertTrue(result['passed'], result['failures'])
+        modal_rows = [row for row in result['surfaces'] if row['surface'] == 'modal']
+        self.assertTrue(all('/modal/follow_up_promise' not in row['missing'] for row in modal_rows))
+
+    def test_follow_up_contract_cannot_disappear_from_confirmation(self):
+        master = self.master()
+        del master['thank_you']['follow_up_promise']
+        with self.assertRaisesRegex(ValueError, 'follow-up contract'):
+            MODULE.expected_surfaces(master, False)
 
     def test_initial_failure_copy_and_missing_error_state_both_block(self):
         visible = MODULE.compare(self.master(), {'catalogue':{'enabled':False}}, self.capture(initial_error=True))

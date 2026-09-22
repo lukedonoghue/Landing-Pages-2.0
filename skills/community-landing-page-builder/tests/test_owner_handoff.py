@@ -114,6 +114,20 @@ class OwnerHandoffCleanupTests(unittest.TestCase):
         }
         self.assertIn("cleanup report must be an object", validate(data, project=self.root))
 
+    def test_crm_cannot_omit_usage_monitoring_handoff(self):
+        (self.root / "src").mkdir()
+        (self.root / "src/free-usage.js").write_text("// maintained module fixture")
+        self.assertIn("CRM handoff requires usage_monitoring status and owner instructions", validate(self.base, project=self.root))
+        note = "Automatic usage checks are not connected. Use the hosting dashboard until setup is complete."
+        data = {**self.base, "status": "action_required", "message": note,
+                "usage_monitoring": {"status": "not_connected", "evidence": "Dedicated token absent", "coverage": "Daily metrics unavailable; storage not monitored", "owner_note": note, "blocker_id": "hosting-usage"},
+                "blockers": [{"id": "hosting-usage", "feature": "Hosting usage", "evidence": "Token absent", "completed": "Honest unavailable UI", "preserve": "Keep existing plan", "resume": "Read provider metrics", "steps": [{"action": "Connect read-only analytics privately", "expected": "Provider metrics available"}]}]}
+        self.assertEqual(validate(data, project=self.root), [])
+        data["usage_monitoring"]["blocker_id"] = "missing"
+        self.assertIn("Unconnected usage monitoring requires a linked setup blocker", validate(data, project=self.root))
+        data["usage_monitoring"]["status"] = "deferred"
+        self.assertIn("usage_monitoring: missing decision", validate(data, project=self.root))
+
 
 if __name__ == "__main__":
     unittest.main()

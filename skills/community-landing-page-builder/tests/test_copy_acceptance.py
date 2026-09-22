@@ -54,6 +54,11 @@ class CopyAcceptanceTests(unittest.TestCase):
     def test_canonical_customer_copy_blocks_research_and_operator_narration(self):
         for contaminated in (
             'The page adds no unsupported timing or outcome promise.',
+            'Published professional signals.',
+            'Company assertion on the official site.',
+            'Current status not independently checked.',
+            'The official site describes service across the county.',
+            'This demo does not invent a price range.',
             'Independent demonstration using synthetic details. Optional advertising tags are disabled because no GTM ID or consent provider was supplied.',
             'Independent demonstration using synthetic details. Use the protected CRM login to verify the receipt, then remove the synthetic contact from the CRM.',
             'Independent demonstration using synthetic details. Test the complete enquiry journey without contacting the business.',
@@ -84,7 +89,14 @@ class CopyAcceptanceTests(unittest.TestCase):
         self.assertTrue(any('buyer outcome' in failure for failure in self.verify()['failures']))
 
     def test_legitimate_service_language_is_not_blacklisted(self):
-        for copy_text in ('GTM audits for ecommerce teams.', 'CRM login support for new staff.', 'Test your water before choosing treatment.'):
+        for copy_text in (
+            'GTM audits for ecommerce teams.',
+            'CRM login support for new staff.',
+            'Test your water before choosing treatment.',
+            'Confirm current certification and commission status before relying on either credential.',
+            'This independent demonstration is not commissioned or endorsed by the provider.',
+            'Vivian Reynolds is shown on the official website as proprietor and notary public.',
+        ):
             with self.subTest(copy_text=copy_text):
                 (self.root / 'copy.md').write_text(copy_text)
                 self.assertEqual(MODULE.customer_copy_issues(self.root / 'copy.md'), [])
