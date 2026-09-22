@@ -45,6 +45,10 @@
     }
     const date = monthYear(review.publishTime);
     if (date) meta.appendChild(el("span", "google-review-date", date));
+    if (review.visitDateYear && review.visitDateMonth) {
+      const visit = monthYear(new Date(review.visitDateYear, review.visitDateMonth - 1, 1));
+      if (visit) meta.appendChild(el("span", "google-review-visit-date", "Visited " + visit));
+    }
     authorBlock.appendChild(meta);
     head.appendChild(authorBlock);
     card.appendChild(head);
@@ -87,6 +91,10 @@
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(el("h2", "google-reviews-title", title));
+    const attribution = el("div", "google-maps-attribution", "Google Maps");
+    attribution.setAttribute("translate", "no");
+    attribution.setAttribute("aria-label", "Google Maps");
+    fragment.appendChild(attribution);
     fragment.appendChild(el("p", "google-reviews-notice", notice));
 
     const list = el("div", "google-reviews-list");
