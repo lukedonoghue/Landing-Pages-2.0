@@ -67,6 +67,24 @@ Block on:
 - dead primary, phone, privacy, booking, or download destinations;
 - footer controls visually merged or too small to operate.
 
+## Review and testimonial integrity gate
+
+For new builds with `review_intelligence_version: 1`, run `python3 scripts/validate_reviews.py PROJECT` after testimonial/page assembly and again after any proof change. The final gate report is produced with `python3 scripts/workflow.py record-review-evidence PROJECT` against the current gate snapshot.
+
+Block on:
+
+- review research missing, stale for the current business input, or not identity-matched to the exact business/location;
+- a stored review lacking its analysis/publication basis;
+- Google Maps review text or reviewer images copied into project storage instead of provider-dynamic display;
+- a selected testimonial whose quote, name, source, rating/date or avatar differs from its selected source record;
+- a generated, substituted or mismatched reviewer portrait;
+- two reviewers merged or one review split into artificial independent proof;
+- a selected Google provider without the maintained runtime widget, Place ID, current terms check, visible ordering/filter notice, Google Maps attribution or direct source access;
+- stale `review-insights.json` or `testimonial-selection.json` hashes;
+- missing rendered proof that a selected testimonial is actually present.
+
+Warnings such as an omitted optional rating may be accepted only with a specific visitor-impact decision. Do not use testimonial quantity as a quality target: fewer strong, complementary proof items are better than repetitive cards.
+
 ## 3. Visual gate
 
 Open and inspect every required screenshot at its actual size. Do not infer approval from a file existing or a broad boolean. Full-page evidence must contain rendered pixels for every visible section. When CSS uses `content-visibility:auto`, require the browser artifact's visited and held-visible counts to match before review, then inspect the page from top to bottom. A blank intrinsic-size placeholder, a matching file hash, or measurements without section pixels cannot pass the visual gate.
