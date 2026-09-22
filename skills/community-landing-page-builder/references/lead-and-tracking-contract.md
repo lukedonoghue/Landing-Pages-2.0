@@ -28,6 +28,8 @@ The helper sends no raw contact fields to analytics. After confirmed storage it 
 
 Optional outbound webhooks are server-side integrations. They must not replace the D1 write or delay the public success response. Analytics errors after storage must not re-enable the form or say the request failed.
 
+Google Sheets is an optional CRM receiver, not another public form backend. Use the bundled Apps Script connector so the outbox sends the already validated form schema, full first/latest attribution, normalized traffic fields and complete lead JSON. The receiver deduplicates the stable outbox event ID. A Sheets failure stays visible as a connection delivery failure while the accepted CRM lead remains successful.
+
 Acceptance tests cover valid/invalid fields, unknown fields, application errors, non-2xx, timeouts, retries, changed retry payloads, double clicks, denied/disabled measurement, blocked browser storage, unauthorized API access, status conflicts, and webhook failure after CRM success.
 
 Supported campaign fields are `utm_source`, `utm_medium`, `utm_campaign`, `utm_id`, `utm_term`, `utm_content`, `utm_source_platform`, `utm_creative_format`, `utm_marketing_tactic`, `gclid`, `dclid`, `gbraid`, `wbraid`, `fbclid`, `msclkid` and `ttclid`. Keep the browser capture, server normalization, database-backed lead serialization and CRM display aligned. Unknown query parameters are deliberately excluded; adding another platform requires its explicit field contract and tests, not copying the entire URL. Verify first/latest values at the stored lead and consent withdrawal, not only a single source label.

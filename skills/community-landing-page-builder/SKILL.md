@@ -162,6 +162,7 @@ Load these only when selected:
 
 - **Advertising and GTM:** [references/advertising-tracking.md](references/advertising-tracking.md). Keep raw contact data out of analytics. The optional contract uses `customer_data_ready` for consented provider-normalized hashes and `lead_accepted` for the confirmed conversion receipt. Google is primary; Meta and Microsoft require destination-specific verification.
 - **Lead backend and CRM:** [references/lead-and-tracking-contract.md](references/lead-and-tracking-contract.md) and [references/cloudflare-crm.md](references/cloudflare-crm.md). Reuse the bundled tested backend; customize configuration, not the attribution/storage/auth implementation. Verify both shared-code identity and the requested campaign values persisted in the CRM.
+- **CRM plus Google Sheets:** [references/google-sheets-connection.md](references/google-sheets-connection.md). Keep D1 as the source of truth and connect Sheets through the durable CRM outbox. Generate the private Apps Script file, give the owner the short setup steps in the conversation, connect the returned `/exec` URL, and verify one authorized synthetic lead in both CRM and Sheets.
 - **Cloudflare publishing:** [references/guided-publishing.md](references/guided-publishing.md). Deployment is not implied by a local build.
 - **Long-lived handoff, retention, backup, or recovery:** load the matching existing references only when requested.
 

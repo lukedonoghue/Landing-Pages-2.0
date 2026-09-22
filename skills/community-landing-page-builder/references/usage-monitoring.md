@@ -12,6 +12,8 @@ Keep the explanation short. Missing access, failed provider queries, stale snaps
 
 This connection is not a prerequisite for building or publishing a CRM. Never distribute a community author's key, reuse a broad deployment token inside the Worker, or ask the owner to paste secrets into chat. Without read-only access, leave an honest setup notice and a Cloudflare dashboard link.
 
+Running the CRM on Cloudflare and connecting its D1 database do not grant the Worker permission to read account-wide usage. `Workers Free` is the verified plan label; `Usage not connected` means the dedicated analytics secret is absent. Complete the read-only token setup below before presenting percentages as connected.
+
 Guide the owner in their computer browser through Cloudflare account API tokens > Create Token > Custom token. Use Account > Account Analytics > Read, limited to the selected hosting account. Check the actual permissions before connecting. Store the token only as a Worker secret through the supported private-input flow, and keep the account ID in server configuration. Do not send the token to the CRM frontend or include it in Git, screenshots, logs or the skill archive. If the account cannot grant access, explain the blocker and retain the dashboard fallback.
 
 Verify the provider query with that connection before claiming automatic monitoring is active. Compare the same account and UTC day with Cloudflare, record which metrics were returned, and disclose unavailable metrics. Never silently widen permissions to make a query work.

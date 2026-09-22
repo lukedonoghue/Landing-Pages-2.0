@@ -2,6 +2,7 @@ import { HttpError, cleanText, hmac } from './security.js';
 import { serializeLead } from './repository.js';
 
 const MAX_ATTEMPTS = 5;
+const MAX_ACK_BYTES = 16 * 1024;
 export function validateWebhookUrl(raw) {
   let url;
   try { url = new URL(cleanText(raw, 2048, 'Webhook URL', true)); } catch { throw new HttpError(400, 'Enter a public HTTPS webhook URL.'); }
@@ -36,13 +37,60 @@ export async function assertPublicDestination(raw, fetcher = fetch) {
   if (!addresses.length || addresses.some(address => !isPublicAddress(address))) throw new HttpError(400, 'Webhook host must resolve only to public addresses.');
   return url;
 }
+function isAppsScriptEndpoint(raw) {
+  try {
+    const url = new URL(raw);
+    return url.protocol === 'https:' && url.hostname === 'script.google.com' && /^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(url.pathname);
+  } catch { return false; }
+}
+async function readAppsScriptAck(response, eventId) {
+  const declared = Number(response.headers.get('content-length'));
+  if (Number.isFinite(declared) && declared > MAX_ACK_BYTES) throw new Error('Google Sheets returned an invalid acknowledgement');
+  const text = await response.text();
+  if (text.length > MAX_ACK_BYTES) throw new Error('Google Sheets returned an invalid acknowledgement');
+  let body;
+  try { body = JSON.parse(text); } catch { throw new Error('Google Sheets returned an invalid acknowledgement'); }
+  if (body?.ok !== true || body?.event_id !== eventId) throw new Error('Google Sheets returned an invalid acknowledgement');
+}
+async function deliver(destination, headers, payload, eventId, fetcher = fetch) {
+  const appsScript = isAppsScriptEndpoint(destination);
+  let response = await fetcher(destination, { method: 'POST', headers, body: payload, redirect: 'manual', signal: AbortSignal.timeout(10000) });
+  if (!appsScript) {
+    await response.body?.cancel();
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return;
+  }
+  if ([301, 302, 303, 307, 308].includes(response.status)) {
+    const location = response.headers.get('location');
+    await response.body?.cancel();
+    let redirect;
+    try { redirect = new URL(location); } catch { throw new Error('Google Sheets returned an invalid redirect'); }
+    if (redirect.protocol !== 'https:' || redirect.hostname !== 'script.googleusercontent.com' || !redirect.pathname.startsWith('/macros/') || redirect.username || redirect.password || redirect.port || redirect.hash) {
+      throw new Error('Google Sheets returned an invalid redirect');
+    }
+    const checked = await assertPublicDestination(redirect.href, fetcher);
+    response = await fetcher(checked, { method: 'GET', redirect: 'manual', signal: AbortSignal.timeout(10000) });
+  }
+  if (!response.ok) {
+    await response.body?.cancel();
+    throw new Error(`HTTP ${response.status}`);
+  }
+  await readAppsScriptAck(response, eventId);
+}
 export async function listWebhooks(env) {
   const rows = await env.DB.prepare(`SELECT w.id,w.name,w.url,w.enabled,w.created_at,
     (SELECT COUNT(*) FROM webhook_outbox o WHERE o.webhook_id=w.id AND o.status IN ('pending','sending')) AS pending_count,
     (SELECT COUNT(*) FROM webhook_outbox o WHERE o.webhook_id=w.id AND o.status='failed') AS failed_count,
     (SELECT MAX(delivered_at) FROM webhook_outbox o WHERE o.webhook_id=w.id) AS last_delivered_at
     FROM webhooks w WHERE w.removed_at IS NULL ORDER BY w.created_at DESC`).all();
-  return { webhooks: rows.results.map(row => ({ ...row, enabled: Boolean(row.enabled) })) };
+  return { webhooks: rows.results.map(row => ({ ...row, url: redactConnectionSecret(row.url), enabled: Boolean(row.enabled) })) };
+}
+function redactConnectionSecret(raw) {
+  try {
+    const url = new URL(raw);
+    if (url.search) url.search = '?private=hidden';
+    return url.href;
+  } catch { return 'Private connection'; }
 }
 export async function addWebhook(env, body) {
   const name = cleanText(body.name, 120, 'Webhook name', true);
@@ -104,9 +152,7 @@ export async function processOutbox(env, limit = 5) {
         await env.DB.prepare("UPDATE webhook_outbox SET status='failed',locked_until=NULL,claim_token=NULL,last_error='Delivery cancelled before dispatch' WHERE id=? AND claim_token=? AND status='sending'").bind(job.id,claim).run();
         continue;
       }
-      const response = await fetch(destination, { method: 'POST', headers, body: payload, redirect: 'manual', signal: AbortSignal.timeout(10000) });
-      await response.body?.cancel();
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      await deliver(destination, headers, payload, job.id);
       await env.DB.prepare("UPDATE webhook_outbox SET status='delivered',delivered_at=?,locked_until=NULL,last_error=NULL WHERE id=? AND claim_token=? AND status='sending'").bind(new Date().toISOString(), job.id, claim).run();
     } catch (error) {
       // No PII, URL query string, response body or exception payload is logged/stored.

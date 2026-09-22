@@ -14,7 +14,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const password = 'test-only-very-long-random-password-98pq3';
 const salt = '00112233445566778899aabbccddeeff';
 const hash = `pbkdf2_sha256$100000$${salt}$${pbkdf2Sync(password, Buffer.from(salt, 'hex'), 100000, 32, 'sha256').toString('hex')}`;
-let mf, db, cookie; let requestSequence = 0; const outbound = [];
+let mf, db, cookie; let requestSequence = 0; const outbound = []; const sheetsOutbound = [];
 const today = () => new Date().toISOString().slice(0, 10);
 function leadPayload(overrides = {}) {
   return { idempotency_key: crypto.randomUUID(), form_name: 'enquiry', website: '', form_data: { first_name: 'Alex', last_name: 'Example', email: 'alex@example.invalid', phone: '+44 7700 900123', service: 'Service one', contact_method: 'Email' }, attribution: { first_touch: { utm_source: 'google', gclid: 'test-click' }, latest_touch: { utm_source: 'email' } }, landing_page: '/', ...overrides };
@@ -43,6 +43,11 @@ before(async () => {
         return Response.json({ Status: 0, Answer: type === 'A' ? [{ type: 1, data: host === 'private.example.com' ? '127.0.0.1' : '93.184.216.34' }] : [] });
       }
       if (url.hostname === 'hooks.example.com') { outbound.push({ url: request.url, body: await request.json(), headers: Object.fromEntries(request.headers) }); return new Response('ok'); }
+      if (url.hostname === 'script.google.com') {
+        const body = await request.json(); sheetsOutbound.push({ url: request.url, body });
+        return new Response(null, { status: 302, headers: { Location: `https://script.googleusercontent.com/macros/echo?event_id=${encodeURIComponent(body.event_id)}` } });
+      }
+      if (url.hostname === 'script.googleusercontent.com') return Response.json({ ok: true, event_id: url.searchParams.get('event_id') });
       if (url.hostname === 'fail.example.com') return new Response('unavailable', { status: 503 });
       if (url.hostname === 'redirect.example.com') return Response.redirect('http://127.0.0.1', 302);
       return new Response('unexpected outbound request', { status: 500 });
@@ -367,6 +372,25 @@ test('webhook failure preserves accepted CRM receipt and schedules bounded retri
   }
   await worker.scheduled({ cron: '* * * * *', scheduledTime: Date.now() });
   assert.equal((await db.prepare('SELECT attempts FROM webhook_outbox WHERE id=?').bind(row.id).first()).attempts, 5);
+  await call(`/api/admin/webhooks/${hook.body.webhook.id}`, { method: 'DELETE' });
+});
+test('Google Apps Script delivery follows only its validated body-free acknowledgement redirect', async () => {
+  const hook = await jsonCall('/api/admin/webhooks', { method: 'POST', body: { name: 'Google Sheets', url: 'https://script.google.com/macros/s/test_deployment_123/exec?token=test-only-private-token' } });
+  assert.equal(hook.status, 201, JSON.stringify(hook.body));
+  const listed = await jsonCall('/api/admin/webhooks');
+  const sheetsHook = listed.body.webhooks.find(item => item.id === hook.body.webhook.id);
+  assert.equal(sheetsHook.url, 'https://script.google.com/macros/s/test_deployment_123/exec?private=hidden');
+  assert.doesNotMatch(JSON.stringify(listed.body), /test-only-private-token/);
+  const saved = await jsonCall('/api/leads', { method: 'POST', body: leadPayload({ attribution: { first_touch: { utm_source: 'google', utm_medium: 'cpc', gclid: 'first-click' }, latest_touch: { utm_source: 'microsoft', utm_medium: 'cpc', msclkid: 'latest-click' } } }) });
+  assert.equal(saved.status, 201);
+  let row;
+  for (let i = 0; i < 50; i++) { row = await db.prepare('SELECT * FROM webhook_outbox WHERE lead_id=?').bind(saved.body.lead_id).first(); if (row?.status === 'delivered') break; await new Promise(resolve => setTimeout(resolve, 20)); }
+  assert.equal(row.status, 'delivered');
+  assert.equal(sheetsOutbound.length, 1);
+  assert.equal(sheetsOutbound[0].body.event_id, row.id);
+  assert.equal(sheetsOutbound[0].body.lead.id, saved.body.lead_id);
+  assert.equal(sheetsOutbound[0].body.lead.attribution.first_touch.gclid, 'first-click');
+  assert.equal(sheetsOutbound[0].body.lead.attribution.latest_touch.msclkid, 'latest-click');
   await call(`/api/admin/webhooks/${hook.body.webhook.id}`, { method: 'DELETE' });
 });
 test('webhook redirects never forward PII to an unvalidated destination', async () => {

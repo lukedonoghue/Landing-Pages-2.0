@@ -58,7 +58,9 @@ A blocked policy endpoint fails closed for optional data; forms can still submit
 
 ## Webhooks
 
-Built-in D1 is the source of record. An accepted lead atomically queues enabled webhook deliveries. Background/scheduled retries are bounded; errors remain visible in CRM settings. Endpoints must use public HTTPS; private/loopback hosts and redirects are refused. Webhook delivery failure never rejects an already saved lead. Payloads include a delivery/receipt identity so receivers can deduplicate retries. Treat delivery as at-least-once, not exactly-once. Configure `WEBHOOK_SIGNING_SECRET` for HMAC signatures and verify them at the destination.
+Built-in D1 is the source of record. An accepted lead atomically queues enabled webhook deliveries. Background/scheduled retries are bounded; errors remain visible in CRM settings. Endpoints must use public HTTPS; private/loopback hosts and redirects are refused except for the bounded Google Apps Script acknowledgment flow below. Webhook delivery failure never rejects an already saved lead. Payloads include a delivery/receipt identity so receivers can deduplicate retries. Treat delivery as at-least-once, not exactly-once. Configure `WEBHOOK_SIGNING_SECRET` for HMAC signatures and verify them at the destination.
+
+When Google Sheets is selected, use the bundled Apps Script receiver and [Google Sheets connection workflow](google-sheets-connection.md). The browser still submits only to the same-origin CRM endpoint. D1 remains authoritative; the durable outbox copies future accepted leads to Sheets with retries and event-ID deduplication. Apps Script's one response redirect is accepted only from its exact `script.google.com/macros/s/.../exec` endpoint to Google's exact content-response host, followed without the lead body and checked for the matching event ID. Every other redirect remains blocked.
 
 ## Verified platform references
 

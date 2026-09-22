@@ -21,6 +21,8 @@
     "qa:performance": "node scripts/performance-audit.mjs",
     "qa:browsers": "node scripts/browser-compat.mjs",
     "verify:live": "node scripts/live-verify.mjs",
+    "sheets:prepare": "node scripts/google-sheets-connector.mjs prepare",
+    "sheets:connect": "node scripts/google-sheets-connector.mjs connect",
     "admin": "node scripts/admin-account.mjs",
     "backup": "node scripts/backup.mjs"
   },
