@@ -75,8 +75,12 @@ Use the same offer and follow-up promise in the page, form, success state, thank
 
 ## Proof rhythm
 
+When `build/review-insights.json` exists, use it to understand the customer's real problems, valued capabilities, outcomes and vocabulary. Use those themes to improve ordinary benefit copy only where the underlying business fact is supportable. Never convert a theme, paraphrase or synthesis into a testimonial quotation.
+
+When `build/testimonial-selection.json` exists, place selected testimonials beside the material claim they best support before defaulting to a generic testimonial grid. Each rendered testimonial must map to exactly one current review record and preserve its publication state, identity, source and required attribution. Record the rendered records in `build/rendered-testimonials.json` and validate them before final acceptance.
+
 - Put a strong verified trust signal in or immediately after the hero when available.
-- Use each testimonial as one person's evidence. Do not manufacture a grid from one source.
+- Use each testimonial as one person's evidence. Do not manufacture a grid from one source, combine reviewers, swap avatars, or use a research-only record as visitor-facing proof.
 - Keep internal verification language in research notes. Call sourced feedback customer reviews, not verified reviews unless that status itself is supported.
 - Use ratings, counts, awards, credentials, or logos only when verified and decision-relevant.
 - Use press or industry statistics only when an authoritative source and buyer value justify the space.
