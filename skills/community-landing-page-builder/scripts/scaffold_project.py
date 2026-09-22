@@ -62,6 +62,7 @@ def main() -> int:
         "build",
         "docs",
         "research",
+        "research/reviews",
         "screenshots",
     ):
         path = root / relative
@@ -72,9 +73,10 @@ def main() -> int:
     web_root.mkdir(parents=True, exist_ok=True)
     config = {
         "schema_version": 3,
-        "quality": {"complete_workflow": True, "contract_version": 2, "reader_guide_version": 1 if reader_guide else 0, "control_review": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
+        "quality": {"complete_workflow": True, "contract_version": 2, "reader_guide_version": 1 if reader_guide else 0, "review_intelligence_version": 1, "control_review": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
         "approvals": {"copy_before_design": False},
         "images": {"enabled": True, "preferred_model": None, "max_generated_assets": 3, "max_attempts_per_asset": 2},
+        "reviews": {"enabled": True, "google_places": {"enabled": False, "place_id": "", "display_mode": "provider_dynamic"}},
         "client": {
             "name": args.client,
             "website": args.website,
@@ -110,6 +112,12 @@ def main() -> int:
     }
     if write_if_missing(root / "funnel.json", json.dumps(config, indent=2) + "\n"):
         created.append("funnel.json")
+
+    review_manifest = json.loads((skill_root / "assets" / "review-manifest.example.json").read_text())
+    review_manifest["business"]["name"] = args.client
+    review_manifest["business"]["website"] = args.website
+    if write_if_missing(root / "research" / "reviews" / "review-manifest.json", json.dumps(review_manifest, indent=2) + "\n"):
+        created.append("research/reviews/review-manifest.json")
 
     for name, content in DOCS.items():
         if write_if_missing(root / "docs" / name, content):
@@ -160,7 +168,7 @@ def main() -> int:
                 if args.client and target.suffix == ".html" and relative.parts[0] == "public":
                     target.write_text(target.read_text().replace("Your business", html.escape(args.client)))
                 created.append(str(relative))
-        for name in ("runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "package_handoff.py", "portable_handoff.py"):
+        for name in ("runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "review_workflow.py", "validate_reviews.py", "optimize_images.py", "package_handoff.py", "portable_handoff.py"):
             source = skill_root / "scripts" / name
             target = root / "scripts" / name
             if source.exists() and not target.exists():
@@ -206,13 +214,20 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
 
     # PDF delivery is part of every ordinary page build, including explicit
     # static-only projects. CRM/runtime helpers remain conditional above.
-    for name in ("build_catalogue.py", "build_guide.py", "build_reader_guide.py", "guide_quality.py", "thank_you_page.py", "runtime_context.py", "render_catalogue_cover.py"):
+    for name in ("build_catalogue.py", "build_guide.py", "build_reader_guide.py", "guide_quality.py", "thank_you_page.py", "review_workflow.py", "validate_reviews.py", "runtime_context.py", "render_catalogue_cover.py"):
         source = skill_root / "scripts" / name
         target = root / "scripts" / name
         if source.exists() and not target.exists():
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
             created.append("scripts/" + name)
+    widget_source = skill_root / "assets" / "google-reviews-widget.js"
+    widget_target = web_root / "assets" / "google-reviews-widget.js"
+    if widget_source.is_file() and not widget_target.exists():
+        widget_target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(widget_source, widget_target)
+        created.append(str(widget_target.relative_to(root)))
+
     font_source = skill_root / "assets" / "pdf-fonts"
     font_target = root / "assets" / "pdf-fonts"
     for source in sorted(font_source.glob("*")):

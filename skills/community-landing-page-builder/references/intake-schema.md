@@ -6,6 +6,7 @@ From the client site and supplied files, try to recover:
 
 - legal/brand name, logo, colors, typography, imagery, phone, URLs, geography;
 - services, service-fit distinctions, process, FAQ, proof, testimonials;
+- review-source identity, review-analysis/publication rights, and any explicitly enabled provider-dynamic Google Place ID;
 - desired page audience and likely search intent;
 - reference-page offer, CTA, section order, proof placement, form behavior;
 - existing brochure/catalogue and source assets;

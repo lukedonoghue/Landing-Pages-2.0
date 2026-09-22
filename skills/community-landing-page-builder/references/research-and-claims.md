@@ -62,12 +62,18 @@ Rules:
 
 ## Reviews and people
 
-- Match the review source to the exact business before using it.
-- Keep reviewer identity, quote, rating, date, source, and avatar provenance together.
-- Shorten only without changing meaning or increasing certainty.
+Read [review-intelligence-and-testimonials.md](review-intelligence-and-testimonials.md) for every complete build with review intelligence enabled.
+
+- Match the review source to the exact business/location before using it.
+- Record checked sources, rights/use state and structured observations in `research/reviews/review-manifest.json`, then compile `build/review-insights.json` and `build/testimonial-selection.json` with `scripts/review_workflow.py`.
+- Use rights-cleared customer feedback to understand problems, desired outcomes, objections, praised practices, differentiator signals and natural customer language. Aggregate themes are research evidence, never invented quotations.
+- Keep reviewer identity, exact quote, rating, date, source, and avatar provenance together for any publishable testimonial.
+- Shorten only when the publication basis allows it and without changing meaning or increasing certainty; prefer the exact selected quote.
 - Never combine reviewers or split one person's statement into several independent testimonial cards.
-- If only one or two verified testimonials exist, use fewer cards or a different verified proof type.
+- If only one or two publishable testimonials exist, use fewer cards or a different verified proof type.
 - Never generate a photorealistic reviewer, customer, employee, franchisee, patient, or owner.
+- Do not enrich reviewers with unrelated personal information. Use only the identity presented by the testimonial source.
+- Google Maps reviews are not stored research inputs in this workflow. Use the provider-dynamic Google Places display contract when explicitly enabled; do not scrape/store Google review text or photos or derive page copy from that provider content.
 
 ## Reference and competitor use
 

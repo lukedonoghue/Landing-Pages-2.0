@@ -16,6 +16,7 @@ import sys
 import uuid
 from urllib.parse import urlsplit
 
+import review_workflow
 import workflow
 import workflow_progress
 import workflow_storage as storage
@@ -298,8 +299,9 @@ def next_action(root):
         return action('business','question','Start with your business name or website.',questions=[{**catalog()['business_name'],'question_revision':digest(catalog()['business_name'])}, {**catalog()['website'],'question_revision':digest(catalog()['website'])}])
     discovery_path = root/'build/discovery.json'
     discovery_value = storage.read(root,'build/discovery.json') if discovery_path.is_file() else None
-    if not discovery_value or discovery_value.get('input_fingerprint') != research_fingerprint(root):
-        return action('research','work','Research the supplied website and facts. Save captured sources and build/discovery.json with evidence-anchored suggestions or ambiguities. Preserve user answers. Do not ask the owner to repeat discoverable facts. Set input_fingerprint to the supplied current research fingerprint.',role='research',research_input_fingerprint=research_fingerprint(root))
+    review_state = review_workflow.research_ready(root, research_fingerprint(root))
+    if not discovery_value or discovery_value.get('input_fingerprint') != research_fingerprint(root) or not review_state['ready']:
+        return action('research','work','Research the supplied website and facts. Save captured sources and build/discovery.json with evidence-anchored suggestions or ambiguities. For review_intelligence_version 1, also research customer feedback for the exact business, complete research/reviews/review-manifest.json, and run scripts/review_workflow.py compile with the current research fingerprint. Rights-cleared reviews may inform problems, benefits and customer language; Google Maps review content stays provider-dynamic and is not copied into research. Preserve user answers. Do not ask the owner to repeat discoverable facts. Set input_fingerprint to the supplied current research fingerprint.',role='research',research_input_fingerprint=research_fingerprint(root),review_failures=review_state.get('failures',[]))
     if hashlib.sha256(discovery_path.read_bytes()).hexdigest() != record['discovery_applied']:
         return action('discovery','local','Apply verified research suggestions without overwriting existing answers.',operation='discover')
     missing = questions(root)

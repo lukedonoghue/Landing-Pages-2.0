@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "input_fingerprint": "",
+  "business": {
+    "name": "",
+    "website": "",
+    "location": "",
+    "identity_evidence": []
+  },
+  "discovery": {
+    "status": "pending",
+    "searched_at": "",
+    "sources_checked": [],
+    "notes": ""
+  },
+  "providers": [
+    {
+      "id": "google-primary",
+      "kind": "google_places",
+      "enabled": false,
+      "place_id": "",
+      "source_url": "",
+      "terms_checked_at": "",
+      "display_notice": "Google reviews are shown in the order returned by Google; no additional filtering is applied."
+    }
+  ],
+  "reviews": []
+}

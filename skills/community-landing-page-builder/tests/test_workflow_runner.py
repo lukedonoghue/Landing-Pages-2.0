@@ -10,6 +10,7 @@ from unittest.mock import patch
 
 SKILL=Path(__file__).resolve().parents[1];sys.path.insert(0,str(SKILL/'scripts'))
 import guide
+import review_workflow
 import workflow_runner as runner
 import native_routing as routing
 import workflow_storage as storage
@@ -19,8 +20,15 @@ class RunnerTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup);self.root=Path(self.temp.name);guide.start(self.root,name='Synthetic business')
     def worker(self,root,packet,route):
-        storage.write(root,'build/discovery.json',{'input_fingerprint':guide.research_fingerprint(root),'suggestions':[]})
-        return {'status':'done','summary':'Produced synthetic discovery with no fabricated facts.','outputs':['build/discovery.json'],'blockers':[]}
+        fingerprint=guide.research_fingerprint(root)
+        storage.write(root,'build/discovery.json',{'input_fingerprint':fingerprint,'suggestions':[]})
+        manifest=storage.read(root,review_workflow.MANIFEST)
+        manifest.update(input_fingerprint=fingerprint)
+        manifest['business'].update(name=guide.config(root)['client'].get('name',''),website=guide.config(root)['client'].get('website',''))
+        manifest['discovery']={'status':'no_sources','searched_at':'2026-09-22T12:00:00+00:00','sources_checked':[{'name':'Synthetic fixture source check','url':'https://example.test/reviews','identity_match':'not_applicable'}],'notes':'Mechanical runner fixture; no customer feedback supplied.'}
+        storage.write(root,review_workflow.MANIFEST,manifest)
+        review_workflow.compile_project(root,fingerprint)
+        return {'status':'done','summary':'Produced synthetic discovery and an explicit no-review-sources record without fabricated facts.','outputs':['build/discovery.json',review_workflow.MANIFEST,review_workflow.INSIGHTS,review_workflow.SELECTION],'blockers':[]}
     def test_success_immediately_dispatches_local_next_then_asks_question(self):
         result=runner.drive(self.root,executor=self.worker)
         self.assertEqual(result['kind'],'question');self.assertIsNotNone(guide.state(self.root)['discovery_applied'])
