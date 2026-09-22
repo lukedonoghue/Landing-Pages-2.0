@@ -190,8 +190,8 @@ def build_demo(project, node):
         project = write_demo_sources(project)
     npm(node, ["ci"], project)
     run([sys.executable, SKILL / "scripts/build_catalogue.py", "--config", project / "build/demo-catalogue.json",
-         "--output", project / "public/assets/brochure/catalogue.pdf"], project, node, "Demo brochure generation")
-    run([sys.executable, SKILL / "scripts/render_catalogue_cover.py", project / "public/assets/brochure/catalogue.pdf",
+         "--output", project / "public/assets/brochure/service-guide.pdf"], project, node, "Demo brochure generation")
+    run([sys.executable, SKILL / "scripts/render_catalogue_cover.py", project / "public/assets/brochure/service-guide.pdf",
          project / "public/assets/brochure"], project, node, "Demo brochure cover")
     with demo_lock(project):
         setup_database(project, node)
@@ -304,7 +304,7 @@ def verify_demo(project, node, full=False):
                  "--report", "build/performance/result.json"], project, node, "Record the newly measured performance")
     pdf_dir = project / "build/pdf"
     pdf_dir.mkdir(exist_ok=True)
-    pdf = project / "public/assets/brochure/catalogue.pdf"
+    pdf = project / "public/assets/brochure/service-guide.pdf"
     run(["pdftoppm", "-scale-to", "1000", "-png", pdf, pdf_dir / "page"], project, node, "All brochure page renders")
     run(["pdftotext", pdf, pdf_dir / "text.txt"], project, node, "Brochure text extraction")
     extracted = (pdf_dir / "text.txt").read_text()
