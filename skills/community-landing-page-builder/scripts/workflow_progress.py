@@ -25,6 +25,7 @@ STAGES = {
 }
 EXTERNAL_STAGES = {"publishing_setup", "publishing", "live_verification"}
 CANDIDATES = {
+    "control_review": "build/control-review/result.json",
     "copy": "build/copy-audit.json",
     "images": "build/images-audit.json",
     "browser": "build/layout/result.json",
@@ -42,6 +43,14 @@ LABELS = {
     "awaiting_copy_approval": "Review and approve the copy",
     "design_and_build": "Build and review the design",
     "image_generation_pending": "Resolve the existing image request",
+    "control_comparison": "Compare the first build with Blue Mountain",
+    "control_repair": "Improve the page from the comparison checklist",
+    "control_retest": "Verify the improved page against the control",
+    "static_publish_setup": "Prepare static publication without a CRM",
+    "static_publish_authorization": "Review the static launch",
+    "static_publish_ready": "Publish the reviewed static page",
+    "static_publish_recovery": "Reconcile the static publication",
+    "static_published": "Static page published and checked",
     "local_verification": "Test the complete local funnel",
     "publishing_setup": "Local final ready for launch setup",
     "awaiting_publish_authorization": "Connect launch destinations",
@@ -425,7 +434,7 @@ def inspect(root):
             status="blocked",
         )
 
-    paths = {key: root / value for key, value in workflow.COPY_FILES.items()}
+    paths = {key: root / value for key, value in workflow.copy_files(root).items()}
     report["copy_files"] = {
         key: {"path": str(path.relative_to(root)), "present": path.is_file()}
         for key, path in paths.items()
@@ -496,6 +505,17 @@ def inspect(root):
             "Continue the design and its existing image plan. Source, optimize and inspect the selected assets; resolve these findings without restarting the approved copy.",
         )
     report["completed"].append("image_plan_satisfied")
+    # Initial implementation is not final. This is a required, evidence-bound
+    # compare -> repair -> recapture loop, shared by guided and automatic runs.
+    if config.get('quality',{}).get('contract_version',0) >= 2 or config.get('quality',{}).get('control_review') or config.get('guided_workflow'):
+        import control_review
+        index = root/'public/index.html' if (root/'public').is_dir() else root/'index.html'
+        if index.is_file() and 'Make a confident plan for your next project.' not in index.read_text():
+            control = control_review.inspect(root)
+            report['control_review'] = control
+            if control['status'] not in PASS:
+                report['blockers'] += control.get('failures', [])
+                return at(control['stage'], 'Read references/control-comparison.md. Preserve the initial capture, compare all criteria, fix each checklist item, and recapture/review the improved page. Do not label the first draft final.', status='blocked')
     if not (root / "build/gate-snapshot.json").is_file():
         return at(
             "design_and_build",
@@ -510,6 +530,11 @@ def inspect(root):
         )
     report["completed"].append("local_quality_verified")
     if config.get("backend", {}).get("provider") == "none":
+        if config.get('guided_workflow',{}).get('goal') == 'publish':
+            import static_publish
+            static = static_publish.inspect(root)
+            report['static_publication'] = static
+            return at(static['stage'], static.get('next_action',{}).get('instruction') or ('Resolve: ' + '; '.join(static.get('failures',[])) if static.get('failures') else 'Continue the source-bound static publisher, then verify the exact deployed public bytes.'), status=static['status'])
         return at(
             "ready_for_handoff",
             "Present the reviewed static handoff and its recorded limitations. Cloudflare/CRM publication is not part of this static-only project.",

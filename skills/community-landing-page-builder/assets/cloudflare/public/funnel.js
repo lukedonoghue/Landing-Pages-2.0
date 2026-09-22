@@ -50,7 +50,7 @@
   };
   const signal=()=>{if(typeof window.dispatchEvent==='function'&&typeof CustomEvent==='function')window.dispatchEvent(new CustomEvent('funnel:privacy-change'));};
   const reconcile=()=>{if(!canMeasure())clearMeasurement();if(!canAttribute())clearTouches();};
-  const syncChoice=()=>{if(cookieChoice()===false&&choice!==false){choice=false;set('localStorage','analytics_consent',false);reconcile();signal();}if(browserOptOut())reconcile();};
+  const syncChoice=()=>{if(cookieChoice()===false&&choice!==false){choice=false;set('localStorage','analytics_consent',false);reconcile();signal();}if(browserOptOut())reconcile();if(gtmLoaded)updateGtmConsent(choice===true&&canMeasure());};
   const visitor=()=>{
     if(!canMeasure())return '';
     let id=pageVisitorId||get('localStorage','visitor_id');
@@ -83,7 +83,7 @@
       // Otherwise each tab can race to create its own ID during the same regrant.
       if(value)visitor();
       storageUsable=set('localStorage','analytics_consent',value);setCookie(value);
-      reconcile();captureTouch();visit();if(value)loadGtm();else updateGtmConsent(false);signal();
+      reconcile();captureTouch();visit();if(value)loadGtm();updateGtmConsent(choice===true&&canMeasure());signal();
     },
     privacyState(){syncChoice();return status();},
     hasConsent(){syncChoice();return canMeasure();},
@@ -142,7 +142,7 @@
     .finally(()=>{loading=false;clearTimeout(policyTimeout);reconcile();captureTouch();visit();loadGtm();loadPrivacyUi();signal();});
   window.LeadFunnel.ready=ready;
   if(typeof window.addEventListener==='function') {
-    window.addEventListener('storage',event=>{if(event.key===prefix+'analytics_consent'||event.key===null){let value=null;try{value=JSON.parse(event.newValue);}catch{};choice=value===true;memory.set(key('localStorage','analytics_consent'),choice);setCookie(choice);reconcile();captureTouch();visit();if(choice)loadGtm();else updateGtmConsent(false);signal();}});
-    window.addEventListener('focus',()=>{syncChoice();if(choice)loadGtm();else updateGtmConsent(false);signal();});
+    window.addEventListener('storage',event=>{if(event.key===prefix+'analytics_consent'||event.key===null){let value=null;try{value=JSON.parse(event.newValue);}catch{};choice=value===true;memory.set(key('localStorage','analytics_consent'),choice);setCookie(choice);reconcile();captureTouch();visit();if(choice)loadGtm();updateGtmConsent(choice===true&&canMeasure());signal();}});
+    window.addEventListener('focus',()=>{syncChoice();if(choice)loadGtm();updateGtmConsent(choice===true&&canMeasure());signal();});
   }
 })();

@@ -1,6 +1,6 @@
 const encoder = new TextEncoder();
 export class HttpError extends Error {
-  constructor(status, message, headers = {}) { super(message); this.status = status; this.headers = headers; }
+  constructor(status, message, headers = {}, code = null) { super(message); this.status = status; this.headers = headers; this.code = code; }
 }
 export function hex(bytes) { return [...new Uint8Array(bytes)].map(x => x.toString(16).padStart(2, '0')).join(''); }
 function unhex(value) { return Uint8Array.from(value.match(/../g) || [], x => parseInt(x, 16)); }

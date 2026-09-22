@@ -11,11 +11,13 @@ function tracker({ mode = 'consent', attributionMode = 'consent', advertisingUse
   const memory = sharedMemory || new Map(Object.entries(stored).map(([key, value]) => [`funnel_v2_${key}`, JSON.stringify(value)]));
   const requests = [];const pendingVisits=[];
   const storage = { getItem(key) { if (blockedStorage) throw new Error('Storage blocked'); return memory.get(key) || null; }, setItem(key, value) { if (blockedStorage || writeBlocked) throw new Error('Storage blocked'); memory.set(key, value); }, removeItem(key) { if (blockedStorage || writeBlocked) throw new Error('Storage blocked'); memory.delete(key); } };
+  const listeners = {};
   const loadedScripts=[]; const head={append:element=>loadedScripts.push(element.src),insertBefore:element=>loadedScripts.push(element.src)};
   const environment = { TextEncoder, Uint8Array, document: { currentScript: { dataset: { analyticsMode: mode, measure: String(measure) }, src:'https://site.test/funnel.js' }, referrer, head, querySelectorAll: () => [], querySelector: () => null, createElement:()=>({}), getElementsByTagName:()=>[{parentNode:head}] }, location: new URL(url), navigator: privacy, crypto, URL, URLSearchParams, Map, Date, Promise, JSON, AbortController, setTimeout, clearTimeout, localStorage: storage, sessionStorage: storage, fetch: async (url, options) => { if(url==='/api/privacy-config')return {ok:policyOk,json:async()=>({analytics_mode:mode,attribution_mode:attributionMode,advertising_user_data_mode:advertisingUserDataMode,consent_ui:consentUi,sensitive_category:sensitiveCategory,gtm_container_id:gtmContainerId})}; const body = JSON.parse(options.body); requests.push({ url, body }); if(deferredVisit)return new Promise(resolve=>pendingVisits.push(()=>resolve({ok:true,json:async()=>({measured:true,event_id:body.event_id})}))); return hangingVisit ? new Promise(() => {}) : { ok: visitOk, json: async () => visitResult || { measured: true, event_id: body.event_id, duplicate: false } }; } };
+  environment.addEventListener=(name,handler)=>{listeners[name]=handler;};
   environment.window = environment;
   runInNewContext(trackingCode, environment);
-  return { environment, requests, memory, pendingVisits, loadedScripts, funnel: environment.LeadFunnel };
+  return { environment, requests, memory, pendingVisits, loadedScripts, listeners, funnel: environment.LeadFunnel };
 }
 test('declined, disabled, DNT and GPC sessions send no visit or conversion event', async () => {
   for (const options of [{ stored: { analytics_consent: false } }, { mode: 'disabled', stored: { analytics_consent: true } }, { mode: 'essential', privacy: { doNotTrack: '1' } }, { mode: 'essential', privacy: { globalPrivacyControl: true } }]) {
@@ -392,4 +394,58 @@ test('an erased submission cannot be retried into a new contact and clears the f
     assert.equal(await page.locator('[data-submit]').isDisabled(),true);assert.equal(await page.locator('[name=email]').inputValue(),'');await page.locator('form').dispatchEvent('submit');assert.equal(submissions.length,1);
     await page.locator('[data-close-modal]').click();await page.locator('[data-open-modal]').click();assert.match(await page.locator('[data-form-error]').textContent(),/can no longer be retried/);
   }finally{await page.close();}
+});
+
+test('consent regrant updates the loaded container and honors GPC on focus',async()=>{
+  const state=tracker({gtmContainerId:'GTM-ABC1234',consentUi:'external'});await state.funnel.ready;
+  const updates=()=>state.environment.dataLayer.filter(value=>value[0]==='consent'&&value[1]==='update');
+  state.funnel.setConsent(true);state.funnel.setConsent(false);state.funnel.setConsent(true);
+  assert.equal(state.loadedScripts.filter(src=>src.includes('googletagmanager.com')).length,1);
+  assert.equal(updates().at(-1)[2].analytics_storage,'granted');
+  state.listeners.storage({key:'funnel_v2_analytics_consent',newValue:'false'});
+  assert.equal(updates().at(-1)[2].analytics_storage,'denied');
+  state.listeners.storage({key:'funnel_v2_analytics_consent',newValue:'true'});
+  assert.equal(updates().at(-1)[2].analytics_storage,'granted');
+  state.environment.navigator.globalPrivacyControl=true;state.listeners.focus();
+  assert.equal(updates().at(-1)[2].analytics_storage,'denied');
+  assert.equal(state.funnel.privacyState().measurement_allowed,false);
+});
+
+test('acknowledged retry passes the original customer identity to conversion processing',browserOptions,async()=>{
+  scenario='timeout-once';submissions=[];const page=await preparedPage();
+  try {
+    await page.evaluate(()=>{window.LeadFunnel={context:async()=>({}),accepted:async(result,form)=>{sessionStorage.setItem('accepted-identity',JSON.stringify(form));}};});
+    await page.locator('[data-submit]').click();await page.waitForFunction(()=>!document.querySelector('[data-form-error]').hidden);
+    await page.locator('[data-submit]').click();await page.waitForURL('**/thank-you.html');
+    const identity=JSON.parse(await page.evaluate(()=>sessionStorage.getItem('accepted-identity')));
+    assert.deepEqual(identity,submissions[0].form_data);
+    assert.equal(identity.email,'alex@example.invalid');assert.equal(identity.phone,'+44 7700 900123');
+  } finally {await page.close();}
+});
+
+test('terminal submission conflict requires an explicit restart, unknown conflicts retain the safe retry',browserOptions,async()=>{
+  for(const code of ['submission_removed','submission_conflict',null]) {
+    scenario='ok';submissions=[];const page=await preparedPage();
+    const bodies=[];
+    try {
+      await page.route('**/api/leads',route=>{bodies.push(route.request().postDataJSON());return route.fulfill({status:409,contentType:'application/json',body:JSON.stringify({error:'Submission cannot be retried.',...(code?{code}:{})})});});
+      await page.locator('[data-submit]').click();await page.waitForFunction(()=>!document.querySelector('[data-form-error]').hidden);
+      assert.equal(await page.locator('[data-restart-enquiry]').isVisible(),Boolean(code));
+      assert.equal(await page.locator('[data-submit]').isDisabled(),Boolean(code));
+      await page.locator('form').dispatchEvent('submit');
+      if(code){
+        assert.equal(bodies.length,1);
+        await page.locator('[data-restart-enquiry]').click();
+        assert.equal(await page.locator('[name=email]').isDisabled(),false);
+        assert.equal(await page.locator('[name=email]').inputValue(),'alex@example.invalid');
+        await page.unroute('**/api/leads');
+        await page.locator('[data-next]').click();await page.locator('[data-next]').click();
+        await page.locator('[data-submit]').click();await page.waitForURL('**/thank-you.html');
+        assert.notEqual(submissions[0].idempotency_key,bodies[0].idempotency_key);
+      }else{
+        await page.waitForFunction(()=>document.querySelector('[data-submit]').disabled===false);
+        assert.equal(bodies.length,2);assert.equal(bodies[0].idempotency_key,bodies[1].idempotency_key);
+      }
+    }finally{await page.close();}
+  }
 });

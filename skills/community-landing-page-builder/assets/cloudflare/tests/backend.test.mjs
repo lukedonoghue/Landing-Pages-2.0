@@ -7,8 +7,8 @@ import { build } from 'esbuild';
 import { Miniflare } from 'miniflare';
 import { unstable_splitSqlQuery } from 'wrangler';
 import { reportingDay, visitorHash } from '../src/security.js';
-import { earliestReportingDate } from '../src/repository.js';
-import { isPublicAddress, validateWebhookUrl } from '../src/webhooks.js';
+import { earliestReportingDate, deleteLead } from '../src/repository.js';
+import { isPublicAddress, validateWebhookUrl, processOutbox } from '../src/webhooks.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const password = 'test-only-very-long-random-password-98pq3';
@@ -408,4 +408,36 @@ test('a database failure cannot return an accepted receipt', async () => {
     assert.equal(result.status, 503); assert.ok(!result.body.ok); assert.ok(!result.body.lead_id);
     assert.ok(!JSON.stringify(result.body).includes('SQLITE'));
   } finally { await db.prepare('ALTER TABLE unavailable_leads RENAME TO leads').run(); }
+});
+
+test('removal is atomic across lead and queue writes and retry is idempotent',async()=>{
+  const lead=crypto.randomUUID(),hook=crypto.randomUUID(),job=crypto.randomUUID(),stamp=new Date().toISOString();
+  await db.prepare('INSERT INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,form_name,form_data,attribution,landing_page) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(lead,crypto.randomUUID(),crypto.randomUUID(),'hash',stamp,stamp,stamp.slice(0,10),'test','{}','{}','/').run();
+  await db.prepare('INSERT INTO webhooks(id,name,url,enabled,created_at) VALUES(?,?,?,1,?)').bind(hook,'synthetic','https://hooks.example.com/',stamp).run();
+  await db.prepare('INSERT INTO webhook_outbox(id,webhook_id,lead_id,next_attempt_at,created_at) VALUES(?,?,?,0,?)').bind(job,hook,lead,stamp).run();
+  await db.prepare(`CREATE TRIGGER synthetic_queue_failure BEFORE UPDATE ON webhook_outbox WHEN OLD.id='${job}' BEGIN SELECT RAISE(ABORT,'Synthetic queue fault'); END`).run();
+  await assert.rejects(deleteLead({DB:db},lead));
+  assert.equal((await db.prepare('SELECT deleted_at FROM leads WHERE id=?').bind(lead).first()).deleted_at,null);
+  await db.prepare('DROP TRIGGER synthetic_queue_failure').run();
+  await deleteLead({DB:db},lead);
+  const version=await db.prepare('SELECT version FROM leads WHERE id=?').bind(lead).first('version');
+  await deleteLead({DB:db},lead);
+  assert.equal(await db.prepare('SELECT version FROM leads WHERE id=?').bind(lead).first('version'),version);
+  assert.equal(await db.prepare('SELECT status FROM webhook_outbox WHERE id=?').bind(job).first('status'),'failed');
+});
+
+test('old orphan jobs cannot starve a scheduled batch of one',async()=>{
+  // Do not contact a provider. A disabled destination must be terminalized;
+  // the valid job reaches the fetch seam and is retriable on synthetic failure.
+  await db.prepare("UPDATE webhook_outbox SET status='failed' WHERE status IN ('pending','sending')").run();
+  const stamp=new Date().toISOString(),hook=crypto.randomUUID(),lead=crypto.randomUUID(),deleted=crypto.randomUUID();
+  for(const [id,isDeleted] of [[lead,false],[deleted,true]])await db.prepare('INSERT INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,form_name,form_data,attribution,landing_page,deleted_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)').bind(id,crypto.randomUUID(),crypto.randomUUID(),'hash',stamp,stamp,stamp.slice(0,10),'test','{}','{}','/',isDeleted?stamp:null).run();
+  await db.prepare('INSERT INTO webhooks(id,name,url,enabled,created_at) VALUES(?,?,?,1,?)').bind(hook,'synthetic','https://hooks.example.com/',stamp).run();
+  const jobs=Array.from({length:105},()=>crypto.randomUUID());
+  await db.batch(jobs.map(id=>db.prepare('INSERT INTO webhook_outbox(id,webhook_id,lead_id,next_attempt_at,created_at) VALUES(?,?,?,0,?)').bind(id,hook,deleted,stamp)));
+  const valid=crypto.randomUUID();await db.prepare('INSERT INTO webhook_outbox(id,webhook_id,lead_id,next_attempt_at,created_at) VALUES(?,?,?,1,?)').bind(valid,hook,lead,stamp).run();
+  const original=globalThis.fetch;globalThis.fetch=async()=>{throw new Error('Synthetic offline seam');};
+  try {await processOutbox({DB:db},1);}finally{globalThis.fetch=original;}
+  assert.equal(await db.prepare('SELECT attempts FROM webhook_outbox WHERE id=?').bind(valid).first('attempts'),1);
+  assert.equal(await db.prepare("SELECT COUNT(*) AS n FROM webhook_outbox WHERE lead_id=? AND status='failed'").bind(deleted).first('n'),100);
 });

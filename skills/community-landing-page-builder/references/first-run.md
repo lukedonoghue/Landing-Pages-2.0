@@ -65,3 +65,7 @@ The fictional demo is explicitly blocked by the publication approval checker and
 ## Limits
 
 These helpers establish local runtime and integration readiness. They do not author/approve a client's copy, authenticate Cloudflare, call a paid image API, perform an actual visual review, validate a production domain, or complete the full self-guided beta acceptance plan.
+
+## Persistent guided mode
+
+For the guided user journey and actual continuation use [guided-workflow.md](guided-workflow.md). The local form shell wakes the subscribed CLI runner when available; active ChatGPT/Claude hosts use the same controller and native tools. Preserve source-bound approvals and distinct setup/publication/live-test scopes. Static actions use the guarded `static_publish.py` adapter for an existing verified Pages project, without manufactured CRM evidence. Run the automatic [first-build comparison and improvement](control-comparison.md) before the final presentation.

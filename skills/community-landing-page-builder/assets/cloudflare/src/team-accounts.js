@@ -71,6 +71,9 @@ export async function listUsers(env,request) {
 }
 async function sendAction(env,request,user,purpose,actor,override={}) {
   const {origin,deliveryMode}=emailReady(env,request),recipient=override.email || user.email;
+  // A session alone must not authorize replacing its own password through a
+  // manually returned bearer link. Use the current-password flow or another admin.
+  if(purpose==='reset' && deliveryMode==='manual' && user.id===actor.id)throw new HttpError(403,'Use your current password to change it, or ask another administrator to create your reset link.');
   if(deliveryMode==='email')await requireVerifiedRecipient(env,recipient);
   if(!recipient || (purpose==='reset' && !user.email_verified_at))throw new HttpError(409,'The account needs a confirmed registered email first.');
   if(user.status==='disabled')throw new HttpError(409,'This account is disabled.');
@@ -94,7 +97,7 @@ async function sendAction(env,request,user,purpose,actor,override={}) {
     await env.DB.prepare("UPDATE crm_account_actions SET state='failed' WHERE id=? AND state='sending'").bind(id).run();
     throw new HttpError(409,'This email was superseded by a newer account action. Use the latest message.');
   }
-  await audit(env,actor.id,`${purpose}-email-accepted`,user.id).run();
+  await audit(env,actor.id,`${purpose}-${deliveryMode==='email'?'email-accepted':'manual-link-created'}`,user.id).run();
   return deliveryMode==='email'
     ? {ok:true,delivery_mode:'email',email_status:'accepted',recipient,expires_at:expires}
     : {ok:true,delivery_mode:'manual',action_url:link,recipient,subject,expires_at:expires};
@@ -108,6 +111,8 @@ export async function createUser(env,request,actor,body) {
   if(username===primary.username || address===primary.username)throw new HttpError(409,'That identity belongs to the owner.');
   const conflict=await env.DB.prepare('SELECT 1 FROM crm_users WHERE username=? OR email=? UNION ALL SELECT 1 FROM crm_owner_profile WHERE email=? OR pending_email=? LIMIT 1').bind(username,address,address,address).first();
   if(conflict)throw new HttpError(409,'That username or email is already registered.');
+  const reservation=await env.DB.prepare('SELECT 1 FROM crm_email_recipients WHERE pending_username=? AND email<>?').bind(username,address).first();
+  if(reservation)throw new HttpError(409,'That username is reserved by a pending invitation. Choose another username or cancel the held invitation.');
   if(deliveryMode==='email')try { await requireVerifiedRecipient(env,address); }
   catch(error) {
     if(!(error instanceof HttpError) || error.status!==409)throw error;
@@ -115,7 +120,7 @@ export async function createUser(env,request,actor,body) {
     const recipient=await requestEmailRecipient(env,actor,{email:address});
     if(recipient.status!=='verified') {
       const stamp=now();
-      const queued=await env.DB.prepare(`UPDATE OR IGNORE crm_email_recipients SET pending_username=?,pending_role=?,pending_requested_by=?,pending_requested_at=?,updated_at=? WHERE id=? AND email=? RETURNING id`).bind(username,body.role,actor.id,stamp,stamp,recipient.id,address).first();
+      const queued=await env.DB.prepare(`UPDATE OR IGNORE crm_email_recipients SET pending_username=?,pending_role=?,pending_requested_by=?,pending_requested_at=?,updated_at=? WHERE id=? AND email=? AND NOT EXISTS(SELECT 1 FROM crm_users WHERE username=? OR email=?) RETURNING id`).bind(username,body.role,actor.id,stamp,stamp,recipient.id,address,username,address).first();
       if(!queued)throw new HttpError(409,'That username is already reserved by another pending invitation.');
       await audit(env,actor.id,'invite-pending-recipient-verification',recipient.id).run();
       return {ok:true,pending_verification:true,recipient_id:recipient.id};
@@ -124,7 +129,8 @@ export async function createUser(env,request,actor,body) {
   }
   const id=crypto.randomUUID(),stamp=now();
   const result=await env.DB.prepare(`INSERT OR IGNORE INTO crm_users(id,username,email,role,created_at,updated_at) SELECT ?,?,?,?,?,?
-    WHERE NOT EXISTS(SELECT 1 FROM crm_owner_profile WHERE email=? OR pending_email=?) RETURNING id`).bind(id,username,address,body.role,stamp,stamp,address,address).all();
+    WHERE NOT EXISTS(SELECT 1 FROM crm_owner_profile WHERE email=? OR pending_email=?)
+    AND NOT EXISTS(SELECT 1 FROM crm_email_recipients WHERE pending_username=? AND email<>?) RETURNING id`).bind(id,username,address,body.role,stamp,stamp,address,address,username,address).all();
   if(!result.results.length)throw new HttpError(409,'That username or email is already registered.');
   await audit(env,actor.id,'invite-created',id).run();
   return {...await sendAction(env,request,await targetUser(env,id),'invite',actor),id};
@@ -141,6 +147,14 @@ export async function continuePendingInvitation(env,request,actor,recipientId) {
     if(created)await env.DB.prepare('UPDATE crm_email_recipients SET pending_username=NULL,pending_role=NULL,pending_requested_by=NULL,pending_requested_at=NULL,updated_at=? WHERE id=? AND pending_username=?').bind(now(),pending.id,pending.pending_username).run();
     throw error;
   }
+}
+export async function cancelPendingInvitation(env,actor,id) {
+  const results=await env.DB.batch([
+    env.DB.prepare('UPDATE crm_email_recipients SET pending_username=NULL,pending_role=NULL,pending_requested_by=NULL,pending_requested_at=NULL,updated_at=? WHERE id=? RETURNING id').bind(now(),id),
+    env.DB.prepare("INSERT INTO crm_access_audit(id,actor_id,action,target_id,created_at) SELECT ?,?,'pending-invitation-cancelled',id,? FROM crm_email_recipients WHERE id=?").bind(crypto.randomUUID(),actor.id,now(),id)
+  ]);
+  if(!results[0].results.length)throw new HttpError(404,'Recipient request not found.');
+  return {ok:true,invitation_pending:false,provider_recipient_removed:false};
 }
 export async function updateUser(env,actor,id,body) {
   if(id==='owner')throw new HttpError(403,'The original owner cannot be disabled or demoted.');

@@ -4,7 +4,7 @@ import { accountInfo, acknowledgeNotifications, changePassword, exportLeads, not
 import { HttpError, enforceOrigin, json, rateLimit, readJson, requireSession, secureResponse, privacyOptOut, sessionCookie, sessionTokenHash } from './security.js';
 import { addNote, changeStatus, createLead, deleteLead, earliestReportingDate, getLead, listLeads, metrics, recordVisit } from './repository.js';
 import { addWebhook, deleteWebhook, enableWebhook, listWebhooks, processOutbox } from './webhooks.js';
-import { permissions, authorize, loginTeam, listUsers, createUser, continuePendingInvitation, updateUser, inviteOrReset, setOwnerEmail, requestReset, reviewReset, completeAction, memberPassword, memberRevoke } from './team-accounts.js';
+import { permissions, authorize, loginTeam, listUsers, createUser, continuePendingInvitation, cancelPendingInvitation, updateUser, inviteOrReset, setOwnerEmail, requestReset, reviewReset, completeAction, memberPassword, memberRevoke } from './team-accounts.js';
 import { checkEmailRecipient, requestEmailRecipient } from './email-recipients.js';
 import { freeUsage } from './free-usage.js';
 
@@ -14,7 +14,7 @@ export default {
     try { return secureResponse(await route(request, env, ctx, url), url.pathname); }
     catch (error) {
       // Return no database exception text, secrets, submitted details or stack traces.
-      return secureResponse(json({ error: error instanceof HttpError ? error.message : 'The service is temporarily unavailable. Please try again.' }, error instanceof HttpError ? error.status : 503, error.headers || {}), url.pathname);
+      return secureResponse(json({ error: error instanceof HttpError ? error.message : 'The service is temporarily unavailable. Please try again.', ...(error instanceof HttpError && error.code ? {code:error.code} : {}) }, error instanceof HttpError ? error.status : 503, error.headers || {}), url.pathname);
     }
   },
   async scheduled(controller, env, ctx) {
@@ -84,6 +84,8 @@ async function route(request, env, ctx, url) {
       await rateLimit(env,request,'recipient-onboarding',6,900);
       return json(await requestEmailRecipient(env,user,await readJson(request,2048)),201);
     }
+    const cancelInvitationMatch=/^\/api\/admin\/users\/email-recipients\/([a-f0-9-]{36})\/invitation$/.exec(path);
+    if(cancelInvitationMatch && method==='DELETE')return json(await cancelPendingInvitation(env,user,cancelInvitationMatch[1]));
     const recipientMatch=/^\/api\/admin\/users\/email-recipients\/([a-f0-9-]{36})\/check$/.exec(path);
     if (recipientMatch && method==='POST') {
       await rateLimit(env,request,'recipient-onboarding',6,900);

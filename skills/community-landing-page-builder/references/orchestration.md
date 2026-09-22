@@ -1,3 +1,9 @@
+# Persistent guide and native execution
+
+For guided builds, use `guide.py` and the actual `workflow_runner.py` loop described in [guided-workflow.md](guided-workflow.md). They share the native router's persistent task database, while the existing workflow/evidence helpers remain readiness and approval authorities. `workflow.py resume` alone is still an inspector; do not mistake its next-action report for executed work. The runner dispatches, validates, checkpoints and continues until a genuine human action, reconciliation, bounded failure or evidence-backed completion.
+
+The mandatory first-build comparison and improvement loop is described in [control-comparison.md](control-comparison.md). Route a real independent reviewer where supported; otherwise label a separate self-review truthfully. Never omit this stage just because the first draft builds.
+
 # Native orchestration: ChatGPT/Codex and Claude
 
 Version 1.0.0, 22 September 2026. This reference changes execution, not the community skill's scope, quality bar or approval policy. The coordinator must read the full SKILL.md first. The existing copy, image, browser, PDF, backend and release helpers are authoritative.

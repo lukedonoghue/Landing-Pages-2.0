@@ -34,7 +34,42 @@ def load(root):
 def save(root, state):
     workflow_storage.write(root, 'build/workflow.json', state)
 
+def lightweight(root):
+    config = read(root/'funnel.json') if (root/'funnel.json').is_file() else {}
+    return config.get('backend',{}).get('provider') == 'none' and config.get('guided_workflow',{}).get('copy_format') == 'markdown'
+
+def copy_files(root):
+    if lightweight(root):
+        return {'copy':'build/page-copy.md', 'brief':'build/strategy-brief.md',
+                'context':'build/claim-ledger.md', 'review':'build/copy-editorial-review.json',
+                'review_inputs':'build/copy-review-inputs.json'}
+    return COPY_FILES
+
+def business_contract(config):
+    return {key:config.get(key) for key in ['client','brief','audience','search_intent','offer','cta','follow_up_promise','form_fields','brochure_gated','conversion']}
+
 def copy_state(root):
+    configuration = read(root/'funnel.json') if (root/'funnel.json').is_file() else {}
+    if configuration.get('guided_workflow'):
+        try:
+            projection = root/'build/guide-business.json'
+            inputs = read(root/'build/copy-review-inputs.json').get('inputs',{})
+            rows = [v for v in inputs.values() if v.get('path') == 'build/guide-business.json']
+            if read(projection) != business_contract(configuration) or not rows or rows[0].get('sha256') != sha(projection):
+                raise ValueError('Business answers changed. Refresh the actual copy review with build/guide-business.json as a source; hosting-only changes do not alter this projection.')
+        except (OSError,ValueError,KeyError,TypeError) as error:
+            return {'status':'blocked','failures':[str(error)]}
+    if lightweight(root):
+        import copy_acceptance
+        try:
+            result = copy_acceptance.verify(root, root/'build/copy-review-inputs.json', root/'build/copy-editorial-review.json')
+            hashes = {key:sha(root/value) for key,value in copy_files(root).items()}
+            config = read(root/'funnel.json')
+            contract = {key:config.get(key) for key in ['offer','cta','follow_up_promise','audience','search_intent','form_fields','brochure_gated','conversion']}
+            fingerprint = hashlib.sha256(json.dumps({'copy':hashes['copy'],'contract':contract},sort_keys=True).encode()).hexdigest()
+            return {**result,'fingerprint':fingerprint,'input_hashes':hashes}
+        except (OSError,ValueError,KeyError,TypeError) as error:
+            return {'status':'blocked','failures':[str(error)]}
     document_result = process_contract.check_copy_documents(root)
     if document_result['status'] == 'blocked': return document_result
     paths = {key: root / value for key, value in COPY_FILES.items()}
@@ -61,7 +96,7 @@ def check_build(root, allow_fixture=False):
     config = read(root/'funnel.json')
     approval = check_copy_approval(root, allow_fixture) if config.get('approvals',{}).get('copy_before_design') else copy_state(root)
     if approval['status'] == 'blocked': return approval
-    documents = process_contract.check_build_documents(root)
+    documents = {'status':'pass','failures':[]} if lightweight(root) else process_contract.check_build_documents(root)
     if documents['status'] == 'blocked': return documents
     try:
         plan = read(root/'image-plan.json')
@@ -120,8 +155,9 @@ def check_publish_approval(root):
         failures.append('Publication authorization is missing or stale. Reuse the original user message if it explicitly requested publication; otherwise ask once after the local final is ready.')
     return {'status':'blocked' if failures else gates['status'],'source_fingerprint':current,'failures':failures,'warnings':gates.get('warnings',[])}
 
-def record(root, kind, message, message_id, fixture=False, allow_test_lead=False):
+def record(root, kind, message, message_id, fixture=False, allow_test_lead=False, expected_fingerprint=None):
     with workflow_storage.lock(root):
+        if kind not in {'copy', 'publish'}: raise ValueError('Unknown approval kind')
         if not message.strip() or not message_id.strip(): raise ValueError('Record the actual user approval message and its conversation/message reference.')
         if fixture and kind == 'publish': raise ValueError('Fixture approvals can never authorize publishing.')
         if kind == 'copy': current = copy_state(root)
@@ -132,6 +168,8 @@ def record(root, kind, message, message_id, fixture=False, allow_test_lead=False
             current = check_gates.check(root,'handoff',root/'build/gates.json')
         if current['status'] == 'blocked': raise ValueError('; '.join(current['failures']))
         fingerprint = current.get('fingerprint') or current['source_fingerprint']
+        if expected_fingerprint is not None and expected_fingerprint != fingerprint:
+            raise ValueError('The content or destination changed after the user reviewed it')
         state = load(root)
         previous_copy = state.get('approvals',{}).get('copy',{})
         state.setdefault('approvals',{})[kind] = {'actor':'fixture' if fixture else 'user','message':message.strip(),'message_id':message_id.strip(),'approved_at':now(),'fingerprint':fingerprint,'allow_test_lead':bool(kind=='publish' and allow_test_lead)}
