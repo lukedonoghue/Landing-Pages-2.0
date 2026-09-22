@@ -44,6 +44,12 @@ These rules override examples and optional modules.
 
 Do not expand a normal landing-page request into every optional module.
 
+## Native execution and model routing
+
+Before starting, read [references/orchestration.md](references/orchestration.md). Prefer the host's native parallel subagents with task-appropriate model and effort settings. Use the OpenAI profiles in ChatGPT/Codex or the Claude profiles in Claude Code, according to actual session capabilities. No Jev, external model API, new API key, proxy or cross-provider bridge is part of this workflow. When native delegation or model selection is unavailable, execute the same work sequentially with the current model and disclose that limitation instead of simulating subagents.
+
+The coordinator owns the dependency graph, source-bound production contract, artifact reservations and integration. Existing copy-before-layout, imagery, visual/PDF acceptance, optional-module boundaries and publishing authorization remain authoritative. A routing task marked done is not a quality-gate pass or publication permission. Reserve final acceptance for a fresh reviewer when available and truthfully label self-review otherwise. Do not ask the business owner to choose worker models.
+
 ## Default workflow
 
 ### 1. Research autonomously

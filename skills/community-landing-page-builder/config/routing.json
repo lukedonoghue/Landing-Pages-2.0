@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "version": "1.0.0",
+  "verified_on": "2026-09-22",
+  "max_workers": 4,
+  "max_attempts": 3,
+  "providers": {
+    "codex": {
+      "fast": {"model": "gpt-5.6-luna", "effort": "low"},
+      "standard": {"model": "gpt-5.6-terra", "effort": "medium"},
+      "deep": {"model": "gpt-5.6", "effort": "high"},
+      "critical": {"model": "gpt-5.6", "effort": "xhigh"}
+    },
+    "claude": {
+      "fast": {"model": "haiku", "effort": null},
+      "standard": {"model": "sonnet", "effort": "medium"},
+      "deep": {"model": "opus", "effort": "high"},
+      "critical": {"model": "opus", "effort": "high"}
+    }
+  },
+  "roles": {
+    "research": {"agent": "lp-researcher", "tier": "fast", "instruction": "Collect source-linked business facts and source conversion intent. Return uncertainties, not invented proof. No implementation edits."},
+    "brand": {"agent": "lp-brand", "tier": "standard", "instruction": "Extract actual rendered fonts, source brand identity and asset provenance using existing helpers. Do not design the page before copy acceptance."},
+    "copy": {"agent": "lp-copy", "tier": "deep", "instruction": "Own the complete conversion argument, evidence-backed advantage and copy master. Perform the existing editorial acceptance procedure before layout; do not create new human approval requirements."},
+    "assets": {"agent": "lp-assets", "tier": "standard", "instruction": "Source, prepare and review purposeful imagery. Use scripts for derivatives. Preserve independent-original lineage and distinguish illustration from proof. Use only image tools actually available; no API-key dependency."},
+    "frontend": {"agent": "lp-builder", "tier": "standard", "instruction": "Implement the frozen production contract. Preserve exact copy, CTA semantics, source conversion intent, responsive imagery and accessible form states. Never hide required content to pass a measurement."},
+    "pdf": {"agent": "lp-pdf", "tier": "standard", "instruction": "Produce and render the useful PDF from the frozen copy and claims. Inspect every page. Keep owner/QA narration out of buyer content. Do not generate unsupported prices or promises."},
+    "integration": {"agent": "lp-integrator", "tier": "deep", "instruction": "Integrate only selected modules. Reuse the maintained backend and identity verifier. Customize configuration, not authentication/storage/attribution internals. No live writes, DNS changes, paid services or deployment."},
+    "review": {"agent": "lp-reviewer", "tier": "deep", "instruction": "Independently inspect current actual page/PDF pixels, source evidence and functional results. Do not trust builder pass booleans. Return precise findings and retest requirements. Do not edit product files or approve publication."},
+    "debug": {"agent": "lp-debugger", "tier": "critical", "instruction": "Resolve a bounded high-impact or cross-component failure from its task packet, relevant source and failed tests. Preserve public contracts and existing guards. Return the smallest evidenced repair."},
+    "mechanical": {"agent": null, "tier": "mechanical", "instruction": "Run an existing deterministic helper. The coordinator executes it directly; no model call is required for the operation."}
+  }
+}
