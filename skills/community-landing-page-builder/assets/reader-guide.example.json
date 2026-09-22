@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "document_type": "buyer_guide",
+  "workflow_ready": false,
+  "title": "WORKFLOW_TEMPLATE_INCOMPLETE: write a concrete buyer-benefit title",
+  "subtitle": "",
+  "audience": "",
+  "reader_promise": "",
+  "author_task_ids": [],
+  "delivery": {
+    "output": "public/assets/brochure/service-guide.pdf",
+    "thank_you": "public/thank-you.html",
+    "download_label": "Download your guide"
+  },
+  "brand": {
+    "name": "",
+    "logo": "",
+    "phone_display": "",
+    "phone_uri": "",
+    "colors": {}
+  },
+  "sources": [],
+  "images": [],
+  "chapters": [],
+  "checklist": [],
+  "next_step": "",
+  "scope_note": ""
+}

@@ -17,11 +17,17 @@ import install_native as installer
 
 class RoutingTests(unittest.TestCase):
     def cap(self, provider='codex'):
+        profiles = list(nr.policy()['providers'][provider].values())
+        for role in nr.policy()['roles'].values():
+            profiles.extend(role.get('provider_routes', {}).get(provider, []))
+        models = {}
+        for profile in profiles:
+            models.setdefault(profile['model'], [])
+            if profile['effort'] is not None and profile['effort'] not in models[profile['model']]:
+                models[profile['model']].append(profile['effort'])
         return {'provider': provider, 'native_subagents': True, 'model_selection': True,
                 'evidence': 'Synthetic native schema/model picker fixture',
-                'models': {x['model']: [x['effort'] for x in nr.policy()['providers'][provider].values()
-                                      if x['model'] == y['model'] and x['effort'] is not None]
-                           for y in nr.policy()['providers'][provider].values() for x in [y]}}
+                'models': models}
 
     def test_no_capability_defaults_sequential(self):
         for runtime in ['codex', 'claude', 'chat']:
@@ -41,10 +47,19 @@ class RoutingTests(unittest.TestCase):
     def test_claude_profiles(self):
         cap = self.cap('claude')
         self.assertEqual(nr.resolve('frontend', 'claude', capabilities=cap)['model'], 'sonnet')
-        self.assertEqual(nr.resolve('copy', 'claude', capabilities=cap)['model'], 'opus')
+        self.assertEqual(nr.resolve('copy', 'claude', capabilities=cap)['model'], 'sonnet')
+        self.assertEqual(nr.resolve('review', 'claude', capabilities=cap)['model'], 'sonnet')
         result = nr.resolve('research', 'claude', capabilities=cap)
         self.assertEqual(result['model'], 'haiku')
         self.assertIsNone(result['effort'])
+
+    def test_provider_native_copy_and_review_routes(self):
+        codex = self.cap('codex')
+        self.assertEqual(nr.resolve('copy', 'codex', capabilities=codex)['model'], 'gpt-6-astra')
+        self.assertEqual(nr.resolve('review', 'codex', capabilities=codex)['model'], 'gpt-5.6-sol')
+        claude = self.cap('claude')
+        self.assertEqual(nr.resolve('copy', 'claude', capabilities=claude)['model'], 'sonnet')
+        self.assertEqual(nr.resolve('review', 'claude', capabilities=claude)['model'], 'sonnet')
 
     def test_no_cross_provider_routing(self):
         result = nr.resolve('copy', 'codex', capabilities=self.cap('claude'))
@@ -363,10 +378,13 @@ class InstallationTests(unittest.TestCase):
         front=text.split('---')[1]
         self.assertIn('model: haiku',front); self.assertNotIn('effort:',front)
 
-    def test_claude_sonnet_opus_effort(self):
+    def test_claude_copy_and_review_stay_on_sonnet(self):
         files=installer.render('claude')
         self.assertIn('effort: medium',files['.claude/agents/lp-builder.md'].decode())
         self.assertIn('effort: high',files['.claude/agents/lp-reviewer.md'].decode())
+        self.assertIn('model: sonnet',files['.claude/agents/lp-copy.md'].decode())
+        self.assertIn('model: sonnet',files['.claude/agents/lp-reviewer.md'].decode())
+        self.assertIn('model: sonnet',files['.claude/agents/lp-reviewer-critical.md'].decode())
 
     def test_no_auth_or_provider_override(self):
         text='\n'.join(d.decode() for d in installer.render().values())

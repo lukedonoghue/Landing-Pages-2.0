@@ -1,4 +1,10 @@
 {
+  "workflow_ready": false,
+  "delivery": {
+    "output": "public/assets/brochure/service-guide.pdf",
+    "thank_you": "public/thank-you.html",
+    "download_label": "Download your service guide"
+  },
   "include_contents": true,
   "brand": {
     "name": "Example Land Services",

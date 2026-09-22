@@ -1,5 +1,7 @@
 # Community Landing Page Builder Decision Record
 
+2026-09-22 superseding product default: future form-led pages include the bundled Cloudflare Workers + D1 CRM locally by default. External integrations and deployment remain optional, and non-form/static-only journeys remain supported. The older checklist below is retained as historical decision context.
+
 2026-09-20 amendment: the user superseded the original no-image-quota decision below. Complete landing pages now require at least four distinct relevant content images, normally five to ten selected from research. Logos, icons and repeated crops do not count. Relevance and truth remain mandatory. This does not resolve the separate pending question about brochure versus page-capture PDFs.
 
 ## Goal

@@ -104,6 +104,11 @@ jobs:
           node-version: '24'
           cache: npm
           cache-dependency-path: skills/community-landing-page-builder/assets/cloudflare/package-lock.json
+      - name: Install PDF integration prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y poppler-utils
+          python -m pip install -r ../../requirements-build.txt
       - name: Install locked dependencies
         run: npm ci
       - name: Reject high-severity application-tool dependencies
@@ -140,5 +145,6 @@ jobs:
           path: |
             skills/community-landing-page-builder/assets/cloudflare/community-node-results.tap
             skills/community-landing-page-builder/assets/cloudflare/build/guide-ui-review/
+            skills/community-landing-page-builder/assets/cloudflare/build/reader-delivery-review/
           if-no-files-found: ignore
           retention-days: 14

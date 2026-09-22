@@ -4,7 +4,7 @@
 
 ## Implemented
 
-- Provider-neutral role/tier policy; OpenAI and Claude native profiles generated from it.
+- Provider-native role policy with generated OpenAI and Claude profiles. Codex uses GPT-6 Astra for primary copy and GPT-5.6 Sol for copy review; Claude uses separate Sonnet contexts for both passes.
 - Specialist defaults, matching escalation profiles and genuinely inherited fallback profiles. A fallback never selects a hard-coded smaller specialist merely because the reported model changed.
 - Capability-aware routing, four-worker ceiling, no model API client, no Jev, no credentials or global sign-in changes.
 - Project-local task DAG with atomic SQLite reservations, dependency checks, input/output hashes, read/write exclusion, named resource slots, three-attempt budget and explicit stopped-worker recovery.

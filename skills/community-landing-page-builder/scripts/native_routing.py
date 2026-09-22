@@ -40,6 +40,18 @@ def policy():
         raise RoutingError("Unsupported routing policy version")
     return value
 
+
+def role_routes(item, provider):
+    routes = item.get("provider_routes", {}).get(provider, [])
+    if not isinstance(routes, list):
+        raise RoutingError("Role provider routes must be an ordered list")
+    for route in routes:
+        if not isinstance(route, dict) or not isinstance(route.get("model"), str):
+            raise RoutingError("Invalid role provider route")
+        if route.get("effort") is not None and not isinstance(route.get("effort"), str):
+            raise RoutingError("Invalid role provider effort")
+    return routes
+
 def relative(value):
     if not isinstance(value, str) or not value or "\\" in value or ":" in value:
         raise RoutingError("Use nonempty project-relative POSIX paths")
@@ -130,11 +142,14 @@ def resolve(role, provider="chat", *, attempt=1, capabilities=None, high_risk=Fa
     if capabilities.get("model_selection") is not True:
         result["reason"] = "Native delegation available; model/effort inherit and remain unverified"
         return result
-    requested = p["providers"][provider][tier]
+    routed = role_routes(item, provider)
+    requested = routed[0] if routed else p["providers"][provider][tier]
     available = capabilities.get("models", {})
     if not isinstance(available, dict):
         raise RoutingError("capabilities.models must map model names to supported effort lists")
-    candidates = [(t, p["providers"][provider][t]) for t in TIERS[TIERS.index(tier):]]
+    candidates = [(tier, candidate) for candidate in routed] if routed else [
+        (t, p["providers"][provider][t]) for t in TIERS[TIERS.index(tier):]
+    ]
     for selected_tier, candidate in candidates:
         model, effort = candidate["model"], candidate["effort"]
         if model not in available:
@@ -144,7 +159,9 @@ def resolve(role, provider="chat", *, attempt=1, capabilities=None, high_risk=Fa
             raise RoutingError("Supported efforts must be a list")
         if effort is not None and effort not in supported:
             continue
-        if role == "review":
+        if routed:
+            agent = item["agent"]
+        elif role == "review":
             agent = "lp-reviewer-critical" if selected_tier == "critical" else item["agent"]
         elif selected_tier == item["tier"]:
             agent = item["agent"]

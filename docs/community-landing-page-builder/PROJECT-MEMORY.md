@@ -1,13 +1,15 @@
 # Project Resume Memory
 
-Updated 2026-09-21. This is durable local/Git project memory, not account-wide ChatGPT memory.
+Updated 2026-09-22. This is durable local/Git project memory, not account-wide ChatGPT memory.
 
 ## Boundaries
 
 - Modify only the community fork. Never overwrite Luke's original skill or README-BOHDAN.md.
 - Current release branch: push only `HEAD:refs/heads/community-skill` to origin, `https://github.com/lukedonoghue/Landing-Pages-2.0.git`. Local branch main is not permission to push remote main. Older branch instructions later in this chronology are superseded.
 - Preserve unrelated dirty files. Stage only skills/community-landing-page-builder and docs/community-landing-page-builder.
-- Remaining implementation, testing and Cloudflare work: GPT-5.6 Sol extra-high. Astra orchestrates/reviews. Existing Sol agent ID: 01a0c2b8-aa54-7dc0-abcd-e1fbf6c9545c.
+- Active model policy: stay on the provider hosting the task. In Codex/ChatGPT prefer GPT-6 Astra for primary copy and GPT-5.6 Sol for a fresh editorial review; in Claude use Sonnet for both passes in separate contexts. Fall back only within the active provider and record the actual model. Do not route ordinary copy work to Claude/Opus from Codex or to OpenAI from Claude. Existing historical run identities below remain evidence, not routing instructions.
+- New explicit product requirement on 2026-09-22: a form-led landing page defaults to the bundled Cloudflare Workers + D1 CRM. Do not ask the owner to choose a CRM, Google Sheet, GTM IDs or custom domain before the built-in local page-to-CRM journey works. External integrations remain optional. Static-only is an explicit opt-out or a non-form journey, not the default for enquiry forms. This supersedes the earlier page-first/CRM-later default for future form-led builds; historical acceptance records remain unchanged.
+- PDF delivery requirement on 2026-09-22: guide generation is a named build stage. New projects include `build/guide.json`, portable PDF/font helpers and matching thank-you `data-guide-embed` and `data-guide-download` actions. `scripts/build_guide.py` must generate, render, text-check and delivery-check the served PDF before final QA. A source-supported explicit omission remains possible; the agent must not ask the owner to supply a PDF merely because generation was skipped.
 - Workers Free confirmed by user. No paid upgrades. Preserve the current DNS provider and change only explicitly authorized subdomain records. The verified Netbean gateway uses external-DNS CNAMEs; workers.dev remains a supported fallback. No real-business mail or synthetic claims of inbox delivery.
 - Browser tests use managed Chromium, never personal Chrome profiles. If Cloudflare OAuth expires, use the computer's system browser with one live callback listener.
 - Check usage periodically; save source, evidence, remaining tests and this memory, then push before 5% remaining. Latest checkpoint read 10% remaining. Never redeem a reset without permission.

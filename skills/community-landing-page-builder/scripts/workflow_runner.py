@@ -33,7 +33,7 @@ from runtime_context import skill_root
 SKILL=skill_root(__file__)
 JOURNAL='.secrets/runner-apply.json'
 FORBIDDEN={'build/guide-business.json','build/workflow.json','build/guide-state.json','build/progress.json','build/static-release.json','build/setup-authorization.json'}
-BUILD_OUTPUTS=('build/discovery.json','build/strategy-brief.md','build/claim-ledger.md','build/page-copy.md','build/page-copy.json',
+BUILD_OUTPUTS=('build/guide.json','build/guide-build.json','build/guide-review.json','build/guide-review-history','build/guide-pages','build/guide-text.txt','build/thank-you.json','build/thank-you-build.json','build/discovery.json','build/strategy-brief.md','build/claim-ledger.md','build/page-copy.md','build/page-copy.json',
     'build/client-copy-brief.json','build/copy-context.json','build/copy-editorial-review.json','build/copy-review-inputs.json',
     'build/page-structure.json','build/reference-fidelity.json','build/brand.json','build/image', 'build/layout','build/pdf','build/catalogue',
     'build/visual','build/performance','build/browser','build/copy','build/rendered-copy','build/control-review','build/qa',
@@ -237,10 +237,11 @@ def native_execute(root, work, provider, route, beat):
         if receipt.get('status') not in {'done','blocked','failed'} or not isinstance(receipt.get('summary'),str) or not receipt['summary'].strip():
             raise ValueError('Malformed native task receipt')
         after=files(staged);changes={p for p in set(initial)|set(after) if initial.get(p)!=after.get(p)}
-        preserved={p for p in initial if p.startswith('build/control-review/') and (p.endswith('/baseline.json') or p.endswith('/reference.json') or p.endswith('/comparison.json') or Path(p).name.startswith('initial-'))}
+        preserved={p for p in initial if p.startswith('build/guide-review-history/') or p.startswith('build/control-review/') and (p.endswith('/baseline.json') or p.endswith('/reference.json') or p.endswith('/comparison.json') or Path(p).name.startswith('initial-'))}
         if changes.intersection(preserved):raise ValueError('Worker attempted to rewrite the preserved initial review/checklist')
         if work['stage'] in {'control_comparison','control_retest'} and any(not p.startswith('build/control-review/') for p in changes):
             raise ValueError('Comparison/retest may record findings, not edit the page being reviewed')
+        if work['stage']=='guide_review' and any(p != 'build/guide-review.json' for p in changes):raise ValueError('Guide review records actual findings; the separate repair task changes the output')
         if any(not allowed(p) for p in changes):raise ValueError('Worker changed protected configuration/tooling. No patch was applied.')
         if any(p not in after for p in changes):raise ValueError('Worker attempted to delete artifacts. Preserve them and use a deliberate coordinator change.')
         current=files(root)

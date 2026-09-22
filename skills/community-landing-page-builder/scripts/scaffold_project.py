@@ -67,11 +67,12 @@ def main() -> int:
         path = root / relative
         path.mkdir(parents=True, exist_ok=True)
 
+    reader_guide = not (args.static_only and not args.profile)
     web_root = root if args.static_only and not args.profile else root / "public"
     web_root.mkdir(parents=True, exist_ok=True)
     config = {
         "schema_version": 3,
-        "quality": {"complete_workflow": True, "contract_version": 2, "control_review": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
+        "quality": {"complete_workflow": True, "contract_version": 2, "reader_guide_version": 1 if reader_guide else 0, "control_review": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
         "approvals": {"copy_before_design": False},
         "images": {"enabled": True, "preferred_model": None, "max_generated_assets": 3, "max_attempts_per_asset": 2},
         "client": {
@@ -88,7 +89,9 @@ def main() -> int:
         "offer": "",
         "cta": "",
         "follow_up_promise": "",
-        "brochure_gated": False,
+        "brochure_gated": True,
+        "catalogue": {"enabled": True, "config": "build/guide.json", "output": "public/assets/brochure/service-guide.pdf"},
+        "product_mode": "static-only" if args.static_only else "form-crm",
         "form_fields": json.loads((skill_root / "assets/cloudflare/src/site-config.json").read_text())["formFields"] if not args.static_only else [],
         "webhook_url": "" if args.static_only else "/api/leads",
         "backend": {"provider": "none" if args.static_only else "cloudflare-d1", "response_contract": "receipt-v1"},
@@ -132,6 +135,15 @@ def main() -> int:
     if write_if_missing(root / "build" / "reference-fidelity.json", json.dumps(fidelity, indent=2) + "\n"):
         created.append("build/reference-fidelity.json")
 
+    guide = json.loads((skill_root / "assets" / ("reader-guide.example.json" if reader_guide else "catalogue.example.json")).read_text())
+    guide["brand"]["name"] = args.client or "Your business"
+    if write_if_missing(root / "build" / "guide.json", json.dumps(guide, indent=2) + "\n"):
+        created.append("build/guide.json")
+
+    confirmation = {"schema_version": 1, "main_page": "public/index.html", "output": "public/thank-you.html", "confirmed_headline": "", "follow_up": "", "guide_title": "", "guide_summary": "", "download_label": "Download your guide"}
+    if write_if_missing(root / "build" / "thank-you.json", json.dumps(confirmation, indent=2) + "\n"):
+        created.append("build/thank-you.json")
+
     if not args.static_only:
         template = skill_root / "assets" / "cloudflare"
         excluded = {"node_modules", ".wrangler", ".secrets", ".git", ".venv", ".development", "build", "screenshots", "__pycache__"}
@@ -165,6 +177,8 @@ def main() -> int:
 
 Your public page, brochure, admin CRM, API, leads and visitor/conversion records are published together on Cloudflare. Workers serves the application and D1 stores the data. GitHub, Supabase, Netlify and a separate analytics account are not required.
 
+The form already uses this built-in CRM. You do not need to choose an external CRM, create a Google Sheet, supply GTM or configure advertising conversions before the page can collect leads. Those are optional later connections.
+
 ## Resume work
 
 Ask the agent to run `python3 scripts/workflow.py resume .` and continue from the reported evidence and next action. This reuses existing valid local checks; it does not publish or create a new image request. An uncertain external operation must be inspected before any retry.
@@ -173,13 +187,15 @@ Ask the agent to run `python3 scripts/workflow.py resume .` and continue from th
 
 Use Node.js 22.19+, run `npm ci`, `npm run setup`, then `npm run dev`. Marketing files live in public/. Finish client configuration, browser testing and visual review before publishing. The local admin password is in .secrets/local-admin-password.txt.
 
+Complete `build/guide.json` from the researched client facts, set `workflow_ready` to `true`, and run `python3 scripts/build_guide.py .`. Read references/reader-guide-quality.md. This builds the researched, illustrated guide and its real cover preview. Complete build/thank-you.json and run `python3 scripts/thank_you_page.py .` to reuse the main page with a post-submission hero. Record the actual all-page reader review, then run `python3 scripts/build_guide.py . --check`. A missing, placeholder, unrendered or undelivered guide blocks final QA unless `funnel.json` records a source-supported catalogue omission.
+
 ## Publish to Cloudflare
 
-Tell the agent: “Publish this funnel to Cloudflare.” It handles the setup and publishing commands for you. Connect Cloudflare once if needed and provide the intended account/domain; a workers.dev address can be used before a custom domain is ready.
+Tell the agent: “Publish this funnel to Cloudflare.” It handles the setup and publishing commands for you. Connect Cloudflare once if needed. A workers.dev address is the default; a custom domain can be connected later.
 
 After the complete local final, the agent reuses your existing explicit setup/publishing instruction and runs `npm run setup -- --cloudflare --site <site-name> --account-id <account-id> --admin-username <owner> --authorization-file <private-message-file> --authorization-message-id <conversation/message-reference>` (plus `--domain leads.example.com` if chosen), refreshes evidence for that configuration, records the same real publication instruction with `workflow.py authorize-publish`, then runs `npm run publish`. If the initial request did not include publishing, the agent asks once at this stage. This provisions/binds the D1 database, applies schema migrations, sets up admin access and publishes the page, CRM and API to the same Cloudflare account. Production uses its own generated password. A controlled live test lead is submitted only when separately authorized. The agent then verifies the live page, admin, lead receipt and reporting.
 
-The first account connection and domain ownership cannot be skipped. After those are configured, publication is one guided action; the user does not have to operate several hosting/database products.
+The first account connection cannot be skipped. Custom-domain ownership matters only when a custom domain is selected. After account connection, publication is one guided action; the user does not have to operate several hosting/database products.
 
 ## Optional source backup
 
@@ -187,6 +203,23 @@ Use GitHub only if requested. `npm run github -- --repo owner/repository` is an 
 
 Never share .secrets/, .dev.vars or local .wrangler data. Production admin access is handed over separately from source files.
 """)
+
+    # PDF delivery is part of every ordinary page build, including explicit
+    # static-only projects. CRM/runtime helpers remain conditional above.
+    for name in ("build_catalogue.py", "build_guide.py", "build_reader_guide.py", "guide_quality.py", "thank_you_page.py", "runtime_context.py", "render_catalogue_cover.py"):
+        source = skill_root / "scripts" / name
+        target = root / "scripts" / name
+        if source.exists() and not target.exists():
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
+            created.append("scripts/" + name)
+    font_source = skill_root / "assets" / "pdf-fonts"
+    font_target = root / "assets" / "pdf-fonts"
+    for source in sorted(font_source.glob("*")):
+        if source.is_file() and not (font_target / source.name).exists():
+            font_target.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, font_target / source.name)
+            created.append("assets/pdf-fonts/" + source.name)
 
     # Carry the complete instruction/reference/template context outside public.
     if not args.static_only or args.profile:

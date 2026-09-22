@@ -42,6 +42,8 @@ python3 scripts/copy_library.py search 'brochure quote home improvement'
 
 ## Writer prompt
 
+Select the writer and reviewer through [platform-native model routing](model-routing.md). Do not invoke a cross-provider CLI or require another provider's credentials for this phase. On Codex/ChatGPT prefer `gpt-6-astra` for writing and `gpt-5.6-sol` for the separate review; on Claude use Sonnet for both passes in separate contexts. Record the models that actually ran.
+
 Read the leading advantage and ranked supporting reasons from the existing strategy brief. Apply the two bounded passes in `copy-and-structure.md` within this writer/reviewer workflow, not as additional review rounds. Write copy before layout. The brief's `buyer_job` and claim references can carry this positioning; no new mandatory schema fields are needed.
 
 Use the following task framing with the current context and research documents. It can be executed by the current writing agent or the configured copy model; creating a prompt file does not count as executing it.

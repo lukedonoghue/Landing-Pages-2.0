@@ -1,5 +1,7 @@
 # Blue Mountain Mesh: automatic first-build comparison and improvement
 
+For new `reader_guide_version: 1` builds, [reader-guide-quality.md](reader-guide-quality.md) is the current PDF and full thank-you contract. Build the researched image-led guide, derive the confirmation from the actual main page, inspect all PDF pages and both confirmation states, repair findings and refresh evidence. The legacy catalogue procedure below remains applicable only to its older format. Do not accept an image-free generic PDF or an unrelated success box as a final new build.
+
 This is a required post-build loop, not another optional scorecard. The first draft is not the final deliverable. Execute after initial implementation, before final owner presentation, in guided and automatic new builds. Reuse existing claim/copy/image/visual gates.
 
 ## The control and what transfers

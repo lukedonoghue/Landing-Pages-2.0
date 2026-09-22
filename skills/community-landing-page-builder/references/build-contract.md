@@ -16,7 +16,7 @@ assets/
 build/
 ```
 
-Add `thank-you.html` only when the selected journey needs a separate success page. Include a useful PDF and working local download unless the researched omission rule applies. Add backend, CRM, tracking, publishing, or handoff files only when that module is active. Use a framework only when the existing project or user requires one.
+Add `thank-you.html` only when the selected journey needs a separate success page. Include a useful PDF and working local download unless the researched omission rule applies. A form-led journey activates the bundled backend and CRM by default; use the non-static scaffold and keep its public page, admin, API and D1 contract together. Tracking, external CRM/Sheets synchronization, publishing and handoff files remain stage- or request-dependent. Use a framework only when the existing project or user requires one.
 
 ## Responsive page
 
@@ -92,7 +92,7 @@ Each summary link must reveal and focus its usable control. For a radio group, f
 
 Persistent form actions must not cover fields reached by keyboard. Prefer a separate action row outside the scrolling field region; if using an overlapping sticky bar, reserve its actual height in the scroll layout and scroll padding. Tab through the form normally at mobile and short-height sizes. A visible submit button and a visible failure message do not prove the intervening inputs remain visible.
 
-When production form wiring is pending, still build and test the complete form-first experience. Use an isolated local receiver or test adapter for synthetic QA when available, or keep production submission disabled and label the result `local preview`. Never submit to an existing live endpoint without authorization. Never show a production success state merely because a local timer, navigation, or ignored network response completed.
+When production form wiring is pending, still build and test the complete form-first experience. The default local receiver is the bundled Worker + D1 CRM; use its real receipt contract and authenticated local admin rather than inventing a timer, mailto, spreadsheet or ignored network response. Use another isolated adapter only for an explicit alternate destination. Never submit to an existing live endpoint without authorization. Never show a production success state merely because a local timer, navigation, or ignored network response completed.
 
 For a disconnected preview, use plain visitor wording such as `This preview does not send details. Your entries are still here.` The error and success states remain visitor-facing even when the owner is testing them. Put provider names, endpoints and instructions to connect, configure or replace anything only in the owner handoff, never in those states.
 
@@ -132,4 +132,4 @@ Tracking is optional. Preserve only the approved attribution allowlist through t
 
 For new builds, set `privacy.consent_ui` explicitly. Use `external` when an external consent provider will control optional tracking, and invoke `LeadFunnel.setConsent(...)` only from that provider's current-page signal; a stale stored choice must not activate tags while the provider is pending. Use `disabled` only when optional analytics, advertising, and customer-data matching are disabled; this suppresses the built-in choices UI and does not grant consent. Preserve GPC/DNT opt-outs. Do not build a custom consent banner or assume that a visitor's jurisdiction removes privacy obligations.
 
-If no backend or tracking destination is configured, say so in the QA summary. A form-first page without a confirmed production destination may be a complete `local preview`, but it is not a live lead path. A local receiver may support a `local final` when the full synthetic form journey is verified and the external limitation is explicit.
+If no backend is configured on a form-led page, treat that as an incomplete default build unless the user explicitly selected static-only. A locally verified bundled Worker/D1/CRM journey may support a `local final`; publication still determines whether it is a live lead path. Optional tracking destinations are separate and do not block the built-in CRM.

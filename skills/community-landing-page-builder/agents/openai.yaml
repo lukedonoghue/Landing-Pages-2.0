@@ -1,4 +1,4 @@
 interface:
   display_name: "Community Landing Page Builder"
-  short_description: "Build and verify a branded lead page"
-  default_prompt: "Use $community-landing-page-builder to research my business website and autonomously build a polished local landing page with an honest conversion path, purposeful imagery, and responsive visual QA; ask me only about facts that truly block the result."
+  short_description: "Build a lead page with its own CRM"
+  default_prompt: "Use $community-landing-page-builder to research my business website and autonomously build a polished landing page with an honest conversion path, a researched PDF guide delivered on the thank-you page, purposeful imagery, responsive visual QA, and the built-in Cloudflare Free CRM when the page collects enquiries; ask me only about facts that truly block the result."
