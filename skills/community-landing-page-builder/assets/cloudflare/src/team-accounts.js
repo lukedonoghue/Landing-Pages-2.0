@@ -1,4 +1,5 @@
 import { HttpError, adminCredentials, cleanText, hashPassword, hmac, json, randomToken, sessionCookie, sessionTokenHash, verifyPassword } from './security.js';
+import { accountDeliveryMode, emailConfigured, listEmailRecipients, recipientOnboardingConfigured, requestEmailRecipient, requireVerifiedRecipient } from './email-recipients.js';
 
 const now = () => new Date().toISOString();
 const seconds = () => Math.floor(Date.now()/1000);
@@ -20,18 +21,13 @@ function email(value) {
   if (!/^[^\s<>@]+@[^\s<>@]+\.[^\s<>@]+$/.test(result)) throw new HttpError(400,'Enter a valid email address.');
   return result;
 }
-function verifiedRecipients(env) {
-  try { const values=JSON.parse(env.CRM_VERIFIED_RECIPIENTS || '[]'); return Array.isArray(values)?values.filter(v=>typeof v==='string').map(v=>v.trim().toLowerCase()):[]; } catch { return []; }
-}
-function requireVerifiedRecipient(env, recipient) {
-  if(!verifiedRecipients(env).includes(recipient))throw new HttpError(409,'Cloudflare Free requires this recipient to be verified first. Ask the account owner to complete email verification and add it to the restricted sender configuration, then retry.');
-}
-export function emailConfigured(env) { return !!(env.EMAIL?.send && typeof env.CRM_EMAIL_FROM==='string' && env.CRM_EMAIL_FROM.includes('@') && env.CRM_PUBLIC_ORIGIN && verifiedRecipients(env).length); }
 function emailReady(env, request) {
-  if (!emailConfigured(env)) throw new HttpError(503,'Free-plan account email is not configured. Connect a verified Cloudflare sender and verify the recipient addresses first.');
-  let origin; try { origin = new URL(env.CRM_PUBLIC_ORIGIN); } catch { throw new HttpError(503,'Account email origin is not configured.'); }
-  if (origin.protocol!=='https:' || origin.origin!==new URL(request.url).origin || origin.pathname!=='/' || origin.search || origin.hash) throw new HttpError(503,'Account email origin does not match this CRM.');
-  return origin.origin;
+  const deliveryMode=accountDeliveryMode(env,request);
+  if(deliveryMode==='unavailable')throw new HttpError(503,'Account actions are not configured. Set the public CRM origin first.');
+  const configured = typeof env.CRM_PUBLIC_ORIGIN === 'string' ? env.CRM_PUBLIC_ORIGIN.trim() : '';
+  let origin; try { origin = configured ? new URL(configured) : new URL(`${new URL(request.url).origin}/`); } catch { throw new HttpError(503,'Account action origin is not configured.'); }
+  if (origin.protocol!=='https:' || origin.origin!==new URL(request.url).origin || origin.pathname!=='/' || origin.search || origin.hash) throw new HttpError(503,'Account action origin does not match this CRM.');
+  return {origin:origin.origin,deliveryMode};
 }
 function audit(env, actor, action, target) { return env.DB.prepare('INSERT INTO crm_access_audit(id,actor_id,action,target_id,created_at) VALUES(?,?,?,?,?)').bind(crypto.randomUUID(),actor,action,target,now()); }
 async function owner(env) {
@@ -64,15 +60,18 @@ export async function loginTeam(env,request,body) {
   if(!saved[0].results.length)throw new HttpError(401,'Credentials changed. Please sign in again.');
   return json({authenticated:true},200,{'Set-Cookie':sessionCookie(request,token)});
 }
-export async function listUsers(env) {
+export async function listUsers(env,request) {
   const primary=await owner(env);
-  const users=await env.DB.prepare(`SELECT ${publicColumns} FROM crm_users ORDER BY created_at,id`).all();
-  const requests=await env.DB.prepare(`SELECT r.id,r.user_id,r.status,r.delivery_state,r.attempts,r.created_at,u.username,u.email FROM crm_reset_requests r LEFT JOIN crm_users u ON u.id=r.user_id WHERE r.status='pending' ORDER BY r.created_at`).all();
-  return {email_configured:emailConfigured(env),users:[{id:'owner',username:primary.username,email:primary.email || '',role:'admin',status:'active',email_verified_at:primary.email_verified_at},...users.results],requests:requests.results.map(r=>r.user_id==='owner'?{...r,username:primary.username,email:primary.email}:r)};
+  const [users,requests,recipients]=await Promise.all([
+    env.DB.prepare(`SELECT ${publicColumns} FROM crm_users ORDER BY created_at,id`).all(),
+    env.DB.prepare(`SELECT r.id,r.user_id,r.status,r.delivery_state,r.attempts,r.created_at,u.username,u.email FROM crm_reset_requests r LEFT JOIN crm_users u ON u.id=r.user_id WHERE r.status='pending' ORDER BY r.created_at`).all(),
+    listEmailRecipients(env)
+  ]);
+  return {email_configured:emailConfigured(env),account_delivery_mode:accountDeliveryMode(env,request),recipient_onboarding_configured:recipientOnboardingConfigured(env),recipients,users:[{id:'owner',username:primary.username,email:primary.email || '',role:'admin',status:'active',email_verified_at:primary.email_verified_at},...users.results],requests:requests.results.map(r=>r.user_id==='owner'?{...r,username:primary.username,email:primary.email}:r)};
 }
 async function sendAction(env,request,user,purpose,actor,override={}) {
-  const origin=emailReady(env,request),recipient=override.email || user.email;
-  requireVerifiedRecipient(env,recipient);
+  const {origin,deliveryMode}=emailReady(env,request),recipient=override.email || user.email;
+  if(deliveryMode==='email')await requireVerifiedRecipient(env,recipient);
   if(!recipient || (purpose==='reset' && !user.email_verified_at))throw new HttpError(409,'The account needs a confirmed registered email first.');
   if(user.status==='disabled')throw new HttpError(409,'This account is disabled.');
   const id=crypto.randomUUID(),token=randomToken(),hash=await hmac(env.SESSION_SECRET,`account-action:${token}`);
@@ -80,11 +79,13 @@ async function sendAction(env,request,user,purpose,actor,override={}) {
   await env.DB.prepare('INSERT INTO crm_account_actions(id,token_hash,user_id,email,purpose,expected_version,expires_at,created_at,approved_by,reset_request_id) VALUES(?,?,?,?,?,?,?,?,?,?)').bind(id,hash,user.id,recipient,purpose,version,expires,now(),actor.id,override.resetRequestId || null).run();
   const link=`${origin}/account-action.html#token=${token}&purpose=${purpose}`;
   const subject=purpose==='invite'?'Your CRM invitation':purpose==='reset'?'Your approved CRM password reset':'Confirm your CRM email';
-  try {
-    await env.EMAIL.send({from:env.CRM_EMAIL_FROM,to:recipient,subject,text:`${subject}\n\nOpen this single-use link to continue:\n${link}\n\nThis link expires in ${purpose==='reset'?'one hour':'24 hours'}. If you did not expect this message, contact your CRM administrator. No password is included in this email.`});
-  } catch {
-    await env.DB.prepare("UPDATE crm_account_actions SET state='failed' WHERE id=? AND state='sending'").bind(id).run();
-    throw new HttpError(503,'The email provider did not confirm sending. No account was activated. Retry from Users.');
+  if(deliveryMode==='email'){
+    try {
+      await env.EMAIL.send({from:env.CRM_EMAIL_FROM,to:recipient,subject,text:`${subject}\n\nOpen this single-use link to continue:\n${link}\n\nThis link expires in ${purpose==='reset'?'one hour':'24 hours'}. If you did not expect this message, contact your CRM administrator. No password is included in this email.`});
+    } catch {
+      await env.DB.prepare("UPDATE crm_account_actions SET state='failed' WHERE id=? AND state='sending'").bind(id).run();
+      throw new HttpError(503,'The email provider did not confirm sending. No account was activated. Retry from Users.');
+    }
   }
   const accepted=override.resetRequestId
     ? await env.DB.prepare("UPDATE crm_account_actions SET state='ready' WHERE id=? AND state='sending' AND EXISTS(SELECT 1 FROM crm_reset_requests WHERE id=? AND status='pending' AND delivery_state='sending' AND claim_token=?) RETURNING id").bind(id,override.resetRequestId,override.resetClaim).first()
@@ -94,22 +95,52 @@ async function sendAction(env,request,user,purpose,actor,override={}) {
     throw new HttpError(409,'This email was superseded by a newer account action. Use the latest message.');
   }
   await audit(env,actor.id,`${purpose}-email-accepted`,user.id).run();
-  return {ok:true,email_status:'accepted',expires_at:expires};
+  return deliveryMode==='email'
+    ? {ok:true,delivery_mode:'email',email_status:'accepted',recipient,expires_at:expires}
+    : {ok:true,delivery_mode:'manual',action_url:link,recipient,subject,expires_at:expires};
 }
 export async function createUser(env,request,actor,body) {
-  emailReady(env,request);
+  const {deliveryMode}=emailReady(env,request);
   const username=cleanText(body.username,80,'Username',true).toLowerCase(),address=email(body.email);
-  requireVerifiedRecipient(env,address);
   if(!/^[a-z0-9][a-z0-9._-]{2,79}$/.test(username))throw new HttpError(400,'Use 3 to 80 letters, numbers, dots, underscores or hyphens for the username.');
   if(!roles.has(body.role))throw new HttpError(400,'Choose Admin, Manager or View-only.');
   const primary=await adminCredentials(env);
   if(username===primary.username || address===primary.username)throw new HttpError(409,'That identity belongs to the owner.');
+  const conflict=await env.DB.prepare('SELECT 1 FROM crm_users WHERE username=? OR email=? UNION ALL SELECT 1 FROM crm_owner_profile WHERE email=? OR pending_email=? LIMIT 1').bind(username,address,address,address).first();
+  if(conflict)throw new HttpError(409,'That username or email is already registered.');
+  if(deliveryMode==='email')try { await requireVerifiedRecipient(env,address); }
+  catch(error) {
+    if(!(error instanceof HttpError) || error.status!==409)throw error;
+    if(!recipientOnboardingConfigured(env))throw error;
+    const recipient=await requestEmailRecipient(env,actor,{email:address});
+    if(recipient.status!=='verified') {
+      const stamp=now();
+      const queued=await env.DB.prepare(`UPDATE OR IGNORE crm_email_recipients SET pending_username=?,pending_role=?,pending_requested_by=?,pending_requested_at=?,updated_at=? WHERE id=? AND email=? RETURNING id`).bind(username,body.role,actor.id,stamp,stamp,recipient.id,address).first();
+      if(!queued)throw new HttpError(409,'That username is already reserved by another pending invitation.');
+      await audit(env,actor.id,'invite-pending-recipient-verification',recipient.id).run();
+      return {ok:true,pending_verification:true,recipient_id:recipient.id};
+    }
+    await requireVerifiedRecipient(env,address);
+  }
   const id=crypto.randomUUID(),stamp=now();
   const result=await env.DB.prepare(`INSERT OR IGNORE INTO crm_users(id,username,email,role,created_at,updated_at) SELECT ?,?,?,?,?,?
     WHERE NOT EXISTS(SELECT 1 FROM crm_owner_profile WHERE email=? OR pending_email=?) RETURNING id`).bind(id,username,address,body.role,stamp,stamp,address,address).all();
   if(!result.results.length)throw new HttpError(409,'That username or email is already registered.');
   await audit(env,actor.id,'invite-created',id).run();
   return {...await sendAction(env,request,await targetUser(env,id),'invite',actor),id};
+}
+export async function continuePendingInvitation(env,request,actor,recipientId) {
+  const pending=await env.DB.prepare('SELECT id,email,pending_username,pending_role FROM crm_email_recipients WHERE id=?').bind(recipientId).first();
+  if(!pending?.pending_username)return null;
+  try {
+    const result=await createUser(env,request,actor,{email:pending.email,username:pending.pending_username,role:pending.pending_role});
+    if(!result.pending_verification)await env.DB.prepare('UPDATE crm_email_recipients SET pending_username=NULL,pending_role=NULL,pending_requested_by=NULL,pending_requested_at=NULL,updated_at=? WHERE id=? AND pending_username=? AND pending_role=?').bind(now(),pending.id,pending.pending_username,pending.pending_role).run();
+    return result;
+  } catch(error) {
+    const created=await env.DB.prepare('SELECT id FROM crm_users WHERE email=? AND username=?').bind(pending.email,pending.pending_username).first();
+    if(created)await env.DB.prepare('UPDATE crm_email_recipients SET pending_username=NULL,pending_role=NULL,pending_requested_by=NULL,pending_requested_at=NULL,updated_at=? WHERE id=? AND pending_username=?').bind(now(),pending.id,pending.pending_username).run();
+    throw error;
+  }
 }
 export async function updateUser(env,actor,id,body) {
   if(id==='owner')throw new HttpError(403,'The original owner cannot be disabled or demoted.');
@@ -119,7 +150,7 @@ export async function updateUser(env,actor,id,body) {
   if(!roles.has(role) || !['invited','active','disabled'].includes(status) || (body.status && !['active','disabled'].includes(body.status)))throw new HttpError(400,'Invalid role or status.');
   if(body.email!==undefined) {
     if(user.status!=='invited' || user.email_verified_at || user.password_hash)throw new HttpError(409,'Only a never-activated invitation email can be corrected.');
-    requireVerifiedRecipient(env,address);
+    if(emailConfigured(env))await requireVerifiedRecipient(env,address);
     const primary=await adminCredentials(env);
     const conflict=address===primary.username || await env.DB.prepare('SELECT 1 FROM crm_users WHERE id<>? AND email=? UNION ALL SELECT 1 FROM crm_owner_profile WHERE email=? OR pending_email=? LIMIT 1').bind(id,address,address,address).first();
     if(conflict)throw new HttpError(409,'That email is already registered.');
@@ -166,11 +197,13 @@ export async function reviewReset(env,request,actor,id,approve) {
   const claim=crypto.randomUUID();
   const claimed=await env.DB.prepare("UPDATE crm_reset_requests SET delivery_state='sending',claim_token=?,claim_expires_at=?,attempts=attempts+1,reviewed_by=?,reviewed_at=? WHERE id=? AND status='pending' AND (delivery_state IN ('idle','failed') OR (delivery_state='sending' AND claim_expires_at<?)) RETURNING user_id").bind(claim,current+90,actor.id,stamp,id,current).first();
   if(!claimed)throw new HttpError(409,'This reset request is already being processed. Refresh and try again.');
+  let delivery=null;
   try {
     const ready=await env.DB.prepare("SELECT id FROM crm_account_actions WHERE reset_request_id=? AND state='ready' AND used_at IS NULL AND expires_at>?").bind(id,current).first();
-    if(!ready) {
+    if(!ready || accountDeliveryMode(env,request)==='manual') {
       await env.DB.prepare("UPDATE crm_account_actions SET state='failed' WHERE reset_request_id=? AND (state='sending' OR (state='ready' AND expires_at<=?))").bind(id,current).run();
-      await sendAction(env,request,await targetUser(env,claimed.user_id),'reset',actor,{resetRequestId:id,resetClaim:claim});
+      if(accountDeliveryMode(env,request)==='manual')await env.DB.prepare("UPDATE crm_account_actions SET state='failed' WHERE reset_request_id=? AND state='ready' AND used_at IS NULL").bind(id).run();
+      delivery=await sendAction(env,request,await targetUser(env,claimed.user_id),'reset',actor,{resetRequestId:id,resetClaim:claim});
     }
     const results=await env.DB.batch([env.DB.prepare("UPDATE crm_reset_requests SET status='approved',delivery_state='sent',claim_token=NULL,claim_expires_at=NULL WHERE id=? AND status='pending' AND claim_token=?").bind(id,claim),audit(env,actor.id,'reset-approved',claimed.user_id)]);
     if(results[0].meta.changes!==1)throw new HttpError(409,'The reset request changed while it was being approved.');
@@ -178,7 +211,7 @@ export async function reviewReset(env,request,actor,id,approve) {
     await env.DB.prepare("UPDATE crm_reset_requests SET delivery_state='failed',claim_token=NULL,claim_expires_at=NULL WHERE id=? AND status='pending' AND claim_token=?").bind(id,claim).run();
     throw error;
   }
-  return {ok:true};
+  return delivery || {ok:true,delivery_mode:'email',email_status:'accepted'};
 }
 export async function completeAction(env,request,body) {
   const token=cleanText(body.token,64,'Confirmation token',true);

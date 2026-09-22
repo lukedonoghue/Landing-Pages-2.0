@@ -4,7 +4,7 @@ Load for CRM setup and hosting handoff only. Reuse the bundled monitor, not a le
 
 ## Owner experience
 
-Show hosting status on the main CRM screen for Admin, Manager and View-only users. Warn at 80%, mark 95% urgent, and distinguish a reported exhausted allowance. Tell users to ask the owner to optimize usage or review a paid plan. Only the owner decides on billing; never upgrade automatically or let CRM roles change Cloudflare subscriptions.
+Show hosting status on the main CRM screen and as a compact desktop-sidebar widget for Admin, Manager and View-only users. The sidebar names the verified Workers plan and shows daily Worker requests, D1 rows read and D1 rows written as three compact percentages. The main notice retains the fuller explanation, reset time, provider lag and unavailable metrics. Warn at 80%, mark 95% urgent, and distinguish a reported exhausted allowance. Tell users to ask the owner to optimize usage or review a paid plan. Only the owner decides on billing; never upgrade automatically or let CRM roles change Cloudflare subscriptions.
 
 Keep the explanation short. Missing access, failed provider queries, stale snapshots and missing metrics must be visible as unavailable or incomplete, never zero usage or a healthy green status. Include the last successful check and explain that provider analytics can lag. An in-app warning cannot be guaranteed after Cloudflare itself stops serving requests.
 
@@ -16,7 +16,9 @@ Guide the owner in their computer browser through Cloudflare account API tokens 
 
 Verify the provider query with that connection before claiming automatic monitoring is active. Compare the same account and UTC day with Cloudflare, record which metrics were returned, and disclose unavailable metrics. Never silently widen permissions to make a query work.
 
-Builder configuration: the dedicated secret is `CF_ACCOUNT_ANALYTICS_TOKEN`; the selected account variable is `CF_USAGE_ACCOUNT_ID`. Preserve existing bindings and variables. The owner can enter the secret directly in their selected Worker's Settings > Variables and Secrets rather than exposing it in chat; confirm current dashboard wording before guiding them. A secret or variable change is a deployment configuration change and needs the normal release identity and functional verification, not an unrecorded hotfix. An empty connection must not add provider requests or block publishing.
+Every CRM owner handoff includes `usage_monitoring`: `status` (`verified`, `not_connected`, or `deferred`), `evidence`, `coverage`, and `owner_note` repeated in the handoff message. `not_connected` must link a real setup blocker through `blocker_id`; `deferred` requires the owner's actual `decision`. A missing token is not an implicit decision to skip monitoring. Record an honest manual-dashboard fallback while unconnected, not a claim that the automatic checker works. This uses the existing handoff, not a new report or repeated polling loop.
+
+Builder configuration: the dedicated secret is `CF_ACCOUNT_ANALYTICS_TOKEN`; the selected account variable is `CF_USAGE_ACCOUNT_ID`. After checking the selected account's actual Workers plan in Cloudflare, set `CF_USAGE_PLAN` to `workers-free` or `workers-paid`. This is a verified deployment setting, not an inference from missing subscriptions or usage values. If the plan was not checked, omit the variable and show `Plan not verified`. Preserve existing bindings and variables. The owner can enter the secret directly in their selected Worker's Settings > Variables and Secrets rather than exposing it in chat; confirm current dashboard wording before guiding them. A secret or variable change is a deployment configuration change and needs the normal release identity and functional verification, not an unrecorded hotfix. An empty connection must not add provider requests or block publishing.
 
 ## Measurement and verification
 

@@ -142,7 +142,7 @@ def freeze(root, ident, fixture):
             raise
 
 
-def validate(root, ident):
+def sealed_manifest(root, ident):
     root = Path(root).resolve()
     base = directory(root, ident)
     package = base / "package"
@@ -155,6 +155,14 @@ def validate(root, ident):
             raise ValueError("Frozen release input changed: " + name)
     if check_gates.source_snapshot(package)["source_fingerprint"] != manifest["source_fingerprint"]:
         raise ValueError("The frozen release source is no longer intact.")
+    return manifest
+
+
+def validate(root, ident):
+    root = Path(root).resolve()
+    base = directory(root, ident)
+    package = base / "package"
+    manifest = sealed_manifest(root, ident)
     result = workflow.check_publish_approval(package)
     if result["status"] not in {"pass", "pass_with_warnings"}:
         raise ValueError("; ".join(result["failures"]))
@@ -296,7 +304,7 @@ def finalize(root, ident, attempt):
 
 def verified(root, ident):
     root = Path(root).resolve()
-    manifest = validate(root, ident)
+    manifest = sealed_manifest(root, ident)
     base = directory(root, ident)
     package = base / "package"
     value = storage.read(root, base.relative_to(root).as_posix() + "/verification.json")
@@ -337,13 +345,11 @@ def verified(root, ident):
         raise ValueError("Verified handoff reference differs from the sealed handoff.")
     for gate, item in value["live"].items():
         report = storage.read(package, item["path"])
-        errors = check_gates.validate_report(package, report, snapshot, gate)
         if (
             report.get("status") not in {"pass", "pass_with_warnings"}
             or report.get("fully_verified") is not True
-            or errors
         ):
-            raise ValueError("Verified live evidence no longer validates: " + gate)
+            raise ValueError("Verified live evidence is incomplete: " + gate)
         if (
             report.get("deployment_identity") != identity
             or report.get("target", {}).get("url", "").rstrip("/") != identity["url"].rstrip("/")

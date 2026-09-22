@@ -296,7 +296,19 @@ def main() -> int:
         failures.append("Paid-ad funnel links back to the main business website: " + "; ".join(sorted(set(main_site_exits))))
     if not linked_pdfs:
         if args.omit_brochure_reason.strip():
-            warnings.append("PDF omitted: independently review the source-supported rationale in the strategy brief")
+            brief_path = project / "build" / "strategy-brief.md"
+            try:
+                brief = brief_path.read_text(encoding="utf-8")
+            except OSError:
+                brief = ""
+            reason = args.omit_brochure_reason.strip()
+            checks["brochure_omission_evidence"] = {
+                "strategy_brief": brief_path.relative_to(project).as_posix(),
+                "reason_recorded": reason in brief,
+                "source_url_recorded": bool(re.search(r"https?://[^\s)>]+", brief)),
+            }
+            if reason not in brief or not checks["brochure_omission_evidence"]["source_url_recorded"]:
+                failures.append("PDF omission requires the exact rationale and at least one supporting source URL in build/strategy-brief.md")
         else:
             failures.append("No linked local PDF with a valid PDF signature; provide the useful document or a researched omission reason")
     if not source_hosts:

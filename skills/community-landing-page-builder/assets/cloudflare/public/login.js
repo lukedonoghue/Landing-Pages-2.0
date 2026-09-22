@@ -40,7 +40,7 @@ resetForm.addEventListener('submit', async event => {
       body: JSON.stringify({ email: resetEmail.value.trim() })
     });
     let data = {}; try { data = await response.json(); } catch {}
-    if (!response.ok) throw new Error(typeof data.error === 'string' ? data.error : data.error?.message || (response.status === 503 ? 'Password reset email is not configured. Contact your workspace administrator.' : 'The request could not be submitted. Please try again.'));
+    if (!response.ok) throw new Error(typeof data.error === 'string' ? data.error : data.error?.message || (response.status === 503 ? 'Password reset actions are not configured. Contact your workspace administrator.' : 'The request could not be submitted. Please try again.'));
     resetForm.reset();
     status.textContent = 'If an account matches that email, an administrator can review the reset request.';
   } catch (failure) {

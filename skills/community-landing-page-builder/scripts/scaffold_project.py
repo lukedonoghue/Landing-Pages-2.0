@@ -67,7 +67,7 @@ def main() -> int:
         "schema_version": 3,
         "quality": {"complete_workflow": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
         "approvals": {"copy_before_design": False},
-        "images": {"enabled": True, "preferred_model": "gpt-image-2.5-sunburst", "max_generated_assets": 3, "max_attempts_per_asset": 2},
+        "images": {"enabled": True, "preferred_model": None, "max_generated_assets": 3, "max_attempts_per_asset": 2},
         "client": {
             "name": args.client,
             "website": args.website,
@@ -82,11 +82,12 @@ def main() -> int:
         "offer": "",
         "cta": "",
         "follow_up_promise": "",
-        "brochure_gated": True,
+        "brochure_gated": False,
         "form_fields": json.loads((skill_root / "assets/cloudflare/src/site-config.json").read_text())["formFields"] if not args.static_only else [],
         "webhook_url": "" if args.static_only else "/api/leads",
         "backend": {"provider": "none" if args.static_only else "cloudflare-d1", "response_contract": "receipt-v1"},
-        "analytics": {"mode": "consent", "attribution_mode": "consent", "timezone": "UTC", "conversion": "measured visitor with accepted lead"},
+        "analytics": {"mode": "disabled", "attribution_mode": "lead", "required_attribution_mode": "lead", "timezone": "UTC", "conversion": "accepted lead"},
+        "privacy": {"consent_ui": "disabled"},
         "tracking": {
             "gtm": {"container_id": "", "hostname": ""},
             "customer_data_mode": "disabled",
@@ -95,6 +96,7 @@ def main() -> int:
             "meta": {"pixel_id": "", "enabled": False},
             "microsoft": {"uet_tag_id": "", "enabled": False},
         },
+        "requested_hosts": {"public": "", "crm": "", "pages_gateway": ""},
         "publish_target": "static-handoff" if args.static_only else "cloudflare-workers",
     }
     if write_if_missing(root / "funnel.json", json.dumps(config, indent=2) + "\n"):

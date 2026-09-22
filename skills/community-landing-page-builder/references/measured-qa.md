@@ -29,7 +29,7 @@ All QA output belongs under project `build/`. Source fingerprinting includes HTM
 
 ## Browser coverage
 
-The harness tests widths 360, 390, 768, 1024, 1180, 1280, and 1440 CSS pixels plus 1280×600 and 1440×720. Each uses its own isolated browser context. It scrolls to trigger real lazy loading, waits for fonts/images, measures landing and thank-you pages, and captures full-page and modal screenshots. It records:
+The harness tests widths 360, 390, 768, 1024, 1180, 1280, and 1440 CSS pixels plus 1280×600 and 1440×720. Each uses its own isolated browser context. It scrolls to trigger real lazy loading, waits for fonts/images, measures landing and thank-you pages, and captures full-page and modal screenshots. Before a full-page capture it visits every rendered `content-visibility:auto` region, waits for layout, and temporarily holds those already visited regions at `content-visibility:visible` for the capture only. The artifact records visited and held-visible counts; mismatched counts block acceptance. This capture-only stabilization prevents Chromium from replacing offscreen content with intrinsic placeholders and does not authorize a pass from blank or uninspected pixels. It records:
 
 - horizontal overflow, image decoding, font loading and HTTP/console errors;
 - real text line rectangles, short last lines, plain-background heading contrast estimates, cover-image crop fraction and object position;
@@ -47,7 +47,7 @@ Use `--thank-you /thank-you.html` if the route differs. A direct thank-you visit
 
 Open the generated screenshots with image viewing or use computer use in an isolated browser context. Inspect the actual screenshot pixels at their native size and compare with client brand/reference evidence. At minimum review full desktop, low-height laptop, tablet, narrow mobile, modal, and thank-you. Check visual hierarchy, hero subject/crop, font rendering, foreground contrast, reading width, spacing, heading balance, CTA visibility, modal scrollability, clipped content, and any warning from the measured report.
 
-Write `build/visual-review.json` only after looking. Identify the ChatGPT model/reviewer and tool version when available; otherwise state `unknown` rather than inventing it. Include specific observations tied to screenshot paths, unresolved findings, and review limits. Do not report pass just because the screenshot exists. If a source change affects layout, recapture the screenshot and review it again.
+Write `build/visual-review.json` only after looking. Identify the ChatGPT model/reviewer and tool version when available; otherwise state `unknown` rather than inventing it. Include specific observations tied to screenshot paths, unresolved findings, and review limits. Do not report pass just because the screenshot exists or because its hash matches another file. Confirm the full-page artifact reports complete rendered-region capture, then inspect section pixels from top to bottom. If a source change affects layout, recapture the screenshot and review it again.
 
 For the catalogue, render and inspect every page using the PDF skill. Link the original PDF and each rendered page. Record the page count, pages reviewed, text/link checks, and any issues. Do not substitute PDF text extraction for rendered-page review. `catalogue.enabled: false` in `funnel.json` is the only explicit omission supported by the gate tool; leave the catalogue gate required otherwise.
 

@@ -6,16 +6,17 @@ const fields=funnel.form_fields.map(field=>({name:field.name,type:field.type||'t
 if(fields.some(f=>!f.name||!/^[-a-zA-Z0-9_]+$/.test(f.name))||new Set(fields.map(f=>f.name)).size!==fields.length)throw new Error('Every form field must have a unique safe name.');
 const timezone=funnel.analytics?.timezone||'UTC';
 new Intl.DateTimeFormat('en',{timeZone:timezone}).format();
-const mode=funnel.analytics?.mode||'consent';
+const mode=funnel.analytics?.mode||'disabled';
 if(!['consent','essential','disabled'].includes(mode))throw new Error('analytics.mode must be consent, essential, or disabled.');
-const attributionMode=funnel.analytics?.attribution_mode||'consent';
+const attributionMode=funnel.analytics?.attribution_mode||'lead';
 if(!['consent','lead','disabled'].includes(attributionMode))throw new Error('analytics.attribution_mode must be consent, lead, or disabled.');
 const requiredAttributionMode=funnel.analytics?.required_attribution_mode;
+if(requiredAttributionMode===undefined)throw new Error('Set analytics.required_attribution_mode explicitly from the owner requirement before configuring.');
 if(requiredAttributionMode!==undefined&&!['consent','lead','disabled'].includes(requiredAttributionMode))throw new Error('analytics.required_attribution_mode must be consent, lead, or disabled when supplied.');
 if(requiredAttributionMode&&requiredAttributionMode!==attributionMode)throw new Error(`Required attribution mode ${requiredAttributionMode} does not match analytics.attribution_mode ${attributionMode}.`);
 const advertisingUserDataMode=funnel.tracking?.customer_data_mode||'disabled';
 if(!['consent','disabled'].includes(advertisingUserDataMode))throw new Error('tracking.customer_data_mode must be consent or disabled.');
-const consentUiMode=funnel.privacy?.consent_ui||'external';
+const consentUiMode=funnel.privacy?.consent_ui||'disabled';
 if(!['internal','external','disabled'].includes(consentUiMode))throw new Error('privacy.consent_ui must be internal, external, or disabled.');
 const sensitiveCategory=funnel.tracking?.sensitive_category===true;
 if(sensitiveCategory&&advertisingUserDataMode!=='disabled')throw new Error('Sensitive-category funnels must keep tracking.customer_data_mode disabled.');
@@ -23,7 +24,15 @@ const gtmContainerId=funnel.tracking?.gtm?.container_id||'';
 if(gtmContainerId&&!/^GTM-[A-Z0-9]+$/.test(gtmContainerId))throw new Error('tracking.gtm.container_id must be blank or a GTM- container ID.');
 const publicHost=funnel.requested_hosts?.public||'';
 const crmHost=funnel.requested_hosts?.crm||'';
-for(const [label,host] of [['public',publicHost],['crm',crmHost]])if(host&&!/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,63}$/.test(host))throw new Error(`requested_hosts.${label} must be a hostname without a scheme or path.`);
+const pagesGatewayHost=funnel.requested_hosts?.pages_gateway||'';
+for(const [label,host] of [['public',publicHost],['crm',crmHost],['pages_gateway',pagesGatewayHost]])if(host&&!/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,63}$/.test(host))throw new Error(`requested_hosts.${label} must be a hostname without a scheme or path.`);
 if(Boolean(publicHost)!==Boolean(crmHost)||(publicHost&&publicHost===crmHost))throw new Error('Two-host routing requires distinct public and CRM hostnames, or neither hostname.');
-writeFileSync('src/site-config.json',JSON.stringify({...current,name:funnel.client.name,color:funnel.client.color||current.color,logo:funnel.client.logo||'',timezone,analyticsMode:mode,attributionMode,advertisingUserDataMode,consentUiMode,sensitiveCategory,gtmContainerId,publicHost,crmHost,formFields:fields,allowedPaths:funnel.allowed_paths||['/','/index.html']},null,2)+'\n');
+if(pagesGatewayHost&&!pagesGatewayHost.endsWith('.pages.dev'))throw new Error('requested_hosts.pages_gateway must be the exact production pages.dev hostname.');
+if(pagesGatewayHost&&(!publicHost||!crmHost))throw new Error('requested_hosts.pages_gateway requires both public and CRM hostnames.');
+writeFileSync('src/site-config.json',JSON.stringify({...current,name:funnel.client.name,color:funnel.client.color||current.color,logo:funnel.client.logo||'',timezone,analyticsMode:mode,attributionMode,advertisingUserDataMode,consentUiMode,sensitiveCategory,gtmContainerId,publicHost,crmHost,pagesGatewayHost,formFields:fields,allowedPaths:funnel.allowed_paths||['/','/index.html']},null,2)+'\n');
+if(crmHost){
+  const wrangler=JSON.parse(readFileSync('wrangler.jsonc','utf8'));
+  wrangler.vars={...(wrangler.vars||{}),CRM_PUBLIC_ORIGIN:`https://${crmHost}/`};
+  writeFileSync('wrangler.jsonc',JSON.stringify(wrangler,null,2)+'\n');
+}
 console.log('Backend configuration synchronized. Match the form labels/choices to funnel.json, then rerun QA. Public privacy controls read the policy from the same Worker configuration.');

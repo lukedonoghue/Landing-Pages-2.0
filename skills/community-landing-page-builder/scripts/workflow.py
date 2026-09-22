@@ -70,6 +70,11 @@ def check_build(root, allow_fixture=False):
         return {'status':'blocked','failures':['Image plan is invalid: ' + str(error)]}
     image_failures = []
     image_config = config.get('images',{})
+    complete_page = not config.get('development_fixture')
+    if complete_page and image_config.get('enabled') is False:
+        image_failures.append('Complete landing pages cannot disable content imagery; plan at least four distinct relevant originals.')
+    if complete_page and plan.get('minimum_distinct_content_originals', 0) < 4:
+        image_failures.append('Complete landing pages require a minimum of four distinct content originals in the image plan.')
     if not plan.get('assets'):
         if image_config.get('enabled',True):
             image_failures.append('Image-enabled complete funnels require at least one verified sourced, supplied, or disclosed generated visual; missing user images are not a no-images reason.')
@@ -89,6 +94,8 @@ def check_build(root, allow_fixture=False):
             continue
         if item.get('stage') not in {'optimized','reviewed'}:
             image_failures.append(f"Image is not acquired and optimized for build: {item.get('id','unnamed')}")
+    if complete_page:
+        image_failures.extend(image_workflow.gate(plan, root).get('errors', []))
     if image_failures:
         return {'status':'blocked','failures':image_failures}
     return {'status':approval['status'],'failures':[],'warnings':approval.get('warnings',[]),'copy_fingerprint':approval.get('fingerprint')}

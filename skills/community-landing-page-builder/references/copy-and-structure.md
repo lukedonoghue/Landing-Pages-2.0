@@ -53,6 +53,7 @@ Record a compact edit note beside the master or in the existing editorial review
 - Keep paragraphs short and bullets concrete. Remove a bullet that merely restates the heading.
 - Give each section a distinct buyer decision or supporting reason. A service catalogue followed by the same catalogue under a benefit heading is repetition, not added depth. Use supported delivery/communication advantages, add different evidence, or merge the repeated section; do not invent differentiation.
 - In an uncommissioned demo, keep a compact disclosure and fictional-data warning, then return to the buyer's decision. Put research narration, tracking/consent configuration, CRM verification, cleanup and QA instructions in review evidence or owner handoff, including when writing the PDF.
+- Preserve necessary qualifications by turning them into practical buyer guidance: say what must be confirmed, what depends on appointment details, or what the provider cannot do. Do not surface the researcher's process as labels such as `published signals`, `company assertion`, `not independently checked`, `the official site describes`, or `this demo does not invent`. A concise source-identity statement may remain when it is needed to identify a real person or asset in an uncommissioned demo.
 - Apply this to the first post-hero strip too: add a sourced decision aid rather than restating every hero promise. Preserve a material source-first-screen qualification or price cue near the offer when it helps buyers assess fit, with its scope and conditions intact. If omitted or moved down, record the buyer-focused reason; do not invent prices or proof to fill the strip.
 - Use urgency or scarcity only when a verifiable deadline, capacity, or availability constraint exists.
 - Avoid unsupported superlatives and effortless-outcome promises.
@@ -94,3 +95,4 @@ Read the rendered page as a cold visitor and as the target buyer. Check:
 - copy density does not hide the primary action or proof;
 - no sentence is clipped, unfinished, duplicated, or stranded inside an image;
 - visible copy, metadata, alt text, structured data, form messages, and success copy agree.
+- pre-submit copy uses present or future tense and explains the destination before any action; reserve past-tense assurances such as `nothing was sent` for a genuine post-submit state.

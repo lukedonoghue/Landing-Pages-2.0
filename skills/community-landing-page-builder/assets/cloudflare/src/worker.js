@@ -4,7 +4,8 @@ import { accountInfo, acknowledgeNotifications, changePassword, exportLeads, not
 import { HttpError, enforceOrigin, json, rateLimit, readJson, requireSession, secureResponse, privacyOptOut, sessionCookie, sessionTokenHash } from './security.js';
 import { addNote, changeStatus, createLead, deleteLead, earliestReportingDate, getLead, listLeads, metrics, recordVisit } from './repository.js';
 import { addWebhook, deleteWebhook, enableWebhook, listWebhooks, processOutbox } from './webhooks.js';
-import { permissions, authorize, loginTeam, listUsers, createUser, updateUser, inviteOrReset, setOwnerEmail, requestReset, reviewReset, completeAction, memberPassword, memberRevoke } from './team-accounts.js';
+import { permissions, authorize, loginTeam, listUsers, createUser, continuePendingInvitation, updateUser, inviteOrReset, setOwnerEmail, requestReset, reviewReset, completeAction, memberPassword, memberRevoke } from './team-accounts.js';
+import { checkEmailRecipient, requestEmailRecipient } from './email-recipients.js';
 import { freeUsage } from './free-usage.js';
 
 export default {
@@ -78,8 +79,22 @@ async function route(request, env, ctx, url) {
     authorize(user,path,method);
     if (!['GET', 'HEAD'].includes(method)) await rateLimit(env, request, 'admin-mutation', 120, 60);
     if (path.startsWith('/api/admin/users') && method!=='GET') await rateLimit(env,request,'account-management',12,900);
-    if (path==='/api/admin/users' && method==='GET')return json(await listUsers(env));
-    if (path==='/api/admin/users' && method==='POST')return json(await createUser(env,request,user,await readJson(request,4096)),201);
+    if (path==='/api/admin/users' && method==='GET')return json(await listUsers(env,request));
+    if (path==='/api/admin/users/email-recipients' && method==='POST') {
+      await rateLimit(env,request,'recipient-onboarding',6,900);
+      return json(await requestEmailRecipient(env,user,await readJson(request,2048)),201);
+    }
+    const recipientMatch=/^\/api\/admin\/users\/email-recipients\/([a-f0-9-]{36})\/check$/.exec(path);
+    if (recipientMatch && method==='POST') {
+      await rateLimit(env,request,'recipient-onboarding',6,900);
+      const recipient=await checkEmailRecipient(env,user,recipientMatch[1]);
+      const invitation=recipient.status==='verified' && recipient.invitation_pending ? await continuePendingInvitation(env,request,user,recipientMatch[1]) : null;
+      return json({...recipient,...(invitation || {}),invitation_sent:Boolean(invitation && !invitation.pending_verification)});
+    }
+    if (path==='/api/admin/users' && method==='POST') {
+      const created=await createUser(env,request,user,await readJson(request,4096));
+      return json(created,created.pending_verification?202:201);
+    }
     if (path==='/api/admin/users/owner-email' && method==='POST')return json(await setOwnerEmail(env,request,user,await readJson(request,4096)));
     const resetMatch=/^\/api\/admin\/users\/reset-requests\/([a-f0-9-]{36})\/(approve|reject)$/.exec(path);
     if(resetMatch && method==='POST')return json(await reviewReset(env,request,user,resetMatch[1],resetMatch[2]==='approve'));
@@ -145,9 +160,11 @@ function requestHostRole(url) {
   const host = url.hostname.toLowerCase();
   const publicHost = (siteConfig.publicHost || '').toLowerCase();
   const crmHost = (siteConfig.crmHost || '').toLowerCase();
+  const pagesGatewayHost = (siteConfig.pagesGatewayHost || '').toLowerCase();
   if (!publicHost && !crmHost) return 'unified';
   if (host === publicHost) return 'public';
   if (host === crmHost) return 'crm';
+  if (pagesGatewayHost && host === pagesGatewayHost) return 'unified';
   if (['localhost', '127.0.0.1', '[::1]'].includes(host) || host.endsWith('.test') || host.endsWith('.workers.dev')) return 'unified';
   return 'unknown';
 }

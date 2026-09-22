@@ -9,7 +9,7 @@ import { createRequire } from 'node:module';
 import { readRenderedFonts } from './rendered_fonts.mjs';
 import { inspectModalChrome } from './modal_chrome.mjs';
 
-const VERSION = '1.2.0';
+const VERSION = '1.3.0';
 const argv = process.argv.slice(2);
 const option = (name, fallback = '') => {
   const i = argv.indexOf(`--${name}`);
@@ -76,11 +76,66 @@ const report = { schema_version: 1, gate: 'browser', status: 'blocked', executed
   checks: [], viewports: [], artifacts: [], failures: [], warnings: [],
   limits: ['Measurements are not visual/aesthetic approval.', 'All write requests are blocked; this run does not prove live CRM delivery, backend error handling, or conversion persistence.', 'Source fingerprint identifies local input. For remote URLs, deployment evidence must separately tie that input to the running revision.'] };
 const evidencePath = (path) => root ? relative(root, path).split('\\').join('/') : path;
+const prepareFullPageCapture = async (page) => page.evaluate(async () => {
+  const frame = () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+  const describe = (element) => element.id
+    ? `#${CSS.escape(element.id)}`
+    : `${element.tagName.toLowerCase()}${[...element.classList].slice(0, 2).map((name) => `.${CSS.escape(name)}`).join('')}`;
+  const candidates = [...document.querySelectorAll('body *')].filter((element) => {
+    const style = getComputedStyle(element);
+    const box = element.getBoundingClientRect();
+    return style.contentVisibility === 'auto' && style.display !== 'none' && style.visibility !== 'hidden'
+      && box.width > 0 && box.height > 0;
+  });
+  const visited = [];
+  for (const element of candidates) {
+    element.scrollIntoView({ block: 'center', inline: 'nearest' });
+    await frame();
+    await Promise.all([...element.querySelectorAll('img')].map((image) => image.decode().catch(() => {})));
+    const box = element.getBoundingClientRect();
+    if (box.width > 0 && box.height > 0) visited.push(describe(element));
+  }
+  window.__qaFullPageVisibility = candidates.map((element) => ({
+    element,
+    value: element.style.getPropertyValue('content-visibility'),
+    priority: element.style.getPropertyPriority('content-visibility'),
+  }));
+  for (const { element } of window.__qaFullPageVisibility) {
+    element.style.setProperty('content-visibility', 'visible', 'important');
+  }
+  await frame();
+  const heldVisibleCount = candidates.filter((element) => getComputedStyle(element).contentVisibility === 'visible').length;
+  scrollTo(0, 0);
+  await frame();
+  return {
+    eligibleCount: candidates.length,
+    visitedCount: visited.length,
+    heldVisibleCount,
+    regions: visited,
+    pageHeight: document.documentElement.scrollHeight,
+  };
+});
+const restoreFullPageCapture = async (page) => page.evaluate(() => {
+  for (const { element, value, priority } of window.__qaFullPageVisibility || []) {
+    if (value) element.style.setProperty('content-visibility', value, priority);
+    else element.style.removeProperty('content-visibility');
+  }
+  delete window.__qaFullPageVisibility;
+  scrollTo(0, 0);
+});
 const addShot = async (page, name, fullPage = true) => {
   const file = resolve(dirname(output), 'screenshots', `${name}.png`);
   await mkdir(dirname(file), { recursive: true });
-  await page.screenshot({ path: file, fullPage, animations: 'disabled' });
-  report.artifacts.push({ path: evidencePath(file), type: 'screenshot', sha256: await hashFile(file) });
+  const capture = fullPage ? await prepareFullPageCapture(page) : null;
+  try {
+    await page.screenshot({ path: file, fullPage, animations: 'disabled' });
+  } finally {
+    if (capture) await restoreFullPageCapture(page);
+  }
+  report.artifacts.push({ path: evidencePath(file), type: 'screenshot', sha256: await hashFile(file), ...(capture ? { capture } : {}) });
+  if (capture) check('full_page_capture_rendered_sections',
+    capture.visitedCount === capture.eligibleCount && capture.heldVisibleCount === capture.eligibleCount,
+    JSON.stringify(capture), { screenshot: evidencePath(file) });
   return evidencePath(file);
 };
 const check = (name, passed, detail, context = {}) => {
@@ -193,6 +248,7 @@ async function inspectModal(page, viewport, screenshotName) {
   const triggers = page.locator('[data-open-modal]');
   const modal = page.locator('#lead-modal');
   const result = { triggerCount: await triggers.count(), submits: 'not_attempted', trace: [] };
+  let inspectedVisibleTrigger = false;
   if (!(await modal.count()) || !result.triggerCount) { check('modal_presence', false, 'Expected #lead-modal and [data-open-modal]', { viewport }); return result; }
   // Every trigger must activate the same modal and restore keyboard focus on Escape.
   for (let i = 0; i < result.triggerCount; i++) {
@@ -204,7 +260,8 @@ async function inspectModal(page, viewport, screenshotName) {
     const opened = await modal.isVisible() && (await modal.getAttribute('aria-hidden')) !== 'true';
     check('cta_opens_modal', opened, `Trigger ${i + 1}`, { viewport });
     if (!opened) continue;
-    if (i === 0) {
+    if (!inspectedVisibleTrigger) {
+      inspectedVisibleTrigger = true;
       const chrome = await inspectModalChrome(page, modal);
       check('modal_close_has_clear_space', chrome.present && chrome.conflicts.length === 0, JSON.stringify(chrome), { viewport });
       let escaped = false;
@@ -245,6 +302,23 @@ async function inspectModal(page, viewport, screenshotName) {
           check('fixture_step_forward', after > before, `Step ${before + 1} -> ${after + 1}`, { viewport });
           check('wizard_focus_retained', await page.evaluate(() => Boolean(document.activeElement?.closest('#lead-modal')) && document.activeElement.getClientRects().length > 0), 'Focus remains visible inside modal after Continue', { viewport });
           if (after <= before) break;
+        }
+        const submit = modal.locator('[data-submit]');
+        if (await submit.isVisible()) {
+          result.finalStep = await submit.evaluate((element) => {
+            const range = document.createRange();
+            range.selectNodeContents(element);
+            const rects = [...range.getClientRects()].filter((box) => box.width > 0 && box.height > 0);
+            return {
+              label: element.textContent.trim(),
+              lines: new Set(rects.map((box) => Math.round(box.top))).size,
+              width: element.getBoundingClientRect().width,
+              height: element.getBoundingClientRect().height,
+            };
+          });
+          check('modal_submit_label_fits', result.finalStep.lines <= 1,
+            JSON.stringify(result.finalStep), { viewport });
+          result.finalScreenshot = await addShot(page, `${screenshotName}-modal-final`, false);
         }
         const back = modal.locator('[data-back]');
         if (await back.isVisible()) {

@@ -342,7 +342,7 @@ def required_gates(root, mode):
         if config.get('backend',{}).get('provider')!='none':
             gates.append('rendered_copy')
             if mode in {'preview','handoff'}:gates.append('local_journey')
-        if config.get('images', {}).get('enabled', True): gates.append('images')
+        if not config.get('development_fixture'): gates.append('images')
     catalogue = config.get('catalogue', {})
     if not isinstance(catalogue, dict) or catalogue.get('enabled') is not False:
         gates.append('catalogue')

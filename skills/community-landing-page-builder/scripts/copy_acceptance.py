@@ -15,6 +15,11 @@ CRITERIA = {
 CUSTOMER_COPY_PATTERNS = (
     (re.compile(r"\bthe page adds no unsupported\b", re.I), "editorial assurance belongs in the review, not customer copy"),
     (re.compile(r"\bthe (?:published|official) (?:service (?:list|range)|onboarding (?:path|sequence)|process)\b", re.I), "source narration should be rewritten as direct buyer information"),
+    (re.compile(r"\bpublished professional signals\b", re.I), "research taxonomy should be rewritten as a useful buyer heading"),
+    (re.compile(r"\bcompany assertions? (?:from|on) the official (?:site|website)\b", re.I), "source-led qualification should be rewritten as practical buyer guidance"),
+    (re.compile(r"\bcurrent status not independently checked\b", re.I), "audit status should be rewritten as a practical confirmation step"),
+    (re.compile(r"\bthe official (?:site|website|source) (?:asks|describes|does not publish|lists|publishes|states)\b", re.I), "source narration should be rewritten as direct buyer information"),
+    (re.compile(r"\bthis demo does not (?:add|assume|invent)\b", re.I), "editorial assurance belongs in the review, not customer copy"),
 )
 DEMO_CONTEXT = re.compile(r"\b(?:independent (?:demo|demonstration)|synthetic (?:details|enquiry|contact)|not commissioned)\b", re.I)
 DEMO_OPERATOR_PATTERNS = (

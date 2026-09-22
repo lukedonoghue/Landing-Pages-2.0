@@ -245,11 +245,13 @@ class ImageWorkflowTests(unittest.TestCase):
         with self.assertRaisesRegex(workflow.WorkflowError, "inside the project"):
             workflow.safe_path(self.root, "../secret.png")
 
-    def test_empty_plan_is_not_success_without_reason(self):
+    def test_empty_plan_cannot_bypass_complete_page_image_minimum(self):
         self.plan["assets"] = []
         self.assertFalse(workflow.gate(self.plan, self.root)["passed"])
         self.plan["no_images_reason"] = "A text-only campaign was explicitly requested."
-        self.assertTrue(workflow.gate(self.plan, self.root)["passed"])
+        result = workflow.gate(self.plan, self.root)
+        self.assertFalse(result["passed"])
+        self.assertTrue(any("required 1" in error for error in result["errors"]))
 
     def test_derived_document_preview_does_not_create_a_fourth_original(self):
         self.plan["minimum_distinct_content_originals"] = 4

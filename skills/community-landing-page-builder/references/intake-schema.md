@@ -45,9 +45,17 @@ Create `funnel.json` near the project root:
   "offer": "",
   "cta": "",
   "follow_up_promise": "",
-  "brochure_gated": true,
+  "brochure_gated": false,
   "form_fields": [],
   "webhook_url": "",
+  "analytics": {
+    "mode": "disabled",
+    "attribution_mode": "lead",
+    "required_attribution_mode": "lead",
+    "timezone": "UTC",
+    "conversion": "accepted lead"
+  },
+  "privacy": {"consent_ui": "disabled"},
   "tracking": {
     "gtm": {"container_id": "", "hostname": ""},
     "customer_data_mode": "disabled",
@@ -56,11 +64,17 @@ Create `funnel.json` near the project root:
     "meta": {"pixel_id": "", "enabled": false},
     "microsoft": {"uet_tag_id": "", "enabled": false}
   },
+  "requested_hosts": {
+    "public": "",
+    "crm": "",
+    "pages_gateway": ""
+  },
   "publish_target": "local-only"
 }
 ```
 
 Empty external-integration values are valid for a local build. They must surface as launch warnings.
+When the customer keeps DNS at an external provider, set `requested_hosts.public` and `requested_hosts.crm` to the two requested subdomains and set `requested_hosts.pages_gateway` only after Cloudflare returns the verified production Pages hostname. Do not place these values in a separate `domains` object: the maintained backend materializes only `requested_hosts`.
 Customer-data matching requires explicit consent and is prohibited by this skill when `sensitive_category` is true. Read [advertising-tracking.md](advertising-tracking.md) before enabling it.
 
 ## Recommended project tree

@@ -3,13 +3,14 @@
   "color": "#17665b",
   "logo": "",
   "timezone": "UTC",
-  "analyticsMode": "consent",
+  "analyticsMode": "disabled",
   "advertisingUserDataMode": "disabled",
-  "consentUiMode": "external",
+  "consentUiMode": "disabled",
   "sensitiveCategory": false,
   "gtmContainerId": "",
   "publicHost": "",
   "crmHost": "",
+  "pagesGatewayHost": "",
   "allowedPaths": [
     "/",
     "/index.html"
@@ -80,5 +81,5 @@
       ]
     }
   ],
-  "attributionMode": "consent"
+  "attributionMode": "lead"
 }

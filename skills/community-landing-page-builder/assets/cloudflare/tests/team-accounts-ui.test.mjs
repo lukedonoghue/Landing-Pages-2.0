@@ -44,7 +44,7 @@ const profiles = {
   viewer: { user:{id:'viewer-1',username:'viewer-one',email:'viewer@example.invalid',role:'viewer'}, permissions:{manage_users:false,edit_leads:false,export_leads:false,manage_settings:false} }
 };
 
-async function adminPage(profile, { emailConfigured = true, legacy = false } = {}) {
+async function adminPage(profile, { emailConfigured = true, deliveryMode = emailConfigured ? 'email' : 'unavailable', recipientOnboardingConfigured = emailConfigured, legacy = false } = {}) {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   page.setDefaultTimeout(6000); const calls = [];
   await page.route('**/api/**', async route => {
@@ -60,6 +60,12 @@ async function adminPage(profile, { emailConfigured = true, legacy = false } = {
     else if (url.pathname === '/api/admin/leads/lead-1') json = {lead,notes:[],activity:[]};
     else if (url.pathname === '/api/admin/users' && method === 'GET') json = {
       email_configured:emailConfigured,
+      account_delivery_mode:deliveryMode,
+      recipient_onboarding_configured:recipientOnboardingConfigured,
+      recipients:[
+        {id:'recipient-1',email:'owner@example.invalid',status:'verified',verified_at:'2026-09-21',source:'managed'},
+        {id:'recipient-2',email:'waiting@example.invalid',status:'pending',verified_at:null,source:'managed'}
+      ],
       users:[
         {id:'owner',username:'owner',email:'owner@example.invalid',role:'admin',status:'active',email_verified_at:'2026-09-21'},
         {id:'manager-1',username:'manager-one',email:'manager@example.invalid',role:'manager',status:'active',email_verified_at:'2026-09-21'},
@@ -84,21 +90,23 @@ test('admin sees restrained user management and unavailable email actions stay d
     const usersNav = page.locator('[data-view=users]'); assert.equal(await usersNav.isVisible(),true); await usersNav.click();
     await page.getByRole('heading',{name:'Workspace users'}).waitFor();
     const provider=page.locator('.users-provider'),setup=page.locator('.users-security-setup');
-    assert.equal(await provider.getByText('Account email setup required',{exact:true}).isVisible(),true);
+    assert.equal(await provider.getByText('One-time account setup required',{exact:true}).isVisible(),true);
     assert.equal(await setup.evaluate(node=>node.open),true);
     const setupCopy=await setup.textContent();
-    assert.match(setupCopy,/Tell Codex your receiving email and the business domain to send from/);
-    assert.match(setupCopy,/Compute > Email Service > Email Routing > Destination Addresses/);
-    assert.match(setupCopy,/After Codex connects email, open Users > Owner email/);
+    assert.match(setupCopy,/Use secure links on Free/);
+    assert.match(setupCopy,/Gmail and other inboxes work without a sending domain/);
+    assert.match(setupCopy,/one token limited to Email Routing Addresses Write/);
+    assert.match(setupCopy,/Open Users > Owner email/);
     assert.match(setupCopy,/Teammates can use any email domain, including Gmail or an agency address/);
     assert.doesNotMatch(setupCopy,/test account|CRM_EMAIL|current CRM address|JSON/i);
     assert.ok(setupCopy.trim().split(/\s+/).length<=180);
     assert.equal(await setup.getByRole('link',{name:'Cloudflare instructions'}).getAttribute('href'),'https://developers.cloudflare.com/email-service/configuration/email-routing-addresses/');
-    assert.equal(await page.getByRole('button',{name:'Send invitation'}).isDisabled(),true);
-    assert.equal(await page.getByRole('button',{name:'Resend invite'}).isDisabled(),true);
-    assert.equal(await page.getByRole('button',{name:'Send verification'}).isDisabled(),true);
-    assert.equal(await page.getByRole('button',{name:'Send reset'}).count(),2);
-    assert.equal(await page.getByRole('button',{name:'Send reset'}).evaluateAll(buttons=>buttons.every(button=>button.disabled)),true);
+    assert.equal(await page.getByRole('button',{name:'Create invitation'}).isDisabled(),true);
+    assert.equal(await page.locator('.recipient-form').isHidden(),true);
+    assert.equal(await page.getByRole('button',{name:'Create new invite link'}).isDisabled(),true);
+    assert.equal(await page.getByRole('button',{name:'Create verification link'}).isDisabled(),true);
+    assert.equal(await page.getByRole('button',{name:'Create reset link'}).count(),2);
+    assert.equal(await page.getByRole('button',{name:'Create reset link'}).evaluateAll(buttons=>buttons.every(button=>button.disabled)),true);
     assert.equal(await page.getByRole('button',{name:'Another admin required'}).isDisabled(),true);
     assert.equal(await page.getByRole('heading',{name:'Owner email'}).isVisible(),true);
     const row = page.locator('.users-table tbody tr').filter({hasText:'manager-one'});
@@ -145,12 +153,27 @@ test('available email configuration remains explicitly unverified until the deli
   try {
     await page.locator('[data-view=users]').click(); await page.getByRole('heading',{name:'Workspace users'}).waitFor();
     const provider=page.locator('.users-provider'),setup=page.locator('.users-security-setup');
-    assert.equal(await provider.getByText('Email settings are available',{exact:true}).isVisible(),true);
-    assert.match(await provider.textContent(),/Email connection settings are present\. Each new recipient must verify their inbox in Cloudflare before an invitation can be sent\./);
+    assert.equal(await provider.getByText('Automatic email is ready',{exact:true}).isVisible(),true);
+    assert.match(await provider.textContent(),/Cloudflare can send account messages to verified inboxes\./);
     assert.doesNotMatch(await provider.textContent(),/email delivery is configured|setup complete/i);
     assert.equal(await setup.evaluate(node=>node.open),false);
-    assert.equal(await page.getByRole('button',{name:'Send invitation'}).isEnabled(),true);
+    assert.equal(await page.getByRole('button',{name:'Create invitation'}).isEnabled(),true);
+    assert.equal(await page.getByRole('button',{name:'Add recipient'}).isEnabled(),true);
+    assert.equal(await page.getByText('Waiting for inbox confirmation',{exact:true}).isVisible(),true);
     assert.equal(await page.getByText('CRM verified',{exact:true}).count(),2);
+  } finally { await page.close(); }
+});
+
+test('manual Free mode enables Gmail-compatible one-use account links without a sender domain', options, async () => {
+  const {page}=await adminPage(profiles.admin,{emailConfigured:false,deliveryMode:'manual',recipientOnboardingConfigured:false});
+  try {
+    await page.locator('[data-view=users]').click(); await page.getByRole('heading',{name:'Workspace users'}).waitFor();
+    const provider=page.locator('.users-provider');
+    assert.equal(await provider.getByText('Secure account links are ready',{exact:true}).isVisible(),true);
+    assert.match(await provider.textContent(),/Gmail or your normal email app.*No sending domain is required/s);
+    assert.equal(await page.getByRole('button',{name:'Create invitation'}).isEnabled(),true);
+    assert.equal(await page.locator('.recipient-form').isHidden(),true);
+    assert.equal(await page.getByRole('button',{name:'Create verification link'}).isEnabled(),true);
   } finally { await page.close(); }
 });
 

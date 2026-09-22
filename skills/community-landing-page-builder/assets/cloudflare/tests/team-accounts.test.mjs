@@ -46,13 +46,14 @@ before(async()=>{
   const bundle=await build({stdin:{contents:`import worker from './src/worker.js'; export default {async fetch(request,env,ctx){
     const verified=await env.DB.prepare('SELECT email FROM test_verified_recipients').all();
     const database=new Proxy(env.DB,{get(target,key){if(key==='prepare')return sql=>{const statement=target.prepare(sql);if(sql.startsWith('SELECT password_hash,version,updated_at,username FROM admin_credentials'))return new Proxy(statement,{get(inner,property){if(property==='first')return async(...args)=>{const row=await inner.first(...args);await env.UPDATE_GATE.fetch('https://update-gate.test/wait');return row;};const value=inner[property];return typeof value==='function'?value.bind(inner):value;}});return statement;};const value=target[key];return typeof value==='function'?value.bind(target):value;}});
-    return worker.fetch(request,{...env,DB:database,CRM_VERIFIED_RECIPIENTS:JSON.stringify(verified.results.map(row=>row.email)),EMAIL:{send:async message=>{
+    const manual=request.headers.get('X-Test-Manual')==='1',noOrigin=request.headers.get('X-Test-No-Origin')==='1';
+    return worker.fetch(request,{...env,DB:database,CRM_VERIFIED_RECIPIENTS:JSON.stringify(verified.results.map(row=>row.email)),...(noOrigin?{CRM_PUBLIC_ORIGIN:''}:{}),...(manual?{}:{EMAIL:{send:async message=>{
       const flag=await env.DB.prepare('SELECT enabled FROM test_mail_failure').first();
       if(flag.enabled)throw new Error('Synthetic provider failure');
       await env.MAIL_GATE.fetch('https://mail-gate.test/wait');
       await env.DB.prepare('INSERT INTO test_mail(recipient,payload) VALUES(?,?)').bind(message.to,JSON.stringify(message)).run();
       return {messageId:crypto.randomUUID()};
-    }}},ctx);
+    }}})},ctx);
   }}`,resolveDir:root},bundle:true,write:false,format:'esm',platform:'browser',target:'es2022'});
   mf=new Miniflare({modules:true,script:bundle.outputFiles[0].text,compatibilityDate:'2026-07-22',d1Databases:{DB:'team-tests'},bindings:{ADMIN_USERNAME:'owner',ADMIN_PASSWORD_HASH:hash,SESSION_SECRET:'synthetic-session-secret-at-least-32-characters',CRM_EMAIL_FROM:'crm@example.invalid',CRM_PUBLIC_ORIGIN:'https://site.test'},serviceBindings:{ASSETS:()=>new Response('asset'),MAIL_GATE:async()=>{if(mailGateEntered){const entered=mailGateEntered;mailGateEntered=null;entered();await mailGateBlock;}return new Response('ok');},UPDATE_GATE:async()=>{if(updateGateEntered){const entered=updateGateEntered;updateGateEntered=null;entered();await updateGateBlock;}return new Response('ok');}}});
   db=await mf.getD1Database('DB');
@@ -113,6 +114,20 @@ test('verified recipient may use a different domain than the configured sender',
   assert.equal(message.from,'crm@example.invalid');assert.equal(message.to,email);
   assert.notEqual(message.from.split('@')[1],message.to.split('@')[1]);
 });
+test('free manual mode creates a single-use link for any inbox without a sender domain',async()=>{
+  const email='gmail-style-recipient@example.net',before=await db.prepare('SELECT COUNT(*) AS n FROM test_mail').first('n');
+  const response=await call('/api/admin/users',{method:'POST',headers:{'X-Test-Manual':'1','X-Test-No-Origin':'1'},body:{email,username:'manual-link-user',role:'viewer'}});
+  assert.equal(response.status,201,await response.clone().text());
+  const result=await response.json();
+  assert.equal(result.delivery_mode,'manual');assert.equal(result.recipient,email);assert.match(result.action_url,/^https:\/\/site\.test\/account-action\.html#token=[a-f0-9]{64}&purpose=invite$/);
+  assert.equal(await db.prepare('SELECT COUNT(*) AS n FROM test_mail').first('n'),before);
+  const row=await db.prepare('SELECT * FROM crm_account_actions WHERE user_id=?').bind(result.id).first();
+  assert.ok(!JSON.stringify(row).includes(result.action_url.split('token=')[1].split('&')[0]));
+  const token=new URL(result.action_url).hash.match(/token=([a-f0-9]{64})/)[1];
+  assert.equal((await call('/api/auth/complete',{method:'POST',cookie:null,headers:{'X-Test-Manual':'1'},body:{token,password}})).status,200);
+  assert.equal((await login('manual-link-user')).status,200);
+  const users=await (await call('/api/admin/users',{headers:{'X-Test-Manual':'1','X-Test-No-Origin':'1'}})).json();assert.equal(users.account_delivery_mode,'manual');
+});
 test('email failures and expired links never activate accounts',async()=>{
   await db.prepare('UPDATE test_mail_failure SET enabled=1').run();
   const failed=await call('/api/admin/users',{method:'POST',body:{email:'failed@example.invalid',username:'mail-failed',role:'viewer'}});
@@ -148,7 +163,7 @@ test('invitation correction cannot overwrite an account activated after its read
 test('free-only recipient guard blocks unverified mail without calling the provider',async()=>{
   const before=await db.prepare('SELECT COUNT(*) AS n FROM test_mail').first('n');
   const response=await call('/api/admin/users',{method:'POST',body:{email:'unverified@example.invalid',username:'unverified',role:'viewer'}});
-  assert.equal(response.status,409);assert.match((await response.json()).error,/Cloudflare Free/);
+  assert.equal(response.status,409);assert.match((await response.json()).error,/Verify this recipient with Cloudflare/);
   assert.equal(await db.prepare('SELECT COUNT(*) AS n FROM test_mail').first('n'),before);
   assert.equal(await db.prepare("SELECT status FROM crm_users WHERE username='unverified'").first(),null);
 });

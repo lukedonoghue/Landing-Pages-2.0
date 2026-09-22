@@ -64,7 +64,7 @@ Block on:
 
 ## 3. Visual gate
 
-Open and inspect every required screenshot at its actual size. Do not infer approval from a file existing or a broad boolean.
+Open and inspect every required screenshot at its actual size. Do not infer approval from a file existing or a broad boolean. Full-page evidence must contain rendered pixels for every visible section. When CSS uses `content-visibility:auto`, require the browser artifact's visited and held-visible counts to match before review, then inspect the page from top to bottom. A blank intrinsic-size placeholder, a matching file hash, or measurements without section pixels cannot pass the visual gate.
 
 First-screen claims must match viewport geometry and a viewport-sized capture, not a scaled full-page image. A few pixels of the next background are not readable continuation. Check actual trust-strip text at 13px or larger after breakpoint overrides. If the browser helper cannot identify the hero's following section, check it directly instead of claiming it passed.
 

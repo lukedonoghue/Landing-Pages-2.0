@@ -160,9 +160,12 @@ test('sync config enforces requested attribution and supports unified or distinc
   let result=run({...base,requested_hosts:{public:'',crm:''}});assert.equal(result.status,0,result.stderr);let site=JSON.parse(readFileSync(path.join(root,'src/site-config.json')));assert.equal(site.attributionMode,'lead');assert.equal(site.publicHost,'');assert.equal(site.crmHost,'');
   result=run({...base,requested_hosts:{public:'public.example',crm:''}});assert.notEqual(result.status,0);assert.match(result.stderr,/distinct public and CRM hostnames, or neither/);
   result=run({...base,requested_hosts:{public:'same.example',crm:'same.example'}});assert.notEqual(result.status,0);assert.match(result.stderr,/distinct public and CRM hostnames, or neither/);
-  result=run({...base,requested_hosts:{public:'public.example',crm:'crm.example'}});assert.equal(result.status,0,result.stderr);site=JSON.parse(readFileSync(path.join(root,'src/site-config.json')));assert.equal(site.publicHost,'public.example');assert.equal(site.crmHost,'crm.example');
+  result=run({...base,requested_hosts:{public:'public.example',crm:'crm.example',pages_gateway:'synthetic-gateway.pages.dev'}});assert.equal(result.status,0,result.stderr);site=JSON.parse(readFileSync(path.join(root,'src/site-config.json')));assert.equal(site.publicHost,'public.example');assert.equal(site.crmHost,'crm.example');assert.equal(site.pagesGatewayHost,'synthetic-gateway.pages.dev');
+  result=run({...base,requested_hosts:{public:'public.example',crm:'crm.example',pages_gateway:'preview.example.com'}});assert.notEqual(result.status,0);assert.match(result.stderr,/exact production pages.dev hostname/);
+  result=run({...base,requested_hosts:{public:'',crm:'',pages_gateway:'synthetic-gateway.pages.dev'}});assert.notEqual(result.status,0);assert.match(result.stderr,/requires both public and CRM hostnames/);
   result=run({...base,analytics:{...base.analytics,attribution_mode:'disabled'}});assert.notEqual(result.status,0);assert.match(result.stderr,/Required attribution mode lead/);
-  result=run({...base,analytics:{mode:'disabled',attribution_mode:'disabled'}});assert.equal(result.status,0,result.stderr);assert.equal(JSON.parse(readFileSync(path.join(root,'src/site-config.json'))).attributionMode,'disabled');
+  result=run({...base,analytics:{mode:'disabled',attribution_mode:'disabled'}});assert.notEqual(result.status,0);assert.match(result.stderr,/required_attribution_mode explicitly/);
+  result=run({...base,analytics:{mode:'disabled',attribution_mode:'disabled',required_attribution_mode:'disabled'}});assert.equal(result.status,0,result.stderr);assert.equal(JSON.parse(readFileSync(path.join(root,'src/site-config.json'))).attributionMode,'disabled');
 });
 test('preflight blocks attribution drift without selecting a global policy',t=>{
   const root=temporary(t);for(const dir of ['scripts','src','public'])mkdirSync(path.join(root,dir),{recursive:true});
@@ -174,7 +177,8 @@ test('preflight blocks attribution drift without selecting a global policy',t=>{
   writeFileSync(path.join(root,'src/site-config.json'),JSON.stringify({name:'Synthetic client',attributionMode:'disabled'}));
   const run=()=>spawnSync(process.execPath,['scripts/preflight.mjs'],{cwd:root,encoding:'utf8'});let result=run();assert.notEqual(result.status,0);assert.match(result.stderr,/Attribution policy drift/);
   writeFileSync(path.join(root,'src/site-config.json'),JSON.stringify({name:'Synthetic client',attributionMode:'lead'}));result=run();assert.equal(result.status,0,result.stderr);
-  writeFileSync(path.join(root,'funnel.json'),JSON.stringify({}));writeFileSync(path.join(root,'src/site-config.json'),JSON.stringify({name:'Synthetic client'}));result=run();assert.equal(result.status,0,result.stderr);
+  writeFileSync(path.join(root,'funnel.json'),JSON.stringify({analytics:{attribution_mode:'lead'}}));result=run();assert.notEqual(result.status,0);assert.match(result.stderr,/omission cannot bypass attribution protection/);
+  writeFileSync(path.join(root,'funnel.json'),JSON.stringify({}));writeFileSync(path.join(root,'src/site-config.json'),JSON.stringify({name:'Synthetic client'}));result=run();assert.notEqual(result.status,0);assert.match(result.stderr,/omission cannot bypass attribution protection/);
 });
 test('disabled attribution verifies the dimensions the Worker actually stores', () => {
   const browserDimensions={source:'google',traffic:'paid',device:'desktop'};

@@ -28,6 +28,14 @@ export const FREE_USAGE_QUERY = `query CRMFreeUsage($accountTag: string!, $daySt
 const cacheEntries = new Map();
 const lastSuccessful = new Map();
 
+export function configuredUsagePlan(env = {}) {
+  const id = typeof env.CF_USAGE_PLAN === 'string' ? env.CF_USAGE_PLAN.trim().toLowerCase() : '';
+  const names = { 'workers-free': 'Workers Free', 'workers-paid': 'Workers Paid' };
+  return id in names
+    ? { id, name: names[id], source: 'verified_configuration' }
+    : { id: 'unknown', name: 'Plan not verified', source: 'unverified' };
+}
+
 export function resetFreeUsageCache() {
   cacheEntries.clear();
   lastSuccessful.clear();
@@ -179,7 +187,8 @@ export async function freeUsage(env, options = {}) {
   const period = utcPeriod(now);
   const token = typeof env.CF_ACCOUNT_ANALYTICS_TOKEN === 'string' ? env.CF_ACCOUNT_ANALYTICS_TOKEN.trim() : '';
   const accountId = typeof env.CF_USAGE_ACCOUNT_ID === 'string' ? env.CF_USAGE_ACCOUNT_ID.trim() : '';
-  if (!token || !/^[a-f0-9]{32}$/i.test(accountId)) return unavailable(period, 'not_connected', null, 'not_connected');
+  const plan = configuredUsagePlan(env);
+  if (!token || !/^[a-f0-9]{32}$/i.test(accountId)) return { ...unavailable(period, 'not_connected', null, 'not_connected'), plan };
 
   const connectionKey = `${accountId}\u0000${token}`;
   const entryKey = `${connectionKey}\u0000${period.date}`;
@@ -201,7 +210,7 @@ export async function freeUsage(env, options = {}) {
     const daily = value.metrics.slice(0, 3);
     const validated = Boolean(result.payload) && value.reason !== 'provider_unavailable' && value.reason !== 'stale' && daily.some(item => item.value !== null);
     if (validated) boundedSet(lastSuccessful, connectionKey, checkedAt);
-    value = { ...value, last_successful_at: validated ? checkedAt : (lastSuccessful.get(connectionKey) || null) };
+    value = { ...value, plan, last_successful_at: validated ? checkedAt : (lastSuccessful.get(connectionKey) || null) };
     entry.value = value;
     entry.expiresAt = now.getTime() + (value.reason ? ERROR_TTL_MS : (options.cacheTtlMs || CACHE_TTL_MS));
     return value;

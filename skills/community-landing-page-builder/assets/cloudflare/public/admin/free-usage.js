@@ -3,6 +3,7 @@ const ranks = { ok: 0, warning: 1, urgent: 2, exhausted: 3, unknown: 4 };
 function valid(data) {
   return data && typeof data === 'object' && ['connected','not_connected'].includes(data.connection)
     && Object.hasOwn(ranks, data.status) && Array.isArray(data.metrics)
+    && (!data.plan || (typeof data.plan.name === 'string' && typeof data.plan.source === 'string'))
     && typeof data.dashboard_url === 'string' && data.dashboard_url.startsWith('https://dash.cloudflare.com/');
 }
 
@@ -54,7 +55,7 @@ export function usageHeading(data) {
   return ({ok:'Free usage is in range',warning:'Free usage warning',urgent:'Free usage urgent',exhausted:'Free allowance reported exhausted',unknown:'Free usage unavailable'})[data.status];
 }
 
-export function initFreeUsage(root, { request, currentUser }) {
+export function initFreeUsage(root, { request, currentUser, compactRoot = null }) {
   let sequence = 0;
   let controller;
   let destroyed = false;
@@ -68,8 +69,27 @@ export function initFreeUsage(root, { request, currentUser }) {
   const refreshButton = root.querySelector('[data-usage-refresh]');
   const isAdmin = currentUser?.role === 'admin';
 
+  function renderCompact(data) {
+    if (!compactRoot) return;
+    compactRoot.dataset.status = data.status;
+    compactRoot.querySelector('[data-sidebar-plan]').textContent = data.plan?.name || 'Plan not verified';
+    compactRoot.querySelector('[data-sidebar-usage-status]').textContent = data.connection === 'connected' ? usageHeading(data) : 'Usage not connected';
+    const list = compactRoot.querySelector('[data-sidebar-usage-metrics]'); list.replaceChildren();
+    const shortLabels = { workers_requests:'Requests', d1_rows_read:'D1 reads', d1_rows_written:'D1 writes' };
+    for (const item of data.metrics.filter(metric => shortLabels[metric.id])) {
+      const row = document.createElement('div'); row.className = 'sidebar-usage-metric'; row.dataset.status = item.status;
+      const line = document.createElement('span'); line.className = 'sidebar-usage-line';
+      const label = document.createElement('span'); label.textContent = shortLabels[item.id];
+      const value = document.createElement('strong'); value.textContent = Number.isFinite(item.percent) ? `${number(item.percent)}%` : 'Unknown';
+      const track = document.createElement('span'); track.className = 'sidebar-usage-track'; track.setAttribute('aria-hidden','true');
+      const fill = document.createElement('span'); fill.className = 'sidebar-usage-fill'; fill.style.width = `${Math.max(0, Math.min(100, Number(item.percent) || 0))}%`;
+      line.append(label, value); track.append(fill); row.append(line, track); list.append(row);
+    }
+  }
+
   function render(data) {
     root.dataset.status = data.status;
+    renderCompact(data);
     heading.textContent = usageHeading(data);
     message.textContent = messageFor(data, isAdmin);
     dashboard.href = data.dashboard_url;
@@ -94,7 +114,7 @@ export function initFreeUsage(root, { request, currentUser }) {
     const id = ++sequence;
     controller?.abort(); controller = new AbortController();
     refreshButton.disabled = true; root.setAttribute('aria-busy','true');
-    if (id === 1) { heading.textContent = 'Checking Free usage'; message.textContent = 'Loading read-only Cloudflare account metrics...'; }
+    if (id === 1) { heading.textContent = 'Checking Free usage'; message.textContent = 'Loading read-only Cloudflare account metrics...'; if (compactRoot) compactRoot.querySelector('[data-sidebar-usage-status]').textContent = 'Checking usage'; }
     try {
       const data = await request('/api/admin/free-usage', { signal: controller.signal });
       if (destroyed || id !== sequence) return;
