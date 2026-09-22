@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "business": {
+    "name": "Example Business",
+    "website": "https://example.com",
+    "locations": [],
+    "identity_evidence": []
+  },
+  "sources": [
+    {
+      "id": "owned-site",
+      "provider": "first_party",
+      "source_url": "https://example.com/testimonials",
+      "retrieved_at": "2026-09-22",
+      "business_match": {
+        "status": "matched",
+        "evidence": [
+          "Website domain matches the client website."
+        ]
+      },
+      "terms": {
+        "research_allowed": true,
+        "publish_text_allowed": true,
+        "publish_avatar_allowed": false,
+        "attribution_required": false,
+        "storage_policy": "project"
+      }
+    }
+  ],
+  "reviews": [
+    {
+      "id": "review-001",
+      "source_id": "owned-site",
+      "provider_review_id": null,
+      "source_url": "https://example.com/testimonials",
+      "reviewer": {
+        "display_name": "Example Customer",
+        "profile_url": null,
+        "avatar": {
+          "url": null,
+          "local_path": null,
+          "provenance": null,
+          "generated": false
+        }
+      },
+      "rating": null,
+      "published_date": null,
+      "text": "The team explained every option clearly before we made a decision.",
+      "text_sha256": null,
+      "publication": {
+        "status": "publishable_text",
+        "rights_basis": "Published by the client on its owned testimonial page.",
+        "attribution_text": ""
+      },
+      "analysis": {
+        "problems": [
+          "Uncertainty about which option to choose"
+        ],
+        "desired_outcomes": [
+          "Understand the options before committing"
+        ],
+        "buying_triggers": [],
+        "objections_resolved": [
+          "Uncertainty about the decision"
+        ],
+        "praised_capabilities": [
+          "Clear explanation of options"
+        ],
+        "practical_benefits": [
+          "Can make an informed choice before committing"
+        ],
+        "emotional_benefits": [],
+        "voice_phrases": [
+          "explained every option clearly"
+        ],
+        "differentiator_signals": [
+          "Clear pre-commitment explanation"
+        ],
+        "testimonial_roles": [
+          "clarity"
+        ],
+        "proof_strength": 4
+      }
+    }
+  ]
+}
