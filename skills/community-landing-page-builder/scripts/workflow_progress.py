@@ -31,6 +31,7 @@ EXTERNAL_STAGES = {"publishing_setup", "publishing", "live_verification"}
 CANDIDATES = {
     "control_review": "build/control-review/result.json",
     "copy": "build/copy-audit.json",
+    "reviews": "build/reviews/result.json",
     "images": "build/images-audit.json",
     "browser": "build/layout/result.json",
     "browser_compat": "build/browser-compat/result.json",
