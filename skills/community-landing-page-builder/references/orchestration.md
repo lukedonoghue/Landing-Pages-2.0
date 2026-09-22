@@ -81,7 +81,7 @@ Keep the selected scope minimal. Copy-only and audit-only requests stop at their
 
 | Stage | Parallel work | Required barrier before proceeding |
 | --- | --- | --- |
-| Evidence | Business/conversion research; brand extraction; reference/asset investigation when useful | Source-linked compact evidence and material unknowns reconciled |
+| Evidence | Business/conversion research; review intelligence/testimonial provenance when feedback is available; brand extraction; reference/asset investigation when useful | Source-linked compact evidence, review-source identity/rights status and material unknowns reconciled |
 | Argument | One owner of strategy and the complete copy master | Real editorial acceptance plus the existing copy checker before layout |
 | Production inputs | Final design direction and image preparation after copy acceptance | Source-bound production contract; existing acquired/optimized image prerequisites before gated assembly |
 | Production | Frontend; useful PDF; selected integration configuration | Disjoint owned files and fixed shared inputs |
