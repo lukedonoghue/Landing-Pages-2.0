@@ -44,6 +44,7 @@ These rules override examples and optional modules.
 11. **A useful PDF is a required build stage.** Create a concise, researched guide, service overview, options summary, checklist, catalogue or verified price list appropriate to the buyer. Complete `build/guide.json`, run `python3 scripts/build_guide.py .`, inspect every rendered page and keep the matching `data-guide-embed` preview plus `data-guide-download` fallback on the thank-you page. A placeholder, missing, unrendered or undelivered PDF blocks final QA. Omit it only when research establishes a concrete reason it would not help this buyer, recorded with supporting sources in the strategy brief and `funnel.json`. Lack of a supplied PDF, no explicit request, limited time or a page-only default is not a reason. Keep it secondary unless research supports a download-led offer; do not force an enquiry just to access it.
 12. **Keep text work on the active AI provider.** Never require, install, authenticate, or invoke a second provider merely to write or review copy. Follow [platform-native model routing](references/model-routing.md): in Codex/ChatGPT prefer `gpt-6-astra` for the primary copy draft and `gpt-5.6-sol` for a separate review; in Claude use Sonnet for the draft and a separate Sonnet review. If a preferred model is unavailable, use the strongest suitable model already available from that same provider and record the actual model. Reviewer independence means a fresh context, not a different vendor.
 13. **The built-in CRM is the form default.** For an enquiry, quote, consultation, assessment or other first-party form journey, scaffold and use the bundled Cloudflare Workers + D1 CRM unless the user explicitly asks for a static-only page or a different destination. Do not ask which CRM they use, request a Google Sheet, or make GTM/ad IDs/custom-domain selection prerequisites. Those are optional integrations after the page-to-CRM journey works. Read [owner next-step guidance](references/next-step-guidance.md) before answering “what next?” or preparing publication.
+14. **Review research and testimonial publication are separate permissions.** Read [review intelligence and testimonials](references/review-intelligence-and-testimonials.md). Mine only rights-cleared customer feedback for problems, benefits, objections and customer language. Publish only exact testimonials whose identity, quote, source and avatar rights are recorded. Never generate or mismap reviewer identities or photos. Google Maps review content is provider-dynamic display only: do not scrape, store or use it to generate copy.
 
 ## Choose the smallest valid mode
 
@@ -68,13 +69,15 @@ The coordinator owns the dependency graph, source-bound production contract, art
 
 ### 1. Research autonomously
 
-Read [references/research-and-claims.md](references/research-and-claims.md) and [references/reference-fidelity.md](references/reference-fidelity.md). Keep the reference coverage map inside the existing strategy brief, not another report.
+Read [references/research-and-claims.md](references/research-and-claims.md), [references/review-intelligence-and-testimonials.md](references/review-intelligence-and-testimonials.md) and [references/reference-fidelity.md](references/reference-fidelity.md). Keep the reference coverage map inside the existing strategy brief, not another report.
 
 - Inspect the official website and the most relevant service, process, FAQ, testimonial, contact, legal, and media pages.
 - When useful, inspect verified official social accounts and credible editorial coverage. Use them to verify facts or discover first-party assets, not as automatic reuse permission.
 - If a reference or existing landing page is supplied, map its useful buyer questions, proof roles, media rhythm, CTA logic, and pacing. Preserve the persuasive jobs, not its wording, assets, or literal section order.
 - When direct competitors are readily discoverable and differentiation is unclear, inspect two or three official competitor pages. Record only the message gap the client can credibly occupy.
 - Record material claims and their sources. Do not turn competitor claims into client facts.
+- Research customer feedback as part of the same business-research task. Match each source to the exact business/location, record checked sources in `research/reviews/review-manifest.json`, and compile the current `build/review-insights.json` plus `build/testimonial-selection.json`. Use rights-cleared reviews for analysis; keep public discoverability separate from publication permission. If no usable reviews exist, record that researched outcome instead of inventing proof.
+- When a Google Places review source is selected for on-page display, use only the provider-dynamic contract in the review reference. Do not scrape or copy Google review text/photos into project files and do not make a Google API key a prerequisite for the local final.
 
 Create one compact `build/strategy-brief.md` containing: buyer situation, likely decision stage, desired action, offer or result, real delivery mechanism, source conversion contract, primary objection, strongest trust anchor, traffic intent, typography provenance, and visual direction. Create `build/claim-ledger.md` for material claims that will appear. Do not create extra reports merely to prove activity.
 
@@ -143,13 +146,14 @@ Read [references/quality-gates.md](references/quality-gates.md). The page is not
 At minimum:
 
 1. Run `python3 scripts/build_guide.py .` and inspect every rendered PDF page.
-2. Run `scripts/scan_surfaces.py` against the project.
-3. Run `scripts/validate_page.py` against the project.
-4. Serve the page locally and test representative mobile, tablet, laptop, short-height laptop, and desktop viewports.
-5. Capture and inspect the actual rendered pixels. Measurements and file presence are not visual approval.
-6. Test the real selected conversion path, including validation, failure, success, thank-you redirect and guide download. Use synthetic data locally. Do not create a live lead without permission.
-7. Run one local mobile Lighthouse pass. If it is not installed, attempt a run-local installation as described in the quality gates; an unsuccessful package lookup alone is not an unavailable-tool exception. Fix failures and repeat marginal results. Aim for Performance 90 or better, LCP at most 2.5 seconds, CLS at most 0.1, and TBT at most 200 milliseconds without deleting necessary proof.
-8. Perform a fresh acceptance pass after the build. Use a separate reviewer or agent when available. Otherwise reopen the final artifacts in an isolated second pass without trusting earlier self-authored pass booleans.
+2. Run `python3 scripts/validate_reviews.py .` and resolve testimonial/provenance/provider findings.
+3. Run `scripts/scan_surfaces.py` against the project.
+4. Run `scripts/validate_page.py` against the project.
+5. Serve the page locally and test representative mobile, tablet, laptop, short-height laptop, and desktop viewports.
+6. Capture and inspect the actual rendered pixels. Measurements and file presence are not visual approval.
+7. Test the real selected conversion path, including validation, failure, success, thank-you redirect and guide download. Use synthetic data locally. Do not create a live lead without permission.
+8. Run one local mobile Lighthouse pass. If it is not installed, attempt a run-local installation as described in the quality gates; an unsuccessful package lookup alone is not an unavailable-tool exception. Fix failures and repeat marginal results. Aim for Performance 90 or better, LCP at most 2.5 seconds, CLS at most 0.1, and TBT at most 200 milliseconds without deleting necessary proof.
+9. Perform a fresh acceptance pass after the build. Use a separate reviewer or agent when available. Otherwise reopen the final artifacts in an isolated second pass without trusting earlier self-authored pass booleans.
 
 When the user asks what happens next, inspect the actual workflow state and follow [owner next-step guidance](references/next-step-guidance.md). Name one current action. Do not respond with a shopping list of CRM, spreadsheet, GTM, ad-account, domain and hosting choices.
 
