@@ -2,7 +2,7 @@
 
 ## Write before layout
 
-Use the selected leading advantage and benefit/proof map from the strategy brief. Write the full copy master before choosing section layouts or building HTML. Research and asset discovery can happen alongside writing; finished design must not dictate how little the business gets to explain. The brief's single leading advantage connects the hero to the supporting reasons, proof and offer.
+Use the selected leading advantage and benefit/proof map from the strategy brief. When `build/review-insights.json` exists, read its current rights-cleared themes before drafting and use them to understand customer problems, desired outcomes, objections, praised delivery practices and natural language. Verify company-level claims against company evidence rather than turning review themes into unsupported superiority. Only `build/testimonial-selection.json` may supply testimonial quotations. Write the full copy master before choosing section layouts or building HTML. Research and asset discovery can happen alongside writing; finished design must not dictate how little the business gets to explain. The brief's single leading advantage connects the hero to the supporting reasons, proof and offer.
 
 Read `copy-doctrine.md` and its compact reference analysis. Transfer the references' direct customer voice, specific explanations, benefit-led headings and proof rhythm, not their sentences or business claims. Style matching does not authorize exaggeration, invented uniqueness or awkwardly copying a long headline.
 
@@ -76,8 +76,9 @@ Use the same offer and follow-up promise in the page, form, success state, thank
 ## Proof rhythm
 
 - Put a strong verified trust signal in or immediately after the hero when available.
-- Use each testimonial as one person's evidence. Do not manufacture a grid from one source.
+- Use each testimonial as one person's evidence. Bind any published testimonial to its `build/testimonial-selection.json` record and keep the exact reviewer/source identity with it. Do not manufacture a grid from one source.
 - Keep internal verification language in research notes. Call sourced feedback customer reviews, not verified reviews unless that status itself is supported.
+- Prefer complementary proof roles rather than three testimonials saying the same thing. Put the communication review beside communication claims, the process review beside process claims, and so on when the layout supports it.
 - Use ratings, counts, awards, credentials, or logos only when verified and decision-relevant.
 - Use press or industry statistics only when an authoritative source and buyer value justify the space.
 - Use an origin story only when it explains relevant expertise, empathy, or process.
