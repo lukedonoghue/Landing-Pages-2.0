@@ -34,13 +34,13 @@ Search results, social posts, and editorial pages do not automatically grant reu
 
 ## Truth classes
 
-- **Proof:** actual client work, result, location, product, team member, customer, testimonial source, credential, or official document. Must be verified first-party or user-supplied evidence.
+- **Proof:** actual client work, result, location, product, team member, customer, testimonial source, credential, or official document. Must be verified first-party, user-supplied, or otherwise explicitly rights-cleared evidence. Reviewer avatars additionally follow `review-intelligence-and-testimonials.md`; the quote and face must belong to the same source record.
 - **Portrait:** a verified real person tied to the client and used with an appropriate rights basis.
 - **Diagram or screenshot:** information-bearing pixels. Preserve every label and detail with `contain`, a separate figure, or native HTML.
 - **Illustrative:** sourced or generated atmosphere, hypothetical process, or generic context. It cannot support a factual claim by appearance.
 - **Decorative:** visual texture with no information. Use empty alt text.
 
-Do not relabel proof as illustration to bypass provenance. Do not use an initials avatar as if it were a customer photograph.
+Do not relabel proof as illustration to bypass provenance. Do not use an initials avatar as if it were a customer photograph. Never generate, substitute, or search elsewhere for a reviewer's face. A Google reviewer photo must remain provider-dynamic from the official Places response and must not be downloaded into project assets.
 
 ## Native generation
 
