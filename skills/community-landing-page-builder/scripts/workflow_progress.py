@@ -18,6 +18,10 @@ STAGES = {
     "copy_drafting",
     "copy_review",
     "design_and_build",
+    "guide_build",
+    "guide_review",
+    "guide_repair",
+    "thank_you_build",
     "local_verification",
     "publishing_setup",
     "publishing",
@@ -51,9 +55,13 @@ LABELS = {
     "static_publish_ready": "Publish the reviewed static page",
     "static_publish_recovery": "Reconcile the static publication",
     "static_published": "Static page published and checked",
+    "guide_build": "Create the researched, illustrated guide",
+    "guide_repair": "Improve the guide from actual reader findings",
+    "guide_review": "Review the actual guide as a reader",
+    "thank_you_build": "Reuse the main page for confirmation and guide delivery",
     "local_verification": "Test the complete local funnel",
     "publishing_setup": "Local final ready for launch setup",
-    "awaiting_publish_authorization": "Connect launch destinations",
+    "awaiting_publish_authorization": "Approve the Cloudflare publish",
     "ready_to_publish": "Ready for the approved publish",
     "deployed_unverified": "Uploaded; verification is incomplete",
     "publishing_outcome_unknown": "Check the interrupted external action",
@@ -72,6 +80,60 @@ def now():
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def guide_state(root, config):
+    catalogue = config.get("catalogue", {})
+    if catalogue.get("enabled") is False:
+        if config.get('quality', {}).get('reader_guide_version', 0) >= 1:
+            try:
+                import guide_quality
+                guide_quality.validate_omission(root, catalogue)
+            except (ValueError, OSError, KeyError, TypeError) as error:
+                return {'status': 'blocked', 'stage': 'guide_build', 'failures': [str(error)]}
+        reason = str(catalogue.get("omission_reason", "")).strip()
+        return {
+            "status": "not_applicable" if len(reason) >= 30 else "blocked",
+            "failures": [] if len(reason) >= 30 else ["A disabled PDF guide needs a specific source-supported omission reason."],
+            "omission_reason": reason,
+        }
+    if config.get('quality', {}).get('reader_guide_version', 0) >= 1:
+        import guide_quality
+        import thank_you_page
+        stage = 'guide_build'
+        try:
+            report = guide_quality.inspect_build(root)
+            stage = 'thank_you_build'
+            thank_you_page.inspect(root)
+            stage = 'guide_repair' if guide_quality.repair_needed(root, report) else 'guide_review'
+            guide_quality.inspect_review(root, report)
+            return {**report, 'status': 'pass', 'failures': []}
+        except (ValueError, OSError, KeyError, TypeError) as error:
+            return {'status': 'blocked', 'stage': stage, 'failures': [str(error)]}
+    report = storage.read(root, "build/guide-build.json", {})
+    failures = []
+    if report.get("status") != "pass":
+        failures.append("The PDF guide has not been built and verified.")
+    for key, hash_key in (("config", "config_sha256"), ("output", "output_sha256"), ("thank_you", "thank_you_sha256")):
+        try:
+            path = check_gates.resolve_inside(root, report.get(key, ""))
+            if not path.is_file() or digest(path) != report.get(hash_key):
+                failures.append(f"The guide {key} is missing or changed.")
+        except (OSError, ValueError):
+            failures.append(f"The guide {key} is invalid.")
+    pages = report.get("rendered_pages", [])
+    if not isinstance(pages, list) or not pages:
+        failures.append("The PDF guide has no rendered page evidence.")
+    else:
+        for item in pages:
+            try:
+                if not check_gates.resolve_inside(root, item).is_file():
+                    failures.append("A rendered guide page is missing.")
+                    break
+            except ValueError:
+                failures.append("A rendered guide page path is invalid.")
+                break
+    return {**report, "status": "pass" if not failures else "blocked", "failures": failures}
 
 
 def record(root):
@@ -339,7 +401,7 @@ def inspect(root):
     if config is None:
         return at(
             "setup",
-            "Create a new project with the installed skill scaffold; retain the supplied website, reference and actual brief.",
+            "Create a new project with the installed skill scaffold; retain the supplied website, reference and actual brief. For a form-led page use the default scaffold so the built-in Cloudflare/D1 CRM is included; static-only is an explicit opt-out.",
         )
     report["completed"].append("project_created")
     report["source_fingerprint"] = check_gates.source_snapshot(root)["source_fingerprint"]
@@ -505,6 +567,21 @@ def inspect(root):
             "Continue the design and its existing image plan. Source, optimize and inspect the selected assets; resolve these findings without restarting the approved copy.",
         )
     report["completed"].append("image_plan_satisfied")
+    page = root/'public/index.html' if (root/'public').is_dir() else root/'index.html'
+    if config.get('quality', {}).get('reader_guide_version', 0) >= 1 and (not page.is_file() or 'Make a confident plan for your next project.' in page.read_text()):
+        return at('design_and_build', 'Build the real main landing page from the accepted copy before deriving its guide delivery and full confirmation page.')
+    report["guide"] = guide_state(root, config)
+    if report["guide"]["status"] not in {"pass", "not_applicable"}:
+        report["blockers"] += report["guide"]["failures"]
+        next_guide = report["guide"].get("stage", "guide_build")
+        guide_actions = {
+            'guide_build': 'Read references/reader-guide-quality.md. Author substantive source-backed advice and meaningful images in build/guide.json, then run scripts/build_guide.py to generate and render the actual PDF and cover. Do not mark semantic quality as passed.',
+            'thank_you_build': 'Complete build/thank-you.json from current approved copy and run scripts/thank_you_page.py. Reuse the actual main page, replace its hero, remove repeat enquiry actions and verify guide delivery plus direct/receipt mobile and desktop states.',
+            'guide_review': 'Read references/reader-guide-quality.md. Open every current PDF render and inspect the full confirmation page. Write only build/guide-review.json with real observations and a concrete improvement checklist. Do not alter the page, PDF or approval records during review.',
+            'guide_repair': 'Work through the current reader-review findings. Preserve the original checklist, improve the canonical guide copy/images/layout, rebuild with scripts/build_guide.py, regenerate the full confirmation and prepare fresh renders for review. Do not erase failed-review history or claim your own independent acceptance.'
+        }
+        return at(next_guide, guide_actions.get(next_guide, guide_actions['guide_build']), status="blocked")
+    report["completed"].append("guide_generated_and_linked" if report["guide"]["status"] == "pass" else "guide_omission_documented")
     # Initial implementation is not final. This is a required, evidence-bound
     # compare -> repair -> recapture loop, shared by guided and automatic runs.
     if config.get('quality',{}).get('contract_version',0) >= 2 or config.get('quality',{}).get('control_review') or config.get('guided_workflow'):
@@ -530,6 +607,19 @@ def inspect(root):
         )
     report["completed"].append("local_quality_verified")
     if config.get("backend", {}).get("provider") == "none":
+        explicit_static = (
+            config.get("product_mode") == "static-only"
+            or config.get("publish_target") == "static-handoff"
+        )
+        if not explicit_static:
+            report["blockers"].append(
+                "A form-led/default project is missing the bundled Cloudflare/D1 CRM."
+            )
+            return at(
+                "design_and_build",
+                "Preserve the finished page and integrate the maintained built-in CRM module. Do not ask the owner to choose an external CRM, Google Sheet or GTM destination. Verify the local form-to-receipt-to-D1-to-CRM journey before handoff.",
+                status="blocked",
+            )
         if config.get('guided_workflow',{}).get('goal') == 'publish':
             import static_publish
             static = static_publish.inspect(root)
@@ -561,7 +651,7 @@ def inspect(root):
     if not configured:
         return at(
             "publishing_setup",
-            "The local final is ready. Collect the intended Cloudflare account/site, domain and GTM destination values. Reuse existing publish scope when present; configuration changes need a fresh QA snapshot before publication authorization is recorded.",
+            "The local final and built-in CRM are ready. The next setup action is connecting or reusing the intended Cloudflare account and preparing a workers.dev release; a custom domain, GTM, ad IDs, Google Sheets or another CRM can wait. Reuse existing publish scope when present; configuration changes need a fresh QA snapshot before publication authorization is recorded.",
             status="ready",
         )
     publish = workflow.check_publish_approval(root)
@@ -584,7 +674,7 @@ def inspect(root):
             )
         return at(
             "awaiting_publish_authorization",
-            "The local final is complete. Reuse the original instruction if it explicitly authorized publication; otherwise ask once whether to publish. Collect the Cloudflare/domain/GTM inputs and controlled-test-lead choice, then record the real publication instruction.",
+            "The local final and built-in CRM are complete. Reuse the original instruction if it explicitly authorized publication; otherwise ask once whether to publish them together to Cloudflare. Default to workers.dev unless a custom domain was already chosen. GTM, ad IDs, Sheets and external CRMs are optional. Record whether the authorization includes a controlled live test enquiry.",
             status="awaiting_review",
         )
     report["completed"].append("publication_authorized")

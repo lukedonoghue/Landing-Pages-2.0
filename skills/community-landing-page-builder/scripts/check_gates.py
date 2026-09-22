@@ -294,6 +294,16 @@ def validate_report(root, report, snapshot, gate):
         if not isinstance(report.get('limits'), list):
             errors.append('Visual acceptance must state unresolved limits')
     elif gate == 'catalogue':
+        config = read_json(root / 'funnel.json')
+        if config.get('quality', {}).get('reader_guide_version', 0) >= 1:
+            try:
+                import guide_quality
+                import thank_you_page
+                guide_build = guide_quality.inspect_build(root)
+                guide_quality.inspect_review(root, guide_build)
+                thank_you_page.inspect(root)
+            except (ValueError, OSError, KeyError, TypeError) as error:
+                errors.append('Reader guide/confirmation: ' + str(error))
         count = report.get('page_count', 0)
         if not isinstance(count, int) or count < 1 or report.get('reviewed_pages', []) != list(range(1, count + 1)):
             errors.append('Catalogue evidence must review every rendered page in order')
@@ -363,6 +373,13 @@ def check(root, mode, manifest_path):
     errors, warnings, results = [], [], {}
     if not manifest_path.is_file():
         return {'status': 'blocked', 'mode': mode, 'failures': ['Evidence manifest is missing'], 'gates': {}}
+    config = read_json(root/'funnel.json') if (root/'funnel.json').is_file() else {}
+    if config.get('quality', {}).get('reader_guide_version', 0) >= 1 and config.get('catalogue', {}).get('enabled') is False:
+        try:
+            import guide_quality
+            guide_quality.validate_omission(root, config['catalogue'])
+        except (ValueError, OSError, KeyError, TypeError) as error:
+            errors.append('Reader-guide omission: ' + str(error))
     manifest = read_json(manifest_path)
     snapshot = manifest.get('snapshot', {})
     current = source_snapshot(root)

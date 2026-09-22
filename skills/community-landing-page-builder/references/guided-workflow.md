@@ -1,5 +1,7 @@
 # Guided workflow and execution contract
 
+For new `reader_guide_version: 1` builds, [reader-guide-quality.md](reader-guide-quality.md) is the current PDF and full thank-you contract. Build the researched image-led guide, derive the confirmation from the actual main page, inspect all PDF pages and both confirmation states, repair findings and refresh evidence. The legacy catalogue procedure below remains applicable only to its older format. Do not accept an image-free generic PDF or an unrelated success box as a final new build.
+
 ## Start with one guide
 
 Use this mode when the owner asks to be guided, to work step by step, or to build through publication. Preserve automatic mode for owners who want autonomous work without routine copy/design approvals. Existing projects do not silently switch modes.

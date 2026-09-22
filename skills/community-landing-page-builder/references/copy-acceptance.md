@@ -46,7 +46,7 @@ Use `.json` paths instead when those are the existing masters. The helper saves 
 The reviewer writes the existing `build/copy-editorial-review.json` (not a duplicate report):
 
 - `inputs_sha256`: the prepared snapshot hash;
-- `reviewer`: `{ "mode": "independent" or "self_review", "identity": "actual reviewer/model" }`;
+- `reviewer`: `{ "mode": "independent" or "self_review", "identity": "actual provider and model" }`; follow [platform-native model routing](model-routing.md), and never switch vendors merely to satisfy review independence;
 - `reader_summary`: `offer`, `buyer_benefit`, `reason_to_choose`, `next_step`, each with `answer` and an exact final `copy_excerpt`;
 - `checks`: the eight criterion IDs above, once each, with `verdict` (`pass` or `fail`) and `evidence` containing `copy_excerpt` and specific `explanation`;
 - for message match and objection coverage, evidence also includes a real `brief_excerpt`; the explanation maps the brief's priority questions to their actual answers, including researched exceptions;

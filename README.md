@@ -2,7 +2,19 @@
 
 The **community landing-page builder is now the main workflow**. Start from `main` and use `skills/community-landing-page-builder/SKILL.md`. The previous branded builder is retained under `skills/branded-lead-funnel-builder/`; its earlier README is preserved as [README-LEGACY.md](README-LEGACY.md).
 
-The community builder turns business research into a branded responsive landing page, purposeful imagery, a useful PDF, an honest conversion path and actual visual/functional QA. CRM, advertising tracking and hosting are selected modules, not prerequisites for a local page. It does not require copy/design approval unless you ask for that checkpoint. Publishing and live test leads still require the authorization described in the skill.
+The community builder turns business research into a branded responsive landing page, purposeful imagery, a useful PDF, an honest conversion path and actual visual/functional QA. Form-led pages include the built-in local Cloudflare Workers and D1 CRM by default; external CRM/Sheets connections, advertising tracking and hosting remain optional later-stage modules. It does not require copy/design approval unless you ask for that checkpoint. Publishing and live test leads still require the authorization described in the skill.
+
+## Step one install local dependencies
+
+From a fresh checkout, run the repository setup entry point before building or testing:
+
+```sh
+python3 scripts/dev.py doctor
+python3 scripts/dev.py bootstrap
+python3 scripts/dev.py doctor
+```
+
+Bootstrap installs the locked Python, Node and Playwright browser dependencies in project-local locations. It does not use sudo, alter the system Python, sign into an account, deploy, or include dependency folders in source handoffs. Use `--node /absolute/path/to/node` when the supported Node 24 runtime is not already on PATH; Node 22.19 is the minimum.
 
 ## Guided build, automatic repairs and recovery
 
@@ -17,6 +29,12 @@ The active agent uses `guide.py` and the persistent `workflow_runner.py`; an opt
 Fresh generated projects keep the complete skill context under `.community-builder/`, outside `public/`. This preserves instructions, templates and the Blue Mountain reference after moving the project or resuming through copied helpers. It contains no client credentials. Existing bundles are not silently overwritten; reconcile a modified runtime explicitly. Do not upload the project root as public assets.
 
 See [guided workflow](skills/community-landing-page-builder/references/guided-workflow.md) and [control comparison](skills/community-landing-page-builder/references/control-comparison.md). Source/test verification does not substitute for a real signed-in native-agent pilot or authorized cloud/domain/email acceptance.
+
+## Reader guides and full confirmation pages
+
+New builds now require a researched, illustrated buyer guide, not merely a generated PDF. The reader-review gate checks actual source/image evidence, all rendered pages, specific findings and their repaired output. The full thank-you page is derived from the main page: shared header/phone/brand and supporting sections, with a confirmation-focused hero, real guide-cover preview, download and reader fallback. Direct visits never manufacture a received enquiry or conversion.
+
+See [the complete reader-guide and confirmation contract](skills/community-landing-page-builder/references/reader-guide-quality.md). These changes update the builder; existing generated client folders need an intentional update and rebuild. Do not overwrite a customized client thank-you page without reviewing it first.
 
 ## Agent GitHub access
 
@@ -50,7 +68,7 @@ The old `scripts/install_skill.py` is retained for the **legacy branded skill**.
 
 The coordinator routes narrow research to fast workers, ordinary implementation to standard workers, strategy/copy/review to deeper workers, and difficult diagnosis to critical workers. Mechanical checks stay in scripts. A maximum of four cooperating workers can reserve disjoint tasks. A shared production contract, dependency/input hashes, bounded retries and a frozen independent review keep parallel work coherent. Requested and actually reported models are separate fields.
 
-The default OpenAI policy uses Luna, Terra and GPT-5.6 with task-appropriate effort. The Claude policy uses Haiku, Sonnet and Opus aliases, with supported effort settings. Missing choices use explicit inherited profiles or sequential fallback, without new API credentials. Profiles are generated from one policy; fallback profile/model consistency is regression-tested.
+The default OpenAI policy uses Luna and Terra for narrow or implementation work, GPT-6 Astra for the primary copy draft, and GPT-5.6 Sol for the fresh copy review. The Claude policy uses Sonnet for both copy passes in separate contexts; it does not route copy or copy review to Opus. Other non-copy roles retain their task-appropriate same-provider profiles. Missing choices use an ordered same-provider fallback or explicit inherited/sequential fallback, without new API credentials. Profiles are generated from one policy; fallback profile/model consistency is regression-tested.
 
 Read [native orchestration](skills/community-landing-page-builder/references/orchestration.md) for the exact dependency graph, capability preflight, native dispatch protocol, private-data boundaries and measurement plan. The local routing helper records/schedules work but does not call any model API or launch an external agent service. Existing copy-before-layout, imagery, PDF, backend, source-fingerprint and publishing gates remain authoritative.
 

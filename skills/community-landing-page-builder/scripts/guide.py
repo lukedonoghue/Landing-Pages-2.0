@@ -328,7 +328,7 @@ def next_action(root):
         return action(stage,'complete','Return the verified result and separate pending domain, conversion, owner-access and integration limits. Saved proof is not a fresh live check.',**extras)
     if stage=='ready_for_handoff' or (value['guided_workflow']['goal']=='preview' and stage in {'publishing_setup','ready_to_publish'}):
         return action('local_final','complete','Present the improved local page and its tested scope. Nothing has been published.',**extras)
-    roles={'research':'research','copy_drafting':'copy','copy_review':'copy','control_comparison':'review','control_repair':'copy','control_retest':'review','local_verification':'debug'}
+    roles={'research':'research','copy_drafting':'copy','copy_review':'copy','control_comparison':'review','control_repair':'copy','control_retest':'review','local_verification':'debug','guide_build':'pdf','guide_review':'review','guide_repair':'pdf','thank_you_build':'frontend'}
     return action(stage,'work',report['next_action']['instruction'],role=roles.get(stage,'frontend'),**extras)
 
 

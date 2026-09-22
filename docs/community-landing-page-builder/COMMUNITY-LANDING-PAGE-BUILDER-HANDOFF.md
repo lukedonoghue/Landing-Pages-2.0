@@ -4,7 +4,7 @@
 
 This is the first repository checkpoint for the community-focused fork of Landing Pages 2.0. It is intentionally committed as a new folder so the existing `branded-lead-funnel-builder` working copy and `README-BOHDAN.md` remain untouched.
 
-The user wants a skill that a business owner with little or no AI, landing-page, hosting, or analytics experience can use from one prompt. A business website URL must be sufficient. The default result is a strong local landing page, not a mandatory brochure, CRM, D1 database, reporting stack, tracking setup, deployment, backup system, or Git workflow.
+The user wants a skill that a business owner with little or no AI, landing-page, hosting, or analytics experience can use from one prompt. A business website URL must be sufficient. As of 22 September 2026, a form-led result includes the bundled Cloudflare Workers + D1 CRM locally by default. External integrations, custom domains and deployment remain later-stage choices; static-only and non-form journeys remain supported.
 
 ## Read first
 
@@ -19,7 +19,8 @@ The full gap audit explains every adopted, simplified, conditional, and rejected
 ## Main product changes
 
 - The default path now produces a researched, branded local page with one honest conversion action and real visual QA.
-- Brochure, CRM, Cloudflare, tracking, deployment, backup, recovery, and handoff are optional modules.
+- Guide generation is now an explicit pre-QA stage: the generated project carries its content contract, portable builder/fonts, rendered-page outputs and exact thank-you preview/download verification.
+- For form-led pages, the bundled Cloudflare Workers + D1 CRM is now the default local destination and is built/tested with the page. External CRM/Sheets synchronization, GTM/ad conversions, custom domains, deployment, backup/recovery and handoff are separate later-stage choices. Static-only remains an explicit opt-out or a non-form journey.
 - The entrypoint was reduced to 149 lines and about 2,000 words.
 - The default process uses one compact strategy brief, one material-claim ledger, one copy master, and an image plan only when images require it.
 - No API key, MCP server, GitHub account, private ad account, hosting credential, or analytics ID is needed for a local final.

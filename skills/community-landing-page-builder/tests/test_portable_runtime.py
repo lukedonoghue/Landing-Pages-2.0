@@ -40,7 +40,7 @@ print(json.dumps({'root':str(guide.SKILL),'runner':str(workflow_runner.SKILL),
             result = self.run_python('-c', probe, cwd=moved)
             self.assertEqual(result.returncode, 0, result.stderr)
             values = json.loads(result.stdout)
-            self.assertEqual(values['root'], str(moved/'.community-builder'))
+            self.assertEqual(values['root'], str((moved/'.community-builder').resolve()))
             self.assertEqual(values['root'], values['runner'])
             self.assertEqual(values['control'], 'https://bluemountain1.pagedemo.co/')
             self.assertTrue(values['worker_template'])

@@ -1,5 +1,7 @@
 # Lightweight Quality Gates
 
+For new `reader_guide_version: 1` builds, [reader-guide-quality.md](reader-guide-quality.md) is the current PDF and full thank-you contract. Build the researched image-led guide, derive the confirmation from the actual main page, inspect all PDF pages and both confirmation states, repair findings and refresh evidence. The legacy catalogue procedure below remains applicable only to its older format. Do not accept an image-free generic PDF or an unrelated success box as a final new build.
+
 Use these gates after the page is implemented and after every material source change. The goal is a good, conversion-capable page, not maximum ceremony.
 
 ## 1. Static gate
@@ -7,9 +9,12 @@ Use these gates after the page is implemented and after every material source ch
 Run from the skill directory:
 
 ```bash
+python3 /path/to/project/scripts/build_guide.py /path/to/project
 python3 scripts/scan_surfaces.py /path/to/project --report /path/to/project/build/surface-scan.json
 python3 scripts/validate_page.py /path/to/project --source-site https://business.example --report /path/to/project/build/static-review.json
 ```
+
+The guide build is first because the static and browser gates must inspect the final served PDF, thank-you preview and download fallback, not a placeholder. `build/guide-build.json` proves generation/render/delivery consistency; the separate catalogue review proves actual page-by-page visual judgment.
 
 The first command blocks prohibited dash characters/entities and unresolved template markers across customer-facing surfaces. The second checks local assets, links, headings, viewport settings, image classification and alt behavior, basic form relationships, primary destinations, and common privacy/tracking failures. Supply the actual main business URL with `--source-site`; repeat for any additional official domains. It also blocks links back to those sites and requires a linked local PDF with a PDF signature. A researched omission uses `--omit-brochure-reason "specific source-supported rationale recorded in the strategy brief"`; this is an auditable exception, not automatic evidence that omission is justified.
 

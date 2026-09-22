@@ -1,6 +1,6 @@
 # CRM team access
 
-Load this only for the optional CRM module, not a page-only build. Keep business-owner setup guided; never ship a community author's credentials or email keys.
+Load this when the built-in CRM is active, including the default form-led build; skip it for an explicit static-only or genuinely non-form page. Keep business-owner setup guided; never ship a community author's credentials or email keys.
 
 ## Roles
 

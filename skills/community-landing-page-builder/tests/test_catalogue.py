@@ -168,7 +168,7 @@ class CatalogueTests(unittest.TestCase):
         result = self.build()
         # Authored fixture wording plus the intended template labels/ordinals.
         # No expected marketing text is scraped from the finished PDF.
-        excluded = {"colors", "logo", "image", "image_mode", "theme", "fonts", "phone_uri"}
+        excluded = {"colors", "logo", "image", "image_mode", "theme", "fonts", "phone_uri", "delivery", "workflow_ready"}
 
         def strings(value):
             if isinstance(value, str):

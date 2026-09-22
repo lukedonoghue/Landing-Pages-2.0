@@ -28,6 +28,32 @@ CLEAN_HTML = """<!doctype html>
 
 
 class CommunityCoreTests(unittest.TestCase):
+    def test_copy_workflow_stays_on_the_active_provider(self):
+        skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        routing = (SKILL / "references" / "model-routing.md").read_text(encoding="utf-8")
+        copy_files = "\n".join(
+            (SKILL / "references" / name).read_text(encoding="utf-8")
+            for name in ("copy-and-structure.md", "copy-acceptance.md", "copy-workflow.md")
+        )
+        self.assertIn("gpt-6-astra", skill + routing + copy_files)
+        self.assertIn("gpt-5.6-sol", skill + routing + copy_files)
+        self.assertIn("Sonnet", skill + routing + copy_files)
+        self.assertIn("Never require, install, authenticate, or invoke a second provider", skill)
+        self.assertNotIn("claude --model", skill + routing + copy_files)
+        self.assertNotIn("Claude Opus requirement", skill + routing + copy_files)
+
+    def test_form_led_product_defaults_to_the_built_in_crm(self):
+        skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        guidance = (SKILL / "references" / "next-step-guidance.md").read_text(encoding="utf-8")
+        progress = (SKILL / "scripts" / "workflow_progress.py").read_text(encoding="utf-8")
+        self.assertIn("The built-in CRM is the form default", skill)
+        self.assertIn("you do not need to choose a crm or google sheet", guidance.lower())
+        self.assertIn("built-in CRM are ready", progress)
+        self.assertIn('"guide_build"', progress)
+        self.assertIn("scripts/build_guide.py", progress)
+        self.assertNotIn("Collect the intended Cloudflare account/site, domain and GTM", progress)
+        self.assertNotIn("Which CRM you use", skill + guidance + progress)
+
     def run_script(self, script: Path, *args: str):
         return subprocess.run(
             [sys.executable, str(script), *map(str, args)],
@@ -71,6 +97,82 @@ class CommunityCoreTests(unittest.TestCase):
             dependency = root / "scripts" / "rendered_fonts.mjs"
             self.assertTrue(dependency.is_file())
             self.assertEqual(dependency.read_bytes(), (SKILL / "scripts" / "rendered_fonts.mjs").read_bytes())
+            funnel = json.loads((root / "funnel.json").read_text())
+            self.assertEqual(funnel["product_mode"], "form-crm")
+            self.assertEqual(funnel["backend"]["provider"], "cloudflare-d1")
+            self.assertEqual(funnel["webhook_url"], "/api/leads")
+            self.assertTrue(funnel["catalogue"]["enabled"])
+            self.assertTrue((root / "public" / "admin" / "index.html").is_file())
+            self.assertTrue((root / "build" / "guide.json").is_file())
+            self.assertTrue((root / "scripts" / "build_guide.py").is_file())
+            self.assertTrue((root / "scripts" / "build_catalogue.py").is_file())
+            self.assertTrue((root / "assets" / "pdf-fonts" / "DejaVuSans.ttf").is_file())
+            start = (root / "START-HERE.md").read_text()
+            self.assertIn("do not need to choose an external CRM", start)
+            self.assertIn("workers.dev address is the default", start)
+            self.assertIn("scripts/build_guide.py", start)
+            self.assertIn("data-guide-download", (root / "public" / "thank-you.html").read_text())
+            self.assertIn("data-guide-embed", (root / "public" / "thank-you.html").read_text())
+
+    def test_static_only_is_an_explicit_crm_opt_out(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "static-project"
+            result = self.run_script(
+                SKILL / "scripts" / "scaffold_project.py",
+                root,
+                "--client",
+                "Synthetic fixture",
+                "--static-only",
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            funnel = json.loads((root / "funnel.json").read_text())
+            self.assertEqual(funnel["product_mode"], "static-only")
+            self.assertEqual(funnel["backend"]["provider"], "none")
+            self.assertFalse((root / "public" / "admin" / "index.html").exists())
+            self.assertTrue((root / "scripts" / "build_guide.py").is_file())
+            self.assertTrue((root / "assets" / "pdf-fonts" / "DejaVuSans.ttf").is_file())
+
+    def test_guide_stage_blocks_template_then_builds_renders_and_verifies_delivery(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "guide-project"
+            result = self.run_script(
+                SKILL / "scripts" / "scaffold_project.py",
+                root,
+                "--client",
+                "Synthetic Guide Fixture",
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            blocked = self.run_script(root / "scripts" / "build_guide.py", root)
+            self.assertNotEqual(blocked.returncode, 0)
+            self.assertFalse((root / "public" / "assets" / "brochure" / "service-guide.pdf").exists())
+
+            # New scaffolds require authored reader content, not a catalogue
+            # whose only change is setting workflow_ready to true.
+            import importlib.util
+            spec = importlib.util.spec_from_file_location("reader_fixture", SKILL / "assets/cloudflare/tests/fixtures/reader_guide_fixture.py")
+            fixture = importlib.util.module_from_spec(spec); spec.loader.exec_module(fixture)
+            fixture.fixture(root, root / "scripts")
+            built = self.run_script(root / "scripts" / "build_guide.py", root)
+            self.assertEqual(built.returncode, 0, built.stdout + built.stderr)
+            delivered = self.run_script(root / "scripts" / "thank_you_page.py", root)
+            self.assertEqual(delivered.returncode, 0, delivered.stdout + delivered.stderr)
+            pdf = root / "public/assets/brochure/service-guide.pdf"
+            self.assertEqual(pdf.read_bytes()[:5], b"%PDF-")
+            report = json.loads((root / "build/guide-build.json").read_text())
+            self.assertEqual(report["schema_version"], 2)
+            self.assertGreaterEqual(report["page_count"], 3)
+            self.assertEqual(len(report["rendered_pages"]), report["page_count"])
+            self.assertTrue(all((root / path).is_file() for path in report["rendered_pages"]))
+            self.assertTrue((root / report["preview"]).is_file())
+            unreviewed = self.run_script(root / "scripts/build_guide.py", root, "--check")
+            self.assertNotEqual(unreviewed.returncode, 0)
+            fixture.synthetic_review(root)
+            checked = self.run_script(root / "scripts/build_guide.py", root, "--check")
+            self.assertEqual(checked.returncode, 0, checked.stdout + checked.stderr)
+            thank_you = root / "public/thank-you.html"
+            thank_you.write_text(thank_you.read_text().replace("data-guide-embed ", ""))
+            changed = self.run_script(root / "scripts/build_guide.py", root, "--check")
+            self.assertNotEqual(changed.returncode, 0)
 
     def test_pdf_must_be_linked_local_and_have_pdf_signature(self):
         with tempfile.TemporaryDirectory() as directory:
