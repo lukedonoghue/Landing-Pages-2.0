@@ -42,7 +42,7 @@ CANDIDATES = {
 PASS = {"pass", "pass_with_warnings"}
 LABELS = {
     "setup": "Create the project",
-    "research": "Research the business and reference",
+    "research": "Research the business, customer feedback and reference",
     "copy_drafting": "Draft complete copy",
     "copy_review": "Review the copy",
     "awaiting_copy_approval": "Review and approve the copy",
@@ -505,7 +505,7 @@ def inspect(root):
     if not paths["brief"].is_file():
         return at(
             "research",
-            "Inspect client/reference sources and supplied facts, then prepare the research-grounded copy brief. Keep unknown claims explicit.",
+            "Inspect client/reference sources and supplied facts, including the rights-aware review manifest when enabled. Compile current review insights/testimonial selection before preparing the research-grounded copy brief. Keep unknown claims explicit and keep Google Maps content provider-dynamic.",
         )
     if not paths["context"].is_file() or not paths["copy"].is_file():
         return at(
