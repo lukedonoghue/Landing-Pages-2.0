@@ -13,7 +13,7 @@ from uuid import UUID
 
 VERSION = '1.2.0'
 STATES = {'pass', 'pass_with_warnings', 'blocked', 'not_applicable'}
-GATES = {'control_review', 'copy', 'rendered_copy', 'performance', 'browser_compat', 'images', 'static', 'browser', 'visual', 'catalogue', 'local_journey', 'crm', 'tracking', 'deployment'}
+GATES = {'control_review', 'copy', 'reviews', 'rendered_copy', 'performance', 'browser_compat', 'images', 'static', 'browser', 'visual', 'catalogue', 'local_journey', 'crm', 'tracking', 'deployment'}
 MODES = {'preview', 'handoff', 'live'}
 # Host-only settings are not deployed inputs; staged QA must remain portable.
 EXCLUDED_DIRS = {'.codex', '.claude', '.secrets', '.git', 'node_modules', 'build', 'screenshots', '.wrangler', '.venv', '__pycache__', '.pytest_cache', 'coverage', 'test-results', 'playwright-report'}
@@ -231,6 +231,19 @@ def validate_report(root, report, snapshot, gate):
             errors.append('Compatibility evidence requires both Chromium and WebKit')
         if report.get('execution', {}).get('kind') != 'automated' or 'screenshot' not in kinds:
             errors.append('Compatibility evidence requires actual browser execution and screenshots')
+    elif gate == 'reviews':
+        try:
+            import review_workflow
+            actual = review_workflow.audit_project(root, rendered=True)
+            if actual['status'] == 'blocked':
+                errors += actual['failures']
+            expected = report.get('review_intelligence', {})
+            if expected.get('manifest_sha256') != actual.get('manifest_sha256'):
+                errors.append('Review gate report is stale for the current review manifest')
+            if expected.get('static_testimonial_count') != actual.get('static_testimonial_count') or expected.get('dynamic_provider_count') != actual.get('dynamic_provider_count'):
+                errors.append('Review gate counts differ from the current compiled selection')
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            errors.append('Review evidence is invalid: ' + str(error))
     elif gate == 'images':
         if not report.get('image_review', {}).get('passed') or not report.get('plan_sha256'):
             errors.append('Image review must identify its current plan and reviewed asset results')
@@ -361,7 +374,9 @@ def required_gates(root, mode):
         if config.get('backend',{}).get('provider')!='none':
             gates.append('rendered_copy')
             if mode in {'preview','handoff'}:gates.append('local_journey')
-        if not config.get('development_fixture'): gates.append('images')
+        if not config.get('development_fixture'):
+            if quality.get('review_intelligence_version',0) >= 1: gates.append('reviews')
+            gates.append('images')
     catalogue = config.get('catalogue', {})
     if not isinstance(catalogue, dict) or catalogue.get('enabled') is not False:
         gates.append('catalogue')
