@@ -3,7 +3,7 @@ name: Complete community recovery
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/complete-community-recovery.yml']
+    paths: ['.github/workflows/complete-community-recovery.yml', '.github/recovery/**']
 
 permissions:
   contents: read
@@ -24,9 +24,103 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Apply the exact reviewed patch without overwriting concurrent edits
+      - name: Apply reviewed source changes with exact preimage checks
         run: |
           python3 - <<'PY'
-          import base64,gzip,hashlib,json,pathlib,subprocess
-          encoded='H4sIAAAAAAAC/+08a3OcSJJ/pU7+QLcF9Pslb2+MLMkzuvXYPkne2w1ZgWko1IxoYIGW3OPwf7/MrAfQjWRJ47nYiziPxw1FVVZWZlZWvuDr3oIHScb3DtjXvbOTw+NfT+yVD3d7E3foTbp+MAtm/aHru+ORv5jOJq4/6o6ng8Adj3v+bOYO+4OZO/VGg1Ew45OBPxrN+Mgfj/ieyfbymzCK8o6XrFbrOCw2VuTGfhhfW6l7za3FOox8nnVyLwvTArotuXfjXLsFz+10gzjMhoPBYtpdDGddrzccjvygv/BnbtAdu/3RrD/q+V3PHc6mM8+d9HoTvlgEM3cy8qZ8OJiNuqOn45B7bhAkke+kWfIb9wqJSOD2RsHA63UXPXc0W7hwzxfd0QCuZkNY7NQdjCeLYDHqBkF32B+548m42x+4Lgca9afu0xGhe8dzCzdKrtdc4uHPRsF0xruzgdvn3iwAug9Go6nnut3Z0J8ueH8AWAynQ97vuoMZ51Nv6HY93xsuZm5/0H0GU5J040ThInOzjULC58Npr+sPu74/nI5hydwN+v3JxJ94M98bDflg4E3cEe/2ht60x0f9IBj6vfFi4fWmI3fwdCSydVyEK+54SVzwL5Ip8TqKnrGcuMiSyMn4bcjv5IJ4F6TMmwT9Lu/67rDn8QnnwXQwmk551xuPJ57bDyajMWyA/pT4PByNebcPG8OfTIfe0xd0l2Q3QZTcObCymGda3LvDxbAfHCxfTIfeh?'
+          import hashlib,json,pathlib,shutil
+          root=pathlib.Path.cwd();skill=root/'skills/community-landing-page-builder'
+          originals={'README.md':'7a4c70df9f924ada65db897ad50683fa661d99a4239a8c535f9e73d559e5d65e','.github/workflows/community-release.yml':'6c100f4404d55ba06463cba90360e03920d476550dd60e3d1ce8149df283985f','assets/cloudflare/package.json':'a1c3c727d9b93e06f0f4bbdd1d201ba336c161e2f49e96d941a542260c428bc9','scripts/guide.py':'405c9e7e1ce098832f37ccca123cbdb1771af136292dc66be2d709c75f5ba0fb','scripts/workflow_runner.py':'9404b42f466485293b08a617004262a7da2fbef6d2231533136f8538ae93b5b2','scripts/control_review.py':'e03b8c7f20e0da41ce7eef83588e0c667ca2f756db82867bfb456e02924d784c','scripts/scaffold_project.py':'fa15f3c10b1a59bafa1eb053baf9465e8a367bfb50ff0425a676023aaed9928a','scripts/copy_library.py':'dde4810d40dd4860ffeaf2277d7c9dc54e33c7a5e014c81e52ff4d16bbc185a3','scripts/build_catalogue.py':'d95f89e093a2ec9fc533558caa094d8be23bfb484e20a39ee8c4a0cdc4b9a230','scripts/check_gates.py':'9433b80b490c1445df2bd9af06a259251d0ca4989ca7117ebbf9a75c8e439505'}
+          def path(name):return (root if name in ('README.md','.github/workflows/community-release.yml') else skill)/name
+          for name,expected in originals.items():assert hashlib.sha256(path(name).read_bytes()).hexdigest()==expected,'Concurrent edit: '+name
+          for source,target in [('runtime_context.py','scripts/runtime_context.py'),('test_portable_runtime.py','tests/test_portable_runtime.py')]:
+              assert not (skill/target).exists(),'New destination already exists'
+              shutil.copy2(root/'.github/recovery'/source,skill/target)
+          def replace(name,old,new):
+              p=path(name);text=p.read_text();assert old in text,(name,old);p.write_text(text.replace(old,new))
+          replace('scripts/guide.py','SKILL = Path(__file__).resolve().parents[1]','from runtime_context import skill_root\nSKILL = skill_root(__file__)')
+          replace('scripts/workflow_runner.py','SKILL=Path(__file__).resolve().parents[1]','from runtime_context import skill_root\nSKILL=skill_root(__file__)')
+          replace('scripts/workflow_runner.py',"            if route.get('model'):argv+=['--model',route['model']]","            if route.get('model'):argv+=['--model',route['model']]\n            if route.get('effort'):argv+=['--effort',route['effort']]")
+          replace('scripts/scaffold_project.py','    skill_root = Path(__file__).resolve().parents[1]','    from runtime_context import skill_root as resolve_skill, bundle_runtime\n    skill_root = resolve_skill(__file__)')
+          replace('scripts/scaffold_project.py','for name in ("control_review.py",','for name in ("runtime_context.py", "control_review.py",')
+          replace('scripts/scaffold_project.py','    # Keep controller metadata and reference evidence outside the public assets.','    # Carry the complete instruction/reference/template context outside public.\n    if not args.static_only or args.profile:\n        bundle_runtime(skill_root, root)\n\n    # Keep controller metadata and reference evidence outside the public assets.')
+          replace('scripts/scaffold_project.py','    if not args.static_only:\n        # control_review.reference()','    if not args.static_only or args.profile:\n        # control_review.reference()')
+          replace('scripts/control_review.py','VERSION =','from runtime_context import skill_root\n\nVERSION =')
+          replace('scripts/control_review.py',"Path(__file__).resolve().parents[1] / 'references/","skill_root(__file__) / 'references/")
+          replace('scripts/copy_library.py',"DEFAULT=Path(__file__).resolve().parents[1]/'references/copy-library'","DEFAULT=Path(__file__).resolve().parents[1]/'references/copy-library'\n# Legacy standalone audits need no bundle; guided projects preserve their library.\nBUNDLED=Path(__file__).resolve().parents[1]/'.community-builder/references/copy-library'\nif BUNDLED.is_dir():DEFAULT=BUNDLED")
+          replace('scripts/build_catalogue.py','FONT_DIR = Path(__file__).resolve().parents[1] / "assets/pdf-fonts"','FONT_DIR = Path(__file__).resolve().parents[1] / "assets/pdf-fonts"\nBUNDLED_FONTS = Path(__file__).resolve().parents[1] / ".community-builder/assets/pdf-fonts"\nif BUNDLED_FONTS.is_dir():\n    FONT_DIR = BUNDLED_FONTS')
+          replace('scripts/check_gates.py',"EXCLUDED_DIRS = {'.secrets', '.git',","# Host-only settings are not deployed inputs; staged QA must remain portable.\nEXCLUDED_DIRS = {'.codex', '.claude', '.secrets', '.git',")
+          p=path('assets/cloudflare/package.json');value=json.loads(p.read_text());value['overrides']['miniflare']={'undici':'7.29.0','sharp':'0.35.4'};p.write_text(json.dumps(value,indent=2)+'\n')
+          replace('.github/workflows/community-release.yml','      - name: Install both supported browser engines','      - name: Reject high-severity application-tool dependencies\n        run: npm audit --audit-level=high\n      - name: Install both supported browser engines')
+          intro='''## Guided build, automatic repairs and recovery
+
+          Start a fresh active ChatGPT/Codex or Claude session with:
+
+          > Use the community skill on main to build a landing page for [business website or description] in guided mode. Remember supplied answers, confirm the business and conversion brief, and ask only for genuinely missing decisions. After the first build, compare the rendered page and copy with the Blue Mountain Mesh control, make a concrete improvement checklist, implement the repairs and recapture mobile/desktop output before showing the improved page. Continue toward publication, but obtain the actual scoped setup/publication and live-test permissions when needed.
+
+          The guide exposes **Start → Business → Conversion → Copy → Design → Preview → Connections → Publish → Complete**. This is not nine permission screens: routine implementation, comparison, repairs and tests continue automatically. Guided mode adds brief/copy review; automatic mode retains the no-routine-approval behavior. Both modes require fresh control comparison and preserve real publishing authority.
+
+          The active agent uses `guide.py` and the persistent `workflow_runner.py`; an optional authenticated loopback wizard uses the same controller and an actual runner bridge. Stable answer/event IDs prevent repeats, task ownership prevents duplicate execution, and bounded repair attempts expose a precise blocker rather than silently stopping or skipping a gate. Unknown external results must be reconciled before retry. A session or local process must remain active to execute; a saved checkpoint is not a background service.
+
+          Fresh generated projects keep the complete skill context under `.community-builder/`, outside `public/`. This preserves instructions, templates and the Blue Mountain reference after moving the project or resuming through copied helpers. It contains no client credentials. Existing bundles are not silently overwritten; reconcile a modified runtime explicitly. Do not upload the project root as public assets.
+
+          See [guided workflow](skills/community-landing-page-builder/references/guided-workflow.md) and [control comparison](skills/community-landing-page-builder/references/control-comparison.md). Source/test verification does not substitute for a real signed-in native-agent pilot or authorized cloud/domain/email acceptance.
+
+          '''
+          replace('README.md','## Agent GitHub access',intro+'## Agent GitHub access')
+          pathlib.Path('recovery-diagnostics').mkdir()
+          names=[str(path(n).relative_to(root)) for n in originals]+['skills/community-landing-page-builder/scripts/runtime_context.py','skills/community-landing-page-builder/tests/test_portable_runtime.py','skills/community-landing-page-builder/assets/cloudflare/package-lock.json']
+          pathlib.Path('recovery-diagnostics/changed-files.json').write_text(json.dumps(names))
           PY
+      - name: Install full Python test prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y webp poppler-utils
+          python -m pip install -r skills/community-landing-page-builder/requirements-build.txt PyYAML
+      - name: Verify complete Python and relocated-runtime suites
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m unittest discover -s skills/community-landing-page-builder/tests -p 'test_*.py' -v 2>&1 | tee recovery-diagnostics/python-results.txt
+      - name: Regenerate locked patched transitive dependencies
+        working-directory: skills/community-landing-page-builder/assets/cloudflare
+        run: |
+          npm install --package-lock-only --ignore-scripts
+          npm ci
+          npm audit --json > "$GITHUB_WORKSPACE/recovery-diagnostics/npm-audit.json"
+          npm audit --audit-level=high
+      - name: Verify database, gateway and account regressions on the patched runtime
+        working-directory: skills/community-landing-page-builder/assets/cloudflare
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test --test-reporter=tap tests/backend.test.mjs tests/team-accounts.test.mjs tests/email-recipients.test.mjs tests/pages-gateway.test.mjs tests/workflow.test.mjs | tee "$GITHUB_WORKSPACE/recovery-diagnostics/node-results.tap"
+          npm run deploy:dry
+      - name: Prepare reviewed tree, remove all temporary transport, leave main unchanged
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib,urllib.request
+          base='https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']
+          def api(path,data=None):
+              req=urllib.request.Request(base+path,data=json.dumps(data).encode() if data is not None else None,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json','X-GitHub-Api-Version':'2022-11-28'})
+              with urllib.request.urlopen(req,timeout=30) as response:return json.load(response)
+          head=os.environ['GITHUB_SHA'];assert api('/git/ref/heads/main')['object']['sha']==head,'Main changed; reconcile before integration'
+          entries=[]
+          for name in json.loads(pathlib.Path('recovery-diagnostics/changed-files.json').read_text()):
+              blob=api('/git/blobs',{'content':pathlib.Path(name).read_text(),'encoding':'utf-8'})
+              entries.append({'path':name,'mode':'100644','type':'blob','sha':blob['sha']})
+          for name in ['.github/workflows/complete-community-recovery.yml','.github/recovery/runtime_context.py','.github/recovery/test_portable_runtime.py']:
+              entries.append({'path':name,'mode':'100644','type':'blob','sha':None})
+          tree=api('/git/trees',{'base_tree':api('/git/commits/'+head)['tree']['sha'],'tree':entries})
+          record={'parent':head,'tree':tree['sha'],'entries':entries,'note':'Verified tree only; coordinator must explicitly fast-forward main. No site published or native model invoked.'}
+          pathlib.Path('recovery-diagnostics/prepared-tree.json').write_text(json.dumps(record,indent=2)+'\n')
+          print('RECOVERY_TREE '+json.dumps(record))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verified-recovery-diagnostics
+          path: recovery-diagnostics/
+          if-no-files-found: error
+          retention-days: 7
