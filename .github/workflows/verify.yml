@@ -1,4 +1,4 @@
-name: Verify skill and application
+name: Verify current community skill and end-to-end local demo
 
 on:
   pull_request:
@@ -14,10 +14,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  python-checks:
-    name: Copy, approval, image, and evidence checks
+  repository-checks:
+    name: Repository entrypoint and compatibility checks
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,25 +25,25 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install actual image optimization dependency
+      - name: Install current community document and image dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y webp
-          cwebp -version
-      - name: Check copy library, research, and user approvals
-        run: python3 -m unittest discover -s tests -p 'test_*.py'
-      - name: Check evidence integrity and stale-report rejection
-        run: python3 skills/branded-lead-funnel-builder/scripts/test_gates.py
-      - name: Check image acquisition, generation metadata, and real WebP optimization
-        run: python3 skills/branded-lead-funnel-builder/tests/test_image_workflow.py
+          sudo apt-get install --no-install-recommends -y webp poppler-utils
+          python -m pip install -r skills/community-landing-page-builder/requirements-build.txt PyYAML
+      - name: Run repository integration contracts
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Verify current community catalogue and reader-guide layout contracts
+        run: |
+          python3 skills/community-landing-page-builder/tests/test_catalogue.py
+          python3 skills/community-landing-page-builder/tests/test_reader_layout.py
 
   application-checks:
-    name: Worker, CRM, tracking, and browser regressions
+    name: Current community app, browsers, and fresh local demo
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     defaults:
       run:
-        working-directory: skills/branded-lead-funnel-builder/assets/cloudflare
+        working-directory: skills/community-landing-page-builder/assets/cloudflare
     env:
       CI: 'true'
       WRANGLER_SEND_METRICS: 'false'
@@ -51,7 +51,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      # Publishing workflow tests invoke the Python evidence checker locally.
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -59,12 +58,17 @@ jobs:
         with:
           node-version: '24'
           cache: npm
-          cache-dependency-path: skills/branded-lead-funnel-builder/assets/cloudflare/package-lock.json
-      - name: Install locked application dependencies
-        run: npm ci
+          cache-dependency-path: skills/community-landing-page-builder/assets/cloudflare/package-lock.json
+      - name: Install current community PDF, image, and application dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y webp poppler-utils
+          python -m pip install -r ../../requirements-build.txt PyYAML
+          npm ci
+          npm audit --audit-level=high
       - name: Install supported browsers and Linux runtime libraries
         run: npx playwright-core install --with-deps chromium webkit
-      - name: Require both engines and expose Chromium to existing browser tests
+      - name: Require both engines and expose Chromium to local verification
         run: |
           node --input-type=module - <<'NODE'
           import { chromium, webkit } from 'playwright-core';
@@ -78,49 +82,35 @@ jobs:
             console.log(`${name} is installed and launches`);
           }
           NODE
-      - name: Run local application and browser tests
+      - name: Run current community application and browser regressions
         shell: bash
         run: |
           set -o pipefail
-          node --test --test-reporter=tap tests/*.test.mjs | tee node-test-results.tap
-      - name: Reject a green run that skipped browser regressions
-        run: |
+          node --test --test-reporter=tap tests/*.test.mjs | tee community-node-test-results.tap
           node --input-type=module - <<'NODE'
           import { readFileSync } from 'node:fs';
-          const report = readFileSync('node-test-results.tap', 'utf8');
+          const report = readFileSync('community-node-test-results.tap', 'utf8');
           const skipped = report.match(/^# skipped (\d+)$/m);
-          if (!skipped || Number(skipped[1]) !== 0) throw new Error('Every application test must execute; missing browsers cannot silently skip checks.');
+          if (!skipped || Number(skipped[1]) !== 0) throw new Error('Every current community application test must execute; missing browsers cannot silently skip checks.');
           NODE
-      - name: Keep the regression report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: application-test-results
-          path: skills/branded-lead-funnel-builder/assets/cloudflare/node-test-results.tap
-          if-no-files-found: ignore
-          retention-days: 14
-      - name: Install PDF and image build tools
-        working-directory: .
-        run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y webp poppler-utils
-          python -m pip install -r skills/branded-lead-funnel-builder/requirements-build.txt
-      - name: Verify actual brochure content and layout
-        working-directory: .
-        run: python skills/branded-lead-funnel-builder/tests/test_catalogue.py
-      - name: Generate a fresh fictional local project
+      - name: Bundle the current Worker without publishing
+        run: npm run deploy:dry
+      - name: Generate a fresh fictional project through the public repository entrypoint
         working-directory: .
         run: python scripts/dev.py demo
-      - name: Verify the actual generated page, PDF, local D1 and CRM
+      - name: Verify the generated page, researched PDF path, local D1 and CRM
         working-directory: .
         run: python scripts/dev.py verify-demo --full
-      - name: Keep only the synthetic verification evidence
+      - name: Keep current application and synthetic demo evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: fictional-local-funnel-evidence
+          name: current-community-local-evidence
           include-hidden-files: true
           path: |
+            skills/community-landing-page-builder/assets/cloudflare/community-node-test-results.tap
+            skills/community-landing-page-builder/assets/cloudflare/build/guide-ui-review/
+            skills/community-landing-page-builder/assets/cloudflare/build/reader-delivery-review/
             .development/demo/build/demo-verification.json
             .development/demo/build/browser-compat/
             .development/demo/build/live-verification/
