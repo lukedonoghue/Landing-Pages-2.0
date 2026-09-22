@@ -427,17 +427,20 @@ test('removal is atomic across lead and queue writes and retry is idempotent',as
 });
 
 test('old orphan jobs cannot starve a scheduled batch of one',async()=>{
-  // Do not contact a provider. A disabled destination must be terminalized;
-  // the valid job reaches the fetch seam and is retriable on synthetic failure.
+  // Preserve the real UNIQUE(webhook_id,lead_id) contract: each orphan
+  // belongs to a different removed lead. Exceed the cleanup batch so
+  // the five remaining old jobs also have to be filtered before LIMIT.
   await db.prepare("UPDATE webhook_outbox SET status='failed' WHERE status IN ('pending','sending')").run();
-  const stamp=new Date().toISOString(),hook=crypto.randomUUID(),lead=crypto.randomUUID(),deleted=crypto.randomUUID();
-  for(const [id,isDeleted] of [[lead,false],[deleted,true]])await db.prepare('INSERT INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,form_name,form_data,attribution,landing_page,deleted_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)').bind(id,crypto.randomUUID(),crypto.randomUUID(),'hash',stamp,stamp,stamp.slice(0,10),'test','{}','{}','/',isDeleted?stamp:null).run();
+  const stamp=new Date().toISOString(),hook=crypto.randomUUID(),lead=crypto.randomUUID();
+  const deleted=Array.from({length:105},()=>crypto.randomUUID());
+  const seedLead=(id,removed)=>db.prepare('INSERT INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,form_name,form_data,attribution,landing_page,deleted_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)').bind(id,crypto.randomUUID(),crypto.randomUUID(),'hash',stamp,stamp,stamp.slice(0,10),'test','{}','{}','/',removed?stamp:null);
+  await db.batch([seedLead(lead,false),...deleted.map(id=>seedLead(id,true))]);
   await db.prepare('INSERT INTO webhooks(id,name,url,enabled,created_at) VALUES(?,?,?,1,?)').bind(hook,'synthetic','https://hooks.example.com/',stamp).run();
-  const jobs=Array.from({length:105},()=>crypto.randomUUID());
-  await db.batch(jobs.map(id=>db.prepare('INSERT INTO webhook_outbox(id,webhook_id,lead_id,next_attempt_at,created_at) VALUES(?,?,?,0,?)').bind(id,hook,deleted,stamp)));
+  await db.batch(deleted.map(id=>db.prepare('INSERT INTO webhook_outbox(id,webhook_id,lead_id,next_attempt_at,created_at) VALUES(?,?,?,0,?)').bind(crypto.randomUUID(),hook,id,stamp)));
   const valid=crypto.randomUUID();await db.prepare('INSERT INTO webhook_outbox(id,webhook_id,lead_id,next_attempt_at,created_at) VALUES(?,?,?,1,?)').bind(valid,hook,lead,stamp).run();
   const original=globalThis.fetch;globalThis.fetch=async()=>{throw new Error('Synthetic offline seam');};
   try {await processOutbox({DB:db},1);}finally{globalThis.fetch=original;}
   assert.equal(await db.prepare('SELECT attempts FROM webhook_outbox WHERE id=?').bind(valid).first('attempts'),1);
-  assert.equal(await db.prepare("SELECT COUNT(*) AS n FROM webhook_outbox WHERE lead_id=? AND status='failed'").bind(deleted).first('n'),100);
+  assert.equal(await db.prepare("SELECT COUNT(*) AS n FROM webhook_outbox WHERE webhook_id=? AND status='failed'").bind(hook).first('n'),100);
+  assert.equal(await db.prepare("SELECT COUNT(*) AS n FROM webhook_outbox WHERE webhook_id=? AND lead_id<>? AND status='pending'").bind(hook,lead).first('n'),5);
 });
