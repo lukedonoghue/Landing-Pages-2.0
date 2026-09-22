@@ -6,6 +6,7 @@ import argparse
 from collections import defaultdict
 from datetime import datetime
 import hashlib
+import html as html_lib
 import json
 import re
 import sys
@@ -256,6 +257,12 @@ def validate_manifest(root: Path, expected_fingerprint: str | None = None):
                 errors.append(prefix + " publishable_full needs avatar url or local_path")
             if not nonempty(avatar.get("provenance")):
                 errors.append(prefix + " publishable_full needs avatar provenance")
+            if nonempty(avatar.get("local_path")):
+                candidate = (root / avatar["local_path"]).resolve()
+                if not candidate.is_relative_to(root.resolve()) or not candidate.is_file():
+                    errors.append(prefix + " local reviewer avatar must exist inside the project")
+                elif not nonempty(avatar.get("sha256")) or sha(candidate) != avatar.get("sha256"):
+                    errors.append(prefix + " local reviewer avatar needs its current sha256")
         elif avatar and avatar.get("display_allowed") is True:
             warnings.append(prefix + " avatar is approved but publication_status does not permit full display")
 
@@ -341,16 +348,14 @@ def _select_static(reviews, limit=4):
                 "url": avatar.get("url", ""),
                 "local_path": avatar.get("local_path", ""),
                 "provenance": avatar.get("provenance", ""),
+                "sha256": avatar.get("sha256", ""),
             }
         selected.append(item)
         used_roles.update(roles)
     return selected
 
 
-def compile_project(root: Path, expected_fingerprint: str | None = None):
-    checked = validate_manifest(root, expected_fingerprint)
-    if checked["status"] == "blocked":
-        raise ValueError("; ".join(checked["errors"]))
+def _compiled_records(checked):
     manifest = checked["manifest"]
     aggregates = _aggregate(manifest.get("reviews", []))
     insights = {
@@ -384,9 +389,17 @@ def compile_project(root: Path, expected_fingerprint: str | None = None):
         "dynamic_providers": dynamic,
         "selection_rule": "proof-strength first with testimonial-role diversity; exact source text only",
     }
+    return insights, selection
+
+
+def compile_project(root: Path, expected_fingerprint: str | None = None):
+    checked = validate_manifest(root, expected_fingerprint)
+    if checked["status"] == "blocked":
+        raise ValueError("; ".join(checked["errors"]))
+    insights, selection = _compiled_records(checked)
     write(root / INSIGHTS, insights)
     write(root / SELECTION, selection)
-    return {"status": checked["status"], "insights": INSIGHTS, "selection": SELECTION, "static_count": len(static), "dynamic_count": len(dynamic), "warnings": checked["warnings"]}
+    return {"status": checked["status"], "insights": INSIGHTS, "selection": SELECTION, "static_count": len(selection["static_testimonials"]), "dynamic_count": len(selection["dynamic_providers"]), "warnings": checked["warnings"]}
 
 
 def _normalized(value: str) -> str:
@@ -403,7 +416,7 @@ def validate_rendered(root: Path, selection):
     if not index.is_file():
         return ["Landing page is missing for testimonial render validation"], []
     html = index.read_text(encoding="utf-8", errors="replace")
-    flat = _normalized(re.sub(r"<[^>]+>", " ", html))
+    flat = _normalized(html_lib.unescape(re.sub(r"<[^>]+>", " ", html)))
     for item in selection.get("static_testimonials", []):
         rid = item["id"]
         if f'data-testimonial-id="{rid}"' not in html and f"data-testimonial-id='{rid}'" not in html:
@@ -446,11 +459,16 @@ def audit_project(root: Path, expected_fingerprint: str | None = None, rendered:
     for path, label in ((insights_path, "review insights"), (selection_path, "testimonial selection")):
         if not path.is_file():
             errors.append("Missing compiled " + label)
+    expected_insights = expected_selection = None
+    if checked.get("manifest") and checked["status"] != "blocked":
+        expected_insights, expected_selection = _compiled_records(checked)
     if insights_path.is_file():
         try:
             insights = read(insights_path)
             if insights.get("schema_version") != 1 or insights.get("manifest_sha256") != checked.get("manifest_sha256"):
                 errors.append("Review insights are stale for the current manifest")
+            elif expected_insights is not None and insights != expected_insights:
+                errors.append("Review insights differ from the deterministic current manifest aggregation; recompile them")
             artifacts.append({"path": INSIGHTS, "type": "review_insights", "sha256": sha(insights_path)})
         except (OSError, ValueError, TypeError):
             errors.append("Review insights are invalid JSON")
@@ -459,6 +477,8 @@ def audit_project(root: Path, expected_fingerprint: str | None = None, rendered:
             selection = read(selection_path)
             if selection.get("schema_version") != 1 or selection.get("manifest_sha256") != checked.get("manifest_sha256"):
                 errors.append("Testimonial selection is stale for the current manifest")
+            elif expected_selection is not None and selection != expected_selection:
+                errors.append("Testimonial selection differs from the current source records; recompile instead of editing proof")
             artifacts.append({"path": SELECTION, "type": "testimonial_selection", "sha256": sha(selection_path)})
         except (OSError, ValueError, TypeError):
             errors.append("Testimonial selection is invalid JSON")
