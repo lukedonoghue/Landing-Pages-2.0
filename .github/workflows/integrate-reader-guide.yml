@@ -1,0 +1,149 @@
+name: Verify reader guide integration
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/integrate-reader-guide.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  verify-integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    env:
+      CI: 'true'
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Apply exact reviewed changes with per-file preimage checks
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import base64,hashlib,json,lzma,os,pathlib,subprocess,urllib.request
+          root=pathlib.Path.cwd();out=root/'integration-evidence';out.mkdir()
+          base='https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']
+          chunks=['452346ad1e77ee6cbe8403fe713dc828e1ed4e85','1688ae2debe4ce9ca04d355fed2684f5ae537746','25fb9c22c583d464971a571ad85364008280bdc4','727a12a5ffae6d778cf47365a664b8d178e3a14f','ab8932712a1e937a02f8533ed967ec2bf25aa714','2da2c908fd8f46217b1ee1e2bacb6ef09f5c4cc0','319a397e62ea77e7789add939d3be491bed3dc8a','e541d578986d0cd54d6421f9c1c55bb15dd4e5e4','d684a90154e0c11e5dc1113f723a415330af1139','1996b8ed60a5eb016b82e62ffc1728db2326ca95','6492d7ad011be6d7e20280587435dc8039d3396e','ae551e942eba98957da77413e65b418fe1d4e83d','e5b0ab70238cf9b69f02703a8f3063f4e308a523','e477fbd13a69ded8beaf7f4c9b1724977599bdbb','a6134bbda6ade439df95254254f47c8cfd457280','8348a011424f42bf7e7aedf92b4f7cecaa857ea4','49d224a8f5c22448bc4cf5064793f23af5cdec67','9046f6ccdb125fb8c56c849c858d47e6edd684c0','7b4a56e6ffd8ab334ceaabafe26d2a104df023f5','0b6458439890e111ce61cd54a84c183cb118ccc8','e0999fc48e0a274784e6b42d1ec72f14b9ad4c45','6e5a4a3d356926e41c6dd98ba3e9a09c76490f66']
+          parts=[]
+          for sha in chunks:
+              req=urllib.request.Request(base+'/git/blobs/'+sha,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+              with urllib.request.urlopen(req,timeout=30) as response:item=json.load(response)
+              data=base64.b64decode(item['content'])
+              assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()==sha
+              parts.append(data)
+          packed=base64.b64decode(b''.join(parts),validate=True)
+          assert hashlib.sha256(packed).hexdigest()=='0d46e243dc359a916c563d8e9966c1e01c28463741d6a3a86d97aaf4af3a0b2c'
+          payload=json.loads(lzma.decompress(packed));assert payload['schema_version']==1 and len(payload['changes'])==61
+          assert payload['base']=='674801b3213f647ec8d505ef39105d1563dea91e'
+          changes=[]
+          for entry in payload['changes']:
+              name=entry['path'];p=pathlib.Path(name)
+              assert not p.is_absolute() and '..' not in p.parts and not {'.git','.secrets','node_modules'}.intersection(p.parts)
+              assert p.suffix.lower() not in {'.ttf','.otf','.woff','.woff2','.pem','.key'} and not p.name.startswith(('.env','.dev.vars'))
+              assert name=='README.md' or name.startswith(('skills/community-landing-page-builder/','scripts/','tests/','docs/community-landing-page-builder/','.codex/agents/','.claude/agents/','.github/workflows/'))
+              target=root/p;assert not target.is_symlink()
+              original=target.read_bytes() if target.exists() else None
+              assert (hashlib.sha256(original).hexdigest() if original is not None else None)==entry['before'],'Concurrent/unreviewed preimage: '+name
+              lines=original.decode().splitlines(keepends=True) if original is not None else []
+              for i,j,text in reversed(entry['edits']):
+                  assert 0<=i<=j<=len(lines)
+                  lines[i:j]=[text]
+              result=''.join(lines).encode();assert hashlib.sha256(result).hexdigest()==entry['after'],name
+              tracked=subprocess.check_output(['git','ls-files','-s','--',name],text=True).strip()
+              mode=tracked.split()[0] if tracked else entry['mode']
+              changes.append((target,result,{**entry,'mode':mode}))
+          # Only write after every source and result has passed validation.
+          for target,result,entry in changes:
+              target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(result);target.chmod(0o755 if entry['mode']=='100755' else 0o644)
+          (out/'changes.json').write_text(json.dumps([entry for _,_,entry in changes],indent=2)+'\n')
+          print('Applied 61 reviewed text files; no client data, credentials, fonts or live operations.')
+          PY
+      - name: Install document and image verification tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y webp poppler-utils
+          python -m pip install -r skills/community-landing-page-builder/requirements-build.txt PyYAML
+      - name: Compile and test community Python
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m compileall -q skills/community-landing-page-builder/scripts
+          python -m unittest discover -s skills/community-landing-page-builder/tests -p 'test_*.py' -v 2>&1 | tee integration-evidence/community-python.txt
+      - name: Verify repository regressions and native profile consistency
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m unittest discover -s tests -p 'test_*.py' -v 2>&1 | tee integration-evidence/repository-python.txt
+          python scripts/install_community.py --project . --runtime both --check | tee integration-evidence/profile-check.txt
+          git diff --check
+      - name: Install locked application and both browser engines
+        working-directory: skills/community-landing-page-builder/assets/cloudflare
+        run: |
+          npm ci
+          npm audit --audit-level=high
+          npx playwright-core install --with-deps chromium webkit
+          node --input-type=module - <<'JS'
+          import {chromium,webkit} from 'playwright-core';
+          import {appendFileSync} from 'node:fs';
+          appendFileSync(process.env.GITHUB_ENV,`CHROME_BIN=${chromium.executablePath()}\n`);
+          for(const engine of [chromium,webkit]){const b=await engine.launch({headless:true});await b.close();}
+          JS
+      - name: Run full application, real guide delivery and browser tests
+        working-directory: skills/community-landing-page-builder/assets/cloudflare
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test --test-reporter=tap tests/*.test.mjs | tee "$GITHUB_WORKSPACE/integration-evidence/application.tap"
+          grep -q '^# skipped 0$' "$GITHUB_WORKSPACE/integration-evidence/application.tap"
+          npm run deploy:dry | tee "$GITHUB_WORKSPACE/integration-evidence/worker-dry-run.txt"
+      - name: Export verified blobs for explicit coordinator commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,shutil,urllib.request
+          base='https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY'];out=pathlib.Path('integration-evidence')
+          def api(path,data=None):
+              req=urllib.request.Request(base+path,data=json.dumps(data).encode() if data is not None else None,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json'})
+              with urllib.request.urlopen(req,timeout=30) as response:return json.load(response)
+          head=os.environ['GITHUB_SHA'];assert api('/git/ref/heads/main')['object']['sha']==head,'Main changed; reconcile before committing.'
+          record={'parent':head,'base_tree':api('/git/commits/'+head)['tree']['sha'],'entries':[],'scope':'Verified source integration only. No signed-in model, real lead, email, DNS or client deployment.'}
+          for entry in json.loads((out/'changes.json').read_text()):
+              name=entry['path'];p=pathlib.Path(name);raw=p.read_bytes()
+              assert hashlib.sha256(raw).hexdigest()==entry['after'],'Tests unexpectedly changed source: '+name
+              blob=api('/git/blobs',{'content':raw.decode(),'encoding':'utf-8'})
+              record['entries'].append({'path':name,'mode':entry['mode'],'type':'blob','sha':blob['sha']})
+              dest=out/'verified-files'/name;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,dest)
+              (out/'prepared-entries.json').write_text(json.dumps(record,indent=2)+'\n')
+          record['entries'].append({'path':'.github/workflows/integrate-reader-guide.yml','mode':'100644','type':'blob','sha':None})
+          (out/'prepared-entries.json').write_text(json.dumps(record,indent=2)+'\n')
+          print(json.dumps(record,indent=2))
+          PY
+      - name: Keep browser and PDF fixture evidence
+        if: always()
+        run: |
+          mkdir -p integration-evidence
+          for folder in reader-delivery-review guide-ui-review; do
+            source="skills/community-landing-page-builder/assets/cloudflare/build/$folder"
+            if [ -d "$source" ]; then cp -R "$source" integration-evidence/; fi
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reader-guide-integration
+          path: integration-evidence/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
