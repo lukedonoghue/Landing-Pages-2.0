@@ -17,6 +17,8 @@ import check_gates
 import copy_acceptance
 import workflow_storage as storage
 
+from runtime_context import skill_root
+
 VERSION = '1.0.0'
 BASE = 'build/control-review'
 REFERENCE_ID = '6aebe071e132'
@@ -65,19 +67,19 @@ def fingerprint(root):
 
 
 def layout_reference():
-    path = Path(__file__).resolve().parents[1] / 'references/control-layout.json'
+    path = skill_root(__file__) / 'references/control-layout.json'
     value = json.loads(path.read_text())
     return {'sha256': sha(path), 'map': value}
 
 
 def reference():
-    exported = Path(__file__).resolve().parents[1] / 'references/control-reference.json'
+    exported = skill_root(__file__) / 'references/control-reference.json'
     if exported.is_file():
         value = json.loads(exported.read_text())
         if value.get('url') != REFERENCE_URL or hashlib.sha256(value.get('text','').encode()).hexdigest() != value.get('sha256'):
             raise ValueError('Exported control reference is invalid')
         return value
-    library = Path(__file__).resolve().parents[1] / 'references/copy-library/sources.jsonl'
+    library = skill_root(__file__) / 'references/copy-library/sources.jsonl'
     for line in library.read_text(encoding='utf-8').splitlines():
         item = json.loads(line)
         if item.get('id') == REFERENCE_ID:

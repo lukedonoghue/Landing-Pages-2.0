@@ -103,9 +103,9 @@ for (const [engineName, engine] of Object.entries({ chromium, webkit })) {
       await page.getByLabel('What are you offering this customer?', { exact: true }).waitFor();
       assert.equal(await page.getByLabel('Who is the page for?', { exact: true }).count(), 0, 'Known answer must not be asked again');
       assert.ok(JSON.stringify((await status()).next.summary).includes('Office managers'));
-      await page.getByRole('button', { name: 'Pause', exact: true }).click();
+      await page.getByRole('button', { name: 'Save and pause', exact: true }).click();
       await page.waitForFunction(() => document.querySelector('#step-title').textContent === 'paused');
-      await page.getByRole('button', { name: 'Resume', exact: true }).click();
+      await page.getByRole('button', { name: 'Resume work', exact: true }).click();
       await page.getByLabel('What are you offering this customer?', { exact: true }).waitFor();
       assert.ok(JSON.stringify((await status()).next.summary).includes('Office managers'));
       assert.equal((await page.request.get(origin + '/api/status')).status(), 403);

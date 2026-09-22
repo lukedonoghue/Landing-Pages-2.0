@@ -50,7 +50,8 @@ def main() -> int:
         args.static_only = args.profile == 'static_action'
 
     root = args.project_root.expanduser().resolve()
-    skill_root = Path(__file__).resolve().parents[1]
+    from runtime_context import skill_root as resolve_skill, bundle_runtime
+    skill_root = resolve_skill(__file__)
     created: list[str] = []
 
     for relative in (
@@ -147,7 +148,7 @@ def main() -> int:
                 if args.client and target.suffix == ".html" and relative.parts[0] == "public":
                     target.write_text(target.read_text().replace("Your business", html.escape(args.client)))
                 created.append(str(relative))
-        for name in ("control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "package_handoff.py", "portable_handoff.py"):
+        for name in ("runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "package_handoff.py", "portable_handoff.py"):
             source = skill_root / "scripts" / name
             target = root / "scripts" / name
             if source.exists() and not target.exists():
@@ -187,6 +188,10 @@ Use GitHub only if requested. `npm run github -- --repo owner/repository` is an 
 Never share .secrets/, .dev.vars or local .wrangler data. Production admin access is handed over separately from source files.
 """)
 
+    # Carry the complete instruction/reference/template context outside public.
+    if not args.static_only or args.profile:
+        bundle_runtime(skill_root, root)
+
     # Keep controller metadata and reference evidence outside the public assets.
     if args.profile == 'static_action':
         for source in sorted((skill_root / 'scripts').glob('*')):
@@ -208,7 +213,7 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
         if (not args.static_only or args.profile) and source.is_file() and not target.exists():
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
-    if not args.static_only:
+    if not args.static_only or args.profile:
         # control_review.reference() also works when helpers live in project/scripts.
         import sys
         sys.path.insert(0, str(skill_root/'scripts'))

@@ -4,8 +4,8 @@
   const token=sessionStorage.getItem('guide_token')||'';let current=null,lastRevision='',busy=false;
   async function api(path,body){const r=await fetch(path,{method:body===undefined?'GET':'POST',headers:{Authorization:'Bearer '+token,...(body===undefined?{}:{'Content-Type':'application/json'})},body:body===undefined?undefined:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw Error(d.error||'The request could not be completed');return d;}
   function error(e){$('#error').textContent=e.message;$('#error').hidden=false;}
-  async function act(fn){if(busy)return;busy=true;$('#error').hidden=true;try{await fn();await refresh(true);}catch(e){error(e);}finally{busy=false;}}
-  const button=(label,handler)=>{const n=create('button',label);n.type='button';n.addEventListener('click',()=>act(handler));return n;};
+  async function act(fn,force=true){if(busy)return;busy=true;$('#error').hidden=true;try{await fn();await refresh(force);}catch(e){error(e);}finally{busy=false;}}
+  const button=(label,handler,force=true)=>{const n=create('button',label);n.type='button';n.addEventListener('click',()=>act(handler,force));return n;};
   function render(data){current=data.next;const key=JSON.stringify([current.revision,current.stage,current.kind,current.review_fingerprint]);$('#state').textContent=data.running?'Working on this step. You can leave a question for the active agent.':current.kind==='complete'?'Selected scope complete':current.kind==='paused'?'Progress saved':'Ready for the next action';
     $('#blockers').textContent=JSON.stringify({blockers:current.blockers||[],worker:data.last?.worker_blockers||data.last?.error||null,next:current.progress?.next_action||null},null,2);
     if(key===lastRevision)return;lastRevision=key;$('#step-title').textContent=current.stage.replaceAll('_',' ');$('#instruction').textContent=current.instruction;
@@ -17,7 +17,7 @@
         if(q.type==='choice'){input=create('select');input.append(new Option('Choose an option',''));for(const o of q.options)input.append(new Option(o.label,o.value));if(!q.field.startsWith('conversion.'))input.append(new Option('Other: describe it','__other'));}
         else{input=create('textarea');input.rows=2;input.maxLength=4000;input.value=q.current_value||'';}
         input.setAttribute('aria-label',q.label);const other=create('textarea');other.hidden=true;other.setAttribute('aria-label','Your alternative');input.addEventListener('change',()=>other.hidden=input.value!=='__other');group.append(input,other);
-        group.append(button('Why does this matter?',async()=>{const h=await api('/api/help',{id:q.id});help.textContent=h.explanation;}));form.append(group);controls.push({q,input,other});}
+        group.append(button('Why does this matter?',async()=>{const h=await api('/api/help',{id:q.id});help.textContent=h.explanation;},false));form.append(group);controls.push({q,input,other});}
       const submit=create('button','Save answers and continue');submit.type='submit';form.append(submit);form.addEventListener('submit',e=>{e.preventDefault();act(async()=>{const answers=controls.filter(x=>x.input.value.trim()).map(({q,input,other})=>({id:q.id,value:input.value==='__other'?other.value:input.value,other:input.value==='__other',question_revision:q.question_revision}));if(!answers.length)throw Error('Answer at least one question, or pause.');await api('/api/answer',{event_id:crypto.randomUUID(),expected_revision:current.revision,answers});});});$('#questions').append(form);
     }else if(current.kind==='approval'){
       if(current.approval_kind==='copy'||current.approval_kind==='publish')$('#actions').append(button('Open complete reviewed content',async()=>{const r=await api('/api/review');$('#documents').replaceChildren();for(const d of r.documents){$('#documents').append(create('h3',d.path),create('pre',d.text));}$('#review').open=true;}));

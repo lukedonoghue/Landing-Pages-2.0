@@ -15,7 +15,8 @@ VERSION = '1.2.0'
 STATES = {'pass', 'pass_with_warnings', 'blocked', 'not_applicable'}
 GATES = {'control_review', 'copy', 'rendered_copy', 'performance', 'browser_compat', 'images', 'static', 'browser', 'visual', 'catalogue', 'local_journey', 'crm', 'tracking', 'deployment'}
 MODES = {'preview', 'handoff', 'live'}
-EXCLUDED_DIRS = {'.secrets', '.git', 'node_modules', 'build', 'screenshots', '.wrangler', '.venv', '__pycache__', '.pytest_cache', 'coverage', 'test-results', 'playwright-report'}
+# Host-only settings are not deployed inputs; staged QA must remain portable.
+EXCLUDED_DIRS = {'.codex', '.claude', '.secrets', '.git', 'node_modules', 'build', 'screenshots', '.wrangler', '.venv', '__pycache__', '.pytest_cache', 'coverage', 'test-results', 'playwright-report'}
 SECRET_SUFFIXES = {'.pem', '.key', '.p12', '.pfx'}
 
 def now():

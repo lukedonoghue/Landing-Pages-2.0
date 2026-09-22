@@ -29,6 +29,9 @@ except ModuleNotFoundError as error:
 
 W, H = letter
 FONT_DIR = Path(__file__).resolve().parents[1] / "assets/pdf-fonts"
+BUNDLED_FONTS = Path(__file__).resolve().parents[1] / ".community-builder/assets/pdf-fonts"
+if BUNDLED_FONTS.is_dir():
+    FONT_DIR = BUNDLED_FONTS
 ASCII_REPLACEMENTS = str.maketrans(
     {
         "\u2010": "-",
