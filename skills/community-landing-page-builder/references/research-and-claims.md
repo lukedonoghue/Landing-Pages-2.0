@@ -62,12 +62,22 @@ Rules:
 
 ## Reviews and people
 
-- Match the review source to the exact business before using it.
+Read [review-intelligence-and-testimonials.md](review-intelligence-and-testimonials.md) whenever customer feedback is reasonably available. Review research is a positioning input, not only a testimonial hunt.
+
+- Match the review source to the exact business and location before using it.
+- Build `research/reviews/review-manifest.json` and keep each review tied to one source and one reviewer.
+- Extract supported customer problems, desired outcomes, buying triggers, objections resolved, praised capabilities, practical/emotional benefits, differentiator signals and useful voice-of-customer language.
+- Run `python3 scripts/review_workflow.py all PROJECT` to create source-linked aggregate insights and complementary testimonial candidates.
+- Feed repeated review themes into the existing leading-advantage analysis, but do not infer uniqueness or a comparative claim from reviews alone.
 - Keep reviewer identity, quote, rating, date, source, and avatar provenance together.
 - Shorten only without changing meaning or increasing certainty.
 - Never combine reviewers or split one person's statement into several independent testimonial cards.
+- Never turn aggregate/paraphrased review intelligence into a quotation.
+- Separate `research_only`, `publishable_text`, `publishable_full` and `blocked` records. Public discoverability does not establish publication permission.
 - If only one or two verified testimonials exist, use fewer cards or a different verified proof type.
 - Never generate a photorealistic reviewer, customer, employee, franchisee, patient, or owner.
+- Do not scrape Google Maps or another restricted provider. Google review publication is an optional compliant provider integration, not a prerequisite for the local build.
+- Validate review evidence before copy acceptance with `python3 scripts/validate_reviews.py PROJECT --stage research`.
 
 ## Reference and competitor use
 

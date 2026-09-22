@@ -42,6 +42,8 @@ Search results, social posts, and editorial pages do not automatically grant reu
 
 Do not relabel proof as illustration to bypass provenance. Do not use an initials avatar as if it were a customer photograph.
 
+Reviewer/customer avatars follow [review-intelligence-and-testimonials.md](review-intelligence-and-testimonials.md). Treat them as proof-bearing identity media: never generate them, never source a different person's portrait, never enrich a reviewer from unrelated social profiles, and render an avatar only when that exact review is `publishable_full` with matching avatar provenance. A testimonial remains valid without a portrait when text publication is allowed but avatar publication is not.
+
 ## Native generation
 
 Use the available native image-generation tool when generation materially improves a non-proof visual role. No API key or exact model selection is required. Record the actual tool and any model identity the tool reports; never invent one.

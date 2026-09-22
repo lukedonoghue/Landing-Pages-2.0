@@ -61,7 +61,11 @@ def bundle_runtime(source, project):
             entries = [base] if base.is_file() else sorted(base.rglob('*'))
             for path in entries:
                 relative = path.relative_to(source)
-                if any(p in EXCLUDED for p in relative.parts) or path.name.startswith(('.env', '.dev.vars')) or path.suffix.lower() in {'.pem', '.key', '.p12', '.pfx'} or path.name in {'credentials.json', 'secrets.json'}:
+                if any(p in EXCLUDED for p in relative.parts) or path.name.startswith(('.env', '.dev.vars')) or path.suffix.lower() in {'.pem', '.key', '.p12', '.pfx', '.db', '.sqlite', '.sqlite3'} or path.name in {'credentials.json', 'secrets.json'}:
+                    continue
+                # Reference search indexes are rebuildable; databases and journals
+                # never belong in a portable source bundle. Keep normalized JSON.
+                if any(path.name.lower().endswith(ext + suffix) for ext in ('.db', '.sqlite', '.sqlite3') for suffix in ('-wal', '-shm', '-journal')):
                     continue
                 if path.is_symlink():
                     raise ValueError('Builder source contains a symlink: ' + str(relative))

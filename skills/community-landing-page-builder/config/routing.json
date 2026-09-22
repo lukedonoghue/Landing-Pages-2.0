@@ -19,7 +19,7 @@
     }
   },
   "roles": {
-    "research": {"agent": "lp-researcher", "tier": "fast", "instruction": "Collect source-linked business facts and source conversion intent. Return uncertainties, not invented proof. No implementation edits."},
+    "research": {"agent": "lp-researcher", "tier": "fast", "instruction": "Collect source-linked business facts, source conversion intent, and review intelligence when feedback is available. Identity-match review sources, preserve testimonial provenance and publication status, and return source-linked customer problems, benefits, language and uncertainties without invented proof. No implementation edits."},
     "brand": {"agent": "lp-brand", "tier": "standard", "instruction": "Extract actual rendered fonts, source brand identity and asset provenance using existing helpers. Do not design the page before copy acceptance."},
     "copy": {
       "agent": "lp-copy",
