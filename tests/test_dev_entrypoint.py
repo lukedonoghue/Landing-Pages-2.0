@@ -55,6 +55,9 @@ class DevEntrypointTests(unittest.TestCase):
         self.assertIn('\"reader_heading\": \"Read your guide now\"', demo_project)
         self.assertIn("We could not accept your request. Check your details and try again.", demo_project)
         self.assertIn("We could not confirm whether your request was saved. Retry to check the same request safely; your details are kept unchanged.", demo_project)
+        self.assertIn("@media(max-width:340px)", demo_project)
+        quickstart = (ROOT / "skills/community-landing-page-builder/scripts/quickstart.py").read_text()
+        self.assertIn('"scripts/extract_brand.mjs", url, "--out", "build/brand.json"', quickstart)
 
     def test_readme_leads_with_local_dependency_setup(self):
         readme = (ROOT / "README.md").read_text()
