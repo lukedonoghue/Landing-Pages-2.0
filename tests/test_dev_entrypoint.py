@@ -53,6 +53,8 @@ class DevEntrypointTests(unittest.TestCase):
         )
         self.assertIn('\"download_label\": \"Download your service guide\"', demo_project)
         self.assertIn('\"reader_heading\": \"Read your guide now\"', demo_project)
+        self.assertIn("We could not accept your request. Check your details and try again.", demo_project)
+        self.assertIn("We could not confirm whether your request was saved. Retry to check the same request safely; your details are kept unchanged.", demo_project)
 
     def test_readme_leads_with_local_dependency_setup(self):
         readme = (ROOT / "README.md").read_text()
