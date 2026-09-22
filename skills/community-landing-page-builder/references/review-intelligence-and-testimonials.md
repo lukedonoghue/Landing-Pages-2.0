@@ -74,7 +74,7 @@ A publishable testimonial must remain one person's evidence. Keep together:
 - publication/review date when available;
 - source name and source URL;
 - reviewer profile URL when available;
-- avatar URL or local asset only when its publication basis is recorded;
+- avatar URL or local asset only when its publication basis is recorded; local avatar files are hash-bound in the manifest;
 - rights basis;
 - testimonial roles and proof strength.
 
@@ -202,4 +202,4 @@ After the ordinary gate snapshot exists, record final review evidence with:
 python3 scripts/workflow.py record-review-evidence .
 ```
 
-The gate verifies provenance and rendered integrity. It does not claim that the selected reviews are representative of all customers or that using them will improve conversion.
+The gate recomputes the deterministic insight and testimonial-selection records from the current manifest, so editing a compiled quote/name/avatar/source directly is a blocker. Local reviewer avatars are also hash-bound. The gate verifies provenance and rendered integrity. It does not claim that the selected reviews are representative of all customers or that using them will improve conversion.
