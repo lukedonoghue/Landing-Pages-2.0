@@ -15,6 +15,7 @@ SKILL=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(SKILL/'scripts'))
 import guide
 import guide_ui
+import review_workflow
 import workflow_storage as storage
 
 
@@ -29,7 +30,15 @@ class GuideTests(unittest.TestCase):
         return {'actor':'user','message_id':'synthetic:message','event_id':'event-'+str(guide.state(self.root)['revision']),
                 'expected_revision':guide.state(self.root)['revision'],'answers':[{'id':k,'value':v} for k,v in answers.items()],**kw}
     def discovered(self):
-        self.save('build/discovery.json',{'schema_version':1,'suggestions':[]});guide.discover(self.root)
+        fingerprint=guide.research_fingerprint(self.root)
+        self.save('build/discovery.json',{'schema_version':1,'suggestions':[]})
+        manifest=storage.read(self.root,review_workflow.MANIFEST)
+        manifest.update(input_fingerprint=fingerprint)
+        manifest['business'].update(name=guide.config(self.root)['client'].get('name',''),website=guide.config(self.root)['client'].get('website',''))
+        manifest['discovery']={'status':'no_sources','searched_at':'2026-09-22T12:00:00+00:00','sources_checked':[{'name':'Synthetic fixture source check','url':'https://example.test/reviews','identity_match':'not_applicable'}],'notes':'Mechanical guide fixture; no customer feedback supplied.'}
+        storage.write(self.root,review_workflow.MANIFEST,manifest)
+        review_workflow.compile_project(self.root,fingerprint)
+        guide.discover(self.root)
     def complete_business(self):
         self.discovered();guide.answer(self.root,self.event({'service':'Roof inspections','audience':'Homeowners','region':'Synthetic county','offer':'An inspection and written findings','conversion':'call','destination':'tel:+15555550123'}))
     def confirm(self):
