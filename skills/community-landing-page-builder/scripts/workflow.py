@@ -16,6 +16,7 @@ import check_gates
 import copy_library
 import image_workflow
 import process_contract
+import review_workflow
 import workflow_storage
 import workflow_progress
 
@@ -50,6 +51,10 @@ def business_contract(config):
 
 def copy_state(root):
     configuration = read(root/'funnel.json') if (root/'funnel.json').is_file() else {}
+    if review_workflow.required(root):
+        review_state = review_workflow.audit_project(root, rendered=False)
+        if review_state['status'] == 'blocked':
+            return {'status':'blocked','failures':['Review intelligence: ' + item for item in review_state['failures']], 'warnings':review_state.get('warnings',[])}
     if configuration.get('guided_workflow'):
         try:
             projection = root/'build/guide-business.json'
@@ -188,7 +193,7 @@ def record(root, kind, message, message_id, fixture=False, allow_test_lead=False
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command',required=True)
-    for name in ['status','resume','checkpoint','check-copy','check-build','check-publish','record-copy-evidence','record-image-evidence','approve-copy','approve-publish','authorize-publish']:
+    for name in ['status','resume','checkpoint','check-copy','check-build','check-publish','record-copy-evidence','record-image-evidence','record-review-evidence','approve-copy','approve-publish','authorize-publish']:
         p=sub.add_parser(name);p.add_argument('project_root',type=Path)
         if name=='checkpoint':
             p.add_argument('--stage',choices=sorted(workflow_progress.STAGES),required=True)
@@ -205,6 +210,11 @@ def main():
     try:
         if args.command=='resume':result=workflow_progress.resume(root)
         elif args.command=='checkpoint':result={'status':'pass','checkpoint':workflow_progress.checkpoint(root,args.stage,args.event,args.summary,args.artifact)}
+        elif args.command=='record-review-evidence':
+            snapshot=read(root/'build/gate-snapshot.json')
+            result=review_workflow.gate_report(root, root/'build/gate-snapshot.json')
+            (root/'build/reviews').mkdir(parents=True,exist_ok=True)
+            (root/'build/reviews/result.json').write_text(json.dumps(result,indent=2)+'\n')
         elif args.command=='record-image-evidence':
             plan_path=root/'image-plan.json';plan=read(plan_path)
             evaluated=image_workflow.gate(plan,root)
