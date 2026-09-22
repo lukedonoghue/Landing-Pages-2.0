@@ -117,7 +117,9 @@ def write_demo_sources(project):
                        {"number": "03", "headline": "Choose your next step", "body": "Discuss your needs before making a commitment."}]},
             {"id": "guide", "headline": "Your project guide", "body": "Explore the complete page, form, PDF, CRM and reporting using fictional local data."}
         ],
-        "modal": {"submit_label": data['cta'], "follow_up_promise": data['follow_up']},
+        "modal": {"submit_label": data['cta'], "follow_up_promise": data['follow_up'],
+                  "failure": "We could not accept your request. Check your details and try again.",
+                  "uncertain": "We could not confirm whether your request was saved. Retry to check the same request safely; your details are kept unchanged."},
         "thank_you": {"eyebrow": "Your next step", "headline": "Here is your project guide.",
                       "body": "Your fictional enquiry is saved in the local CRM. Download the guide below.",
                       "follow_up_promise": data['follow_up'], "download_label": "Download your service guide",
