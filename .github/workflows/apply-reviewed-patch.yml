@@ -1,0 +1,78 @@
+name: Prepare reviewed source tree
+on:
+  push:
+    branches: [main]
+    paths: ['.github/review-transfer.json']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate exact preimages and prepare Git objects without updating any branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PARENT: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import base64, gzip, hashlib, json, os, pathlib, subprocess, urllib.request
+          root = pathlib.Path.cwd()
+          envelope = json.loads((root/'.github/review-transfer.json').read_text())
+          compressed = base64.b64decode(envelope['gzip_base64'], validate=True)
+          if hashlib.sha256(compressed).hexdigest() != envelope['compressed_sha256']:
+              raise SystemExit('Transfer checksum mismatch')
+          raw = gzip.decompress(compressed)
+          if len(raw) > 5000000:
+              raise SystemExit('Transfer exceeds bound')
+          package = json.loads(raw)
+          writes = package['files']
+          if not 1 <= len(writes) <= 150 or len({x['path'] for x in writes}) != len(writes):
+              raise SystemExit('Invalid file set')
+          def digest(data): return hashlib.sha256(data).hexdigest()
+          for item in writes:
+              rel = pathlib.PurePosixPath(item['path'])
+              if rel.is_absolute() or '..' in rel.parts or not (str(rel).startswith('skills/community-landing-page-builder/') or str(rel) == '.github/workflows/community-release.yml'):
+                  raise SystemExit('Unapproved patch path')
+              if any(p in {'.secrets','.git','node_modules','.wrangler','__pycache__'} or p.startswith(('.env','.dev.vars')) for p in rel.parts):
+                  raise SystemExit('Private/runtime path rejected')
+              path = root / rel
+              if path.is_symlink() or any(p.is_symlink() for p in path.parents if p != root):
+                  raise SystemExit('Symlink rejected')
+              before = digest(path.read_bytes()) if path.exists() else None
+              if before != item['before_sha256']:
+                  raise SystemExit('Concurrent edit conflict: ' + str(rel))
+              if digest(item['content'].encode()) != item['sha256']:
+                  raise SystemExit('Replacement checksum mismatch: ' + str(rel))
+          for item in writes:
+              path = root/item['path']; path.parent.mkdir(parents=True, exist_ok=True); path.write_text(item['content'])
+          subprocess.run(['git','diff','--check'], check=True)
+          subprocess.run(['python3','-m','compileall','-q','skills/community-landing-page-builder/scripts'], check=True)
+          api = 'https://api.github.com/repos/' + os.environ['REPO']
+          def request(path, payload=None):
+              data = None if payload is None else json.dumps(payload).encode()
+              req = urllib.request.Request(api+path, data=data, headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json','X-GitHub-Api-Version':'2022-11-28'})
+              with urllib.request.urlopen(req, timeout=60) as response: return json.load(response)
+          base = request('/git/commits/'+os.environ['PARENT'])['tree']['sha']
+          entries=[]
+          for item in writes:
+              blob=request('/git/blobs',{'content':item['content'],'encoding':'utf-8'})
+              entries.append({'path':item['path'],'mode':'100644','type':'blob','sha':blob['sha']})
+          # The transport removes itself from the resulting product tree.
+          for path in ['.github/review-transfer.json','.github/workflows/apply-reviewed-patch.yml']:
+              entries.append({'path':path,'mode':'100644','type':'blob','sha':None})
+          tree=request('/git/trees',{'base_tree':base,'tree':entries})
+          result={'parent':os.environ['PARENT'],'tree':tree['sha'],'package_sha256':digest(raw),'files':[{k:item[k] for k in ('path','sha256')} for item in writes],'note':'No ref or deployment updated. Requires explicit fast-forward commit after review.'}
+          pathlib.Path('/tmp/reviewed-tree.json').write_text(json.dumps(result,indent=2)+'\n')
+          print(json.dumps({'tree':tree['sha'],'files':len(writes),'ref_updated':False}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reviewed-tree
+          path: /tmp/reviewed-tree.json
+          retention-days: 7
