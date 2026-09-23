@@ -4,15 +4,19 @@ Updated: 23 September 2026. Owner: Luke / an authorized repository and productio
 
 ## Release decision: HOLD
 
-**The security remediation is NOT installed in this repository. All three existing workflows passed on the unpatched baseline. These are different facts.** Do not interpret a green baseline workflow, this documentation commit, or creation of a security branch as installation of the fixes or production security acceptance.
+**The final remediation is installed and locally committed on `security/install-final-remediation`, but it is not on GitHub `main` or in production.** All three existing workflow runs below passed on the unpatched baseline. Their results are not patched-release acceptance. Keep the release on hold until the patched commit passes GitHub checks and the production/operator work below is complete.
+
+The candidate contains the supplied 89-file patch, a regenerated CRM example, fixture repairs needed for the updated security behavior, and a 390px modal-title spacing fix. Local commits are `865ed03` (source and example), `437bb1f` (merge current `origin/main` documentation), and `a7f13cd` (modal spacing). The final handoff and example manifest were updated after those commits. No production deployment, migration, credential rotation, account-access change or real customer lead submission was performed. Synthetic leads exist only in isolated local fixtures.
+
+**Local candidate evidence, 23 September 2026:** package and patch SHA256 values below match; all 89 supplied paths passed the package manifest check. Generated-example parity passed. The complete community Python suite passed (304 tests), as did the complete Node suite (325 tests, zero skipped), fresh-demo browser checks (78), journey checks (102), three rendered PDF pages, nine-viewport layout checks, portable export/import, and the Worker dry bundle. Chromium and WebKit launched. The three PDF pages were visually inspected and are legible. The 390px modal collision was fixed and its screenshot was inspected. The empty inline-reader capture described below remains unresolved. GitHub patched-candidate CI has not run. The local Node version is 26; the GitHub workflow uses Node 24.
+
+**Dependency-audit gate:** this repository is private. An automatic approval review rejected the local `npm audit --audit-level=high` network call because it would send private dependency metadata to the external npm registry without specific user approval. Both the release and verify workflows also run that command, so pushing the candidate would trigger the same disclosure. Do not push or trigger those workflows until the user expressly approves that disclosure. No CI-skip marker or indirect workaround was used. The audit result is still unknown.
 
 At the start of this attempt, main was `76285ea8408556cacb4d94d5db9f66000cf452e6`. The connected GitHub account reports push/admin permission. A fresh direct `GitHub.create_tree` attempt to upload the reviewed access-audit source was blocked with: "This tool call was blocked by OpenAI because we couldn't determine the safety status of the request." The source write produced no tree or commit. This is a tool-side block, not a GitHub repository permission denial. No encoded upload, alternate source-write route or CI patch bootstrap was used to bypass the block.
 
 The initial addition of this file was committed directly to main as `7f885bfe8c7e93c0ff256627a743c3543b0e963a`, which triggered all three existing main-push workflows. Those workflows were observed through completion. The subsequent evidence update changes only this document and skips a redundant documentation-only CI run; all results below remain attributed to that exact tested commit. No runtime, test, workflow or release gate was changed or weakened by these documentation updates.
 
-No production deployment, migration, credential rotation, account-access change or real customer lead submission was performed. Synthetic leads exist only in the isolated local CI fixture.
-
-## 1. Prepared remediation, not committed here
+## 1. Final package and provenance
 
 Use the final package supplied in the conversation, not the earlier remediation package and not both patches.
 
@@ -22,25 +26,25 @@ Use the final package supplied in the conversation, not the earlier remediation 
 - Patch SHA256: `a14fc415e359ee70d52348ce1a8788c0749c54f34526ae4ed83a2fb1ff8425c6`
 - Exact patch base: `76285ea8408556cacb4d94d5db9f66000cf452e6`.
 - Scope: 89 changed/new text files, including tests and operational references. The generated CRM example must be rebuilt from the complete repository with its real assets.
-- The package is not hosted in this repository. Retrieve it from the conversation and keep the extracted package outside the checkout.
+- The package is not hosted in this repository. The supplied ZIP was read from the user's Downloads folder and extracted outside the checkout.
 
-Prepared changes cover privileged manual-reset restrictions, owner-only privilege changes, admin-only sensitive operations, current-password confirmation, idle expiry, normalized routing and fallback-host restrictions, access auditing, bounded public admission limits, signed minimal Google Sheets delivery, persistent downstream erasure, backup reconciliation, agent credential restrictions, browser/UI policies and generated-example parity. These are prepared changes, not claims about the current main runtime.
+The candidate changes cover privileged manual-reset restrictions, owner-only privilege changes, admin-only sensitive operations, current-password confirmation, idle expiry, normalized routing and fallback-host restrictions, access auditing, bounded public admission limits, signed minimal Google Sheets delivery, persistent downstream erasure, backup reconciliation, agent credential restrictions, browser/UI policies and generated-example parity. These are local candidate changes, not claims about the current GitHub `main` runtime.
 
-A fresh local check on 23 September confirmed patch application and exact contents for all 89 supplied files, with zero checksum mismatches. The three targeted security/UI-policy test files ran again: **31 passed, zero failed, zero skipped**. This local environment uses Node 22.16.0 and Python 3.13.5; its source snapshot omits bundled font binaries and its npm registry DNS lookup failed. It is not the supported complete release environment. No full patched CI/browser validation is claimed.
+A fresh local check on 23 September confirmed patch application and exact contents for all 89 supplied files, with zero checksum mismatches. The three targeted security/UI-policy test files passed: **31 passed, zero failed, zero skipped**. The earlier partial check used Node 22.16.0 and Python 3.13.5. The complete-checkout results at the top of this document supersede that partial local check; no patched GitHub CI or production validation is claimed.
 
 Earlier package evidence remains partial: six focused publishing checks and 122 focused Python checks passed; the broad Node run did not pass (117 passed / 25 failed), and full Python discovery/browser integration were incomplete. Counts overlap. Read `REVIEW.md` and `verification/` in the package; do not turn these figures into full release acceptance.
 
-## 2. Apply and reconcile in an authorized development environment
+## 2. Local installation completed; GitHub release pending
 
-- [ ] Review the final patch and verify both SHA256 hashes.
-- [ ] Use a complete clean checkout. Preserve any current work; never reset or discard it to force application.
-- [ ] Create a new local review branch at the exact patch base. The package helper intentionally rejects another base, including a main branch advanced only by this handoff document.
-- [ ] Run the package's `apply.py --repo /path/to/checkout` in check-only mode, then rerun with `--apply` after reviewing the result.
-- [ ] Reconcile any newer main commits, keeping this handoff file. Do not apply the earlier patch first.
-- [ ] Inspect `scripts/sync_crm_example.py` and its generated destination; run `python scripts/sync_crm_example.py`, then `python scripts/sync_crm_example.py --check` using the complete repository and exact bundled assets.
-- [ ] Run `git diff --check`, inspect all changed/untracked files, and ensure no credentials, customer data, databases or private handoff files enter the commit.
-- [ ] Commit the reviewed source and regenerated example on a review branch, open a PR to current main, and run all required workflows against that precise PR head/merge candidate.
-- [ ] Merge only after every required check passes and all release-affecting failures have been fixed. Record the actual merged SHA below. Do not use a CI-skip marker on the source-install commit.
+- [x] Review the final patch and verify both SHA256 hashes.
+- [x] Use a complete checkout without discarding pre-existing work.
+- [x] Create a local branch at the exact patch base and run `apply.py` in check-only and apply modes.
+- [x] Reconcile newer `main` documentation and keep this handoff file.
+- [x] Regenerate the CRM example with complete assets and check parity.
+- [x] Inspect the commit contents and check for credentials, customer data, databases and private handoff files.
+- [x] Commit the candidate on `security/install-final-remediation`.
+- [ ] After explicit approval for the npm-registry metadata disclosure, update against current `main`, push the candidate, and run the required workflows on the exact candidate.
+- [ ] Update GitHub `main` only after required checks pass and release-affecting failures are fixed. Record the actual SHA below. Do not use a CI-skip marker.
 
 Do not replace maintained community runtime files with the older client-specific example branch. Migrations 0009/0010 and identity-attribution additions remain a separately reviewed change; migration 0011 deliberately reserves those numbers rather than importing the old runtime.
 
@@ -67,14 +71,14 @@ Downloaded and inspected artifacts:
 
 The automated demo report itself says screenshots alone are not visual approval. The three rendered demo PDF pages, a short-desktop modal screenshot and mobile thank-you samples were inspected. The PDF is explicitly a deterministic fictional software-test fixture, not evidence of genuine company research, testimonial sourcing or final client design quality.
 
-**Open visual item:** `.development/demo/build/layout/screenshots/390x844-thank-you.png` shows an empty inline-reader area under "Read your guide now". The same run passes brochure download and PDF rendering. The cause of the empty captured viewer is not established; a headless viewer/capture limitation is possible. Do not mark the on-page reader visually accepted from the automated pass.
+**Open visual item:** the fresh candidate's `.development/demo-security-final/build/layout/screenshots/390x844-thank-you.png` shows an empty inline-reader area under "Read your guide now". The same run passes brochure download and PDF rendering, and all three rendered PDF pages were visually inspected. The cause of the empty captured viewer is not established; a headless viewer/capture limitation is possible. Do not mark the on-page reader visually accepted from the automated pass.
 
 - [ ] Reproduce the inline-reader view in the supported interactive browsers; verify the intended document actually appears or an accessible HTML/fallback reader is presented. Fix any confirmed application/capture defect and add a corresponding regression before visual acceptance.
 - [ ] Review an actual generated client page, full confirmation page and researched/image-bearing PDF. Synthetic fixture success does not prove native model availability, live review research, image-generation handoff, external providers or publication.
 
-## 4. Required patched-candidate validation: still outstanding
+## 4. Patched-candidate local validation completed; GitHub checks outstanding
 
-The three existing workflows remain required after source installation. None may be removed, weakened or marked passing without execution on the patched candidate. Baseline success cannot substitute for this step.
+The three existing workflows remain required on the patched candidate. None may be removed, weakened or marked passing without execution on that candidate. Baseline success cannot substitute for this step. Locally, the full Python and Node suites, focused security tests, fresh fictional demo, browser launch, generated-example parity and Worker dry bundle passed. The dependency audit is blocked as described in the release decision.
 
 Minimum additional commands, using the supported Node/Python versions and actual browser prerequisites:
 
@@ -89,11 +93,11 @@ npm test
 npm run deploy:dry
 ```
 
-- [ ] Confirm the new security tests actually ran, not merely that the old suite passed.
+- [x] Confirm the new security tests actually ran: 31 focused checks passed; full suites also passed.
 - [ ] Verify migration 0011 on both a fresh synthetic database and a representative sanitized upgrade fixture. Retain failure logs and resolve real failures.
-- [ ] Verify Chromium and WebKit launch and their tests execute without skipped tests.
-- [ ] Complete the fresh demo and portable export/import check; inspect generated page/PDF and CRM evidence rather than relying on compilation alone.
-- [ ] Capture the exact patched commit SHA, workflow run URLs, conclusions, test counts, dependency-audit and dry-bundle results.
+- [x] Verify Chromium and WebKit launch and browser tests execute without skipped tests in the local candidate.
+- [x] Complete the fresh demo and portable export/import check; inspect generated page/PDF and CRM evidence. Keep the inline-reader visual item open.
+- [ ] Capture the exact patched GitHub commit SHA, workflow run URLs, conclusions, test counts, dependency-audit and dry-bundle results.
 
 ## 5. Production and host handoff that repository CI cannot complete
 
@@ -136,10 +140,12 @@ A JSON/TOML parsing test does not demonstrate enforcement by the installed agent
 Fill this in with evidence, not assumptions. Do not place passwords, tokens, customer records or private backup locations here.
 
 - Baseline CI: ALL THREE WORKFLOWS PASSED at `7f885bfe8c7e93c0ff256627a743c3543b0e963a`; not a patched-release approval
-- Source-install PR and commit: NOT INSTALLED
-- Generated-example parity result: NOT VERIFIED ON COMPLETE PATCHED CHECKOUT
+- Source-install local branch: `security/install-final-remediation`; GitHub `main` NOT UPDATED
+- Generated-example parity result: PASS on complete patched checkout
 - Patched release workflow runs: NOT RUN
-- Patched dependency audit and Worker bundle: NOT VERIFIED
+- Patched dependency audit: BLOCKED PENDING APPROVAL FOR PRIVATE METADATA DISCLOSURE
+- Patched Worker dry bundle: LOCAL PASS
+- Patched local suites: 304 Python and 325 Node tests passed; fresh demo 78 browser / 102 journey checks passed
 - Inline-reader visual caveat: REPRODUCTION AND ACCEPTANCE REQUIRED
 - Migration/deployment identity: NOT DEPLOYED
 - Google standalone-script version and non-secret key version: NOT VERIFIED
