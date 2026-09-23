@@ -140,7 +140,8 @@ export async function requireSession(env, request) {
 }
 async function touchSession(env,request,tokenHash,now) {
   // Background polling must not keep an unattended tab signed in forever.
-  if(['/api/auth/session','/api/health','/api/admin/notifications','/api/admin/free-usage','/api/admin/security/overview'].includes(new URL(request.url).pathname))return;
+  const path=new URL(request.url).pathname;
+  if(['/api/auth/session','/api/health','/api/admin/notifications','/api/admin/free-usage','/api/admin/security/overview'].includes(path) || /^\/api\/admin\/data\/erasures\/[a-f0-9-]{36}\/continue$/.test(path))return;
   await env.DB.prepare('UPDATE sessions SET last_seen_at=? WHERE token_hash=? AND COALESCE(last_seen_at,created_at)<?').bind(now,tokenHash,now-60).run();
 }
 export function normalizePath(pathname) {

@@ -133,6 +133,8 @@ test('F6 saturated rate-limit buckets stop increasing rather than allocating unl
 test('F11 idle expiry is not renewed by background session polling',async()=>{
   await login();const token=await hmac(env.SESSION_SECRET,'session:'+cookie.split('=')[1]),old=Math.floor(Date.now()/1000)-3590;
   env.DB.raw.prepare('UPDATE sessions SET last_seen_at=? WHERE token_hash=?').run(old,token);assert.equal((await call('/api/auth/session')).status,200);assert.equal(env.DB.raw.prepare('SELECT last_seen_at FROM sessions WHERE token_hash=?').get(token).last_seen_at,old);
+  assert.equal((await call(`/api/admin/data/erasures/${crypto.randomUUID()}/continue`,{method:'POST'})).status,404);
+  assert.equal(env.DB.raw.prepare('SELECT last_seen_at FROM sessions WHERE token_hash=?').get(token).last_seen_at,old);
   env.DB.raw.prepare('UPDATE sessions SET last_seen_at=? WHERE token_hash=?').run(old-20,token);assert.equal((await call('/api/admin/leads')).status,401);
 });
 
