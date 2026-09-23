@@ -10,6 +10,8 @@ The candidate contains the supplied 89-file patch, a regenerated CRM example, fi
 
 **Local candidate evidence, 23 September 2026:** package and patch SHA256 values below match; all 89 supplied paths passed the package manifest check. Generated-example parity passed. The complete community Python suite passed (304 tests), as did the complete Node suite (325 tests, zero skipped), fresh-demo browser checks (78), journey checks (102), three rendered PDF pages, nine-viewport layout checks, portable export/import, and the Worker dry bundle. Chromium and WebKit launched. The three PDF pages were visually inspected and are legible. The 390px modal collision was fixed and its screenshot was inspected. The empty inline-reader capture described below remains unresolved. GitHub patched-candidate CI has not run. The local Node version is 26; the GitHub workflow uses Node 24.
 
+Migration 0011 also passed in-memory SQLite checks on both a fresh schema and a sanitized upgrade fixture with a prior session, unused reset action, legacy Sheets query-token destination and attempted delivery. The upgrade cleared the session, invalidated the reset action, disabled and stripped the legacy destination, and preserved an opaque delivery receipt with key version 1. This does not replace a production migration rehearsal.
+
 **Dependency-audit gate:** this repository is private. An automatic approval review rejected the local `npm audit --audit-level=high` network call because it would send private dependency metadata to the external npm registry without specific user approval. Both the release and verify workflows also run that command, so pushing the candidate would trigger the same disclosure. Do not push or trigger those workflows until the user expressly approves that disclosure. No CI-skip marker or indirect workaround was used. The audit result is still unknown.
 
 At the start of this attempt, main was `76285ea8408556cacb4d94d5db9f66000cf452e6`. The connected GitHub account reports push/admin permission. A fresh direct `GitHub.create_tree` attempt to upload the reviewed access-audit source was blocked with: "This tool call was blocked by OpenAI because we couldn't determine the safety status of the request." The source write produced no tree or commit. This is a tool-side block, not a GitHub repository permission denial. No encoded upload, alternate source-write route or CI patch bootstrap was used to bypass the block.
@@ -94,7 +96,7 @@ npm run deploy:dry
 ```
 
 - [x] Confirm the new security tests actually ran: 31 focused checks passed; full suites also passed.
-- [ ] Verify migration 0011 on both a fresh synthetic database and a representative sanitized upgrade fixture. Retain failure logs and resolve real failures.
+- [x] Verify migration 0011 on both a fresh synthetic database and a sanitized upgrade fixture with representative legacy session, reset and Sheets delivery data.
 - [x] Verify Chromium and WebKit launch and browser tests execute without skipped tests in the local candidate.
 - [x] Complete the fresh demo and portable export/import check; inspect generated page/PDF and CRM evidence. Keep the inline-reader visual item open.
 - [ ] Capture the exact patched GitHub commit SHA, workflow run URLs, conclusions, test counts, dependency-audit and dry-bundle results.
