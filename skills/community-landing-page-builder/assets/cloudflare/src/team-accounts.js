@@ -174,7 +174,8 @@ export async function updateUser(env,actor,id,body) {
   if(id==='owner')throw new HttpError(403,'The original owner cannot be disabled or demoted.');
   if(id===actor.id)throw new HttpError(403,'Ask another administrator to change your access.');
   if(Object.keys(body).some(k=>!['role','status','email'].includes(k)) || (!body.role && !body.status && !body.email))throw new HttpError(400,'Change only role, status or an invited user email.');
-  const user=await targetUser(env,id),role=body.role ?? user.role,status=body.status ?? user.status,address=body.email===undefined?user.email:email(body.email);
+  // Authorize and compare-and-swap the same snapshot; a concurrent promotion must fail closed.
+  const user=protectedTarget,role=body.role ?? user.role,status=body.status ?? user.status,address=body.email===undefined?user.email:email(body.email);
   if(!roles.has(role) || !['invited','active','disabled'].includes(status) || (body.status && !['active','disabled'].includes(body.status)))throw new HttpError(400,'Invalid role or status.');
   if(body.email!==undefined) {
     if(user.status!=='invited' || user.email_verified_at || user.password_hash)throw new HttpError(409,'Only a never-activated invitation email can be corrected.');
