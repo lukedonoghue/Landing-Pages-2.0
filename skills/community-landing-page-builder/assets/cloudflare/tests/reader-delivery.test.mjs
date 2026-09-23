@@ -9,6 +9,7 @@ import { tmpdir } from 'node:os';
 import { join, extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, webkit } from 'playwright-core';
+import { secureResponse } from '../src/security.js';
 
 const exec = promisify(execFile);
 const scripts = fileURLToPath(existsSync(new URL('../scripts/build_guide.py', import.meta.url))
@@ -20,7 +21,7 @@ for (const [engineName, engine] of Object.entries({chromium, webkit})) {
     const root = await mkdtemp(join(tmpdir(), 'reader-delivery-'));
     const evidence = fileURLToPath(new URL(`../build/reader-delivery-review/${engineName}/`, import.meta.url));
     let server, browser;
-    const requests = [], errors = [];
+    const requests = [], errors = [], framingErrors = [];
     try {
       await exec(process.env.PYTHON || 'python3', [fixture, root, scripts], {timeout: 60000});
       const publicRoot = resolve(root, 'public');
@@ -34,7 +35,9 @@ for (const [engineName, engine] of Object.entries({chromium, webkit})) {
         try {
           const bytes = await readFile(file);
           const type = {'.html':'text/html','.css':'text/css','.js':'application/javascript','.pdf':'application/pdf','.png':'image/png'}[extname(file)] || 'application/octet-stream';
-          response.writeHead(200, {'Content-Type': type, 'Content-Length': bytes.length, 'Cache-Control': 'no-store'});
+          // Exercise the actual production response policy, not a header-free fixture.
+          const secured = secureResponse(new Response(null, {headers: {'Content-Type': type, 'Content-Length': String(bytes.length), 'Cache-Control': 'no-store'}}), pathname);
+          response.writeHead(200, Object.fromEntries(secured.headers));
           response.end(request.method === 'HEAD' ? undefined : bytes);
         } catch {response.writeHead(404);response.end('Not found');}
       });
@@ -55,6 +58,7 @@ for (const [engineName, engine] of Object.entries({chromium, webkit})) {
           }, receipt);
           const page = await context.newPage();
           page.on('pageerror', error => errors.push(error.message));
+          page.on('console', message => { if (/refused to (?:display|frame)|blocked.*(?:frame-ancestors|x-frame-options)/i.test(message.text())) framingErrors.push(message.text()); });
           await page.goto(origin+'/thank-you.html', {waitUntil:'networkidle'});
           assert.equal(await page.locator('[data-confirmed-only]').first().isVisible(), accepted, state);
           assert.equal(await page.locator('[data-unconfirmed-only]').first().isVisible(), !accepted, state);
@@ -66,8 +70,14 @@ for (const [engineName, engine] of Object.entries({chromium, webkit})) {
           assert.equal(await cover.evaluate(image=>image.complete && image.naturalWidth>0),true);
           const pdf=await page.request.get(origin+await page.locator('[data-guide-download]').first().getAttribute('href'));
           assert.equal(pdf.status(),200);assert.equal((await pdf.body()).subarray(0,5).toString(),'%PDF-');
+          assert.equal(pdf.headers()['x-frame-options'],'SAMEORIGIN');
+          assert.equal(pdf.headers()['content-security-policy'],"frame-ancestors 'self'");
+          const fallback = page.locator('[data-guide-reader] a[data-guide-download]');
+          assert.equal(await fallback.isVisible(),true,'Download fallback must remain available without opening the native reader');
+          assert.equal(await fallback.getAttribute('href'),await page.locator('[data-guide-embed]').getAttribute('src'));
           await page.locator('[data-guide-reader] summary').click();
           assert.equal(await page.locator('[data-guide-embed]').isVisible(),true);
+          if(state==='accepted') await page.screenshot({path:join(evidence,'thank-you-reader-open-390.png'),fullPage:true});
           if(state==='accepted') {
             for(const [width,height] of [[320,740],[390,844],[1440,900]]) {
               await page.setViewportSize({width,height});
@@ -79,10 +89,11 @@ for (const [engineName, engine] of Object.entries({chromium, webkit})) {
         } finally {await context.close();}
       }
       assert.deepEqual(errors,[]);
+      assert.deepEqual(framingErrors,[],'The guide must not be rejected by its framing policy');
       assert.equal(requests.some(request=>!['GET','HEAD'].includes(request.method)),false,'No new lead or conversion POST');
       await copyFile(join(root,'public/assets/brochure/service-guide.pdf'),join(evidence,'synthetic-reader-guide.pdf'));
       await copyFile(join(root,'public/assets/brochure/service-guide-cover.png'),join(evidence,'synthetic-guide-cover.png'));
-      await writeFile(join(evidence,'result.json'),JSON.stringify({status:'pass',engine:engineName,scope:'Actual Python PDF and derived HTML; synthetic copy, supplied graphics and receipt fixture. No real customer/provider/model operation.',states:['direct','accepted','expired','malformed'],viewports:[320,390,1440],page_errors:errors,non_read_requests:0},null,2));
+      await writeFile(join(evidence,'result.json'),JSON.stringify({status:'pass',engine:engineName,scope:'Actual Python PDF and derived HTML; synthetic copy, supplied graphics and receipt fixture. No real customer/provider/model operation.',states:['direct','accepted','expired','malformed'],viewports:[320,390,1440],page_errors:errors,framing_errors:framingErrors,pdf_security_headers:'verified',download_fallback:'visible and same PDF',native_preview_pixels:'Browser-dependent; download fallback is independently verified',non_read_requests:0},null,2));
     } finally {
       await browser?.close();
       if(server)await new Promise(resolve=>server.close(resolve));
