@@ -6,3 +6,8 @@
   X-Robots-Tag: noindex, nofollow
 /login.html
   X-Robots-Tag: noindex, nofollow
+
+# Public PDF reader only. Remove the inherited DENY instead of joining values.
+/assets/brochure/*.pdf
+  ! X-Frame-Options
+  Content-Security-Policy: frame-ancestors 'self'
