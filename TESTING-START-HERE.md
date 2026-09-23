@@ -4,11 +4,29 @@ Updated: 23 September 2026.
 
 ## Scope and release status
 
+**Ready for controlled local tester pilots.** The two remaining code defects are fixed and merged into `main` through [PR #4](https://github.com/lukedonoghue/Landing-Pages-2.0/pull/4), merge commit `e55b1ffcac79d4f34756b57b77316c7414dc6098`.
+
 This is the entry point for people testing the reusable community builder in a fresh local project. NetBean was a test deployment and is explicitly outside this release's acceptance criteria. Nobody needs to repair, connect to or deploy NetBean to test this project.
 
-The candidate fixes both defects in `SECURITY-POST-PUSH-REVIEW-20260923.md`: account edits use one authorized/version-checked snapshot, and only public guide PDFs receive a same-origin framing exception. Login, CRM, API and account-action pages retain framing restrictions. The example is regenerated from the maintained template. Eight new regressions cover the permission race, normal edits, response policy and static-header rule. The reader browser test now uses the actual security response wrapper and verifies the visible PDF-download fallback.
+The release fixes both defects in the historical `SECURITY-POST-PUSH-REVIEW-20260923.md`: account edits use one authorized/version-checked snapshot, and only public guide PDFs receive a same-origin framing exception. Login, CRM, API and account-action pages retain framing restrictions. The example is regenerated from the maintained template. Eight new regressions cover the permission race, normal edits, response policy and static-header rule. The reader browser test now uses the actual security response wrapper and verifies the visible PDF-download fallback.
 
-Release status for this candidate: **awaiting the required GitHub checks**. The final tested commit, workflow results and tester-release decision will be recorded here after those checks finish. Historical security review files describe their own earlier snapshots; this file is the current tester-release entry point.
+### Completed release verification
+
+All three required PR workflows passed on candidate `4bbb5044f5c1e9f0758197f5e00c338a7892c590`, checked out by GitHub as combined commit `43f9ad47b40a9aa11bb4f2293c24ec2332d0f0fe`. The merged commit has the identical complete tree `c8d0ffe5ddc5e33704862a6fb95672546ae6d1ad`. This results update changes documentation only; it does not change the verified runtime or tests.
+
+| Check | Actual evidence |
+|---|---|
+| [Community release, run 35876928034](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35876928034) | Passed: 304 Python tests; 333 Node/application tests, zero failures and zero skips; regenerated-example parity; dependency-audit gate; Chromium/WebKit launch; Worker dry bundle. |
+| [Native routing, run 35876928161](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35876928161) | Passed: routing, reservations, safe installation and provider-profile parity. |
+| [Fresh end-to-end demo, run 35876928187](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35876928187) | Passed: fresh fictional project, 78 browser checks, 102 journey checks, three rendered PDF pages, layout/performance and portable export/import. Publication disabled. |
+| Focused local regressions | 39 passed / 0 failed / 0 skipped. All eight new checks passed; against the previous runtime five of those eight failed, reproducing both defects and additional header cases. |
+| Source and evidence integrity | All 338 reviewable CI source files matched the manifest and local candidate. Downloaded Python, application and demo artifacts matched their GitHub SHA256 digests. |
+
+The Node suite runs in two workflows and routing overlaps the Python suite; do not add the counts into an inflated total. The three rendered fictional demo PDF pages were inspected and are legible, without clipped text or overlapping content. This fixture verifies software behavior, not the quality of a real company's research or final marketing design.
+
+**Known native-preview limitation:** open-reader screenshots from headless Chromium and WebKit still capture an empty native PDF pane. Neither engine reports a framing-policy error; the actual PDF headers and same-file download fallback both pass. These screenshots do not prove native PDF pixels render in every interactive browser. The visible download fallback remains available independently of the preview. Testers should check their actual browser and report a blank preview with browser/version. This limitation is disclosed for the pilot, not silently marked as visual acceptance of the native viewer.
+
+Historical security review files describe their own earlier snapshots; this file is the current tester-release entry point. Production-specific checklists are not prerequisites for this local pilot.
 
 ## What to share
 
