@@ -1,5 +1,6 @@
 export function freePlanFailures(config) {
   const failures=[];
+  for(const key of ['SESSION_SECRET','ADMIN_PASSWORD_HASH','WEBHOOK_SIGNING_SECRET','GOOGLE_SHEETS_SIGNING_SECRET'])if(config.vars?.[key])failures.push(`Store ${key} as a Worker secret, never as a Wrangler variable.`);
   if(config.vars?.CF_ACCOUNT_ANALYTICS_TOKEN)failures.push('Store CF_ACCOUNT_ANALYTICS_TOKEN as a Worker secret, never as a Wrangler variable.');
   if(config.vars?.CF_EMAIL_ROUTING_TOKEN)failures.push('Store CF_EMAIL_ROUTING_TOKEN as a Worker secret, never as a Wrangler variable.');
   if(config.vars?.CLOUDFLARE_API_TOKEN||config.vars?.CLOUDFLARE_API_KEY)failures.push('Do not expose a broad Cloudflare credential to the Worker. Usage monitoring accepts only its dedicated Account Analytics Read secret.');

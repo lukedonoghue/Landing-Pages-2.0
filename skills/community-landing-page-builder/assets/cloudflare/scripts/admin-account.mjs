@@ -1,5 +1,5 @@
 /** Named-owner maintenance with pinned D1 targets and resumable, versioned changes. */
-import { existsSync, readFileSync, writeFileSync, mkdirSync, lstatSync, chmodSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, lstatSync, chmodSync, rmSync, realpathSync } from 'node:fs';
 import { randomBytes, randomUUID, pbkdf2Sync, timingSafeEqual } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -39,6 +39,15 @@ export function accountPlan(args, root = ROOT) {
   if (action !== 'change-username' && options.username) throw new Error('--username belongs only to change-username; password recovery preserves the owner identity.');
   if (action === 'resume' && (!UUID.test(options.operation || '') || options.out)) throw new Error('Resume the retained --operation UUID without replacing its output.');
   if (action !== 'resume' && options.operation) throw new Error('Use resume to inspect an existing operation.');
+  if(action==='rotate-password'&&options.remote&&!options['dry-run']){
+    if(!options.out)throw new Error('Remote password rotation requires an external --out handoff.');
+    const output=path.resolve(root,options.out); let ancestor=path.dirname(output);
+    while(!existsSync(ancestor)){const parent=path.dirname(ancestor);if(parent===ancestor)throw new Error('Invalid handoff parent.');ancestor=parent;}
+    const resolved=path.resolve(realpathSync(ancestor),path.relative(ancestor,output));
+    const rel=path.relative(realpathSync(root),resolved);
+    if(existsSync(output)&&lstatSync(output).isSymbolicLink())throw new Error('A handoff cannot be a symbolic link.');
+    if(!rel.startsWith('..'+path.sep)&&rel!=='..'&&!path.isAbsolute(rel))throw new Error('Remote password handoff must be outside the project.');
+  }
   if (action !== 'rotate-password' && options.out) throw new Error('--out is only for a newly generated recovery password.');
   if (options['credentials-file'] && options['password-file']) throw new Error('Choose one private current-credential file.');
   return { action, target: options.remote ? '--remote' : '--local', mode: options.remote ? 'production' : 'local', dryRun: !!options['dry-run'],
@@ -108,6 +117,7 @@ export async function runAccount(args, { run = spawnSync, log = console.log, roo
     state = { schema_version:1, id, action:plan.action, target:selected.target, requested_username:plan.username || null, requested_output:plan.output || null, created_at:now(), phase:'inspecting', attempts:0 };
     atomic(path.join(base, 'wrangler.jsonc'), selected.config);atomic(path.join(base,'state.json'),state);
   }
+  if(state.phase==='complete'){const result={status:'complete',operation_id:state.id,action:state.action,mode:plan.mode,already_completed:true};log(JSON.stringify(result));return result;}
   const configFile = path.join(base, 'wrangler.jsonc');
   if (JSON.stringify(read(configFile)) !== JSON.stringify(selected.config)) throw new Error('The retained account-recovery destination changed.');
   const save = () => atomic(path.join(base, 'state.json'), state);
@@ -180,12 +190,18 @@ export async function runAccount(args, { run = spawnSync, log = console.log, roo
       const secret = state.action === 'rotate-password' ? readFileSync(privatePath(root,state.password_file),'utf8').trim() : supplied.password;
       const owner = username(current.username || state.owner_name);
       reference={username:owner,target:state.target,credential_version:current.version,operation_id:state.id};
-      if (matchesPassword(secret,current.password_hash || supplied.bootstrapHash)) {
+      if (state.action==='rotate-password' && plan.mode==='production') {
+        reference.password_file=state.password_file;
+      } else if (matchesPassword(secret,current.password_hash || supplied.bootstrapHash)) {
         const file=path.join(base,'current-credentials.json');atomic(file,{username:owner,password:secret});reference.credentials_file=path.relative(root,file);
       } else reference.needs_password=true;
       atomic(inside(root,refPath(plan.mode),true),reference);
     }
     state.phase='complete';state.last_error=null;state.completed_at=now();save();
+    if(state.action==='rotate-password'&&plan.mode==='production'){
+      const sanitized={...read(intentFile)};delete sanitized.generated_password;atomic(intentFile,sanitized);state.intent_sha256=hash(readFileSync(intentFile));save();
+      for(const file of [path.join(base,'current-credentials.json'),path.join(root,'.secrets/production-admin-password.txt'),path.join(root,'.secrets/current-credentials.json')])if(existsSync(file)&&!lstatSync(file).isSymbolicLink())rmSync(file);
+    }
     const result={status:'complete',operation_id:state.id,action:state.action,mode:plan.mode,...(state.password_file?{password_file:state.password_file}:{}),current_access:reference?.needs_password?'needs-current-private-password':reference?'updated':'unchanged'};
     log(JSON.stringify(result));return result;
   } catch(error) {

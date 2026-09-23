@@ -84,33 +84,86 @@ export async function visitorHash(env, request, body, day, config) {
   if (typeof body.visitor_id !== 'string' || !/^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(body.visitor_id)) return null;
   return hmac(env.SESSION_SECRET, `visitor:${day}:${body.visitor_id}`);
 }
-export async function rateLimit(env, request, namespace, maximum, seconds, global = false) {
-  const now = Math.floor(Date.now() / 1000);
+async function rateBucket(env, request, namespace, maximum, seconds, global, now) {
   const ip = global ? 'global' : (request.headers.get('CF-Connecting-IP') || 'local');
   const key = await hmac(env.SESSION_SECRET, `rate:${namespace}:${Math.floor(now / seconds)}:${ip}`);
-  const expires = (Math.floor(now / seconds) + 1) * seconds;
-  const row = await env.DB.prepare('INSERT INTO rate_limits(key,count,expires_at) VALUES(?,1,?) ON CONFLICT(key) DO UPDATE SET count=count+1 RETURNING count').bind(key, expires).first();
-  if (row.count > maximum) throw new HttpError(429, 'Too many requests. Please try again later.', { 'Retry-After': String(expires - now) });
+  return {key, maximum, expires:(Math.floor(now / seconds) + 1) * seconds};
+}
+function rateLimitError(bucket, now) {
+  return new HttpError(429, 'Too many requests. Please try again later.', {'Retry-After':String(Math.max(1,bucket.expires-now))});
+}
+async function consumeRateBucket(env, bucket, now) {
+  const row = await env.DB.prepare('INSERT INTO rate_limits(key,count,expires_at) VALUES(?,1,?) ON CONFLICT(key) DO UPDATE SET count=count+1 WHERE count<=? RETURNING count').bind(bucket.key,bucket.expires,bucket.maximum).first();
+  if (!row || row.count > bucket.maximum) throw rateLimitError(bucket,now);
+  return bucket.key;
+}
+export async function rateLimit(env, request, namespace, maximum, seconds, global = false) {
+  const now = Math.floor(Date.now() / 1000);
+  return consumeRateBucket(env,await rateBucket(env,request,namespace,maximum,seconds,global,now),now);
+}
+export async function publicRateLimit(env, request, namespace, maximum, seconds, globalLimits) {
+  const now = Math.floor(Date.now() / 1000);
+  const globals = await Promise.all(globalLimits.map(([name,max,period]) => rateBucket(env,request,name,max,period,true,now)));
+  // Read global ceilings before allocating a new per-IP row. Once exhausted,
+  // rotating source addresses must not produce more rate-limit writes.
+  for (const bucket of globals) {
+    const row = await env.DB.prepare('SELECT count FROM rate_limits WHERE key=?').bind(bucket.key).first();
+    if (row && row.count >= bucket.maximum) throw rateLimitError(bucket,now);
+  }
+  // A caller already rejected by its IP budget must not burn the site's budget.
+  await consumeRateBucket(env,await rateBucket(env,request,namespace,maximum,seconds,false,now),now);
+  for (const bucket of globals) await consumeRateBucket(env,bucket,now);
 }
 export function sessionCookie(request, token, maxAge = 43200) {
   const secure = !['localhost', '127.0.0.1', '[::1]'].includes(new URL(request.url).hostname);
-  return `crm_session=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}${secure ? '; Secure' : ''}`;
+  return `${secure ? '__Host-crm_session' : 'crm_session'}=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}${secure ? '; Secure' : ''}`;
 }
 export async function sessionTokenHash(env, request) {
-  const token = /(?:^|;\s*)crm_session=([a-f0-9]{64})(?:;|$)/.exec(request.headers.get('Cookie') || '')?.[1];
+  const local = ['localhost','127.0.0.1','[::1]'].includes(new URL(request.url).hostname);
+  const pattern = local ? /(?:^|;\s*)crm_session=([a-f0-9]{64})(?:;|$)/ : /(?:^|;\s*)__Host-crm_session=([a-f0-9]{64})(?:;|$)/;
+  const token = pattern.exec(request.headers.get('Cookie') || '')?.[1];
   return token ? hmac(env.SESSION_SECRET, `session:${token}`) : null;
 }
 export async function requireSession(env, request) {
   const tokenHash = await sessionTokenHash(env, request);
   if (!tokenHash) throw new HttpError(401, 'Please sign in.');
+  const now=Math.floor(Date.now()/1000);
   const member = await env.DB.prepare(`SELECT u.id,u.username,u.email,u.role FROM sessions s JOIN crm_users u ON u.id=s.user_id
-    WHERE s.token_hash=? AND s.expires_at>? AND s.credential_version=u.version AND u.status='active' AND u.email_verified_at IS NOT NULL`).bind(tokenHash, Math.floor(Date.now()/1000)).first();
-  if (member) return {...member, token_hash:tokenHash};
+    WHERE s.token_hash=? AND s.expires_at>? AND COALESCE(s.last_seen_at,s.created_at)>? AND s.credential_version=u.version AND u.status='active' AND u.email_verified_at IS NOT NULL`).bind(tokenHash,now,now-3600).first();
+  if (member) { await touchSession(env,request,tokenHash,now); return {...member, token_hash:tokenHash}; }
   const credentials = await adminCredentials(env);
-  const session = await env.DB.prepare('SELECT expires_at FROM sessions WHERE token_hash=? AND expires_at>? AND credential_version=? AND username=? AND user_id IS NULL').bind(tokenHash, Math.floor(Date.now() / 1000), credentials.version, credentials.username).first();
+  const session = await env.DB.prepare('SELECT expires_at FROM sessions WHERE token_hash=? AND expires_at>? AND COALESCE(last_seen_at,created_at)>? AND credential_version=? AND username=? AND user_id IS NULL').bind(tokenHash,now,now-3600,credentials.version,credentials.username).first();
   if (!session) throw new HttpError(401, 'Your session has expired. Please sign in.');
+  await touchSession(env,request,tokenHash,now);
   const profile = await env.DB.prepare('SELECT email FROM crm_owner_profile WHERE id=1').first();
   return {id:'owner', username:credentials.username, email:profile?.email || '', role:'admin', token_hash:tokenHash};
+}
+async function touchSession(env,request,tokenHash,now) {
+  // Background polling must not keep an unattended tab signed in forever.
+  if(['/api/auth/session','/api/health','/api/admin/notifications','/api/admin/free-usage','/api/admin/security/overview'].includes(new URL(request.url).pathname))return;
+  await env.DB.prepare('UPDATE sessions SET last_seen_at=? WHERE token_hash=? AND COALESCE(last_seen_at,created_at)<?').bind(now,tokenHash,now-60).run();
+}
+export function normalizePath(pathname) {
+  let path;
+  try { path=decodeURIComponent(pathname).replace(/\\/g,'/').replace(/\/{2,}/g,'/'); } catch { throw new HttpError(400,'Invalid URL.'); }
+  if(/[\u0000-\u001f\u007f]/.test(path) || /%[a-f0-9]{2}/i.test(path) || path.split('/').some(part=>part==='.' || part==='..'))throw new HttpError(400,'Invalid URL.');
+  return path;
+}
+export async function requireStepUp(env,request,user) {
+  let password=request.headers.get('X-CRM-Confirm-Password');
+  const encoded=request.headers.get('X-CRM-Confirm-Password-UTF8');
+  if(encoded!==null){
+    try { if(encoded.length>8192 || !/^[A-Za-z0-9+/]*={0,2}$/.test(encoded))throw new Error();
+      password=new TextDecoder('utf-8',{fatal:true}).decode(Uint8Array.from(atob(encoded),c=>c.charCodeAt(0)));
+    } catch { throw new HttpError(400,'Invalid password confirmation encoding.'); }
+  }
+  if(!password)throw new HttpError(403,'Confirm your current password to perform this sensitive action.',{},'reauthentication_required');
+  // Session-scoped throttling cannot be bypassed by rotating IP addresses.
+  const bucket=await rateLimit(env,request,`step-up:${user.token_hash}`,5,900,true);
+  cleanText(password,1024,'Current password',true);
+  const account=user.id==='owner'?await adminCredentials(env):await env.DB.prepare("SELECT password_hash FROM crm_users WHERE id=? AND status='active'").bind(user.id).first();
+  if(!account || !await verifyPassword(password,account.password_hash))throw new HttpError(403,'Current password is incorrect.',{},'reauthentication_failed');
+  await env.DB.prepare('DELETE FROM rate_limits WHERE key=?').bind(bucket).run();
 }
 export function cleanText(value, maximum, field, required = false) {
   if (value == null && !required) return '';
@@ -122,11 +175,12 @@ export function json(data, status = 200, headers = {}) {
 }
 export function secureResponse(response, pathname) {
   const headers = new Headers(response.headers);
+  headers.set('Strict-Transport-Security','max-age=31536000');
   headers.set('X-Content-Type-Options', 'nosniff'); headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   headers.set('X-Frame-Options', 'DENY'); headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   if (pathname.startsWith('/api/') || pathname.startsWith('/admin') || pathname.startsWith('/login') || pathname.startsWith('/account-action')) {
     headers.set('Cache-Control', 'no-store'); headers.set('X-Robots-Tag', 'noindex, nofollow');
-    headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+    headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
   }
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }

@@ -16,14 +16,15 @@ import { validateErasureRecord, reconcileErasureRecord } from '../scripts/erasur
 import { backupPlan, runBackup, normaliseD1Export } from '../scripts/backup.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const username = 'owner@example.invalid'; const password = 'test-only-owner-password-very-long';
-const nextPassword = 'different-test-only-owner-password';
+const nextPassword = 'different-test-only-owner-password'; let confirmationPassword=password;
 const salt = '112233445566778899aabbccddeeff00';
 const encoded = `pbkdf2_sha256$100000$${salt}$${pbkdf2Sync(password, Buffer.from(salt, 'hex'), 100000, 32, 'sha256').toString('hex')}`;
 let mf, db, cookie; let sequence = 0;
 async function call(path, { method = 'GET', body, auth = true, headers = {} } = {}) {
-  return mf.dispatchFetch(`https://site.test${path}`, { method, headers: { 'CF-Connecting-IP': `198.51.100.${++sequence % 240 + 1}`, ...(auth && cookie ? { Cookie: cookie } : {}), ...(method === 'POST' ? { Origin: 'https://site.test', 'Content-Type': 'application/json' } : {}), ...headers }, body: body === undefined ? undefined : JSON.stringify(body), redirect: 'manual' });
+  return mf.dispatchFetch(`https://site.test${path}`, { method, headers: { 'CF-Connecting-IP': `198.51.100.${++sequence % 240 + 1}`, ...(auth && cookie ? { Cookie: cookie, 'X-CRM-Confirm-Password':confirmationPassword } : {}), ...(method === 'POST' ? { Origin: 'https://site.test', 'Content-Type': 'application/json' } : {}), ...headers }, body: body === undefined ? undefined : JSON.stringify(body), redirect: 'manual' });
 }
 async function signIn(secret = password, name = username) {
+  confirmationPassword=secret;
   const response = await call('/api/auth/login', { method: 'POST', auth: false, body: { username: name, password: secret } });
   if (response.status === 200) return response.headers.get('Set-Cookie').split(';')[0];
   return response.status;
@@ -40,7 +41,7 @@ test('named owner authentication rejects password-only and other usernames', asy
   assert.equal(await signIn(password, 'someone-else'), 401);
   assert.equal((await call('/api/auth/login', { method: 'POST', auth: false, body: { password } })).status, 401);
   assert.equal(await signIn('wrong', username), 401);
-  cookie = await signIn(password, `  ${username.toUpperCase()}  `); assert.ok(cookie.startsWith('crm_session='));
+  cookie = await signIn(password, `  ${username.toUpperCase()}  `); assert.ok(cookie.startsWith('__Host-crm_session='));
   const response = await call('/api/admin/account'); assert.deepEqual(await response.json(), { username, password_changed_at: null });
 });
 test('account, notifications, CSV and password changes all require session and same-origin writes', async () => {
@@ -58,7 +59,7 @@ test('password rotation verifies current password, persists salted hash, revokes
   assert.equal((await call('/api/admin/account')).status, 401);
   assert.equal((await call('/api/admin/account', { headers: { Cookie: secondCookie } })).status, 401);
   assert.equal(await signIn(password), 401);
-  cookie = await signIn(nextPassword); assert.ok(cookie.startsWith('crm_session='));
+  cookie = await signIn(nextPassword); assert.ok(cookie.startsWith('__Host-crm_session='));
   const { hmac } = await import('../src/security.js');
   const oldHash = await hmac('test-only-session-secret-more-than-32-characters', `session:${secondCookie.split('=')[1]}`);
   await db.prepare('INSERT INTO sessions(token_hash,created_at,expires_at,credential_version,username) VALUES(?,?,?,?,?)').bind(oldHash,0,Math.floor(Date.now()/1000)+3600,0,username).run();
@@ -68,7 +69,7 @@ test('password rotation verifies current password, persists salted hash, revokes
 test('all-device signout advances credential version and new login still works', async () => {
   const response = await call('/api/admin/account/revoke-sessions', { method: 'POST', body: {} }); assert.equal(response.status, 200);
   assert.equal((await call('/api/auth/session')).status, 401); assert.equal((await db.prepare('SELECT version FROM admin_credentials').first()).version, 2);
-  cookie = await signIn(nextPassword); assert.ok(cookie.startsWith('crm_session='));
+  cookie = await signIn(nextPassword); assert.ok(cookie.startsWith('__Host-crm_session='));
 });
 const ids = [];
 async function seedLead(source, name, deleted = false) {

@@ -32,6 +32,8 @@ if(pagesGatewayHost&&(!publicHost||!crmHost))throw new Error('requested_hosts.pa
 writeFileSync('src/site-config.json',JSON.stringify({...current,name:funnel.client.name,color:funnel.client.color||current.color,logo:funnel.client.logo||'',timezone,analyticsMode:mode,attributionMode,advertisingUserDataMode,consentUiMode,sensitiveCategory,gtmContainerId,publicHost,crmHost,pagesGatewayHost,formFields:fields,allowedPaths:funnel.allowed_paths||['/','/index.html']},null,2)+'\n');
 if(crmHost){
   const wrangler=JSON.parse(readFileSync('wrangler.jsonc','utf8'));
+  wrangler.workers_dev=false;
+  wrangler.preview_urls=false;
   wrangler.vars={...(wrangler.vars||{}),CRM_PUBLIC_ORIGIN:`https://${crmHost}/`};
   writeFileSync('wrangler.jsonc',JSON.stringify(wrangler,null,2)+'\n');
 }

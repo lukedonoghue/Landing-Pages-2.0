@@ -1,4 +1,5 @@
 import { HttpError, adminCredentials, cleanText, hashPassword, hmac, json, randomToken, sessionCookie, sessionTokenHash, verifyPassword } from './security.js';
+import { recordAudit } from './access-audit.js';
 import { accountDeliveryMode, emailConfigured, listEmailRecipients, recipientOnboardingConfigured, requestEmailRecipient, requireVerifiedRecipient } from './email-recipients.js';
 
 const now = () => new Date().toISOString();
@@ -6,10 +7,12 @@ const seconds = () => Math.floor(Date.now()/1000);
 const roles = new Set(['admin','manager','viewer']);
 const publicColumns = 'id,username,email,role,status,email_verified_at,created_at,updated_at';
 export function permissions(user) {
-  return {manage_users:user.role==='admin',edit_leads:user.role!=='viewer',export_leads:user.role!=='viewer',manage_settings:user.role!=='viewer'};
+  return {manage_users:user.role==='admin',edit_leads:user.role!=='viewer',export_leads:user.role==='admin',manage_settings:user.role==='admin'};
 }
 export function authorize(user, path, method) {
   if (path.startsWith('/api/admin/users') && user.role!=='admin') throw new HttpError(403,'Only an administrator can manage users.');
+  const adminOnly = path.startsWith('/api/admin/webhooks') || path.startsWith('/api/admin/data/') || path.startsWith('/api/admin/security/') || path==='/api/admin/leads/export.csv';
+  if (adminOnly && user.role!=='admin') throw new HttpError(403,'Only an administrator can export data or manage connections and data controls.');
   if (user.role!=='viewer') return;
   const ownAccount = ['/api/admin/account/password','/api/admin/account/revoke-sessions'].includes(path);
   const reads = ['/api/admin/account','/api/admin/config','/api/admin/metrics','/api/admin/leads','/api/admin/notifications','/api/admin/free-usage'];
@@ -49,7 +52,10 @@ export async function loginTeam(env,request,body) {
   const account = isOwner ? primary : member;
   // Unknown identifiers perform the same password derivation without creating a session.
   const matches = await verifyPassword(body.password,account?.password_hash || primary.password_hash);
-  if (!account || !matches || (!isOwner && (account.status!=='active' || !account.email_verified_at))) throw new HttpError(401,'Incorrect username or password.');
+  if (!account || !matches || (!isOwner && (account.status!=='active' || !account.email_verified_at))) {
+    await recordAudit(env,'anonymous','login-failure','-',{username_hash:await hmac(env.SESSION_SECRET,`login-identifier:${identifier}`)});
+    throw new HttpError(401,'Incorrect username or password.');
+  }
   const token=randomToken(),tokenHash=await hmac(env.SESSION_SECRET,`session:${token}`), timestamp=seconds();
   const insert = isOwner
     ? env.DB.prepare('INSERT INTO sessions(token_hash,created_at,expires_at,credential_version,username) SELECT ?,?,?,?,? WHERE COALESCE((SELECT version FROM admin_credentials WHERE id=1),0)=? RETURNING token_hash').bind(tokenHash,timestamp,timestamp+43200,account.version,account.username,account.version)
@@ -58,6 +64,7 @@ export async function loginTeam(env,request,body) {
   if(prior)batch.push(env.DB.prepare('DELETE FROM sessions WHERE token_hash=?').bind(prior));
   const saved=await env.DB.batch(batch);
   if(!saved[0].results.length)throw new HttpError(401,'Credentials changed. Please sign in again.');
+  await recordAudit(env,isOwner?'owner':account.id,'login-success');
   return json({authenticated:true},200,{'Set-Cookie':sessionCookie(request,token)});
 }
 export async function listUsers(env,request) {
@@ -73,7 +80,11 @@ async function sendAction(env,request,user,purpose,actor,override={}) {
   const {origin,deliveryMode}=emailReady(env,request),recipient=override.email || user.email;
   // A session alone must not authorize replacing its own password through a
   // manually returned bearer link. Use the current-password flow or another admin.
-  if(purpose==='reset' && deliveryMode==='manual' && user.id===actor.id)throw new HttpError(403,'Use your current password to change it, or ask another administrator to create your reset link.');
+  if(purpose==='reset' && deliveryMode==='manual' && user.id===actor.id)throw new HttpError(403,'Use your current password to change it, or use verified email or trusted operator recovery.');
+  // A second-admin approval that reveals the same bearer link is NOT an identity check.
+  // Protected targets must receive a verified email or use Cloudflare-owner CLI recovery.
+  if(purpose==='reset' && deliveryMode==='manual' && (user.id==='owner' || user.role==='admin'))throw new HttpError(403,'Administrator resets require verified email delivery or Cloudflare-owner recovery. Manual reset links are disabled for protected accounts.');
+  if(user.role==='admin' && actor.id!=='owner' && purpose==='invite')throw new HttpError(403,'Only the owner can issue administrator invitations.');
   if(deliveryMode==='email')await requireVerifiedRecipient(env,recipient);
   if(!recipient || (purpose==='reset' && !user.email_verified_at))throw new HttpError(409,'The account needs a confirmed registered email first.');
   if(user.status==='disabled')throw new HttpError(409,'This account is disabled.');
@@ -106,6 +117,7 @@ export async function createUser(env,request,actor,body) {
   const {deliveryMode}=emailReady(env,request);
   const username=cleanText(body.username,80,'Username',true).toLowerCase(),address=email(body.email);
   if(!/^[a-z0-9][a-z0-9._-]{2,79}$/.test(username))throw new HttpError(400,'Use 3 to 80 letters, numbers, dots, underscores or hyphens for the username.');
+  if(body.role==='admin' && actor.id!=='owner')throw new HttpError(403,'Only the owner can create administrators.');
   if(!roles.has(body.role))throw new HttpError(400,'Choose Admin, Manager or View-only.');
   const primary=await adminCredentials(env);
   if(username===primary.username || address===primary.username)throw new HttpError(409,'That identity belongs to the owner.');
@@ -157,6 +169,8 @@ export async function cancelPendingInvitation(env,actor,id) {
   return {ok:true,invitation_pending:false,provider_recipient_removed:false};
 }
 export async function updateUser(env,actor,id,body) {
+  const protectedTarget=await targetUser(env,id);
+  if(actor.id!=='owner' && (protectedTarget.role==='admin' || body.role==='admin'))throw new HttpError(403,'Only the owner can change administrator access.');
   if(id==='owner')throw new HttpError(403,'The original owner cannot be disabled or demoted.');
   if(id===actor.id)throw new HttpError(403,'Ask another administrator to change your access.');
   if(Object.keys(body).some(k=>!['role','status','email'].includes(k)) || (!body.role && !body.status && !body.email))throw new HttpError(400,'Change only role, status or an invited user email.');

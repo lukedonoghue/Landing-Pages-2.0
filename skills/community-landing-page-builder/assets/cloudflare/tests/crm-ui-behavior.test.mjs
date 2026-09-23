@@ -65,6 +65,8 @@ async function adminPage(viewport = { width: 1280, height: 900 }, options = {}) 
       json = { days: [], totals: { visitors: 0, conversions: 0, leads: 1 }, timezone: 'UTC' };
     } else if (url.pathname === '/api/admin/free-usage') {
       json = options.usage || {connection:'not_connected',status:'unknown',coverage:'incomplete',reason:'not_connected',checked_at:null,last_successful_at:null,qualification:'Cloudflare analytics can be delayed.',period:{daily_resets_at:'2026-09-22T00:00:00.000Z',storage_resets:false},metrics:[],dashboard_url:'https://dash.cloudflare.com/'};
+    } else if (url.pathname === '/api/admin/security/overview') {
+      json = {events:[],sessions:[],outbound_connections:0,downstream_erasures:[]};
     } else if (url.pathname === '/api/admin/notifications') {
       json = { through: 1, unread_count: 0 };
     } else if (url.pathname === '/api/admin/leads/lead-1') {

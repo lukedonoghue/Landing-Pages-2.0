@@ -33,7 +33,7 @@ async function fixture(t) {
   const env={DB:db,SESSION_SECRET:secret};let n=0,cookie='';
   const request=new Request('https://site.test/api/leads',{headers:{'User-Agent':'Desktop Chrome'}});
   const call=async(path,{method='GET',body,auth=true,headers={}}={})=>{
-    const response=await mf.dispatchFetch('https://site.test'+path,{method,headers:{'CF-Connecting-IP':`198.51.100.${++n%240+1}`,...(auth&&cookie?{Cookie:cookie}:{}),...(method==='GET'?{}:{Origin:'https://site.test','Content-Type':'application/json'}),...headers},...(body===undefined?{}:{body:JSON.stringify(body)}),redirect:'manual'});
+    const response=await mf.dispatchFetch('https://site.test'+path,{method,headers:{'CF-Connecting-IP':`198.51.100.${++n%240+1}`,...(auth&&cookie?{Cookie:cookie,'X-CRM-Confirm-Password':password}:{}),...(method==='GET'?{}:{Origin:'https://site.test','Content-Type':'application/json'}),...headers},...(body===undefined?{}:{body:JSON.stringify(body)}),redirect:'manual'});
     return {response,body:await response.json()};
   };
   const login=await call('/api/auth/login',{method:'POST',body:{username:'owner',password}});assert.equal(login.response.status,200);cookie=login.response.headers.get('Set-Cookie').split(';')[0];
@@ -147,6 +147,13 @@ for(const [name,engine,width,height] of [['desktop',chromium,1440,900],['mobile'
   const server=http.createServer(async(req,res)=>{try{const parts=[];for await(const part of req)parts.push(part);const body=Buffer.concat(parts);const response=await f.mf.dispatchFetch(`http://127.0.0.1:${server.address().port}${req.url}`,{method:req.method,headers:{...req.headers,'CF-Connecting-IP':`198.51.100.${++ip%240+1}`},...(body.length?{body}:{}),redirect:'manual'});res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));}catch{res.writeHead(500);res.end('Fixture error');}});
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const browser=await engine.launch({headless:true});const page=await browser.newPage({viewport:{width,height}});page.setDefaultTimeout(8000);
   t.after(async()=>{await browser.close();await new Promise(resolve=>server.close(resolve));});
+  const confirmSensitive = async () => {
+    const prompt = page.getByRole('dialog', {name:'Confirm sensitive action'});
+    await prompt.waitFor({state:'visible'});
+    await prompt.getByLabel('Current password').fill(password);
+    await prompt.getByRole('button', {name:'Confirm',exact:true}).click();
+    await prompt.waitFor({state:'hidden'});
+  };
   await page.goto(`http://127.0.0.1:${server.address().port}/login.html`);await page.locator('[name=username]').fill('owner');await page.locator('[name=password]').fill(password);await page.locator('#login-form button[type=submit]').click();await page.waitForURL('**/admin/');
   await page.locator('[data-view=account]').click();await page.locator('[name=erasure-search]').fill(lead.marker);await page.locator('.data-finder button').click();await page.locator('.data-result button').click();
   const dialog=page.locator('#erasure-dialog');await dialog.waitFor({state:'visible'});assert.equal(await dialog.evaluate(el=>el.contains(document.activeElement)),true);
@@ -154,15 +161,15 @@ for(const [name,engine,width,height] of [['desktop',chromium,1440,900],['mobile'
   for(const key of ['Tab','Shift+Tab'])for(let i=0;i<5;i++){await page.keyboard.press(key);assert.equal(await dialog.evaluate(el=>el.contains(document.activeElement)),true);}
   if(process.env.LIFECYCLE_SCREENSHOT_DIR)await page.screenshot({path:path.join(process.env.LIFECYCLE_SCREENSHOT_DIR,name+'-erase.png')});
   await page.keyboard.press('Escape');assert.equal(await count(f.db,'leads'),3);assert.equal(await page.locator('.data-result button').evaluate(el=>el===document.activeElement),true);
-  await page.locator('.data-result button').click();await dialog.waitFor({state:'visible'});await changeStatus(f.env,lead.id,{status:'qualified',version:1});await page.locator('[name=confirm-erasure]').check();await dialog.getByRole('button',{name:'Erase permanently',exact:true}).click();
+  await page.locator('.data-result button').click();await dialog.waitFor({state:'visible'});await changeStatus(f.env,lead.id,{status:'qualified',version:1});await page.locator('[name=confirm-erasure]').check();await dialog.getByRole('button',{name:'Erase permanently',exact:true}).click();await confirmSensitive();
   await dialog.getByRole('button',{name:'Review current data',exact:true}).waitFor({state:'visible'});assert.equal(await count(f.db,'leads'),3);await dialog.getByRole('button',{name:'Review current data',exact:true}).click();await page.locator('[name=confirm-erasure]').waitFor({state:'visible'});assert.equal(await page.locator('[name=confirm-erasure]').isChecked(),false);
-  await page.locator('[name=confirm-erasure]').check();await dialog.getByRole('button',{name:'Erase permanently',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.data-history').textContent.includes('erased'));
+  await page.locator('[name=confirm-erasure]').check();await dialog.getByRole('button',{name:'Erase permanently',exact:true}).click();await confirmSensitive();await page.waitForFunction(()=>document.querySelector('.data-history').textContent.includes('erased'));
   assert.equal(await count(f.db,'leads'),2);assert.equal(await count(f.db,'erased_submissions'),1);assert.equal(await page.locator('#data-panel-title').evaluate(el=>el===document.activeElement),true);
   const downloadEvent=page.waitForEvent('download');await page.getByRole('button',{name:'Download erasure record',exact:true}).click();const download=await downloadEvent;const ledger=JSON.parse(readFileSync(await download.path(),'utf8'));assert.equal(ledger.complete,true);assert.equal(ledger.entries[0].lead_id,lead.id);assert.ok(!JSON.stringify(ledger).includes(lead.marker));
   await page.locator('.data-settings summary').click();await page.locator('[name=retention-enabled]').check();await page.locator('[name=leads_days]').fill('30');await page.getByRole('button',{name:'Preview retention settings',exact:true}).click();await page.locator('.data-preview').waitFor({state:'visible'});assert.match(await page.locator('.data-preview').textContent(),/Enquiries: 1 currently eligible/);
   await page.locator('[name=leads_days]').fill('60');assert.equal(await page.locator('.data-preview').isVisible(),false);assert.equal(await page.getByRole('button',{name:'Run one cleanup batch',exact:true}).isDisabled(),true);
-  await page.locator('[name=leads_days]').fill('30');await page.getByRole('button',{name:'Preview retention settings',exact:true}).click();await page.locator('.data-preview').waitFor({state:'visible'});await page.locator('[name=confirm-retention]').check();await page.getByRole('button',{name:'Save retention settings',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.data-status').textContent.includes('settings saved'));
-  assert.equal(await count(f.db,'leads'),2);await page.getByRole('button',{name:'Run one cleanup batch',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.data-status').textContent.includes('batch completed'));
+  await page.locator('[name=leads_days]').fill('30');await page.getByRole('button',{name:'Preview retention settings',exact:true}).click();await page.locator('.data-preview').waitFor({state:'visible'});await page.locator('[name=confirm-retention]').check();await page.getByRole('button',{name:'Save retention settings',exact:true}).click();await confirmSensitive();await page.waitForFunction(()=>document.querySelector('.data-status').textContent.includes('settings saved'));
+  assert.equal(await count(f.db,'leads'),2);await page.getByRole('button',{name:'Run one cleanup batch',exact:true}).click();await confirmSensitive();await page.waitForFunction(()=>document.querySelector('.data-status').textContent.includes('batch completed'));
   assert.equal(await count(f.db,'leads'),1);assert.equal((await f.db.prepare('SELECT id FROM leads').first()).id,keep.id);assert.equal((await retentionPolicy(f.env)).enabled,true);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);
   if(process.env.LIFECYCLE_SCREENSHOT_DIR)await page.screenshot({path:path.join(process.env.LIFECYCLE_SCREENSHOT_DIR,name+'-retention.png'),fullPage:true});

@@ -1,17 +1,18 @@
 import { retentionPolicy, findErasableLeads, previewErasure, beginErasure, erasureStatus, recentErasures, progressErasure, exportErasureLedger, previewRetention, saveRetention, runRetention } from './data-lifecycle.js';
 import siteConfig from './site-config.json';
 import { accountInfo, acknowledgeNotifications, changePassword, exportLeads, notifications, revokeSessions } from './admin-operations.js';
-import { HttpError, enforceOrigin, json, rateLimit, readJson, requireSession, secureResponse, privacyOptOut, sessionCookie, sessionTokenHash } from './security.js';
+import { HttpError, enforceOrigin, json, rateLimit, publicRateLimit, readJson, requireSession, secureResponse, privacyOptOut, sessionCookie, sessionTokenHash, normalizePath, requireStepUp, hmac, secureEqual } from './security.js';
 import { addNote, changeStatus, createLead, deleteLead, earliestReportingDate, getLead, listLeads, metrics, recordVisit } from './repository.js';
-import { addWebhook, deleteWebhook, enableWebhook, listWebhooks, processOutbox } from './webhooks.js';
+import { addWebhook, deleteWebhook, enableWebhook, listWebhooks, processOutbox, processSheetsErasures, rotateSheetsKey, retrySheetsErasures } from './webhooks.js';
 import { permissions, authorize, loginTeam, listUsers, createUser, continuePendingInvitation, cancelPendingInvitation, updateUser, inviteOrReset, setOwnerEmail, requestReset, reviewReset, completeAction, memberPassword, memberRevoke } from './team-accounts.js';
 import { checkEmailRecipient, requestEmailRecipient } from './email-recipients.js';
+import { recordAudit, securityOverview } from './access-audit.js';
 import { freeUsage } from './free-usage.js';
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    try { return secureResponse(await route(request, env, ctx, url), url.pathname); }
+    try { url.pathname=normalizePath(url.pathname); request=new Request(url,request); return secureResponse(await route(request, env, ctx, url), url.pathname); }
     catch (error) {
       // Return no database exception text, secrets, submitted details or stack traces.
       return secureResponse(json({ error: error instanceof HttpError ? error.message : 'The service is temporarily unavailable. Please try again.', ...(error instanceof HttpError && error.code ? {code:error.code} : {}) }, error instanceof HttpError ? error.status : 503, error.headers || {}), url.pathname);
@@ -20,10 +21,12 @@ export default {
   async scheduled(controller, env, ctx) {
     ctx.waitUntil((async () => {
       await runRetention(env);
-      await processOutbox(env, 1);
+      await processOutbox(env,1,siteConfig);
+      await processSheetsErasures(env,5);
       const now = Math.floor(Date.now() / 1000);
       await env.DB.batch([
-        env.DB.prepare('DELETE FROM sessions WHERE expires_at<?').bind(now),
+        env.DB.prepare('DELETE FROM sessions WHERE expires_at<? OR COALESCE(last_seen_at,created_at)<?').bind(now,now-3600),
+        env.DB.prepare("DELETE FROM crm_access_audit WHERE id IN (SELECT id FROM crm_access_audit WHERE created_at<? ORDER BY created_at LIMIT 500)").bind(new Date(Date.now()-90*86400000).toISOString()),
         env.DB.prepare('DELETE FROM rate_limits WHERE expires_at<?').bind(now)
       ]);
     })());
@@ -40,18 +43,16 @@ async function route(request, env, ctx, url) {
   if (path === '/api/privacy-config' && method === 'GET') return json({analytics_mode:siteConfig.analyticsMode || 'consent',attribution_mode:siteConfig.attributionMode || 'consent',advertising_user_data_mode:siteConfig.advertisingUserDataMode || 'disabled',consent_ui:siteConfig.consentUiMode || 'internal',sensitive_category:siteConfig.sensitiveCategory === true,gtm_container_id:/^GTM-[A-Z0-9]+$/.test(siteConfig.gtmContainerId||'')?siteConfig.gtmContainerId:'',browser_opt_out:privacyOptOut(request)});
   if (path === '/api/health' && method === 'GET') {
     await env.DB.prepare('SELECT id FROM leads LIMIT 1').first();
-    return json({ ok: true, database: 'connected', ...(hostRole === 'unified' ? {} : { host_role: hostRole }), release: { version_id: env.CF_VERSION_METADATA?.id || null, release_id: env.FUNNEL_RELEASE_ID || null, source_fingerprint: env.FUNNEL_SOURCE_FINGERPRINT || null } });
+    return json({ ok: true, database: 'connected', ...(hostRole === 'unified' ? {} : { host_role: hostRole }), ...(await authenticatedRelease(env,request)) });
   }
   if (path === '/api/auth/login' && method === 'POST') {
-    await rateLimit(env, request, 'login', 8, 900);
-    await rateLimit(env, request, 'login-global', 80, 900, true);
+    await publicRateLimit(env,request,'login',8,900,[['login-global',400,900]]);
     const body = await readJson(request, 2048);
     return loginTeam(env,request,body);
   }
   if (path === '/api/auth/session' && method === 'GET') { const {token_hash,...user}=await requireSession(env,request); return json({authenticated:true,user,permissions:permissions(user)}); }
   if (path === '/api/auth/reset-request' && method === 'POST') {
-    await rateLimit(env,request,'reset-request',4,900);
-    await rateLimit(env,request,'reset-request-global',40,900,true);
+    await publicRateLimit(env,request,'reset-request',4,900,[['reset-request-global',40,900]]);
     return json(await requestReset(env,await readJson(request,2048)),202);
   }
   if (path === '/api/auth/complete' && method === 'POST') {
@@ -68,15 +69,21 @@ async function route(request, env, ctx, url) {
     return json(await recordVisit(env, request, await readJson(request, 8192), siteConfig));
   }
   if (path === '/api/leads' && method === 'POST') {
-    await rateLimit(env, request, 'leads', 12, 600);
+    // Daily/global buckets are checked before allocating a per-IP bucket. Saturated
+    // counters do not keep writing, protecting D1 from a rotating-IP write flood.
+    await publicRateLimit(env,request,'leads',12,600,[['leads-global-daily',1000,86400],['leads-global',120,600]]);
     const result = await createLead(env, request, await readJson(request), siteConfig);
     // The receipt only acknowledges the committed CRM record. Outbound delivery is independent.
-    ctx.waitUntil(processOutbox(env).catch(() => {}));
+    ctx.waitUntil(processOutbox(env,5,siteConfig).catch(() => {}));
     return json(result, result.duplicate ? 200 : 201);
   }
   if (path === '/api/admin' || path.startsWith('/api/admin/')) {
     const user=await requireSession(env, request);
     authorize(user,path,method);
+    if(path==='/api/admin/leads/export.csv' || (!['GET','HEAD'].includes(method) &&
+      (path.startsWith('/api/admin/webhooks') || path.startsWith('/api/admin/users') ||
+       (path.startsWith('/api/admin/data/') && !path.endsWith('/preview') && !path.endsWith('/continue')))))await requireStepUp(env,request,user);
+    if(path==='/api/admin/security/overview' && method==='GET')return json(await securityOverview(env));
     if (!['GET', 'HEAD'].includes(method)) await rateLimit(env, request, 'admin-mutation', 120, 60);
     if (path.startsWith('/api/admin/users') && method!=='GET') await rateLimit(env,request,'account-management',12,900);
     if (path==='/api/admin/users' && method==='GET')return json(await listUsers(env,request));
@@ -105,11 +112,11 @@ async function route(request, env, ctx, url) {
     if(userMatch && method==='POST' && userMatch[2])return json(await inviteOrReset(env,request,user,userMatch[1],userMatch[2]));
     if(path==='/api/admin/data/retention'&&method==='GET')return json(await retentionPolicy(env));
     if(path==='/api/admin/data/retention/preview'&&method==='POST')return json(await previewRetention(env,await readJson(request,4096)));
-    if(path==='/api/admin/data/retention'&&method==='POST')return json(await saveRetention(env,await readJson(request,16384)));
+    if(path==='/api/admin/data/retention'&&method==='POST'){ const result=await saveRetention(env,await readJson(request,16384)); await recordAudit(env,user.id,'retention-changed'); return json(result); }
     if(path==='/api/admin/data/retention/run'&&method==='POST')return json(await runRetention(env));
     if(path==='/api/admin/data/enquiries'&&method==='GET')return json(await findErasableLeads(env,url));
     if(path==='/api/admin/data/erasures/preview'&&method==='POST')return json(await previewErasure(env,await readJson(request,4096)));
-    if(path==='/api/admin/data/erasures'&&method==='POST')return json(await beginErasure(env,await readJson(request,16384)),202);
+    if(path==='/api/admin/data/erasures'&&method==='POST'){ const result=await beginErasure(env,await readJson(request,16384)); await recordAudit(env,user.id,'erasure-started',result.id); return json(result,202); }
     if(path==='/api/admin/data/erasures'&&method==='GET')return json(await recentErasures(env));
     if(path==='/api/admin/data/erasure-records'&&method==='GET')return json(await exportErasureLedger(env,url));
     const erasureMatch=/^\/api\/admin\/data\/erasures\/([a-f0-9-]{36})(\/continue)?$/.exec(path);
@@ -121,26 +128,28 @@ async function route(request, env, ctx, url) {
     if (path === '/api/admin/notifications' && method === 'GET') return json(await notifications(env));
     if (path === '/api/admin/free-usage' && method === 'GET') return json(await freeUsage(env));
     if (path === '/api/admin/notifications/acknowledge' && method === 'POST') return json(await acknowledgeNotifications(env, await readJson(request, 1024)));
-    if (path === '/api/admin/leads/export.csv' && method === 'GET') return exportLeads(env, url);
+    if (path === '/api/admin/leads/export.csv' && method === 'GET') { const result=await exportLeads(env,url); await recordAudit(env,user.id,'leads-exported','-',{count:Number(result.headers.get('X-Export-Count'))}); return result; }
     if (path === '/api/admin/config' && method === 'GET') return json({ brand: { name: siteConfig.name, color: siteConfig.color, logo: siteConfig.logo }, stages: siteConfig.stages, timezone: siteConfig.timezone, analytics_mode: siteConfig.analyticsMode, earliest_date: await earliestReportingDate(env, siteConfig) });
-    if (path === '/api/admin/leads' && method === 'GET') return json(await listLeads(env, url));
+    if (path === '/api/admin/leads' && method === 'GET') { const result=await listLeads(env,url); await recordAudit(env,user.id,'leads-listed'); return json(result); }
     if (path === '/api/admin/metrics' && method === 'GET') return json(await metrics(env, url, siteConfig));
     const leadMatch = /^\/api\/admin\/leads\/([a-f0-9-]{36})(\/notes)?$/.exec(path);
     if (leadMatch) {
       const id = leadMatch[1]; const notes = Boolean(leadMatch[2]);
       if (notes && method === 'POST') return json(await addNote(env, id, await readJson(request, 8192)), 201);
-      if (!notes && method === 'GET') return json(await getLead(env, id));
+      if (!notes && method === 'GET') { const result=await getLead(env,id); await recordAudit(env,user.id,'lead-viewed',id); return json(result); }
       if (!notes && method === 'PATCH') return json(await changeStatus(env, id, await readJson(request, 2048)));
       if (!notes && method === 'DELETE') return json(await deleteLead(env, id));
     }
+    if (path === '/api/admin/webhooks/erasures/retry' && method === 'POST') return json(await retrySheetsErasures(env,user.id));
     if (path === '/api/admin/webhooks' && method === 'GET') return json(await listWebhooks(env));
-    if (path === '/api/admin/webhooks' && method === 'POST') return json(await addWebhook(env, await readJson(request, 4096)), 201);
+    if (path === '/api/admin/webhooks' && method === 'POST') return json(await addWebhook(env, await readJson(request, 4096),user.id), 201);
     const webhookMatch = /^\/api\/admin\/webhooks\/([a-f0-9-]{36})$/.exec(path);
-    if (webhookMatch && method === 'DELETE') return json(await deleteWebhook(env, webhookMatch[1]));
+    if (webhookMatch && method === 'DELETE') return json(await deleteWebhook(env, webhookMatch[1],user.id));
     if(webhookMatch&&method==='PATCH'){
       const body=await readJson(request,1024);
+      if(Object.keys(body).length===1 && 'sheets_key_version' in body) return json(await rotateSheetsKey(env,webhookMatch[1],body.sheets_key_version,user.id));
       if(body.enabled!==true||Object.keys(body).some(key=>key!=='enabled'))throw new HttpError(400,'This action enables new deliveries only.');
-      return json(await enableWebhook(env,webhookMatch[1]));
+      return json(await enableWebhook(env,webhookMatch[1],user.id));
     }
     throw new HttpError(404, 'Endpoint not found.');
   }
@@ -166,8 +175,9 @@ function requestHostRole(url) {
   if (!publicHost && !crmHost) return 'unified';
   if (host === publicHost) return 'public';
   if (host === crmHost) return 'crm';
-  if (pagesGatewayHost && host === pagesGatewayHost) return 'unified';
-  if (['localhost', '127.0.0.1', '[::1]'].includes(host) || host.endsWith('.test') || host.endsWith('.workers.dev')) return 'unified';
+  // Once split hosts are configured, neither a Worker nor Pages alias may bypass CRM-host controls.
+  if (pagesGatewayHost && host === pagesGatewayHost) return 'unknown';
+  if (['localhost', '127.0.0.1', '[::1]'].includes(host) || host.endsWith('.test')) return 'unified';
   return 'unknown';
 }
 
@@ -191,4 +201,12 @@ function routeHostSurface(url, path, hostRole) {
     if (!crmPage && !crmApi) throw new HttpError(404, 'Page not found.');
   }
   return null;
+}
+
+async function authenticatedRelease(env,request) {
+  const timestamp=request.headers.get('X-CRM-Release-Time'),proof=request.headers.get('X-CRM-Release-Proof');
+  if(/^\d{10}$/.test(timestamp||'') && /^[a-f0-9]{64}$/.test(proof||'') && Math.abs(Math.floor(Date.now()/1000)-Number(timestamp))<=60 && secureEqual(proof,await hmac(env.SESSION_SECRET,`release-probe:${new URL(request.url).origin}:${timestamp}`))) return {release:{version_id:env.CF_VERSION_METADATA?.id||null,release_id:env.FUNNEL_RELEASE_ID||null,source_fingerprint:env.FUNNEL_SOURCE_FINGERPRINT||null}};
+  if(!request.headers.has('Cookie'))return {};
+  try { await requireSession(env,request); } catch(error) { if(error.status===401)return {}; throw error; }
+  return {release:{version_id:env.CF_VERSION_METADATA?.id||null,release_id:env.FUNNEL_RELEASE_ID||null,source_fingerprint:env.FUNNEL_SOURCE_FINGERPRINT||null}};
 }

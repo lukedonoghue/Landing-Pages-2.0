@@ -118,7 +118,7 @@ class RoutingTests(unittest.TestCase):
         route = nr.resolve('review', 'codex', capabilities=cap)
         self.assertEqual(route['agent'], 'lp-reviewer-inherit')
         text = installer.render('codex')['.codex/agents/lp-reviewer-inherit.toml'].decode()
-        self.assertIn('sandbox_mode = "read-only"', text)
+        self.assertIn('default_permissions = "lp-review"', text)
 
     def test_every_resolved_profile_matches_both_runtimes(self):
         import tomllib

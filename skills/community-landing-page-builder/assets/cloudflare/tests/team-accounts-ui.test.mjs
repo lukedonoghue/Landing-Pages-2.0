@@ -40,7 +40,7 @@ const lead = { id:'lead-1', name:'Synthetic Test Lead', email:'test@example.inva
 const profiles = {
   admin: { user:{id:'owner',username:'owner',email:'owner@example.invalid',role:'admin'}, permissions:{manage_users:true,edit_leads:true,export_leads:true,manage_settings:true} },
   teammateAdmin: { user:{id:'admin-2',username:'admin-two',email:'admin-two@example.invalid',role:'admin'}, permissions:{manage_users:true,edit_leads:true,export_leads:true,manage_settings:true} },
-  manager: { user:{id:'manager-1',username:'manager-one',email:'manager@example.invalid',role:'manager'}, permissions:{manage_users:false,edit_leads:true,export_leads:true,manage_settings:true} },
+  manager: { user:{id:'manager-1',username:'manager-one',email:'manager@example.invalid',role:'manager'}, permissions:{manage_users:false,edit_leads:true,export_leads:false,manage_settings:false} },
   viewer: { user:{id:'viewer-1',username:'viewer-one',email:'viewer@example.invalid',role:'viewer'}, permissions:{manage_users:false,edit_leads:false,export_leads:false,manage_settings:false} }
 };
 
@@ -55,6 +55,7 @@ async function adminPage(profile, { emailConfigured = true, deliveryMode = email
     else if (url.pathname === '/api/admin/config') json = {brand:{name:'Synthetic team fixture'},timezone:'UTC',earliest_date:'2026-09-01'};
     else if (url.pathname === '/api/admin/metrics') json = {days:[],totals:{visitors:0,conversions:0,leads:0},timezone:'UTC'};
     else if (url.pathname === '/api/admin/free-usage') json = {connection:'not_connected',status:'unknown',reason:'not_connected',checked_at:null,last_successful_at:null,qualification:'Cloudflare analytics can be delayed.',period:{daily_resets_at:'2026-09-22T00:00:00.000Z',storage_resets:false},metrics:[],dashboard_url:'https://dash.cloudflare.com/'};
+    else if (url.pathname === '/api/admin/security/overview') json = {events:[],sessions:[],outbound_connections:0,downstream_erasures:[]};
     else if (url.pathname === '/api/admin/notifications') json = {through:10,unread_count:2};
     else if (url.pathname === '/api/admin/leads') json = {leads:[lead],total:1,page:1,limit:100};
     else if (url.pathname === '/api/admin/leads/lead-1') json = {lead,notes:[],activity:[]};
@@ -145,6 +146,8 @@ test('non-owner admin sees teammate setup without owner-only instructions', opti
     assert.match(await setup.textContent(),/Adding a teammate/);
     assert.equal(await setup.getByText('Choose the inbox and sender.',{exact:true}).count(),0);
     assert.equal(await page.getByRole('heading',{name:'Owner email'}).isHidden(),true);
+    assert.equal(await page.locator('.users-invite-form select option[value=admin]').count(),0);
+    assert.equal(await page.getByLabel('Role for manager-one').locator('option[value=admin]').count(),0);
   } finally { await page.close(); }
 });
 
@@ -174,19 +177,22 @@ test('manual Free mode enables Gmail-compatible one-use account links without a 
     assert.equal(await page.getByRole('button',{name:'Create invitation'}).isEnabled(),true);
     assert.equal(await page.locator('.recipient-form').isHidden(),true);
     assert.equal(await page.getByRole('button',{name:'Create verification link'}).isEnabled(),true);
+    assert.equal(await page.getByRole('button',{name:'Create reset link',exact:true}).count(),1);
+    assert.equal(await page.getByRole('button',{name:'Verified email required',exact:true}).isDisabled(),true);
   } finally { await page.close(); }
 });
 
-test('manager keeps operational controls but cannot see user administration', options, async () => {
+test('manager can edit enquiries but cannot access sensitive administration', options, async () => {
   const {page} = await adminPage(profiles.manager);
   try {
     assert.match(await page.locator('#free-usage').textContent(),/Ask an administrator to connect read-only Cloudflare usage access/);
     assert.equal(await page.locator('[data-view=users]').isHidden(),true);
-    assert.equal(await page.locator('[data-view=connections]').isVisible(),true);
+    assert.equal(await page.locator('[data-view=connections]').isHidden(),true);
     await page.locator('[data-view=leads]').click(); await page.locator('#lead-table').waitFor({state:'visible'});
     assert.equal(await page.locator('#lead-table [data-lead-stage]').isEnabled(),true);
     await page.locator('[data-view=account]').click();
-    assert.equal(await page.getByRole('button',{name:'Export contacts CSV'}).isVisible(),true);
+    assert.equal(await page.getByRole('button',{name:'Export contacts CSV'}).count(),0);
+    assert.equal(await page.locator('[name=erasure-search]').count(),0);
   } finally { await page.close(); }
 });
 

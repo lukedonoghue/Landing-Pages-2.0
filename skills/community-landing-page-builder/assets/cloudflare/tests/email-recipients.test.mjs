@@ -26,7 +26,7 @@ function providerResponse(result, resultInfo) {
 
 async function call(path, { method='GET', body, auth=true, session, origin='https://site.test', ip } = {}) {
   const selectedCookie = session === undefined ? (auth ? cookie : null) : session;
-  const headers = { 'CF-Connecting-IP':ip || `198.51.100.${++sequence % 240 + 1}`, ...(selectedCookie ? {Cookie:selectedCookie} : {}) };
+  const headers = { 'CF-Connecting-IP':ip || `198.51.100.${++sequence % 240 + 1}`, ...(selectedCookie ? {Cookie:selectedCookie,'X-CRM-Confirm-Password':password} : {}) };
   if (method !== 'GET') Object.assign(headers, { Origin:origin, 'Content-Type':'application/json' });
   return mf.dispatchFetch(`https://site.test${path}`, { method, headers, body:body === undefined ? undefined : JSON.stringify(body), redirect:'manual' });
 }

@@ -190,7 +190,8 @@ async function serverFixture(t, options = {}) {
   const requests = [];
   const server = http.createServer((req, res) => {
     requests.push({ url: req.url, method: req.method, cookie: req.headers.cookie, authorization: req.headers.authorization });
-    const route = decodeURIComponent(req.url);
+    const route = decodeURIComponent(req.url).replace(/\/{2,}/g,'/');
+    if(options.exposedAlias && req.url==='//admin/index.html'){res.end('Ungated UI');return;}
     if (route === '/api/health') { res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify({ ok: true, database: 'connected' })); }
     else if (route === '/api/privacy-config') { res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');res.end(JSON.stringify(options.policy||expectedPolicy)); }
     else if (route.startsWith('/api/')) { res.statusCode = options.exposed ? 200 : 401; res.end('{}'); }
@@ -208,6 +209,7 @@ test('read-only live checks use real HTTP but perform no login or form writes an
   const report = await runLiveVerify({ url: target.url.href, fixture, out, 'read-only': true }, { env: { ADMIN_USERNAME: 'not-to-send', ADMIN_PASSWORD: 'do-not-send' } });
   assert.equal(report.status, 'pass_with_warnings'); assert.equal(report.fully_verified, false); assert.equal(report.readiness, 'public-checks-only');
   assert.equal(requests.every(row => row.method === 'GET' && !row.cookie && !row.authorization), true);
+  for(const raw of ['//admin/index.html','/%61dmin/','/admin%2findex.html'])assert.ok(requests.some(row=>row.url===raw),`Literal probe missing: ${raw}`);
   assert.equal(JSON.stringify(report).includes('do-not-send'), false);
   assert.equal(report.artifacts.some(row => row.type === 'http_trace'), true);
   for (const name of ['local-journey.json', 'crm.json', 'tracking.json', 'deployment.json']) assert.throws(() => readFileSync(path.join(out, name)), /ENOENT/);
@@ -243,4 +245,11 @@ test('cross-origin public resource redirects cannot leak a verification request'
     return new Response('', { status: 302, headers: { Location: 'https://unrelated.example/secret' } });
   };
   await assert.rejects(publicChecks(target, fixture, report, fetcher)); assert.equal(remoteRequested, false);
+});
+
+test('double-slash probe detects an exposed alias without changing the target origin',async t=>{
+  const {target,requests}=await serverFixture(t,{exposedAlias:true});
+  const report=makeReport('deployment',target);await publicChecks(target,fixture,report);
+  assert.ok(requests.some(row=>row.url==='//admin/index.html'));
+  assert.ok(report.failures.includes('//admin/index.html is protected'));
 });

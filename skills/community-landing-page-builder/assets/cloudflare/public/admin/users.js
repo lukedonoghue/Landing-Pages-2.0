@@ -19,6 +19,19 @@ const externalLink = (text, href) => {
   return link;
 };
 
+// Display policy only; the Worker independently authorizes every operation.
+export function accountControls(currentUser, account, deliveryMode) {
+  const owner = currentUser?.id === 'owner';
+  const self = account.id === currentUser?.id;
+  const protectedAccount = account.id === 'owner' || account.role === 'admin';
+  return {
+    immutable: account.id === 'owner' || self || (!owner && protectedAccount),
+    roles: owner || protectedAccount ? ['admin', 'manager', 'viewer'] : ['manager', 'viewer'],
+    invite: owner || !protectedAccount,
+    reset: account.status === 'active' && !(deliveryMode === 'manual' && (self || protectedAccount))
+  };
+}
+
 export function initUsersPanel(host, { request, currentUser }) {
   let disposed = false;
   let emailConfigured = false;
@@ -41,7 +54,7 @@ export function initUsersPanel(host, { request, currentUser }) {
   const setupBody = make('div', undefined, 'users-security-setup-body');
   if (currentUser?.id === 'owner') {
     const steps = make('ol', undefined, 'users-setup-steps');
-    const addresses = make('li'); addresses.append(make('strong', 'Use secure links on Free.'), make('p', 'Invitations and approved resets create an expiring one-use link. Copy it or open your normal email app. Gmail and other inboxes work without a sending domain.'));
+    const addresses = make('li'); addresses.append(make('strong', 'Use secure links on Free.'), make('p', 'Invitations and ordinary-user resets use one-use links. Gmail and other inboxes work without a sending domain. Admin/owner resets need verified email or operator recovery.'));
     const destinations = make('li'); const destinationCopy = make('p');
     destinationCopy.append('The Cloudflare account owner creates one token limited to Email Routing Addresses Write for this account and stores it as a CRM secret. See ', externalLink('Cloudflare instructions', 'https://developers.cloudflare.com/email-service/configuration/email-routing-addresses/'), '.');
     destinations.append(make('strong', 'Optional automatic email.'), destinationCopy);
@@ -72,18 +85,18 @@ export function initUsersPanel(host, { request, currentUser }) {
   const emailLabel = make('label', 'Email'); const email = make('input'); email.type = 'email'; email.name = 'email'; email.required = true; email.maxLength = 254; email.autocomplete = 'email'; emailLabel.append(email);
   const usernameLabel = make('label', 'Username'); const username = make('input'); username.name = 'username'; username.required = true; username.maxLength = 80; username.autocomplete = 'off'; username.spellcheck = false; usernameLabel.append(username);
   const roleLabelNode = make('label', 'Role'); const role = make('select'); role.name = 'role';
-  for (const [value, label] of [['viewer', 'View-only'], ['manager', 'Manager'], ['admin', 'Admin']]) { const option = make('option', label); option.value = value; role.append(option); }
+  for (const [value, label] of [['viewer', 'View-only'], ['manager', 'Manager'], ...(currentUser?.id === 'owner' ? [['admin', 'Admin']] : [])]) { const option = make('option', label); option.value = value; role.append(option); }
   roleLabelNode.append(role);
   const inviteSubmit = make('button', 'Create invitation', 'button primary'); inviteSubmit.type = 'submit';
   inviteForm.append(emailLabel, usernameLabel, roleLabelNode, inviteSubmit); invite.append(inviteHead, inviteForm);
 
   const usersSection = make('section', undefined, 'panel users-section');
-  const usersHead = make('div', undefined, 'users-section-heading'); usersHead.append(make('h3', 'People with access'), make('p', 'Managers can operate the CRM. View-only users cannot change or export records.', 'muted small'));
+  const usersHead = make('div', undefined, 'users-section-heading'); usersHead.append(make('h3', 'People with access'), make('p', 'Managers can edit enquiries, but cannot export, change connections or erase data permanently. View-only users cannot change records. Only the owner can change administrator access.', 'muted small'));
   const usersTable = make('div', undefined, 'table-scroll users-table'); usersTable.setAttribute('tabindex', '0'); usersTable.setAttribute('role', 'region'); usersTable.setAttribute('aria-label', 'Workspace users');
   usersSection.append(usersHead, usersTable);
 
   const requestsSection = make('section', undefined, 'panel users-section');
-  const requestsHead = make('div', undefined, 'users-section-heading'); requestsHead.append(make('h3', 'Password reset requests'), make('p', 'Approving a request creates a one-use reset link. Automatic email sends it when enabled.', 'muted small'));
+  const requestsHead = make('div', undefined, 'users-section-heading'); requestsHead.append(make('h3', 'Password reset requests'), make('p', 'Ordinary-user resets may use one-use links. Admin and owner resets require verified email delivery or trusted operator recovery; another admin cannot bypass this rule.', 'muted small'));
   const requestsList = make('div', undefined, 'reset-requests'); requestsSection.append(requestsHead, requestsList);
 
   const ownerSection = make('section', undefined, 'panel users-section'); ownerSection.hidden = currentUser?.id !== 'owner';
@@ -189,9 +202,10 @@ export function initUsersPanel(host, { request, currentUser }) {
       if (emailInput) { emailInput.type = 'email'; emailInput.value = account.email || ''; emailInput.required = true; emailInput.maxLength = 254; emailInput.setAttribute('aria-label', `Email for ${account.username}`); emailCell.append(emailInput); }
       else emailCell.append(document.createTextNode(account.email || '-'));
       if (account.email_verified_at) emailCell.append(make('span', 'CRM verified', 'user-verified'));
-      const immutable = account.id === 'owner' || account.id === currentUser?.id;
+      const controls = accountControls(currentUser, account, deliveryMode);
+      const immutable = controls.immutable;
       const roleCell = make('td'); const roleSelect = make('select'); roleSelect.setAttribute('aria-label', `Role for ${account.username}`);
-      for (const value of ['admin', 'manager', 'viewer']) { const option = make('option', roleLabel(value)); option.value = value; roleSelect.append(option); }
+      for (const value of controls.roles) { const option = make('option', roleLabel(value)); option.value = value; roleSelect.append(option); }
       roleSelect.value = account.role; roleSelect.disabled = immutable; roleCell.append(roleSelect);
       const statusCell = make('td'); const statusSelect = make('select'); statusSelect.setAttribute('aria-label', `Status for ${account.username}`);
       for (const value of ['active', 'disabled']) { const option = make('option', value === 'active' ? 'Active' : 'Disabled'); option.value = value; statusSelect.append(option); }
@@ -208,15 +222,16 @@ export function initUsersPanel(host, { request, currentUser }) {
           actionGroup.append(disable);
         }
       }
-      if (invited) {
+      if (invited && controls.invite) {
         const resend = make('button', 'Create new invite link', 'text-button'); resend.type = 'button'; resend.dataset.emailAction = '';
         resend.addEventListener('click', () => run(resend, () => request(`/api/admin/users/${encodeURIComponent(account.id)}/invite`, { method: 'POST', body: '{}' }), result => accountOutcome(result, 'Invitation sent.')));
         actionGroup.append(resend);
-      } else if (account.status === 'active' && !(deliveryMode === 'manual' && account.id === currentUser?.id)) {
+      } else if (controls.reset) {
         const reset = make('button', 'Create reset link', 'text-button'); reset.type = 'button'; reset.dataset.emailAction = '';
         reset.addEventListener('click', () => run(reset, () => request(`/api/admin/users/${encodeURIComponent(account.id)}/reset`, { method: 'POST', body: '{}' }), result => accountOutcome(result, 'Password reset email sent.')));
         actionGroup.append(reset);
       }
+      if (deliveryMode === 'manual' && account.status === 'active' && (account.id === 'owner' || account.role === 'admin')) actionGroup.append(make('span', 'Verified email or operator recovery required', 'muted small'));
       if (account.id === 'owner') actionGroup.append(make('span', 'Owner account', 'muted small'));
       actions.append(actionGroup); row.append(identity, emailCell, roleCell, statusCell, actions); body.append(row);
     }
@@ -224,7 +239,7 @@ export function initUsersPanel(host, { request, currentUser }) {
     table.append(body); usersTable.replaceChildren(table);
   }
 
-  function renderRequests(requests) {
+  function renderRequests(requests, users) {
     requestsList.replaceChildren();
     const pending = requests.filter(item => item.status === 'pending');
     if (!pending.length) { requestsList.append(make('p', 'No password reset requests are waiting for review.', 'muted small reset-empty')); return; }
@@ -232,8 +247,11 @@ export function initUsersPanel(host, { request, currentUser }) {
       const row = make('article', undefined, 'reset-request-row'); const text = make('div');
       text.append(make('strong', item.username || item.email), make('p', `${item.email} · Requested ${dateLabel(item.created_at)}`, 'muted small'));
       const actions = make('div', undefined, 'user-actions'); const selfRequest = item.user_id === currentUser?.id;
-      const approve = make('button', selfRequest ? 'Another admin required' : 'Approve', 'button secondary'); approve.type = 'button'; approve.dataset.emailAction = ''; approve.dataset.blocked = String(selfRequest); approve.disabled = selfRequest;
-      if (selfRequest) approve.title = 'An administrator cannot approve their own password reset request.';
+      const target = users.find(user => user.id === item.user_id);
+      const protectedManual = deliveryMode === 'manual' && (!target || target.role === 'admin' || item.user_id === 'owner');
+      const blocked = selfRequest || protectedManual;
+      const approve = make('button', protectedManual ? 'Verified email required' : selfRequest ? 'Another admin required' : 'Approve', 'button secondary'); approve.type = 'button'; approve.dataset.emailAction = ''; approve.dataset.blocked = String(blocked); approve.disabled = blocked;
+      if (blocked) approve.title = protectedManual ? 'Manual reset links are disabled for administrator and owner accounts.' : 'An administrator cannot approve their own password reset request.';
       else approve.addEventListener('click', () => run(approve, () => request(`/api/admin/users/reset-requests/${encodeURIComponent(item.id)}/approve`, { method: 'POST', body: '{}' }), result => accountOutcome(result, 'Reset request approved and email sent.')));
       const reject = make('button', 'Reject', 'text-button'); reject.type = 'button'; reject.addEventListener('click', () => run(reject, () => request(`/api/admin/users/reset-requests/${encodeURIComponent(item.id)}/reject`, { method: 'POST', body: '{}' }), 'Reset request rejected.'));
       actions.append(approve, reject); row.append(text, actions); requestsList.append(row);
@@ -244,7 +262,7 @@ export function initUsersPanel(host, { request, currentUser }) {
     clearMessages(); status.textContent = 'Loading users…'; root.setAttribute('aria-busy', 'true');
     try {
       const data = await request('/api/admin/users'); if (disposed) return;
-      emailConfigured = data.email_configured === true; deliveryMode = ['email','manual','unavailable'].includes(data.account_delivery_mode) ? data.account_delivery_mode : emailConfigured ? 'email' : 'unavailable'; recipientOnboardingConfigured = data.recipient_onboarding_configured === true; renderRecipients(data.recipients || []); renderUsers(data.users || []); renderRequests(data.requests || []); status.textContent = ''; setEmailActions();
+      emailConfigured = data.email_configured === true; deliveryMode = ['email','manual','unavailable'].includes(data.account_delivery_mode) ? data.account_delivery_mode : emailConfigured ? 'email' : 'unavailable'; recipientOnboardingConfigured = data.recipient_onboarding_configured === true; renderRecipients(data.recipients || []); renderUsers(data.users || []); renderRequests(data.requests || [], data.users || []); status.textContent = ''; setEmailActions();
     } catch (reason) { if (!disposed) { status.textContent = ''; failure(reason); } }
     finally { if (!disposed) root.removeAttribute('aria-busy'); }
   }

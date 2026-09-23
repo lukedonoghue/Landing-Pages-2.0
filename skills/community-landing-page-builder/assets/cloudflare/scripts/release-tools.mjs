@@ -3,7 +3,7 @@ import { spawn, spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdirSync, renameSync, unlinkSync, existsSync, lstatSync, fstatSync, openSync, closeSync, fsyncSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createHash, randomUUID, pbkdf2Sync, timingSafeEqual } from 'node:crypto';
+import { createHash, createHmac, randomUUID, pbkdf2Sync, timingSafeEqual } from 'node:crypto';
 
 export const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 export const SHA = /^[a-f0-9]{64}$/;
@@ -147,9 +147,11 @@ export function provider(root, packageRoot, target, run, log) {
     }
   };
 }
-export async function runtimeIdentity(url, expected, fetcher = fetch) {
+export async function runtimeIdentity(url, expected, fetcher = fetch, secret = null) {
   const target=origin(url);
-  const response=await fetcher(target+'/api/health',{redirect:'error',signal:AbortSignal.timeout(15000),cache:'no-store'});
+  const timestamp=String(Math.floor(Date.now()/1000));
+  const headers=secret?{'X-CRM-Release-Time':timestamp,'X-CRM-Release-Proof':createHmac('sha256',secret).update(`release-probe:${target}:${timestamp}`).digest('hex')}:{};
+  const response=await fetcher(target+'/api/health',{headers,redirect:'error',signal:AbortSignal.timeout(15000),cache:'no-store'});
   if(!response.ok)throw new Error('The published health endpoint is not ready. Resume verification after the destination is available.');
   const body=await response.json(), release=body.release;
   if(body.ok!==true || body.database!=='connected' || !release || release.version_id!==expected.version_id || release.release_id!==expected.release_id || release.source_fingerprint!==expected.source_fingerprint)throw new Error('The running Worker does not match the independently inspected release version.');

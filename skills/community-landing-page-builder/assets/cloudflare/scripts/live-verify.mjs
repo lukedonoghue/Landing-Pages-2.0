@@ -68,8 +68,11 @@ export async function publicChecks(target, fixture, report, fetcher = fetch) {
     check(report,'Requested visit-measurement feature state is explicit',measurementAvailable===fixture.expected_features.measured_visit);
   }
   for (const resource of ['/api/admin/leads', '/api/admin/metrics', '/api/auth/session']) check(report, `${resource} rejects anonymous requests`, (await get(resource)).status === 401);
-  for (const resource of ['/admin/', '/admin/index.html', '/%61dmin/']) {
-    const response = await get(resource);
+  for (const resource of ['/admin/', '/admin/index.html', '/%61dmin/', '//admin/index.html', '/admin%2findex.html']) {
+    // These are literal same-origin path probes, not URL references. Resolving
+    // //admin/... against a base URL would instead select a different host.
+    const probe = new URL(target.url); probe.pathname = resource;
+    const response = await get(probe.href);
     let safeLoginRedirect = false;
     try { const redirect = sameOriginUrl(response.headers.get('location'), target.url); safeLoginRedirect = /^\/login(?:\.html)?\/?$/.test(redirect.pathname); } catch {}
     check(report, `${resource} is protected`, response.status === 401 || ([302, 303, 307].includes(response.status) && safeLoginRedirect));

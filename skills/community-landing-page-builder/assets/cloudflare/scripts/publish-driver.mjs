@@ -66,7 +66,10 @@ export async function localPreconditions(root,args,auth,run) {
     for(const selector of Object.values(fixture.selectors)){if(typeof selector!=='string'||!selector.trim())throw new Error('invalid selector');await page.locator(selector).count();}
   } catch {throw new Error('Chromium or a fixture selector is unavailable/invalid. Repair the local verification setup before any remote mutation.');}
   finally{await browser?.close();}
-  const scan=dir=>{for(const entry of readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isSymbolicLink())throw new Error('Public source cannot contain symlinks.');if(entry.isDirectory())scan(file);else if(auth.password.length>=8&&readFileSync(file).includes(Buffer.from(auth.password)))throw new Error('The current administrator password appears in a public asset. Remove it before publication.');}};
+  const privateValues=[auth.password];
+  const secretFile=path.join(root,'.secrets/production.json');
+  if(existsSync(secretFile)){const values=read(secretFile);for(const name of ['SESSION_SECRET','WEBHOOK_SIGNING_SECRET','GOOGLE_SHEETS_SIGNING_SECRET','CF_EMAIL_ROUTING_TOKEN','CF_ACCOUNT_ANALYTICS_TOKEN'])if(typeof values[name]==='string'&&values[name].length>=16)privateValues.push(values[name]);}
+  const scan=dir=>{for(const entry of readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isSymbolicLink())throw new Error('Public source cannot contain symlinks.');if(entry.isDirectory())scan(file);else if(privateValues.some(value=>value.length>=8&&readFileSync(file).includes(Buffer.from(value))))throw new Error('A private credential appears in a public asset. Remove it before publication.');}};
   scan(path.join(root,'public'));
   const python=args.python||process.env.FUNNEL_PYTHON||'python3';
   success(await run(python,['scripts/workflow.py','check-publish','.']));
@@ -134,7 +137,7 @@ export async function publish(root,args,runtime={}) {
         const priorOrigins=previous && previous.worker===target.worker && previous.account_id===target.account_id && previous.database_id===target.database_id?[previous.url]:[];
         const priorUrl=chooseOrigin(target,priorOrigins,args.url);
         if(!priorUrl)throw new Error('Confirm the existing Worker origin from its actual deployment before redeploying.');
-        await runtimeIdentity(priorUrl,observed,fetcher);
+        await runtimeIdentity(priorUrl,observed,fetcher,login.production?.SESSION_SECRET);
         await verifyCredentials(priorUrl,login.auth,fetcher);
         state.known_origins=priorOrigins;state.first_deploy=false;
       } else {initialSecrets(login.production,login.auth);state.first_deploy=true;}
@@ -171,7 +174,7 @@ export async function publish(root,args,runtime={}) {
     if(state.identity)sameReleaseIdentity(identity,state.identity);
     state.identity=identity;
     if(state.phase==='upload_started')persist('uploaded');
-    await runtimeIdentity(url,identity,fetcher);
+    await runtimeIdentity(url,identity,fetcher,existsSync(path.join(root,'.secrets/production.json'))?read(path.join(root,'.secrets/production.json')).SESSION_SECRET:null);
     await validate();
     const compat={...identity,uploaded_at:state.events.find(e=>e.phase==='uploaded')?.at||state.created_at,verification_pending:true,release_id:state.id};
     if(state.phase==='verified'){

@@ -1,3 +1,5 @@
+import { secureFetch } from './secure-fetch.js';
+import { initSecurityPanel } from './security-panel.js';
 import { initDataLifecyclePanel } from './data-lifecycle.js';
 import { initAccountPanel } from './account.js';
 import { initUsersPanel } from './users.js';
@@ -39,7 +41,7 @@ function message(error) { return error instanceof Error ? error.message : 'Somet
 async function api(path, options = {}) {
   let response;
   try {
-    response = await fetch(path, { credentials: 'same-origin', cache: 'no-store', ...options, headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } });
+    response = await secureFetch(path, { credentials: 'same-origin', cache: 'no-store', ...options, headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } });
   } catch { throw new Error('Unable to connect. Check your connection and try again.'); }
   if (response.status === 401) {
     window.location.assign('/login.html');
@@ -484,6 +486,14 @@ async function loadWebhooks() {
       meta.append(element('span', '', hook.enabled ? 'Enabled' : 'Disabled'), element('span', '', `${integer(hook.pending_count)} pending`), element('span', '', `${integer(hook.failed_count)} failed`));
       if (hook.last_delivered_at) meta.append(element('span', '', `Last delivered ${dateLabel(hook.last_delivered_at, true)}`)); card.append(meta);
       if(!hook.enabled)card.append(button('Enable new deliveries','button secondary',event=>confirmRemoval('Enable this connection?',`Send future enquiries to ${hook.name}? Previous paused or failed deliveries will remain stopped.`,'Enable new deliveries',async()=>{await api(`/api/admin/webhooks/${encodeURIComponent(hook.id)}`,{method:'PATCH',body:JSON.stringify({enabled:true})});toast('New deliveries enabled. Previous jobs were not restarted.');await loadWebhooks();},event.currentTarget)));
+      if(hook.url.startsWith('https://script.google.com/macros/s/')){
+        const label=element('label','','Prepared Sheets key version'),version=element('input');
+        version.type='number';version.min=String((hook.sheets_key_version||1)+1);version.value=version.min;version.step='1';version.setAttribute('aria-label','Prepared Sheets key version');label.append(version);card.append(label);
+        card.append(button('Activate prepared key','button secondary',event=>{
+          const value=Number(version.value);if(!Number.isSafeInteger(value)||value<Number(version.min)){version.reportValidity();return;}
+          confirmRemoval('Activate the prepared Sheets key?','First run sheets:rotate in a trusted operator terminal and update the standalone script properties. This does not generate or display a secret here. Failed signed deliveries will be retried.','Activate prepared key',async()=>{const result=await api(`/api/admin/webhooks/${encodeURIComponent(hook.id)}`,{method:'PATCH',body:JSON.stringify({sheets_key_version:value})});toast(`Sheets key version ${result.key_version} active.`);await loadWebhooks();},event.currentTarget);
+        }));
+      }
       card.append(button('Remove connection', 'text-button', event => confirmRemoval('Remove this connection?', `Stop sending new enquiries to ${hook.name}? Leads already saved in your CRM will remain.`, 'Remove connection', async () => {
         const removed=await api(`/api/admin/webhooks/${encodeURIComponent(hook.id)}`, { method: 'DELETE' }); toast(removed.finishing_deliveries?'Connection removed. An earlier delivery may still finish.':'Connection removed.'); await loadWebhooks();
       }, event.currentTarget))); list.append(card);
@@ -582,7 +592,7 @@ async function start() {
     state.stages.forEach(stage => { const option = element('option', '', stage.label); option.value = stage.id; $('#stage-filter').append(option); });
     accountPanel = initAccountPanel($('#account-panel'), {currentUser:state.user,permissions:state.permissions,onNotifications(data){const badge=$('#new-lead-badge');badge.textContent=String(data.unread_count || 0);badge.hidden=!data.unread_count;badge.setAttribute('aria-label',`${data.unread_count || 0} new enquiries`);}});
     if (can('manage_settings')) dataPanel = initDataLifecyclePanel($('#account-panel'),{request:api,siteName:config.brand?.name||'Funnel',onChanged(){accountPanel?.refreshNotifications();}});
-    if (can('manage_users')) usersPanel = initUsersPanel($('#users-panel'), {request:api,currentUser:state.user});
+    if (can('manage_users')) { usersPanel = initUsersPanel($('#users-panel'), {request:api,currentUser:state.user}); initSecurityPanel($('#users-panel'),{request:api}); }
     updateFilters();
     rangePicker = createDateRangePicker($('#date-filter'), { today: todayISO, earliest: () => config.earliest_date || todayISO(), onChange: loadMetrics });
     showView(location.hash.slice(1) || 'overview');

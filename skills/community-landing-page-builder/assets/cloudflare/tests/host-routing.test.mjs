@@ -45,9 +45,9 @@ test('CRM host isolates auth and routes the login return path to the public host
   assert.equal((await fetchAt('https://crm.example.com','/api/leads',{method:'POST',headers:{Origin:'https://crm.example.com','Content-Type':'application/json'},body:'{}'})).status,404);
 });
 
-test('workers.dev stays unified while unknown custom hosts fail closed', async () => {
-  assert.equal((await fetchAt('https://fixture.account.workers.dev','/login.html')).status,200);
-  assert.equal((await fetchAt('https://synthetic-gateway.pages.dev','/login.html')).status,200);
+test('workers.dev and Pages aliases fail closed after custom-host setup', async () => {
+  assert.equal((await fetchAt('https://fixture.account.workers.dev','/login.html')).status,421);
+  assert.equal((await fetchAt('https://synthetic-gateway.pages.dev','/login.html')).status,421);
   assert.equal((await fetchAt('https://preview.synthetic-gateway.pages.dev','/login.html')).status,421);
   assert.equal((await fetchAt('https://other.pages.dev','/login.html')).status,421);
   const health=await fetchAt('https://go.example.com','/api/health');

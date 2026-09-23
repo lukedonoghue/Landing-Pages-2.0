@@ -12,7 +12,7 @@ const password='synthetic-test-password-for-team-accounts';
 const newPassword='different-synthetic-test-password-for-team';
 const salt='112233445566778899aabbccddeeff00';
 const hash=`pbkdf2_sha256$100000$${salt}$${pbkdf2Sync(password,Buffer.from(salt,'hex'),100000,32,'sha256').toString('hex')}`;
-let mf,db,ownerCookie,sequence=0,mailGateEntered,releaseMailGate,mailGateBlock=Promise.resolve(),updateGateEntered,releaseUpdateGate,updateGateBlock=Promise.resolve();
+let mf,db,ownerCookie,ownerPassword=password,sequence=0,mailGateEntered,releaseMailGate,mailGateBlock=Promise.resolve(),updateGateEntered,releaseUpdateGate,updateGateBlock=Promise.resolve();
 function armMailGate() {
   const entered=new Promise(resolve=>{mailGateEntered=resolve;});
   mailGateBlock=new Promise(resolve=>{releaseMailGate=resolve;});
@@ -24,7 +24,7 @@ function armUpdateGate() {
   return {entered,release(){releaseUpdateGate();updateGateEntered=null;updateGateBlock=Promise.resolve();}};
 }
 async function call(path,{method='GET',body,cookie=ownerCookie,headers={}}={}) {
-  return mf.dispatchFetch(`https://site.test${path}`,{method,redirect:'manual',headers:{'CF-Connecting-IP':`198.51.${Math.floor(++sequence/200)}.${sequence%200+1}`,...(cookie?{Cookie:cookie}:{}),...(method!=='GET'?{Origin:'https://site.test','Content-Type':'application/json'}:{}),...headers},body:body===undefined?undefined:JSON.stringify(body)});
+  return mf.dispatchFetch(`https://site.test${path}`,{method,redirect:'manual',headers:{'CF-Connecting-IP':`198.51.${Math.floor(++sequence/200)}.${sequence%200+1}`,...(cookie?{Cookie:cookie,'X-CRM-Confirm-Password':cookie===ownerCookie?ownerPassword:password}:{}),...(method!=='GET'?{Origin:'https://site.test','Content-Type':'application/json'}:{}),...headers},body:body===undefined?undefined:JSON.stringify(body)});
 }
 async function login(username='owner',secret=password) {
   const r=await call('/api/auth/login',{method:'POST',cookie:null,body:{username,password:secret}});
@@ -73,9 +73,9 @@ test('owner remains compatible and anonymous user-management is blocked',async()
 test('manager cannot administer identities; viewer API is read-only including export and settings',async()=>{
   const manager=await seed('manager'),viewer=await seed('viewer');
   for(const user of [manager,viewer])for(const method of ['GET','POST'])assert.equal((await call('/api/admin/users',{method,body:method==='POST'?{}:undefined,cookie:user.cookie})).status,403);
-  assert.equal((await call('/api/admin/webhooks',{cookie:manager.cookie})).status,200);
-  for(const path of ['/api/admin/data/retention','/api/admin/data/erasures','/api/admin/data/erasure-records'])assert.equal((await call(path,{cookie:manager.cookie})).status,200,path);
-  for(const [path,body] of [['/api/admin/webhooks',{}],['/api/admin/data/retention/preview',{}],['/api/admin/data/erasures/preview',{}]])assert.equal((await call(path,{method:'POST',body,cookie:manager.cookie})).status,400,path);
+  assert.equal((await call('/api/admin/webhooks',{cookie:manager.cookie})).status,403);
+  for(const path of ['/api/admin/data/retention','/api/admin/data/erasures','/api/admin/data/erasure-records'])assert.equal((await call(path,{cookie:manager.cookie})).status,403,path);
+  for(const [path,body] of [['/api/admin/webhooks',{}],['/api/admin/data/retention/preview',{}],['/api/admin/data/erasures/preview',{}]])assert.equal((await call(path,{method:'POST',body,cookie:manager.cookie})).status,403,path);
   for(const path of ['/api/admin/config','/api/admin/leads','/api/admin/metrics','/api/admin/account'])assert.equal((await call(path,{cookie:viewer.cookie})).status,200,path);
   for(const path of ['/api/admin/leads/export.csv','/api/admin/webhooks','/api/admin/data/retention'])assert.equal((await call(path,{cookie:viewer.cookie})).status,403,path);
   for(const [method,path] of [['POST','/api/admin/notifications/acknowledge'],['POST','/api/admin/webhooks'],['PATCH',`/api/admin/leads/${crypto.randomUUID()}`],['POST',`/api/admin/leads/${crypto.randomUUID()}/notes`],['DELETE',`/api/admin/leads/${crypto.randomUUID()}`]])assert.equal((await call(path,{method,body:{},cookie:viewer.cookie})).status,403,path);
@@ -240,7 +240,7 @@ test('owner email needs current password and confirmation; owner reset preserves
   assert.equal((await call('/api/auth/complete',{method:'POST',cookie:null,body:{token:reset,password:newPassword}})).status,200);
   assert.equal((await call('/api/auth/session')).status,401);
   assert.equal((await login()).status,401);
-  ownerCookie=(await login('owner',newPassword)).cookie;assert.ok(ownerCookie);
+  ownerCookie=(await login('owner',newPassword)).cookie;ownerPassword=newPassword;assert.ok(ownerCookie);
 });
 test('self-service password changes are isolated per user and CSRF remains blocked',async()=>{
   const manager=await seed('manager'),viewer=await seed('viewer');

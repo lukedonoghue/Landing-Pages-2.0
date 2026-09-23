@@ -80,7 +80,7 @@ export async function previewErasure(env, body, now = new Date()) {
   const scope = rows.map(({ id, version }) => ({ id, version }));
   return { enquiries: rows.map(({ id, name, email, created_at, deleted_at }) => ({ id, name, email, created_at, removed: !!deleted_at })),
     counts: await erasureCounts(env, ids, now), token: await previewToken(env, { kind: 'erasure', scope }, now),
-    effect: 'Enquiry details, notes, activity and delivery records will be permanently erased. Historical lead and conversion totals may decrease. Visit records follow their separate retention period. Backups, downloaded exports and already delivered copies require separate handling.' };
+    effect: 'Enquiry details, notes, activity and delivery records will be permanently erased. Historical lead and conversion totals may decrease. Visit records follow their separate retention period. Managed Google Sheets copies receive tracked deletion jobs; completion in the CRM alone does not confirm downstream deletion. Backups, downloaded exports, legacy spreadsheets and other delivered copies require separate handling.' };
 }
 function operation(row, active = 0) {
   return { id: row.id, status: row.status, origin: row.origin, created_at: row.created_at, completed_at: row.completed_at,
@@ -90,7 +90,8 @@ export async function erasureStatus(env, id) {
   uuid(id);
   const row = await env.DB.prepare('SELECT e.*,(SELECT COUNT(*) FROM webhook_outbox o JOIN erasure_items i ON i.lead_id=o.lead_id WHERE i.operation_id=e.id AND o.claim_token IS NOT NULL AND o.locked_until>?) AS active_deliveries FROM erasure_operations e WHERE e.id=?').bind(Math.floor(Date.now()/1000),id).first();
   if (!row) throw new HttpError(404, 'Erasure operation not found.');
-  return operation(row,row.active_deliveries);
+  const downstream=(await env.DB.prepare('SELECT status,COUNT(*) AS total FROM sheets_erasure_outbox WHERE operation_id=? GROUP BY status').bind(id).all()).results;
+  return {...operation(row,row.active_deliveries),crm_complete:row.status==='complete',downstream,all_managed_copies_erased:row.status==='complete' && downstream.every(item=>item.status==='delivered')};
 }
 export async function recentErasures(env) {
   const rows = await env.DB.prepare("SELECT e.*,(SELECT COUNT(*) FROM webhook_outbox o JOIN erasure_items i ON i.lead_id=o.lead_id WHERE i.operation_id=e.id AND o.claim_token IS NOT NULL AND o.locked_until>?) AS active_deliveries FROM erasure_operations e ORDER BY CASE WHEN status='complete' THEN 1 ELSE 0 END,created_at DESC,id LIMIT 30").bind(Math.floor(Date.now()/1000)).all();
@@ -151,13 +152,15 @@ export async function progressErasure(env, id, now = new Date()) {
   uuid(id);
   const row = await env.DB.prepare('SELECT * FROM erasure_operations WHERE id=?').bind(id).first();
   if (!row) throw new HttpError(404, 'Erasure operation not found.');
-  if (row.status === 'complete') return operation(row);
+  if (row.status === 'complete') return erasureStatus(env,id);
   const active = await env.DB.prepare(`SELECT COUNT(*) AS n FROM webhook_outbox WHERE lead_id IN (${PENDING}) AND claim_token IS NOT NULL AND locked_until>?`).bind(id, Math.floor(now.getTime() / 1000)).first();
   if (active.n) return operation(row, active.n);
   // New delivery claims require a visible lead, so marking the selected leads
   // removed prevents a fresh lease after this check. Already-started requests
   // are allowed to finish (or expire) before a completion receipt is issued.
   await env.DB.batch([
+    env.DB.prepare(`INSERT OR IGNORE INTO sheets_erasure_outbox(id,webhook_id,destination,lead_id,operation_id,next_attempt_at,created_at,key_version)
+      SELECT lower(hex(randomblob(16))),r.webhook_id,r.destination,r.lead_id,?,?,?,r.key_version FROM sheets_delivery_receipts r WHERE r.lead_id IN (${PENDING})`).bind(id,Math.floor(now.getTime()/1000),now.toISOString(),id),
     ...['webhook_outbox', 'notes', 'activity', 'lead_notifications'].map(table => env.DB.prepare(`DELETE FROM ${table} WHERE lead_id IN (${PENDING})`).bind(id)),
     env.DB.prepare(`DELETE FROM leads WHERE id IN (${PENDING})`).bind(id),
     env.DB.prepare('DELETE FROM erasure_items WHERE operation_id=?').bind(id),

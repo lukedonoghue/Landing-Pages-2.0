@@ -1,3 +1,4 @@
+import { secureFetch } from './secure-fetch.js';
 const node = (tag, text, cls) => { const el = document.createElement(tag); if (text) el.textContent = text; if (cls) el.className = cls; return el; };
 export function initAccountPanel(host, { onSessionEnded = () => window.location.assign('/login.html'), onNotifications = () => {}, currentUser = null, permissions = {} } = {}) {
   let disposed = false; let marker = 0; let pending = false; let exportParams = new URLSearchParams();
@@ -25,7 +26,7 @@ export function initAccountPanel(host, { onSessionEnded = () => window.location.
   const status = node('p', '', 'account-status'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
   details.append(summary, user, description, form, revoke); section.append(notice); if (canExport) section.append(exportButton); section.append(details, status); host.replaceChildren(section);
   async function request(url, options = {}) {
-    const response = await fetch(url, { credentials: 'same-origin', cache: 'no-store', ...options, headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } });
+    const response = await secureFetch(url, { credentials: 'same-origin', cache: 'no-store', ...options, headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Unable to complete this action.');
     return data;
@@ -64,7 +65,7 @@ export function initAccountPanel(host, { onSessionEnded = () => window.location.
   if (canExport) exportButton.addEventListener('click', async () => {
     exportButton.disabled = true; status.textContent = 'Preparing contacts…';
     try {
-      const response = await fetch(`/api/admin/leads/export.csv?${exportParams}`, { credentials: 'same-origin', cache: 'no-store' });
+      const response = await secureFetch(`/api/admin/leads/export.csv?${exportParams}`, { credentials: 'same-origin', cache: 'no-store' });
       if (!response.ok) { const data = await response.json(); throw new Error(data.error || 'Export failed.'); }
       const file = await response.blob(); const url = URL.createObjectURL(file); const anchor = node('a');
       anchor.href = url; anchor.download = `leads-${new Date().toISOString().slice(0, 10)}.csv`; document.body.append(anchor); anchor.click(); anchor.remove();

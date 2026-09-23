@@ -21,7 +21,7 @@ function leadPayload(overrides = {}) {
 }
 async function call(path, { method = 'GET', body, auth = true, headers = {}, ip } = {}) {
   const requestHeaders = { 'CF-Connecting-IP': ip || `203.0.${Math.floor(++requestSequence / 200)}.${requestSequence % 200 + 1}`, ...headers };
-  if (auth && cookie) requestHeaders.Cookie = cookie;
+  if (auth && cookie) { requestHeaders.Cookie = cookie; requestHeaders['X-CRM-Confirm-Password']=password; }
   if (method !== 'GET' && method !== 'HEAD') {
     if (!('Origin' in requestHeaders)) requestHeaders.Origin = 'https://site.test';
     if (body !== undefined && !('Content-Type' in requestHeaders)) requestHeaders['Content-Type'] = 'application/json';
@@ -56,9 +56,9 @@ before(async () => {
 });
 after(async () => { await mf?.dispose(); });
 
-test('health reports only public release markers from the actual runtime binding', async () => {
+test('anonymous health omits runtime release identity', async () => {
   const response = await jsonCall('/api/health', { auth: false });
-  assert.deepEqual(response.body, {ok:true,database:'connected',release:{version_id:'11111111-1111-4111-8111-111111111111',release_id:'22222222-2222-4222-8222-222222222222',source_fingerprint:'a'.repeat(64)}});
+  assert.deepEqual(response.body, {ok:true,database:'connected'});
   assert.equal(response.headers.get('Cache-Control'), 'no-store');
 });
 

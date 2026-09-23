@@ -81,5 +81,17 @@
       ]
     }
   ],
-  "attributionMode": "lead"
+  "attributionMode": "lead",
+  "googleSheets": {
+    "columns": [
+      "id",
+      "created_at",
+      "name",
+      "email",
+      "phone",
+      "status",
+      "service"
+    ],
+    "formFields": []
+  }
 }

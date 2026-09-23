@@ -67,6 +67,11 @@ export function reconcileErasureRecord({recordFile,temporary,template,common,exe
   // The isolated database has no live deliveries or sessions. A restored Worker
   // must not resume old login sessions or an outdated automatic deletion policy.
   apply("DELETE FROM sessions;\nUPDATE data_retention_policy SET enabled=0,version=version+1,updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now');\nUPDATE erasure_operations SET status='complete',completed_at=COALESCE(completed_at,strftime('%Y-%m-%dT%H:%M:%fZ','now')) WHERE status='waiting' AND NOT EXISTS(SELECT 1 FROM erasure_items i WHERE i.operation_id=erasure_operations.id);\nUPDATE webhooks SET enabled=0;\nUPDATE webhook_outbox SET status='failed',locked_until=NULL,claim_token=NULL,last_error='Review destination and delivery state after restoration' WHERE status IN ('pending','sending');");
+  // Backups may predate either feature. Never reactivate old one-use account
+  // links or resume downstream deletion jobs merely by restoring the database.
+  const restoredTables=new Set(query("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('crm_account_actions','sheets_erasure_outbox')").map(row=>row.name));
+  if(restoredTables.has('crm_account_actions'))apply("UPDATE crm_account_actions SET state='failed' WHERE used_at IS NULL;");
+  if(restoredTables.has('sheets_erasure_outbox'))apply("UPDATE sheets_erasure_outbox SET status='failed',locked_until=NULL,claim_token=NULL,last_error='Review downstream deletion state after restoration' WHERE status IN ('pending','sending');");
   if(query('SELECT l.id FROM leads l JOIN erased_submissions e ON e.lead_id=l.id LIMIT 1').length)throw new Error('Suppressed enquiries remain in the temporary restore.');
-  return {erased_enquiries:erased,record_entries:record.entries.length,record_generated_at:new Date(record.generated_at).toISOString(),automatic_retention:'disabled',connections:'disabled',old_delivery_queue:'paused',sessions:'revoked'};
+  return {erased_enquiries:erased,record_entries:record.entries.length,record_generated_at:new Date(record.generated_at).toISOString(),automatic_retention:'disabled',connections:'disabled',old_delivery_queue:'paused',downstream_deletions:'paused_for_reconciliation',account_action_links:'invalidated',sessions:'revoked'};
 }

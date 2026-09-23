@@ -50,6 +50,7 @@ try {
   if(domain){
     if(!/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,63}$/i.test(domain)) throw new Error('Supply only a domain or subdomain, without https or a path.');
     config.routes=[{pattern:domain.toLowerCase(),custom_domain:true}];
+    config.workers_dev=false;config.preview_urls=false;
   }
   saveConfig(config);
   if(args.includes('--cloudflare')){

@@ -30,7 +30,7 @@ export function initDataLifecyclePanel(host,{request,onChanged=()=>{},siteName='
   const historyHeading=make('h3','Recent erasures'),history=make('div',null,'data-history');
   const refresh=action('Refresh erasure progress',()=>refreshOperations().catch(report));
   const download=action('Download erasure record',downloadLedger);
-  panel.append(historyHeading,history,refresh,make('p','Keep the erasure record separately from older backups. It records which enquiries must stay erased, without contact details. Before restoring an older backup, use the latest record to prevent erased enquiries from returning. Downloaded exports and copies already sent to other tools need separate handling.','data-help'),download,status);host.append(panel);
+  panel.append(historyHeading,history,refresh,make('p','Keep the erasure record separately from older backups. It records which enquiries must stay erased, without contact details. Before restoring an older backup, use the latest record to prevent erased enquiries from returning. Managed Sheets deletions are tracked in Security activity. Downloaded exports, legacy sheets and other external copies need separate handling.','data-help'),download,status);host.append(panel);
   const dialog=make('dialog',null,'data-erasure-dialog');dialog.id='erasure-dialog';dialog.setAttribute('aria-labelledby','erasure-title');dialog.setAttribute('aria-describedby','erasure-effect');
   const heading=make('h2','Review permanent erasure');heading.id='erasure-title';heading.tabIndex=-1;
   const selected=make('div'),effect=make('p');effect.id='erasure-effect';const tally=make('p');
@@ -38,7 +38,7 @@ export function initDataLifecyclePanel(host,{request,onChanged=()=>{},siteName='
   const error=make('p',null,'data-error');error.id='erasure-error';confirm.setAttribute('aria-describedby','erasure-error');error.setAttribute('role','alert');
   const buttons=make('div',null,'data-actions');let submitting=false,eraseBody=null,eraseIds=null,needsReview=false,opener=null;
   const cancel=action('Cancel',closeDialog),erase=action('Erase permanently',submitErasure,'button danger');erase.disabled=true;buttons.append(cancel,erase);dialog.append(heading,selected,effect,tally,confirmLabel,error,buttons);document.body.append(dialog);
-  async function call(path,options={}){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);try{return await request(path,{...options,signal:controller.signal});}finally{clearTimeout(timer);}}
+  async function call(path,options={}){return request(path,{...options,timeoutMs:15000});}
   const post=(path,body={})=>call(path,{method:'POST',body:JSON.stringify(body)});
   function report(error){if(!disposed)status.textContent=error.message||'Unable to complete this action. Please try again.';}
   function closeDialog(){if(submitting)return;dialog.close();selected.replaceChildren();eraseBody=null;eraseIds=null;needsReview=false;confirm.checked=false;(opener?.isConnected&&opener.getClientRects().length?opener:title).focus();}
@@ -59,7 +59,7 @@ export function initDataLifecyclePanel(host,{request,onChanged=()=>{},siteName='
     if(!eraseBody||!confirm.checked||submitting)return;submitting=true;cancel.disabled=true;erase.disabled=true;confirm.disabled=true;error.textContent='';erase.textContent='Submitting…';dialog.setAttribute('aria-busy','true');heading.focus({preventScroll:true});
     try{
       const result=await post('/api/admin/data/erasures',eraseBody);if(result.id!==eraseBody.operation_id||!['waiting','complete'].includes(result.status)||!Number.isInteger(result.counts?.enquiries))throw new Error('Erasure acknowledgement is incomplete.');submitting=false;opener=null;closeDialog();
-      status.textContent=result.status==='complete'?`Permanently erased ${result.counts.enquiries} ${result.counts.enquiries===1?'enquiry':'enquiries'}.`:'Erasure accepted. Waiting for earlier delivery attempts to finish or expire.';
+      status.textContent=result.status==='complete'?`Erased from CRM: ${result.counts.enquiries} ${result.counts.enquiries===1?'enquiry':'enquiries'}.`:'Erasure accepted. Waiting for earlier delivery attempts to finish or expire.';
       results.replaceChildren();await refreshOperations().catch(()=>{status.textContent+=' Refresh progress to check the latest operation status.';});onChanged();
     }catch(e){needsReview=[400,409].includes(e.status);error.textContent=needsReview?e.message:'The result could not be confirmed. Retry this same erasure to recover its result. '+(e.message||'');erase.textContent=needsReview?'Review current data':'Retry same erasure';if(needsReview)confirm.checked=false;}
     finally{submitting=false;dialog.removeAttribute('aria-busy');cancel.disabled=false;confirm.disabled=needsReview;erase.disabled=needsReview?false:!confirm.checked;}
@@ -91,7 +91,7 @@ export function initDataLifecyclePanel(host,{request,onChanged=()=>{},siteName='
   async function runBatch(){run.disabled=true;status.textContent='Running one configured cleanup batch…';try{await post('/api/admin/data/retention/run');await refreshOperations();status.textContent='Cleanup batch completed. Large backlogs require further scheduled batches.';onChanged();}catch(e){report(e);}finally{run.disabled=!enabled.checked;}}
   async function refreshOperations(){
     const data=await call('/api/admin/data/erasures');if(disposed)return;waiting=data.operations.filter(item=>item.status!=='complete');history.replaceChildren();
-    for(const item of data.operations){const row=make('p');row.append(make('strong',`${amount(item.counts.enquiries||0,'enquiry','enquiries')} - ${item.status==='complete'?'erased':item.active_deliveries?'waiting for earlier deliveries':'awaiting completion'}`),make('span',`${date(item.completed_at||item.created_at)} · ${item.origin}`));history.append(row);}
+    for(const item of data.operations){const row=make('p');row.append(make('strong',`${amount(item.counts.enquiries||0,'enquiry','enquiries')} - ${item.status==='complete'?'erased from CRM; check Sheets deletion status':item.active_deliveries?'waiting for earlier deliveries':'awaiting completion'}`),make('span',`${date(item.completed_at||item.created_at)} · ${item.origin}`));history.append(row);}
     if(!data.operations.length)history.append(make('p','No erasure operations yet.','data-help'));
   }
   async function downloadLedger(){
@@ -107,6 +107,6 @@ export function initDataLifecyclePanel(host,{request,onChanged=()=>{},siteName='
   }
   panel.querySelectorAll('input,select').forEach(input=>{input.setAttribute('aria-describedby','data-controls-status');input.addEventListener('invalid',()=>input.setAttribute('aria-invalid','true'));input.addEventListener('input',()=>input.removeAttribute('aria-invalid'));});
   review.disabled=true;load();
-  const timer=setInterval(async()=>{if(disposed||polling||document.hidden||!waiting.length||!panel.getClientRects().length)return;polling=true;try{const result=await post(`/api/admin/data/erasures/${waiting[0].id}/continue`);await refreshOperations();if(result.status==='complete'){status.textContent='The pending erasure is complete.';onChanged();}}catch(e){report(e);}finally{polling=false;}},5000);
+  const timer=setInterval(async()=>{if(disposed||polling||document.hidden||!waiting.length||!panel.getClientRects().length)return;polling=true;try{const result=await post(`/api/admin/data/erasures/${waiting[0].id}/continue`);await refreshOperations();if(result.status==='complete'){status.textContent='CRM erasure is complete. Check Security activity for outstanding Google Sheets deletions.';onChanged();}}catch(e){report(e);}finally{polling=false;}},5000);
   return {reviewErasure,refresh:refreshOperations,dispose(){disposed=true;clearInterval(timer);dialog.remove();panel.remove();}};
 }

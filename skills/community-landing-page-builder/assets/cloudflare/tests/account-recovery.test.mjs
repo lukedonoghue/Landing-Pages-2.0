@@ -18,6 +18,7 @@ const encoded=`pbkdf2_sha256$100000$${salt}$${pbkdf2Sync(password,Buffer.from(sa
 
 async function fixture(t) {
   const root=mkdtempSync(path.join(os.tmpdir(),'owner-recovery-'));let ip=0,writes=0,drop=false,fail=false,blockReference=false;
+  const handoffDir=mkdtempSync(path.join(os.tmpdir(),'owner-recovery-handoff-'));
   atomic(path.join(root,'wrangler.jsonc'),{name:'recovery-fixture',account_id:'a'.repeat(32),d1_databases:[{binding:'DB',database_name:'recovery-fixture',database_id:'12345678-1234-4234-8234-123456789abc'}]});
   for(const mode of ['production','local']) {
     atomic(path.join(root,'.secrets/'+mode+'.json'),{ADMIN_USERNAME:owner,ADMIN_PASSWORD_HASH:encoded});
@@ -28,7 +29,7 @@ async function fixture(t) {
   const settings={modules:true,script:bundled.outputFiles[0].text,compatibilityDate:'2026-07-22',d1Databases:{DB:'owner-recovery'},bindings:{ADMIN_USERNAME:owner,ADMIN_PASSWORD_HASH:encoded,SESSION_SECRET:'synthetic-private-session-key-with-at-least-32-characters'},serviceBindings:{ASSETS:()=>new Response('Synthetic public asset')},outboundService:()=>new Response('External calls disabled',{status:503})};
   const mf=new Miniflare(settings);let db=await mf.getD1Database('DB');
   for(const name of readdirSync(path.join(template,'migrations')).filter(n=>n.endsWith('.sql')).sort())await db.batch(unstable_splitSqlQuery(readFileSync(path.join(template,'migrations',name),'utf8')).map(sql=>db.prepare(sql)));
-  t.after(async()=>{await mf.dispose();rmSync(root,{recursive:true,force:true});});
+  t.after(async()=>{await mf.dispose();rmSync(root,{recursive:true,force:true});rmSync(handoffDir,{recursive:true,force:true});});
   const logs=[];
   const run=async(_command,args,options)=>{
     assert.equal(options.env.CLOUDFLARE_ACCOUNT_ID,'a'.repeat(32));
@@ -46,7 +47,8 @@ async function fixture(t) {
   };
   const request=async(url,options={})=>mf.dispatchFetch(url,{...options,headers:{...Object.fromEntries(new Headers(options.headers)),'CF-Connecting-IP':`198.51.100.${++ip%200+1}`}});
   const login=async(name=owner,secret=password)=>request('https://site.test/api/auth/login',{method:'POST',headers:{Origin:'https://site.test','Content-Type':'application/json'},body:JSON.stringify({username:name,password:secret})});
-  const account=args=>runAccount(args,{root,run,log:value=>logs.push(value)});
+  const account=args=>runAccount(args[0]==='rotate-password'&&args.includes('--remote')&&!args.includes('--out')
+    ?[...args,'--out',path.join(handoffDir,`${crypto.randomUUID()}.txt`)]:args,{root,run,log:value=>logs.push(value)});
   return {root,account,logs,login,request,get db(){return db;},get writes(){return writes;},drop:()=>{drop=true;},fail:()=>{fail=true;},blockReference:()=>{blockReference=true;},restart:async()=>{await mf.setOptions({...settings,bindings:{...settings.bindings,ADMIN_USERNAME:'old-bootstrap@example.invalid'}});db=await mf.getD1Database('DB');}};
 }
 const state=(f,id)=>read(path.join(f.root,'.secrets/account-recovery',id,'state.json'));
@@ -59,23 +61,23 @@ test('password recovery confirms a lost response and updates the publisher curre
   await verifyCredentials('https://site.test',current.auth,f.request);
   await f.account(['resume','--remote','--operation',result.operation_id]);assert.equal(f.writes,1);
   const printed=f.logs.join('\n');assert.ok(!printed.includes(current.auth.password));assert.ok(!printed.includes('pbkdf2_sha256'));assert.ok(!printed.includes('PRIVATE PROVIDER'));
-  assert.equal(statSync(path.join(f.root,result.password_file)).mode&0o777,0o600);
+  assert.equal(statSync(path.resolve(f.root,result.password_file)).mode&0o777,0o600);
 });
 test('failed write resumes the identical private password intent without another credential version',async t=>{
   const f=await fixture(t);f.fail();let id;
   await assert.rejects(f.account(['rotate-password','--remote']),error=>{id=error.operationId;return !!id;});
-  const before=state(f,id);const secret=readFileSync(path.join(f.root,before.password_file),'utf8');
-  await f.account(['resume','--remote','--operation',id]);assert.equal(readFileSync(path.join(f.root,before.password_file),'utf8'),secret);
+  const before=state(f,id);const secret=readFileSync(path.resolve(f.root,before.password_file),'utf8');
+  await f.account(['resume','--remote','--operation',id]);assert.equal(readFileSync(path.resolve(f.root,before.password_file),'utf8'),secret);
   assert.equal((await f.db.prepare('SELECT version FROM admin_credentials').first()).version,1);assert.equal(f.writes,2);
 });
-test('losing or corrupting the old credential file does not prevent password recovery',async t=>{
+test('losing or corrupting an old credential handoff does not prevent password recovery',async t=>{
   const f=await fixture(t);
   await f.account(['change-username','--remote','--username','known-owner']);
   const reference=read(path.join(f.root,'.secrets/current-admin-access.json'));
   rmSync(path.join(f.root,reference.credentials_file));
   await f.account(['rotate-password','--remote']);await verifyCredentials('https://site.test',access(f.root,{}).auth,f.request);
   const current=read(path.join(f.root,'.secrets/current-admin-access.json'));
-  writeFileSync(path.join(f.root,current.credentials_file),'malformed private file');
+  writeFileSync(path.resolve(f.root,current.password_file),'malformed private file');
   await f.account(['rotate-password','--remote']);await verifyCredentials('https://site.test',access(f.root,{}).auth,f.request);
   atomic(path.join(f.root,'.secrets/current-admin-access.json'),{username:'known-owner',credentials_file:true});
   await f.account(['rotate-password','--remote']);await verifyCredentials('https://site.test',access(f.root,{}).auth,f.request);

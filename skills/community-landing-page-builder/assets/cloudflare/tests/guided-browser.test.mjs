@@ -5,7 +5,7 @@ import {mkdtemp, readFile, writeFile, mkdir, rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {spawn} from 'node:child_process';
+import {spawn, execFileSync} from 'node:child_process';
 import {chromium} from 'playwright-core';
 const skill=fileURLToPath(new URL('../../../',import.meta.url));
 function run(exe,args,{timeout=60000}={}){return new Promise((ok,fail)=>{const p=spawn(exe,args,{stdio:['ignore','pipe','pipe']});let out='',err='';p.stdout.on('data',x=>out+=x);p.stderr.on('data',x=>err+=x);const timer=setTimeout(()=>p.kill('SIGTERM'),timeout);p.on('error',e=>{clearTimeout(timer);fail(e);});p.on('exit',code=>{clearTimeout(timer);code===0?ok(out):fail(Error(`${exe} failed (${code}): ${err}`));});});}
@@ -32,7 +32,12 @@ test('control capture uses actual responsive pixels and blocks automatic mutatio
 test('real loopback guide supports mobile answers, help, replay protection and safe missing-runner feedback',async t=>{
  const root=await temp(t);const guide=join(skill,'scripts/guide.py');
  await run('python3',[guide,'start',root,'--mode','guided','--goal','preview']);
- const processUI=spawn('python3',[join(skill,'scripts/guide_ui.py'),root,'--provider','codex'],{stdio:['ignore','pipe','pipe']});
+ // The fixture must exercise the missing-CLI path even on a developer host
+ // with a signed-in Codex installation. Keep Python explicit for the UI server.
+ const python=execFileSync('which',['python3'],{encoding:'utf8'}).trim();
+ const processUI=spawn(python,[join(skill,'scripts/guide_ui.py'),root,'--provider','codex'],{
+   stdio:['ignore','pipe','pipe'],env:{...process.env,PATH:'/usr/bin:/bin:/usr/sbin:/sbin'}
+ });
  t.after(()=>{processUI.kill('SIGTERM');});
  const address=await new Promise((ok,fail)=>{let text='';const timer=setTimeout(()=>fail(Error('Guide did not start')),10000);processUI.stdout.on('data',b=>{text+=b;const m=text.match(/http:\/\/127\.0\.0\.1:\d+\/#token=[^\s]+/);if(m){clearTimeout(timer);ok(m[0]);}});processUI.on('error',fail);processUI.on('exit',code=>{clearTimeout(timer);if(code)fail(Error('Guide process exited'));});});
  const browser=await chromium.launch({headless:true,...(process.env.CHROME_BIN?{executablePath:process.env.CHROME_BIN}:{})});t.after(()=>browser.close());
@@ -42,9 +47,11 @@ test('real loopback guide supports mobile answers, help, replay protection and s
  await page.getByRole('button',{name:'Why does this matter?'}).first().click();
  await page.getByRole('textbox',{name:'What is the business called?',exact:true}).fill('Synthetic roof inspections');
  await page.getByRole('button',{name:'Save answers and continue'}).click();
- await page.waitForFunction(()=>document.querySelector('#step-title').textContent.includes('research'));
+ try { await page.waitForFunction(()=>document.querySelector('#step-title').textContent.includes('research')); }
+ catch (error) { throw new Error(`Guide did not advance: ${await page.locator('body').innerText()}`,{cause:error}); }
  // No native CLI is provisioned by this test. A truthful blocker must surface rather than fake completion.
- await page.waitForFunction(()=>document.querySelector('#blockers').textContent.includes('not installed'));
+ try { await page.waitForFunction(()=>document.querySelector('#blockers').textContent.includes('not installed')); }
+ catch (error) { throw new Error(`Guide did not report the expected runner blocker: ${await page.locator('body').innerText()}`,{cause:error}); }
  assert.deepEqual(errors,[]);
  const state=JSON.parse(await readFile(join(root,'build/guide-state.json'),'utf8'));assert.ok(state.answers.business_name);
  const response=await fetch(new URL('/api/status',address));assert.equal(response.status,403);
