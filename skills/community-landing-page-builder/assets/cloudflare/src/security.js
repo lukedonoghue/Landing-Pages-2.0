@@ -178,7 +178,14 @@ export function secureResponse(response, pathname) {
   const headers = new Headers(response.headers);
   headers.set('Strict-Transport-Security','max-age=31536000');
   headers.set('X-Content-Type-Options', 'nosniff'); headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  headers.set('X-Frame-Options', 'DENY'); headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  // Only public brochure PDFs may be embedded, and only by this origin.
+  // Auth/admin/API documents and every other asset retain DENY.
+  const guidePdf = /^\/assets\/brochure\/[A-Za-z0-9][A-Za-z0-9_.-]*\.pdf$/i.test(pathname) &&
+    (headers.get('Content-Type') || '').split(';')[0].trim().toLowerCase() === 'application/pdf' &&
+    (response.ok || response.status === 304);
+  headers.set('X-Frame-Options', guidePdf ? 'SAMEORIGIN' : 'DENY');
+  if (guidePdf) headers.set('Content-Security-Policy', "frame-ancestors 'self'");
+  headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   if (pathname.startsWith('/api/') || pathname.startsWith('/admin') || pathname.startsWith('/login') || pathname.startsWith('/account-action')) {
     headers.set('Cache-Control', 'no-store'); headers.set('X-Robots-Tag', 'noindex, nofollow');
     headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
