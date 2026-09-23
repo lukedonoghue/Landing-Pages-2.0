@@ -1,5 +1,7 @@
 # Landing Pages 2.0: Community Builder
 
+> **Testing this release? Start with [TESTING-START-HERE.md](TESTING-START-HERE.md).** It contains the validated release record, a copy-paste tester prompt, local setup commands, the feedback checklist and the disclosed native-PDF-preview limitation. NetBean and production deployment are not prerequisites for the local pilot.
+
 The **community landing-page builder is now the main workflow**. Start from `main` and use `skills/community-landing-page-builder/SKILL.md`. The previous branded builder is retained under `skills/branded-lead-funnel-builder/`; its earlier README is preserved as [README-LEGACY.md](README-LEGACY.md).
 
 The community builder turns business research into a branded responsive landing page, purposeful imagery, a useful PDF, an honest conversion path and actual visual/functional QA. Form-led pages include the built-in local Cloudflare Workers and D1 CRM by default; external CRM/Sheets connections, advertising tracking and hosting remain optional later-stage modules. It does not require copy/design approval unless you ask for that checkpoint. Publishing and live test leads still require the authorization described in the skill.
