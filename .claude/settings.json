@@ -1,0 +1,93 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(.secrets/**)",
+      "Read(~/.wrangler/**)",
+      "Read(~/.config/.wrangler/**)",
+      "Read(.dev.vars*)",
+      "Read(.env*)",
+      "Edit(.claude/settings*)",
+      "Edit(.codex/**)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "failIfUnavailable": true,
+    "filesystem": {
+      "denyRead": [
+        "./.secrets",
+        "./.dev.vars*",
+        "./.env*",
+        "./**/.secrets",
+        "./**/.dev.vars*",
+        "./**/.env*",
+        "~/.wrangler",
+        "~/.config/.wrangler",
+        "~/.config/wrangler",
+        "~/Library/Preferences/.wrangler",
+        "~/.ssh",
+        "~/.aws",
+        "~/.config/gcloud"
+      ],
+      "denyWrite": [
+        "./.secrets",
+        "./.dev.vars*",
+        "./.env*",
+        "./**/.secrets",
+        "./**/.dev.vars*",
+        "./**/.env*",
+        "~/.wrangler",
+        "~/.config/.wrangler",
+        "~/.config/wrangler",
+        "~/Library/Preferences/.wrangler",
+        "~/.ssh",
+        "~/.aws",
+        "~/.config/gcloud",
+        "./.claude/settings.json",
+        "./.claude/settings.local.json",
+        "./.codex"
+      ]
+    },
+    "credentials": {
+      "envVars": [
+        {
+          "name": "CLOUDFLARE_API_TOKEN",
+          "mode": "deny"
+        },
+        {
+          "name": "CLOUDFLARE_API_KEY",
+          "mode": "deny"
+        },
+        {
+          "name": "CLOUDFLARE_EMAIL",
+          "mode": "deny"
+        },
+        {
+          "name": "GOOGLE_APPLICATION_CREDENTIALS",
+          "mode": "deny"
+        },
+        {
+          "name": "SESSION_SECRET",
+          "mode": "deny"
+        },
+        {
+          "name": "ADMIN_PASSWORD",
+          "mode": "deny"
+        },
+        {
+          "name": "ADMIN_PASSWORD_HASH",
+          "mode": "deny"
+        },
+        {
+          "name": "WEBHOOK_SIGNING_SECRET",
+          "mode": "deny"
+        },
+        {
+          "name": "GOOGLE_SHEETS_SIGNING_SECRET",
+          "mode": "deny"
+        }
+      ]
+    }
+  }
+}

@@ -13,6 +13,7 @@ from pathlib import Path
 import sys
 import tempfile
 from native_routing import SKILL, policy, RoutingError
+from agent_security import SECRET_INSTRUCTIONS, claude_settings, codex_config
 
 MARKER_START = "<!-- community-native-routing:start -->"
 MARKER_END = "<!-- community-native-routing:end -->"
@@ -63,7 +64,7 @@ def render(runtime="both", inherit_models=False):
         if spec["agent"] is None:
             continue
         name = spec["agent"]
-        instructions = COMMON + "\nTask specialization: " + spec["instruction"] + "\n"
+        instructions = COMMON + "\n" + SECRET_INSTRUCTIONS + "\nTask specialization: " + spec["instruction"] + "\n"
         description = "Community landing page " + role + "; " + spec["tier"] + " compute."
         inherited = inherit_models or spec["tier"] == "inherit"
         if runtime in {"codex", "both"}:
@@ -75,7 +76,7 @@ def render(runtime="both", inherit_models=False):
                 lines += ["model = " + json.dumps(profile["model"]),
                           "model_reasoning_effort = " + json.dumps(profile["effort"])]
             if role.startswith("review"):
-                lines.append('sandbox_mode = "read-only"')
+                lines.append('default_permissions = "lp-review"')
             lines.append("developer_instructions = " + json.dumps(instructions))
             files[f".codex/agents/{name}.toml"] = ("\n".join(lines) + "\n").encode()
         if runtime in {"claude", "both"}:
@@ -98,6 +99,8 @@ def instruction_block():
 For landing-page work use `skills/community-landing-page-builder/SKILL.md`, not the legacy branded skill. Read that skill's `references/orchestration.md` before starting.
 
 Use the host's native subagents and native model/effort controls only when actually available. OpenAI profiles are in `.codex/agents/`; Claude profiles are in `.claude/agents/`. Choose the matching provider, never cross-provider calls. No Jev, new API key, gateway or paid fallback is required. Run normal tasks sequentially with the current model when delegation/model selection is unavailable, and disclose it. A skill cannot create a missing host tool.
+
+Credential isolation is mandatory; see `references/security-operations.md`. Do not read private credential paths or run provider-authenticated commands in the coding agent. A trusted operator runs reviewed publish/recovery scripts without exposing their inputs.
 
 The coordinator owns task graph, shared contract, file reservations, integration and existing approvals. Cap cooperating workers at four; final acceptance and Lighthouse require their documented quiet/frozen stages. Ask for missing business facts only when material. Do not ask the owner to choose models. See the orchestration reference for capability preflight, native dispatch, bounded retries and the test prompt.
 """ + MARKER_END + "\n"
@@ -139,7 +142,9 @@ def install(project, runtime="both", *, copy_skill=False, inherit_models=False, 
         path = safe(root, name)
         files[name] = merge_instructions(path.read_text() if path.exists() else "").encode()
     config = ".codex/config.toml"
-    config_bytes = b"# Native routing does not change the parent model or authentication.\n[agents]\nmax_concurrent_threads_per_session = 4\n"
+    config_bytes = codex_config().encode()
+    if runtime in {"claude", "both"}:
+        files[".claude/settings.json"] = (json.dumps(claude_settings(), indent=2) + "\n").encode()
     # Do not rewrite or append tables to an owner's existing configuration.
     if runtime in {"codex", "both"} and (not safe(root, config).exists() or config in previous["files"]):
         files[config] = config_bytes

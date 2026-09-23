@@ -209,3 +209,7 @@ Optional modules add only their own necessary artifacts. Do not create infrastru
 ## Explicit native guide-image handoff
 
 Use [references/guide-image-handoff.md](references/guide-image-handoff.md) when a PDF needs an explanatory image not available from permitted sources. The persisted `image_handoff` action returns the actual native request once; an unavailable tool is a precise handoff, not a repeated model run or new API-key requirement. Resume after registering and linking the real output, or explicitly reconcile a permitted source fallback.
+
+## CRM security and optional Google Sheets
+
+Before CRM deployment or credential-bearing setup, read `references/security-operations.md`; for Google Sheets also read `references/google-sheets.md`. Keep client sharing/MFA and authorized live checks as explicit handoff gates. Repository tests do not certify live provider settings. Never deploy the historical example branch or copy its runtime over this maintained template.

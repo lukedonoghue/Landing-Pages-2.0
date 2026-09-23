@@ -67,6 +67,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y webp poppler-utils
           python -m pip install -r skills/community-landing-page-builder/requirements-build.txt PyYAML
+      - name: Reject stale or divergent CRM examples
+        run: python scripts/sync_crm_example.py --check
       - name: Compile maintained Python
         run: python -m compileall -q skills/community-landing-page-builder/scripts
       - name: Run community tests

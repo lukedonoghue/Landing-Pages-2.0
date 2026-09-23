@@ -1,0 +1,17 @@
+/* Reuse the landing page's brand typography and shell, not a standalone card. */
+[data-confirmed-only][hidden], [data-unconfirmed-only][hidden] { display: none !important; }
+.thank-you-hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(220px, .65fr); gap: clamp(24px, 5vw, 72px); align-items: center; }
+.thank-you-hero h1 { max-width: 20ch; }
+.thank-you-hero h2 { font-size: clamp(1.2rem, 2vw, 1.8rem); }
+.confirmation-copy { min-width: 0; }
+.guide-cover-link { display: block; max-width: 350px; justify-self: center; }
+.guide-cover-link img { display: block; width: 100%; height: auto; box-shadow: 0 16px 36px rgb(0 0 0 / .18); }
+.confirmation-phone { white-space: nowrap; font-weight: 700; }
+.guide-reader { padding-block: 2rem; }
+.guide-reader summary { cursor: pointer; padding: 1rem 0; font-weight: 700; }
+.guide-reader iframe { display: block; width: 100%; min-height: 70vh; border: 1px solid currentColor; }
+@media (max-width: 680px) {
+ .thank-you-hero { grid-template-columns: minmax(0, 1fr); }
+ .guide-cover-link { max-width: 220px; }
+ .confirmation-phone { white-space: normal; }
+}

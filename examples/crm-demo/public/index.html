@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Your project guide</title><meta name="description" content="Plan your next project with a helpful service guide."><link rel="stylesheet" href="styles.css"><script src="funnel.js" data-analytics-mode="consent" defer></script><script src="script.js" defer></script></head><body>
+<header><a class="brand" href="/">Your business</a><a href="/login.html" class="admin-link">Team login</a></header>
+<main><section class="hero"><p class="label">A clearer start</p><h1>Make a confident plan for your next project.</h1><p class="intro">Tell us what you have in mind. We'll help you understand your options and choose the right next step.</p><button type="button" data-open-modal>Request your project guide</button><p class="micro">A useful guide. A conversation about your project.</p></section>
+<section class="support"><h2>Know what matters before you begin.</h2><p>Explore your service options, see how the process works, and bring your questions to a conversation with our team.</p><div class="points"><article><span>01</span><h3>Understand your options</h3><p>Find the approach that fits what you want to achieve.</p></article><article><span>02</span><h3>Prepare for the process</h3><p>Learn what information makes the first conversation useful.</p></article><article><span>03</span><h3>Choose your next step</h3><p>Discuss your needs before making a commitment.</p></article></div></section>
+<!-- Copy and adapt the fields only after the form schema is approved. -->
+<button type="button" data-open-modal>Request your project guide</button>
+
+<div id="lead-modal" class="modal" role="dialog" aria-modal="true"
+     aria-labelledby="lead-modal-title" aria-hidden="true">
+  <div class="modal__panel">
+    <button class="modal__close" data-close-modal type="button" aria-label="Close form">×</button>
+    <h2 id="lead-modal-title">Request your project guide</h2>
+    <p role="status" aria-live="polite" aria-atomic="true">Step <strong data-step-current>1</strong> of 3</p>
+    <div class="wizard__progress" aria-hidden="true"><span data-progress></span></div>
+
+    <form class="wizard" data-lead-form action="thank-you.html"
+          data-thank-you="thank-you.html"
+          data-endpoint="/api/leads"
+          data-storage-prefix="example_funnel_"
+          novalidate>
+      <label hidden aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
+      <fieldset class="wizard__step">
+        <legend>How can we reach you?</legend>
+        <label>First name <input name="first_name" autocomplete="given-name" required></label>
+        <label>Last name <input name="last_name" autocomplete="family-name" required></label>
+        <label>Email <input name="email" type="email" autocomplete="email" required></label>
+        <label>Phone <input name="phone" type="tel" autocomplete="tel" required></label>
+      </fieldset>
+
+      <fieldset class="wizard__step" hidden>
+        <legend>What do you need?</legend>
+        <label>Service
+          <select name="service" required>
+            <option value="">Select a service</option>
+            <option>Service one</option>
+            <option>Service two</option>
+          </select>
+        </label>
+      </fieldset>
+
+      <fieldset class="wizard__step" hidden>
+        <legend>Confirm the next step</legend>
+        <label><input type="radio" name="contact_method" value="Phone" required> Phone</label>
+        <label><input type="radio" name="contact_method" value="Email" required> Email</label>
+      </fieldset>
+
+      <p data-form-error role="alert" tabindex="-1" hidden></p>
+      <div class="wizard__actions">
+        <button type="button" data-back hidden>Back</button>
+        <button type="button" data-next>Continue</button>
+        <button type="submit" data-submit hidden>Request your project guide</button>
+      </div>
+    </form>
+  </div>
+</div>
+</main><footer><a href="privacy.html">Privacy information</a><span>Replace this starter with your approved client content.</span></footer>
+<aside data-consent-banner aria-label="Optional analytics" class="consent"><p>Allow visitor measurement to help us improve this page? Your request works either way.</p><div><button data-analytics-consent="accept" type="button">Allow measurement</button><button data-analytics-consent="decline" class="secondary" type="button">No thanks</button></div></aside></body></html>
