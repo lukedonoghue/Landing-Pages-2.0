@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 import subprocess
 import sys
 import unittest
@@ -51,8 +52,8 @@ class DevEntrypointTests(unittest.TestCase):
             "page.replace('<p data-form-error', '<p>'+html.escape(data['follow_up'])+'</p><p data-form-error')",
             demo_project,
         )
-        self.assertIn('\"download_label\": \"Download your service guide\"', demo_project)
-        self.assertIn('\"reader_heading\": \"Read your guide now\"', demo_project)
+        self.assertIn('"download_label": "Download your service guide"', demo_project)
+        self.assertIn('"reader_heading": "Read your guide now"', demo_project)
         self.assertIn("We could not accept your request. Check your details and try again.", demo_project)
         self.assertIn("We could not confirm whether your request was saved. Retry to check the same request safely; your details are kept unchanged.", demo_project)
         self.assertIn("@media(max-width:340px)", demo_project)
@@ -60,10 +61,21 @@ class DevEntrypointTests(unittest.TestCase):
         quickstart = (ROOT / "skills/community-landing-page-builder/scripts/quickstart.py").read_text()
         self.assertIn('"scripts/extract_brand.mjs", url, "--out", "build/brand.json"', quickstart)
 
-    def test_readme_leads_with_local_dependency_setup(self):
+    def test_readme_documents_setup_before_running_the_local_demo(self):
         readme = (ROOT / "README.md").read_text()
-        self.assertIn("## Step one install local dependencies", readme)
-        self.assertIn("python3 scripts/dev.py bootstrap", readme)
+        # Check the runnable instructions rather than freezing editorial headings.
+        blocks = re.findall(r"```(?:sh|bash)\s*\n(.*?)```", readme, re.DOTALL)
+        demo_blocks = [block for block in blocks if "python3 scripts/dev.py demo" in block]
+        self.assertEqual(len(demo_blocks), 1, "Document one unambiguous local demo sequence")
+        commands = [line.strip() for line in demo_blocks[0].splitlines() if line.strip()]
+        self.assertEqual(commands, [
+            "python3 scripts/dev.py doctor",
+            "python3 scripts/dev.py bootstrap",
+            "python3 scripts/dev.py doctor",
+            "python3 scripts/dev.py demo",
+            "python3 scripts/dev.py verify-demo --full",
+            "python3 scripts/dev.py serve",
+        ])
 
 
 if __name__ == "__main__":
