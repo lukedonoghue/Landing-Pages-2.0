@@ -60,7 +60,7 @@ LABELS = {
     "guide_review": "Review the actual guide as a reader",
     "thank_you_build": "Reuse the main page for confirmation and guide delivery",
     "local_verification": "Test the complete local funnel",
-    "publishing_setup": "Local final ready for launch setup",
+    "publishing_setup": "Local checks accepted; prepare launch setup",
     "awaiting_publish_authorization": "Approve the Cloudflare publish",
     "ready_to_publish": "Ready for the approved publish",
     "deployed_unverified": "Uploaded; verification is incomplete",
@@ -614,7 +614,7 @@ def inspect(root):
         report["blockers"] += report["quality"]["failures"]
         return at(
             "local_verification",
-            "Resolve the listed missing, failed or stale checks against the current build. Resume reuses valid unregistered reports; it never manufactures reviews or reruns a paid/remote operation.",
+            "Resolve the listed missing, failed or stale checks against the current build. Read references/completion-integrity.md for canonical records and evidence contracts. Resume reuses valid reports; it never manufactures reviews or reruns a paid/remote operation.",
         )
     report["completed"].append("local_quality_verified")
     if config.get("backend", {}).get("provider") == "none":
@@ -662,7 +662,7 @@ def inspect(root):
     if not configured:
         return at(
             "publishing_setup",
-            "The local final and built-in CRM are ready. The next setup action is connecting or reusing the intended Cloudflare account and preparing a workers.dev release; a custom domain, GTM, ad IDs, Google Sheets or another CRM can wait. Reuse existing publish scope when present; configuration changes need a fresh QA snapshot before publication authorization is recorded.",
+            "Local quality checks are accepted; a completed local handoff still requires verified export. The next setup action is connecting or reusing the intended Cloudflare account and preparing a workers.dev release; a custom domain, GTM, ad IDs, Google Sheets or another CRM can wait. Reuse existing publish scope when present; configuration changes need a fresh QA snapshot before publication authorization is recorded.",
             status="ready",
         )
     publish = workflow.check_publish_approval(root)
@@ -685,7 +685,7 @@ def inspect(root):
             )
         return at(
             "awaiting_publish_authorization",
-            "The local final and built-in CRM are complete. Reuse the original instruction if it explicitly authorized publication; otherwise ask once whether to publish them together to Cloudflare. Default to workers.dev unless a custom domain was already chosen. GTM, ad IDs, Sheets and external CRMs are optional. Record whether the authorization includes a controlled live test enquiry.",
+            "Local quality checks passed. A completed handoff still requires verified export. Reuse the original instruction if it explicitly authorized publication; otherwise ask once whether to publish them together to Cloudflare. Default to workers.dev unless a custom domain was already chosen. GTM, ad IDs, Sheets and external CRMs are optional. Record whether the authorization includes a controlled live test enquiry.",
             status="awaiting_review",
         )
     report["completed"].append("publication_authorized")

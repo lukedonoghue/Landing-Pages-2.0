@@ -11,12 +11,12 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from uuid import UUID
 
-VERSION = '1.2.0'
+VERSION = '1.3.0'
 STATES = {'pass', 'pass_with_warnings', 'blocked', 'not_applicable'}
 GATES = {'control_review', 'copy', 'rendered_copy', 'performance', 'browser_compat', 'images', 'static', 'browser', 'visual', 'catalogue', 'local_journey', 'crm', 'tracking', 'deployment'}
 MODES = {'preview', 'handoff', 'live'}
 # Host-only settings are not deployed inputs; staged QA must remain portable.
-EXCLUDED_DIRS = {'.codex', '.claude', '.secrets', '.git', 'node_modules', 'build', 'screenshots', '.wrangler', '.venv', '__pycache__', '.pytest_cache', 'coverage', 'test-results', 'playwright-report'}
+EXCLUDED_DIRS = {'.codex', '.claude', '.community-builder', '.secrets', '.git', 'node_modules', 'build', 'screenshots', '.wrangler', '.venv', '__pycache__', '.pytest_cache', 'coverage', 'test-results', 'playwright-report'}
 SECRET_SUFFIXES = {'.pem', '.key', '.p12', '.pfx'}
 
 def now():
@@ -30,6 +30,11 @@ def file_hash(path):
     return digest.hexdigest()
 
 def excluded(path):
+    from completion_contract import DERIVED_DOCS, CANONICAL_INPUTS
+    if path.as_posix() in CANONICAL_INPUTS:
+        return False
+    if path.as_posix() in DERIVED_DOCS or path.suffix.lower() in {'.pyc', '.pyo', '.lock'}:
+        return True
     secret = '.secrets' in path.parts or path.name.startswith(('.env', '.dev.vars')) or path.suffix.lower() in SECRET_SUFFIXES or path.name in {'.DS_Store', 'credentials.json', 'secrets.json'}
     if path.parts and path.parts[0] == 'public':
         return secret
@@ -51,6 +56,12 @@ def source_snapshot(root):
                 raise ValueError(f'Source symlink is not supported; copy the intended input: {rel}')
             if path.is_file():
                 files[rel.as_posix()] = file_hash(path)
+    from completion_contract import CANONICAL_INPUTS
+    import workflow_storage
+    for name in CANONICAL_INPUTS:
+        path = workflow_storage.path_inside(root, name)
+        if path.is_file():
+            files[name] = file_hash(path)
     if not files:
         raise ValueError('Project has no source files')
     packed = json.dumps(files, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()
@@ -234,14 +245,24 @@ def validate_report(root, report, snapshot, gate):
     elif gate == 'images':
         if not report.get('image_review', {}).get('passed') or not report.get('plan_sha256'):
             errors.append('Image review must identify its current plan and reviewed asset results')
+        try:
+            import image_workflow
+            plan_path = root/'image-plan.json'
+            if file_hash(plan_path) != report.get('plan_sha256'):
+                errors.append('Image acceptance refers to a stale plan')
+            errors += image_workflow.gate(image_workflow.load_plan(plan_path), root)['errors']
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            errors.append('Image acceptance: ' + str(error))
     elif gate == 'control_review':
         import control_review
         errors += control_review.inspect(root).get('failures', [])
     elif gate == 'copy':
         import workflow
-        if workflow.lightweight(root):
-            errors += workflow.copy_state(root).get('failures', [])
-        elif not report.get('copy_audit') or report['copy_audit'].get('overall_status') not in ('pass','pass_with_warnings'):
+        current_copy = workflow.copy_state(root)
+        errors += current_copy.get('failures', [])
+        if current_copy.get('status') not in {'pass', 'pass_with_warnings'} and not current_copy.get('failures'):
+            errors.append('Canonical copy acceptance is blocked')
+        if not workflow.lightweight(root) and (not report.get('copy_audit') or report['copy_audit'].get('overall_status') not in ('pass','pass_with_warnings')):
             errors.append('Copy evidence needs a current executed copy-library audit')
     elif gate == 'local_journey':
         errors += local_journey_errors(root,report)
@@ -274,6 +295,8 @@ def validate_report(root, report, snapshot, gate):
             errors.append('Independent visual acceptance requires a separate reviewer task; a second pass in the builder task is self_review')
         elif mode == 'self_review' and provenance['reviewer_task_id'] != provenance['builder_task_id']:
             errors.append('Self-review provenance must identify the same builder task')
+        from completion_contract import independent_review_errors
+        errors += independent_review_errors(root, provenance)
         if report.get('reviewed_source_fingerprint') != snapshot['source_fingerprint']:
             errors.append('Visual acceptance must name the exact reviewed source fingerprint')
         findings, retests = report.get('findings'), report.get('retests')
@@ -285,7 +308,11 @@ def validate_report(root, report, snapshot, gate):
                 if not isinstance(finding, dict) or not finding.get('id') or not finding.get('finding') or not finding.get('evidence') or finding.get('disposition') not in {'fixed', 'accepted_limit', 'blocked', 'no_change'}:
                     errors.append('Each visual finding needs id, concrete finding, evidence and truthful disposition')
                     continue
+                if finding['id'] in finding_ids:
+                    errors.append('Visual findings must have unique identities')
                 finding_ids.add(finding['id'])
+                if finding.get('disposition') == 'blocked' or (str(finding.get('severity', '')).lower() in {'critical', 'high', 'p0', 'p1'} and finding.get('disposition') != 'fixed'):
+                    errors.append('Blocking visual finding is unresolved: ' + finding['id'])
             retest_ids = {row.get('finding_id') for row in retests if isinstance(row, dict) and row.get('result') == 'pass' and row.get('evidence')}
             if any(finding.get('disposition') == 'fixed' and finding.get('id') not in retest_ids for finding in findings if isinstance(finding, dict)):
                 errors.append('Every fixed visual finding needs a passing evidence-backed retest')
@@ -332,6 +359,15 @@ def validate_report(root, report, snapshot, gate):
         elif gate == 'deployment':
             if not {'http_trace', 'deployment_record'}.issubset(kinds):errors.append('Deployment evidence needs destination HTTP and deployment record artifacts')
             errors += deployment_identity_errors(root,report,snapshot)
+    config = read_json(root/'funnel.json') if (root/'funnel.json').is_file() else {}
+    if snapshot.get('mode') in {'handoff', 'live'} and not config.get('development_fixture'):
+        import completion_contract
+        if gate in {'browser', 'browser_compat'}:
+            errors += completion_contract.browser_evidence_errors(root, report, gate)
+        elif gate == 'performance':
+            errors += completion_contract.performance_errors(root, report)
+        elif gate == 'visual':
+            errors += completion_contract.visual_state_errors(root, report)
     if report.get('status') in {'pass', 'pass_with_warnings'}:
         if report.get('failures'):
             errors.append('Passing report contains failures')
@@ -346,6 +382,9 @@ def validate_report(root, report, snapshot, gate):
             if isinstance(value, list):
                 return any(failed_check(item) for item in value)
             return False
+        if snapshot.get('mode') in {'handoff', 'live'}:
+            from completion_contract import warning_errors
+            errors += warning_errors(root, report)
         if failed_check(checks):
             errors.append('Passing report contains failed or blocked checks')
     return errors
@@ -356,7 +395,7 @@ def required_gates(root, mode):
     quality = config.get('quality', {})
     if not config.get('development_fixture') and (quality.get('contract_version',0) >= 2 or quality.get('control_review') or config.get('guided_workflow')):
         gates.append('control_review')
-    if quality.get('complete_workflow'):
+    if quality.get('complete_workflow') or (mode in {'handoff','live'} and not config.get('development_fixture')):
         gates += ['copy', 'performance', 'browser_compat']
         if config.get('backend',{}).get('provider')!='none':
             gates.append('rendered_copy')
@@ -372,7 +411,10 @@ def required_gates(root, mode):
 def check(root, mode, manifest_path):
     errors, warnings, results = [], [], {}
     if not manifest_path.is_file():
-        return {'status': 'blocked', 'mode': mode, 'failures': ['Evidence manifest is missing'], 'gates': {}}
+        return {'status': 'blocked', 'mode': mode, 'source_fingerprint': source_snapshot(root)['source_fingerprint'],
+                'failures': ['Evidence manifest is missing'],
+                'gates': {name: {'status': 'blocked', 'failures': ['Required gate has no evidence']} for name in required_gates(root, mode)},
+                'warnings': [], 'limits': ['Missing tests are not passing tests. Publication is separately authorized.']}
     config = read_json(root/'funnel.json') if (root/'funnel.json').is_file() else {}
     if config.get('quality', {}).get('reader_guide_version', 0) >= 1 and config.get('catalogue', {}).get('enabled') is False:
         try:
@@ -406,11 +448,16 @@ def check(root, mode, manifest_path):
                     if report.get('status') != entry.get('status'):
                         gate_errors.append('Recorded status differs from report')
                     if report.get('status') == 'pass_with_warnings':
-                        warnings.append(f"{gate}: " + '; '.join(report.get('warnings', ['Review report warnings'])))
+                        warnings.append(f"{gate}: " + '; '.join(str(w) for w in report.get('warnings', ['Review report warnings'])))
             except (KeyError, ValueError, OSError) as error:
                 gate_errors.append(str(error))
         results[gate] = {'status': 'blocked' if gate_errors else entry['status'], 'failures': gate_errors}
         errors.extend(f'{gate}: {message}' for message in gate_errors)
+    if mode in {'handoff', 'live'} and not config.get('development_fixture'):
+        import completion_contract
+        contract = completion_contract.inspect(root)
+        results['completion_contract'] = contract
+        errors.extend(contract['failures'])
     return {'status': 'blocked' if errors else ('pass_with_warnings' if warnings else 'pass'), 'mode': mode,
             'source_fingerprint': current['source_fingerprint'], 'gates': results, 'failures': errors, 'warnings': warnings,
             'limits': ['Hashes detect changed artifacts; they do not authenticate the report author.', 'Preview and handoff do not prove live delivery or production tracking.']}
@@ -438,11 +485,11 @@ def record_report(root, gate, report_path, snapshot_path='build/gate-snapshot.js
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
-    for command in ('snapshot', 'record', 'check'):
+    for command in ('snapshot', 'record', 'check', 'summarize', 'documents'):
         p = sub.add_parser(command)
         p.add_argument('project_root', type=Path)
         p.add_argument('--manifest', default='build/gates.json')
-        if command in {'snapshot', 'check'}:
+        if command in {'snapshot', 'check', 'summarize'}:
             p.add_argument('--mode', choices=sorted(MODES), required=True)
         if command == 'snapshot':
             p.add_argument('--out', default='build/gate-snapshot.json')
@@ -453,6 +500,10 @@ def main():
     args = parser.parse_args()
     root = args.project_root.expanduser().resolve()
     try:
+        if args.command == 'documents':
+            import completion_contract
+            print(json.dumps(completion_contract.render_documents(root), indent=2))
+            return 0
         if args.command == 'snapshot':
             data = {'schema_version': 1, 'created_at': now(), 'mode': args.mode, 'project_root': str(root), 'tool': {'name': 'check_gates', 'version': VERSION}, **source_snapshot(root)}
             path = resolve_inside(root, args.out)
@@ -469,6 +520,9 @@ def main():
             print(json.dumps(result,indent=2))
             return 1 if result['status']=='blocked' else 0
         result = check(root, args.mode, manifest_path)
+        if args.command == 'summarize':
+            import completion_contract
+            result = completion_contract.write_summary(root, result)
         print(json.dumps(result, indent=2))
         return 1 if result['status'] == 'blocked' else 0
     except (ValueError, OSError, KeyError) as error:

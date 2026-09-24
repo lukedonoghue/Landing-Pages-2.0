@@ -50,6 +50,11 @@ def business_contract(config):
 
 def copy_state(root):
     configuration = read(root/'funnel.json') if (root/'funnel.json').is_file() else {}
+    if configuration.get('quality', {}).get('contract_version', 0) >= 3 and not configuration.get('development_fixture'):
+        import completion_contract
+        failures = completion_contract.research(root)
+        if failures:
+            return {'status': 'blocked', 'failures': failures}
     if configuration.get('guided_workflow'):
         try:
             projection = root/'build/guide-business.json'
@@ -130,7 +135,7 @@ def check_build(root, allow_fixture=False):
         if item.get('stage') not in {'optimized','reviewed'}:
             image_failures.append(f"Image is not acquired and optimized for build: {item.get('id','unnamed')}")
     if complete_page:
-        image_failures.extend(image_workflow.gate(plan, root).get('errors', []))
+        image_failures.extend(image_workflow.preflight(plan, root).get('errors', []))
     if image_failures:
         return {'status':'blocked','failures':image_failures}
     return {'status':approval['status'],'failures':[],'warnings':approval.get('warnings',[]),'copy_fingerprint':approval.get('fingerprint')}

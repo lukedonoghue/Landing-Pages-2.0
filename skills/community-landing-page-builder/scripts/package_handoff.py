@@ -117,11 +117,17 @@ def main() -> int:
         raise SystemExit(f"Output exists; pass --force to replace: {output}")
     if (root / "wrangler.jsonc").is_file() and (root / "public").is_dir():
         return package_workers(root, output, args)
+    if (root / "funnel.json").is_file() and not args.site_only:
+        return package_workers(root, output, args)
+    if not args.in_progress:
+        raise SystemExit("A legacy/site-only export cannot certify completion. Use a complete funnel project with current gates, or explicitly --in-progress for a preview.")
     missing = [name for name in SITE_FILES if not (root / name).is_file()]
     if missing:
         raise SystemExit("Missing required site files: " + ", ".join(missing))
 
     brochure = (root / args.brochure).resolve() if args.brochure else None
+    if brochure and (not brochure.is_relative_to(root) or brochure.is_symlink()):
+        raise SystemExit("Brochure must be an ordinary file inside the project")
     if brochure and not brochure.is_file():
         raise SystemExit(f"Brochure not found: {brochure}")
 
@@ -172,7 +178,7 @@ def main() -> int:
     output.parent.mkdir(parents=True, exist_ok=True)
     manifest: list[dict[str, object]] = []
 
-    with tempfile.TemporaryDirectory(prefix="funnel-package-") as temp:
+    with tempfile.TemporaryDirectory(prefix="funnel-package-", dir=output.parent) as temp:
         staging = Path(temp) / package_name
         landing = staging / "landing-page"
         landing.mkdir(parents=True)
@@ -182,8 +188,12 @@ def main() -> int:
         if assets.is_dir():
             candidates.extend(path for path in assets.rglob("*") if path.is_file() and path.name != ".DS_Store")
 
+        import portable_handoff
         for source in candidates:
             relative = source.relative_to(root)
+            if source.is_symlink() or any(parent.is_symlink() for parent in source.parents if parent != root):
+                raise SystemExit("Do not package symlinks")
+            portable_handoff.check_data(relative.as_posix(), source.read_bytes())
             target = landing / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(source.read_bytes())
@@ -193,11 +203,17 @@ def main() -> int:
                 if not source.is_file():
                     continue
                 relative = source.relative_to(root)
+                if source.is_symlink():
+                    raise SystemExit("Do not package evidence symlinks")
+                portable_handoff.check_data(relative.as_posix(), source.read_bytes())
                 target = staging / "evidence" / relative
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(source.read_bytes())
 
         if brochure:
+            if brochure.is_symlink():
+                raise SystemExit("Do not package brochure symlinks")
+            portable_handoff.check_data(brochure.name, brochure.read_bytes())
             brochure_target = staging / "brochure" / brochure.name
             brochure_target.parent.mkdir(parents=True, exist_ok=True)
             brochure_target.write_bytes(brochure.read_bytes())
@@ -217,6 +233,8 @@ PUBLISHING
 Upload the contents of landing-page/ while preserving paths and filenames.
 This package does not imply a particular host or live deployment.
 
+EXPORT SCOPE: IN-PROGRESS PREVIEW. NOT A COMPLETED LOCAL RELEASE.
+
 CURRENT EXTERNAL STATUS
 Lead delivery / CRM: {args.crm_status}
 Analytics / advertising tracking: {args.tracking_status}
@@ -232,9 +250,8 @@ This archive is a locally packaged handoff unless the statuses above explicitly 
 """
         (staging / "START-HERE.txt").write_text(start_here, encoding="utf-8")
 
-        if output.exists():
-            output.unlink()
-        with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+        temporary_output = Path(temp) / "verified-handoff.zip"
+        with zipfile.ZipFile(temporary_output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
             for path in sorted(staging.rglob("*")):
                 if not path.is_file():
                     continue
@@ -242,13 +259,17 @@ This archive is a locally packaged handoff unless the statuses above explicitly 
                 archive.write(path, arcname)
                 manifest.append({"path": arcname, "bytes": path.stat().st_size, "sha256": sha256(path)})
 
-    with zipfile.ZipFile(output) as archive:
-        bad_member = archive.testzip()
-        if bad_member:
-            raise SystemExit(f"ZIP integrity failed at: {bad_member}")
+        with zipfile.ZipFile(temporary_output) as archive:
+            bad_member = archive.testzip()
+            if bad_member:
+                raise SystemExit(f"ZIP integrity failed at: {bad_member}")
+        import os
+        os.replace(temporary_output, output)
 
     result = {
         "archive": str(output),
+        "scope": "in_progress",
+        "release_level": "local-preview",
         "bytes": output.stat().st_size,
         "files": len(manifest),
         "sha256": sha256(output),

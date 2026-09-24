@@ -170,7 +170,7 @@ test('real local D1 backup round-trip restores seeded records and recovery comma
     await mkdir(path.join(fixture, 'scripts'));
     for (const script of ['backup.mjs', 'erasure-backup.mjs', 'admin-account.mjs', 'release-tools.mjs']) await cp(path.join(root, 'scripts', script), path.join(fixture, 'scripts', script));
     await cp(path.join(root, 'migrations'), path.join(fixture, 'migrations'), { recursive: true });
-    for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity','check_gates']) {
+    for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity','completion_contract','image_evidence','check_gates']) {
       const candidates=[path.join(root,'scripts',name+'.py'),path.resolve(root,'../../scripts',name+'.py')];
       let source;for(const item of candidates){try{await stat(item);source=item;break;}catch{}}
       assert.ok(source);await cp(source,path.join(fixture,'scripts',name+'.py'));

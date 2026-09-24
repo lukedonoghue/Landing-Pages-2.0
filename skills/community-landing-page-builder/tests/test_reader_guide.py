@@ -81,6 +81,10 @@ class ReaderGuideTests(unittest.TestCase):
         self.data['images'][0].update(source_type='generated',role='proof')
         with self.assertRaisesRegex(ValueError,'illustration'):q.validate_content(self.root,self.data)
         self.data['images'][0]['role']='illustration'
+        with self.assertRaisesRegex(ValueError, 'structured retained tool result'):
+            q.validate_content(self.root,self.data)
+        # The test-created graphics are supplied illustrations, not native output.
+        self.data['images'][0]['source_type']='supplied'
         q.validate_content(self.root,self.data)
         (self.root/'research/image-evidence.txt').write_text('changed')
         with self.assertRaisesRegex(ValueError,'acquisition'):q.validate_content(self.root,self.data)

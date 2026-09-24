@@ -120,6 +120,14 @@ export async function runCopyCapture(args) {
           await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
           if (new URL(page.url()).origin !== target.url.origin) throw new Error('Capture navigated off the reviewed origin.');
           report.documents.push({ surface, state, width: viewport.width, path: new URL(page.url()).pathname, text: await renderedText(page, selector) });
+          if ((surface === 'landing' && state === 'initial') || state === 'submission-error' || surface === 'thank_you') {
+            const file = path.join(out, `${viewport.width}-${surface}-${state}.png`);
+            await page.screenshot({ path: file, fullPage: surface !== 'modal' });
+            report.artifacts.push({ path: path.relative(root, file).split(path.sep).join('/'), type: 'screenshot', sha256: hash(readFileSync(file)),
+              viewport: page.viewportSize(), device_pixel_ratio: await page.evaluate(() => devicePixelRatio),
+              state: surface === 'landing' ? 'page' : surface === 'thank_you' ? 'thank_you' : 'server_error',
+              failure_transport: state === 'submission-error' ? 'blocked_by_client_read_only' : null });
+          }
         };
         phase = 'landing';
         const landing = await page.goto(sameOriginUrl(fixture.path, target.url).href, { waitUntil: 'networkidle' });
