@@ -1,0 +1,48 @@
+name: Recover interrupted QA patch
+on:
+  push:
+    branches: [fix/qa-completion-integrity-20260924]
+    paths: [.github/workflows/recover-qa-patch.yml]
+permissions:
+  contents: read
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Recover saved blob bytes and validate compressed patch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import base64, gzip, hashlib, json, os, pathlib, subprocess, urllib.request
+          shas = ['da7de4fb25e1bb404da829b784535795f21b037a', 'cb4c575b9e7645d01758c26f6e772f08c5f3eda6', '26e63443caaf6fcda806847aeb96d065f5700942', '7620501a4d66bce145c527d12da440a729430d2d', '0be9165daa36444cf7c6a7402201cb2a30fe2bd6', 'c53cba5dab80ed729d37ec70b26b415c0a20961a', 'a2518b936ba646c720fb80a88cf457d12680d49e']
+          out = pathlib.Path('recovered-qa'); out.mkdir()
+          chunks = []
+          for index, sha in enumerate(shas):
+              req = urllib.request.Request(f'https://api.github.com/repos/{os.environ["GITHUB_REPOSITORY"]}/git/blobs/{sha}', headers={'Authorization': 'Bearer '+os.environ['GH_TOKEN'], 'Accept':'application/vnd.github+json'})
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  data = json.load(response)
+              raw = base64.b64decode(data['content'])
+              assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest() == sha
+              (out/f'chunk-{index}.bin').write_bytes(raw)
+              chunks.append(raw)
+          packed = b''.join(chunks)
+          (out/'patch.gz').write_bytes(packed)
+          patch = gzip.decompress(packed)
+          (out/'qa-integrity.patch').write_bytes(patch)
+          print('Recovered patch SHA256:', hashlib.sha256(patch).hexdigest())
+          subprocess.run(['git', 'apply', '--check', str(out/'qa-integrity.patch')], check=True)
+          result = subprocess.run(['git', 'apply', '--stat', str(out/'qa-integrity.patch')], check=True, capture_output=True, text=True)
+          print(result.stdout)
+          (out/'patch-stat.txt').write_text(result.stdout)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: recovered-qa-patch
+          path: recovered-qa/
+          retention-days: 3
