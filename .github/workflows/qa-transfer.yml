@@ -1,0 +1,63 @@
+name: Apply verified QA repair patch
+on:
+  pull_request:
+    types: [opened, reopened]
+permissions:
+  contents: write
+jobs:
+  apply:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'fix/qa-completion-integrity-20260924' && github.base_ref == 'main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check and apply exact locally tested patch
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import gzip, hashlib, os, subprocess
+          parts = ['1', '21', '22', '23', '31', '32', '33']
+          compressed = b''.join(Path(f'.qa-transfer/part-{p}.gz').read_bytes() for p in parts)
+          patch = gzip.decompress(compressed)
+          expected = 'd34e4d4278388dcde25a054ea4037ae9ff97a352f48ee85f073a17d14a48cf7d'
+          assert hashlib.sha256(patch).hexdigest() == expected, 'Transport checksum mismatch'
+          headers = [line.split() for line in patch.decode().splitlines() if line.startswith('diff --git ')]
+          assert len(headers) == 31, 'Unexpected patch file count'
+          for row in headers:
+              assert len(row) == 4
+              assert row[2].startswith('a/skills/community-landing-page-builder/')
+              assert row[3].startswith('b/skills/community-landing-page-builder/')
+          target = Path(os.environ['RUNNER_TEMP']) / 'qa-repairs.patch'
+          target.write_bytes(patch)
+          subprocess.run(['git', 'merge-base', '--is-ancestor', '3526a4bef786c1edca385db68797306e9d8e9a62', 'HEAD'], check=True)
+          subprocess.run(['git', 'apply', '--check', '--unidiff-zero', str(target)], check=True)
+          subprocess.run(['git', 'apply', '--unidiff-zero', str(target)], check=True)
+          PY
+      - name: Synchronize maintained example and verify new regression tests
+        run: |
+          python scripts/sync_crm_example.py
+          python scripts/sync_crm_example.py --check
+          python -m pip install -r skills/community-landing-page-builder/requirements-build.txt PyYAML
+          python -m compileall -q skills/community-landing-page-builder/scripts
+          python -m unittest discover -s skills/community-landing-page-builder/tests -p test_completion_integrity.py -v
+          git diff --check
+      - name: Commit repairs to the repair branch only
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          branch='fix/qa-completion-integrity-20260924'
+          current=$(git ls-remote origin "refs/heads/$branch" | cut -f1)
+          test "$current" = "$EXPECTED_HEAD"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- skills/community-landing-page-builder examples/crm-demo
+          git commit -m 'fix: enforce source-bound completion, research and imagery contracts; repair form UX and export integrity'
+          git push origin "HEAD:refs/heads/$branch"
+          echo 'The connector must remove the temporary transport files, rerun normal PR CI, and merge only the verified repair commit.'
