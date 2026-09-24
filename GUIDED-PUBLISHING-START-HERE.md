@@ -1,9 +1,9 @@
 # Publish your page with guidance
 
-The new publishing wizard replaces the technical production checklist for the
-standard Cloudflare Worker + D1 CRM deployment. It is a **new implementation
-candidate**; read `GUIDED-PUBLISHING-IMPLEMENTATION-STATUS.md` for what has actually
-been validated before treating it as a production release.
+The publishing wizard replaces the technical production checklist for the
+standard Cloudflare Worker + D1 CRM deployment. The supported profile is now
+installed and release-validated on `main`; read
+`GUIDED-PUBLISHING-IMPLEMENTATION-STATUS.md` for the exact tested commit and scope.
 
 ## Start
 
@@ -58,7 +58,8 @@ different from automatic checks. A recovery bookmark is not a promise that a
 restore has been rehearsed. A PDF download is not proof that every browser displays
 its native embedded preview. No paid service is automatically enabled.
 
-The first adapter covers a single custom domain, one Worker and one D1 database
-on macOS/Linux. Separate public/CRM domains, external-DNS gateways, static-only and
-workers.dev-only profiles retain their advanced publishing paths; the wizard does
-not rewrite them. See the implementation status for remaining acceptance work.
+The validated standard adapter covers a single custom domain, one Worker and one
+D1 database on macOS/Linux. Separate public/CRM domains, external-DNS gateways,
+static-only and workers.dev-only profiles retain their advanced publishing paths;
+the wizard does not rewrite them. See the implementation status for the exact
+release evidence and scope.
