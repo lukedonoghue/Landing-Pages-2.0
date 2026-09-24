@@ -42,10 +42,17 @@ const median = values => { const sorted = [...values].sort((a, b) => a - b), cen
 export async function runPerformance(args, runtime) {
   const target = checkedTarget(args.url, args['allow-remote'] === true);
   const report = makeReport('performance', target, args);
-  const budgets = readBudgets(args);
+  let configured = {};
+  if(args['project-root']){
+    const config=JSON.parse(readFileSync(path.join(path.resolve(args['project-root']),'funnel.json'),'utf8'));
+    const values=config.quality?.performance||{};
+    for(const [field,flag] of Object.entries({minimum_score:'performance-min',lcp_ms:'lcp-max',cls:'cls-max',tbt_ms:'tbt-max'}))if(values[field]!=null)configured[flag]=values[field];
+  }
+  const budgets = readBudgets({...configured,...args});
   const runs = args.runs == null ? 3 : Number(args.runs);
   if (!Number.isSafeInteger(runs) || runs < 1 || runs > 5) throw new Error('Choose one to five Lighthouse runs.');
   const out = path.resolve(args.out || 'build/performance'); mkdirSync(out, { recursive: true });
+  report.server={command:args['server-command']||null,scope:'Caller-recorded command of the actual audit server; not proof of a provider deployment'};
   report.budgets = budgets; report.runs = []; report.form_factor = 'mobile'; report.throttling_method = 'simulate';
   report.limits = ['Lab measurements are repeatable diagnostics, not real-user field performance.', 'Total Blocking Time (TBT) is a lab responsiveness proxy; this audit does not measure field INP.', 'Public API routes are blocked so speed checks never create contacts or visitor records.', 'Optimize assets, loading, and implementation without silently changing approved copy or design.'];
   let lighthouse, launch;

@@ -69,7 +69,7 @@ Block on:
 
 ## Review/testimonial provenance gate
 
-When `research/reviews/review-manifest.json` exists, review evidence is part of factual and visual acceptance rather than optional decoration.
+Every complete business build must create `research/reviews/review-manifest.json` with researched or evidence-backed unavailable/not-applicable state. Validate it even when no testimonial is published. Missing evidence never disables the requirement. See remediation-contracts.md.
 
 Before copy acceptance run:
 

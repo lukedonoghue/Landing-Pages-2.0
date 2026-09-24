@@ -196,7 +196,11 @@ def main():
     finally:tmp.unlink(missing_ok=True)
     report={'schema_version':1,'status':'pass',**details,'output':output.relative_to(root).as_posix(),'output_sha256':quality.sha(output),'config_sha256':quality.sha(root/'build/thank-you.json'),'assets':assets}
     from build_guide import write_json
-    write_json(root/'build/thank-you-build.json',report);print(json.dumps(report,indent=2))
+    write_json(root/'build/thank-you-build.json',report)
+    import dependency_state
+    guide_build=quality.read(root,'build/guide-build.json')
+    dependency_state.record(root,'thank_you',[source.relative_to(root).as_posix(),'build/thank-you.json',guide_build['output']],[output.relative_to(root).as_posix(),*assets])
+    print(json.dumps(report,indent=2))
 
 if __name__=='__main__':
     try:main()

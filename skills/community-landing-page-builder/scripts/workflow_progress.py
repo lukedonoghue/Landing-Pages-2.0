@@ -23,6 +23,7 @@ STAGES = {
     "guide_repair",
     "thank_you_build",
     "local_verification",
+    "final_review",
     "publishing_setup",
     "publishing",
     "live_verification",
@@ -30,6 +31,7 @@ STAGES = {
 EXTERNAL_STAGES = {"publishing_setup", "publishing", "live_verification"}
 CANDIDATES = {
     "control_review": "build/control-review/result.json",
+    "final_review": "build/final-review.json",
     "copy": "build/copy-audit.json",
     "images": "build/images-audit.json",
     "browser": "build/layout/result.json",
@@ -38,7 +40,7 @@ CANDIDATES = {
     "rendered_copy": "build/rendered-copy/result.json",
     "local_journey": "build/live-verification/local-journey.json",
 }
-PASS = {"pass", "pass_with_warnings"}
+PASS = {"pass", "pass_with_warnings", "pass_with_accepted_limits"}
 LABELS = {
     "setup": "Create the project",
     "research": "Research the business and reference",
@@ -60,6 +62,7 @@ LABELS = {
     "guide_review": "Review the actual guide as a reader",
     "thank_you_build": "Reuse the main page for confirmation and guide delivery",
     "local_verification": "Test the complete local funnel",
+    "final_review": "Review the final rendered experience and evidence",
     "publishing_setup": "Local checks accepted; prepare launch setup",
     "awaiting_publish_authorization": "Approve the Cloudflare publish",
     "ready_to_publish": "Ready for the approved publish",
@@ -405,6 +408,8 @@ def inspect(root):
         )
     report["completed"].append("project_created")
     report["source_fingerprint"] = check_gates.source_snapshot(root)["source_fingerprint"]
+    import dependency_state
+    report["dependency_changes"] = dependency_state.changes(root)
     incoming = storage.read(root, "build/handoff-import.json")
     if incoming:
         report["handoff"] = {
@@ -496,6 +501,12 @@ def inspect(root):
             status="blocked",
         )
 
+    if config.get('quality',{}).get('contract_version',0)>=4:
+        import research_contract
+        research_failures=research_contract.inspect(root)+research_contract.conversion_errors(root)
+        if research_failures:
+            report['blockers']+=research_failures
+            return at('research','Complete the specific missing/stale research records without discarding valid work: '+research_failures[0]+'. Read references/remediation-contracts.md.',status='blocked')
     paths = {key: root / value for key, value in workflow.copy_files(root).items()}
     report["copy_files"] = {
         key: {"path": str(path.relative_to(root)), "present": path.is_file()}
@@ -611,6 +622,9 @@ def inspect(root):
             report['blockers'] += review_result['errors']
             return at('local_verification', 'Resolve the review/testimonial provenance findings. Run scripts/review_workflow.py all and scripts/validate_reviews.py --stage rendered, then recapture the actual page. Do not invent review text, people or images.', status='blocked')
     if report["quality"]["status"] not in PASS:
+        gates=report['quality'].get('gates',{})
+        if gates and gates.get('final_review',{}).get('status') not in PASS and all(v.get('status') in PASS or v.get('status')=='not_applicable' for k,v in gates.items() if k!='final_review'):
+            return at('final_review', 'Inspect current rendered pixels/text and all cross-domain evidence after the control comparison. Save build/final-review.json using references/remediation-contracts.md. Use actual native execution or explicit self_review. Record the final_review gate, then resume.')
         report["blockers"] += report["quality"]["failures"]
         return at(
             "local_verification",

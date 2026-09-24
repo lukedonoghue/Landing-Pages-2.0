@@ -111,7 +111,7 @@ def prepare(root, copy, brief, sources):
     }}
 
 
-def verify(root, snapshot_path, review_path):
+def verify_review(root, snapshot_path, review_path):
     failures = []
     snapshot, review = read(snapshot_path), read(review_path)
     if snapshot.get('schema_version') != 1:
@@ -176,6 +176,20 @@ def verify(root, snapshot_path, review_path):
         'warnings': ['Review is self-review, not independent'] if isinstance(reviewer, dict) and reviewer.get('mode') == 'self_review' else [],
         'limits': 'Validates current evidence, review completeness and bounded customer-copy anti-patterns; it does not prove semantic truth, reviewer independence, conversion uplift or best possible copy.',
     }
+
+
+def verify(root, snapshot_path, review_path):
+    root = Path(root).resolve()
+    config = root/'funnel.json'
+    # Isolated review tools without a project retain a narrowly named scope.
+    # A project can never choose different paths to bypass canonical acceptance.
+    if config.is_file():
+        import copy_contract
+        canonical = copy_contract.copy_files(root)
+        if Path(snapshot_path).resolve() != (root/canonical['review_inputs']).resolve() or Path(review_path).resolve() != (root/canonical['review']).resolve():
+            return copy_contract.blocked(root, ['Use the canonical copy input/review paths for this project mode'])
+        return copy_contract.inspect(root)
+    return {**verify_review(root, snapshot_path, review_path), 'scope':'isolated editorial review; not project copy or release acceptance'}
 
 
 def main():

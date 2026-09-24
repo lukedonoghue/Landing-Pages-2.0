@@ -8,7 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 
-PASS = {"pass", "pass_with_warnings"}
+PASS = {"pass", "pass_with_warnings", "pass_with_accepted_limits"}
 # Evidence inputs previously hidden by excluding the entire build directory.
 CANONICAL_INPUTS = (
     "build/page-copy.json", "build/page-copy.md", "build/client-copy-brief.json",
@@ -18,6 +18,7 @@ CANONICAL_INPUTS = (
     "build/reference-fidelity.json", "build/review-insights.json",
     "build/testimonial-selection.json", "build/research-acceptance.json",
     "build/document-sources.json", "build/guide.json", "build/thank-you.json",
+    "build/conversion-contract.json", "build/claim-review.json", "build/copy-quality-review.json",
 )
 DERIVED_DOCS = {"docs/QA-REPORT.md", "docs/PREVIEW-QA.md", "README-DELIVERY.md"}
 
@@ -118,7 +119,7 @@ def research(root):
             if not expected["review_count"]:
                 exception(root, record.get("review_exception"), "No usable matched reviews")
         else:
-            exception(root, record.get("review_exception"), "Review research not completed")
+            raise ValueError("Review manifest is mandatory; record researched, unavailable, identity_unresolved or not_applicable with discovery evidence")
         brand = root / "build/brand.json"
         if brand.is_file():
             measured = read(brand)
@@ -132,7 +133,7 @@ def research(root):
                 linked["path"] = (Path("build") / item["path"]).as_posix()
                 evidence(root, linked)
         else:
-            exception(root, record.get("brand_exception"), "Rendered brand measurement unavailable")
+            raise ValueError("Actual rendered brand evidence is mandatory; a fallback font needs a measured, justified decision")
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
         failures.append("Research: " + str(error))
     return failures
@@ -184,6 +185,11 @@ def inspect(root):
     failures += process_contract.validate_documents(root)
     failures += research(root)
     failures += coverage(root)
+    import research_contract, copy_quality, dependency_state
+    failures += research_contract.inspect(root)
+    failures += research_contract.conversion_errors(root, check_page=True)
+    failures += copy_quality.inspect(root)
+    failures += dependency_state.inspect(root)
     failures += document_source_errors(root)
     try:
         failures += deployed_image_errors(root, read(root / 'image-plan.json'))
@@ -205,7 +211,7 @@ def warning_errors(root, report):
     warnings = report.get("warnings", [])
     dispositions = report.get("warning_dispositions", [])
     errors = []
-    if report.get("status") == "pass_with_warnings" and not warnings:
+    if report.get("status") in {"pass_with_warnings","pass_with_accepted_limits"} and not warnings:
         errors.append("A warning status requires the actual warning details")
     for warning in warnings:
         message = warning if isinstance(warning, str) else warning.get("message", warning.get("id"))
@@ -214,29 +220,20 @@ def warning_errors(root, report):
             errors.append("Warning has no explicit evidence-based disposition: " + str(message))
             continue
         try:
+            if any(not text(matches[0].get(k)) for k in ('scope','owner_impact','retest_trigger')):
+                raise ValueError('Accepted limit needs scope, owner impact and a retest trigger: '+str(message))
             evidence(root, matches[0].get("evidence"))
         except (OSError, ValueError, TypeError) as error:
             errors.append(str(error))
     return errors
 
 
-def independent_review_errors(root, provenance):
-    if provenance.get("mode") != "independent":
-        return []
-    try:
-        retained = read(evidence(root, provenance.get("execution_artifact")))
-        if retained.get("status") != "completed" or retained.get("task_id") != provenance.get("reviewer_task_id"):
-            raise ValueError("Separate reviewer execution is not linked to the declared reviewer task")
-        if not text(retained.get("host")) or not text(retained.get("dispatch_id")) or not text(retained.get("raw_result")):
-            raise ValueError("Independent review needs its actual host dispatch and returned result")
-        if retained["task_id"] == provenance.get("builder_task_id"):
-            raise ValueError("Builder execution is self-review, not independent review")
-    except (OSError, ValueError, KeyError, TypeError) as error:
-        return [str(error)]
-    return []
+def independent_review_errors(root, provenance, report_path=None, expected_source=None):
+    import execution_receipts
+    return execution_receipts.validate(root, provenance, report_path, expected_source)
 
 
-def write_summary(root, result):
+def write_summary(root, result, requested_mode=None):
     """Render QA, owner handoff and status from one freshly evaluated aggregate.
 
     Export readiness is not local-final. Only a verified supported export returns
@@ -246,16 +243,45 @@ def write_summary(root, result):
     import workflow_storage
     import validate_owner_handoff
     root = Path(root).resolve()
+    expected = result.get('source_fingerprint')
+    requested_mode = requested_mode or result.get('mode', 'handoff')
+    result = check_gates.check(root, result.get('mode', 'handoff'), root/'build/gates.json')
+    if result.get('status') in PASS:
+        import release_acceptance
+        workflow_failures, progress = release_acceptance.workflow_errors(root)
+        if workflow_failures:
+            result = {**result, 'status':'blocked','failures':result.get('failures',[])+workflow_failures}
+    if expected and result.get('source_fingerprint') != expected:
+        raise ValueError('Source changed before summary; evaluate the gates again')
     with workflow_storage.lock(root):
         current = check_gates.source_snapshot(root)["source_fingerprint"]
         if result.get("source_fingerprint") != current:
             raise ValueError("Source changed before summary; evaluate the gates again")
+        import dependency_state
+        manifest = workflow_storage.read(root, 'build/gates.json', {})
+        core = {'schema_version':1,'source_fingerprint':current,'mode':result.get('mode'),
+                'quality_status':result.get('status'),'gate_reports':manifest.get('gates',{}),
+                'failures':result.get('failures',[]),
+                'scope':'Immutable inputs to final release verdict; packaging is verified separately'}
+        workflow_storage.write(root,'build/release-inputs.json',core)
+        runtime = workflow_storage.read(root,'build/tool-runtime.json',None)
+        # Restored runtimes preserve their original separately recorded identity.
+        if not workflow_storage.read(root,'build/handoff-import.json',{}) or runtime is None:
+            workflow_storage.write(root,'build/tool-runtime.json',dependency_state.runtime_identity(root))
         ready = result.get("status") in PASS
-        exported = export_status(root, current) if ready else {"status": "blocked"}
+        archive_required = requested_mode != 'live' or read(root/'funnel.json').get('delivery',{}).get('zip') is True
+        exported = (export_status(root, current) if ready else {"status":"blocked"}) if archive_required else {'status':'not_applicable','failures':[],'reason':'No ZIP is delivered by this live-verification claim'}
         final = exported.get("status") == "pass"
         level = "local-final" if final else ("local-quality-ready" if ready else "local-preview")
-        if result.get("mode") == "live" and ready:
-            level = "live-verified"
+        publication = None
+        if requested_mode in {'publish','live'}:
+            import release_acceptance
+            publication = release_acceptance.publication_state(root,current,requested_mode,read(root/'funnel.json'))
+            if ready and publication.get('status') == 'pass' and (final or not archive_required):
+                level = 'live-verified' if requested_mode == 'live' else 'publish-ready'
+            elif requested_mode == 'live':
+                level = 'local-preview'
+                result = {**result,'status':'blocked','failures':result.get('failures',[])+publication.get('failures',[])}
         summary = {"schema_version": 1, "generated_at": check_gates.now(), **result,
                    "release_level": level, "export_required_for_local_final": not final,
                    "production_authorization": "separate actual user instruction required"}
@@ -273,7 +299,7 @@ def write_summary(root, result):
             lines += ["", "## " + label, ""] + ["- " + str(x) for x in result.get(key, [])]
             if not result.get(key):
                 lines.append("None recorded." if ready else "See the blocked checks above; absence is not a pass.")
-        lines += ["", ("The exact archive passed supported export and clean-restore verification." if final else "A local-quality-ready result still requires verified export.") + " This report does not authorize publication or certify live delivery.", ""]
+        lines += ["", ("The retained deployment and selected live path were verified. No ZIP is implied." if level == 'live-verified' else "The exact archive passed supported export and clean-restore verification." if final else "A local-quality-ready result still requires verified export.") + " This report grants no new publication or live-test authority.", ""]
         qa_path = workflow_storage.path_inside(root, "docs/QA-REPORT.md")
         qa_path.parent.mkdir(parents=True, exist_ok=True)
         qa_path.write_text("\n".join(lines), encoding="utf-8")
@@ -287,9 +313,18 @@ def write_summary(root, result):
                 "preserve": "Do not repeat live submissions, erase source files or replace real research.",
                 "resume": "Continue the failed check, then regenerate the aggregate summary.",
                 "steps": [{"action": str(failure), "expected": "A real current result closes this finding."}]})
+        owner['release_status_path']='build/release-inputs.json'
+        owner['release_status_sha256']=digest(root/'build/release-inputs.json')
+        owner['resume_command']='python3 scripts/workflow.py resume .'
+        owner['publication_boundary']='No authorization or live test is implied by local quality or export.'
         owner.update({"schema_version": 1, "status": "action_required" if owner["blockers"] else "complete",
             "source_fingerprint": current, "release_level": level,
-            "message": f"The project is {level}. " + ("Local checks and the exact exported archive are verified. " if final else ("Local checks are accepted; verified packaging is next. " if ready else "The listed checks still need attention. ")) + "Publication and live testing require separate authorization.",
+            "message": f"The project is {level}. " + (
+                "The retained deployment and selected live path were verified; this is not continuous monitoring. " if level == 'live-verified' else
+                "The current destination preflight and explicit publication authorization are recorded; publication has not been claimed. " if level == 'publish-ready' else
+                "Local checks and the exact exported archive are verified. " if final else
+                "Local checks are accepted; verified packaging is next. " if ready and archive_required else
+                "The listed release checks still need attention. ") + "Any new publication or live test needs its own current authorization.",
             "qa_report": {"path": "docs/QA-REPORT.md", "sha256": digest(qa_path)}})
         # Existing owner usage/cleanup facts remain intact; missing setup is not
         # invented as complete when creating a new local-only record.
@@ -312,7 +347,26 @@ def write_summary(root, result):
             lines += ["", "## Owner handoff validation", ""] + ["- " + item for item in owner_errors]
             qa_path.write_text("\n".join(lines), encoding="utf-8")
             owner["qa_report"]["sha256"] = digest(qa_path)
+        summary['release_class']={'local-final':'local_final','live-verified':'live_verified','publish-ready':'publish_ready'}.get(summary['release_level'],'local_preview')
+        owner['release_class']=summary['release_class']
+        # Full current report identities, not a hand-authored generic pass table.
+        summary['mandatory']={**summary.get('gates',{}),'owner_handoff':summary['owner_handoff_validation'],
+                              'portable_export':{k:v for k,v in exported.items() if k!='receipt'}}
+        if publication is not None:summary['mandatory']['publication']=publication
+        summary['blockers']=summary.get('failures',[])+(exported.get('failures',[]) if not final else [])
+        if publication is not None:summary['blockers']+=publication.get('failures',[])
+        summary['release_mode']=requested_mode
+        summary['release_inputs']={'path':'build/release-inputs.json','sha256':digest(root/'build/release-inputs.json')}
+        lines += ['', '## Exact retained reports', '']
+        for name,entry in manifest.get('gates',{}).items():
+            lines.append('- '+name+': `'+str(entry.get('report'))+'` / `'+str(entry.get('report_sha256'))+'`')
+        lines += ['', '## Release and review scope', '', 'Release class: '+summary['release_class']+'.',
+                  'Environment, engine versions and reviewer mode are retained in the linked raw reports.',
+                  'The final archive hash is external; the owner and archive bind immutable release inputs to avoid a self-hash cycle.']
+        qa_path.write_text('\n'.join(lines)+'\n',encoding='utf-8')
+        owner['qa_report']['sha256']=digest(qa_path)
         workflow_storage.write(root, "build/owner-handoff.json", owner)
+        summary['owner_handoff']={'path':'build/owner-handoff.json','sha256':digest(root/'build/owner-handoff.json')}
         workflow_storage.write(root, "build/release-status.json", summary)
         workflow_storage.path_inside(root, "README-DELIVERY.md").write_text(
             "# Your landing-page handoff\n\n" + owner["message"] + "\n\nRead docs/QA-REPORT.md for the exact checks, remaining findings and source version.\n", encoding="utf-8")
@@ -338,6 +392,10 @@ def browser_evidence_errors(root, report, gate):
             info = image_workflow.image_info(path.read_bytes())
             if info['width'] != round(width * ratio):
                 raise ValueError('Screenshot width differs from recorded viewport/DPR')
+            if not text(record.get('engine')) or not text(record.get('browser_version')) or not text(record.get('url')):
+                raise ValueError('Screenshot is missing engine/version/URL metadata')
+            if record.get('source_fingerprint')!=report.get('source_fingerprint'):
+                raise ValueError('Screenshot source identity differs from its capture report')
             captured.append((width, height, record.get('engine'), record.get('state')))
         except (OSError, ValueError, KeyError, TypeError) as error:
             errors.append(str(error))
@@ -345,6 +403,9 @@ def browser_evidence_errors(root, report, gate):
         required = {360, 390, 768, 1024, 1180, 1280, 1440}
         if not required.issubset({w for w, h, e, state in captured if state == 'page'}):
             errors.append('Every required viewport needs its actual page capture, not a filename or metadata-only claim')
+        exact={(390,844),(768,1024),(1024,800),(1280,600),(1440,900)}
+        if not exact.issubset({(w,h) for w,h,e,state in captured if state=='page'}):
+            errors.append('Capture the exact required mobile/tablet/laptop/short-height matrix')
         if not any(w == 1280 and h <= 600 for w, h, e, state in captured):
             errors.append('No actual 1280 short-height capture')
         if any(v.get('width') == 320 for v in report.get('viewports', []) if isinstance(v, dict)) and not any(w == 320 for w, h, e, state in captured):
@@ -368,11 +429,18 @@ def performance_errors(root, report):
     import math
     errors = []
     try:
-        raw = [read(evidence(root, a)) for a in report.get('artifacts', []) if a.get('type') == 'lighthouse_json']
-        if not raw:
-            raise ValueError('Retain the actual Lighthouse JSON audits')
+        raw_refs = [a for a in report.get('artifacts', []) if a.get('type') == 'lighthouse_json']
+        if len({a.get('path') for a in raw_refs}) != len(raw_refs):raise ValueError('Repeated raw audit paths are not independent runs')
+        raw = [read(evidence(root,a)) for a in raw_refs]
+        if len(raw)<3:
+            raise ValueError('Retain at least three actual mobile Lighthouse JSON audits for final acceptance')
+        target=report.get('target',{}).get('url')
+        if not target or not report.get('server',{}).get('command'):
+            raise ValueError('Record the actual audit URL and local server command')
         measures = []
         for audit in raw:
+            if not audit.get('lighthouseVersion') or audit.get('requestedUrl')!=target:
+                raise ValueError('Raw audit URL/tool identity differs from the reported target')
             if audit.get('runtimeError') or audit.get('configSettings', {}).get('formFactor') != 'mobile':
                 raise ValueError('A successful mobile Lighthouse run is required')
             if audit.get('configSettings', {}).get('throttlingMethod') not in {'simulate', 'devtools'}:
@@ -568,7 +636,25 @@ def export_status(root, source_fingerprint=None):
         if config.get("development_fixture"):
             raise ValueError("Development fixtures are not accepted client releases")
         current = source_fingerprint or check_gates.source_snapshot(root)["source_fingerprint"]
+        core=workflow_storage.read(root,'build/release-inputs.json',{})
+        gates=workflow_storage.read(root,'build/gates.json',{})
+        if core.get('gate_reports',{})!=gates.get('gates',{}):
+            raise ValueError('Release evidence changed after packaging; regenerate the supported handoff')
         receipt = workflow_storage.read(root, "build/export-verification.json", {})
+        if not receipt:
+            imported=workflow_storage.read(root,'build/handoff-import.json',{})
+            if imported.get('scope')=='reviewed' and imported.get('restore_verified') is True and imported.get('source_fingerprint')==current:
+                inventory=imported.get('restored_files',{})
+                if not inventory or not imported.get('package_id') or not imported.get('archive_sha256'):
+                    raise ValueError('Restored handoff has no verified package inventory')
+                if imported.get('exporter_version')!='portable-handoff-3' or imported.get('release_inputs_sha256')!=digest(root/'build/release-inputs.json'):
+                    raise ValueError('Restored release inputs or exporter identity are missing/stale')
+                mutable={'build/handoff-import.json','build/owner-handoff.json','build/release-status.json',*DERIVED_DOCS}
+                for name,sha in inventory.items():
+                    if name not in mutable:evidence(root,{'path':name,'sha256':sha})
+                return {'status':'pass','receipt':imported,'failures':[],
+                        'scope':'Revalidated extracted package inventory and current quality; original archive is not required'}
+
         if receipt.get("schema_version") != 1 or receipt.get("scope") != "reviewed" or receipt.get("release_level") != "local-final":
             raise ValueError("A verified reviewed export is still required")
         if receipt.get("source_fingerprint") != current:
@@ -585,8 +671,21 @@ def export_status(root, source_fingerprint=None):
         manifest = checked["manifest"]
         if checked["sha256"] != receipt.get("sha256"):
             raise ValueError("Exported archive bytes changed after verification")
+        if receipt.get('package_id')!=manifest.get('package_id') or receipt.get('exporter_version')!='portable-handoff-3':
+            raise ValueError('Export receipt has no matching supported package identity/version')
+        if receipt.get('release_inputs_sha256')!=manifest.get('release_inputs_sha256'):
+            raise ValueError('Archive and export receipt disagree about release inputs')
+        if manifest.get('release_inputs_sha256')!=digest(root/'build/release-inputs.json'):
+            raise ValueError('Current release inputs differ from the verified package')
         if manifest["scope"] != "reviewed" or manifest["source_snapshot"]["source_fingerprint"] != current:
             raise ValueError("Archive scope or source differs from the accepted release")
+        # Compare the retained acceptance packet, not only customer source.
+        # Generated summaries and publication permission projections are mutable
+        # views; every registered report and linked artifact remains immutable.
+        for entry in gates.get('gates',{}).values():
+            path=entry.get('report')
+            if path and manifest.get('files',{}).get('project/'+path,{}).get('sha256')!=digest(root/path):
+                raise ValueError('Packaged evidence differs from current registered report: '+path)
         return {"status": "pass", "receipt": receipt, "failures": []}
     except (OSError, ValueError, KeyError, TypeError, AttributeError, zipfile.BadZipFile) as error:
         return {"status": "blocked", "failures": [str(error)]}

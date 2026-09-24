@@ -132,7 +132,7 @@ const addShot = async (page, name, fullPage = true) => {
   } finally {
     if (capture) await restoreFullPageCapture(page);
   }
-  report.artifacts.push({ path: evidencePath(file), type: 'screenshot', sha256: await hashFile(file), viewport: page.viewportSize(), device_pixel_ratio: await page.evaluate(() => devicePixelRatio), state: name.includes('modal') ? 'modal' : name.includes('thank') ? 'thank_you' : 'page', ...(capture ? { capture } : {}) });
+  report.artifacts.push({ path: evidencePath(file), type: 'screenshot', sha256: await hashFile(file), engine:'chromium', browser_version:browser.version(), url:page.url(), source_fingerprint:sourceFingerprint, viewport: page.viewportSize(), device_pixel_ratio: await page.evaluate(() => devicePixelRatio), state: name.includes('modal') ? 'modal' : name.includes('thank') ? 'thank_you' : 'page', ...(capture ? { capture } : {}) });
   if (capture) check('full_page_capture_rendered_sections',
     capture.visitedCount === capture.eligibleCount && capture.heldVisibleCount === capture.eligibleCount,
     JSON.stringify(capture), { screenshot: evidencePath(file) });
@@ -143,7 +143,7 @@ const check = (name, passed, detail, context = {}) => {
   if (!passed) report.failures.push(`${name}: ${detail}`);
 };
 const widths = [320, 360, 390, 768, 1024, 1180, 1280, 1440];
-const viewports = [...widths.map((width) => ({ width, height: width < 768 ? 844 : width < 1280 ? 800 : 900 })), { width: 1280, height: 600 }, { width: 1440, height: 720 }];
+const viewports = [...widths.map((width) => ({ width, height: width === 320 ? 700 : width === 768 ? 1024 : width < 768 ? 844 : width < 1280 ? 800 : 900 })), { width: 1280, height: 600 }, { width: 1440, height: 720 }];
 
 async function settle(page) {
   await page.evaluate(async () => {

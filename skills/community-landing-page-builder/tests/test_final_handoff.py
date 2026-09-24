@@ -14,6 +14,7 @@ import guide
 import portable_handoff
 import workflow
 import workflow_runner
+import release_acceptance
 
 
 class FinalHandoffTests(unittest.TestCase):
@@ -32,12 +33,12 @@ class FinalHandoffTests(unittest.TestCase):
     def finalize_fixture(self):
         # Only acceptance inputs are mocked. ZIP creation, manifest checking,
         # clean extraction, byte hashing and summary generation all execute.
-        with patch.object(check_gates, 'check', side_effect=self.quality), patch.object(workflow, 'copy_state', return_value={'status': 'pass', 'failures': []}):
+        with patch.object(check_gates, 'check', side_effect=self.quality), patch.object(workflow, 'copy_state', return_value={'status': 'pass', 'failures': []}), patch.object(release_acceptance, 'workflow_errors', return_value=([], {'stage':'ready_for_handoff'})):
             return completion_contract.finalize_local(self.root)
 
-    def test_quality_pass_without_archive_is_not_final(self):
+    def test_forged_quality_pass_is_recomputed_and_not_final(self):
         summary = completion_contract.write_summary(self.root, self.quality(self.root))
-        self.assertEqual(summary['release_level'], 'local-quality-ready')
+        self.assertEqual(summary['release_level'], 'local-preview')
         self.assertTrue(summary['export_required_for_local_final'])
         self.assertEqual(completion_contract.export_status(self.root)['status'], 'blocked')
 
@@ -64,7 +65,7 @@ class FinalHandoffTests(unittest.TestCase):
         (self.root / 'public/index.html').write_text('<h1>Changed synthetic fixture</h1>')
         self.assertEqual(completion_contract.export_status(self.root)['status'], 'blocked')
         summary = completion_contract.write_summary(self.root, self.quality(self.root))
-        self.assertEqual(summary['release_level'], 'local-quality-ready')
+        self.assertEqual(summary['release_level'], 'local-preview')
         self.assertNotIn('local-final', (self.root / 'README-DELIVERY.md').read_text())
 
     def test_deleted_archive_does_not_leave_saved_final_status_valid(self):
