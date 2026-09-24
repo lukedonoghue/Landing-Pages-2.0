@@ -157,28 +157,20 @@ The guided publishing flow resumes saved progress, keeps credentials out of chat
 
 ---
 
-## What the system should ask you - and what it should not
+## What you'll need to provide
 
-The system may need you to confirm things like:
+Usually, not much.
 
-- the actual service or offer when the source is ambiguous;
-- an operational promise that is not published anywhere;
-- which business/account is correct when several are possible;
-- whether you approve the displayed production destination;
-- an external sign-in, ownership, or DNS action that software cannot complete safely.
+Give it the business website or a clear description of the business and tell it what you want to promote. The workflow should research the rest before asking you questions.
 
-It should **not** ask you to decide:
+It may come back to you when something genuinely needs your judgment, for example:
 
-- CSS structure;
-- database schemas;
-- which CRM to use for the standard form flow;
-- how to configure D1;
-- what model should perform each worker task;
-- which QA scripts to run;
-- how to repair a routine layout bug;
-- whether obvious weak copy should be improved.
+- the website is unclear about the exact service or offer;
+- an important business fact or promise cannot be verified;
+- there are several possible accounts, domains or destinations and it needs to know which one is yours;
+- you're ready to publish and need to approve the final destination or sign in to an external account.
 
-Those are workflow responsibilities.
+Everything else should be handled as part of the workflow. You should not have to babysit the build, make technical decisions, or work through a setup checklist just to get a finished landing page.
 
 ## Guided mode vs automatic mode
 
