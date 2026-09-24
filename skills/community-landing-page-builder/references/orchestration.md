@@ -184,3 +184,12 @@ Provider formats and account features can change. Prefer observed capabilities a
 ## Completion evidence repair
 
 Follow `completion-integrity.md` for canonical research/document inputs, split image preflight/final acceptance, genuine host-result linkage, current local QA and export. The integrator owns the aggregate result. A specialist pass never overrides a missing/stale mandatory gate. Only the supported exporter can issue a verified local-final package.
+
+## Coordinator receipts and final release
+
+Read remediation-contracts.md. The coordinator records actual task input/output hashes,
+host dispatch identity and times under build/orchestration/tasks/. A final review
+returns build/final-review.json; it cannot write its own execution receipt or
+release/owner/export state. Without actual native dispatch use self_review.
+Source changes invalidate dependent evidence. The only conversational release
+class comes from release_acceptance.py, which delegates existing authorities.

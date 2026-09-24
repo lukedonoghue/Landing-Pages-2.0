@@ -112,6 +112,14 @@ def recover(root):
 
 
 def transaction(root, old_config, old_state, new_config, new_state):
+    if new_config.get('quality',{}).get('contract_version',0)>=4:
+        if new_config.get('follow_up_promise') != old_config.get('follow_up_promise'):
+            new_config['business_follow_up_promise']=new_config.get('follow_up_promise','')
+        else:
+            new_config.setdefault('business_follow_up_promise',new_config.get('follow_up_promise',''))
+            new_config['follow_up_promise']=new_config['business_follow_up_promise']
+        new_config.setdefault('preview_disclosure','')
+        new_config.setdefault('local_test_behavior','')
     storage.write(root, JOURNAL, {'writes': {
         'funnel.json': {'before': digest(old_config), 'value': new_config},
         STATE: {'before': digest(old_state), 'value': new_state},
@@ -137,7 +145,7 @@ def start(root, mode=None, goal=None, website='', name=''):
         if selected.get('schema_version') != 1 or selected.get('mode') not in {'guided','automatic'} or selected.get('goal') not in {'preview','publish'}:
             raise ValueError('Invalid guided workflow configuration')
         selected.setdefault('copy_format', 'structured' if value.get('backend',{}).get('provider') != 'none' else 'markdown')
-        value.setdefault('quality', {}).update(complete_workflow=True, contract_version=3, control_review=True)
+        value.setdefault('quality', {}).update(complete_workflow=True, contract_version=4, control_review=True)
         value.setdefault('approvals', {})['copy_before_design'] = selected['mode'] == 'guided'
         for field, answer in [('client.website',website),('client.name',name)]:
             if answer and not get(value, field):
@@ -266,6 +274,11 @@ def discover(root):
     return {'status':'applied','revision':record['revision']}
 
 
+def present(root):
+    import question_log
+    return question_log.presented(root, next_action(root))
+
+
 def questions(root):
     value, record = config(root), state(root)
     result = []
@@ -304,6 +317,10 @@ def next_action(root):
         return action('discovery','local','Apply verified research suggestions without overwriting existing answers.',operation='discover')
     missing = questions(root)
     if missing:
+        import question_log
+        missing, reasons = question_log.qualify(root, missing)
+        if reasons:
+            return action('research','work','Research the unresolved material facts and record build/discovery.json unresolved_facts with actual source evidence before asking the owner.',role='research',blockers=reasons)
         return action('business','question','Confirm the details that change the page. Other or Help keeps the question open until a real answer is recorded.',questions=missing[:3])
     if value['guided_workflow']['mode']=='guided' and record['confirmed_brief'] != brief_fingerprint(value):
         return action('brief_review','approval','Confirm the business, offer and customer journey shown above. This is not publishing permission.',approval_kind='brief')
@@ -321,7 +338,14 @@ def next_action(root):
         except (ValueError,OSError):
             return action('publishing_recovery','reconcile','Preserve the shipping journal and inspect the local recovery blocker. Do not reset it, read secrets or start another deployment.')
         if shipping['stage']=='ready' and not shipping['card'].get('code'):
-            return action('published_verified','complete','Return the verified shipping receipt, links and scope. Owner confirmations are not API verification, and saved evidence is not a fresh live check.',shipping=shipping)
+            import release_acceptance
+            release=release_acceptance.evaluate(root,'live')
+            if release['release_class']!='live_verified':
+                saved=storage.read(root,'build/release-status.json',{})
+                if saved.get('source_fingerprint')!=release.get('source_fingerprint') or saved.get('release_mode')!='live':
+                    return action('live_summary','local','Reconcile the retained live evidence into the current release summary. No provider action or test lead is repeated.',operation='finalize_live',release=release)
+                return action('live_release_review','work','Preserve the completed deployment. Resolve only current release blockers, then return the evidence to the coordinator for release finalization. Never republish or repeat the synthetic journey simply to repair a summary.',role='debug',release=release,shipping=shipping)
+            return action('live_verified','complete','Return only the current release class and exact verified scope. Saved evidence is not a fresh live check.',release=release,shipping=shipping)
         if shipping['card'].get('code') in {'quality','prerequisites','approval_stale'} and not shipping['busy']:
             return action('publishing_local_repair','work','Read build/ship/agent-task.json and the actual current quality failures. Repair local prerequisites or source-bound QA with the existing tools and review workflow. Never fabricate evidence, relax gates, read production secrets or execute provider-authenticated commands. Return to the same operator wizard afterward.',role='debug',shipping=shipping)
         return action('guided_publishing','connection','Continue the one current action in the trusted operator publishing wizard. Upload success is not completion until its live verification and synthetic cleanup finish.',operation='guided_ship',status_command=['python3','scripts/ship.py','--json'],operator_command=['python3','scripts/ship.py','--operator','--ui'],shipping=shipping)
@@ -333,7 +357,11 @@ def next_action(root):
         export = completion_contract.export_status(root)
         if export['status'] != 'pass':
             return action('local_export','local','Create the current QA summary and verified portable handoff. Nothing will be published.',operation='finalize_local',export=export,**extras)
-        return action('local_final','complete','Present the verified local page, archive and tested scope. Nothing has been published.',export=export,**extras)
+        import release_acceptance
+        release=release_acceptance.evaluate(root)
+        if not release_acceptance.satisfies(release,'local_final'):
+            return action('local_verification','work','Resolve the current release blockers; do not repeat completed external actions.',role='debug',release=release,**extras)
+        return action(release['release_class'],'complete','Return only the current release class and tested scope from release_acceptance.py. Nothing has been published.',export=export,release=release,**extras)
     if stage=='awaiting_copy_approval':
         return action(stage,'approval','Review the complete current copy, including form, confirmation and PDF promises. Approve it or request changes.',approval_kind='copy',**extras)
     if get(value,'backend.provider')=='cloudflare-d1' and stage in {'awaiting_publish_authorization','ready_to_publish','publishing_setup','release_recovery','publishing_outcome_unknown','deployed_unverified'}:
@@ -350,14 +378,25 @@ def next_action(root):
     if stage in {'publishing_outcome_unknown','image_generation_pending','release_recovery','static_publish_recovery','deployed_unverified'}:
         return action(stage,'reconcile','Inspect the existing process or provider operation before retrying. Preserve its request identity; do not create a replacement lead, image request or deployment blindly.',**extras)
     if stage in {'published_verified','static_published'}:
-        return action(stage,'complete','Return the verified result and separate pending domain, conversion, owner-access and integration limits. Saved proof is not a fresh live check.',**extras)
+        import release_acceptance
+        release=release_acceptance.evaluate(root,'live')
+        if release['release_class']!='live_verified':
+            saved=storage.read(root,'build/release-status.json',{})
+            if saved.get('source_fingerprint')!=release.get('source_fingerprint') or saved.get('release_mode')!='live':
+                return action('live_summary','local','Reconcile the retained deployment into the current release summary without publishing again.',operation='finalize_live',release=release)
+            return action('live_release_review','work','Resolve the current release blockers without repeating publication. Return repaired evidence to the coordinator for release finalization; do not author release summaries in a worker.',role='debug',release=release,**extras)
+        return action('live_verified','complete','Return the current verified release class, timestamp and limits; no fresh external action is implied.',release=release,**extras)
     if stage=='ready_for_handoff' or (value['guided_workflow']['goal']=='preview' and stage in {'publishing_setup','ready_to_publish'}):
         import completion_contract
         export = completion_contract.export_status(root)
         if export['status'] != 'pass':
             return action('local_export','local','Create the current QA summary and verified portable handoff. Nothing will be published.',operation='finalize_local',export=export,**extras)
-        return action('local_final','complete','Present the verified local page, archive and tested scope. Nothing has been published.',export=export,**extras)
-    roles={'research':'research','copy_drafting':'copy','copy_review':'copy','control_comparison':'review','control_repair':'copy','control_retest':'review','local_verification':'debug','guide_build':'pdf','guide_review':'review','guide_repair':'pdf','thank_you_build':'frontend'}
+        import release_acceptance
+        release=release_acceptance.evaluate(root)
+        if not release_acceptance.satisfies(release,'local_final'):
+            return action('local_verification','work','Resolve the current release blockers; do not repeat completed external actions.',role='debug',release=release,**extras)
+        return action(release['release_class'],'complete','Return only the current release class and tested scope from release_acceptance.py. Nothing has been published.',export=export,release=release,**extras)
+    roles={'research':'research','copy_drafting':'copy','copy_review':'copy','control_comparison':'review','control_repair':'copy','control_retest':'review','final_review':'review','local_verification':'debug','guide_build':'pdf','guide_review':'review','guide_repair':'pdf','thank_you_build':'frontend'}
     return action(stage,'work',report['next_action']['instruction'],role=roles.get(stage,'frontend'),**extras)
 
 
@@ -403,6 +442,12 @@ def local(root, operation):
         with storage.lock(root):
             recover(root)
         return {'status':'recovered'}
+    if operation=='finalize_live':
+        if next_action(root).get('operation') != 'finalize_live':
+            raise ValueError('Live reconciliation is not the current guided action')
+        import completion_contract, check_gates
+        mode='handoff' if config(root).get('backend',{}).get('provider')=='none' else 'live'
+        return completion_contract.write_summary(root,check_gates.check(root,mode,root/'build/gates.json'),requested_mode='live')
     if operation=='finalize_local':
         if next_action(root).get('operation') != 'finalize_local':
             raise ValueError('Final export is not the current guided action')
@@ -436,11 +481,11 @@ def main():
         elif a.command in {'pause','resume'}:
             with storage.lock(a.project):
                 recover(a.project);record=state(a.project);record['paused']=a.command=='pause';storage.write(a.project,STATE,record)
-            result=next_action(a.project)
+            result=present(a.project)
         elif a.command=='help':
             q=catalog().get(a.question)
-            result={'explanation':q['reason'] if q else 'The guide keeps business choices separate from technical work, and never treats help or cancellation as approval.','next':next_action(a.project)}
-        else:result=next_action(a.project)
+            result={'explanation':q['reason'] if q else 'The guide keeps business choices separate from technical work, and never treats help or cancellation as approval.','next':present(a.project)}
+        else:result=present(a.project)
         print(json.dumps(result,indent=2))
         return 0
     except (OSError,ValueError,KeyError,TypeError,subprocess.SubprocessError) as error:

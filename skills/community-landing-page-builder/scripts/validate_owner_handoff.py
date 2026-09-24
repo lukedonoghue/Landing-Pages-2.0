@@ -146,6 +146,18 @@ def validate(data, requested_hosts=(), project=None):
         if not isinstance(obj.get(key), str) or not obj[key].strip():
             errors.append(f"{label}: missing {key}")
 
+    if project is not None and data.get('release_level'):
+        try:
+            import completion_contract as c
+            import check_gates
+            root=Path(project).resolve()
+            if data.get('release_status_path')!='build/release-inputs.json':raise ValueError('Owner status must derive from immutable release inputs')
+            core=c.read(c.evidence(root,{'path':data['release_status_path'],'sha256':data.get('release_status_sha256')}))
+            if core.get('source_fingerprint')!=check_gates.source_snapshot(root)['source_fingerprint'] or data.get('source_fingerprint')!=core.get('source_fingerprint'):
+                raise ValueError('Owner handoff refers to stale release source')
+            if data.get('release_level') in {'local-final','live-verified'} and core.get('quality_status') not in PASS:
+                raise ValueError('Owner cannot claim final while release inputs are blocked')
+        except (OSError,ValueError,KeyError,TypeError) as error:errors.append(str(error))
     required(data, "message", "handoff")
     blockers = data.get("blockers")
     domains = data.get("domains")

@@ -291,12 +291,27 @@ export async function runLiveVerify(args, runtime = {}) {
       phase='thank-you-and-brochure';
       await page.waitForURL(url=>url.pathname===fixture.thank_you_path || url.pathname===fixture.thank_you_path.replace(/\.html$/,''));
       const thankyouFile=path.join(out,'public-thank-you.png');await page.screenshot({path:thankyouFile,fullPage:true});
+      const confirmationArtifacts=[];
+      // Resize the same actually confirmed page: no second visit, submission or
+      // invented success receipt. Resume retains this original observation.
+      const originalViewport=page.viewportSize();
+      for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
+        await page.setViewportSize(viewport);
+        const file=path.join(out,`confirmed-thank-you-${viewport.width}.png`);
+        await page.screenshot({path:file,fullPage:true});
+        const metadata={viewport,device_pixel_ratio:await page.evaluate(()=>devicePixelRatio),engine:'chromium',browser_version:browser.version(),url:page.url(),source_fingerprint:report.source_fingerprint,state:'confirmed_thank_you',receipt_id:receipt.receipt_id};
+        confirmationArtifacts.push({...artifact(file,'screenshot',root),...metadata});
+        const textFile=path.join(out,`confirmed-thank-you-${viewport.width}.txt`);
+        writeFileSync(textFile,await page.locator('body').innerText());
+        confirmationArtifacts.push({...artifact(textFile,'rendered_text',root),...metadata});
+      }
+      await page.setViewportSize(originalViewport);
       const link=page.locator('a[href]').filter({visible:true});let foundPdf=false;
       for(const candidate of await link.all()){if(new URL(await candidate.getAttribute('href'),page.url()).pathname===fixture.pdf_path){foundPdf=true;break;}}
       const pdfResponse=await anonymous.request.get(sameOriginUrl(fixture.pdf_path,target.url).href);
       const brochure=foundPdf && pdfResponse.ok() && new URL(pdfResponse.url()).origin===target.url.origin && (await pdfResponse.body()).subarray(0,5).toString()==='%PDF-';
       if(!brochure)throw new Error('The thank-you brochure is not usable.');
-      journey.retainPublic({binding,receipt:{ok:true,lead_id:receipt.lead_id,receipt_id:receipt.receipt_id},redirect:true,brochure:true,observed_at:new Date().toISOString(),artifacts:[artifact(thankyouFile,'screenshot',root)]});
+      journey.retainPublic({binding,receipt:{ok:true,lead_id:receipt.lead_id,receipt_id:receipt.receipt_id},redirect:true,brochure:true,observed_at:new Date().toISOString(),artifacts:[artifact(thankyouFile,'screenshot',root),...confirmationArtifacts]});
       publicProof=journey.publicProof();await checkpoint('public-complete');
     }
     receipt=publicProof.receipt;submitted=journey.payload('submission');createdId=receipt.lead_id;
@@ -392,6 +407,9 @@ export async function runLiveVerify(args, runtime = {}) {
       const proof = report.artifacts.find(item => item.type === 'dashboard_result');
       if (!proof) throw new Error('Synthetic impact has no retained dashboard evidence.');
       report.warning_dispositions = [{ warning, disposition: 'accepted_limit',
+        scope:'One explicitly authorized synthetic enquiry in the selected verification run',
+        owner_impact:'The labeled test remains in historical metrics; no additional lead is created for screenshots or retries.',
+        retest_trigger:'Changed source, destination, measurement policy or receipt identity',
         reason: 'The caller explicitly allowed one labeled synthetic enquiry. The retained dashboard comparison records its measured impact; soft-removal does not erase historical activity.',
         evidence: proof }];
     }

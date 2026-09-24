@@ -106,6 +106,8 @@ def build_reader(root, config_path, data):
         'rendered_pages': [p.relative_to(root).as_posix() for p in pages],
         'author_task_ids': data.get('author_task_ids', [])}
     write_json(root/'build/guide-build.json', report)
+    import dependency_state
+    dependency_state.record(root,'guide', sorted(set(inputs)|{config_path.relative_to(root).as_posix()}), list(artifacts))
     print(json.dumps(report, indent=2))
     return 0
 
@@ -205,6 +207,8 @@ def main() -> int:
         "text_output": text_path.relative_to(root).as_posix(),
     }
     write_json(root / "build" / "guide-build.json", report)
+    import dependency_state
+    dependency_state.record(root,'guide',[config_path.relative_to(root).as_posix()],[output.relative_to(root).as_posix()])
     print(json.dumps(report, indent=2))
     return 0
 

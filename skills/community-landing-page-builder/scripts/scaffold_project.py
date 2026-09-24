@@ -73,7 +73,7 @@ def main() -> int:
     web_root.mkdir(parents=True, exist_ok=True)
     config = {
         "schema_version": 3,
-        "quality": {"complete_workflow": True, "contract_version": 3, "reader_guide_version": 1 if reader_guide else 0, "control_review": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
+        "quality": {"complete_workflow": True, "contract_version": 4, "reader_guide_version": 1 if reader_guide else 0, "control_review": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
         "approvals": {"copy_before_design": False},
         "images": {"enabled": True, "preferred_model": None, "max_generated_assets": 3, "max_attempts_per_asset": 2},
         "client": {
@@ -90,6 +90,9 @@ def main() -> int:
         "offer": "",
         "cta": "",
         "follow_up_promise": "",
+        "business_follow_up_promise": "",
+        "preview_disclosure": "",
+        "local_test_behavior": "",
         "brochure_gated": True,
         "catalogue": {"enabled": True, "config": "build/guide.json", "output": "public/assets/brochure/service-guide.pdf"},
         "product_mode": "static-only" if args.static_only else "form-crm",
@@ -218,15 +221,16 @@ Use GitHub only if requested. `npm run github -- --repo owner/repository` is an 
 Never share .secrets/, .dev.vars or local .wrangler data. Production admin access is handed over separately from source files.
 """)
 
-    # PDF delivery is part of every ordinary page build, including explicit
-    # static-only projects. CRM/runtime helpers remain conditional above.
-    for name in ("completion_contract.py", "image_evidence.py", "scan_surfaces.py", "validate_owner_handoff.py", "build_catalogue.py", "build_guide.py", "build_reader_guide.py", "guide_quality.py", "thank_you_page.py", "runtime_context.py", "render_catalogue_cover.py"):
-        source = skill_root / "scripts" / name
-        target = root / "scripts" / name
-        if source.exists() and not target.exists():
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source, target)
-            created.append("scripts/" + name)
+    # Every local mode carries the same canonical validation dependencies.
+    # These stay outside the public/ root in guided projects and are never
+    # independently proof that the build has passed.
+    for source in sorted((skill_root / 'scripts').glob('*')):
+        if source.is_file() and source.suffix in {'.py', '.mjs'}:
+            target = root / 'scripts' / source.name
+            if not target.exists():
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, target)
+                created.append('scripts/' + source.name)
     font_source = skill_root / "assets" / "pdf-fonts"
     font_target = root / "assets" / "pdf-fonts"
     for source in sorted(font_source.glob("*")):
@@ -254,7 +258,7 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
                 shutil.copy2(source, target)
         write_if_missing(root / 'START-HERE.md', '# Your guided static page\n\nMarketing files live in public/. Owner tools and guide state never belong there. Ask the active agent to resume the guide. The static publisher uses an explicitly selected existing Cloudflare Pages project, no Worker/D1/CRM. Account setup and publication require separate actual authority.\n')
 
-    for rel in ('config/routing.json', 'assets/guide/questions.json', 'assets/guide/index.html', 'assets/guide/app.js', 'assets/guide/style.css', 'references/control-comparison.md', 'references/control-layout.json', 'references/guided-workflow.md', 'references/guided-ship.md', 'references/guided-publishing.md', 'references/review-intelligence-and-testimonials.md'):
+    for rel in ('config/routing.json', 'assets/guide/questions.json', 'assets/guide/index.html', 'assets/guide/app.js', 'assets/guide/style.css', 'references/control-comparison.md', 'references/control-layout.json', 'references/guided-workflow.md', 'references/guided-ship.md', 'references/guided-publishing.md', 'references/review-intelligence-and-testimonials.md', 'references/remediation-contracts.md'):
         source = skill_root / rel
         target = root / rel
         if (not args.static_only or args.profile) and source.is_file() and not target.exists():

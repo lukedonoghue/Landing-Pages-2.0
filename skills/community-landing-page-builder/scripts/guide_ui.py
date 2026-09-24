@@ -40,7 +40,7 @@ class Bridge:
         self.cancel.set()
         if self.thread:self.thread.join(timeout=12)
     def status(self):
-        return {'running':bool(self.thread and self.thread.is_alive()),'last':self.last,'next':guide.next_action(self.root)}
+        return {'running':bool(self.thread and self.thread.is_alive()),'last':self.last,'next':guide.present(self.root)}
 
 
 def server(root,provider='codex',port=0,bridge=None):
@@ -75,7 +75,7 @@ def server(root,provider='codex',port=0,bridge=None):
                     for name in [paths['copy'],paths['brief']]:
                         file=guide.storage.path_inside(root,name)
                         if file.is_file() and file.stat().st_size<=500000:documents.append({'path':name,'text':file.read_text()})
-                    return self.respond(200,{'documents':documents,'next':guide.next_action(root)})
+                    return self.respond(200,{'documents':documents,'next':guide.present(root)})
                 return self.respond(404,{'error':'Not found'})
             except (ValueError,OSError,KeyError,TypeError) as error:return self.respond(409,{'error':str(error)})
         def do_POST(self):
@@ -102,7 +102,7 @@ def server(root,provider='codex',port=0,bridge=None):
                     return self.respond(200,bridge.status())
                 if path=='/api/help':
                     q=guide.catalog().get(data.get('id'))
-                    return self.respond(200,{'explanation':q['reason'] if q else 'Ask the active agent about this step. Help is not an answer or approval.','next':guide.next_action(root)})
+                    return self.respond(200,{'explanation':q['reason'] if q else 'Ask the active agent about this step. Help is not an answer or approval.','next':guide.present(root)})
                 return self.respond(404,{'error':'Unsupported action'})
             except (ValueError,OSError,KeyError,TypeError) as error:return self.respond(409,{'error':str(error)})
     http=ThreadingHTTPServer(('127.0.0.1',port),Handler)

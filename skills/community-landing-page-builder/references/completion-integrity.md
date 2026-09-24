@@ -39,7 +39,7 @@ documents remain supported and still undergo the existing semantic checks.
 
 ## Research and claim acceptance
 
-New projects use quality contract version 3. Before accepting copy, retain
+New projects use quality contract version 4; the additional schemas and final release interface are in remediation-contracts.md. Before accepting copy, retain
 `build/research-acceptance.json` with these fields:
 
 - `status: pass`, the actual `reviewer`, and `sources` with `path`, `sha256` and
@@ -61,8 +61,9 @@ capabilities and vocabulary without automatically authorizing testimonial reuse.
 Exact quotes, reviewer identities, avatars and publication rights remain subject
 to `validate_reviews.py`. Do not fabricate review metadata or human portraits.
 
-A genuine lack of usable reviews needs `review_exception`; a blocked rendered
-font measurement needs `brand_exception`. An exception has a specific `reason`,
+A genuine lack of usable reviews needs `review_exception`; a permitted typography fallback still needs actual
+rendered measurements and evidence-bound brand decisions. A missing review
+manifest or brand measurement cannot be bypassed by an exception. An exception has a specific `reason`,
 actual `reviewer`, retained hash-bound `evidence`, and nonempty `attempts` with
 `source`, `outcome`, and `evidence`. It records a limitation, not a performed test.
 Otherwise retain actual `build/brand.json` rendered measurements and captures.
@@ -127,7 +128,7 @@ Run real mobile Lighthouse audits. Retain raw JSON and actual throttling setting
 reported median scores must match those files and meet the configured budgets.
 Tool unavailability is a blocker, never a pass. Warnings need an explicit
 `warning_dispositions` entry: exact `warning`, `disposition` (`accepted_limit`
-or `not_applicable`), `reason`, and hash-bound `evidence`. General caveats about
+or `not_applicable`), `reason`, `scope`, `owner_impact`, `retest_trigger`, and hash-bound `evidence`. General caveats about
 not measuring conversion uplift belong in `limits`, not unresolved defect flags.
 
 The PDF must pass existing content and page-level pixel review, not just exist.
@@ -139,11 +140,12 @@ states. Visitor preview text should say what happens in ordinary language, not
 
 ## Review integrity and final handoff
 
-Control and guide reviews may be `self_review`. An `independent` claim additionally
-needs `execution_artifact: {path, sha256}` in reviewer provenance. Its JSON records
-the actual completed `task_id`, `host`, `dispatch_id`, `raw_result`; it must match
-the reviewer task and differ from builder/repairer tasks. No separate agent means
-self-review. Review current source, actual pixels, claims, image provenance,
+Control and guide reviews may be `self_review`. An `independent` claim needs a
+real coordinator-owned execution receipt in `build/orchestration/tasks/` with
+current input/source hashes and actual returned review output. See
+`remediation-contracts.md` for the receipt schema and trust boundary. A task name
+or handwritten execution note is not an independent reviewer. No separate agent
+means self-review. Review current source, actual pixels, claims, image provenance,
 modal/error states, guide pages and workflow state rather than trusting old PASS
 flags. Fix material findings, then recapture/retest the changed snapshot.
 
@@ -191,3 +193,5 @@ copy-capture runner supplies a deliberately blocked-request error screenshot and
 the direct thank-you state without creating a lead. This error-state capture is
 not proof of a real backend outage, persisted success or receipt; the separate
 synthetic local-journey test must still prove those applicable behaviors.
+
+The authoritative final conversational check is `python3 scripts/release_acceptance.py PROJECT --write --require local_final`. Run it after supported finalization. The older `local-quality-ready` label is advisory and never the delivered release class.

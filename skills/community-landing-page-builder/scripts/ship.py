@@ -388,6 +388,7 @@ class Ship:
             evidence=result.get('evidence',{})
             if not isinstance(evidence,dict) or len(json.dumps(evidence))>16000:raise ValueError('Invalid operation evidence.')
             state['completed'][stage]={'at':now(),'evidence':evidence}
+            if stage=='preflight':state['completed'][stage].update(source=self.fingerprint(),binding=self.binding(state))
             state['events'].append({'stage':stage,'status':'complete','at':now()});state['pending']=None
             state['stage']=STAGES[STAGES.index(stage)+1]
             if stage=='configure':
