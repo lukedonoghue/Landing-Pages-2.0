@@ -60,7 +60,7 @@ LABELS = {
     "guide_review": "Review the actual guide as a reader",
     "thank_you_build": "Reuse the main page for confirmation and guide delivery",
     "local_verification": "Test the complete local funnel",
-    "publishing_setup": "Local final ready for launch setup",
+    "publishing_setup": "Local checks accepted; prepare launch setup",
     "awaiting_publish_authorization": "Approve the Cloudflare publish",
     "ready_to_publish": "Ready for the approved publish",
     "deployed_unverified": "Uploaded; verification is incomplete",
@@ -614,7 +614,7 @@ def inspect(root):
         report["blockers"] += report["quality"]["failures"]
         return at(
             "local_verification",
-            "Resolve the listed missing, failed or stale checks against the current build. Resume reuses valid unregistered reports; it never manufactures reviews or reruns a paid/remote operation.",
+            "Resolve the listed missing, failed or stale checks against the current build. Read references/completion-integrity.md for canonical records and evidence contracts. Resume reuses valid reports; it never manufactures reviews or reruns a paid/remote operation.",
         )
     report["completed"].append("local_quality_verified")
     if config.get("backend", {}).get("provider") == "none":

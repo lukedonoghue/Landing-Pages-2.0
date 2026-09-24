@@ -73,7 +73,7 @@ def main() -> int:
     web_root.mkdir(parents=True, exist_ok=True)
     config = {
         "schema_version": 3,
-        "quality": {"complete_workflow": True, "contract_version": 2, "reader_guide_version": 1 if reader_guide else 0, "control_review": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
+        "quality": {"complete_workflow": True, "contract_version": 3, "reader_guide_version": 1 if reader_guide else 0, "control_review": True, "browsers": ["chromium", "webkit"], "performance": {"minimum_score": 90, "lcp_ms": 2500, "cls": 0.1, "tbt_ms": 200}},
         "approvals": {"copy_before_design": False},
         "images": {"enabled": True, "preferred_model": None, "max_generated_assets": 3, "max_attempts_per_asset": 2},
         "client": {
@@ -220,7 +220,7 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
 
     # PDF delivery is part of every ordinary page build, including explicit
     # static-only projects. CRM/runtime helpers remain conditional above.
-    for name in ("build_catalogue.py", "build_guide.py", "build_reader_guide.py", "guide_quality.py", "thank_you_page.py", "runtime_context.py", "render_catalogue_cover.py"):
+    for name in ("completion_contract.py", "image_evidence.py", "scan_surfaces.py", "validate_owner_handoff.py", "build_catalogue.py", "build_guide.py", "build_reader_guide.py", "guide_quality.py", "thank_you_page.py", "runtime_context.py", "render_catalogue_cover.py"):
         source = skill_root / "scripts" / name
         target = root / "scripts" / name
         if source.exists() and not target.exists():

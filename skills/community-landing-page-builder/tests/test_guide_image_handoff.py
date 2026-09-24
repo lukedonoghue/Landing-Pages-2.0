@@ -37,7 +37,7 @@ class GuideImageHandoffTests(unittest.TestCase):
         output = self.root/'research/synthetic-output.png'
         Image.new('RGB', (900, 600), '#467c81').save(output)
         evidence = self.root/'research/synthetic-tool-result.json'
-        evidence.write_text(json.dumps({'scope': 'synthetic test, no real generation', 'output_sha256': images.sha(output.read_bytes())}))
+        evidence.write_text(json.dumps({'scope': 'synthetic test, no real generation', 'kind': 'native_image_result', 'status': 'succeeded', 'tool': 'synthetic-native-tool', 'tool_call_id': 'synthetic-call', 'output_id': 'synthetic-output', 'raw_result': 'Synthetic fixture output: synthetic-output', 'executed_at': '2026-01-01T00:00:00Z', 'output_sha256': images.sha(output.read_bytes())}))
         plan = images.load_plan(self.root/'image-plan.json')
         images.register_generation(plan, self.root, self.asset, packet['attempt_id'], output, evidence)
         images.save_plan(self.root/'image-plan.json', plan, 'synthetic-registration', self.asset)

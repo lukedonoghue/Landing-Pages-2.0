@@ -434,8 +434,13 @@ def register_generation(plan, root, image_id, attempt_id, source, tool_evidence,
         actual_model = reported_model
         selected_model = attempt["requested_model"]
         verification = "reported-by-provider" if reported_model else "selected-in-cli-request"
-    elif actual_model:
-        require(actual_model in evidence_text, "The claimed model is absent from the tool-result evidence")
+    else:
+        from image_evidence import native_result
+        try:
+            execution = native_result(tool_evidence, sha(source.read_bytes()), actual_model)
+        except ValueError as error:
+            raise WorkflowError(str(error)) from error
+        require(actual_model is None or execution.get("reported_model") == actual_model, "Claimed model differs from the retained native result")
     info = stored_image(root, "research/image-originals", image_id, source.read_bytes())
     attempt.update({"status": "registered", "finished_at": now(), "output_sha256": info["sha256"], "tool_evidence": evidence, "actual_model": actual_model, "selected_model": selected_model, "model_verification": verification})
     item.update({"stage": "acquired", "source": info, "provenance": {"kind": "generated", "attempt_id": attempt_id, "tool": attempt["tool"], "mode": mode, "provider": "openai-api" if mode == "bundled-cli" else "native-tool", "requested_model": attempt["requested_model"], "actual_model": actual_model, "selected_model": selected_model, "model_verification": attempt["model_verification"], "evidence": evidence, "rights": "generated", "rights_evidence": "Generated for this project; retain tool evidence and review rights for any reference inputs."}, "generated_disclosure": "AI-generated illustration; does not depict an actual client project, staff member, customer, or result."})
@@ -533,8 +538,76 @@ def review_asset(plan, root, image_id, report_path):
     return item["review"]
 
 
+def preflight(plan, root):
+    """Verify acquired inputs before layout; rendered acceptance belongs to gate().
+
+    A composite may count multiple originals only with separate retained, hashed
+    original bytes. Neither an arbitrary ID nor a derivative increases the count.
+    """
+    errors, originals, ids = [], set(), {}
+    try:
+        validate_plan(plan)
+    except (ValueError, KeyError, TypeError) as exc:
+        return {"passed": False, "errors": [str(exc)], "distinct_content_original_count": 0}
+    if any(a.get("status") == "pending" for a in plan.get("generation_attempts", [])):
+        errors.append("Resolve pending image requests before claiming asset readiness")
+    for item in plan.get("assets", []):
+        if not item.get("required") and item.get("omitted_reason") and not item.get("source"):
+            continue
+        try:
+            require(item.get("stage") in {"optimized", "reviewed"}, "Acquire and optimize the selected image before layout")
+            source = check_artifact(root, item.get("source"))
+            info = image_info(source.read_bytes())
+            require(all(item["source"].get(k) == v for k, v in info.items()), "Source image metadata is stale")
+            require(bool(item.get("variants")), "Optimized responsive variants are missing")
+            for variant in item["variants"]:
+                actual = image_info(check_artifact(root, variant).read_bytes())
+                require(all(variant.get(k) == v for k, v in actual.items()), "Optimized image metadata is stale")
+            provenance = item.get("provenance", {})
+            evidence = check_artifact(root, provenance.get("evidence"))
+            require(provenance.get("rights") in RIGHTS and nonempty(provenance.get("rights_evidence")), "Image rights/reuse basis is missing")
+            require(provenance.get("kind") in {"actual", "generated"}, "Image origin is unclassified")
+            if provenance.get("kind") == "actual":
+                candidates = [c for c in plan.get("inventory", []) if c.get("id") == provenance.get("candidate_id")]
+                require(len(candidates) == 1, "Sourced image has no unique inventory identity")
+                candidate = candidates[0]
+                check_artifact(root, candidate.get("evidence"))
+                if candidate.get("source_sha256"):
+                    require(candidate["source_sha256"] == info["sha256"], "Acquired bytes differ from the supplied original")
+                if item.get("trust_class") == "client-proof":
+                    require(candidate.get("origin") in {"client-website", "client-supplied"} and nonempty(provenance.get("client_proof_evidence")), "Client proof needs a real identified client source")
+            else:
+                require(item.get("trust_class") != "client-proof" and nonempty(item.get("generated_disclosure")), "Generated imagery must be disclosed illustration, never client proof")
+                if provenance.get("mode", "native") == "native":
+                    from image_evidence import native_result
+                    native_result(evidence, info["sha256"], provenance.get("actual_model"))
+                else:
+                    receipt = json.loads(evidence.read_text())
+                    require(receipt.get("mode") == "bundled-cli" and receipt.get("exit_code") == 0 and receipt.get("api_call_completed") is True and receipt.get("dry_run") is False and receipt.get("output_sha256") == info["sha256"], "Bundled generation lacks its successful exact-output execution record")
+            if item.get("trust_class") == "decorative" or item.get("counts_toward_content_minimum") is False:
+                continue
+            lineage = item.get("source_original_ids", [item["id"]])
+            original_records = item.get("original_evidence", {})
+            require(len(lineage) == 1 or all(ident in original_records for ident in lineage), "Multiple original IDs require separately retained original_evidence; a composite cannot invent originals")
+            for ident in lineage:
+                original = check_artifact(root, original_records[ident]) if ident in original_records else source
+                digest = image_info(original.read_bytes())["sha256"]
+                require(ident not in ids or ids[ident] == digest, "An original identity refers to conflicting image bytes")
+                ids[ident] = digest
+                originals.add(digest)
+        except (ValueError, OSError, KeyError, TypeError) as exc:
+            errors.append(str(item.get("id", "unnamed")) + ": " + str(exc))
+    minimum = plan.get("minimum_distinct_content_originals", 4)
+    if len(originals) < minimum:
+        errors.append(f"Only {len(originals)} independently retained content originals; need {minimum}. Repeated files, crops and PDF previews do not add originals.")
+    return {"passed": not errors, "errors": errors, "distinct_content_original_count": len(originals)}
+
+
 def gate(plan, root):
-    errors = []
+    import copy
+    plan = copy.deepcopy(plan)  # Validation must not rewrite accepted evidence timestamps.
+    asset_readiness = preflight(plan, root)
+    errors = asset_readiness["errors"]
     minimum = plan.get("minimum_distinct_content_originals", 4)
     if plan.get("schema_version") == SCHEMA_VERSION and minimum != 4:
         try:
@@ -573,7 +646,7 @@ def gate(plan, root):
     if len(distinct_originals) < minimum:
         errors.append(f"Only {len(distinct_originals)} independent content originals count toward the required {minimum}; derivatives, repeated photos and document previews do not add originals")
     return {"schema_version": 1, "gate": "images", "passed": not errors, "errors": errors,
-            "asset_count": len(plan["assets"]), "distinct_content_original_count": len(distinct_originals),
+            "asset_count": len(plan["assets"]), "distinct_content_original_count": asset_readiness["distinct_content_original_count"],
             "distinct_content_original_ids": sorted(distinct_originals), "checked_at": now()}
 
 

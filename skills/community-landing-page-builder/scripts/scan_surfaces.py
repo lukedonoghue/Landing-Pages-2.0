@@ -17,7 +17,8 @@ TEXT_SUFFIXES = {
 }
 EXCLUDED_PARTS = {
     ".git", ".secrets", "node_modules", "vendor", "screenshots", "catalogue-pages",
-    "coverage", ".pytest_cache", "__pycache__",
+    "coverage", ".pytest_cache", "__pycache__", ".community-builder",
+    ".codex", ".claude", ".wrangler", ".venv", "test-results", "playwright-report",
 }
 PROHIBITED = (
     (re.compile("\u2014"), "U+2014 long dash"),
@@ -53,7 +54,14 @@ def iter_files(root: Path, report_path: Path | None):
     for path in sorted(root.rglob("*")):
         if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES:
             continue
-        if any(part in EXCLUDED_PARTS for part in path.parts):
+        rel = path.relative_to(root)
+        if rel.parts[0] != "public" and any(part in EXCLUDED_PARTS for part in rel.parts):
+            continue
+        # Build evidence can quote rejected copy or contain intentionally blocked checks.
+        # Canonical customer copy remains in scope; raw QA/research captures are not copy.
+        if len(rel.parts) > 1 and rel.parts[0] not in {"public", "docs", "build", "assets", "landing-page"}:
+            continue
+        if rel.parts[0] == "build" and path.name not in {"page-copy.json", "page-copy.md"}:
             continue
         if path.name == "surface-scan.json" or (report_path and path.resolve() == report_path.resolve()):
             continue
@@ -71,9 +79,12 @@ def safe_excerpt(line: str, start: int, end: int) -> str:
 
 def findings_for(path: Path, root: Path, forbidden_text: list[str]):
     try:
+        if path.is_symlink():
+            raise OSError("Copy the intended source instead of using a symlink")
         text = path.read_text(encoding="utf-8")
-    except (UnicodeDecodeError, OSError):
-        return []
+    except (UnicodeDecodeError, OSError) as error:
+        return [{"path": relative(path, root), "line": 1, "column": 1,
+                 "reason": "unreadable required text surface", "excerpt": type(error).__name__}]
 
     findings = []
     patterns = list(PROHIBITED) + list(TEMPLATE_PATTERNS)
@@ -91,6 +102,16 @@ def findings_for(path: Path, root: Path, forbidden_text: list[str]):
                     }
                 )
     return findings
+
+
+def scan(root, forbidden_text=(), report_path=None, exclude=()):
+    root = Path(root).resolve()
+    files = [p for p in iter_files(root, report_path) if p.relative_to(root).as_posix() not in exclude]
+    findings = [item for path in files for item in findings_for(path, root, list(forbidden_text))]
+    return {"schema_version": 1, "gate": "surface-scan", "status": "blocked" if findings else "pass",
+            "executed_at": datetime.now(timezone.utc).isoformat(), "files_scanned": len(files),
+            "scope": "project text and canonical copy; not tool internals or raw research/QA",
+            "excluded_directories": sorted(EXCLUDED_PARTS), "findings": findings}
 
 
 def main() -> int:
@@ -118,6 +139,8 @@ def main() -> int:
         "status": "blocked" if findings else "pass",
         "executed_at": datetime.now(timezone.utc).isoformat(),
         "files_scanned": len(files),
+        "scope": "project text and canonical copy; not copied tools or raw research/QA evidence",
+        "excluded_directories": sorted(EXCLUDED_PARTS),
         "findings": findings,
     }
     rendered = json.dumps(result, indent=2, ensure_ascii=True) + "\n"
