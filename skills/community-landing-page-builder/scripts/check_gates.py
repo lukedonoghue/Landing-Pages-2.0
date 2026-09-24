@@ -366,6 +366,8 @@ def validate_report(root, report, snapshot, gate):
             errors += completion_contract.browser_evidence_errors(root, report, gate)
         elif gate == 'performance':
             errors += completion_contract.performance_errors(root, report)
+        elif gate == 'visual':
+            errors += completion_contract.visual_state_errors(root, report)
     if report.get('status') in {'pass', 'pass_with_warnings'}:
         if report.get('failures'):
             errors.append('Passing report contains failures')

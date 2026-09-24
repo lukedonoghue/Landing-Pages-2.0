@@ -48,7 +48,7 @@ class CommunityCoreTests(unittest.TestCase):
         progress = (SKILL / "scripts" / "workflow_progress.py").read_text(encoding="utf-8")
         self.assertIn("The built-in CRM is the form default", skill)
         self.assertIn("you do not need to choose a crm or google sheet", guidance.lower())
-        self.assertIn("built-in CRM are ready", progress)
+        self.assertIn("requires verified export", progress)
         self.assertIn('"guide_build"', progress)
         self.assertIn("scripts/build_guide.py", progress)
         self.assertNotIn("Collect the intended Cloudflare account/site, domain and GTM", progress)

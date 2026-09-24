@@ -474,8 +474,10 @@ def export_bundle(root, output, client, in_progress=False, extra=()):
         raise ValueError(
             "Write the ZIP outside project source, or under build/, so packaging does not change the reviewed revision."
         )
-    before = audit(root)
     config = storage.read(root, "funnel.json", {})
+    if config.get("development_fixture") and not in_progress:
+        raise ValueError("Development fixtures can only be exported explicitly --in-progress, never as a completed client release")
+    before = audit(root)
     if not config.get("development_fixture"):
         import completion_contract
         summary = completion_contract.write_summary(root, before["quality"])
@@ -623,6 +625,11 @@ def export_bundle(root, output, client, in_progress=False, extra=()):
                 release["release_level"] = "local-final"
                 release["export_required_for_local_final"] = False
             storage.write(root, "build/release-status.json", release)
+    if not config.get("development_fixture"):
+        current_quality = check_gates.check(root, "handoff", root / "build/gates.json")
+        summary = completion_contract.write_summary(root, current_quality)
+        if not in_progress and summary.get("release_level") != "local-final":
+            raise ValueError("Export created, but current handoff is not final; inspect release-status.json")
     return result
 
 

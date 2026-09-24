@@ -251,12 +251,16 @@ def write_summary(root, result):
         if result.get("source_fingerprint") != current:
             raise ValueError("Source changed before summary; evaluate the gates again")
         ready = result.get("status") in PASS
-        level = "local-quality-ready" if ready else "local-preview"
+        exported = export_status(root, current) if ready else {"status": "blocked"}
+        final = exported.get("status") == "pass"
+        level = "local-final" if final else ("local-quality-ready" if ready else "local-preview")
         if result.get("mode") == "live" and ready:
             level = "live-verified"
         summary = {"schema_version": 1, "generated_at": check_gates.now(), **result,
-                   "release_level": level, "export_required_for_local_final": True,
+                   "release_level": level, "export_required_for_local_final": not final,
                    "production_authorization": "separate actual user instruction required"}
+        if final:
+            summary["export_verification"] = exported["receipt"]
         lines = ["# Quality review", "", f"Status: **{level}** ({result['status']}).",
                  f"Source fingerprint: `{current}`", f"Scope: {result.get('mode')}", "",
                  "| Check | Current result | Findings |", "| --- | --- | --- |"]
@@ -269,7 +273,7 @@ def write_summary(root, result):
             lines += ["", "## " + label, ""] + ["- " + str(x) for x in result.get(key, [])]
             if not result.get(key):
                 lines.append("None recorded." if ready else "See the blocked checks above; absence is not a pass.")
-        lines += ["", "A local-quality-ready result still requires verified export. This report does not authorize publication or certify live delivery.", ""]
+        lines += ["", ("The exact archive passed supported export and clean-restore verification." if final else "A local-quality-ready result still requires verified export.") + " This report does not authorize publication or certify live delivery.", ""]
         qa_path = workflow_storage.path_inside(root, "docs/QA-REPORT.md")
         qa_path.parent.mkdir(parents=True, exist_ok=True)
         qa_path.write_text("\n".join(lines), encoding="utf-8")
@@ -285,7 +289,7 @@ def write_summary(root, result):
                 "steps": [{"action": str(failure), "expected": "A real current result closes this finding."}]})
         owner.update({"schema_version": 1, "status": "action_required" if owner["blockers"] else "complete",
             "source_fingerprint": current, "release_level": level,
-            "message": f"The project is {level}. " + ("Local checks are accepted; verified packaging is next. " if ready else "The listed checks still need attention. ") + "Publication and live testing require separate authorization.",
+            "message": f"The project is {level}. " + ("Local checks and the exact exported archive are verified. " if final else ("Local checks are accepted; verified packaging is next. " if ready else "The listed checks still need attention. ")) + "Publication and live testing require separate authorization.",
             "qa_report": {"path": "docs/QA-REPORT.md", "sha256": digest(qa_path)}})
         # Existing owner usage/cleanup facts remain intact; missing setup is not
         # invented as complete when creating a new local-only record.
@@ -545,3 +549,118 @@ def document_source_errors(root):
     except (OSError, ValueError, KeyError, TypeError) as error:
         return ['Canonical documents: ' + str(error)]
     return []
+
+
+def export_status(root, source_fingerprint=None):
+    """Inspect the current supported export without treating a saved flag as proof.
+
+    The archive stays outside its own hash. Check its bytes, manifest and current
+    source, and require the exporter's actual clean-restore result. No new export
+    is performed by this read-only inspector.
+    """
+    import check_gates
+    import portable_handoff
+    import workflow_storage
+    import zipfile
+    root = Path(root).resolve()
+    try:
+        config = workflow_storage.read(root, "funnel.json", {})
+        if config.get("development_fixture"):
+            raise ValueError("Development fixtures are not accepted client releases")
+        current = source_fingerprint or check_gates.source_snapshot(root)["source_fingerprint"]
+        receipt = workflow_storage.read(root, "build/export-verification.json", {})
+        if receipt.get("schema_version") != 1 or receipt.get("scope") != "reviewed" or receipt.get("release_level") != "local-final":
+            raise ValueError("A verified reviewed export is still required")
+        if receipt.get("source_fingerprint") != current:
+            raise ValueError("The export belongs to an earlier source snapshot")
+        restored = receipt.get("restore_verification", {})
+        if set(restored) != {"copy", "quality"} or any(v not in PASS for v in restored.values()):
+            raise ValueError("The archive has no passing clean-restore verification")
+        archive = Path(receipt.get("archive", ""))
+        if not archive.is_absolute():
+            archive = root / archive
+        if archive.is_symlink() or not archive.is_file():
+            raise ValueError("The verified archive is unavailable or symlinked")
+        checked = portable_handoff.verify_archive(archive)
+        manifest = checked["manifest"]
+        if checked["sha256"] != receipt.get("sha256"):
+            raise ValueError("Exported archive bytes changed after verification")
+        if manifest["scope"] != "reviewed" or manifest["source_snapshot"]["source_fingerprint"] != current:
+            raise ValueError("Archive scope or source differs from the accepted release")
+        return {"status": "pass", "receipt": receipt, "failures": []}
+    except (OSError, ValueError, KeyError, TypeError, AttributeError, zipfile.BadZipFile) as error:
+        return {"status": "blocked", "failures": [str(error)]}
+
+
+def finalize_local(root):
+    """Execute the existing checker, summary and exporter for the guided runner.
+
+    This is orchestration of the existing authorities, not another acceptance
+    implementation. It never runs research/tests or substitutes fabricated results.
+    """
+    import check_gates
+    import portable_handoff
+    import workflow_storage
+    root = Path(root).resolve()
+    result = check_gates.check(root, "handoff", root / "build/gates.json")
+    summary = write_summary(root, result)
+    if summary["status"] not in PASS:
+        raise ValueError("Local handoff remains blocked: " + "; ".join(summary.get("failures", [])))
+    existing = export_status(root, summary["source_fingerprint"])
+    if existing["status"] != "pass":
+        config = workflow_storage.read(root, "funnel.json", {})
+        name = config.get("client", {}).get("name") or "Landing Page"
+        # A source-specific destination preserves older accepted archives.
+        output = root / "build/handoff" / (summary["source_fingerprint"] + ".zip")
+        portable_handoff.export_bundle(root, output, name)
+    summary = write_summary(root, check_gates.check(root, "handoff", root / "build/gates.json"))
+    if summary.get("release_level") != "local-final":
+        raise ValueError("Source or handoff changed during finalization; resume the current blockers")
+    return summary
+
+
+def visual_state_errors(root, report):
+    """Require inspected states, not just a closed-page visual pass flag."""
+    import image_workflow
+    from html.parser import HTMLParser
+    class PageRoles(HTMLParser):
+        modal = False
+        form = False
+        def handle_starttag(self, tag, attrs):
+            values = dict(attrs)
+            self.form |= tag == "form"
+            self.modal |= "data-open-modal" in values
+    root = Path(root)
+    roles = PageRoles()
+    page = root / "public/index.html" if (root / "public/index.html").is_file() else root / "index.html"
+    errors, states = [], set()
+    try:
+        roles.feed(page.read_text(encoding="utf-8"))
+        for record in report.get("artifacts", []):
+            if not isinstance(record, dict) or record.get("type") != "screenshot":
+                continue
+            width = record.get("viewport", {}).get("width")
+            height = record.get("viewport", {}).get("height")
+            ratio = record.get("device_pixel_ratio", 1)
+            if type(width) is not int or type(height) is not int or width < 1 or height < 1:
+                raise ValueError("Visual captures need actual viewport width and height")
+            if type(ratio) not in (float, int) or not 0.5 <= ratio <= 4:
+                raise ValueError("Visual capture has an invalid device pixel ratio")
+            actual = image_workflow.image_info(evidence(root, record).read_bytes())
+            if actual["width"] != round(width * ratio):
+                raise ValueError("Visual capture bytes differ from viewport metadata")
+            states.add((record.get("state"), "mobile" if width <= 600 else "desktop"))
+        required = {"page"}
+        if roles.modal:
+            required |= {"modal_initial", "modal_error", "modal_focused"}
+        if roles.form:
+            required.add("server_error")
+        if (page.parent / "thank-you.html").is_file():
+            required.add("thank_you")
+        for state in sorted(required):
+            for device in ("desktop", "mobile"):
+                if (state, device) not in states:
+                    errors.append(f"Final visual acceptance lacks the {device} {state} capture")
+    except (OSError, ValueError, TypeError, KeyError, AttributeError) as error:
+        errors.append("Visual state evidence: " + str(error))
+    return errors

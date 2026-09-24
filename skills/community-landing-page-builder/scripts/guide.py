@@ -329,7 +329,11 @@ def next_action(root):
     stage = report['stage']
     extras = {'progress':report, 'blockers':report.get('blockers',[])}
     if value['guided_workflow']['goal']=='preview' and stage in {'publishing_setup','ready_to_publish','awaiting_publish_authorization','static_publish_setup','static_publish_ready','static_publish_authorization','ready_for_handoff'}:
-        return action('local_final','complete','Present the improved local page and its tested scope. Nothing has been published.',**extras)
+        import completion_contract
+        export = completion_contract.export_status(root)
+        if export['status'] != 'pass':
+            return action('local_export','local','Create the current QA summary and verified portable handoff. Nothing will be published.',operation='finalize_local',export=export,**extras)
+        return action('local_final','complete','Present the verified local page, archive and tested scope. Nothing has been published.',export=export,**extras)
     if stage=='awaiting_copy_approval':
         return action(stage,'approval','Review the complete current copy, including form, confirmation and PDF promises. Approve it or request changes.',approval_kind='copy',**extras)
     if get(value,'backend.provider')=='cloudflare-d1' and stage in {'awaiting_publish_authorization','ready_to_publish','publishing_setup','release_recovery','publishing_outcome_unknown','deployed_unverified'}:
@@ -348,7 +352,11 @@ def next_action(root):
     if stage in {'published_verified','static_published'}:
         return action(stage,'complete','Return the verified result and separate pending domain, conversion, owner-access and integration limits. Saved proof is not a fresh live check.',**extras)
     if stage=='ready_for_handoff' or (value['guided_workflow']['goal']=='preview' and stage in {'publishing_setup','ready_to_publish'}):
-        return action('local_final','complete','Present the improved local page and its tested scope. Nothing has been published.',**extras)
+        import completion_contract
+        export = completion_contract.export_status(root)
+        if export['status'] != 'pass':
+            return action('local_export','local','Create the current QA summary and verified portable handoff. Nothing will be published.',operation='finalize_local',export=export,**extras)
+        return action('local_final','complete','Present the verified local page, archive and tested scope. Nothing has been published.',export=export,**extras)
     roles={'research':'research','copy_drafting':'copy','copy_review':'copy','control_comparison':'review','control_repair':'copy','control_retest':'review','local_verification':'debug','guide_build':'pdf','guide_review':'review','guide_repair':'pdf','thank_you_build':'frontend'}
     return action(stage,'work',report['next_action']['instruction'],role=roles.get(stage,'frontend'),**extras)
 
@@ -395,6 +403,11 @@ def local(root, operation):
         with storage.lock(root):
             recover(root)
         return {'status':'recovered'}
+    if operation=='finalize_local':
+        if next_action(root).get('operation') != 'finalize_local':
+            raise ValueError('Final export is not the current guided action')
+        import completion_contract
+        return completion_contract.finalize_local(root)
     if operation=='scaffold':
         current=next_action(root)
         if current.get('operation')!='scaffold':

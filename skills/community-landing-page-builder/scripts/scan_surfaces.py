@@ -88,6 +88,10 @@ def findings_for(path: Path, root: Path, forbidden_text: list[str]):
 
     findings = []
     patterns = list(PROHIBITED) + list(TEMPLATE_PATTERNS)
+    rel = path.relative_to(root)
+    if path.suffix.lower() in {".html", ".htm"} and "admin" not in rel.parts:
+        patterns.append((re.compile(r"\blocal\s+demo\s+CRM\b", re.I),
+                         "visitor-facing implementation jargon; explain preview behavior plainly"))
     patterns.extend((re.compile(re.escape(value), re.I), f"forbidden text: {value}") for value in forbidden_text)
     for line_number, line in enumerate(text.splitlines(), 1):
         for pattern, reason in patterns:
