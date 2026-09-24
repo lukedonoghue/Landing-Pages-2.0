@@ -209,7 +209,7 @@ Tell the assistant: “Prepare this page for the guided publishing wizard.” Th
 
 The standard wizard uses a custom domain in your selected Cloudflare account and the built-in D1 CRM. It prepares hosting separately from publication, preserves your final approval, saves a database recovery bookmark, publishes through the existing guarded release engine, verifies one labelled synthetic enquiry and permanently erases that test contact. Closing the window does not discard progress; reopening the same project resumes it. The optional Google setup opens only when selected. Account MFA/ownership confirmations are clearly labelled when they cannot be checked automatically.
 
-Do not paste passwords or tokens into chat or this browser form. Private password and Google handoffs open locally on your computer. Separate CRM/public domains, external-DNS gateways and workers.dev-only destinations use the advanced publishing guide rather than being silently changed by the standard wizard. A code rollback does not undo a database migration.
+Do not paste passwords or tokens into chat or this browser form. Private password and Google handoffs open locally on your computer. Separate CRM/public domains, external-DNS gateways and workers.dev-only destinations use the advanced publishing guide rather than being silently changed by the standard wizard. Outside the standard production wizard, a workers.dev address is the default for the existing basic publishing path, so a custom domain can still wait when that path is intentionally chosen. A code rollback does not undo a database migration.
 
 ## Optional source backup
 
