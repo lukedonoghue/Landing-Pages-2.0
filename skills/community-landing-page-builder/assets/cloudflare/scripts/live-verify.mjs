@@ -304,7 +304,7 @@ export async function runLiveVerify(args, runtime = {}) {
     report.journey_assertions.redirect=check(report,'Public form redirects to its intended thank-you page',publicProof.redirect);
     report.journey_assertions.brochure=check(report,'Brochure download works after submission',publicProof.brochure);
     report.artifacts.push(...publicProof.artifacts,artifact(path.join(root,attempt.public_complete.path),'browser_journey_checkpoint',root));
-    if(attempt.runs>1)report.warnings.push('This run continues the same synthetic journey. Completed browser proof is retained; any acknowledgement retry uses the original private request and idempotency key, without another measured visit.');
+    if(attempt.runs>1)(report.notes ||= []).push('This run continues the same synthetic journey. Completed browser proof is retained; any acknowledgement retry uses the original private request and idempotency key, without another measured visit.');
     let receiptProof;
     const retainedCore=attempt.cleanup_started?journey.coreProof():null;
     if(attempt.cleanup_started && !retainedCore)throw new JourneyRecoveryError('cleanup_proof');
@@ -313,7 +313,7 @@ export async function runLiveVerify(args, runtime = {}) {
       report.artifacts.push(...retainedCore.artifacts,artifact(path.join(root,attempt.core_complete.path),'core_journey_checkpoint',root));
       for(const key of ['receipt_correlation','crm_update','metrics'])report.journey_assertions[key]=retainedCore.assertions[key];
       report.checks.push(...retainedCore.checks);
-      report.warnings.push('The authenticated receipt, CRM changes and metrics were verified before cleanup. Their hashed evidence is retained; cleanup recovery does not re-create a removed contact.');
+      (report.notes ||= []).push('The authenticated receipt, CRM changes and metrics were verified before cleanup. Their hashed evidence is retained; cleanup recovery does not re-create a removed contact.');
     } else {
     phase = 'stored-receipt-and-tracking';
     const stored = await adminRequest('/api/admin/leads/' + createdId);
@@ -382,7 +382,19 @@ export async function runLiveVerify(args, runtime = {}) {
     checkSource();
     report.fully_verified = report.failures.length === 0 && (target.local || !!deployment);
     report.readiness = report.fully_verified ? (target.local ? 'local-journey-verified' : 'live-journey-verified') : 'incomplete';
-    report.warnings.push('The controlled test contributes to historical metrics. It is identified in this report and the CRM verification note.');
+    const warning = measurementExpected
+      ? 'The controlled test contributes to historical metrics. It is identified in this report and the CRM verification note.'
+      : 'The unmeasured synthetic lead remains in CRM history; analytics and conversion totals are unchanged.';
+    report.warnings.push(warning);
+    // The explicit test-lead choice authorizes this known impact, not arbitrary
+    // warnings. Attach the actual measured before/after result to its disposition.
+    if (report.fully_verified) {
+      const proof = report.artifacts.find(item => item.type === 'dashboard_result');
+      if (!proof) throw new Error('Synthetic impact has no retained dashboard evidence.');
+      report.warning_dispositions = [{ warning, disposition: 'accepted_limit',
+        reason: 'The caller explicitly allowed one labeled synthetic enquiry. The retained dashboard comparison records its measured impact; soft-removal does not erase historical activity.',
+        evidence: proof }];
+    }
   } catch(error) {
     if(error instanceof JourneyRecoveryError)report.recovery={code:error.code,instruction:error.message};
     check(report, 'Complete browser-to-database verification journey', false, `Stage: ${phase}. Inspect the public screenshots, fixture, running server, and credential setup. Submitted fields and credentials are intentionally omitted.`);

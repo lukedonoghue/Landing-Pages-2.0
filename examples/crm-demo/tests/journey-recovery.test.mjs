@@ -72,6 +72,12 @@ const failAt=stage=>({checkpoint:async current=>{if(current===stage)throw Error(
 const attempts=f=>read(path.join(f.out,'attempt.json'));
 const posts=(f,route)=>f.requests.filter(row=>row.path===route && row.method==='POST').length;
 function validateEvidence(f) {
+  const report=read(path.join(f.out,'local-journey.json'));
+  assert.ok(report.notes?.some(note=>note.includes('same synthetic journey')));
+  assert.equal(report.warning_dispositions?.length,1);
+  assert.equal(report.warning_dispositions[0].warning,report.warnings[0]);
+  assert.equal(report.warning_dispositions[0].disposition,'accepted_limit');
+  assert.equal(report.warning_dispositions[0].evidence.type,'dashboard_result');
   const source=[path.join(template,'scripts/check_gates.py'),path.join(template,'../../scripts/check_gates.py')].find(existsSync);
   const code='import sys,json;from pathlib import Path;sys.path.insert(0,sys.argv[1]);import check_gates as g;r=Path(sys.argv[2]).resolve();print(json.dumps(g.validate_report(r,json.loads(Path(sys.argv[3]).read_text()),json.loads((r/"build/gate-snapshot.json").read_text()),"local_journey")))';
   const result=spawnSync('python3',['-c',code,path.dirname(source),f.root,path.join(f.out,'local-journey.json')],{encoding:'utf8'});
