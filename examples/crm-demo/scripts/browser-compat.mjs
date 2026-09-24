@@ -206,6 +206,9 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           const trigger = page.locator(fixture.selectors.openModal).first(); await trigger.scrollIntoViewIfNeeded(); await trigger.focus(); await page.keyboard.press('Enter');
           const modal = page.locator(fixture.selectors.modal); await modal.waitFor({ state: 'visible' });
           check(report, `${label}: dialog receives keyboard focus`, await modal.evaluate(el => el.contains(document.activeElement)));
+          const initialFile = path.join(out, `${engine}-${viewport.width}-modal-initial.png`);
+          await page.screenshot({ path: initialFile });
+          report.artifacts.push({ ...artifact(initialFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, state: 'modal_initial', device_pixel_ratio: 1 });
           check(report, `${label}: body scrolling locked`, await page.evaluate(() => ['hidden', 'clip'].includes(getComputedStyle(document.body).overflowY) || getComputedStyle(document.body).position === 'fixed' || ['hidden', 'clip'].includes(getComputedStyle(document.documentElement).overflowY)));
           const initialNext = page.locator(fixture.selectors.next).first();
           if (await initialNext.isVisible()) {
@@ -237,7 +240,7 @@ export async function runBrowserCompat(args, suppliedRuntime) {
             await field.focus(); await field.scrollIntoViewIfNeeded();
             const dimensions = await field.evaluate(el => { const r = el.getBoundingClientRect(); return { fit: r.top >= 0 && r.bottom <= innerHeight + 1 && r.left >= 0 && r.right <= innerWidth + 1, font: parseFloat(getComputedStyle(el).fontSize), type: el.type }; });
             const chromeVisible = await modal.evaluate(el => {
-              const title = el.querySelector('#lead-modal-title');
+              const title = document.getElementById(el.getAttribute('aria-labelledby')) || el.querySelector('h1,h2,h3');
               const close = el.querySelector('[data-close-modal],.modal__close');
               return [title, close].every(item => { if (!item) return false; const box = item.getBoundingClientRect(); return box.top >= 0 && box.bottom <= innerHeight + 1; });
             });
@@ -250,7 +253,7 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           const submit = page.locator(fixture.selectors.submit); await submit.scrollIntoViewIfNeeded();
           check(report, `${label}: final action reachable`, await submit.isVisible() && await submit.isEnabled());
           const modalFile = path.join(out, `${engine}-${viewport.width}-modal.png`);
-          await page.screenshot({ path: modalFile }); report.artifacts.push({ ...artifact(modalFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, state: 'modal', device_pixel_ratio: 1 });
+          await page.screenshot({ path: modalFile }); report.artifacts.push({ ...artifact(modalFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, state: 'modal_focused', device_pixel_ratio: 1 });
           check(report, `${label}: no runtime exceptions`, errors.length === 0);
         } catch { check(report, `${label}: complete interaction journey`, false, 'Inspect the saved screenshots and the reviewed fixture; no submission was sent.'); }
         finally { await context.close(); }

@@ -167,3 +167,27 @@ Do not package secrets, runtime databases, caches or lock files. Retain the copi
 workflow runtime needed to resume; exclude it from customer-copy scanning, not
 from the resumable export. Never call arbitrary ZIP creation certified export.
 Publication, account configuration and live tests remain separately authorized.
+
+
+## Automatic local finalization
+
+The guided controller schedules its existing local runner operation
+`finalize_local` after quality acceptance. It invokes the same aggregate checker,
+summary writer and portable exporter, then rereads the exact archive before
+returning `local_final`. Reopening an unchanged project reuses that archive;
+missing, stale or changed ZIP bytes return to export instead of trusting a saved
+pass flag. Development fixtures can only use explicit in-progress exports.
+
+Research workers may write `build/research-acceptance.json` and
+`build/document-sources.json`. Only the coordinator writes release status,
+owner handoff and export verification. These records are not worker assertions.
+
+For final visual acceptance, include real screenshot artifacts with `state`,
+`viewport: {width, height}` and `device_pixel_ratio`. Review desktop and mobile
+`page`; form pages additionally need `server_error`, modal pages need
+`modal_initial`, `modal_error` and `modal_focused`; include `thank_you` when that
+page exists. The compatibility runner supplies modal captures. The read-only
+copy-capture runner supplies a deliberately blocked-request error screenshot and
+the direct thank-you state without creating a lead. This error-state capture is
+not proof of a real backend outage, persisted success or receipt; the separate
+synthetic local-journey test must still prove those applicable behaviors.

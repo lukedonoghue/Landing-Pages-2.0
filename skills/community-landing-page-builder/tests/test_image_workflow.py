@@ -54,6 +54,8 @@ class ImageWorkflowTests(unittest.TestCase):
         return item
 
     def native_fixture(self):
+        # Keep the original source/minimum-exception evidence immutable.
+        self.evidence = self.root / "native-tool-result.json"
         self.evidence.write_text(json.dumps({"kind": "native_image_result", "status": "succeeded",
             "tool": "image_gen", "tool_call_id": "synthetic-call", "output_id": "synthetic-output",
             "raw_result": "Synthetic unit-test fixture only: synthetic-output", "executed_at": workflow.now(),

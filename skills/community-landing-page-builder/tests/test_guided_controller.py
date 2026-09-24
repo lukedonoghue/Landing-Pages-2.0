@@ -93,7 +93,8 @@ class GuideTests(unittest.TestCase):
     def test_preview_does_not_request_unneeded_hosting(self):
         self.complete_business();self.confirm()
         with patch.object(guide.workflow_progress,'inspect',return_value={'stage':'publishing_setup','blockers':[]}):
-            self.assertEqual(guide.next_action(self.root)['stage'],'local_final')
+            self.assertEqual(guide.next_action(self.root)['stage'],'local_export')
+            self.assertEqual(guide.next_action(self.root)['operation'],'finalize_local')
     def test_publish_goal_moves_past_local_preview(self):
         self.complete_business();self.confirm();config=guide.config(self.root);config['guided_workflow']['goal']='publish';self.save('funnel.json',config)
         with patch.object(guide.workflow_progress,'inspect',return_value={'stage':'static_publish_setup','blockers':[]}):
