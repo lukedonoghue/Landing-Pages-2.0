@@ -170,7 +170,7 @@ def main() -> int:
                 if args.client and target.suffix == ".html" and relative.parts[0] == "public":
                     target.write_text(target.read_text().replace("Your business", html.escape(args.client)))
                 created.append(str(relative))
-        for name in ("guide_image_handoff.py", "runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "review_workflow.py", "validate_reviews.py", "package_handoff.py", "portable_handoff.py"):
+        for name in ("ship.py", "ship_ui.py", "guide_image_handoff.py", "runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "review_workflow.py", "validate_reviews.py", "package_handoff.py", "portable_handoff.py"):
             source = skill_root / "scripts" / name
             target = root / "scripts" / name
             if source.exists() and not target.exists():
@@ -189,6 +189,10 @@ Your public page, brochure, admin CRM, API, leads and visitor/conversion records
 
 The form already uses this built-in CRM. You do not need to choose an external CRM, create a Google Sheet, supply GTM or configure advertising conversions before the page can collect leads. Those are optional later connections.
 
+## Publish with guidance
+
+Ask your coding assistant to prepare publishing. Open `python3 scripts/ship.py --operator --ui` yourself in a trusted local terminal. The wizard asks for your domain and owner email, handles routine checks, and resumes after interruptions. Google Sheets is optional. Do not put production credentials into chat.
+
 ## Resume work
 
 Ask the agent to run `python3 scripts/workflow.py resume .` and continue from the reported evidence and next action. This reuses existing valid local checks; it does not publish or create a new image request. An uncertain external operation must be inspected before any retry.
@@ -201,11 +205,11 @@ Complete `build/guide.json` from the researched client facts, set `workflow_read
 
 ## Publish to Cloudflare
 
-Tell the agent: “Publish this funnel to Cloudflare.” It handles the setup and publishing commands for you. Connect Cloudflare once if needed. A workers.dev address is the default; a custom domain can be connected later.
+Tell the assistant: “Prepare this page for the guided publishing wizard.” The assistant finishes local checks and gives you one launcher. Run `python3 scripts/ship.py --operator --ui` in your own trusted terminal. Enter your domain and owner email, sign in to Cloudflare if needed, then follow the single current card. Keep Google Sheets off unless you need it.
 
-After the complete local final, the agent reuses your existing explicit setup/publishing instruction and runs `npm run setup -- --cloudflare --site <site-name> --account-id <account-id> --admin-username <owner> --authorization-file <private-message-file> --authorization-message-id <conversation/message-reference>` (plus `--domain leads.example.com` if chosen), refreshes evidence for that configuration, records the same real publication instruction with `workflow.py authorize-publish`, then runs `npm run publish`. If the initial request did not include publishing, the agent asks once at this stage. This provisions/binds the D1 database, applies schema migrations, sets up admin access and publishes the page, CRM and API to the same Cloudflare account. Production uses its own generated password. A controlled live test lead is submitted only when separately authorized. The agent then verifies the live page, admin, lead receipt and reporting.
+The standard wizard uses a custom domain in your selected Cloudflare account and the built-in D1 CRM. It prepares hosting separately from publication, preserves your final approval, saves a database recovery bookmark, publishes through the existing guarded release engine, verifies one labelled synthetic enquiry and permanently erases that test contact. Closing the window does not discard progress; reopening the same project resumes it. The optional Google setup opens only when selected. Account MFA/ownership confirmations are clearly labelled when they cannot be checked automatically.
 
-The first account connection cannot be skipped. Custom-domain ownership matters only when a custom domain is selected. After account connection, publication is one guided action; the user does not have to operate several hosting/database products.
+Do not paste passwords or tokens into chat or this browser form. Private password and Google handoffs open locally on your computer. Separate CRM/public domains, external-DNS gateways and workers.dev-only destinations use the advanced publishing guide rather than being silently changed by the standard wizard. A code rollback does not undo a database migration.
 
 ## Optional source backup
 
@@ -250,7 +254,7 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
                 shutil.copy2(source, target)
         write_if_missing(root / 'START-HERE.md', '# Your guided static page\n\nMarketing files live in public/. Owner tools and guide state never belong there. Ask the active agent to resume the guide. The static publisher uses an explicitly selected existing Cloudflare Pages project, no Worker/D1/CRM. Account setup and publication require separate actual authority.\n')
 
-    for rel in ('config/routing.json', 'assets/guide/questions.json', 'assets/guide/index.html', 'assets/guide/app.js', 'assets/guide/style.css', 'references/control-comparison.md', 'references/control-layout.json', 'references/guided-workflow.md', 'references/review-intelligence-and-testimonials.md'):
+    for rel in ('config/routing.json', 'assets/guide/questions.json', 'assets/guide/index.html', 'assets/guide/app.js', 'assets/guide/style.css', 'references/control-comparison.md', 'references/control-layout.json', 'references/guided-workflow.md', 'references/guided-ship.md', 'references/guided-publishing.md', 'references/review-intelligence-and-testimonials.md'):
         source = skill_root / rel
         target = root / rel
         if (not args.static_only or args.profile) and source.is_file() and not target.exists():
@@ -262,6 +266,20 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
         sys.path.insert(0, str(skill_root/'scripts'))
         import control_review
         write_if_missing(root/'references'/'control-reference.json', json.dumps(control_review.reference(), indent=2)+'\n')
+
+    if not args.static_only:
+        # Fresh projects inherit the same credential boundary as the reusable
+        # repository. Existing operator policies are never overwritten here.
+        import sys
+        sys.path.insert(0, str(skill_root/'scripts'))
+        import agent_security
+        for rel, body in {'.claude/settings.json':json.dumps(agent_security.claude_settings(),indent=2)+'\n',
+                          '.codex/config.toml':agent_security.codex_config()}.items():
+            target=root/rel
+            if target.is_symlink() or target.parent.is_symlink():
+                raise ValueError('Refusing a symlinked agent policy. Preserve and reconcile it before scaffolding.')
+            target.parent.mkdir(parents=True,exist_ok=True)
+            if write_if_missing(target,body):created.append(rel)
 
     target_js = web_root / "script.js"
     source_js = skill_root / "assets" / "multistep-lightbox.js"

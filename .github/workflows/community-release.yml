@@ -148,5 +148,6 @@ jobs:
             skills/community-landing-page-builder/assets/cloudflare/community-node-results.tap
             skills/community-landing-page-builder/assets/cloudflare/build/guide-ui-review/
             skills/community-landing-page-builder/assets/cloudflare/build/reader-delivery-review/
+            skills/community-landing-page-builder/assets/cloudflare/build/ship-ui-review/
           if-no-files-found: ignore
           retention-days: 14

@@ -213,3 +213,19 @@ Use [references/guide-image-handoff.md](references/guide-image-handoff.md) when 
 ## CRM security and optional Google Sheets
 
 Before CRM deployment or credential-bearing setup, read `references/security-operations.md`; for Google Sheets also read `references/google-sheets.md`. Keep client sharing/MFA and authorized live checks as explicit handoff gates. Repository tests do not certify live provider settings. Never deploy the historical example branch or copy its runtime over this maintained template.
+
+
+### Self-guided publishing entry point
+
+When the user asks to publish a form-led project, read
+[the guided shipping controller](references/guided-ship.md). Inspect
+`python3 scripts/ship.py --json` without provider credentials. Give the owner the
+trusted local launcher `python3 scripts/ship.py --operator --ui` (or the root
+`dev.py ship --project …` equivalent). The local wizard advances preparation,
+quality checks, recovery point, upload, live verification and synthetic cleanup;
+Google Sheets appears only when enabled. If it requests local repair, consume
+`build/ship/agent-task.json` through the normal coding workflow and return to the
+same wizard. Do not replace source-bound QA with a self-authored pass result,
+launch a second publisher, read credential files, or treat an uploaded-but-not-
+cleaned-up release as ready. Host-side sign-in and owner consent remain genuine
+human actions. Older two-host/static/Pages profiles keep their existing adapters.

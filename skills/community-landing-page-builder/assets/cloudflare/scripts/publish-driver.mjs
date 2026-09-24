@@ -116,6 +116,7 @@ export async function publish(root,args,runtime={}) {
     base=inside(root,'build/releases/'+id);packageRoot=path.join(base,'package');
     state={schema_version:1,id,created_at:new Date().toISOString(),source_fingerprint:frozen.source_fingerprint,fixture:frozen.fixture,target,phase:'prepared',events:[],attempt:0,known_origins:[]};
     persist('prepared');atomic(pointerPath,{schema_version:1,id});
+    if(runtime.onFrozen)await runtime.onFrozen({release_id:id,source_fingerprint:frozen.source_fingerprint,target});
   }
   log=inside(root,'.secrets/release-'+state.id+'.log',true);
   const uploadLog=inside(root,'.secrets/release-'+state.id+'-upload.log',true);
@@ -142,6 +143,8 @@ export async function publish(root,args,runtime={}) {
         state.known_origins=priorOrigins;state.first_deploy=false;
       } else {initialSecrets(login.production,login.auth);state.first_deploy=true;}
       atomic(inside(root,'.secrets/current-admin-access.json',true),login.reference);
+      await validate();
+      if(runtime.beforeMigrations)await runtime.beforeMigrations({target,observed,release_id:state.id,source_fingerprint:state.source_fingerprint});
       await validate();persist('migrations_started');
       const result=await cloud.call(['d1','migrations','apply','DB','--remote']);
       if(result.code!==0)throw new Error('Migrations did not confirm success. Resume will inspect the migration ledger before any further change.');
@@ -185,6 +188,9 @@ export async function publish(root,args,runtime={}) {
     }
     atomic(inside(root,'build/deployment-record.json'),compat);
     if(state.phase==='public_checks_passed')return {status:'uploaded_unverified',readiness:'public-checks-only',url,release_id:state.id,reason:'The frozen approval did not authorize a controlled live lead. Its scope must be resolved before full verification.'};
+    // Optional trusted integration hook runs only after deployment identity is verified.
+    // It must reconcile its own named destination; it cannot authorize an upload.
+    if(runtime.beforeVerify)await runtime.beforeVerify(identity);
     await py(['live-snapshot',root,'--id',state.id]);
     let attempt=String(state.attempt).padStart(3,'0');
     let out=path.join(packageRoot,'build/live',attempt);
@@ -213,7 +219,7 @@ export async function publish(root,args,runtime={}) {
     }
     else verifyArgs['read-only']=true;
     if(resumeJourney)verifyArgs['resume-journey']=true;
-    const result=await (runtime.verify||runLiveVerify)(verifyArgs,{env:{...process.env,ADMIN_USERNAME:login?.auth.username},fetch:fetcher});
+    const result=await (runtime.verify||runLiveVerify)(verifyArgs,{env:{...process.env,ADMIN_USERNAME:login?.auth.username},fetch:fetcher,releaseSecret:login?.production?.SESSION_SECRET,beforeSyntheticCleanup:runtime.beforeSyntheticCleanup});
     if(!approval.allow_test_lead && result.status==='pass_with_warnings' && result.readiness==='public-checks-only'){persist('public_checks_passed',{attempt});return {status:'uploaded_unverified',readiness:result.readiness,url,release_id:state.id};}
     if(!result.fully_verified){persist('verification_failed',{attempt,readiness:result.readiness||'incomplete'});throw new Error('Upload is retained, but live verification is incomplete. Resume this release after addressing the recorded failure; no second deployment is needed.');}
     const verified=await py(['finalize',root,'--id',state.id,'--attempt',attempt]);

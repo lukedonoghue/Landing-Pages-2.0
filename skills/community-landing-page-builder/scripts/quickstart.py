@@ -371,6 +371,9 @@ def reset_demo(project, node):
 
 
 def main():
+    if len(sys.argv)>1 and sys.argv[1]=='ship':
+        import ship
+        return ship.main(sys.argv[2:])
     environment = SKILL / ".venv"
     python = environment / "bin/python"
     if python.is_file() and Path(sys.prefix).resolve() != environment.resolve():

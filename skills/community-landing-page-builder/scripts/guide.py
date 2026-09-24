@@ -313,6 +313,18 @@ def next_action(root):
     image_action = guide_image_handoff.inspect(root)
     if image_action:
         return {**base, **image_action}
+    # The underlying publisher verifies upload before the shipping coordinator has
+    # finished permanent synthetic cleanup. Never report completion prematurely.
+    if get(value,'backend.provider')=='cloudflare-d1' and value['guided_workflow']['goal']=='publish' and storage.path_inside(root,'build/ship/state.json').is_file():
+        import ship
+        try: shipping=ship.Ship(root).status()
+        except (ValueError,OSError):
+            return action('publishing_recovery','reconcile','Preserve the shipping journal and inspect the local recovery blocker. Do not reset it, read secrets or start another deployment.')
+        if shipping['stage']=='ready' and not shipping['card'].get('code'):
+            return action('published_verified','complete','Return the verified shipping receipt, links and scope. Owner confirmations are not API verification, and saved evidence is not a fresh live check.',shipping=shipping)
+        if shipping['card'].get('code') in {'quality','prerequisites','approval_stale'} and not shipping['busy']:
+            return action('publishing_local_repair','work','Read build/ship/agent-task.json and the actual current quality failures. Repair local prerequisites or source-bound QA with the existing tools and review workflow. Never fabricate evidence, relax gates, read production secrets or execute provider-authenticated commands. Return to the same operator wizard afterward.',role='debug',shipping=shipping)
+        return action('guided_publishing','connection','Continue the one current action in the trusted operator publishing wizard. Upload success is not completion until its live verification and synthetic cleanup finish.',operation='guided_ship',status_command=['python3','scripts/ship.py','--json'],operator_command=['python3','scripts/ship.py','--operator','--ui'],shipping=shipping)
     report = workflow_progress.inspect(root)
     stage = report['stage']
     extras = {'progress':report, 'blockers':report.get('blockers',[])}
@@ -320,6 +332,11 @@ def next_action(root):
         return action('local_final','complete','Present the improved local page and its tested scope. Nothing has been published.',**extras)
     if stage=='awaiting_copy_approval':
         return action(stage,'approval','Review the complete current copy, including form, confirmation and PDF promises. Approve it or request changes.',approval_kind='copy',**extras)
+    if get(value,'backend.provider')=='cloudflare-d1' and stage in {'awaiting_publish_authorization','ready_to_publish','publishing_setup','release_recovery','publishing_outcome_unknown','deployed_unverified'}:
+        return action(stage,'connection','Open the resumable publishing wizard in the trusted local operator terminal. It performs routine checks and presents only the next required action; the coding agent must not read production secrets or invent publish consent.',
+            operation='guided_ship',status_command=['python3','scripts/ship.py','--json'],
+            operator_command=['python3','scripts/ship.py','--operator','--ui'],
+            reference='references/guided-publishing.md',**extras)
     if stage in {'awaiting_publish_authorization','static_publish_authorization'}:
         return action(stage,'approval','Review the exact page, destination and selected modules. Publication and a labeled live test are separate choices.',approval_kind='publish',**extras)
     if stage in {'ready_to_publish','static_publish_ready'}:
