@@ -137,7 +137,7 @@ def start(root, mode=None, goal=None, website='', name=''):
         if selected.get('schema_version') != 1 or selected.get('mode') not in {'guided','automatic'} or selected.get('goal') not in {'preview','publish'}:
             raise ValueError('Invalid guided workflow configuration')
         selected.setdefault('copy_format', 'structured' if value.get('backend',{}).get('provider') != 'none' else 'markdown')
-        value.setdefault('quality', {}).update(complete_workflow=True, contract_version=2, control_review=True)
+        value.setdefault('quality', {}).update(complete_workflow=True, contract_version=3, control_review=True)
         value.setdefault('approvals', {})['copy_before_design'] = selected['mode'] == 'guided'
         for field, answer in [('client.website',website),('client.name',name)]:
             if answer and not get(value, field):

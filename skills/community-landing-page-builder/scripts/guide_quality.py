@@ -161,6 +161,8 @@ def validate_content(root, data):
         if kind == 'generated':
             if image.get('role') != 'illustration' or 'illustrat' not in image['caption'].lower():
                 raise ValueError('Generated imagery must be captioned as illustration, never customer/project proof')
+            from image_evidence import native_result
+            native_result(proof, sha(path))
         elif kind not in {'website', 'supplied'}:
             raise ValueError('Use sourced, supplied or actually generated images')
         elif kind == 'website':
@@ -241,6 +243,10 @@ def inspect_review(root, report=None):
         raise ValueError('Name the actual reviewer; disclose self-review')
     if reviewer['mode'] == 'independent' and reviewer['task_id'] in report.get('author_task_ids', []):
         raise ValueError('The guide author is not an independent reviewer')
+    from completion_contract import independent_review_errors
+    errors = independent_review_errors(root, {**reviewer, 'reviewer_task_id': reviewer.get('task_id')})
+    if errors:
+        raise ValueError('; '.join(errors))
     rows = review.get('pages', [])
     if [r.get('page') for r in rows] != list(range(1, report['page_count'] + 1)):
         raise ValueError('Inspect every rendered page, not just the cover')

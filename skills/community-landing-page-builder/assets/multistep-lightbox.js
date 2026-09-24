@@ -82,23 +82,68 @@
     }
   };
 
+  const inlineErrors = new Map();
+  let errorSequence = 0;
+  const relatedFields = field => field.type === 'radio'
+    ? entryControls.filter(other => other.type === 'radio' && other.name === field.name)
+    : [field];
+  const clearFieldError = field => {
+    for (const member of relatedFields(field)) {
+      const error = inlineErrors.get(member);
+      member.removeAttribute('aria-invalid');
+      if (!error) continue;
+      const ids = (member.getAttribute('aria-describedby') || '').split(/\s+/).filter(id => id && id !== error.id);
+      if (ids.length) member.setAttribute('aria-describedby', ids.join(' '));
+      else member.removeAttribute('aria-describedby');
+      error.hidden = true;
+      error.textContent = '';
+    }
+  };
+  const showFieldError = field => {
+    const group = relatedFields(field);
+    let error = inlineErrors.get(field);
+    if (!error) {
+      error = document.createElement('span');
+      error.id = `lead-field-error-${++errorSequence}`;
+      error.className = 'field-error';
+      error.dataset.fieldError = '';
+      const anchor = group[group.length - 1];
+      (anchor.closest('label') || anchor).insertAdjacentElement('afterend', error);
+      for (const member of group) inlineErrors.set(member, error);
+    }
+    error.textContent = field.dataset.errorMessage || field.validationMessage || 'Please check this field.';
+    error.hidden = false;
+    for (const member of group) {
+      member.setAttribute('aria-invalid', 'true');
+      const ids = new Set((member.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean));
+      ids.add(error.id);
+      member.setAttribute('aria-describedby', [...ids].join(' '));
+    }
+  };
   const validateCurrentStep = () => {
     const fields = Array.from(steps[currentStep].querySelectorAll('input, select, textarea'));
     let firstInvalid = null;
     fields.forEach((field) => {
-      field.removeAttribute('aria-invalid');
       if (!field.checkValidity()) {
-        field.setAttribute('aria-invalid', 'true');
+        showFieldError(field);
         firstInvalid ||= field;
-      }
+      } else clearFieldError(field);
     });
     if (!firstInvalid) return true;
-    firstInvalid.reportValidity();
-    firstInvalid.focus({ preventScroll: true });
+    setError('Please correct the highlighted fields before continuing.');
+    firstInvalid.focus();
+    firstInvalid.scrollIntoView?.({ block: 'nearest' });
     return false;
   };
 
+  const resizeModal = () => {
+    if (window.visualViewport && modal.style?.setProperty) {
+      modal.style.setProperty('--modal-viewport-height', `${window.visualViewport.height}px`);
+    }
+  };
+  window.visualViewport?.addEventListener('resize', resizeModal);
   const openModal = (trigger) => {
+    resizeModal();
     modalTrigger = trigger;
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -142,8 +187,16 @@
     focusable[nextIndex].focus({ preventScroll: true });
   });
 
-  form.addEventListener('input', (event) => event.target.removeAttribute('aria-invalid'));
-  form.addEventListener('change', (event) => event.target.removeAttribute('aria-invalid'));
+  const updateFieldError = event => {
+    if (!entryControls.includes(event.target)) return;
+    if (inlineErrors.has(event.target)) {
+      if (event.target.checkValidity()) clearFieldError(event.target);
+      else showFieldError(event.target);
+      if (!entryControls.some(field => field.getAttribute('aria-invalid') === 'true')) setError();
+    }
+  };
+  form.addEventListener('input', updateFieldError);
+  form.addEventListener('change', updateFieldError);
   nextButton?.addEventListener('click', () => {
     if (!submitting && !uncertainBody && validateCurrentStep()) showStep(currentStep + 1);
   });

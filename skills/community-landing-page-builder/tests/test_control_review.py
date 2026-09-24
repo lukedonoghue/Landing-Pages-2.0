@@ -30,7 +30,15 @@ class ControlReviewTests(unittest.TestCase):
                 'problem':'The headline does not explain the customer outcome.','why_it_matters':'The buyer cannot understand what changes for them.',
                 'proposed_change':'Replace it with a concrete supported roof-inspection benefit.','acceptance_test':'The rendered H1 identifies the useful inspection result.'}]}
         self.draft['checks'][0]['verdict']='improve';self.save('comparison.json',self.draft)
-    def save(self,name,value):storage.write(self.root,'build/control-review/'+name,value)
+    def save(self,name,value):
+        # Synthetic host records exercise linkage, not a real independent review.
+        reviewer=value.get('reviewer',{})
+        if reviewer.get('mode')=='independent':
+            path='build/control-review/'+reviewer['task_id']+'-synthetic-execution.json'
+            storage.write(self.root,path,{'status':'completed','task_id':reviewer['task_id'],
+                'host':'synthetic-unit-test','dispatch_id':'synthetic-dispatch','raw_result':'Synthetic test findings; no actual agent ran.'})
+            reviewer['execution_artifact']={'path':path,'sha256':control.sha(self.root/path)}
+        storage.write(self.root,'build/control-review/'+name,value)
     def checks(self,text):
         excerpt=control.reference()['text'][:70]
         return [{'criterion':c,'verdict':'pass','draft_excerpt':text,'control_excerpt':excerpt,

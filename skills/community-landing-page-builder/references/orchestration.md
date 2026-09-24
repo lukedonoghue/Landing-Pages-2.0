@@ -180,3 +180,7 @@ Repeat on the same saved business inputs with native_subagents false for a seque
 - Claude subscription authentication: https://code.claude.com/docs/en/authentication
 
 Provider formats and account features can change. Prefer observed capabilities and compatible inherited profiles over assuming the policy examples are universally available. The implementation does not install an SDK, a background model daemon or another model provider.
+
+## Completion evidence repair
+
+Follow `completion-integrity.md` for canonical research/document inputs, split image preflight/final acceptance, genuine host-result linkage, current local QA and export. The integrator owns the aggregate result. A specialist pass never overrides a missing/stale mandatory gate. Only the supported exporter can issue a verified local-final package.
