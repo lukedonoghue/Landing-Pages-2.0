@@ -1,92 +1,324 @@
-# Landing Pages 2.0: Community Builder
+# Landing Pages 2.0
 
-> **Testing this release? Start with [TESTING-START-HERE.md](TESTING-START-HERE.md).** It contains the validated release record, a copy-paste tester prompt, local setup commands, the feedback checklist and the disclosed native-PDF-preview limitation. NetBean and production deployment are not prerequisites for the local pilot.
+**Turn a business website into a researched, conversion-focused landing page and a working lead funnel - then guide it all the way to production.**
 
-The **community landing-page builder is now the main workflow**. Start from `main` and use `skills/community-landing-page-builder/SKILL.md`. The previous branded builder is retained under `skills/branded-lead-funnel-builder/`; its earlier README is preserved as [README-LEGACY.md](README-LEGACY.md).
+Landing Pages 2.0 is a guided AI workflow for building landing pages without making the business owner manage copywriting, design, QA, CRM setup, or deployment as separate projects.
 
-The community builder turns business research into a branded responsive landing page, purposeful imagery, a useful PDF, an honest conversion path and actual visual/functional QA. Form-led pages include the built-in local Cloudflare Workers and D1 CRM by default; external CRM/Sheets connections, advertising tracking and hosting remain optional later-stage modules. It does not require copy/design approval unless you ask for that checkpoint. Publishing and live test leads still require the authorization described in the skill.
+Give it a business website or description. It researches the business, works out what matters to the buyer, writes the copy, builds the page, creates the supporting guide, tests the funnel, improves weak areas, and guides publication when you are ready.
 
-## Step one install local dependencies
+## What you give it
 
-From a fresh checkout, run the repository setup entry point before building or testing:
+For most builds, you can start with just:
+
+- a business website, business name, or clear description;
+- the service or offer you want to promote, if it is not obvious;
+- any important facts the system cannot verify itself.
+
+Optional inputs such as a reference page, brand assets, campaign context, custom-domain details, tracking IDs, or external integrations can be added later. They are not prerequisites for producing a strong local final.
+
+## What you get
+
+A complete form-led build can include:
+
+- researched positioning and buyer insights;
+- benefit-focused landing-page copy;
+- supported reasons to choose the business;
+- real review intelligence and provenance-safe testimonials where available;
+- a custom responsive landing page;
+- purposeful, source-aware imagery;
+- a useful illustrated PDF buyer guide;
+- a full thank-you page that matches the main page;
+- an accessible enquiry journey;
+- a built-in local Cloudflare Workers + D1 CRM;
+- lead storage, notes, stages, attribution and reporting;
+- mobile, desktop, browser, accessibility and conversion QA;
+- automatic comparison against the Blue Mountain Mesh control;
+- automatic repair of confirmed copy/layout weaknesses;
+- a guided publishing workflow when you are ready to go live.
+
+The goal is not to generate a page and hand you a technical checklist. The goal is to move from **business context -> finished funnel -> verified release** while asking you only for decisions the system genuinely cannot make itself.
+
+## How the workflow works
+
+### 1. Understand the business
+
+The builder researches the official website, services, process, proof, FAQs, contact information, customer feedback and other relevant first-party material.
+
+Where customer reviews are reasonably available, it extracts recurring:
+
+- customer problems;
+- desired outcomes;
+- objections;
+- praised capabilities;
+- practical benefits;
+- natural customer language;
+- possible differentiators.
+
+It separates research insight from publishable testimonials, so useful review themes do not automatically become quoted proof.
+
+### 2. Write the sales argument before designing the page
+
+The system identifies the strongest supportable reason to choose the business and writes the complete copy before layout.
+
+The copy is reviewed for:
+
+- clarity of the offer;
+- customer benefit;
+- differentiation;
+- proof and mechanism;
+- objections;
+- process;
+- CTA consistency;
+- unsupported claims;
+- generic AI language.
+
+A weak copy draft is not simply passed into design. Copy acceptance is a real gate.
+
+### 3. Design and build the funnel
+
+The page is designed around the business rather than a generic template.
+
+The builder uses the observed brand, typography, imagery and conversion intent where appropriate, then creates the responsive page and conversion journey.
+
+For enquiry-led pages, the bundled Cloudflare/D1 CRM is the default. You do not need to choose a CRM, spreadsheet, analytics product, auth provider, or hosting stack just to get a working local funnel.
+
+### 4. Build the supporting guide and thank-you experience
+
+New complete builds normally include a researched buyer guide rather than a throwaway PDF.
+
+The guide is rendered and every page is inspected. The thank-you page is derived from the main landing page so it keeps the same brand, proof, benefits and useful context instead of becoming a generic success box.
+
+### 5. Test and improve the actual output
+
+The builder tests the rendered page, not just the source files.
+
+The workflow covers representative mobile and desktop layouts, conversion behavior, accessibility, PDF delivery, local CRM behavior, browser checks and performance.
+
+After the first build, the system compares the real page against the Blue Mountain Mesh control for persuasive clarity and layout discipline. It creates a concrete improvement list, applies warranted repairs, then captures and reviews the page again before presenting the local final.
+
+### 6. Publish through the guided release flow
+
+When you are ready to go live, the publishing workflow handles the routine production work and surfaces only the action that actually needs you.
+
+For the standard supported Cloudflare path, the experience is designed to be:
+
+**domain + owner email -> Cloudflare sign-in -> automatic preflight/configuration -> publish approval -> deploy -> synthetic verification -> cleanup -> release receipt**
+
+Google Sheets is off by default and appears only when explicitly selected.
+
+Read [GUIDED-PUBLISHING-START-HERE.md](GUIDED-PUBLISHING-START-HERE.md) for the current publishing entry point.
+
+---
+
+# Start here
+
+## Option A: build a real landing page with an AI coding session
+
+Open this repository in a file-capable ChatGPT/Codex or Claude Code session.
+
+Then paste:
+
+> Build a landing page for [BUSINESS WEBSITE OR DESCRIPTION] using the Landing Pages 2.0 community workflow in guided mode. Research the business first, ask only for genuinely missing business decisions, write and review the benefit-focused copy before layout, build the page, useful PDF, thank-you page and local CRM where the conversion uses a form, run the quality checks, compare the first build against the control, repair confirmed weaknesses, and show me the improved local final. Do not publish until I ask.
+
+The workflow should research before questioning you and continue through routine work without repeatedly asking whether it should proceed.
+
+## Option B: run the deterministic local demo
+
+From a fresh checkout:
 
 ```sh
 python3 scripts/dev.py doctor
 python3 scripts/dev.py bootstrap
 python3 scripts/dev.py doctor
+python3 scripts/dev.py demo
+python3 scripts/dev.py verify-demo --full
+python3 scripts/dev.py serve
 ```
 
-Bootstrap installs the locked Python, Node and Playwright browser dependencies in project-local locations. It does not use sudo, alter the system Python, sign into an account, deploy, or include dependency folders in source handoffs. Use `--node /absolute/path/to/node` when the supported Node 24 runtime is not already on PATH; Node 22.19 is the minimum.
+The first doctor may report missing dependencies. Bootstrap installs the locked project-local Python, Node and browser dependencies without signing into accounts or deploying anything.
 
-## Guided build, automatic repairs and recovery
+The demo uses fictional data and stays local.
 
-Start a fresh active ChatGPT/Codex or Claude session with:
+## When you are ready to publish
 
-> Use the community skill on main to build a landing page for [business website or description] in guided mode. Remember supplied answers, confirm the business and conversion brief, and ask only for genuinely missing decisions. After the first build, compare the rendered page and copy with the Blue Mountain Mesh control, make a concrete improvement checklist, implement the repairs and recapture mobile/desktop output before showing the improved page. Continue toward publication, but obtain the actual scoped setup/publication and live-test permissions when needed.
+From a generated project:
 
-The guide exposes **Start → Business → Conversion → Copy → Design → Preview → Connections → Publish → Complete**. This is not nine permission screens: routine implementation, comparison, repairs and tests continue automatically. Guided mode adds brief/copy review; automatic mode retains the no-routine-approval behavior. Both modes require fresh control comparison and preserve real publishing authority.
+```sh
+python3 scripts/ship.py --operator --ui
+```
 
-The active agent uses `guide.py` and the persistent `workflow_runner.py`; an optional authenticated loopback wizard uses the same controller and an actual runner bridge. Stable answer/event IDs prevent repeats, task ownership prevents duplicate execution, and bounded repair attempts expose a precise blocker rather than silently stopping or skipping a gate. Unknown external results must be reconciled before retry. A session or local process must remain active to execute; a saved checkpoint is not a background service.
+Or from this repository:
 
-Fresh generated projects keep the complete skill context under `.community-builder/`, outside `public/`. This preserves instructions, templates and the Blue Mountain reference after moving the project or resuming through copied helpers. It contains no client credentials. Existing bundles are not silently overwritten; reconcile a modified runtime explicitly. Do not upload the project root as public assets.
+```sh
+python3 scripts/dev.py ship --project /path/to/generated-project --operator --ui
+```
 
-See [guided workflow](skills/community-landing-page-builder/references/guided-workflow.md) and [control comparison](skills/community-landing-page-builder/references/control-comparison.md). Source/test verification does not substitute for a real signed-in native-agent pilot or authorized cloud/domain/email acceptance.
+The guided publishing flow resumes saved progress, keeps credentials out of chat, and separates automatic checks from the few external actions that require the owner.
 
-## Reader guides and full confirmation pages
+---
 
-New builds now require a researched, illustrated buyer guide, not merely a generated PDF. The reader-review gate checks actual source/image evidence, all rendered pages, specific findings and their repaired output. The full thank-you page is derived from the main page: shared header/phone/brand and supporting sections, with a confirmation-focused hero, real guide-cover preview, download and reader fallback. Direct visits never manufacture a received enquiry or conversion.
+## What the system should ask you - and what it should not
 
-See [the complete reader-guide and confirmation contract](skills/community-landing-page-builder/references/reader-guide-quality.md). These changes update the builder; existing generated client folders need an intentional update and rebuild. Do not overwrite a customized client thank-you page without reviewing it first.
+The system may need you to confirm things like:
 
-## Agent GitHub access
+- the actual service or offer when the source is ambiguous;
+- an operational promise that is not published anywhere;
+- which business/account is correct when several are possible;
+- whether you approve the displayed production destination;
+- an external sign-in, ownership, or DNS action that software cannot complete safely.
 
-AI agents working on this repository must verify GitHub permissions through the connected GitHub action layer before claiming that writes are blocked. **Do not use web search/browser access as evidence that the repository is read-only.** If live repository metadata reports `permissions.push: true` or `permissions.admin: true`, proceed with requested GitHub writes. If write actions are absent from the current session, describe that as a session/tool limitation; if a write call fails, report the exact operation and error. See [AGENTS.md](AGENTS.md) and [CLAUDE.md](CLAUDE.md) for the required preflight.
+It should **not** ask you to decide:
 
-## Start testing in ChatGPT or Claude
+- CSS structure;
+- database schemas;
+- which CRM to use for the standard form flow;
+- how to configure D1;
+- what model should perform each worker task;
+- which QA scripts to run;
+- how to repair a routine layout bug;
+- whether obvious weak copy should be improved.
 
-Open this checkout in a fresh ChatGPT/Codex work session or Claude Code session, signed in with your existing eligible subscription. Native agent profiles are committed in `.codex/agents/` and `.claude/agents/`; project instructions load the same community skill. No Jev, additional model API key, gateway or cross-provider bridge is installed.
+Those are workflow responsibilities.
 
-> Use the community landing-page-builder from this main checkout for [BUSINESS URL]. Apply native routing and parallel workers when this session actually supports them. Use my existing signed-in account only; no Jev, model API key or new provider. Research, build and verify the local page and useful PDF. Preserve the source conversion type. Do not deploy or submit a live lead. Report actual worker models/efforts, fallback modes, elapsed page-build time and unresolved findings.
+## Guided mode vs automatic mode
 
-In a session without native subagent/model-selection tools, the same workflow runs sequentially with the current model. A skill does not add missing tools to a chat session. Native model availability and usage limits depend on the signed-in account. OpenAI workers run inside ChatGPT/Codex; Claude workers run inside Claude Code. Supporting both does not mean that one subscription can call the other provider's models. Image/browser/PDF capabilities are checked independently; unavailable tools are reported, not simulated.
+**Guided mode** is best when you want to see the brief, copy and important business choices as the build progresses.
 
-## Install into another project
+**Automatic mode** is best when you want the system to work through routine research, implementation, review and repair without approval pauses.
 
-From this repository checkout, with the target project directory already created:
+Both modes preserve the same claim, quality, conversion and publishing safeguards.
+
+The visible guided journey is:
+
+**Start -> Business -> Conversion -> Copy -> Design -> Preview -> Connections -> Publish -> Complete**
+
+These are workflow stages, not nine permission screens.
+
+## What "ready" means
+
+The project uses status language deliberately:
+
+- **local final** - the selected local experience has passed its gates;
+- **publish-ready** - the selected external configuration is present and preflight has passed;
+- **live and verified** - the actual deployed destination and selected conversion journey have been checked after publication.
+
+A successful local build is not silently relabeled as a live deployment.
+
+## What is automatic by default
+
+For a normal form-led landing page:
+
+| Area | Default behavior |
+|---|---|
+| Business research | Automatic |
+| Review/customer-language research | Automatic when reasonably available |
+| Strategy and positioning | Automatic, using supportable evidence |
+| Copywriting | Automatic |
+| Copy review | Automatic |
+| Responsive design | Automatic |
+| Image planning | Automatic |
+| PDF buyer guide | Included unless research supports an exception |
+| Thank-you page | Included |
+| Local CRM | Included for form-led pages |
+| Local QA | Automatic |
+| Control comparison and repairs | Automatic |
+| Google Sheets | Off unless selected |
+| Ad-platform/GTM tracking | Off unless selected |
+| Production publishing | Runs only when requested |
+
+## Current standard publishing path
+
+The self-guided publishing adapter currently targets the common configuration:
+
+- macOS or Linux;
+- one custom domain;
+- one Cloudflare Worker;
+- one D1 database;
+- the bundled CRM.
+
+Advanced configurations such as split public/CRM domains, external-DNS gateways, static-only pages and workers.dev-only releases retain their existing advanced publishing paths rather than being silently rewritten.
+
+## Important principles
+
+Landing Pages 2.0 is designed around a few non-negotiables:
+
+- no invented proof, reviews, ratings, guarantees, credentials or outcomes;
+- generated imagery is illustrative, never fake evidence;
+- the source conversion intent is preserved unless the owner explicitly changes it;
+- a form only reports success after the selected destination confirms success;
+- required claims keep their qualifiers;
+- live publication and live test leads require actual authorization;
+- private credentials stay out of chat, source, screenshots and public artifacts;
+- a green test report cannot override a visibly broken page.
+
+## Optional integrations
+
+The standard local build does not require any of these:
+
+- Google Sheets;
+- GTM;
+- Google Ads conversion IDs;
+- Meta or Microsoft tracking;
+- GitHub source backup;
+- external CRM/webhooks;
+- custom email delivery;
+- custom domains.
+
+They are activated only when selected.
+
+## Testing the current release
+
+If you are testing the repository itself rather than building for a client, start with [TESTING-START-HERE.md](TESTING-START-HERE.md).
+
+It contains the validated tester flow, environment expectations, feedback format and current known limitations.
+
+## Technical reference
+
+The main implementation is the community skill:
+
+- [Community skill](skills/community-landing-page-builder/SKILL.md)
+- [Guided workflow](skills/community-landing-page-builder/references/guided-workflow.md)
+- [Copy workflow](skills/community-landing-page-builder/references/copy-workflow.md)
+- [Copy acceptance](skills/community-landing-page-builder/references/copy-acceptance.md)
+- [Review intelligence and testimonials](skills/community-landing-page-builder/references/review-intelligence-and-testimonials.md)
+- [Image research and generation](skills/community-landing-page-builder/references/image-research-and-generation.md)
+- [Reader guide quality](skills/community-landing-page-builder/references/reader-guide-quality.md)
+- [Control comparison](skills/community-landing-page-builder/references/control-comparison.md)
+- [Quality gates](skills/community-landing-page-builder/references/quality-gates.md)
+- [Guided publishing](skills/community-landing-page-builder/references/guided-publishing.md)
+- [Security operations](skills/community-landing-page-builder/references/security-operations.md)
+- [Native orchestration](skills/community-landing-page-builder/references/orchestration.md)
+
+## Install the community workflow into another project
+
+From this repository:
 
 ```sh
 python3 scripts/install_community.py --project /absolute/path/to/project --runtime codex --copy-skill
-# Claude Code:
+```
+
+For Claude Code:
+
+```sh
 python3 scripts/install_community.py --project /absolute/path/to/project --runtime claude --copy-skill
-# Both sets of native profiles:
+```
+
+For both profile sets:
+
+```sh
 python3 scripts/install_community.py --project /absolute/path/to/project --runtime both --copy-skill
 ```
 
-Reload the host after installation so it discovers the native profiles. Existing owner settings and instructions are preserved. Customized/unmanaged file conflicts stop the installation before changes. The self-contained skill includes the same installer at `scripts/install_native.py`. To use inherited host models instead of preferred profiles, add `--inherit-models`; model availability remains a runtime preflight check.
+Existing owner settings and unmanaged files are preserved. Conflicts stop installation instead of silently overwriting customized work.
 
-The old `scripts/install_skill.py` is retained for the **legacy branded skill**. Use `scripts/install_community.py` for the current main workflow.
+## Development and contribution
 
-## What routing changes
+For repository development, test commands, implementation details and legacy workflows, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-The coordinator routes narrow research to fast workers, ordinary implementation to standard workers, strategy/copy/review to deeper workers, and difficult diagnosis to critical workers. Mechanical checks stay in scripts. A maximum of four cooperating workers can reserve disjoint tasks. A shared production contract, dependency/input hashes, bounded retries and a frozen independent review keep parallel work coherent. Requested and actually reported models are separate fields.
+The previous branded workflow remains under `skills/branded-lead-funnel-builder/` and its historical README is preserved in [README-LEGACY.md](README-LEGACY.md).
 
-The default OpenAI policy uses Luna and Terra for narrow or implementation work, GPT-6 Astra for the primary copy draft, and GPT-5.6 Sol for the fresh copy review. The Claude policy uses Sonnet for both copy passes in separate contexts; it does not route copy or copy review to Opus. Other non-copy roles retain their task-appropriate same-provider profiles. Missing choices use an ordered same-provider fallback or explicit inherited/sequential fallback, without new API credentials. Profiles are generated from one policy; fallback profile/model consistency is regression-tested.
+## Repository status
 
-Read [native orchestration](skills/community-landing-page-builder/references/orchestration.md) for the exact dependency graph, capability preflight, native dispatch protocol, private-data boundaries and measurement plan. The local routing helper records/schedules work but does not call any model API or launch an external agent service. Existing copy-before-layout, imagery, PDF, backend, source-fingerprint and publishing gates remain authoritative.
+This is a private collaboration repository. The word "community" names the reusable workflow; it is not an open-source license grant.
 
-## Offline verification
-
-```sh
-python3 skills/community-landing-page-builder/tests/test_native_routing.py
-python3 scripts/install_community.py --project . --runtime both --check
-```
-
-The test suite uses fictional temporary projects and the standard library; it does not submit leads, call model providers or deploy anything. Use Python 3.11+ for the suite's TOML parser; the routing/install helpers support Python 3.10+. Existing page generation still needs its documented browser, image/PDF and Node dependencies. See the skill's references for the selected workflow and [CONTRIBUTING.md](CONTRIBUTING.md) for the preserved legacy development commands.
-
-Routing changes are **ready for end-to-end testing**, not a claim that every account/model has been exercised or that previously recorded page/deployment issues are resolved. See [implementation and verification record](docs/community-landing-page-builder/NATIVE-ROUTING-20260922.md).
-
-## History and ownership
-
-The community baseline is `dcbafa918c1f2a73e66e5e8b6e1de5221eaba2fc` (22 September 2026). Main was previously `6962338ff5d8233f6301bfbc4cb460b695e6421e`. Promotion preserves Git history rather than force-pushing a replacement repository.
-
-This remains a private collaboration repository. Reference/client material retains its original rights and provenance; the word community is not an open-source license grant. No client credentials or live lead data are added by native routing.
+The project is actively being tested as a self-guided workflow across real AI coding environments. Automated tests establish mechanical behavior, but they do not replace real-business evaluation of research quality, copy quality, design quality, or every possible hosting/account configuration.
