@@ -11,6 +11,7 @@ import unittest
 import zlib
 
 SKILL = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(SKILL / "scripts"))
 SPEC = importlib.util.spec_from_file_location("image_workflow", SKILL / "scripts/image_workflow.py")
 workflow = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(workflow)
@@ -51,6 +52,14 @@ class ImageWorkflowTests(unittest.TestCase):
         item["allow_generation"] = True
         item["generation"] = {"requested_model": "gpt-image-2.5-sunburst", "allow_unverified_native_model": False, "allow_source_fallback": True}
         return item
+
+    def native_fixture(self):
+        # Keep the original source/minimum-exception evidence immutable.
+        self.evidence = self.root / "native-tool-result.json"
+        self.evidence.write_text(json.dumps({"kind": "native_image_result", "status": "succeeded",
+            "tool": "image_gen", "tool_call_id": "synthetic-call", "output_id": "synthetic-output",
+            "raw_result": "Synthetic unit-test fixture only: synthetic-output", "executed_at": workflow.now(),
+            "output_sha256": workflow.sha(self.supplied.read_bytes())}))
 
     def allow_cli(self):
         item = self.allow_generation()
@@ -184,10 +193,11 @@ class ImageWorkflowTests(unittest.TestCase):
     def test_reported_model_must_appear_in_tool_evidence(self):
         self.allow_generation()
         attempt = workflow.prepare_generation(self.plan, self.image_id, "Illustration")
-        with self.assertRaisesRegex(workflow.WorkflowError, "absent from the tool-result"):
+        with self.assertRaisesRegex(workflow.WorkflowError, "structured retained tool result"):
             workflow.register_generation(self.plan, self.root, self.image_id, attempt["attempt_id"], self.supplied, self.evidence, "gpt-image-2.5-sunburst")
 
     def test_native_unknown_model_is_recorded_honestly(self):
+        self.native_fixture()
         self.allow_generation()
         attempt = workflow.prepare_generation(self.plan, self.image_id, "Illustration")
         workflow.register_generation(self.plan, self.root, self.image_id, attempt["attempt_id"], self.supplied, self.evidence)
@@ -203,6 +213,7 @@ class ImageWorkflowTests(unittest.TestCase):
             workflow.validate_plan(self.plan)
 
     def test_native_default_does_not_invent_a_requested_model(self):
+        self.native_fixture()
         item = self.allow_generation()
         item["generation"] = {"mode": "native"}
         workflow.validate_plan(self.plan)
@@ -213,6 +224,7 @@ class ImageWorkflowTests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which("cwebp"), "cwebp is required for real optimization")
     def test_native_default_unreported_model_allows_real_rendered_review(self):
+        self.native_fixture()
         item = self.allow_generation()
         item["generation"] = {"mode": "native"}
         attempt = workflow.prepare_generation(self.plan, self.image_id, "Illustration")
@@ -267,7 +279,7 @@ class ImageWorkflowTests(unittest.TestCase):
         })
         result = workflow.gate(self.plan, self.root)
         self.assertFalse(result["passed"])
-        self.assertEqual(result["distinct_content_original_count"], 3)
+        self.assertEqual(result["distinct_content_original_count"], 0)  # Names alone are not retained original bytes.
         self.assertTrue(any("required 4" in error for error in result["errors"]))
 
     def test_identical_source_bytes_cannot_claim_different_original_ids(self):
@@ -315,6 +327,7 @@ class ImageWorkflowTests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which("cwebp"), "cwebp is required for real optimization")
     def test_unknown_native_model_blocks_exact_model_review(self):
+        self.native_fixture()
         self.allow_generation()
         attempt = workflow.prepare_generation(self.plan, self.image_id, "Illustration")
         workflow.register_generation(self.plan, self.root, self.image_id, attempt["attempt_id"], self.supplied, self.evidence)

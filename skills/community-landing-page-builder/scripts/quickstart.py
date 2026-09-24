@@ -273,6 +273,12 @@ def verify_demo(project, node, full=False):
     access_args, owner = local_verification_access(project)
     journey_output = 'build/live-verification/' + uuid.uuid4().hex
     with demo_server(project, node) as (url, _):
+        # Brand/font research is a canonical source input, not a QA output.
+        # Acquire it before the shared snapshot so every following check tests
+        # the same source identity; do not refresh snapshots around stale QA.
+        if full:
+            run([node, "scripts/extract_brand.mjs", url, "--out", "build/brand.json"],
+                project, node, "Rendered demo brand and font evidence")
         run([sys.executable, project / "scripts/check_gates.py", "snapshot", project, "--mode", "handoff"],
             project, node, "Source snapshot")
         run([node, "scripts/browser-compat.mjs", "--url", url, "--fixture", "test-fixture.json", "--project-root", "."],
@@ -292,8 +298,6 @@ def verify_demo(project, node, full=False):
         run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "rendered_copy",
              "--report", "build/rendered-copy/result.json"], project, node, "Rendered copy release evidence")
         if full:
-            run([node, "scripts/extract_brand.mjs", url, "--out", "build/brand.json"],
-                project, node, "Rendered demo brand and font evidence")
             run([node, "scripts/measure_funnel.mjs", url, "--out", "build/layout/result.json",
                  "--project-root", ".", "--mode", "handoff", "--thank-you", "/thank-you.html"],
                 project, node, "Nine-viewport layout verification")

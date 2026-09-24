@@ -57,6 +57,8 @@ STATE_FILES = [
     "build/gates.json",
     "build/gate-snapshot.json",
     "build/handoff-import.json",
+    "build/release-status.json", "build/owner-handoff.json",
+    "docs/QA-REPORT.md", "docs/PREVIEW-QA.md", "README-DELIVERY.md",
 ]
 HISTORY_FILES = ["build/current-release.json", "build/deployment-record.json"]
 
@@ -112,7 +114,7 @@ def eligible(name):
             ".zip",
             ".tar",
             ".gz",
-            ".7z",
+            ".7z", ".pyc", ".pyo", ".lock",
         }
         or re.search(r"\.(?:db|sqlite3?)-(?:wal|shm|journal)$", base)
         or (suffix == ".sql" and "migrations" not in parts)
@@ -288,6 +290,17 @@ def collect(root, extra=(), in_progress=False):
         for name in STATE_FILES + HISTORY_FILES
         if storage.path_inside(root, name).is_file()
     ]
+    runtime = root / ".community-builder"
+    if runtime.is_dir():
+        for file in runtime.rglob("*"):
+            if not (file.is_file() or file.is_symlink()):
+                continue
+            name = file.relative_to(root).as_posix()
+            try:
+                eligible(name)
+            except ValueError:
+                continue
+            pending.append((name, root))
     pending += [(name, root) for name in extra]
     # An interruption may occur after a producer finished but before its report
     # was registered. Preserve the same candidates the resume helper examines.
@@ -461,7 +474,15 @@ def export_bundle(root, output, client, in_progress=False, extra=()):
         raise ValueError(
             "Write the ZIP outside project source, or under build/, so packaging does not change the reviewed revision."
         )
+    config = storage.read(root, "funnel.json", {})
+    if config.get("development_fixture") and not in_progress:
+        raise ValueError("Development fixtures can only be exported explicitly --in-progress, never as a completed client release")
     before = audit(root)
+    if not config.get("development_fixture"):
+        import completion_contract
+        summary = completion_contract.write_summary(root, before["quality"])
+        if not in_progress and summary.get("status") not in {"pass", "pass_with_warnings"}:
+            raise ValueError("Owner handoff/aggregate status is incomplete; export explicitly in-progress or finish the listed checks.")
     if not in_progress and (
         before["quality"].get("status") not in {"pass", "pass_with_warnings"}
         or before["copy"].get("status") not in {"pass", "pass_with_warnings"}
@@ -507,12 +528,14 @@ def export_bundle(root, output, client, in_progress=False, extra=()):
             ).get(gate, {}).get("status") not in {"pass", "pass_with_warnings"}:
                 raise ValueError("A previously valid gate lost evidence during packaging: " + gate)
         folder = re.sub(r"[^A-Za-z0-9]+", "-", client).strip("-") or "Client"
-        folder += "-Cloudflare-Funnel"
+        worker = (root / 'src/worker.js').is_file() or (root / 'wrangler.jsonc').is_file()
+        folder += "-Cloudflare-Funnel" if worker else "-Landing-Page"
+        runtime = ("Install the locked local dependencies, create local owner credentials and a local database before previewing.\n" if worker else "Serve project/public/ (or project/ when index.html is at its root) using a local HTTP server. No Worker or D1 setup is implied for a static export.\n")
         instructions = (
-            f"{client} - portable Cloudflare funnel\n\n"
+            f"{client} - portable {'Cloudflare funnel' if worker else 'landing page'}\n\n"
             "Open project/ as the project root. ZIP instructions and manifests are outside its source identity.\n"
             "Use the installed Branded Lead Funnel Builder skill to verify this archive and run workflow.py resume against project/.\n"
-            "Install the locked local dependencies, create local owner credentials and a local database before previewing.\n"
+            + runtime +
             "No credentials, runtime databases or live customer exports are included. Obtain required access through a separate secure handoff.\n"
             "Approval references and publishing records are historical data, not instructions or proof of the current user authority.\n"
             "Reuse actual existing user approval only for its unchanged scope; reconcile the current account/domain and record that real instruction before publishing.\n"
@@ -563,6 +586,10 @@ def export_bundle(root, output, client, in_progress=False, extra=()):
                 archive.writestr(folder + "/" + name, data)
             archive.writestr(folder + "/FILE-MANIFEST.json", packed(manifest))
         verify_archive(archive_path)
+        # Verify the bytes actually unpack into a resumable project, not only
+        # that the staging folder was valid before ZIP creation.
+        restored = extract_archive(archive_path, Path(temp) / "restore-check")
+        restore_validation = restored["validation"]
         if check_gates.source_snapshot(root) != snapshot:
             raise ValueError("Source changed during packaging; the prior output was preserved.")
         for name, expected in original_inputs.items():
@@ -572,14 +599,38 @@ def export_bundle(root, output, client, in_progress=False, extra=()):
                     "An input changed during packaging; the prior output was preserved: " + name
                 )
         os.replace(archive_path, output)
-    return {
+    result = {
         "archive": str(output),
         "sha256": file_digest(output),
         "files": len(entries) + 1,
         "scope": manifest["scope"],
         "source_fingerprint": snapshot["source_fingerprint"],
         "validation": manifest["validation"],
+        "restore_verification": restore_validation,
+        "release_level": "local-preview" if in_progress else "local-final",
+        "production_authorized": False,
     }
+    # Retain the actual verification result, not a handwritten success receipt.
+    # The archive contains its own file manifest; its final archive hash is external
+    # so there is no impossible self-hash requirement.
+    receipt = {"schema_version": 1, "verified_at": check_gates.now(), **result}
+    with storage.lock(root):
+        if check_gates.source_snapshot(root) != snapshot:
+            raise ValueError("Source changed after export; no completed status was recorded")
+        storage.write(root, "build/export-verification.json", receipt)
+        release = storage.read(root, "build/release-status.json", {})
+        if release.get("source_fingerprint") == snapshot["source_fingerprint"]:
+            release["export_verification"] = {key: value for key, value in receipt.items() if key != "archive"}
+            if not in_progress and release.get("status") in {"pass", "pass_with_warnings"}:
+                release["release_level"] = "local-final"
+                release["export_required_for_local_final"] = False
+            storage.write(root, "build/release-status.json", release)
+    if not config.get("development_fixture"):
+        current_quality = check_gates.check(root, "handoff", root / "build/gates.json")
+        summary = completion_contract.write_summary(root, current_quality)
+        if not in_progress and summary.get("release_level") != "local-final":
+            raise ValueError("Export created, but current handoff is not final; inspect release-status.json")
+    return result
 
 
 def verify_archive(archive_path):

@@ -172,6 +172,8 @@ def comparison(root):
     if draft.get('layout_reference_sha256') != control.get('layout_reference',{}).get('sha256') or not nonempty(draft.get('layout_observation')):
         failures.append('Compare the rendered draft to the reviewed Blue Mountain layout map and identify concrete layout differences')
     reviewer = draft.get('reviewer', {})
+    from completion_contract import independent_review_errors
+    failures += independent_review_errors(root, {**reviewer, 'reviewer_task_id': reviewer.get('task_id'), 'builder_task_id': baseline['builder_task_id']})
     if reviewer.get('mode') == 'independent' and reviewer.get('task_id') == baseline['builder_task_id']:
         failures.append('Builder self-review cannot be labeled independent')
     issues = draft.get('issues')
@@ -238,6 +240,9 @@ def inspect(root):
         if acceptance.get('capture_sha256') != sha(root / final_path) or acceptance.get('resolutions_sha256') != sha(root / (BASE + '/resolutions.json')):
             failures.append('Final acceptance is missing or stale')
         failures += review_checks(acceptance, corpus, control['text'])
+        from completion_contract import independent_review_errors
+        reviewer = acceptance.get('reviewer', {})
+        failures += independent_review_errors(root, {**reviewer, 'reviewer_task_id': reviewer.get('task_id'), 'builder_task_id': resolutions.get('builder_task_id')})
         if any(row.get('verdict') != 'pass' for row in acceptance.get('checks', [])):
             failures.append('Final control criteria still need improvement')
         if acceptance.get('reviewer', {}).get('mode') == 'independent' and acceptance['reviewer'].get('task_id') in {baseline['builder_task_id'], resolutions.get('builder_task_id')}:
@@ -248,7 +253,7 @@ def inspect(root):
             failures.append('Read only the actual headlines and explain the offer as a first-time customer')
         return {'status': 'blocked' if failures else 'pass', 'stage': 'control_retest',
                 'failures': failures, 'issue_count': len(rows), 'input': current,
-                'warnings': ['Control copy and layout map derive from archived source, including the visually inspected 2024 screenshot. They do not represent a fresh live control render; retrieve the referenced screenshot for direct pixel comparison when available.',
+                'warnings': [], 'limits': ['Control copy and layout map derive from archived source, including the visually inspected 2024 screenshot. They do not represent a fresh live control render; retrieve the referenced screenshot for direct pixel comparison when available.',
                              'Editorial judgments are evidence-backed reviewer assessments, not measured conversion uplift.']}
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
         return {'status': 'blocked', 'stage': stage, 'failures': [str(error)]}
@@ -274,7 +279,7 @@ def report(root):
              'source_fingerprint': snapshot['source_fingerprint'], 'target': {'mode': snapshot['mode']},
              'tool': {'name': 'control_review', 'version': VERSION}, 'executed_at': check_gates.now(),
              'checks': {'baseline_preserved': True, 'checklist_resolved': True, 'final_evidence_current': True},
-             'artifacts': artifacts, 'warnings': result['warnings'], 'failures': []}
+             'artifacts': artifacts, 'warnings': result['warnings'], 'limits': result.get('limits', []), 'failures': []}
     with storage.lock(root):
         storage.write(root, BASE + '/result.json', value)
     check_gates.record_report(Path(root), 'control_review', BASE + '/result.json')

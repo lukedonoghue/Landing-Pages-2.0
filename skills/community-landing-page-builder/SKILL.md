@@ -229,3 +229,7 @@ same wizard. Do not replace source-bound QA with a self-authored pass result,
 launch a second publisher, read credential files, or treat an uploaded-but-not-
 cleaned-up release as ready. Host-side sign-in and owner consent remain genuine
 human actions. Older two-host/static/Pages profiles keep their existing adapters.
+
+## September 2026 completion integrity
+
+For research, copy acceptance and final handoff, follow [completion-integrity.md](references/completion-integrity.md). Use the existing aggregate gate checker, `check_gates.py summarize`, and supported exporter; never substitute prose completion for current source-bound acceptance. Keep owner questions minimal and continue automatically when no real owner input is needed.

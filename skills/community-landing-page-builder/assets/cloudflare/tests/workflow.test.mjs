@@ -25,7 +25,7 @@ function fixture(t) {
   const checker = [join(template, 'scripts/check_gates.py'), fileURLToPath(new URL('../../../scripts/check_gates.py', import.meta.url))].find(existsSync);
   assert.ok(checker, 'Evidence checker source exists');
   copyFileSync(checker, join(root, 'scripts/check_gates.py'));
-  for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity']) {
+  for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity','completion_contract','image_evidence']) {
     const source=[join(template, 'scripts', name+'.py'),fileURLToPath(new URL('../../../scripts/'+name+'.py',import.meta.url))].find(existsSync);
     assert.ok(source);copyFileSync(source,join(root,'scripts',name+'.py'));
   }
@@ -49,6 +49,9 @@ function setupScope(root, copyApproved=true) {
   return ['--authorization-file','build/setup-request.txt','--authorization-message-id','synthetic-test-only'];
 }
 function evidence(root) {
+  // This fixture tests signature/path integrity, not a complete client build.
+  const config=JSON.parse(readFileSync(join(root,'funnel.json')));
+  write(root,'funnel.json',{...config,development_fixture:true});
   const snap = spawnSync('python3', ['scripts/check_gates.py','snapshot','.', '--mode','handoff'], {cwd:root,encoding:'utf8'});
   assert.equal(snap.status, 0, snap.stderr + snap.stdout);
   const snapshot = JSON.parse(readFileSync(join(root, 'build/gate-snapshot.json')));

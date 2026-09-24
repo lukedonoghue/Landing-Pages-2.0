@@ -555,6 +555,16 @@ $('#accept-confirm').addEventListener('click', async () => {
   finally { submit.disabled = false; $('#cancel-confirm').disabled = false; }
 });
 $('#refresh-webhooks').addEventListener('click', loadWebhooks);
+const webhookName = $('#webhook-name');
+webhookName.addEventListener('invalid', event => {
+  event.preventDefault();
+  const error = $('#webhook-name-error'); error.hidden = false;
+  error.textContent = 'Enter a name for this connection.';
+  webhookName.setAttribute('aria-invalid', 'true'); webhookName.focus();
+});
+webhookName.addEventListener('input', () => {
+  if (webhookName.validity.valid) { $('#webhook-name-error').hidden = true; webhookName.removeAttribute('aria-invalid'); }
+});
 $('#webhook-form').addEventListener('submit', async event => {
   event.preventDefault(); if (!can('manage_settings')) return;
   const form = event.currentTarget; const submit = $('button[type=submit]', form); const error = $('#webhook-error'); const url = $('#webhook-url');

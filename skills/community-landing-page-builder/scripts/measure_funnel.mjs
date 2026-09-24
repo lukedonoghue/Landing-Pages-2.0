@@ -132,7 +132,7 @@ const addShot = async (page, name, fullPage = true) => {
   } finally {
     if (capture) await restoreFullPageCapture(page);
   }
-  report.artifacts.push({ path: evidencePath(file), type: 'screenshot', sha256: await hashFile(file), ...(capture ? { capture } : {}) });
+  report.artifacts.push({ path: evidencePath(file), type: 'screenshot', sha256: await hashFile(file), viewport: page.viewportSize(), device_pixel_ratio: await page.evaluate(() => devicePixelRatio), state: name.includes('modal') ? 'modal' : name.includes('thank') ? 'thank_you' : 'page', ...(capture ? { capture } : {}) });
   if (capture) check('full_page_capture_rendered_sections',
     capture.visitedCount === capture.eligibleCount && capture.heldVisibleCount === capture.eligibleCount,
     JSON.stringify(capture), { screenshot: evidencePath(file) });

@@ -183,7 +183,7 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
           await page.waitForTimeout(100);
           const pageFile = path.join(out, `${engine}-${viewport.width}-page.png`);
-          await page.screenshot({ path: pageFile, fullPage: true }); report.artifacts.push(artifact(pageFile, 'screenshot', args['project-root']));
+          await page.screenshot({ path: pageFile, fullPage: true }); report.artifacts.push({ ...artifact(pageFile, 'screenshot', args['project-root']), viewport, engine, state: 'page', device_pixel_ratio: 1 });
           await page.waitForFunction(()=>window.LeadFunnel?.privacyState().configured);
           const privacyState=await page.evaluate(()=>window.LeadFunnel.privacyState());
           const privacyMode=privacyState.consent_ui;
@@ -197,7 +197,7 @@ export async function runBrowserCompat(args, suppliedRuntime) {
             for(const key of ['Tab','Shift+Tab'])for(let i=0;i<6;i++){await page.keyboard.press(key);privacyFocus &&= await privacyDialog.evaluate(el=>el.contains(document.activeElement));}
             check(report,`${label}: privacy choices keep keyboard focus`,privacyFocus);
             check(report,`${label}: privacy choices fit viewport`,await privacyDialog.evaluate(el=>{const box=el.getBoundingClientRect();return box.left>=0&&box.right<=innerWidth+1&&box.top>=0&&box.bottom<=innerHeight+1&&el.scrollWidth<=el.clientWidth+1;}));
-            const privacyFile=path.join(out,`${engine}-${viewport.width}-privacy.png`);await page.screenshot({path:privacyFile});report.artifacts.push(artifact(privacyFile,'screenshot',args['project-root']));
+            const privacyFile=path.join(out,`${engine}-${viewport.width}-privacy.png`);await page.screenshot({path:privacyFile});report.artifacts.push({ ...artifact(privacyFile,'screenshot',args['project-root']), viewport, engine, state: 'privacy', device_pixel_ratio: 1 });
             await page.keyboard.press('Escape');
             check(report,`${label}: privacy Escape returns focus`,!await privacyDialog.isVisible()&&await privacyTrigger.evaluate(el=>el===document.activeElement));
           }else{
@@ -206,7 +206,25 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           const trigger = page.locator(fixture.selectors.openModal).first(); await trigger.scrollIntoViewIfNeeded(); await trigger.focus(); await page.keyboard.press('Enter');
           const modal = page.locator(fixture.selectors.modal); await modal.waitFor({ state: 'visible' });
           check(report, `${label}: dialog receives keyboard focus`, await modal.evaluate(el => el.contains(document.activeElement)));
+          const initialFile = path.join(out, `${engine}-${viewport.width}-modal-initial.png`);
+          await page.screenshot({ path: initialFile });
+          report.artifacts.push({ ...artifact(initialFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, state: 'modal_initial', device_pixel_ratio: 1 });
           check(report, `${label}: body scrolling locked`, await page.evaluate(() => ['hidden', 'clip'].includes(getComputedStyle(document.body).overflowY) || getComputedStyle(document.body).position === 'fixed' || ['hidden', 'clip'].includes(getComputedStyle(document.documentElement).overflowY)));
+          const initialNext = page.locator(fixture.selectors.next).first();
+          if (await initialNext.isVisible()) {
+            await initialNext.click();
+            const errorState = await modal.evaluate(el => {
+              const invalid = [...el.querySelectorAll('[aria-invalid="true"]')].filter(field => field.getClientRects().length);
+              return invalid.length > 0 && invalid.every(field => (field.getAttribute('aria-describedby') || '').split(/\s+/).some(id => {
+                const error = document.getElementById(id);
+                return error && !error.hidden && error.getAttribute('data-field-error') !== null && error.textContent.trim();
+              }));
+            });
+            check(report, `${label}: invalid fields have visible associated custom errors`, errorState);
+            const errorFile = path.join(out, `${engine}-${viewport.width}-modal-error.png`);
+            await page.screenshot({ path: errorFile });
+            report.artifacts.push({ ...artifact(errorFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, state: 'modal_error', device_pixel_ratio: 1 });
+          }
           const focusables = await modal.locator('button,input,select,textarea,a[href]').count();
           let focusContained = true;
           for (let i = 0; i < Math.min(focusables + 2, 60); i++) { await page.keyboard.press('Tab'); if (!await modal.evaluate(el => el.contains(document.activeElement))) { focusContained = false; break; } }
@@ -221,6 +239,12 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           await fillSteps(page, fixture, { inspectField: async field => {
             await field.focus(); await field.scrollIntoViewIfNeeded();
             const dimensions = await field.evaluate(el => { const r = el.getBoundingClientRect(); return { fit: r.top >= 0 && r.bottom <= innerHeight + 1 && r.left >= 0 && r.right <= innerWidth + 1, font: parseFloat(getComputedStyle(el).fontSize), type: el.type }; });
+            const chromeVisible = await modal.evaluate(el => {
+              const title = document.getElementById(el.getAttribute('aria-labelledby')) || el.querySelector('h1,h2,h3');
+              const close = el.querySelector('[data-close-modal],.modal__close');
+              return [title, close].every(item => { if (!item) return false; const box = item.getBoundingClientRect(); return box.top >= 0 && box.bottom <= innerHeight + 1; });
+            });
+            check(report, `${label}: dialog title and close remain visible during focused scrolling`, chromeVisible);
             fieldsFit &&= dimensions.fit;
             if (viewport.width < 600 && !['checkbox', 'radio'].includes(dimensions.type)) readable &&= dimensions.font >= 16;
           } });
@@ -229,14 +253,14 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           const submit = page.locator(fixture.selectors.submit); await submit.scrollIntoViewIfNeeded();
           check(report, `${label}: final action reachable`, await submit.isVisible() && await submit.isEnabled());
           const modalFile = path.join(out, `${engine}-${viewport.width}-modal.png`);
-          await page.screenshot({ path: modalFile }); report.artifacts.push(artifact(modalFile, 'screenshot', args['project-root']));
+          await page.screenshot({ path: modalFile }); report.artifacts.push({ ...artifact(modalFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, state: 'modal_focused', device_pixel_ratio: 1 });
           check(report, `${label}: no runtime exceptions`, errors.length === 0);
         } catch { check(report, `${label}: complete interaction journey`, false, 'Inspect the saved screenshots and the reviewed fixture; no submission was sent.'); }
         finally { await context.close(); }
         if (report.failures.length > before) engineFailed = true;
       }
     } finally { await browser.close(); }
-    report.engines.push({ name: engine, status: engineFailed ? 'blocked' : 'pass' });
+    report.engines.push({ name: engine, version: browser.version(), status: engineFailed ? 'blocked' : 'pass' });
   }
   return writeReport(finish(report), out);
 }
