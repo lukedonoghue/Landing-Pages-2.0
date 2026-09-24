@@ -169,7 +169,7 @@ class CompletionIntegrityTests(unittest.TestCase):
     def test_a_warning_requires_a_specific_current_disposition(self):
         report = {'status':'pass_with_warnings', 'warnings':['admin button needs review']}
         self.assertTrue(contract.warning_errors(self.root, report))
-        report['warning_dispositions'] = [{'warning':report['warnings'][0], 'disposition':'accepted_limit', 'reason':'Synthetic fixture demonstrating explicit disposition', 'evidence':self.artifact()}]
+        report['warning_dispositions'] = [{'warning':report['warnings'][0], 'disposition':'accepted_limit', 'scope':'Synthetic-only protocol fixture', 'owner_impact':'No real owner effect', 'retest_trigger':'Any relevant fixture change', 'reason':'Synthetic fixture demonstrating explicit disposition', 'evidence':self.artifact()}]
         self.assertEqual(contract.warning_errors(self.root, report), [])
         self.put('research/source.txt', 'changed')
         self.assertTrue(contract.warning_errors(self.root, report))
@@ -186,7 +186,7 @@ class CompletionIntegrityTests(unittest.TestCase):
         value = {'status':'completed','task_id':'reviewer','host':'synthetic test harness', 'dispatch_id':'test-dispatch','raw_result':'Synthetic test findings, not real independent review'}
         path = self.write('build/review-execution.json', value)
         provenance = {'mode':'independent','reviewer_task_id':'reviewer','builder_task_id':'builder', 'execution_artifact':{'path':'build/review-execution.json','sha256':contract.digest(path)}}
-        self.assertEqual(contract.independent_review_errors(self.root, provenance), [])
+        self.assertTrue(contract.independent_review_errors(self.root, provenance))
         provenance['reviewer_task_id'] = 'invented'
         self.assertTrue(contract.independent_review_errors(self.root, provenance))
 
@@ -218,7 +218,7 @@ class CompletionIntegrityTests(unittest.TestCase):
         result = {'status':'pass','mode':'handoff','source_fingerprint':gates.source_snapshot(self.root)['source_fingerprint'],'gates':{'static':{'status':'pass','failures':[]}},'failures':[], 'warnings':[]}
         # Tests renderer semantics only: this fabricated fixture is never registered.
         summary = contract.write_summary(self.root, result)
-        self.assertEqual(summary['release_level'], 'local-quality-ready')
+        self.assertEqual(summary['release_level'], 'local-preview')
         self.assertTrue(summary['export_required_for_local_final'])
 
     def test_summary_rejects_a_stale_aggregate(self):
@@ -303,13 +303,17 @@ class CompletionIntegrityTests(unittest.TestCase):
         self.assertTrue(gates.excluded(Path('build/cached-report.json')))
 
     def test_raw_lighthouse_metrics_not_a_self_asserted_score(self):
-        audit = {'configSettings': {'formFactor': 'mobile', 'throttlingMethod': 'simulate'},
+        audit = {'lighthouseVersion':'synthetic-test','requestedUrl':'http://127.0.0.1:8787/','configSettings': {'formFactor': 'mobile', 'throttlingMethod': 'simulate'},
                  'categories': {'performance': {'score': .95}},
                  'audits': {'largest-contentful-paint': {'numericValue': 1900},
                             'cumulative-layout-shift': {'numericValue': .01},
                             'total-blocking-time': {'numericValue': 50}}}
-        path=self.write('build/raw-lighthouse.json', audit)
-        report={'artifacts': [{'path':'build/raw-lighthouse.json','sha256':gates.file_hash(path),'type':'lighthouse_json'}],
+        artifacts=[]
+        for i in range(3):
+            name='build/raw-lighthouse-'+str(i)+'.json'
+            path=self.write(name, {**audit,'fetchTime':'2026-01-01T00:00:0'+str(i)+'Z'})
+            artifacts.append({'path':name,'sha256':gates.file_hash(path),'type':'lighthouse_json'})
+        report={'artifacts':artifacts,'target':{'url':'http://127.0.0.1:8787/'},'server':{'command':'synthetic fixture server'},
                 'metrics': {'performance':95.0,'lcp_ms':1900,'cls':.01,'tbt_ms':50}}
         self.assertEqual(contract.performance_errors(self.root, report), [])
         report['metrics']['performance']=100
@@ -329,8 +333,9 @@ class CompletionIntegrityTests(unittest.TestCase):
         fixture=ControlReviewTests();fixture.setUp()
         try:
             fixture.final()
-            path=fixture.root/'build/control-review/final-reviewer-synthetic-execution.json'
-            path.unlink()
+            acceptance=contract.read(fixture.root/'build/control-review/acceptance.json')
+            acceptance['reviewer']['mode']='independent'
+            fixture.save('acceptance.json',acceptance)
             import control_review
             self.assertEqual(control_review.inspect(fixture.root)['status'], 'blocked')
         finally:fixture.doCleanups()

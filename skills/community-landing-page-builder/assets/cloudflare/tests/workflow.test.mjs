@@ -25,7 +25,7 @@ function fixture(t) {
   const checker = [join(template, 'scripts/check_gates.py'), fileURLToPath(new URL('../../../scripts/check_gates.py', import.meta.url))].find(existsSync);
   assert.ok(checker, 'Evidence checker source exists');
   copyFileSync(checker, join(root, 'scripts/check_gates.py'));
-  for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity','completion_contract','image_evidence']) {
+  for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity','completion_contract','image_evidence','dependency_state','execution_receipts','copy_contract','copy_acceptance','research_contract','copy_quality','question_log','validate_required_records','release_acceptance','validate_owner_handoff','final_review']) {
     const source=[join(template, 'scripts', name+'.py'),fileURLToPath(new URL('../../../scripts/'+name+'.py',import.meta.url))].find(existsSync);
     assert.ok(source);copyFileSync(source,join(root,'scripts',name+'.py'));
   }

@@ -145,6 +145,12 @@ def main() -> int:
     root = project / "public" if (project / "public" / "index.html").is_file() else project
     index_path = root / "index.html"
     failures: list[str] = []
+    config_path=project/'funnel.json'
+    if config_path.is_file():
+        selected=json.loads(config_path.read_text())
+        if not selected.get('development_fixture') and selected.get('quality',{}).get('contract_version',0)>=4:
+            import research_contract
+            failures += research_contract.conversion_errors(project,check_page=True)
     warnings: list[str] = []
     checks: dict[str, object] = {}
     source_hosts = set()

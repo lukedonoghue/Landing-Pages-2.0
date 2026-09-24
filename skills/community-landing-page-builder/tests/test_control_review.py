@@ -23,7 +23,7 @@ class ControlReviewTests(unittest.TestCase):
         self.capture('initial',self.before);control.prepare(self.root,'build/control-review/initial-capture.json','initial-builder')
         self.reference=storage.read(self.root,'build/control-review/reference.json')
         self.draft={'baseline_sha256':control.sha(self.root/'build/control-review/baseline.json'),
-            'reviewer':{'mode':'independent','task_id':'reviewer-1'},'checks':self.checks(self.before),
+            'reviewer':{'mode':'self_review','task_id':'reviewer-1'},'checks':self.checks(self.before),
             'layout_reference_sha256':self.reference['layout_reference']['sha256'],
             'layout_observation':'Synthetic fixture: compare prominent result headline and the repeated action to the reviewed control layout.',
             'issues':[{'id':'copy-01','criterion':'first_screen_offer','priority':'P1','selector':'h1','before':self.before,
@@ -31,13 +31,7 @@ class ControlReviewTests(unittest.TestCase):
                 'proposed_change':'Replace it with a concrete supported roof-inspection benefit.','acceptance_test':'The rendered H1 identifies the useful inspection result.'}]}
         self.draft['checks'][0]['verdict']='improve';self.save('comparison.json',self.draft)
     def save(self,name,value):
-        # Synthetic host records exercise linkage, not a real independent review.
-        reviewer=value.get('reviewer',{})
-        if reviewer.get('mode')=='independent':
-            path='build/control-review/'+reviewer['task_id']+'-synthetic-execution.json'
-            storage.write(self.root,path,{'status':'completed','task_id':reviewer['task_id'],
-                'host':'synthetic-unit-test','dispatch_id':'synthetic-dispatch','raw_result':'Synthetic test findings; no actual agent ran.'})
-            reviewer['execution_artifact']={'path':path,'sha256':control.sha(self.root/path)}
+        # Ordinary fixtures are explicit self-reviews; no agent was dispatched.
         storage.write(self.root,'build/control-review/'+name,value)
     def checks(self,text):
         excerpt=control.reference()['text'][:70]
@@ -56,7 +50,7 @@ class ControlReviewTests(unittest.TestCase):
         resolutions={'comparison_sha256':control.sha(self.root/'build/control-review/comparison.json'),'builder_task_id':'repairer',
             'items':[{'id':'copy-01','status':'fixed','after':text,'verification':'Synthetic final rendering contains the replacement headline.'}]}
         self.save('resolutions.json',resolutions)
-        acceptance={'reviewer':{'mode':'independent','task_id':'final-reviewer'},'capture_sha256':control.sha(self.root/'build/control-review/final-capture.json'),
+        acceptance={'reviewer':{'mode':'self_review','task_id':'final-reviewer'},'capture_sha256':control.sha(self.root/'build/control-review/final-capture.json'),
             'resolutions_sha256':control.sha(self.root/'build/control-review/resolutions.json'),'checks':self.checks(text),'unresolved_findings':[],
             'headline_only_story':'Synthetic review: the headline explains the useful roof-inspection result.',
             'cold_reader_summary':'Synthetic review: homeowners receive a clear inspection report before choosing repairs.'}
@@ -87,7 +81,7 @@ class ControlReviewTests(unittest.TestCase):
         self.final();self.save('resolutions.json',{'comparison_sha256':control.sha(self.root/'build/control-review/comparison.json'),'items':[]})
         self.assertEqual(control.inspect(self.root)['status'],'blocked')
     def test_builder_cannot_claim_independent_review(self):
-        acceptance=self.final();acceptance['reviewer']['task_id']='repairer';self.save('acceptance.json',acceptance)
+        acceptance=self.final();acceptance['reviewer'].update(mode='independent',task_id='repairer');self.save('acceptance.json',acceptance)
         self.assertEqual(control.inspect(self.root)['status'],'blocked')
     def test_stale_final_evidence_dispatches_retest_not_initial_comparison(self):
         self.final();(self.root/'public/index.html').write_text('<h1>Changed after review</h1>')

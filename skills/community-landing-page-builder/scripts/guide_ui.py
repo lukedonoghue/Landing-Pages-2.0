@@ -40,7 +40,7 @@ class Bridge:
         self.cancel.set()
         if self.thread:self.thread.join(timeout=12)
     def status(self):
-        return {'running':bool(self.thread and self.thread.is_alive()),'last':self.last,'next':guide.next_action(self.root)}
+        return {'running':bool(self.thread and self.thread.is_alive()),'last':self.last,'next':guide.present(self.root)}
 
 
 def server(root,provider='codex',port=0,bridge=None):
@@ -78,7 +78,7 @@ def server(root,provider='codex',port=0,bridge=None):
                     current=guide.workflow.copy_state(root).get('passages',{})
                     approved=guide.workflow.load(root).get('approvals',{}).get('copy',{}).get('passages') or {}
                     passages=[{'id':name,'text':item['text'],'status':'unchanged' if approved.get(name)==item['sha256'] else 'changed' if approved else 'new'} for name,item in current.items()]
-                    return self.respond(200,{'documents':documents,'passages':passages,'next':guide.next_action(root)})
+                    return self.respond(200,{'documents':documents,'passages':passages,'next':guide.present(root)})
                 return self.respond(404,{'error':'Not found'})
             except (ValueError,OSError,KeyError,TypeError) as error:return self.respond(409,{'error':str(error)})
         def do_POST(self):
@@ -105,7 +105,7 @@ def server(root,provider='codex',port=0,bridge=None):
                     return self.respond(200,bridge.status())
                 if path=='/api/help':
                     q=guide.catalog().get(data.get('id'))
-                    return self.respond(200,{'explanation':q['reason'] if q else 'Ask the active agent about this step. Help is not an answer or approval.','next':guide.next_action(root)})
+                    return self.respond(200,{'explanation':q['reason'] if q else 'Ask the active agent about this step. Help is not an answer or approval.','next':guide.present(root)})
                 return self.respond(404,{'error':'Unsupported action'})
             except (ValueError,OSError,KeyError,TypeError) as error:return self.respond(409,{'error':str(error)})
     http=ThreadingHTTPServer(('127.0.0.1',port),Handler)

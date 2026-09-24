@@ -19,8 +19,16 @@ class RunnerTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup);self.root=Path(self.temp.name);guide.start(self.root,name='Synthetic business')
     def worker(self,root,packet,route):
-        storage.write(root,'build/discovery.json',{'input_fingerprint':guide.research_fingerprint(root),'suggestions':[]})
-        return {'status':'done','summary':'Produced synthetic discovery with no fabricated facts.','outputs':['build/discovery.json'],'blockers':[]}
+        # Simulated research output: the fixture has no website or confirmed offer.
+        # The coordinator, not this fake worker, owns the question log.
+        source=root/'research/fixture-discovery.txt';source.parent.mkdir(exist_ok=True)
+        source.write_text('Synthetic discovery: business identity alone cannot resolve the service, offer, audience or conversion choice.')
+        evidence={'path':'research/fixture-discovery.txt','sha256':runner.hash_bytes(source.read_bytes())}
+        questions=guide.questions(root)
+        unresolved=[{'id':q['id'],'category':'offer','reason':'The synthetic identity has no source for this decision',
+            'material_effect':'This choice changes the advertised offer or its conversion path','evidence':[evidence]} for q in questions]
+        storage.write(root,'build/discovery.json',{'input_fingerprint':guide.research_fingerprint(root),'suggestions':[], 'unresolved_facts':unresolved})
+        return {'status':'done','summary':'Produced synthetic discovery with no fabricated facts.','outputs':['build/discovery.json','research/fixture-discovery.txt'],'blockers':[]}
     def test_success_immediately_dispatches_local_next_then_asks_question(self):
         result=runner.drive(self.root,executor=self.worker)
         self.assertEqual(result['kind'],'question');self.assertIsNotNone(guide.state(self.root)['discovery_applied'])

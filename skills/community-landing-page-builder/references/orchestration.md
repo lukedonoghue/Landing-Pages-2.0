@@ -189,3 +189,12 @@ Follow `completion-integrity.md` for canonical research/document inputs, split i
 
 * Native `lp-*` profiles load only from the folder Claude Code was opened in. The scaffold installs them into every new CRM project (AGENTS.md/CLAUDE.md point at `.community-builder/SKILL.md`), so open the generated project folder itself. For an older project, run `python3 .community-builder/scripts/install_native.py --project . --runtime both` there. Otherwise emulate the role with a general subagent and disclose it.
 * To record a separate Agent-tool review as `independent`, save `build/reviews/<task-id>.json` with `status: completed`, `task_id` (the reviewer task you declare), `host: claude-code`, `dispatch_id` (the Agent tool's returned agent id) and `raw_result` (the returned report), and reference it as `execution_artifact` with its sha256. Never reuse the builder's task id.
+
+## Coordinator receipts and final release
+
+Read remediation-contracts.md. The coordinator records actual task input/output hashes,
+host dispatch identity and times under build/orchestration/tasks/. A final review
+returns build/final-review.json; it cannot write its own execution receipt or
+release/owner/export state. Without actual native dispatch use self_review.
+Source changes invalidate dependent evidence. The only conversational release
+class comes from release_acceptance.py, which delegates existing authorities.

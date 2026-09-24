@@ -12,6 +12,7 @@ ANALYSIS_FIELDS = (
     "problems", "desired_outcomes", "buying_triggers", "objections_resolved",
     "praised_capabilities", "practical_benefits", "emotional_benefits",
     "voice_phrases", "differentiator_signals", "testimonial_roles",
+    "trust_themes", "service_language", "value_price_language", "cleanliness_reliability", "negative_friction",
 )
 
 def load(path: Path):
