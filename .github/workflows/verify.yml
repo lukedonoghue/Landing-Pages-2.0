@@ -111,6 +111,7 @@ jobs:
             skills/community-landing-page-builder/assets/cloudflare/community-node-test-results.tap
             skills/community-landing-page-builder/assets/cloudflare/build/guide-ui-review/
             skills/community-landing-page-builder/assets/cloudflare/build/reader-delivery-review/
+            skills/community-landing-page-builder/assets/cloudflare/build/ship-ui-review/
             .development/demo/build/demo-verification.json
             .development/demo/build/browser-compat/
             .development/demo/build/live-verification/

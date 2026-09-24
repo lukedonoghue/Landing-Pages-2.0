@@ -1,5 +1,28 @@
 # Publish the complete funnel to Cloudflare
 
+## Standard-user entry point: the resumable publishing wizard
+
+For the standard **single custom domain + Worker + D1 CRM** path, start with the
+new [guided publishing controller](guided-ship.md). A normal user does not execute
+this document's internal checklist. The coding agent checks `ship.py --json`,
+repairs local build/QA work, and supplies the trusted operator launcher. The owner
+opens the local browser wizard, signs in where needed, and approves the displayed
+destination and labelled test journey. Routine steps advance automatically.
+
+Google Sheets is **off by default**. Its separate cards appear only when selected.
+The wizard never touches the historical NetBean deployment. Separate public/CRM
+hosts, external-DNS Pages gateways, static-only pages and workers.dev-only
+publishing retain the advanced adapters below; they are not silently converted to
+the standard domain profile.
+
+**Execution boundary:** every provider-authenticated command in the internal
+reference below is run by reviewed software in the trusted operator context, not
+by a research/build agent with access to production credentials. Where older text
+says “the agent handles,” interpret it as orchestration of those operator actions,
+not permission to read secrets or bypass the generated host restrictions. Do not
+label the new implementation production-validated without running its candidate
+checks and an authorized external-provider pilot.
+
 ## User-facing experience
 
 The user builds and reviews their funnel, then says **“Publish to Cloudflare.”** Guide that one action and run the internal preparation, deployment and verification steps yourself. The user should not have to connect a database product, a hosting product and an analytics product separately.

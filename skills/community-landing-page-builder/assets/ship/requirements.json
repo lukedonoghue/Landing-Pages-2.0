@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "description": "Engineering requirements behind the user-facing publisher. Owner confirmations never become API-verified facts.",
+  "requirements": [
+    {"id":"source_quality","mode":"AUTO","stage":"quality","evidence":"existing-source-bound-quality-gates"},
+    {"id":"cloud_account","mode":"AUTO","stage":"cloudflare","evidence":"authenticated-account-selection"},
+    {"id":"database_and_owner","mode":"AUTO","stage":"configure","evidence":"bound-database-and-private-owner-handoff"},
+    {"id":"destination_and_existing_access","mode":"AUTO","stage":"preflight","evidence":"deployment-identity-and-CRM-access-review"},
+    {"id":"recovery_point","mode":"AUTO","stage":"protect","evidence":"D1-Time-Travel-bookmark-not-a-restore-rehearsal"},
+    {"id":"edge_rate_limit","mode":"AUTO_OR_CONFIRM","stage":"protect","evidence":"Cloudflare-rule-readback-or-explicit-owner-confirmation"},
+    {"id":"migrations_and_upload","mode":"AUTO","stage":"publish","evidence":"existing-guarded-publisher-and-migration-ledger"},
+    {"id":"live_journey","mode":"AUTO","stage":"publish","evidence":"sealed-browser-to-CRM-journey"},
+    {"id":"synthetic_cleanup","mode":"AUTO","stage":"cleanup","evidence":"exact-original-journey-contact-and-managed-copies-erased"},
+    {"id":"running_release","mode":"AUTO","stage":"verify","evidence":"independent-provider-identity-and-private-runtime-proof"},
+    {"id":"account_mfa","mode":"CONFIRM","attestation":"mfa"},
+    {"id":"privacy_retention","mode":"CONFIRM","attestation":"privacy"},
+    {"id":"trusted_operator_host","mode":"CONFIRM","attestation":"trusted_host"},
+    {"id":"sheets_configuration","mode":"AUTO","stage":"sheets","when":"sheets","evidence":"signed-read-only-script-probe"},
+    {"id":"sheets_row_lifecycle","mode":"AUTO","stage":"cleanup","when":"sheets","evidence":"signed-presence-before-and-absence-after-managed-erasure"},
+    {"id":"google_access","mode":"CONFIRM","attestation":"google_access","when":"sheets"}
+  ]
+}

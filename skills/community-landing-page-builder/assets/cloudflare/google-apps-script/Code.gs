@@ -20,6 +20,7 @@ function signedMessage(e, properties) {
   var bytes=Utilities.computeHmacSha256Signature(String(value.timestamp)+'.'+canonical(value),secret,Utilities.Charset.UTF_8);
   var expected=bytes.map(function(b) {return ('0'+((b+256)%256).toString(16)).slice(-2);}).join('');
   if (!constantEqual(signature,expected) || !/^[a-f0-9-]{16,64}$/i.test(value.event_id||'')) return null;
+  if (value.event==='connection.probe') return /^[a-f0-9-]{36}$/i.test(value.lead_id||'') ? value : null;
   if (value.event==='lead.erased') return /^[a-f0-9-]{36}$/i.test(value.lead_id||'') ? value : null;
   if (value.event==='lead.created' && value.lead && /^[a-f0-9-]{36}$/i.test(value.lead.id||'')) return value;
   return null;
@@ -51,6 +52,19 @@ function doPost(e) {
   if (!lock.tryLock(5000)) return jsonResponse({ok:false,retryable:true});
   try {
     var book=SpreadsheetApp.openById(properties.getProperty('CRM_SPREADSHEET_ID'));
+    // Authenticated, read-only probe: never creates sheets, rows or tombstones.
+    // It exposes two booleans for the caller's exact synthetic UUID, no PII.
+    if (message.event==='connection.probe') {
+      var existingLeads=book.getSheetByName('Leads'), existingErased=book.getSheetByName('_CRM Erased');
+      var present=false;
+      if (existingLeads && existingLeads.getLastRow()>1) {
+        var probeHeaders=existingLeads.getRange(1,1,1,existingLeads.getLastColumn()).getValues()[0];
+        var probeColumn=probeHeaders.indexOf('Lead ID')+1;
+        if (!probeColumn) return jsonResponse({ok:false,retryable:false});
+        present=hasValue(existingLeads,probeColumn,message.lead_id);
+      }
+      return jsonResponse({ok:true,event_id:message.event_id,protocol:2,key_version:Number(properties.getProperty('CRM_KEY_VERSION')||'1'),lead_present:present,erased:!!existingErased && hasValue(existingErased,1,message.lead_id)});
+    }
     // Minimal opaque tombstones prevent a delayed creation request resurrecting erased data.
     var erased=getSheet(book,'_CRM Erased',['Lead ID']);
     if (message.event==='lead.erased') {

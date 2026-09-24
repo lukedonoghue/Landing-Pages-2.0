@@ -23,6 +23,7 @@ experimental_use_profile = false
 extends = ":workspace"
 [permissions.lp-build.filesystem]
 glob_scan_max_depth = 20
+"~/.landing-pages-publishing" = "deny"
 "~/.wrangler" = "deny"
 "~/.config/.wrangler" = "deny"
 "~/.config/wrangler" = "deny"
@@ -42,6 +43,7 @@ glob_scan_max_depth = 20
 extends = ":read-only"
 [permissions.lp-review.filesystem]
 glob_scan_max_depth = 20
+"~/.landing-pages-publishing" = "deny"
 "~/.wrangler" = "deny"
 "~/.config/.wrangler" = "deny"
 "~/.config/wrangler" = "deny"

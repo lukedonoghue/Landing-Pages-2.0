@@ -172,7 +172,7 @@ export async function runLiveVerify(args, runtime = {}) {
       if (!args.identity) throw new Error('A guarded release identity is required before sending administrator credentials.');
       identity = identityInput;
       if (identity.evidence_source !== 'cloudflare-wrangler-deployments-and-version-api' || identity.source_fingerprint !== report.source_fingerprint || identity.url !== target.url.origin || !UUID.test(identity.release_id || '') || !UUID.test(identity.database_id || '')) throw new Error('The identity evidence does not match this release snapshot.');
-      runtimeProof.before = await runtimeIdentity(target.url.origin, identity, runtime.fetch || fetch);
+      runtimeProof.before = await runtimeIdentity(target.url.origin, identity, runtime.fetch || fetch, runtime.releaseSecret);
       report.deployment_identity = identity;
       report.artifacts.push(artifact(args.identity, 'deployment_identity', args['project-root']));
     }
@@ -355,7 +355,11 @@ export async function runLiveVerify(args, runtime = {}) {
     if(!report.failures.length)journey.retainCore({binding,observations:receiptProof,events:eventTrace,assertions:{...report.journey_assertions},checks:[...report.checks],artifacts:report.artifacts.filter(item=>['db_receipt','crm_recovery','dashboard_result'].includes(item.type))});
     }
     if (args['cleanup-test-lead'] && !report.failures.length) {
-      phase='test-contact-cleanup';attempt.cleanup_started=true;saveAttempt();
+      phase='test-contact-cleanup';
+      // Trusted optional integration hook: prove delivery before soft-removal can
+      // cancel pending outbox jobs. A failed/unknown result preserves the contact.
+      if(!attempt.cleanup_started && runtime.beforeSyntheticCleanup)await runtime.beforeSyntheticCleanup({lead_id:createdId,receipt_id:receipt.receipt_id,release_id:identity?.release_id});
+      attempt.cleanup_started=true;saveAttempt();
       const existing=await admin.request.get(new URL('/api/admin/leads/'+createdId,target.url).href,{maxRedirects:0});
       if(existing.status()===200) {
         const row=await existing.json();
@@ -371,7 +375,7 @@ export async function runLiveVerify(args, runtime = {}) {
     await adminRequest('/api/auth/logout', 'POST', {});
     report.journey_assertions.logout = check(report, 'Administrator logout revokes the session', (await admin.request.get(new URL('/api/admin/leads', target.url).href)).status() === 401);
     if (identity) {
-      runtimeProof.after = await runtimeIdentity(target.url.origin, identity, runtime.fetch || fetch);
+      runtimeProof.after = await runtimeIdentity(target.url.origin, identity, runtime.fetch || fetch, runtime.releaseSecret);
       check(report, 'Running release identity is unchanged after the journey', true);
     }
     report.observations = receiptProof;

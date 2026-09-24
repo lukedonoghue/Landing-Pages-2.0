@@ -2,6 +2,7 @@
   "permissions": {
     "deny": [
       "Read(.secrets/**)",
+      "Read(~/.landing-pages-publishing/**)",
       "Read(~/.wrangler/**)",
       "Read(~/.config/.wrangler/**)",
       "Read(.dev.vars*)",
@@ -22,6 +23,7 @@
         "./**/.secrets",
         "./**/.dev.vars*",
         "./**/.env*",
+        "~/.landing-pages-publishing",
         "~/.wrangler",
         "~/.config/.wrangler",
         "~/.config/wrangler",
@@ -37,6 +39,7 @@
         "./**/.secrets",
         "./**/.dev.vars*",
         "./**/.env*",
+        "~/.landing-pages-publishing",
         "~/.wrangler",
         "~/.config/.wrangler",
         "~/.config/wrangler",
