@@ -1,130 +1,140 @@
 # Landing Pages 2.0
 
-**Turn a business website into a researched, conversion-focused landing page and a working lead funnel - then guide it all the way to production.**
+**Give it a business website. Get back a researched, conversion-focused landing page, a working lead funnel, and a guided path to launch.**
 
-Landing Pages 2.0 is a guided AI workflow for building landing pages without making the business owner manage copywriting, design, QA, CRM setup, or deployment as separate projects.
+Landing Pages 2.0 is built for the part of landing-page work that normally gets split across five different jobs: research, copywriting, design, development, and launch.
 
-Give it a business website or description. It researches the business, works out what matters to the buyer, writes the copy, builds the page, creates the supporting guide, tests the funnel, improves weak areas, and guides publication when you are ready.
+You give it a business website or a clear description of the business. It researches the offer and the customer, writes the copy, builds the page, creates the supporting guide, tests the funnel, improves weak areas, and can guide the final publishing process when you are ready.
 
-## What you give it
+The aim is simple: **less briefing, less back-and-forth, and a much more complete first result.**
 
-For most builds, you can start with just:
+## What it does for you
 
-- a business website, business name, or clear description;
-- the service or offer you want to promote, if it is not obvious;
-- any important facts the system cannot verify itself.
+A typical build covers:
 
-Optional inputs such as a reference page, brand assets, campaign context, custom-domain details, tracking IDs, or external integrations can be added later. They are not prerequisites for producing a strong local final.
+- research into the business, offer, customers, proof, FAQs, and competitors where useful;
+- customer-review analysis to uncover common problems, desired outcomes, objections, and language buyers actually use;
+- benefit-focused landing-page copy with a clear reason to choose the business;
+- responsive page design that follows the business rather than a generic template;
+- relevant imagery and a useful buyer guide;
+- a full thank-you page rather than a basic success message;
+- a built-in lead inbox and CRM for enquiry-led pages;
+- mobile, desktop, browser, accessibility, and conversion testing;
+- an automatic review of the first build, followed by repairs before the page is presented as finished;
+- guided publishing when you want to take the page live.
 
-## What you get
+You do not need to arrive with a finished brief, a CRM choice, a wireframe, or a list of technical requirements.
 
-A complete form-led build can include:
+## The basic workflow
 
-- researched positioning and buyer insights;
-- benefit-focused landing-page copy;
-- supported reasons to choose the business;
-- real review intelligence and provenance-safe testimonials where available;
-- a custom responsive landing page;
-- purposeful, source-aware imagery;
-- a useful illustrated PDF buyer guide;
-- a full thank-you page that matches the main page;
-- an accessible enquiry journey;
-- a built-in local Cloudflare Workers + D1 CRM;
-- lead storage, notes, stages, attribution and reporting;
-- mobile, desktop, browser, accessibility and conversion QA;
-- automatic comparison against the Blue Mountain Mesh control;
-- automatic repair of confirmed copy/layout weaknesses;
-- a guided publishing workflow when you are ready to go live.
+### 1. It learns the business
 
-The goal is not to generate a page and hand you a technical checklist. The goal is to move from **business context -> finished funnel -> verified release** while asking you only for decisions the system genuinely cannot make itself.
+The builder starts by reading the business website and the pages that matter: services, process, FAQs, testimonials, contact details, proof, and other useful first-party information.
 
-## How the workflow works
+If customer reviews are available, it looks for repeated patterns such as:
 
-### 1. Understand the business
+- what customers were struggling with;
+- what they wanted to achieve;
+- what made them hesitate;
+- what they valued most;
+- what they praised after buying;
+- how they naturally describe the problem and the result.
 
-The builder researches the official website, services, process, proof, FAQs, contact information, customer feedback and other relevant first-party material.
+That research feeds the strategy and the copy. Reviews are only quoted as testimonials when they can be used accurately and with the right attribution.
 
-Where customer reviews are reasonably available, it extracts recurring:
+### 2. It writes the sales argument before it designs the page
 
-- customer problems;
-- desired outcomes;
-- objections;
-- praised capabilities;
-- practical benefits;
-- natural customer language;
-- possible differentiators.
+The workflow works out the strongest credible reason someone should choose this business, then writes the full page around that.
 
-It separates research insight from publishable testimonials, so useful review themes do not automatically become quoted proof.
+The copy is reviewed for clarity, benefits, proof, objections, differentiation, and weak generic language before layout starts.
 
-### 2. Write the sales argument before designing the page
+The point is not to make a page look polished around mediocre copy. The argument has to make sense first.
 
-The system identifies the strongest supportable reason to choose the business and writes the complete copy before layout.
+### 3. It designs and builds the page
 
-The copy is reviewed for:
+The page is built around the business's actual brand, offer, content, and conversion goal.
 
-- clarity of the offer;
-- customer benefit;
-- differentiation;
-- proof and mechanism;
-- objections;
-- process;
-- CTA consistency;
-- unsupported claims;
-- generic AI language.
+For enquiry-led pages, a built-in lead inbox and CRM is included by default, so you can test the full journey without first choosing and configuring a separate CRM.
 
-A weak copy draft is not simply passed into design. Copy acceptance is a real gate.
+### 4. It creates the guide and thank-you experience
 
-### 3. Design and build the funnel
+Complete builds normally include a useful buyer guide or service guide, not a filler PDF.
 
-The page is designed around the business rather than a generic template.
+The thank-you page is built as part of the same experience, with the same brand, proof, benefits, and useful next-step content.
 
-The builder uses the observed brand, typography, imagery and conversion intent where appropriate, then creates the responsive page and conversion journey.
+### 5. It checks the finished page and improves it
 
-For enquiry-led pages, the bundled Cloudflare/D1 CRM is the default. You do not need to choose a CRM, spreadsheet, analytics product, auth provider, or hosting stack just to get a working local funnel.
+The workflow tests the actual rendered page across different screen sizes and checks the conversion journey, accessibility, guide delivery, browser behavior, local CRM, and performance.
 
-### 4. Build the supporting guide and thank-you experience
+It then reviews the first build against the project's reference standard, identifies what is still weak, fixes the problems, and checks the page again.
 
-New complete builds normally include a researched buyer guide rather than a throwaway PDF.
+So the first draft is not automatically treated as the final answer.
 
-The guide is rendered and every page is inspected. The thank-you page is derived from the main landing page so it keeps the same brand, proof, benefits and useful context instead of becoming a generic success box.
+### 6. It can guide the page all the way to launch
 
-### 5. Test and improve the actual output
+When you are happy with the page, the publishing flow handles the routine setup and verification work and only stops when something genuinely needs you, such as signing in, choosing the correct account, or approving the final destination.
 
-The builder tests the rendered page, not just the source files.
+For the standard Cloudflare setup, the experience is designed to feel like:
 
-The workflow covers representative mobile and desktop layouts, conversion behavior, accessibility, PDF delivery, local CRM behavior, browser checks and performance.
+**choose the domain -> sign in -> review the destination -> publish -> verify the live funnel**
 
-After the first build, the system compares the real page against the Blue Mountain Mesh control for persuasive clarity and layout discipline. It creates a concrete improvement list, applies warranted repairs, then captures and reviews the page again before presenting the local final.
+Google Sheets, ad tracking, external CRMs, and other integrations are optional. They are not part of the default setup unless you want them.
 
-### 6. Publish through the guided release flow
-
-When you are ready to go live, the publishing workflow handles the routine production work and surfaces only the action that actually needs you.
-
-For the standard supported Cloudflare path, the experience is designed to be:
-
-**domain + owner email -> Cloudflare sign-in -> automatic preflight/configuration -> publish approval -> deploy -> synthetic verification -> cleanup -> release receipt**
-
-Google Sheets is off by default and appears only when explicitly selected.
-
-Read [GUIDED-PUBLISHING-START-HERE.md](GUIDED-PUBLISHING-START-HERE.md) for the current publishing entry point.
+See [GUIDED-PUBLISHING-START-HERE.md](GUIDED-PUBLISHING-START-HERE.md) when you are ready to test publishing.
 
 ---
 
-# Start here
+## Start a real build
 
-## Option A: build a real landing page with an AI coding session
+Open this repository in a file-capable ChatGPT/Codex or Claude Code session and say:
 
-Open this repository in a file-capable ChatGPT/Codex or Claude Code session.
+> Build a landing page for [BUSINESS WEBSITE OR DESCRIPTION] using Landing Pages 2.0 in guided mode. Research the business first, ask me only for anything important you genuinely cannot work out, and take the build through copy, design, QA, and the improved local final. Do not publish until I ask.
 
-Then paste:
+That is enough to begin.
 
-> Build a landing page for [BUSINESS WEBSITE OR DESCRIPTION] using the Landing Pages 2.0 community workflow in guided mode. Research the business first, ask only for genuinely missing business decisions, write and review the benefit-focused copy before layout, build the page, useful PDF, thank-you page and local CRM where the conversion uses a form, run the quality checks, compare the first build against the control, repair confirmed weaknesses, and show me the improved local final. Do not publish until I ask.
+The workflow should do the research before asking you for information and should keep moving through routine work without repeatedly asking whether it can continue.
 
-The workflow should research before questioning you and continue through routine work without repeatedly asking whether it should proceed.
+## What you'll usually need to provide
 
-## Option B: run the deterministic local demo
+Usually, not much.
 
-From a fresh checkout:
+A business website or clear description is enough to get started. If the exact offer is not obvious, tell it what you want to promote.
+
+It may come back to you if something genuinely needs your judgment, for example:
+
+- the website is unclear about the exact service or offer;
+- an important business fact cannot be verified;
+- there are several possible accounts or domains and it needs to know which one is yours;
+- you are ready to publish and need to approve the destination or sign in.
+
+Everything else should be handled as part of the build.
+
+## Guided mode or automatic mode
+
+Use **guided mode** if you want to see the important business decisions and copy as the build progresses.
+
+Use **automatic mode** if you want the workflow to make routine decisions, build, review, and repair without stopping for approval.
+
+Both modes use the same research, copy, quality, and publishing safeguards.
+
+## What you get at the end
+
+A complete enquiry-led project can include:
+
+- the finished responsive landing page;
+- the final copy and strategy notes;
+- a useful PDF guide;
+- the full thank-you page;
+- the lead form and working local CRM;
+- lead stages, notes, attribution, and reporting;
+- representative mobile and desktop screenshots;
+- QA results and repaired issues;
+- a project that can be resumed later without starting again;
+- the guided publishing flow when you are ready to launch.
+
+## Run the local demo
+
+If you want to see the workflow working with fictional data first:
 
 ```sh
 python3 scripts/dev.py doctor
@@ -135,13 +145,11 @@ python3 scripts/dev.py verify-demo --full
 python3 scripts/dev.py serve
 ```
 
-The first doctor may report missing dependencies. Bootstrap installs the locked project-local Python, Node and browser dependencies without signing into accounts or deploying anything.
+The first check may tell you that some dependencies are missing. Bootstrap installs the project's locked dependencies locally. It does not sign in to accounts or publish anything.
 
-The demo uses fictional data and stays local.
+## Publish a generated project
 
-## When you are ready to publish
-
-From a generated project:
+From the generated project:
 
 ```sh
 python3 scripts/ship.py --operator --ui
@@ -153,120 +161,45 @@ Or from this repository:
 python3 scripts/dev.py ship --project /path/to/generated-project --operator --ui
 ```
 
-The guided publishing flow resumes saved progress, keeps credentials out of chat, and separates automatic checks from the few external actions that require the owner.
+The publishing wizard saves its progress, keeps credentials out of chat, and resumes from the last completed step if it is interrupted.
+
+The standard guided publishing path currently covers the most common setup: one custom domain, one Cloudflare Worker, one D1 database, and the bundled CRM on macOS or Linux.
+
+More unusual setups are still supported through the advanced publishing references rather than being silently changed to fit the simple path.
+
+## Optional extras
+
+A normal local build does **not** require:
+
+- Google Sheets;
+- Google Tag Manager;
+- Google Ads, Meta, or Microsoft tracking;
+- an external CRM;
+- GitHub source backup;
+- custom email delivery;
+- a custom domain.
+
+Add them only when they are actually useful.
+
+## Built to stay honest
+
+The workflow is deliberately conservative about proof and claims.
+
+It should not invent reviews, ratings, guarantees, results, credentials, people, or business facts. Generated imagery is treated as illustration rather than evidence. A form should only show success when the selected destination has actually accepted it.
+
+And if a page is visibly broken, a passing test report does not make it finished.
+
+## Testing this repository
+
+If you are testing Landing Pages 2.0 itself rather than building for a real business, start with [TESTING-START-HERE.md](TESTING-START-HERE.md).
+
+That guide covers the current tester flow, setup, feedback format, and known limitations.
 
 ---
 
-## What you'll need to provide
+## Developer and implementation reference
 
-Usually, not much.
-
-Give it the business website or a clear description of the business and tell it what you want to promote. The workflow should research the rest before asking you questions.
-
-It may come back to you when something genuinely needs your judgment, for example:
-
-- the website is unclear about the exact service or offer;
-- an important business fact or promise cannot be verified;
-- there are several possible accounts, domains or destinations and it needs to know which one is yours;
-- you're ready to publish and need to approve the final destination or sign in to an external account.
-
-Everything else should be handled as part of the workflow. You should not have to babysit the build, make technical decisions, or work through a setup checklist just to get a finished landing page.
-
-## Guided mode vs automatic mode
-
-**Guided mode** is best when you want to see the brief, copy and important business choices as the build progresses.
-
-**Automatic mode** is best when you want the system to work through routine research, implementation, review and repair without approval pauses.
-
-Both modes preserve the same claim, quality, conversion and publishing safeguards.
-
-The visible guided journey is:
-
-**Start -> Business -> Conversion -> Copy -> Design -> Preview -> Connections -> Publish -> Complete**
-
-These are workflow stages, not nine permission screens.
-
-## What "ready" means
-
-The project uses status language deliberately:
-
-- **local final** - the selected local experience has passed its gates;
-- **publish-ready** - the selected external configuration is present and preflight has passed;
-- **live and verified** - the actual deployed destination and selected conversion journey have been checked after publication.
-
-A successful local build is not silently relabeled as a live deployment.
-
-## What is automatic by default
-
-For a normal form-led landing page:
-
-| Area | Default behavior |
-|---|---|
-| Business research | Automatic |
-| Review/customer-language research | Automatic when reasonably available |
-| Strategy and positioning | Automatic, using supportable evidence |
-| Copywriting | Automatic |
-| Copy review | Automatic |
-| Responsive design | Automatic |
-| Image planning | Automatic |
-| PDF buyer guide | Included unless research supports an exception |
-| Thank-you page | Included |
-| Local CRM | Included for form-led pages |
-| Local QA | Automatic |
-| Control comparison and repairs | Automatic |
-| Google Sheets | Off unless selected |
-| Ad-platform/GTM tracking | Off unless selected |
-| Production publishing | Runs only when requested |
-
-## Current standard publishing path
-
-The self-guided publishing adapter currently targets the common configuration:
-
-- macOS or Linux;
-- one custom domain;
-- one Cloudflare Worker;
-- one D1 database;
-- the bundled CRM.
-
-Advanced configurations such as split public/CRM domains, external-DNS gateways, static-only pages and workers.dev-only releases retain their existing advanced publishing paths rather than being silently rewritten.
-
-## Important principles
-
-Landing Pages 2.0 is designed around a few non-negotiables:
-
-- no invented proof, reviews, ratings, guarantees, credentials or outcomes;
-- generated imagery is illustrative, never fake evidence;
-- the source conversion intent is preserved unless the owner explicitly changes it;
-- a form only reports success after the selected destination confirms success;
-- required claims keep their qualifiers;
-- live publication and live test leads require actual authorization;
-- private credentials stay out of chat, source, screenshots and public artifacts;
-- a green test report cannot override a visibly broken page.
-
-## Optional integrations
-
-The standard local build does not require any of these:
-
-- Google Sheets;
-- GTM;
-- Google Ads conversion IDs;
-- Meta or Microsoft tracking;
-- GitHub source backup;
-- external CRM/webhooks;
-- custom email delivery;
-- custom domains.
-
-They are activated only when selected.
-
-## Testing the current release
-
-If you are testing the repository itself rather than building for a client, start with [TESTING-START-HERE.md](TESTING-START-HERE.md).
-
-It contains the validated tester flow, environment expectations, feedback format and current known limitations.
-
-## Technical reference
-
-The main implementation is the community skill:
+The main implementation lives in the community skill:
 
 - [Community skill](skills/community-landing-page-builder/SKILL.md)
 - [Guided workflow](skills/community-landing-page-builder/references/guided-workflow.md)
@@ -281,9 +214,9 @@ The main implementation is the community skill:
 - [Security operations](skills/community-landing-page-builder/references/security-operations.md)
 - [Native orchestration](skills/community-landing-page-builder/references/orchestration.md)
 
-## Install the community workflow into another project
+### Install the workflow into another project
 
-From this repository:
+For ChatGPT/Codex:
 
 ```sh
 python3 scripts/install_community.py --project /absolute/path/to/project --runtime codex --copy-skill
@@ -301,16 +234,16 @@ For both profile sets:
 python3 scripts/install_community.py --project /absolute/path/to/project --runtime both --copy-skill
 ```
 
-Existing owner settings and unmanaged files are preserved. Conflicts stop installation instead of silently overwriting customized work.
+Existing project settings and unmanaged files are preserved. Conflicts stop the installation instead of silently overwriting customized work.
 
-## Development and contribution
-
-For repository development, test commands, implementation details and legacy workflows, see [CONTRIBUTING.md](CONTRIBUTING.md).
+For repository development, test commands, implementation details, and legacy workflows, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 The previous branded workflow remains under `skills/branded-lead-funnel-builder/` and its historical README is preserved in [README-LEGACY.md](README-LEGACY.md).
 
-## Repository status
+## Current scope
 
-This is a private collaboration repository. The word "community" names the reusable workflow; it is not an open-source license grant.
+Landing Pages 2.0 is being tested as a self-guided workflow across real AI coding environments.
 
-The project is actively being tested as a self-guided workflow across real AI coding environments. Automated tests establish mechanical behavior, but they do not replace real-business evaluation of research quality, copy quality, design quality, or every possible hosting/account configuration.
+The automated test suite checks the mechanics of the workflow, but real-business testing is still important for judging research quality, copy quality, design quality, and how intuitive the experience feels to someone using it for the first time.
+
+This is a private collaboration repository. The word "community" refers to the reusable workflow and is not an open-source license grant.
