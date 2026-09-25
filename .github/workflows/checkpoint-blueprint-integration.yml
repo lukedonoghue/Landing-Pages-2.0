@@ -23,25 +23,26 @@ jobs:
           assert os.environ['GITHUB_REF']=='refs/heads/fix/remediation-blueprint-final-pass'
           r=Path.cwd();prefix='skills/community-landing-page-builder/assets/cloudflare/tests/'
           a=r/prefix/'admin-operations.test.mjs';s=a.read_text()
-          old="""    for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity','completion_contract','image_evidence','check_gates']) {
-                const candidates=[path.join(root,'scripts',name+'.py'),path.resolve(root,'../../scripts',name+'.py')];
-                let source;for(const item of candidates){try{await stat(item);source=item;break;}catch{}}
-                assert.ok(source);await cp(source,path.join(fixture,'scripts',name+'.py'));
-              }"""
-          # YAML indentation is stripped before Python sees this exact source.
-          old='\n'.join(line[6:] if i else line for i,line in enumerate(old.split('\n')))
-          new="""    // Match the real scaffold: carry the complete Python validation runtime,
-              // not a hand-maintained import subset that breaks on a new dependency.
-              const candidates = [path.join(root, 'scripts'), path.resolve(root, '../../scripts')];
-              let pythonSource;
-              for (const directory of candidates) {
-                try { await stat(path.join(directory, 'release_state.py')); pythonSource = directory; break; } catch {}
-              }
-              assert.ok(pythonSource, 'The maintained release runtime must be available');
-              for (const name of (await readdir(pythonSource)).filter(name => name.endsWith('.py'))) {
-                await cp(path.join(pythonSource, name), path.join(fixture, 'scripts', name));
-              }"""
-          new='\n'.join(line[10:] if i else line for i,line in enumerate(new.split('\n')))
+          old="\n".join([
+            "    for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity','completion_contract','image_evidence','check_gates']) {",
+            "      const candidates=[path.join(root,'scripts',name+'.py'),path.resolve(root,'../../scripts',name+'.py')];",
+            "      let source;for(const item of candidates){try{await stat(item);source=item;break;}catch{}}",
+            "      assert.ok(source);await cp(source,path.join(fixture,'scripts',name+'.py'));",
+            "    }"
+          ])
+          new="\n".join([
+            "    // Match the real scaffold: carry the complete Python validation runtime,",
+            "    // not a hand-maintained import subset that breaks on a new dependency.",
+            "    const candidates = [path.join(root, 'scripts'), path.resolve(root, '../../scripts')];",
+            "    let pythonSource;",
+            "    for (const directory of candidates) {",
+            "      try { await stat(path.join(directory, 'release_state.py')); pythonSource = directory; break; } catch {}",
+            "    }",
+            "    assert.ok(pythonSource, 'The maintained release runtime must be available');",
+            "    for (const name of (await readdir(pythonSource)).filter(name => name.endsWith('.py'))) {",
+            "      await cp(path.join(pythonSource, name), path.join(fixture, 'scripts', name));",
+            "    }"
+          ])
           assert s.count(old)==1, 'Admin fixture source changed';a.write_text(s.replace(old,new))
           a=r/prefix/'guide-ui.test.mjs';s=a.read_text()
           old="  storage.write(root,'build/discovery.json',{'schema_version':1,'input_fingerprint':guide.research_fingerprint(root),'suggestions':[]})\n  return {'status':'done','summary':'Synthetic research fixture only; no external sources contacted.','outputs':['build/discovery.json'],'blockers':[]}"
