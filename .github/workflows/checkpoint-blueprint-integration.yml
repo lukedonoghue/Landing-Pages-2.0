@@ -1,0 +1,112 @@
+name: Checkpoint blueprint integration repairs
+on:
+  push:
+    branches: [fix/remediation-blueprint-final-pass]
+    paths: [.github/workflows/checkpoint-blueprint-integration.yml]
+permissions:
+  contents: write
+jobs:
+  checkpoint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Apply exact reviewed repairs and remove this temporary workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, os, subprocess, urllib.request
+          assert os.environ['GITHUB_REF']=='refs/heads/fix/remediation-blueprint-final-pass'
+          r=Path.cwd();prefix='skills/community-landing-page-builder/assets/cloudflare/tests/'
+          a=r/prefix/'admin-operations.test.mjs';s=a.read_text()
+          old="""    for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity','completion_contract','image_evidence','check_gates']) {
+                const candidates=[path.join(root,'scripts',name+'.py'),path.resolve(root,'../../scripts',name+'.py')];
+                let source;for(const item of candidates){try{await stat(item);source=item;break;}catch{}}
+                assert.ok(source);await cp(source,path.join(fixture,'scripts',name+'.py'));
+              }"""
+          # YAML indentation is stripped before Python sees this exact source.
+          old='\n'.join(line[6:] if i else line for i,line in enumerate(old.split('\n')))
+          new="""    // Match the real scaffold: carry the complete Python validation runtime,
+              // not a hand-maintained import subset that breaks on a new dependency.
+              const candidates = [path.join(root, 'scripts'), path.resolve(root, '../../scripts')];
+              let pythonSource;
+              for (const directory of candidates) {
+                try { await stat(path.join(directory, 'release_state.py')); pythonSource = directory; break; } catch {}
+              }
+              assert.ok(pythonSource, 'The maintained release runtime must be available');
+              for (const name of (await readdir(pythonSource)).filter(name => name.endsWith('.py'))) {
+                await cp(path.join(pythonSource, name), path.join(fixture, 'scripts', name));
+              }"""
+          new='\n'.join(line[10:] if i else line for i,line in enumerate(new.split('\n')))
+          assert s.count(old)==1, 'Admin fixture source changed';a.write_text(s.replace(old,new))
+          a=r/prefix/'guide-ui.test.mjs';s=a.read_text()
+          old="  storage.write(root,'build/discovery.json',{'schema_version':1,'input_fingerprint':guide.research_fingerprint(root),'suggestions':[]})\n  return {'status':'done','summary':'Synthetic research fixture only; no external sources contacted.','outputs':['build/discovery.json'],'blockers':[]}"
+          new="\n".join([
+            "  source=root/'research/fixture-discovery.txt';source.parent.mkdir(exist_ok=True)",
+            "  source.write_text('Synthetic discovery: the fictional identity has no published service, offer, audience or conversion choice. No external research was performed.')",
+            "  evidence={'path':'research/fixture-discovery.txt','sha256':runner.hash_bytes(source.read_bytes())}",
+            "  unresolved=[{'id':q['id'],'category':'offer','reason':'The fictional identity does not establish this decision',",
+            "    'material_effect':'The answer changes the selected service, offer or conversion path','evidence':[evidence]} for q in guide.questions(root)]",
+            "  storage.write(root,'build/discovery.json',{'schema_version':1,'input_fingerprint':guide.research_fingerprint(root),'suggestions':[], 'unresolved_facts':unresolved})",
+            "  return {'status':'done','summary':'Synthetic research fixture only; no external sources contacted.','outputs':['build/discovery.json','research/fixture-discovery.txt'],'blockers':[]}"
+          ])
+          assert s.count(old)==1, 'Guide fixture source changed';a.write_text(s.replace(old,new))
+          a=r/prefix/'journey-recovery.test.mjs';s=a.read_text()
+          old="  copyFileSync(lightbox,path.join(root,'public/script.js'));\n  writeFileSync(path.join(root,'public/admin/index.html'),'<!doctype html><title>Synthetic admin destination</title>');"
+          new="\n".join([
+            "  copyFileSync(lightbox,path.join(root,'public/script.js'));",
+            "  // The synthetic journey has the same explicit conversion contract as a",
+            "  // client build. Missing evidence must still fail the production validator.",
+            "  const fields = recoveryConfig.formFields;",
+            "  const offer = 'Request your project guide';",
+            "  const sourcePath = 'research/synthetic-conversion-source.html';",
+            "  mkdirSync(path.join(root, 'research'), { recursive: true });",
+            "  copyFileSync(path.join(template, 'tests/fixtures/recovery-index.html'), path.join(root, sourcePath));",
+            "  const sourceHash = createHash('sha256').update(readFileSync(path.join(root, sourcePath))).digest('hex');",
+            "  atomic(path.join(root, 'funnel.json'), { backend: { provider: 'cloudflare-d1' }, conversion: { type: 'enquire' }, offer, form_fields: fields });",
+            "  atomic(path.join(root, 'build/conversion-contract.json'), {",
+            "    source_conversion_type: 'enquire', selected_conversion_type: 'enquire',",
+            "    source_offer: offer, selected_offer: offer, source_fields: fields, selected_fields: fields,",
+            "    source_success_behavior: 'Synthetic receipt-correlated confirmation; no real business promise',",
+            "    secondary_action: 'None in this synthetic fixture', local_implementation: 'Loopback Worker and D1 test',",
+            "    production_wiring: 'Not configured; external requests disabled', allowed_changes: [],",
+            "    evidence: [{ path: sourcePath, sha256: sourceHash }],",
+            "  });",
+            "  writeFileSync(path.join(root,'public/admin/index.html'),'<!doctype html><title>Synthetic admin destination</title>');"
+          ])
+          assert s.count(old)==1, 'Journey fixture source changed'
+          s=s.replace("import { pbkdf2Sync } from 'node:crypto';", "import { pbkdf2Sync, createHash } from 'node:crypto';")
+          a.write_text(s.replace(old,new))
+          hashes={'admin-operations.test.mjs':'17b125bf5933339b1a69b1c0ae3563920b6ecbe02775a9f65ac1af72e689c5f7','guide-ui.test.mjs':'37bd4502fb88c760cb2e9880e8937a750b1d76ee6cb155cade54b5b5c289c57c','journey-recovery.test.mjs':'c2ac0988e147525c3860edaeb9308ff38bdc0c141fb79eea49c17b18fd132874'}
+          for name,expected in hashes.items():
+              file=r/prefix/name
+              assert hashlib.sha256(file.read_bytes()).hexdigest()==expected, name+' differs from reviewed bytes'
+              subprocess.run(['node','--check',str(file)],check=True)
+          subprocess.run(['python3','scripts/sync_crm_example.py'],check=True)
+          subprocess.run(['python3','scripts/sync_crm_example.py','--check'],check=True)
+          workflow='.github/workflows/checkpoint-blueprint-integration.yml';(r/workflow).unlink()
+          subprocess.run(['git','diff','--check'],check=True)
+          names=subprocess.check_output(['git','diff','--name-only','-z']).decode().strip('\0').split('\0')
+          allowed={workflow,'examples/crm-demo/source-manifest.json',*[prefix+n for n in hashes],*['examples/crm-demo/tests/'+n for n in hashes]}
+          assert set(names)==allowed, names
+          repo=os.environ['GITHUB_REPOSITORY'];head=os.environ['GITHUB_SHA']
+          def api(route,data=None,method=None):
+              request=urllib.request.Request('https://api.github.com/repos/'+repo+'/'+route,data=json.dumps(data).encode() if data is not None else None,method=method,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json'})
+              with urllib.request.urlopen(request,timeout=60) as response:return json.load(response)
+          entries=[]
+          for name in names:
+              entry={'path':name,'mode':'100644','type':'blob'}
+              if name==workflow:entry['sha']=None
+              else:entry['content']=(r/name).read_text()
+              entries.append(entry)
+          base=api('git/commits/'+head)['tree']['sha'];tree=api('git/trees',{'base_tree':base,'tree':entries})
+          commit=api('git/commits',{'message':'test: integrate blueprint contracts into real browser and D1 fixtures','tree':tree['sha'],'parents':[head]})
+          ref='heads/fix/remediation-blueprint-final-pass'
+          assert api('git/ref/'+ref)['object']['sha']==head, 'Branch changed concurrently'
+          api('git/refs/'+ref,{'sha':commit['sha'],'force':False},'PATCH')
+          print(json.dumps({'commit':commit['sha'],'tree':tree['sha'],'files':names,'main_changed':False}))
+          PY
