@@ -32,11 +32,11 @@ import workflow_storage as storage
 from runtime_context import skill_root
 SKILL=skill_root(__file__)
 JOURNAL='.secrets/runner-apply.json'
-FORBIDDEN={'build/guide-business.json','build/workflow.json','build/guide-state.json','build/progress.json','build/static-release.json','build/setup-authorization.json','build/release-status.json','build/export-verification.json','build/owner-handoff.json'}
+FORBIDDEN={'build/handoff-import.json','build/release-inputs.json','build/export-result.json','build/tool-runtime.json','build/question-log.json','build/guide-business.json','build/workflow.json','build/guide-state.json','build/progress.json','build/static-release.json','build/setup-authorization.json','build/release-status.json','build/static-preflight.json','build/export-verification.json','build/owner-handoff.json'}
 BUILD_OUTPUTS=('build/guide-image-handoff.json','build/guide.json','build/guide-build.json','build/guide-review.json','build/guide-review-history','build/guide-pages','build/guide-text.txt','build/thank-you.json','build/thank-you-build.json','build/discovery.json','build/strategy-brief.md','build/claim-ledger.md','build/page-copy.md','build/page-copy.json',
     'build/client-copy-brief.json','build/copy-context.json','build/copy-editorial-review.json','build/copy-review-inputs.json',
     'build/review-insights.json','build/testimonial-selection.json','build/rendered-testimonials.json',
-    'build/research-acceptance.json','build/document-sources.json',
+    'build/research-acceptance.json','build/document-sources.json','build/conversion-contract.json','build/copy-quality-review.json','build/claim-review.json','build/dependency-manifest.json','build/final-review.json',
     'build/page-structure.json','build/reference-fidelity.json','build/brand.json','build/image', 'build/layout','build/pdf','build/catalogue',
     'build/visual','build/performance','build/browser','build/copy','build/rendered-copy','build/control-review','build/qa',
     'build/local-journey','build/local-verification','build/gate-snapshot.json','build/gates.json')
@@ -49,7 +49,7 @@ def hash_bytes(value):
 
 
 def allowed(name):
-    if (name in FORBIDDEN and name!='build/guide-business.json') or name.startswith(('build/releases/','build/static-releases/')):
+    if (name in FORBIDDEN and name!='build/guide-business.json') or name.startswith(('build/releases/','build/static-releases/','build/orchestration/')):
         return False
     return name in OUTPUTS or any(name.startswith(p+'/') for p in OUTPUTS) or any(
         name.startswith(p) and name.endswith('.json') for p in BUILD_OUTPUTS if not Path(p).suffix)
@@ -124,6 +124,10 @@ def begin(root, action, worker):
         cap=state.get('capabilities',{})
         route=routing.resolve(action.get('role','frontend'),cap.get('provider','chat'),attempt=budget['attempts']+1,capabilities=cap)
         work=packet(root,action);token=uuid.uuid4().hex;name='run-'+work['id'][:20]
+        import check_gates
+        work['task_id']=name;work['source_fingerprint']=check_gates.source_snapshot(root)['source_fingerprint']
+        if stage=='final_review':
+            work['inputs']={k:v for k,v in work['inputs'].items() if k not in {'build/gates.json','build/final-review.json'}}
         state['tasks'][name]={'id':name,'status':'running','role':action.get('role','frontend'),'phase':'build','depends_on':[],
             'inputs':list(work['inputs']),'input_hashes':work['inputs'],'writes':list(OUTPUTS),'resources':['guided-coordinator'],
             'attempts':budget['attempts']+1,'worker':worker,'claim_token':token,'route':route,'packet':work,'started_at':routing.now(),
@@ -144,8 +148,28 @@ def heartbeat(root,name,token,child_pid=None):
 
 def finish(root,name,token,receipt,before):
     # A worker saying done cannot advance the guide. Re-derive readiness from actual evidence.
-    next_step=guide.next_action(root)
     after=files(root)
+    with routing.database(root) as (_,state):
+        task=state['tasks'].get(name)
+        if not task or task['status']!='running' or task.get('claim_token')!=token:
+            raise ValueError('Late or duplicate worker result')
+        stage=task['packet']['stage']
+        if stage=='final_review' and receipt.get('status')=='done':
+            import check_gates, execution_receipts
+            if task['packet'].get('source_fingerprint')!=check_gates.source_snapshot(root)['source_fingerprint']:
+                raise ValueError('Product changed while final reviewer was inspecting it')
+            observed=receipt.get('host_execution',{})
+            if observed.get('observed_by')=='workflow_runner.native_execute' and observed.get('exit_code')==0:
+                task['effective']={'host_task_id':observed.get('session_id'),'evidence':observed.get('evidence')}
+            report='build/final-review.json'
+            if report not in after:raise ValueError('Final reviewer returned no report')
+            provisional={**task,'status':'done','finished_at':routing.now(),'receipt':receipt,
+                         'output_hashes':{report:after[report]}}
+            execution_receipts.from_task(root,provisional,state.get('capabilities',{}),state.get('freeze'))
+    if stage=='final_review' and receipt.get('status')=='done':
+        import check_gates
+        check_gates.record_report(root,'final_review','build/final-review.json')
+    next_step=guide.next_action(root)
     with routing.database(root) as (_,state):
         task=state['tasks'].get(name)
         if not task or task['status']!='running' or task.get('claim_token')!=token:raise ValueError('Late or duplicate worker result')
@@ -227,10 +251,20 @@ def native_execute(root, work, provider, route, beat):
                     time.sleep(2)
                 if process.returncode:raise ValueError('Native worker failed or requested unsupported permissions. No outputs were applied; inspect the native session and retry explicitly.')
                 output.seek(0)
-                if provider=='codex':receipt=json.loads(result_path.read_text())
+                if provider=='codex':
+                    receipt=json.loads(result_path.read_text())
+                    events=[]
+                    for line in output.read(2_000_000).decode('utf-8',errors='replace').splitlines():
+                        try:events.append(json.loads(line))
+                        except ValueError:continue
+                    host_id=next((e.get('thread_id') for e in events if e.get('type')=='thread.started'),None)
                 else:
                     raw=json.loads(output.read(2_000_000));receipt=raw.get('structured_output')
                     if not isinstance(receipt,dict):raise ValueError('Claude did not return its structured task receipt')
+                    host_id=raw.get('session_id')
+                receipt['host_execution']={'kind':'subscription_cli','provider':provider,'session_id':host_id,
+                    'observed_by':'workflow_runner.native_execute','exit_code':process.returncode,
+                    'evidence':'Successful bounded CLI process and structured result; effective model is not inferred'}
             finally:
                 if process.poll() is None:
                     os.killpg(process.pid,signal.SIGTERM)
@@ -241,6 +275,8 @@ def native_execute(root, work, provider, route, beat):
         after=files(staged);changes={p for p in set(initial)|set(after) if initial.get(p)!=after.get(p)}
         preserved={p for p in initial if p.startswith('build/guide-review-history/') or p.startswith('build/control-review/') and (p.endswith('/baseline.json') or p.endswith('/reference.json') or p.endswith('/comparison.json') or Path(p).name.startswith('initial-'))}
         if changes.intersection(preserved):raise ValueError('Worker attempted to rewrite the preserved initial review/checklist')
+        if work['stage']=='final_review' and any(p not in {'build/final-review.json'} for p in changes):
+            raise ValueError('Final review is read-only for product and prior evidence; return only build/final-review.json')
         if work['stage'] in {'control_comparison','control_retest'} and any(not p.startswith('build/control-review/') for p in changes):
             raise ValueError('Comparison/retest may record findings, not edit the page being reviewed')
         if work['stage']=='guide_review' and any(p != 'build/guide-review.json' for p in changes):raise ValueError('Guide review records actual findings; the separate repair task changes the output')
@@ -255,6 +291,10 @@ def native_execute(root, work, provider, route, beat):
             writes={p:{'before':before.get(p),'after':after[p],'content':base64.b64encode((staged/p).read_bytes()).decode()} for p in changes}
             storage.write(root,JOURNAL,{'writes':writes})
             recover_apply(root)
+        if work['stage']=='design_and_build' and 'public/index.html' in changes:
+            import copy_contract, dependency_state
+            master=copy_contract.copy_files(root)['copy']
+            if (root/master).is_file():dependency_state.record(root,'main_page',[master],['public/index.html'])
         return receipt
 
 
@@ -279,7 +319,9 @@ def drive(root,provider='codex',max_steps=30,executor=None,cancel=None):
                 after=guide.next_action(root)
                 if after['kind']=='publish':return {**after,'kind':'reconcile','instruction':'The publisher returned without a verified transition. Inspect its existing release record; do not repeat publication blindly.'}
                 continue
-            if action['kind']!='work':return action
+            if action['kind']!='work':
+                import question_log
+                return question_log.presented(root,action)
             before=files(root)
             name,token,work,route=begin(root,action,'runner-'+uuid.uuid4().hex)
             try:

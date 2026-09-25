@@ -349,6 +349,8 @@ def claim(root, name, worker):
         task.update(status="running", worker=worker, claim_token=token,
                     input_hashes=snapshot(root, task["inputs"]), started_at=now(),
                     attempts=task["attempts"] + 1, route=route)
+        import check_gates
+        task["packet"]={"source_fingerprint":check_gates.source_snapshot(root)["source_fingerprint"]}
         event(state, "claimed", name, worker=worker, route=route)
         return {"task": task, "claim_token": token}
 
@@ -405,6 +407,8 @@ def finish(root, name, token, receipt):
                     output_hashes=snapshot(root, outputs), receipt=receipt,
                     effective=actual, finished_at=now())
         task.pop("claim_token", None)
+        import execution_receipts
+        execution_receipts.from_task(root, task, state.get("capabilities",{}), state.get("freeze"))
         event(state, "finished", name, status=task["status"], effective=actual)
         return {"status": task["status"], "release_approved": False}
 

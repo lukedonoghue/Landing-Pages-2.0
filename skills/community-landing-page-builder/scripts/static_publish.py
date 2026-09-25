@@ -134,7 +134,11 @@ def provider_preflight(root, selected, run=command):
         raise ValueError('The selected Pages project/production hostname was not confirmed in this account')
     if not any(re.search(r'(?<![A-Za-z0-9_./-])'+re.escape(selected['production_branch'])+r'(?![A-Za-z0-9_./-])', row) for row in rows):
         raise ValueError('The selected Pages production branch was not confirmed; do not deploy a preview as production')
-    return {'account_verified':True, 'project_verified':True, 'checked_at':now()}
+    result={'account_verified':True, 'project_verified':True, 'checked_at':now(),
+            'issuer':'static_publish.provider_preflight','target':selected,
+            'source_fingerprint':check_gates.source_snapshot(Path(root))['source_fingerprint']}
+    storage.write(Path(root),'build/static-preflight.json',result)
+    return result
 
 
 class SameHost(urllib.request.HTTPRedirectHandler):

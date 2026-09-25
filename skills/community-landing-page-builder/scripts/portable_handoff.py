@@ -52,6 +52,7 @@ SECRET_KEYS = {
 }
 STATE_FILES = [
     *workflow.COPY_FILES.values(),
+    "build/release-inputs.json", "build/dependency-manifest.json", "build/tool-runtime.json", "build/question-log.json", "build/final-review.json",
     "build/workflow.json",
     "build/progress.json",
     "build/gates.json",
@@ -301,6 +302,7 @@ def collect(root, extra=(), in_progress=False):
             except ValueError:
                 continue
             pending.append((name, root))
+    pending += [(p.relative_to(root).as_posix(),root) for p in (root/'build/orchestration/tasks').glob('*.json')]
     pending += [(name, root) for name in extra]
     # An interruption may occur after a producer finished but before its report
     # was registered. Preserve the same candidates the resume helper examines.
@@ -548,6 +550,8 @@ def export_bundle(root, output, client, in_progress=False, extra=()):
         manifest = {
             "schema_version": 2,
             "package_id": str(uuid.uuid4()),
+            "exporter_version":"portable-handoff-3",
+            "release_inputs_sha256":file_digest(staged/"build/release-inputs.json") if (staged/"build/release-inputs.json").is_file() else None,
             "project_directory": "project",
             "source_snapshot": snapshot,
             "scope": "in_progress" if in_progress else "reviewed",
@@ -600,6 +604,9 @@ def export_bundle(root, output, client, in_progress=False, extra=()):
                 )
         os.replace(archive_path, output)
     result = {
+        "package_id":manifest["package_id"],
+        "exporter_version":"portable-handoff-3",
+        "release_inputs_sha256":manifest["release_inputs_sha256"],
         "archive": str(output),
         "sha256": file_digest(output),
         "files": len(entries) + 1,
@@ -695,6 +702,9 @@ def verify_archive(archive_path):
         if names != {prefix + name for name in manifest["files"]} | {manifest_name}:
             raise ValueError("Archive inventory differs from its manifest.")
         source = {}
+        if manifest.get('scope')=='reviewed' and manifest.get('exporter_version')=='portable-handoff-3':
+            if not manifest.get('release_inputs_sha256') or manifest['files'].get('project/build/release-inputs.json',{}).get('sha256')!=manifest['release_inputs_sha256']:
+                raise ValueError('Archive release-input hash does not match its inventory')
         for name, expected in manifest["files"].items():
             safe_name(name)
             if expected.get("mode") not in {0o644, 0o755}:
@@ -772,6 +782,12 @@ def extract_archive(archive_path, destination):
                 "status"
             ] not in {"pass", "pass_with_warnings"}:
                 raise ValueError("Extracted evidence could not be validated independently: " + key)
+        imported=storage.read(project,'build/handoff-import.json')
+        imported['restore_verified']=all(v.get('status') in {'pass','pass_with_warnings'} for v in outcome.values())
+        imported['restored_files']={name[8:]:row['sha256'] for name,row in verified['manifest']['files'].items() if name.startswith('project/')}
+        imported['release_inputs_sha256']=verified['manifest'].get('release_inputs_sha256')
+        imported['exporter_version']=verified['manifest'].get('exporter_version')
+        storage.write(project,'build/handoff-import.json',imported)
         if destination.exists():
             raise ValueError("Destination appeared during extraction; existing work was preserved.")
         os.rename(staging, destination)

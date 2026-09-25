@@ -170,10 +170,16 @@ test('real local D1 backup round-trip restores seeded records and recovery comma
     await mkdir(path.join(fixture, 'scripts'));
     for (const script of ['backup.mjs', 'erasure-backup.mjs', 'admin-account.mjs', 'release-tools.mjs']) await cp(path.join(root, 'scripts', script), path.join(fixture, 'scripts', script));
     await cp(path.join(root, 'migrations'), path.join(fixture, 'migrations'), { recursive: true });
-    for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity','completion_contract','image_evidence','check_gates']) {
-      const candidates=[path.join(root,'scripts',name+'.py'),path.resolve(root,'../../scripts',name+'.py')];
-      let source;for(const item of candidates){try{await stat(item);source=item;break;}catch{}}
-      assert.ok(source);await cp(source,path.join(fixture,'scripts',name+'.py'));
+    // Match the real scaffold: carry the complete Python validation runtime,
+    // not a hand-maintained import subset that breaks on a new dependency.
+    const candidates = [path.join(root, 'scripts'), path.resolve(root, '../../scripts')];
+    let pythonSource;
+    for (const directory of candidates) {
+      try { await stat(path.join(directory, 'release_state.py')); pythonSource = directory; break; } catch {}
+    }
+    assert.ok(pythonSource, 'The maintained release runtime must be available');
+    for (const name of (await readdir(pythonSource)).filter(name => name.endsWith('.py'))) {
+      await cp(path.join(pythonSource, name), path.join(fixture, 'scripts', name));
     }
     await mkdir(path.join(fixture,'.secrets'),{recursive:true});
     await writeFile(path.join(fixture,'.secrets/local.json'),JSON.stringify({ADMIN_USERNAME:username,ADMIN_PASSWORD_HASH:encoded}),{mode:0o600});

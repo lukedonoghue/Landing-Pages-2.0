@@ -62,6 +62,10 @@ def meaningful_text(value: str) -> str:
 
 def validate_documents(root: Path, names=BUILD_GATE_DOCS) -> list[str]:
     root = Path(root).resolve()
+    config = json.loads((root/'funnel.json').read_text()) if (root/'funnel.json').is_file() else {}
+    if config.get('quality',{}).get('contract_version',0) >= 4:
+        import validate_required_records
+        return validate_required_records.validate(root, 'copy' if set(names)==set(COPY_GATE_DOCS) else 'build')
     failures = []
     for name in names:
         path = root / "docs" / name

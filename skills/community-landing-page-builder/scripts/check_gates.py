@@ -12,8 +12,8 @@ from urllib.parse import urlsplit
 from uuid import UUID
 
 VERSION = '1.3.0'
-STATES = {'pass', 'pass_with_warnings', 'blocked', 'not_applicable'}
-GATES = {'control_review', 'copy', 'rendered_copy', 'performance', 'browser_compat', 'images', 'static', 'browser', 'visual', 'catalogue', 'local_journey', 'crm', 'tracking', 'deployment'}
+STATES = {'pass', 'pass_with_warnings', 'pass_with_accepted_limits', 'blocked', 'not_applicable', 'not_run', 'stale'}
+GATES = {'final_review', 'control_review', 'copy', 'rendered_copy', 'performance', 'browser_compat', 'images', 'static', 'browser', 'visual', 'catalogue', 'local_journey', 'crm', 'tracking', 'deployment'}
 MODES = {'preview', 'handoff', 'live'}
 # Host-only settings are not deployed inputs; staged QA must remain portable.
 EXCLUDED_DIRS = {'.codex', '.claude', '.community-builder', '.secrets', '.git', 'node_modules', 'build', 'screenshots', '.wrangler', '.venv', '__pycache__', '.pytest_cache', 'coverage', 'test-results', 'playwright-report'}
@@ -184,6 +184,8 @@ def validate_report(root, report, snapshot, gate):
         errors.append('Report requires schema_version=1 and matching gate')
     if report.get('status') not in STATES:
         errors.append('Report has no valid status')
+    if report.get('status') in {'not_run','stale','blocked'}:
+        errors.append('Mandatory evidence is '+report['status']+'; this is not an accepted limit')
     if report.get('source_fingerprint') != snapshot['source_fingerprint']:
         errors.append('Report source fingerprint does not match the snapshot')
     if report.get('target', {}).get('mode') != snapshot['mode']:
@@ -219,7 +221,10 @@ def validate_report(root, report, snapshot, gate):
                 errors.append(f"Artifact hash mismatch: {artifact.get('path')}")
         except ValueError as error:
             errors.append(str(error))
-    if gate == 'browser':
+    if gate == 'final_review':
+        import final_review
+        errors.extend(final_review.errors(root,report,snapshot))
+    elif gate == 'browser':
         if 'screenshot' not in kinds or not report.get('viewports'):
             errors.append('Browser evidence requires viewports and screenshot artifacts')
         if report.get('execution', {}).get('kind') != 'automated':
@@ -238,7 +243,7 @@ def validate_report(root, report, snapshot, gate):
     elif gate == 'browser_compat':
         engines = report.get('engines', [])
         names = {item if isinstance(item, str) else item.get('name', item.get('engine')) for item in engines}
-        if not {'chromium', 'webkit'}.issubset(names):
+        if not set(read_json(root/'funnel.json').get('quality',{}).get('browsers',['chromium','webkit'])).issubset(names):
             errors.append('Compatibility evidence requires both Chromium and WebKit')
         if report.get('execution', {}).get('kind') != 'automated' or 'screenshot' not in kinds:
             errors.append('Compatibility evidence requires actual browser execution and screenshots')
@@ -296,7 +301,8 @@ def validate_report(root, report, snapshot, gate):
         elif mode == 'self_review' and provenance['reviewer_task_id'] != provenance['builder_task_id']:
             errors.append('Self-review provenance must identify the same builder task')
         from completion_contract import independent_review_errors
-        errors += independent_review_errors(root, provenance)
+        import execution_receipts
+        errors += execution_receipts.validate(root, provenance, report_value=report)
         if report.get('reviewed_source_fingerprint') != snapshot['source_fingerprint']:
             errors.append('Visual acceptance must name the exact reviewed source fingerprint')
         findings, retests = report.get('findings'), report.get('retests')
@@ -368,7 +374,10 @@ def validate_report(root, report, snapshot, gate):
             errors += completion_contract.performance_errors(root, report)
         elif gate == 'visual':
             errors += completion_contract.visual_state_errors(root, report)
-    if report.get('status') in {'pass', 'pass_with_warnings'}:
+        if gate in {'static','browser','browser_compat','local_journey'}:
+            import research_contract
+            errors += research_contract.conversion_errors(root,check_page=True)
+    if report.get('status') in {'pass', 'pass_with_warnings','pass_with_accepted_limits'}:
         if report.get('failures'):
             errors.append('Passing report contains failures')
         checks = report.get('checks', {})
@@ -376,7 +385,7 @@ def validate_report(root, report, snapshot, gate):
             if value is False:
                 return True
             if isinstance(value, dict):
-                if value.get('status') in {'blocked', 'fail', 'failed', 'error'} or value.get('passed') is False:
+                if value.get('status') in {'blocked', 'fail', 'failed', 'error','not_run','stale'} or value.get('passed') is False:
                     return True
                 return any(failed_check(item) for item in value.values())
             if isinstance(value, list):
@@ -400,7 +409,9 @@ def required_gates(root, mode):
         if config.get('backend',{}).get('provider')!='none':
             gates.append('rendered_copy')
             if mode in {'preview','handoff'}:gates.append('local_journey')
-        if not config.get('development_fixture'): gates.append('images')
+        if not config.get('development_fixture'):
+            gates.append('images')
+            if mode in {'handoff','live'}:gates.append('final_review')
     catalogue = config.get('catalogue', {})
     if not isinstance(catalogue, dict) or catalogue.get('enabled') is not False:
         gates.append('catalogue')
@@ -447,7 +458,7 @@ def check(root, mode, manifest_path):
                         gate_errors.append('Required gate is ' + report['status'])
                     if report.get('status') != entry.get('status'):
                         gate_errors.append('Recorded status differs from report')
-                    if report.get('status') == 'pass_with_warnings':
+                    if report.get('status') in {'pass_with_warnings','pass_with_accepted_limits'}:
                         warnings.append(f"{gate}: " + '; '.join(str(w) for w in report.get('warnings', ['Review report warnings'])))
             except (KeyError, ValueError, OSError) as error:
                 gate_errors.append(str(error))
@@ -510,6 +521,8 @@ def main():
             if 'build' not in path.relative_to(root).parts:
                 raise ValueError('Snapshot must be under build/ so evidence does not change source identity')
             write_json(path, data)
+            import dependency_state
+            write_json(root/'build/tool-runtime.json', dependency_state.runtime_identity(root))
             print(json.dumps({'status': 'pass', 'snapshot': str(path), 'source_fingerprint': data['source_fingerprint'], 'files': len(data['files'])}, indent=2))
             return 0
         manifest_path = resolve_inside(root, args.manifest)

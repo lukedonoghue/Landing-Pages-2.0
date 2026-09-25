@@ -19,11 +19,7 @@ import process_contract
 import workflow_storage
 import workflow_progress
 
-COPY_FILES = {
-    'copy': 'build/page-copy.json', 'brief': 'build/client-copy-brief.json',
-    'context': 'build/copy-context.json', 'review': 'build/copy-editorial-review.json',
-    'review_inputs': 'build/copy-review-inputs.json',
-}
+from copy_contract import COPY_FILES, lightweight, copy_files, business_contract
 
 def now(): return datetime.now(timezone.utc).isoformat()
 def read(path): return json.loads(path.read_text())
@@ -33,60 +29,9 @@ def load(root):
     return workflow_storage.read(root, 'build/workflow.json', {'schema_version': 1, 'approvals': {}})
 def save(root, state):
     workflow_storage.write(root, 'build/workflow.json', state)
-
-def lightweight(root):
-    config = read(root/'funnel.json') if (root/'funnel.json').is_file() else {}
-    return config.get('backend',{}).get('provider') == 'none' and config.get('guided_workflow',{}).get('copy_format') == 'markdown'
-
-def copy_files(root):
-    if lightweight(root):
-        return {'copy':'build/page-copy.md', 'brief':'build/strategy-brief.md',
-                'context':'build/claim-ledger.md', 'review':'build/copy-editorial-review.json',
-                'review_inputs':'build/copy-review-inputs.json'}
-    return COPY_FILES
-
-def business_contract(config):
-    return {key:config.get(key) for key in ['client','brief','audience','search_intent','offer','cta','follow_up_promise','form_fields','brochure_gated','conversion']}
-
 def copy_state(root):
-    configuration = read(root/'funnel.json') if (root/'funnel.json').is_file() else {}
-    if configuration.get('quality', {}).get('contract_version', 0) >= 3 and not configuration.get('development_fixture'):
-        import completion_contract
-        failures = completion_contract.research(root)
-        if failures:
-            return {'status': 'blocked', 'failures': failures}
-    if configuration.get('guided_workflow'):
-        try:
-            projection = root/'build/guide-business.json'
-            inputs = read(root/'build/copy-review-inputs.json').get('inputs',{})
-            rows = [v for v in inputs.values() if v.get('path') == 'build/guide-business.json']
-            if read(projection) != business_contract(configuration) or not rows or rows[0].get('sha256') != sha(projection):
-                raise ValueError('Business answers changed. Refresh the actual copy review with build/guide-business.json as a source; hosting-only changes do not alter this projection.')
-        except (OSError,ValueError,KeyError,TypeError) as error:
-            return {'status':'blocked','failures':[str(error)]}
-    if lightweight(root):
-        import copy_acceptance
-        try:
-            result = copy_acceptance.verify(root, root/'build/copy-review-inputs.json', root/'build/copy-editorial-review.json')
-            hashes = {key:sha(root/value) for key,value in copy_files(root).items()}
-            config = read(root/'funnel.json')
-            contract = {key:config.get(key) for key in ['offer','cta','follow_up_promise','audience','search_intent','form_fields','brochure_gated','conversion']}
-            fingerprint = hashlib.sha256(json.dumps({'copy':hashes['copy'],'contract':contract},sort_keys=True).encode()).hexdigest()
-            return {**result,'fingerprint':fingerprint,'input_hashes':hashes}
-        except (OSError,ValueError,KeyError,TypeError) as error:
-            return {'status':'blocked','failures':[str(error)]}
-    document_result = process_contract.check_copy_documents(root)
-    if document_result['status'] == 'blocked': return document_result
-    paths = {key: root / value for key, value in COPY_FILES.items()}
-    missing = [str(path.relative_to(root)) for path in paths.values() if not path.is_file()]
-    if missing: return {'status':'blocked','failures':['Missing copy evidence: ' + ', '.join(missing)]}
-    audit = copy_library.audit(paths['copy'], paths['brief'], paths['context'], paths['review'])
-    failures = audit['failures'] + audit['editorial_requirements']
-    hashes = {key: sha(path) for key, path in paths.items()}
-    contract = read(root/'funnel.json') if (root/'funnel.json').exists() else {}
-    approved_contract = {key:contract.get(key) for key in ['offer','cta','follow_up_promise','audience','search_intent','form_fields','brochure_gated']}
-    fingerprint = hashlib.sha256(json.dumps({'copy':hashes['copy'],'contract':approved_contract},sort_keys=True).encode()).hexdigest()
-    return {'status':audit['overall_status'],'failures':failures,'fingerprint':fingerprint,'input_hashes':hashes,'warnings':audit['warnings']}
+    import copy_contract
+    return copy_contract.inspect(root)
 
 def check_copy_approval(root, allow_fixture=False):
     current = copy_state(root)
@@ -191,6 +136,11 @@ def record(root, kind, message, message_id, fixture=False, allow_test_lead=False
         return {'status':'pass','recorded':kind,'actor':'fixture' if fixture else 'user','fingerprint':fingerprint,'next':'design' if kind=='copy' else 'publish'}
 
 def main():
+    if len(sys.argv)>1 and sys.argv[1]=='assert-release':
+        import release_acceptance
+        arguments=sys.argv[2:]
+        arguments=['--require' if a=='--class' else a for a in arguments]
+        return release_acceptance.main(arguments)
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command',required=True)
     for name in ['status','resume','checkpoint','check-copy','check-build','check-publish','record-copy-evidence','record-image-evidence','approve-copy','approve-publish','authorize-publish']:

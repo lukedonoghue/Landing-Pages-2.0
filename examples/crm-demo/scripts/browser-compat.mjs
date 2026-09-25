@@ -140,7 +140,9 @@ export async function runBrowserCompat(args, suppliedRuntime) {
   let runtime;
   try { runtime = suppliedRuntime || await import('playwright-core'); }
   catch { check(report, 'Playwright runtime is installed', false); return writeReport(finish(report), out); }
-  for (const engine of ['chromium', 'webkit']) {
+  const selected=args['project-root'] ? JSON.parse(readFileSync(path.join(args['project-root'],'funnel.json'),'utf8')).quality?.browsers || ['chromium','webkit'] : ['chromium','webkit'];
+  if(!Array.isArray(selected)||!selected.length||selected.some(name=>!['chromium','webkit'].includes(name)))throw new Error('Select supported, nonempty browser engines');
+  for (const engine of [...new Set(selected)]) {
     let browser;
     try { browser = await runtime[engine].launch({ headless: true, ...(engine === 'chromium' && args['browser-executable'] ? { executablePath: args['browser-executable'] } : {}) }); }
     catch { check(report, `${engine} browser is installed and launches`, false, 'Run npx playwright-core install chromium webkit on a supported OS.'); report.engines.push({ name: engine, status: 'blocked' }); continue; }
@@ -183,7 +185,7 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
           await page.waitForTimeout(100);
           const pageFile = path.join(out, `${engine}-${viewport.width}-page.png`);
-          await page.screenshot({ path: pageFile, fullPage: true }); report.artifacts.push({ ...artifact(pageFile, 'screenshot', args['project-root']), viewport, engine, state: 'page', device_pixel_ratio: 1 });
+          await page.screenshot({ path: pageFile, fullPage: true }); report.artifacts.push({ ...artifact(pageFile, 'screenshot', args['project-root']), viewport, engine, browser_version:browser.version(), url:page.url(), source_fingerprint:report.source_fingerprint, state: 'page', device_pixel_ratio: 1 });
           await page.waitForFunction(()=>window.LeadFunnel?.privacyState().configured);
           const privacyState=await page.evaluate(()=>window.LeadFunnel.privacyState());
           const privacyMode=privacyState.consent_ui;
@@ -197,7 +199,7 @@ export async function runBrowserCompat(args, suppliedRuntime) {
             for(const key of ['Tab','Shift+Tab'])for(let i=0;i<6;i++){await page.keyboard.press(key);privacyFocus &&= await privacyDialog.evaluate(el=>el.contains(document.activeElement));}
             check(report,`${label}: privacy choices keep keyboard focus`,privacyFocus);
             check(report,`${label}: privacy choices fit viewport`,await privacyDialog.evaluate(el=>{const box=el.getBoundingClientRect();return box.left>=0&&box.right<=innerWidth+1&&box.top>=0&&box.bottom<=innerHeight+1&&el.scrollWidth<=el.clientWidth+1;}));
-            const privacyFile=path.join(out,`${engine}-${viewport.width}-privacy.png`);await page.screenshot({path:privacyFile});report.artifacts.push({ ...artifact(privacyFile,'screenshot',args['project-root']), viewport, engine, state: 'privacy', device_pixel_ratio: 1 });
+            const privacyFile=path.join(out,`${engine}-${viewport.width}-privacy.png`);await page.screenshot({path:privacyFile});report.artifacts.push({ ...artifact(privacyFile,'screenshot',args['project-root']), viewport, engine, browser_version:browser.version(), url:page.url(), source_fingerprint:report.source_fingerprint, state: 'privacy', device_pixel_ratio: 1 });
             await page.keyboard.press('Escape');
             check(report,`${label}: privacy Escape returns focus`,!await privacyDialog.isVisible()&&await privacyTrigger.evaluate(el=>el===document.activeElement));
           }else{
@@ -208,7 +210,7 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           check(report, `${label}: dialog receives keyboard focus`, await modal.evaluate(el => el.contains(document.activeElement)));
           const initialFile = path.join(out, `${engine}-${viewport.width}-modal-initial.png`);
           await page.screenshot({ path: initialFile });
-          report.artifacts.push({ ...artifact(initialFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, state: 'modal_initial', device_pixel_ratio: 1 });
+          report.artifacts.push({ ...artifact(initialFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, browser_version:browser.version(), url:page.url(), source_fingerprint:report.source_fingerprint, state: 'modal_initial', device_pixel_ratio: 1 });
           check(report, `${label}: body scrolling locked`, await page.evaluate(() => ['hidden', 'clip'].includes(getComputedStyle(document.body).overflowY) || getComputedStyle(document.body).position === 'fixed' || ['hidden', 'clip'].includes(getComputedStyle(document.documentElement).overflowY)));
           const initialNext = page.locator(fixture.selectors.next).first();
           if (await initialNext.isVisible()) {
@@ -223,7 +225,7 @@ export async function runBrowserCompat(args, suppliedRuntime) {
             check(report, `${label}: invalid fields have visible associated custom errors`, errorState);
             const errorFile = path.join(out, `${engine}-${viewport.width}-modal-error.png`);
             await page.screenshot({ path: errorFile });
-            report.artifacts.push({ ...artifact(errorFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, state: 'modal_error', device_pixel_ratio: 1 });
+            report.artifacts.push({ ...artifact(errorFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, browser_version:browser.version(), url:page.url(), source_fingerprint:report.source_fingerprint, state: 'modal_error', device_pixel_ratio: 1 });
           }
           const focusables = await modal.locator('button,input,select,textarea,a[href]').count();
           let focusContained = true;
@@ -253,7 +255,7 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           const submit = page.locator(fixture.selectors.submit); await submit.scrollIntoViewIfNeeded();
           check(report, `${label}: final action reachable`, await submit.isVisible() && await submit.isEnabled());
           const modalFile = path.join(out, `${engine}-${viewport.width}-modal.png`);
-          await page.screenshot({ path: modalFile }); report.artifacts.push({ ...artifact(modalFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, state: 'modal_focused', device_pixel_ratio: 1 });
+          await page.screenshot({ path: modalFile }); report.artifacts.push({ ...artifact(modalFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, browser_version:browser.version(), url:page.url(), source_fingerprint:report.source_fingerprint, state: 'modal_focused', device_pixel_ratio: 1 });
           check(report, `${label}: no runtime exceptions`, errors.length === 0);
         } catch { check(report, `${label}: complete interaction journey`, false, 'Inspect the saved screenshots and the reviewed fixture; no submission was sent.'); }
         finally { await context.close(); }

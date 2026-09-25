@@ -128,6 +128,9 @@ def validate_content(root, data):
             quote, claim = norm(item.get('excerpt', '')), norm(item.get('claim', ''))
             if not source or len(quote) < 20 or quote not in source[1] or len(claim) < 15 or claim not in chapter_text:
                 raise ValueError(ident + ': evidence needs a real source excerpt and exact authored claim')
+            if read(root,'funnel.json').get('quality',{}).get('contract_version',0)>=4:
+                if item.get('support_type') not in {'direct','qualified','general_context'} or not norm(item.get('reviewer_judgment','')):
+                    raise ValueError(ident + ': explain how the exact excerpt supports this exact claim; topic overlap is not support')
     if len(data.get('checklist', [])) < 3 or any(len(norm(p)) < 15 for p in data['checklist']):
         raise ValueError('Include a useful decision/appointment checklist')
     if len(norm(data.get('next_step', ''))) < 20:
@@ -244,7 +247,7 @@ def inspect_review(root, report=None):
     if reviewer['mode'] == 'independent' and reviewer['task_id'] in report.get('author_task_ids', []):
         raise ValueError('The guide author is not an independent reviewer')
     from completion_contract import independent_review_errors
-    errors = independent_review_errors(root, {**reviewer, 'reviewer_task_id': reviewer.get('task_id')})
+    errors = independent_review_errors(root, {**reviewer, 'reviewer_task_id': reviewer.get('task_id')}, report_path='build/guide-review.json')
     if errors:
         raise ValueError('; '.join(errors))
     rows = review.get('pages', [])

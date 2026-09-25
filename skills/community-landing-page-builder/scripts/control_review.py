@@ -173,7 +173,7 @@ def comparison(root):
         failures.append('Compare the rendered draft to the reviewed Blue Mountain layout map and identify concrete layout differences')
     reviewer = draft.get('reviewer', {})
     from completion_contract import independent_review_errors
-    failures += independent_review_errors(root, {**reviewer, 'reviewer_task_id': reviewer.get('task_id'), 'builder_task_id': baseline['builder_task_id']})
+    failures += independent_review_errors(root, {**reviewer, 'reviewer_task_id': reviewer.get('task_id'), 'builder_task_id': baseline['builder_task_id']}, report_path=BASE+'/comparison.json', expected_source=baseline['capture']['input']['source_fingerprint'])
     if reviewer.get('mode') == 'independent' and reviewer.get('task_id') == baseline['builder_task_id']:
         failures.append('Builder self-review cannot be labeled independent')
     issues = draft.get('issues')
@@ -242,7 +242,7 @@ def inspect(root):
         failures += review_checks(acceptance, corpus, control['text'])
         from completion_contract import independent_review_errors
         reviewer = acceptance.get('reviewer', {})
-        failures += independent_review_errors(root, {**reviewer, 'reviewer_task_id': reviewer.get('task_id'), 'builder_task_id': resolutions.get('builder_task_id')})
+        failures += independent_review_errors(root, {**reviewer, 'reviewer_task_id': reviewer.get('task_id'), 'builder_task_id': resolutions.get('builder_task_id')}, report_path=BASE+'/acceptance.json')
         if any(row.get('verdict') != 'pass' for row in acceptance.get('checks', [])):
             failures.append('Final control criteria still need improvement')
         if acceptance.get('reviewer', {}).get('mode') == 'independent' and acceptance['reviewer'].get('task_id') in {baseline['builder_task_id'], resolutions.get('builder_task_id')}:

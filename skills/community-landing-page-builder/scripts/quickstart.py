@@ -298,13 +298,15 @@ def verify_demo(project, node, full=False):
         run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "rendered_copy",
              "--report", "build/rendered-copy/result.json"], project, node, "Rendered copy release evidence")
         if full:
+            run([node, "scripts/capture-final-states.mjs", "--url", url, "--project-root", "."],
+                project, node, "Read-only final modal and confirmation state captures")
             run([node, "scripts/measure_funnel.mjs", url, "--out", "build/layout/result.json",
                  "--project-root", ".", "--mode", "handoff", "--thank-you", "/thank-you.html"],
                 project, node, "Nine-viewport layout verification")
             run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "browser",
                  "--report", "build/layout/result.json"], project, node, "Record the newly measured layout")
             ci_profile = ['--isolated-ci-fixture'] if os.environ.get('CI') == 'true' else []
-            run([node, "scripts/performance-audit.mjs", "--url", url, "--project-root", ".", *ci_profile],
+            run([node, "scripts/performance-audit.mjs", "--url", url, "--project-root", ".", "--server-command", "node node_modules/wrangler/bin/wrangler.js dev --local --ip 127.0.0.1 --port " + url.rsplit(":",1)[1], *ci_profile],
                 project, node, "Mobile performance audit")
             run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "performance",
                  "--report", "build/performance/result.json"], project, node, "Record the newly measured performance")

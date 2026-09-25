@@ -5,6 +5,20 @@ description: Build or refresh a researched, branded, conversion-focused landing 
 
 # Community Landing Page Builder
 
+## Current release contract
+
+For every complete build, read [references/remediation-contracts.md](references/remediation-contracts.md).
+Before any final conversational claim (`done`, `complete`, `final`, `all gates passed`,
+`publish-ready`, `local final`, `live and verified`), run the current
+`release_acceptance.py` assertion for the requested class. Use only its returned
+class, scope and blocker summary; a standalone copy, static or control pass is
+not overall acceptance. This rule overrides older narrow-helper examples.
+Research and review manifests are mandatory explicit states; no file never means
+not applicable. Do not use ad hoc ZIPs for reviewed delivery. The coordinator
+owns release/owner/export records and actual execution receipts; specialists do
+not authorize their own completion. Preserve automatic routine work and ask the
+owner only for unresolved material decisions backed by prior research.
+
 ## Guided execution and automatic improvement
 
 When the user asks for a guided, step-by-step or paint-by-numbers build, read [references/guided-workflow.md](references/guided-workflow.md). Start or resume the persistent guide and use its actual execution loop. Preserve automatic mode for requests without routine approvals. The guide reuses the existing native router, evidence gates and authorization records; no separate model API key or hosted orchestration service is a default prerequisite. Capability-probe the real host and report unsupported native UI or CLI execution honestly.

@@ -9,6 +9,9 @@ from datetime import datetime
 from pathlib import Path
 from urllib.parse import urlsplit,urlunsplit
 
+if str(Path(__file__).resolve().parent) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 DEFAULT=Path(__file__).resolve().parents[1]/'references/copy-library'
 # Legacy standalone audits need no bundle; guided projects preserve their library.
 BUNDLED=Path(__file__).resolve().parents[1]/'.community-builder/references/copy-library'
@@ -369,9 +372,9 @@ def audit(copy_path,brief_path,context_path,review_path=None):
                 raise ValueError('Copy acceptance snapshot targets a different draft')
             if not review_path:raise ValueError('Copy acceptance needs the completed editorial review')
             relative_review=Path(review_path).resolve().relative_to(root).as_posix()
-            check=subprocess.run([sys.executable,str(Path(__file__).with_name('copy_acceptance.py')),'verify','--project',str(root),'--review',relative_review],capture_output=True,text=True,timeout=30)
-            result=json.loads(check.stdout)
-            if check.returncode or result.get('status')!='pass':
+            import copy_acceptance
+            result=copy_acceptance.verify_review(root,snapshot,root/relative_review)
+            if result.get('status')!='pass':
                 editorial.extend(result.get('failures') or ['Pre-build copy acceptance failed'])
         except (OSError,ValueError,KeyError,TypeError,subprocess.TimeoutExpired) as error:
             editorial.append('Pre-build copy acceptance missing or invalid: '+str(error))

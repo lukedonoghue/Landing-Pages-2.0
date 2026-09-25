@@ -338,7 +338,7 @@ def acquire(plan, root, image_id, candidate_id, rights, rights_evidence, proof_e
     else:
         data, final_url = fetcher(candidate["source_url"], plan["allowed_hosts"])
     info = stored_image(root, "research/image-originals", item["id"], data)
-    item.update({"stage": "acquired", "source": info, "provenance": {"kind": "actual", "candidate_id": candidate_id, "source_url": candidate.get("source_url"), "final_url": final_url, "evidence": candidate["evidence"], "rights": rights, "rights_evidence": rights_evidence, "client_proof_evidence": proof_evidence}, "generated_disclosure": None})
+    item.update({"stage": "acquired", "source": info, "provenance": {"kind": "actual", "candidate_id": candidate_id, "source_url": candidate.get("source_url"), "final_url": final_url, "evidence": candidate["evidence"], "rights": rights, "rights_evidence": rights_evidence, "client_proof_evidence": proof_evidence, "acquisition": {"status":"acquired", "retrieved_at":now(), "sha256":info["sha256"], "width":info.get("width"), "height":info.get("height"), "content_type":image_info(data).get("mime"), "http_status":None if candidate.get("local_file") else 200, "observed_page":candidate.get("observed_page"), "method":"supplied" if candidate.get("origin")=="client-supplied" else "https", "source_url":candidate.get("source_url"), "final_url":final_url}}, "generated_disclosure": None})
     item.pop("variants", None)
     item.pop("review", None)
     return info
