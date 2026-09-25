@@ -6,7 +6,7 @@ import path from 'node:path';
 import os from 'node:os';
 import http from 'node:http';
 import { fileURLToPath } from 'node:url';
-import { pbkdf2Sync } from 'node:crypto';
+import { pbkdf2Sync, createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { build } from 'esbuild';
 import { Miniflare } from 'miniflare';
@@ -37,6 +37,23 @@ async function site(t) {
   for(const name of ['privacy.html','styles.css','login.html','login.js','login.css','funnel.js','privacy-controls.js','privacy-controls.css'])copyFileSync(path.join(template,'public',name),path.join(root,'public',name));
   for(const name of ['index.html','thank-you.html'])copyFileSync(path.join(template,'tests/fixtures/recovery-'+name),path.join(root,'public',name));
   copyFileSync(lightbox,path.join(root,'public/script.js'));
+  // The synthetic journey has the same explicit conversion contract as a
+  // client build. Missing evidence must still fail the production validator.
+  const fields = recoveryConfig.formFields;
+  const offer = 'Request your project guide';
+  const sourcePath = 'research/synthetic-conversion-source.html';
+  mkdirSync(path.join(root, 'research'), { recursive: true });
+  copyFileSync(path.join(template, 'tests/fixtures/recovery-index.html'), path.join(root, sourcePath));
+  const sourceHash = createHash('sha256').update(readFileSync(path.join(root, sourcePath))).digest('hex');
+  atomic(path.join(root, 'funnel.json'), { backend: { provider: 'cloudflare-d1' }, conversion: { type: 'enquire' }, offer, form_fields: fields });
+  atomic(path.join(root, 'build/conversion-contract.json'), {
+    source_conversion_type: 'enquire', selected_conversion_type: 'enquire',
+    source_offer: offer, selected_offer: offer, source_fields: fields, selected_fields: fields,
+    source_success_behavior: 'Synthetic receipt-correlated confirmation; no real business promise',
+    secondary_action: 'None in this synthetic fixture', local_implementation: 'Loopback Worker and D1 test',
+    production_wiring: 'Not configured; external requests disabled', allowed_changes: [],
+    evidence: [{ path: sourcePath, sha256: sourceHash }],
+  });
   writeFileSync(path.join(root,'public/admin/index.html'),'<!doctype html><title>Synthetic admin destination</title>');
   writeFileSync(path.join(root,'public/assets/brochure/catalogue.pdf'),'%PDF-1.7\nSynthetic network fixture only');
   const bundled=await build({entryPoints:[path.join(root,'src/worker.js')],bundle:true,write:false,format:'esm',platform:'browser',target:'es2022'});
@@ -135,7 +152,8 @@ test('cleanup interruption resumes the retained completed journey without recrea
   assert.equal(posts(f,'/api/leads'),1);assert.equal(f.requests.filter(row=>row.method==='DELETE').length,1);assert.deepEqual(await f.counts(),[1,1,1,1,1]);validateEvidence(f);
 });
 test('changed served source cannot inherit retained browser proof',async t=>{
-  const f=await site(t);await runLiveVerify(f.args,failAt('public-complete'));const before=f.requests.length;
+  const f=await site(t);await runLiveVerify(f.args,failAt('public-complete'));
+  const before=f.requests.length;
   writeFileSync(path.join(f.root,'public/thank-you.html'),'<h1>Changed source without its brochure</h1>');
   await assert.rejects(runLiveVerify({...f.args,'resume-journey':true}),/source changed/);assert.equal(f.requests.length,before);
 });
