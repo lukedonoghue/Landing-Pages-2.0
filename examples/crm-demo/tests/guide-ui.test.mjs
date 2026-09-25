@@ -21,8 +21,13 @@ root=Path(sys.argv[1]);guide.start(root,name='Synthetic Cleaning')
 class SyntheticBridge:
  def __init__(self):self.last=None
  def worker(self,root,packet,route):
-  storage.write(root,'build/discovery.json',{'schema_version':1,'input_fingerprint':guide.research_fingerprint(root),'suggestions':[]})
-  return {'status':'done','summary':'Synthetic research fixture only; no external sources contacted.','outputs':['build/discovery.json'],'blockers':[]}
+  source=root/'research/fixture-discovery.txt';source.parent.mkdir(exist_ok=True)
+  source.write_text('Synthetic discovery: the fictional identity has no published service, offer, audience or conversion choice. No external research was performed.')
+  evidence={'path':'research/fixture-discovery.txt','sha256':runner.hash_bytes(source.read_bytes())}
+  unresolved=[{'id':q['id'],'category':'offer','reason':'The fictional identity does not establish this decision',
+    'material_effect':'The answer changes the selected service, offer or conversion path','evidence':[evidence]} for q in guide.questions(root)]
+  storage.write(root,'build/discovery.json',{'schema_version':1,'input_fingerprint':guide.research_fingerprint(root),'suggestions':[], 'unresolved_facts':unresolved})
+  return {'status':'done','summary':'Synthetic research fixture only; no external sources contacted.','outputs':['build/discovery.json','research/fixture-discovery.txt'],'blockers':[]}
  def wake(self):self.last=runner.drive(root,executor=self.worker);return {'running':False}
  def status(self):return {'running':False,'last':self.last,'next':guide.next_action(root)}
 bridge=SyntheticBridge();bridge.wake()
