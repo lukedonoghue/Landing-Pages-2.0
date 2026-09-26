@@ -264,6 +264,7 @@ def sanitize_workflow(data, archive_publish=True):
         "message_id",
         "allow_test_lead",
         "message_sha256",
+        "passages",
     }
     for section in ("approvals", "historical_approvals"):
         for kind, approval in original.get(section, {}).items():

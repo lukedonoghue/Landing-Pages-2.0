@@ -43,6 +43,55 @@ class ReaderGuideTests(unittest.TestCase):
                 with patch.object(sys, 'argv', ['thank_you_page.py', str(self.root)]):thankyou.main()
         return q.inspect_build(self.root)
 
+    def test_guide_text_comes_from_the_copy_master_and_goes_stale_when_it_changes(self):
+        text = {key: self.data.pop(key) for key in q.DERIVED_KEYS if key in self.data}
+        self.data['content_source'] = q.CONTENT_SOURCE
+        master = {'brochure': {'cover_promise': text['title'], 'delivery': 'thank-you page', 'text': text}}
+        build_guide.write_json(self.root/'build/page-copy.json', master)
+        report = self.build()
+        self.assertEqual(json.loads((self.root/'build/guide.json').read_text())['chapters'], text['chapters'])
+        self.assertIn(text['chapters'][0]['headline'], q.norm((self.root/report['text_output']).read_text()))
+        master['brochure']['text']['chapters'][0]['headline'] = 'Check the written scope before you compare prices'
+        build_guide.write_json(self.root/'build/page-copy.json', master)
+        with self.assertRaisesRegex(ValueError, 'out of date'):
+            q.inspect_build(self.root)
+        report = self.build()
+        self.assertIn('Check the written scope before you compare prices', q.norm((self.root/report['text_output']).read_text()))
+        self.data['content_source'] = 'build/other.json'
+        with self.assertRaisesRegex(ValueError, 'content_source must be'):
+            self.build()
+
+    def test_callout_and_sourced_price_table_render_and_brand_defaults_carry_over(self):
+        (self.root/'research/rates.txt').write_text('Published rate card. Standard office clean from $120 per visit.')
+        self.data['sources'].append({'id': 'rates', 'kind': 'user', 'title': 'Synthetic rate card', 'path': 'research/rates.txt',
+                                     'sha256': q.sha(self.root/'research/rates.txt'), 'retrieved_at': '2026-09-22'})
+        chapter = self.data['chapters'][0]
+        chapter['callout'] = {'title': 'Before you sign', 'body': 'Ask for the room-by-room task list in writing.'}
+        chapter['price_table'] = {'caption': 'Typical visit prices', 'columns': ['Service', 'Price'],
+                                  'rows': [['Standard office clean', 'From $120 per visit']],
+                                  'evidence': [{'source_id': 'rates', 'excerpt': 'Standard office clean from $120 per visit', 'claim': 'From $120 per visit'}]}
+        # Brand colour comes from the site; matching licensed TrueType files become the PDF fonts.
+        del self.data['brand']['colors']['primary']
+        funnel = json.loads((self.root/'funnel.json').read_text()); funnel['client']['color'] = '#123456'
+        build_guide.write_json(self.root/'funnel.json', funnel)
+        (self.root/'public/assets/fonts').mkdir(parents=True)
+        for name in ('DejaVuSans.ttf', 'DejaVuSans-Bold.ttf'):
+            shutil.copy(SKILL/'assets/pdf-fonts'/name, self.root/'public/assets/fonts'/name)
+        build_guide.write_json(self.root/'build/brand.json', {'measurements': [{'typography': {'body': {'renderedFonts': [{'familyName': 'DejaVu Sans'}]}}}]})
+        report = self.build()
+        text = q.norm((self.root/report['text_output']).read_text())
+        for phrase in ('Before you sign', 'Typical visit prices', 'From $120 per visit'):
+            self.assertIn(phrase, text)
+        saved = json.loads((self.root/'build/guide.json').read_text())['brand']
+        self.assertEqual(saved['colors']['primary'], '#123456')
+        self.assertEqual(saved['fonts'], {'regular': '../public/assets/fonts/DejaVuSans.ttf', 'bold': '../public/assets/fonts/DejaVuSans-Bold.ttf'})
+        fixture.synthetic_review(self.root)
+        import copy_parity
+        self.assertIn('From $120 per visit', copy_parity.guide_wording(self.root))
+        chapter['price_table']['evidence'] = []
+        with self.assertRaisesRegex(ValueError, 'never infer prices'):
+            self.build()
+
     def test_actual_pdf_has_authored_text_rasters_cover_and_no_overflow(self):
         report = self.build()
         text = q.norm((self.root/report['text_output']).read_text())

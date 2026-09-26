@@ -102,7 +102,7 @@ def main() -> int:
             "gtm": {"container_id": "", "hostname": ""},
             "customer_data_mode": "disabled",
             "sensitive_category": False,
-            "google_ads": {"conversion_id": "", "conversion_label": "", "enhanced_conversions": False},
+            "google_ads": {"conversion_id": "", "conversion_label": "", "enhanced_conversions": False, "offline_conversions": {"currency": "", "stages": {}}},
             "meta": {"pixel_id": "", "enabled": False},
             "microsoft": {"uet_tag_id": "", "enabled": False},
         },

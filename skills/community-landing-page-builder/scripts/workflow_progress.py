@@ -533,7 +533,7 @@ def inspect(root):
             report["blockers"] += approval["failures"]
             return at(
                 "awaiting_copy_approval",
-                "This project explicitly requested approval-gated copy. Present the full current copy and record the user’s actual approval before design.",
+                "This project explicitly requested approval-gated copy. Present the passages listed in copy_approval.changed_passages (the full copy on first approval) and record the user’s actual approval before design.",
                 status="awaiting_review",
             )
         report["completed"].append("copy_approved")
@@ -575,7 +575,7 @@ def inspect(root):
         report["blockers"] += report["guide"]["failures"]
         next_guide = report["guide"].get("stage", "guide_build")
         guide_actions = {
-            'guide_build': 'Read references/reader-guide-quality.md. Author substantive source-backed advice and meaningful images in build/guide.json, then run scripts/build_guide.py to generate and render the actual PDF and cover. Do not mark semantic quality as passed.',
+            'guide_build': 'Read references/reader-guide-quality.md. Author substantive source-backed guide text in build/page-copy.json brochure.text (build/guide.json holds only delivery, brand, sources and images when it sets content_source), then run scripts/build_guide.py to generate and render the actual PDF and cover. Do not mark semantic quality as passed.',
             'thank_you_build': 'Complete build/thank-you.json from current approved copy and run scripts/thank_you_page.py. Reuse the actual main page, replace its hero, remove repeat enquiry actions and verify guide delivery plus direct/receipt mobile and desktop states.',
             'guide_review': 'Read references/reader-guide-quality.md. Open every current PDF render and inspect the full confirmation page. Write only build/guide-review.json with real observations and a concrete improvement checklist. Do not alter the page, PDF or approval records during review.',
             'guide_repair': 'Work through the current reader-review findings. Preserve the original checklist, improve the canonical guide copy/images/layout, rebuild with scripts/build_guide.py, regenerate the full confirmation and prepare fresh renders for review. Do not erase failed-review history or claim your own independent acceptance.'

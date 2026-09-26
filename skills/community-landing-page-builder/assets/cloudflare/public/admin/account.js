@@ -1,6 +1,6 @@
 import { secureFetch } from './secure-fetch.js';
 const node = (tag, text, cls) => { const el = document.createElement(tag); if (text) el.textContent = text; if (cls) el.className = cls; return el; };
-export function initAccountPanel(host, { onSessionEnded = () => window.location.assign('/login.html'), onNotifications = () => {}, currentUser = null, permissions = {} } = {}) {
+export function initAccountPanel(host, { onSessionEnded = () => window.location.assign('/login.html'), onNotifications = () => {}, currentUser = null, permissions = {}, googleAdsOffline = false } = {}) {
   let disposed = false; let marker = 0; let pending = false; let exportParams = new URLSearchParams();
   const canAcknowledge = permissions.edit_leads === true;
   const canExport = permissions.export_leads === true;
@@ -10,6 +10,7 @@ export function initAccountPanel(host, { onSessionEnded = () => window.location.
   const mark = node('button', 'Mark as seen', 'button secondary'); mark.type = 'button'; mark.disabled = true;
   notice.append(count); if (canAcknowledge) notice.append(mark);
   const exportButton = node('button', 'Export contacts CSV', 'button secondary'); exportButton.type = 'button';
+  const adsButton = node('button', 'Export Google Ads conversions', 'button secondary'); adsButton.type = 'button';
   const details = node('details', '', 'account-details'); const summary = node('summary', 'Account & security');
   const user = node('p', 'Loading account…', 'account-username');
   const form = node('form', '', 'account-form');
@@ -24,7 +25,7 @@ export function initAccountPanel(host, { onSessionEnded = () => window.location.
   const revoke = node('button', 'Sign out all devices', 'button secondary'); revoke.type = 'button';
   const description = node('p', 'Changing your password signs out every device. Forgot-password requests require another administrator’s approval before email delivery.', 'account-help');
   const status = node('p', '', 'account-status'); status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
-  details.append(summary, user, description, form, revoke); section.append(notice); if (canExport) section.append(exportButton); section.append(details, status); host.replaceChildren(section);
+  details.append(summary, user, description, form, revoke); section.append(notice); if (canExport) section.append(exportButton); if (canExport && googleAdsOffline) section.append(adsButton); section.append(details, status); host.replaceChildren(section);
   async function request(url, options = {}) {
     const response = await secureFetch(url, { credentials: 'same-origin', cache: 'no-store', ...options, headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } });
     const data = await response.json();
@@ -65,15 +66,27 @@ export function initAccountPanel(host, { onSessionEnded = () => window.location.
   if (canExport) exportButton.addEventListener('click', async () => {
     exportButton.disabled = true; status.textContent = 'Preparing contacts…';
     try {
-      const response = await secureFetch(`/api/admin/leads/export.csv?${exportParams}`, { credentials: 'same-origin', cache: 'no-store' });
-      if (!response.ok) { const data = await response.json(); throw new Error(data.error || 'Export failed.'); }
-      const file = await response.blob(); const url = URL.createObjectURL(file); const anchor = node('a');
-      anchor.href = url; anchor.download = `leads-${new Date().toISOString().slice(0, 10)}.csv`; document.body.append(anchor); anchor.click(); anchor.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 30000);
+      const response = await download(exportParams, 'leads');
       status.textContent = response.headers.get('X-Export-Truncated') === 'true'
         ? `Downloaded the newest 10,000 of ${response.headers.get('X-Export-Total')} matching contacts. Narrow your filters to export the remaining records.`
         : `Downloaded ${response.headers.get('X-Export-Count')} contacts matching your contact-list filters.`;
     } catch (error) { report(error); } finally { exportButton.disabled = false; }
+  });
+  async function download(query, name) {
+    const response = await secureFetch(`/api/admin/leads/export.csv?${query}`, { credentials: 'same-origin', cache: 'no-store' });
+    if (!response.ok) { const data = await response.json(); throw new Error(data.error || 'Export failed.'); }
+    const file = await response.blob(); const url = URL.createObjectURL(file); const anchor = node('a');
+    anchor.href = url; anchor.download = `${name}-${new Date().toISOString().slice(0, 10)}.csv`; document.body.append(anchor); anchor.click(); anchor.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+    return response;
+  }
+  if (canExport && googleAdsOffline) adsButton.addEventListener('click', async () => {
+    adsButton.disabled = true; status.textContent = 'Preparing Google Ads conversions…';
+    try {
+      const response = await download('format=google_ads', 'google-ads-conversions');
+      const skipped = Number(response.headers.get('X-Export-Skipped'));
+      status.textContent = `Downloaded ${response.headers.get('X-Export-Count')} conversions. Upload the file in Google Ads under Goals > Conversions > Uploads.${skipped ? ` ${skipped} leads had an unrecognised click ID and were left out.` : ''}`;
+    } catch (error) { report(error); } finally { adsButton.disabled = false; }
   });
   if (currentUser) {
     const identity = currentUser.username || currentUser.email || 'workspace user';

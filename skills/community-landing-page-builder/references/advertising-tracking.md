@@ -88,4 +88,18 @@ Never mark B23 complete from local tests alone. Each enabled provider needs a re
 
 ## Google Ads offline conversions from the built-in CRM (September 2026)
 
-When no tag is installed, owners can still report results to Google Ads: the CRM export (`/api/admin/leads/export.csv`, owner and manager roles) includes `gclid`, `gbraid`, `wbraid`, `utm_source`, `utm_campaign` and `utm_term` from the stored first-party attribution. Filter to qualified or won leads and upload them as offline click conversions in Google Ads with the conversion time and value. Enhanced conversions and GTM remain optional, consent-aware add-ons.
+When no tag is installed, owners can still report results to Google Ads from the CRM. Admins (the only role with export permission, and only after re-entering their password) get two files:
+
+- **Export contacts CSV** includes `gclid`, `gbraid`, `wbraid`, `utm_source`, `utm_campaign` and `utm_term` from the stored first-party attribution.
+- **Export Google Ads conversions** is a ready-to-upload offline click-conversion file: a `Parameters:TimeZone=` row, then `Google Click ID, GBRAID, WBRAID, Conversion Name, Conversion Time, Conversion Value, Conversion Currency`, one click identifier per row. Upload it in Google Ads under Goals > Conversions > Uploads.
+
+The second button appears once the owner sets which CRM stages count, in `funnel.json`, then runs `npm run configure` and publishes:
+
+```json
+"tracking": {"google_ads": {"offline_conversions": {
+  "currency": "USD",
+  "stages": {"qualified": {"conversion_name": "Qualified lead", "value": 50},
+             "won": {"conversion_name": "Won job", "value": 500}}}}}
+```
+
+Each `conversion_name` must exactly match an "Import > Conversions from clicks" action created in Google Ads; `value` is optional (omit it to use the action's default). The conversion time is when the lead first entered that stage, in the site time zone. Click IDs outside Google's format are left out and counted in the download message. Enhanced conversions and GTM remain optional, consent-aware add-ons.

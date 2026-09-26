@@ -354,7 +354,10 @@ def next_action(root):
             return action('local_export','local','Create the current QA summary and verified portable handoff. Nothing will be published.',operation='finalize_local',export=export,**extras)
         return action('local_final','complete','Present the verified local page, archive and tested scope. Nothing has been published.',export=export,**extras)
     if stage=='awaiting_copy_approval':
-        return action(stage,'approval','Review the complete current copy, including form, confirmation and PDF promises. Approve it or request changes.',approval_kind='copy',**extras)
+        changed = report.get('copy_approval',{}).get('changed_passages',[])
+        if changed:
+            return action(stage,'approval','Only these passages changed since your last approval. Review them and approve, or request changes.',approval_kind='copy',changed_passages=changed,**extras)
+        return action(stage,'approval','Review the complete current copy, including form, confirmation and PDF promises. Approve it or request changes.',approval_kind='copy',changed_passages=[],**extras)
     if get(value,'backend.provider')=='cloudflare-d1' and stage in {'awaiting_publish_authorization','ready_to_publish','publishing_setup','release_recovery','publishing_outcome_unknown','deployed_unverified'}:
         return action(stage,'connection','Open the resumable publishing wizard in the trusted local operator terminal. It performs routine checks and presents only the next required action; the coding agent must not read production secrets or invent publish consent.',
             operation='guided_ship',status_command=['python3','scripts/ship.py','--json'],

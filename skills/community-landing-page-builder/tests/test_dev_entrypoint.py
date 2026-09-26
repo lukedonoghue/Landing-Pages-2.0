@@ -57,7 +57,10 @@ class DevEntrypointTests(unittest.TestCase):
         self.assertIn("We could not accept your request. Check your details and try again.", demo_project)
         self.assertIn("We could not confirm whether your request was saved. Retry to check the same request safely; your details are kept unchanged.", demo_project)
         self.assertIn("@media(max-width:340px)", demo_project)
-        self.assertIn("@media(min-width:601px) and (max-height:760px)", demo_project)
+        # Short-screen hero compaction belongs to the template, so every project gets it.
+        self.assertNotIn("max-height:760px", demo_project)
+        styles = (ROOT / "skills/community-landing-page-builder/assets/cloudflare/public/styles.css").read_text()
+        self.assertIn("@media(min-width:601px) and (max-height:760px)", styles)
         quickstart = (ROOT / "skills/community-landing-page-builder/scripts/quickstart.py").read_text()
         self.assertIn('"scripts/extract_brand.mjs", url, "--out", "build/brand.json"', quickstart)
 

@@ -11,7 +11,7 @@ python3 scripts/workflow.py approve-copy PROJECT --message-file PROJECT/build/us
 python3 scripts/workflow.py check-copy PROJECT
 ```
 
-This records the copy/offer revision, not just a boolean. Changes to the draft or shared offer/form contract invalidate approval. Research and editorial checks remain independently fresh. An unchanged customer-facing draft does not need another user approval merely because its supporting review was refreshed.
+This records the copy/offer revision, not just a boolean, plus a hash of each passage (hero, each section by id, modal, thank-you, brochure, interface text and the offer/form contract). After an edit, `check-copy` lists only the changed passages in `changed_passages`; show the owner those passages (the guide's "Show what changed" view) and record their approval the same way. The first approval always covers the complete copy. Metadata such as claim ids, notes and review ids is not approvable text, so editing it never asks the owner again. Research and editorial checks remain independently fresh.
 
 After the copy gate (and optional approval when configured), complete the substantive design system and image plan. Before creating or editing client HTML or generating the brochure PDF, run:
 

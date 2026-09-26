@@ -53,6 +53,44 @@ export function csvCell(value) {
   if (/^[\s\u0000-\u001f]*[=+\-@]/u.test(text) || /^[\t\r\n]/.test(text)) text = `'${text}`;
   return `"${text.replaceAll('"', '""')}"`;
 }
+// Google Ads offline click-conversion upload file. Only IDs in Google's click-ID
+// alphabet are exported; the leading alphanumeric also rules out spreadsheet formulas.
+const CLICK_ID = /^[A-Za-z0-9][A-Za-z0-9_-]{9,511}$/;
+const CLICK_COLUMNS = ['gclid', 'gbraid', 'wbraid'];
+const uploadCell = value => /[",\r\n]/.test(value) ? `"${value.replaceAll('"', '""')}"` : value;
+export function conversionTime(iso, timezone) {
+  const part = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(new Date(iso)).map(item => [item.type, item.value]));
+  return `${part.year}-${part.month}-${part.day} ${part.hour}:${part.minute}:${part.second}`;
+}
+export async function exportGoogleAdsConversions(env, url, config) {
+  const offline = config.googleAdsOffline || {};
+  const configured = Object.entries(offline.stages || {});
+  if (!configured.length) throw new HttpError(409, 'Google Ads conversions are not configured. Set tracking.google_ads.offline_conversions in funnel.json, run npm run configure and publish.');
+  const from = url.searchParams.get('from') || '';
+  if (from && !/^\d{4}-\d{2}-\d{2}$/.test(from)) throw new HttpError(400, 'Use a YYYY-MM-DD start date.');
+  const ids = CLICK_COLUMNS.map(key => `CASE WHEN json_valid(l.attribution) THEN json_extract(l.attribution,'$.latest_touch.${key}') END AS ${key}`).join(',');
+  // A stage conversion happens when the lead first entered that stage. Activity
+  // retention can remove history, so a lead still in the stage falls back to updated_at.
+  const results = await env.DB.batch(configured.map(([stage]) => env.DB.prepare(`SELECT * FROM (SELECT ${ids},
+    CASE WHEN ?1='new' THEN l.created_at ELSE COALESCE((SELECT MIN(a.created_at) FROM activity a WHERE a.lead_id=l.id AND a.event_type='status_changed' AND a.to_status=?1), CASE WHEN l.status=?1 THEN l.updated_at END) END AS converted_at
+    FROM leads l WHERE l.deleted_at IS NULL) WHERE converted_at IS NOT NULL AND converted_at>=?2 AND COALESCE(gclid,gbraid,wbraid) IS NOT NULL
+    ORDER BY converted_at LIMIT 10000`).bind(stage, from)));
+  const lines = [`Parameters:TimeZone=${config.timezone || 'UTC'}`, 'Google Click ID,GBRAID,WBRAID,Conversion Name,Conversion Time,Conversion Value,Conversion Currency'];
+  let skipped = 0;
+  configured.forEach(([, action], index) => {
+    const value = Number.isFinite(action.value) ? String(action.value) : '';
+    for (const row of results[index].results) {
+      const key = CLICK_COLUMNS.find(name => CLICK_ID.test(row[name] || ''));
+      if (!key) { skipped++; continue; }
+      const click = CLICK_COLUMNS.map(name => name === key ? row[name] : '');
+      lines.push([...click, uploadCell(action.conversion_name), conversionTime(row.converted_at, config.timezone || 'UTC'), value, value ? offline.currency : ''].join(','));
+    }
+  });
+  return new Response(lines.join('\r\n') + '\r\n', { headers: {
+    'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': `attachment; filename="google-ads-conversions-${new Date().toISOString().slice(0, 10)}.csv"`,
+    'Cache-Control': 'no-store', 'X-Export-Count': String(lines.length - 2), 'X-Export-Skipped': String(skipped)
+  } });
+}
 export async function exportLeads(env, url) {
   for (const name of ['q', 'status']) if (url.searchParams.getAll(name).length > 1) throw new HttpError(400, `Duplicate ${name} filter.`);
   const q = cleanText(url.searchParams.get('q'), 200, 'Search');

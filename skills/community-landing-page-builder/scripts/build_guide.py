@@ -62,6 +62,8 @@ def build_reader(root, config_path, data):
     root = Path(root).resolve()
     config_path = Path(config_path).resolve()
     from PIL import Image
+    if config_path == root / 'build/guide.json':
+        data = quality.sync_guide(root)
     inputs = quality.validate_content(root, data)
     inputs[config_path.relative_to(root).as_posix()] = sha256(config_path)
     delivery = data.get('delivery', {})

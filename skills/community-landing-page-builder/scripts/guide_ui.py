@@ -75,7 +75,10 @@ def server(root,provider='codex',port=0,bridge=None):
                     for name in [paths['copy'],paths['brief']]:
                         file=guide.storage.path_inside(root,name)
                         if file.is_file() and file.stat().st_size<=500000:documents.append({'path':name,'text':file.read_text()})
-                    return self.respond(200,{'documents':documents,'next':guide.next_action(root)})
+                    current=guide.workflow.copy_state(root).get('passages',{})
+                    approved=guide.workflow.load(root).get('approvals',{}).get('copy',{}).get('passages') or {}
+                    passages=[{'id':name,'text':item['text'],'status':'unchanged' if approved.get(name)==item['sha256'] else 'changed' if approved else 'new'} for name,item in current.items()]
+                    return self.respond(200,{'documents':documents,'passages':passages,'next':guide.next_action(root)})
                 return self.respond(404,{'error':'Not found'})
             except (ValueError,OSError,KeyError,TypeError) as error:return self.respond(409,{'error':str(error)})
         def do_POST(self):

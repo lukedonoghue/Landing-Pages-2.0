@@ -298,6 +298,11 @@ def verify_demo(project, node, full=False):
             run([node, "scripts/measure_funnel.mjs", url, "--out", "build/layout/result.json",
                  "--project-root", ".", "--mode", "handoff", "--thank-you", "/thank-you.html"],
                 project, node, "Nine-viewport layout verification")
+            # Benchmark regression: the template hero must keep one unobscured action
+            # fully above the fold at every viewport, as on the control page.
+            hero = [w for w in json.loads((project / "build/layout/result.json").read_text()).get("warnings", []) if "above the fold" in w]
+            if hero:
+                raise ValueError("The benchmark hero regressed: " + "; ".join(hero))
             run([sys.executable, "scripts/check_gates.py", "record", ".", "--gate", "browser",
                  "--report", "build/layout/result.json"], project, node, "Record the newly measured layout")
             ci_profile = ['--isolated-ci-fixture'] if os.environ.get('CI') == 'true' else []

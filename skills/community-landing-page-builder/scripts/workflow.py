@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
 
 import check_gates
@@ -48,6 +49,55 @@ def copy_files(root):
 def business_contract(config):
     return {key:config.get(key) for key in ['client','brief','audience','search_intent','offer','cta','follow_up_promise','form_fields','brochure_gated','conversion']}
 
+# Owner approvals are tracked per passage so an edit only needs the changed
+# passages re-approved. Metadata (claim ids, notes, review ids) is not approvable text.
+PASSAGE_META = {'id','claim_ids','source_ids','cta_role','role','notes','evidence','source','source_url','href','review_id','edit_log'}
+
+def _digest(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+
+def _visible(value):
+    if isinstance(value, dict): return {key: _visible(item) for key, item in value.items() if key not in PASSAGE_META}
+    if isinstance(value, list): return [_visible(item) for item in value]
+    return value
+
+def _text(value):
+    if isinstance(value, dict): return [line for item in value.values() for line in _text(item)]
+    if isinstance(value, list): return [line for item in value for line in _text(item)]
+    return [str(value)] if value not in (None, '') else []
+
+def copy_passages(root, contract):
+    """Return {passage id: {'sha256', 'text'}} for each separately approvable passage."""
+    path = root / copy_files(root)['copy']
+    passages = {'contract': {'sha256': _digest(contract), 'text': json.dumps(contract, indent=2, ensure_ascii=False)}}
+    if path.suffix == '.md':
+        heading, lines, seen = 'opening', [], {}
+        for line in path.read_text(encoding='utf-8').splitlines() + ['# ']:
+            match = re.match(r'#{1,3}\s+(.*)', line)
+            if not match:
+                lines.append(line); continue
+            body = '\n'.join(lines).strip()
+            if body:
+                slug = re.sub(r'[^a-z0-9]+', '-', heading.lower()).strip('-') or 'section'
+                seen[slug] = seen.get(slug, 0) + 1
+                passages[f'{slug}-{seen[slug]}' if seen[slug] > 1 else slug] = {'sha256': _digest(body), 'text': body}
+            heading, lines = match.group(1), []
+        return passages
+    copy = read(path)
+    groups = {'hero': {key: copy.get(key) for key in ('h1', 'primary_cta')}}
+    for index, section in enumerate(copy.get('sections') or []):
+        groups['section:' + str(section.get('id') or index)] = section
+    groups.update({key: value for key, value in copy.items() if key not in {'h1', 'primary_cta', 'sections'} | PASSAGE_META})
+    for name, value in groups.items():
+        visible = _visible(value)
+        passages[name] = {'sha256': _digest(visible), 'text': '\n'.join(_text(visible))}
+    return passages
+
+def changed_passages(approved, current):
+    """Passage ids that differ from the approved record, or None when no per-passage record exists."""
+    if not isinstance(approved, dict) or not approved: return None
+    return sorted([name for name, item in current.items() if approved.get(name) != item['sha256']] + ['removed:' + name for name in approved if name not in current])
+
 def copy_state(root):
     configuration = read(root/'funnel.json') if (root/'funnel.json').is_file() else {}
     if configuration.get('quality', {}).get('contract_version', 0) >= 3 and not configuration.get('development_fixture'):
@@ -72,7 +122,7 @@ def copy_state(root):
             config = read(root/'funnel.json')
             contract = {key:config.get(key) for key in ['offer','cta','follow_up_promise','audience','search_intent','form_fields','brochure_gated','conversion']}
             fingerprint = hashlib.sha256(json.dumps({'copy':hashes['copy'],'contract':contract},sort_keys=True).encode()).hexdigest()
-            return {**result,'fingerprint':fingerprint,'input_hashes':hashes}
+            return {**result,'fingerprint':fingerprint,'input_hashes':hashes,'passages':copy_passages(root, contract)}
         except (OSError,ValueError,KeyError,TypeError) as error:
             return {'status':'blocked','failures':[str(error)]}
     document_result = process_contract.check_copy_documents(root)
@@ -86,14 +136,21 @@ def copy_state(root):
     contract = read(root/'funnel.json') if (root/'funnel.json').exists() else {}
     approved_contract = {key:contract.get(key) for key in ['offer','cta','follow_up_promise','audience','search_intent','form_fields','brochure_gated']}
     fingerprint = hashlib.sha256(json.dumps({'copy':hashes['copy'],'contract':approved_contract},sort_keys=True).encode()).hexdigest()
-    return {'status':audit['overall_status'],'failures':failures,'fingerprint':fingerprint,'input_hashes':hashes,'warnings':audit['warnings']}
+    return {'status':audit['overall_status'],'failures':failures,'fingerprint':fingerprint,'input_hashes':hashes,'warnings':audit['warnings'],'passages':copy_passages(root, approved_contract)}
 
 def check_copy_approval(root, allow_fixture=False):
     current = copy_state(root)
     if current['status'] == 'blocked': return current
     approval = load(root).get('approvals',{}).get('copy',{})
     failures = []
-    if approval.get('fingerprint') != current['fingerprint']: failures.append('Copy approval is missing or stale. Show the complete current copy and wait for the user to approve it before designing.')
+    changed = []
+    if approval.get('fingerprint') != current['fingerprint']:
+        changed = changed_passages(approval.get('passages'), current.get('passages', {}))
+        if changed is None:
+            failures.append('Copy approval is missing or stale. Show the complete current copy and wait for the user to approve it before designing.')
+        elif changed:
+            failures.append('Copy changed since the owner approved it. Show only these changed passages and wait for approval: ' + ', '.join(changed))
+    current = {**current, 'changed_passages': changed or []}
     if approval.get('actor') != 'user' and not (allow_fixture and approval.get('actor') == 'fixture'): failures.append('A real user copy approval is required; automated review is not approval.')
     return {**current,'status':'blocked' if failures else current['status'],'failures':failures}
 
@@ -178,6 +235,8 @@ def record(root, kind, message, message_id, fixture=False, allow_test_lead=False
         state = load(root)
         previous_copy = state.get('approvals',{}).get('copy',{})
         state.setdefault('approvals',{})[kind] = {'actor':'fixture' if fixture else 'user','message':message.strip(),'message_id':message_id.strip(),'approved_at':now(),'fingerprint':fingerprint,'allow_test_lead':bool(kind=='publish' and allow_test_lead)}
+        if kind == 'copy' and current.get('passages'):
+            state['approvals']['copy']['passages'] = {name: item['sha256'] for name, item in current['passages'].items()}
         if kind == 'copy' and (fixture or previous_copy.get('actor')!='user' or previous_copy.get('fingerprint')!=fingerprint):
             state['approvals'].pop('publish',None)
         save(root,state)

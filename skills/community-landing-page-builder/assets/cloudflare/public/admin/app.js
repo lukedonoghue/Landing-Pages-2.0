@@ -600,7 +600,7 @@ async function start() {
     if (/^#[a-f\d]{6}$/i.test(config.brand?.color || '')) document.documentElement.style.setProperty('--brand', config.brand.color);
     if (typeof config.brand?.logo === 'string' && /^\/(?!\/)/.test(config.brand.logo)) { const img = element('img'); img.src = config.brand.logo; img.alt = ''; empty($('#brand-mark')).append(img); }
     state.stages.forEach(stage => { const option = element('option', '', stage.label); option.value = stage.id; $('#stage-filter').append(option); });
-    accountPanel = initAccountPanel($('#account-panel'), {currentUser:state.user,permissions:state.permissions,onNotifications(data){const badge=$('#new-lead-badge');badge.textContent=String(data.unread_count || 0);badge.hidden=!data.unread_count;badge.setAttribute('aria-label',`${data.unread_count || 0} new enquiries`);}});
+    accountPanel = initAccountPanel($('#account-panel'), {currentUser:state.user,permissions:state.permissions,googleAdsOffline:config.google_ads_offline===true,onNotifications(data){const badge=$('#new-lead-badge');badge.textContent=String(data.unread_count || 0);badge.hidden=!data.unread_count;badge.setAttribute('aria-label',`${data.unread_count || 0} new enquiries`);}});
     if (can('manage_settings')) dataPanel = initDataLifecyclePanel($('#account-panel'),{request:api,siteName:config.brand?.name||'Funnel',onChanged(){accountPanel?.refreshNotifications();}});
     if (can('manage_users')) { usersPanel = initUsersPanel($('#users-panel'), {request:api,currentUser:state.user}); initSecurityPanel($('#users-panel'),{request:api}); }
     updateFilters();

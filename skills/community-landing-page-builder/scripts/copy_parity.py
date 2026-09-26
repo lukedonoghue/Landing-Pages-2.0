@@ -13,7 +13,7 @@ from urllib.parse import urlsplit
 
 META = {"id", "claim_ids", "source_ids", "cta_role", "role", "notes", "evidence", "source", "source_url", "href", "review_id", "edit_log"}
 UI_TEXT = [
-    "Back", "Continue", "Close form", "×", "Home", "Services", "FAQ", "FAQs", "How it works",
+    "Back", "Continue", "Close form", "×", "Home", "Skip to content", "Services", "FAQ", "FAQs", "How it works",
     "Contact", "Team login", "Back to the page", "Privacy", "Privacy information",
     "How can we reach you?", "What do you need?", "Confirm the next step",
     "First name", "Last name", "Name", "Email", "Phone", "Service", "Select a service", "Website",
@@ -191,6 +191,9 @@ def guide_wording(root):
     for number, chapter in enumerate(data.get("chapters", []), 1):
         words += [chapter.get("headline", ""), chapter.get("why_it_matters", ""), f"{number:02d} / {chapter.get('reader_question', '')}"]
         words += list(chapter.get("paragraphs", [])) + list(chapter.get("takeaways", []))
+        callout, table = chapter.get("callout") or {}, chapter.get("price_table") or {}
+        words += [callout.get("title", ""), callout.get("body", ""), table.get("caption", ""), table.get("note", "")]
+        words += list(table.get("columns", [])) + [cell for row in table.get("rows", []) for cell in row]
     for number, source in enumerate(data.get("sources", []), 1):
         words.append(f"[{number}] {source.get('title', '')}. {str(source.get('kind', '')).capitalize()} source, reviewed {source.get('retrieved_at', '')}.")
     return [word for word in words if isinstance(word, str) and word.strip()]

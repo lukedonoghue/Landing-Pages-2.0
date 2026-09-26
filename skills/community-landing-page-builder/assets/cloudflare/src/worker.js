@@ -1,6 +1,6 @@
 import { retentionPolicy, findErasableLeads, previewErasure, beginErasure, erasureStatus, recentErasures, progressErasure, exportErasureLedger, previewRetention, saveRetention, runRetention } from './data-lifecycle.js';
 import siteConfig from './site-config.json';
-import { accountInfo, acknowledgeNotifications, changePassword, exportLeads, notifications, revokeSessions } from './admin-operations.js';
+import { accountInfo, acknowledgeNotifications, changePassword, exportGoogleAdsConversions, exportLeads, notifications, revokeSessions } from './admin-operations.js';
 import { HttpError, enforceOrigin, json, rateLimit, publicRateLimit, readJson, requireSession, secureResponse, privacyOptOut, sessionCookie, sessionTokenHash, normalizePath, requireStepUp, hmac, secureEqual } from './security.js';
 import { addNote, changeStatus, createLead, deleteLead, earliestReportingDate, getLead, listLeads, metrics, recordVisit } from './repository.js';
 import { addWebhook, deleteWebhook, enableWebhook, listWebhooks, processOutbox, processSheetsErasures, rotateSheetsKey, retrySheetsErasures } from './webhooks.js';
@@ -128,8 +128,8 @@ async function route(request, env, ctx, url) {
     if (path === '/api/admin/notifications' && method === 'GET') return json(await notifications(env));
     if (path === '/api/admin/free-usage' && method === 'GET') return json(await freeUsage(env));
     if (path === '/api/admin/notifications/acknowledge' && method === 'POST') return json(await acknowledgeNotifications(env, await readJson(request, 1024)));
-    if (path === '/api/admin/leads/export.csv' && method === 'GET') { const result=await exportLeads(env,url); await recordAudit(env,user.id,'leads-exported','-',{count:Number(result.headers.get('X-Export-Count'))}); return result; }
-    if (path === '/api/admin/config' && method === 'GET') return json({ brand: { name: siteConfig.name, color: siteConfig.color, logo: siteConfig.logo }, stages: siteConfig.stages, timezone: siteConfig.timezone, analytics_mode: siteConfig.analyticsMode, earliest_date: await earliestReportingDate(env, siteConfig) });
+    if (path === '/api/admin/leads/export.csv' && method === 'GET') { const googleAds=url.searchParams.get('format')==='google_ads'; const result=googleAds?await exportGoogleAdsConversions(env,url,siteConfig):await exportLeads(env,url); await recordAudit(env,user.id,googleAds?'google-ads-conversions-exported':'leads-exported','-',{count:Number(result.headers.get('X-Export-Count'))}); return result; }
+    if (path === '/api/admin/config' && method === 'GET') return json({ brand: { name: siteConfig.name, color: siteConfig.color, logo: siteConfig.logo }, stages: siteConfig.stages, timezone: siteConfig.timezone, analytics_mode: siteConfig.analyticsMode, google_ads_offline: Object.keys(siteConfig.googleAdsOffline?.stages || {}).length > 0, earliest_date: await earliestReportingDate(env, siteConfig) });
     if (path === '/api/admin/leads' && method === 'GET') { const result=await listLeads(env,url); await recordAudit(env,user.id,'leads-listed'); return json(result); }
     if (path === '/api/admin/metrics' && method === 'GET') return json(await metrics(env, url, siteConfig));
     const leadMatch = /^\/api\/admin\/leads\/([a-f0-9-]{36})(\/notes)?$/.exec(path);

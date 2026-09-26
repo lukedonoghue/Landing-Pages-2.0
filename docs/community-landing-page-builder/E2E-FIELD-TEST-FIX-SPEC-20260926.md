@@ -54,7 +54,7 @@ Status key: **Done** = implemented and covered by a test or verified command in 
 | G10 | Customer PDF printed "Research notes: [n]" | Chapter citation line removed from the reader PDF; sources stay in the final Sources and scope section | Reader tests | Done |
 | G11 | Research and RESEARCH-BRIEF/CLAIM-LEDGER duplicated | `process_contract.py` accepts `build/strategy-brief.md` and `build/claim-ledger.md` for those two documents | Unit test | Done |
 | G12 | Hero continuation check ignored fixed bottom bars | Subtract fixed bottom overlays from the usable viewport height | Manual measurement | Done |
-| G13 | Owner approves the whole copy each time | Diff-only approvals need an approval-fingerprint redesign | n/a | Deferred (X5) |
+| G13 | Owner approves the whole copy each time | Per-passage approval hashes | `test_copy_approval_passages` | Done (X5) |
 | G14 | Native `lp-*` routing lost in generated projects | Documented `install_native.py --project` after scaffold; orchestration.md explains recording a Claude Agent-tool review as an `execution_artifact` | Docs | Docs |
 
 ## 4. Documentation and consistency
@@ -68,16 +68,22 @@ Status key: **Done** = implemented and covered by a test or verified command in 
 | D5 | README gives commands without saying where to type them; TESTING counts stale; CONTRIBUTING points at the legacy skill | README non-technical quick start; CONTRIBUTING path fixed | Docs |
 | D6 | Rule 11 says do not gate the guide while delivery is thank-you only | Clarified: thank-you delivery is the default lead magnet; an ungated download is optional | Docs |
 
-## 5. Deferred (next change sets)
+## 5. Formerly deferred items (implemented in the follow-up change set)
 
-| ID | Item | Reason | Next step |
+| ID | Item | Implementation | Acceptance |
 |---|---|---|---|
-| X1 | Google Ads upload-format export (conversion name, time zone, value columns) | Click IDs are now in the existing export; a dedicated upload template needs owner-configurable conversion names | Add a Google Ads offline-conversion template export with tests |
-| X2 | Single content schema for page and PDF (chapters inside `page-copy.json`) | Cross-cutting change to guide build, review and parity | Move `guide.json` chapter fields into `brochure.chapters` and derive `guide.json` |
-| X3 | Designed PDF template (brand fonts by default, price tables) | Visual design work | New reader layout with brand fonts from `brand.json` |
-| X4 | Benchmark hero component pre-tuned to the gates | Design system work | Ship a reference hero partial and CSS |
-| X5 | Diff-only owner approvals in `guide.py` | Needs approval-fingerprint redesign | Approve per changed passage |
-| X6 | Benchmark regression (run gates against Blue Mountain) | Needs an archived, licence-safe control page | Store a local control fixture |
+| X1 | Google Ads upload file | `funnel.json` `tracking.google_ads.offline_conversions` names the CRM stages that count, each with the exact Google Ads conversion action name and optional value; `npm run configure` validates it. The CRM's admin-only, password-confirmed export offers "Export Google Ads conversions": a `Parameters:TimeZone=` row, then Google Click ID / GBRAID / WBRAID / Conversion Name / Time / Value / Currency, one click ID per row, time = first entry into the stage in the site time zone. Click IDs outside Google's format are dropped (also blocks spreadsheet formulas) | `admin-operations.test.mjs` upload-file test |
+| X2 | One content schema for page and PDF | The scaffolded `build/guide.json` sets `content_source: build/page-copy.json#/brochure/text`; the guide's reader text lives only in the copy master and `build_guide.py` derives it deterministically. A drifted `guide.json` is rejected as out of date | `test_reader_guide` copy-master test |
+| X3 | Designed PDF | Brand-colour cover band, contents with accent rule, optional `callout` and source-anchored `price_table` chapter blocks; brand colour from `funnel.json` and the site's rendered font (licensed `.ttf` pair) by default, DejaVu when coverage fails | `test_reader_guide` blocks/brand test; layout test still 3 pages |
+| X4 | Benchmark hero | Template hero rebuilt on the control structure (compact header with verified phone filled by `npm run configure`, outcome headline, one primary action, optional media column, skip link) and sized so the next section shows in the first screen at every QA viewport, including 1280x600; the demo's CSS patch was removed | Fresh demo: 120 browser checks, no warnings |
+| X5 | Diff-only owner approvals | Copy approvals store per-passage hashes (hero, sections, modal, thank-you, brochure, interface text, contract). After an edit only changed passages need approval; metadata edits need none; the guide shows "what changed" | `test_copy_approval_passages` |
+| X6 | Benchmark regression | Instead of storing a third-party page, `verify-demo --full` (run in CI) fails if the template hero loses an unobscured action fully above the fold at any viewport; the fold-continuation check was already blocking | CI demo job |
+
+The publish gate still runs the application test suite inside generated projects. Replacing it with a template-integrity check (so projects carry no test code) was prototyped and reverted: it changes a release safeguard and needs an explicit owner decision.
+
+## 5a. Repository cleanup
+
+Removed about 670 MB of past test-run evidence, 60 historical audit notes, the superseded branded skill and its tests, the duplicated CRM example, the committed copy-library database (rebuilt in memory), a dead test script and five unreferenced references. The Python tests are one suite under the skill (two orphan test files that lived in `scripts/` joined it, one had never run), `install --copy-skill` no longer ships them, and three overlapping CI workflows became one `ci.yml`.
 
 ## 6. Verification of this change set
 

@@ -16,7 +16,7 @@ Always say what is happening, what the owner needs to do, and what happens next.
 
 * `funnel.json` contains actual business choices, conversion and selected modules. `build/guide-business.json` is its material business projection consumed by copy acceptance. A changed service, audience, offer, region, conversion or follow-up must refresh this projection and the copy-review input hashes.
 * `build/guide-state.json` contains question revisions, answer provenance, pending questions and interruption state. It is not an approval or readiness store.
-* `build/workflow.json` remains the authority for actual content-bound approvals. `guide.py approve` delegates to its locked, expected-fingerprint check. A stale screen cannot approve newer unseen copy.
+* `build/workflow.json` remains the authority for actual content-bound approvals; re-approval after an edit covers only the changed passages (see [approval-workflow.md](approval-workflow.md)). `guide.py approve` delegates to its locked, expected-fingerprint check. A stale screen cannot approve newer unseen copy.
 * Existing quality reports, snapshots, release records and `workflow_progress.py` determine readiness. The runner cannot replace them with “done”.
 * Existing `native_routing.py` SQLite state owns worker reservations, attempts and the pending continuation. The runner uses that same database. Credentials and recovery journals remain in `.secrets/`, not answers, captures, public assets or exports.
 

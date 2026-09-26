@@ -22,12 +22,14 @@ Every image in `build/guide.json` records `id`, `placement` (`cover` or chapter 
 
 ## Author the guide, then build it
 
-The scaffold provides an unfinished `build/guide.json`, deliberately blocked until authored. The new format is `document_type: buyer_guide`, `workflow_ready: true` only after real writing, and:
+The scaffold provides an unfinished `build/guide.json`, deliberately blocked until authored. The format is `document_type: buyer_guide`, `workflow_ready: true` only after real writing, and the fields below. With `"content_source": "build/page-copy.json#/brochure/text"` (the scaffold default), write `title`, `subtitle`, `audience`, `reader_promise`, `chapters`, `checklist_title`, `checklist`, `next_step` and `scope_note` in the copy master's `brochure.text` instead; `build_guide.py` copies them into `build/guide.json`, so the page copy, owner approval and PDF share one text. Omit optional keys rather than leaving them empty. A guide without `content_source` keeps all fields in `build/guide.json`.
 
 - `title`, `subtitle`, `audience`, `reader_promise`, actual `author_task_ids` and `brand` (name, optional project-relative logo, verified phone and colours/fonts).
 - `sources`: unique `id`, truthful `kind` (`business`, `industry`, `user`), `title`, `retrieved_at`, local captured `path`, `sha256`, and actual HTTPS `url` for web sources. Supplied user evidence retains its origin; it is not an independent certification.
 - `chapters`: at least two real buyer decisions with `id`, `headline`, `reader_question`, `why_it_matters`, substantive `paragraphs`, useful `takeaways`, and `evidence`. Each evidence row has `source_id`, exact captured `excerpt`, and exact authored `claim`. The excerpt anchors a claim; the reviewer must still judge whether it supports it. Word-count guards are a floor against empty output, not a writing target.
 - `images` as above; `checklist_title`, actionable `checklist`, coherent `next_step`, and concise `scope_note`.
+- Optional chapter blocks: `callout` (`title`, `body`) for one key tip, and `price_table` (`caption`, `columns`, `rows`, optional `note`, `evidence`) for published prices. A price table needs `evidence` rows whose `excerpt` is in a captured source and whose `claim` is an exact figure from the table; never infer or estimate prices.
+- Design defaults: the cover is a brand-colour band carrying the audience, title and subtitle. When `brand.colors.primary` is missing, the build uses `funnel.json` `client.color`. When `build/brand.json` names the site's rendered font family and a licensed regular/bold TrueType (`.ttf`) pair of that family is in `assets/fonts/` or `public/assets/fonts/`, the build records it as `brand.fonts` and uses it, but only if it covers every character in the guide; otherwise the bundled DejaVu pair is used. WOFF/WOFF2 web fonts cannot be embedded in the PDF.
 - `delivery.output`: the actual PDF under `public/assets/brochure/`. The main page's useful guide links and all confirmation download/reader links must point to this same file.
 
 The agent runs:

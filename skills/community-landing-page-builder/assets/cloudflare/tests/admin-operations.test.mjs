@@ -10,7 +10,7 @@ import { promisify } from 'node:util';
 import { build } from 'esbuild';
 import { Miniflare } from 'miniflare';
 import { unstable_splitSqlQuery } from 'wrangler';
-import { csvCell } from '../src/admin-operations.js';
+import { csvCell, exportGoogleAdsConversions } from '../src/admin-operations.js';
 import { accountPlan, recoverySql, runAccount } from '../scripts/admin-account.mjs';
 import { validateErasureRecord, reconcileErasureRecord } from '../scripts/erasure-backup.mjs';
 import { backupPlan, runBackup, normaliseD1Export } from '../scripts/backup.mjs';
@@ -95,6 +95,38 @@ test('CSV exports all matching pages, excludes deleted contacts and prevents spr
   assert.equal((await call('/api/admin/leads/export.csv?q=One')).headers.get('X-Export-Count'), '1');
   for (const value of ['=CMD()', '+1', '-2', '@SUM()', ' \t=CMD()', '\tanything']) assert.ok(csvCell(value).startsWith('"\''), value);
   assert.equal(csvCell('say "hello"'), '"say ""hello"""');
+});
+test('Google Ads upload file uses stage entry time, valid click IDs and the site time zone', async () => {
+  const unconfigured = await call('/api/admin/leads/export.csv?format=google_ads');
+  assert.equal(unconfigured.status, 409); assert.match((await unconfigured.json()).error, /offline_conversions/);
+  const created = [];
+  const lead = async latest => {
+    const id = crypto.randomUUID(); created.push(id);
+    await db.prepare('INSERT INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,name,email,status,form_name,form_data,attribution,landing_page) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(id, crypto.randomUUID(), crypto.randomUUID(), 'test', '2026-09-16T12:00:00.000Z', '2026-09-16T12:00:00.000Z', '2026-09-16', 'Ads', 'synthetic@example.invalid', 'new', 'enquiry', '{}', JSON.stringify({ first_touch: {}, latest_touch: latest }), '/').run();
+    return id;
+  };
+  const stage = (id, status, at) => db.prepare('UPDATE leads SET status=?,updated_at=? WHERE id=?').bind(status, at, id).run();
+  const won = await lead({ gclid: 'EAIaIQobChMIexampleClickId' }); const app = await lead({ gbraid: '0AAAAAexampleBraid' });
+  const hostile = await lead({ gclid: '=HYPERLINK("https://attacker.test")' }); await lead({});
+  await stage(won, 'qualified', '2026-09-17T15:30:00.000Z'); await stage(won, 'won', '2026-09-18T15:30:00.000Z');
+  await stage(app, 'qualified', '2026-09-17T02:00:00.000Z'); await stage(hostile, 'qualified', '2026-09-17T03:00:00.000Z');
+  const config = { timezone: 'America/Chicago', googleAdsOffline: { currency: 'USD', stages: { qualified: { conversion_name: 'Qualified lead', value: 50 }, won: { conversion_name: 'Won job, signed', value: 500 } } } };
+  try {
+    const response = await exportGoogleAdsConversions({ DB: db }, new URL('https://site.test/?format=google_ads'), config);
+    assert.deepEqual((await response.text()).split('\r\n'), [
+      'Parameters:TimeZone=America/Chicago',
+      'Google Click ID,GBRAID,WBRAID,Conversion Name,Conversion Time,Conversion Value,Conversion Currency',
+      ',0AAAAAexampleBraid,,Qualified lead,2026-09-16 21:00:00,50,USD',
+      'EAIaIQobChMIexampleClickId,,,Qualified lead,2026-09-17 10:30:00,50,USD',
+      'EAIaIQobChMIexampleClickId,,,"Won job, signed",2026-09-18 10:30:00,500,USD', '']);
+    assert.equal(response.headers.get('X-Export-Count'), '3'); assert.equal(response.headers.get('X-Export-Skipped'), '1', 'A formula-shaped click ID is never exported');
+    const recent = await exportGoogleAdsConversions({ DB: db }, new URL('https://site.test/?from=2026-09-18'), config);
+    assert.equal(recent.headers.get('X-Export-Count'), '1');
+    await assert.rejects(exportGoogleAdsConversions({ DB: db }, new URL('https://site.test/?from=yesterday'), config), /YYYY-MM-DD/);
+  } finally {
+    for (const table of ['activity', 'lead_notifications']) await db.prepare(`DELETE FROM ${table} WHERE lead_id IN (${created.map(() => '?').join(',')})`).bind(...created).run();
+    await db.prepare(`DELETE FROM leads WHERE id IN (${created.map(() => '?').join(',')})`).bind(...created).run();
+  }
 });
 test('missing or invalid named-owner configuration fails closed before credentials can be loaded', async () => {
   // Configuration behavior is also directly checked without depending on env injection.

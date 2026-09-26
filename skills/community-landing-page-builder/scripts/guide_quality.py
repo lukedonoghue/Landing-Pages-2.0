@@ -71,8 +71,88 @@ def validate_omission(root, catalogue):
             raise ValueError('Guide omission evidence is missing, unanchored or changed')
 
 
+# One content schema: when build/guide.json names this source, its reader-facing
+# text is derived from the approved copy master, so page and PDF share one text.
+CONTENT_SOURCE = 'build/page-copy.json#/brochure/text'
+DERIVED_KEYS = ('title', 'subtitle', 'audience', 'reader_promise', 'chapters', 'checklist_title', 'checklist', 'next_step', 'scope_note')
+
+
+def derive_content(root, data):
+    if not data.get('content_source'):
+        return data
+    if data['content_source'] != CONTENT_SOURCE:
+        raise ValueError('build/guide.json content_source must be ' + CONTENT_SOURCE)
+    if not local(root, 'build/page-copy.json').is_file():
+        raise ValueError('Write the guide content in build/page-copy.json brochure.text before building the guide')
+    text = read(root, 'build/page-copy.json').get('brochure', {}).get('text')
+    if not isinstance(text, dict) or not isinstance(text.get('chapters'), list):
+        raise ValueError('build/page-copy.json brochure.text must hold the guide content (title, chapters, checklist, next_step) because build/guide.json sets content_source')
+    derived = {key: value for key, value in data.items() if key not in DERIVED_KEYS}
+    derived.update({key: text[key] for key in DERIVED_KEYS if key in text})
+    return derived
+
+
+def brand_defaults(root, data):
+    """Carry the site's brand colour and, when licensed TrueType files are present,
+    its rendered fonts into the guide. DejaVu remains the fallback for any gap."""
+    brand = dict(data.get('brand', {}))
+    colors = dict(brand.get('colors') or {})
+    client = read(root, 'funnel.json').get('client', {}) if local(root, 'funnel.json').is_file() else {}
+    if not colors.get('primary') and re.fullmatch(r'#[0-9A-Fa-f]{6}', str(client.get('color', ''))):
+        colors['primary'] = client['color']
+    if colors:
+        brand['colors'] = colors
+    if not brand.get('fonts'):
+        fonts = matched_fonts(root, data)
+        if fonts:
+            brand['fonts'] = fonts
+    return {**data, 'brand': brand} if brand != data.get('brand', {}) else data
+
+
+def matched_fonts(root, data):
+    import os
+    from reportlab.pdfbase.ttfonts import TTFontFile
+    try:
+        measurement = read(root, 'build/brand.json').get('measurements', [{}])[0].get('typography', {})
+    except (OSError, ValueError, IndexError, AttributeError):
+        return None
+    wanted = [f.get('familyName', '').lower() for role in ('body', 'heading') for f in (measurement.get(role) or {}).get('renderedFonts', [])]
+    faces = {}
+    for folder in ('assets/fonts', 'public/assets/fonts'):
+        base = local(root, folder)
+        for path in sorted(base.rglob('*.ttf')) if base.is_dir() else []:
+            if path.is_symlink():
+                continue
+            try:
+                face = TTFontFile(str(path))
+            except Exception:
+                continue
+            style = face.styleName.decode(errors='ignore').lower()
+            role = 'bold' if style == 'bold' else 'regular' if style in {'regular', 'book', 'normal', 'roman'} else None
+            if role:
+                faces.setdefault(face.familyName.decode(errors='ignore').lower(), {})[role] = (path, face)
+    text = json.dumps({k: data.get(k) for k in DERIVED_KEYS} | {'brand': data.get('brand', {}).get('name')}, ensure_ascii=False)
+    for family in wanted:
+        pair = faces.get(family, {})
+        if set(pair) == {'regular', 'bold'} and all(all(ord(c) in face.charToGlyph for c in text if not c.isspace()) for _, face in pair.values()):
+            return {role: os.path.relpath(path, Path(root).resolve() / 'build') for role, (path, _) in pair.items()}
+    return None
+
+
+def sync_guide(root):
+    """Rewrite build/guide.json only when derived text or brand defaults changed."""
+    path = local(root, 'build/guide.json')
+    data = read(root, 'build/guide.json')
+    derived = brand_defaults(root, derive_content(root, data))
+    if derived != data:
+        path.write_text(json.dumps(derived, indent=2, ensure_ascii=False) + '\n')
+    return derived
+
+
 def validate_content(root, data):
     """Return hashes of every input used, or reject an incomplete reader guide."""
+    if data.get('content_source') and derive_content(root, data) != data:
+        raise ValueError('Guide text is derived from build/page-copy.json brochure.text and is out of date; rebuild the guide')
     if data.get('document_type') != 'buyer_guide' or data.get('workflow_ready') is not True:
         raise ValueError('Complete the researched buyer_guide, not the generic catalogue template')
     text = norm(json.dumps({k: data.get(k) for k in ('title', 'subtitle', 'reader_promise', 'chapters', 'checklist', 'next_step')}, ensure_ascii=False))
@@ -119,7 +199,28 @@ def validate_content(root, data):
             raise ValueError(ident + ': add substantive explanations and trade-offs, not a slogan')
         if not isinstance(chapter.get('takeaways'), list) or len(chapter['takeaways']) < 2 or any(len(norm(p)) < 15 for p in chapter['takeaways']):
             raise ValueError(ident + ': give the reader specific questions or actions')
-        chapter_text = norm(' '.join([chapter['headline'], chapter['why_it_matters'], *paragraphs, *chapter['takeaways']]))
+        blocks = []
+        callout = chapter.get('callout')
+        if callout is not None:
+            if not isinstance(callout, dict) or len(norm(callout.get('title', ''))) < 5 or len(norm(callout.get('body', ''))) < 20:
+                raise ValueError(ident + ': a callout needs a short title and a useful body')
+            blocks += [callout['title'], callout['body']]
+        table = chapter.get('price_table')
+        if table is not None:
+            columns, rows = table.get('columns') if isinstance(table, dict) else None, table.get('rows') if isinstance(table, dict) else None
+            cells = lambda row: isinstance(row, list) and len(row) == len(columns) and all(isinstance(c, str) and c.strip() for c in row)
+            if not isinstance(columns, list) or len(columns) < 2 or not cells(columns) or not isinstance(rows, list) or not rows or not all(cells(r) for r in rows) or len(norm(table.get('caption', ''))) < 10:
+                raise ValueError(ident + ': a price table needs a caption, at least two columns and complete rows')
+            table_text = norm(' '.join([table['caption'], *columns, *[c for r in rows for c in r], table.get('note', '')]))
+            if not table.get('evidence'):
+                raise ValueError(ident + ': anchor every price table to captured sources; never infer prices')
+            for item in table['evidence']:
+                source = sources.get(item.get('source_id'))
+                quote, claim = norm(item.get('excerpt', '')), norm(item.get('claim', ''))
+                if not source or len(quote) < 10 or quote not in source[1] or len(claim) < 3 or claim not in table_text:
+                    raise ValueError(ident + ': price evidence needs a real source excerpt and an exact figure from the table')
+            blocks.append(table_text)
+        chapter_text = norm(' '.join([chapter['headline'], chapter['why_it_matters'], *paragraphs, *chapter['takeaways'], *blocks]))
         evidence = chapter.get('evidence', [])
         if not evidence:
             raise ValueError(ident + ': link advice to captured sources')
