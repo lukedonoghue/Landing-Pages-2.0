@@ -15,7 +15,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, Image, PageBreak,
                                HRFlowable, CondPageBreak, Table, TableStyle)
 from build_catalogue import Catalogue, normalize_text
-from guide_quality import local
+from guide_quality import DEFAULT_SCOPE_NOTE, local
 
 
 def build(root, config_path, output, data):
@@ -110,7 +110,7 @@ def build(root, config_path, output, data):
     story.append(p('Sources and scope', 'h2'))
     for i, source in enumerate(data['sources'], 1):
         story.append(p(f'[{i}] {source["title"]}. {source["kind"].capitalize()} source, reviewed {source["retrieved_at"]}.', 'small'))
-    story.append(p(data.get('scope_note', 'Use this guide to prepare questions. The written recommendation and agreed scope for your situation remain authoritative.'), 'small'))
+    story.append(p(data.get('scope_note', DEFAULT_SCOPE_NOTE), 'small'))
     output.parent.mkdir(parents=True, exist_ok=True)
     fd, name = tempfile.mkstemp(prefix='.reader-guide-', suffix='.pdf', dir=output.parent)
     os.close(fd)

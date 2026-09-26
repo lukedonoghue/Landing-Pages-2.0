@@ -11,6 +11,8 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from PIL import Image, ImageStat
 
+# Printed when a guide has no scope_note; the copy gate allows it as fixed interface text.
+DEFAULT_SCOPE_NOTE = 'Use this guide to prepare questions. The written recommendation and agreed scope for your situation remain authoritative.'
 CRITERIA = ('reader_value', 'benefit_clarity', 'source_fidelity', 'practical_detail',
             'imagery_relevance', 'readability', 'coherent_next_step')
 PLACEHOLDER = re.compile(r'WORKFLOW_TEMPLATE_INCOMPLETE|specific outcome headline|the right service for what comes next|a practical guide to a better fit', re.I)

@@ -267,6 +267,7 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
         import control_review
         write_if_missing(root/'references'/'control-reference.json', json.dumps(control_review.reference(), indent=2)+'\n')
 
+    routing_note = None
     if not args.static_only:
         # Fresh projects inherit the same credential boundary as the reusable
         # repository. Existing operator policies are never overwritten here.
@@ -280,6 +281,13 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
                 raise ValueError('Refusing a symlinked agent policy. Preserve and reconcile it before scaffolding.')
             target.parent.mkdir(parents=True,exist_ok=True)
             if write_if_missing(target,body):created.append(rel)
+        # Native lp-* routing profiles, pointed at the private builder bundle.
+        import install_native
+        try:
+            routing = install_native.install(root, 'both')
+            created += [rel for rel in routing['changed'] if rel not in created]
+        except install_native.RoutingError as error:
+            routing_note = 'Native agent routing was not installed: ' + str(error)
 
     target_js = web_root / "script.js"
     source_js = skill_root / "assets" / "multistep-lightbox.js"
@@ -287,10 +295,10 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
         shutil.copy2(source_js, target_js)
         created.append(str(target_js.relative_to(root)))
 
-    next_steps = [] if args.static_only else [
+    next_steps = ([routing_note] if routing_note else []) + ([] if args.static_only else [
         "Install the local tools once: python3 scripts/quickstart.py bootstrap --project .",
         "Verify every automated gate later with: python3 scripts/quickstart.py verify --project .",
-    ]
+    ])
     print(json.dumps({"project_root": str(root), "created": created, "web_root": str(web_root), "backend": config["backend"], "next_steps": next_steps}, indent=2))
     return 0
 

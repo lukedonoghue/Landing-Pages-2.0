@@ -93,10 +93,10 @@ def render(runtime="both", inherit_models=False):
             files[f".claude/agents/{name}.md"] = ("\n".join(lines) + "\n").encode()
     return files
 
-def instruction_block():
-    return MARKER_START + "\n" + """## Community landing-page workflow
+def instruction_block(skill_dir="skills/community-landing-page-builder"):
+    return MARKER_START + "\n" + f"""## Community landing-page workflow
 
-For landing-page work use `skills/community-landing-page-builder/SKILL.md`. Read that skill's `references/orchestration.md` before starting.
+For landing-page work use `{skill_dir}/SKILL.md`. Read that skill's `references/orchestration.md` before starting.
 
 Use the host's native subagents and native model/effort controls only when actually available. OpenAI profiles are in `.codex/agents/`; Claude profiles are in `.claude/agents/`. Choose the matching provider, never cross-provider calls. No Jev, new API key, gateway or paid fallback is required. Run normal tasks sequentially with the current model when delegation/model selection is unavailable, and disclose it. A skill cannot create a missing host tool.
 
@@ -105,8 +105,8 @@ Credential isolation is mandatory; see `references/security-operations.md`. Do n
 The coordinator owns task graph, shared contract, file reservations, integration and existing approvals. Cap cooperating workers at four; final acceptance and Lighthouse require their documented quiet/frozen stages. Ask for missing business facts only when material. Do not ask the owner to choose models. See the orchestration reference for capability preflight, native dispatch, bounded retries and the test prompt.
 """ + MARKER_END + "\n"
 
-def merge_instructions(previous):
-    block = instruction_block()
+def merge_instructions(previous, skill_dir="skills/community-landing-page-builder"):
+    block = instruction_block(skill_dir)
     if MARKER_START in previous or MARKER_END in previous:
         if previous.count(MARKER_START) != 1 or previous.count(MARKER_END) != 1:
             raise RoutingError("Malformed managed instruction markers")
@@ -137,11 +137,15 @@ def install(project, runtime="both", *, copy_skill=False, inherit_models=False, 
                 raise RoutingError("Refusing symlink skill source: " + str(rel))
             if source.is_file():
                 files["skills/community-landing-page-builder/" + rel.as_posix()] = source.read_bytes()
-    if not copy_skill and not safe(root, "skills/community-landing-page-builder/SKILL.md").is_file():
-        raise RoutingError("Skill missing in project; add --copy-skill")
+    # Generated projects carry the skill as the hash-locked private bundle.
+    skill_dir = "skills/community-landing-page-builder"
+    if not copy_skill and not safe(root, skill_dir + "/SKILL.md").is_file():
+        if not safe(root, ".community-builder/SKILL.md").is_file():
+            raise RoutingError("Skill missing in project; add --copy-skill")
+        skill_dir = ".community-builder"
     for name in (["AGENTS.md", "CLAUDE.md"] if runtime == "both" else ["AGENTS.md" if runtime == "codex" else "CLAUDE.md"]):
         path = safe(root, name)
-        files[name] = merge_instructions(path.read_text() if path.exists() else "").encode()
+        files[name] = merge_instructions(path.read_text() if path.exists() else "", skill_dir).encode()
     config = ".codex/config.toml"
     config_bytes = codex_config().encode()
     if runtime in {"claude", "both"}:

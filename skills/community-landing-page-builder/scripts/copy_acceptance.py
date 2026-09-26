@@ -127,7 +127,15 @@ def verify(root, snapshot_path, review_path):
         if digest(path) != row.get('sha256'):
             failures.append(f'Input changed after review preparation: {key}')
         corpora[key] = text(path)
-    copy_issues = customer_copy_issues(inside(root, inputs['copy']['path']))
+    copy_path = inside(root, inputs['copy']['path'])
+    if copy_path.suffix == '.json':
+        # copy_library audit checks this same review file against these hashes;
+        # require them here too so the two validators can never disagree.
+        expected = {'copy_sha256': copy_path, 'brief_sha256': root / 'build/client-copy-brief.json', 'context_sha256': root / 'build/copy-context.json'}
+        stale = [key for key, path in expected.items() if not path.is_file() or review.get(key) != digest(path)]
+        if stale:
+            failures.append('Review lacks the current structured-copy hashes (' + ', '.join(stale) + ') that copy_library audit also requires')
+    copy_issues = customer_copy_issues(copy_path)
     failures.extend(f'Customer copy contamination: {issue}' for issue in copy_issues)
     reviewer = review.get('reviewer', {})
     if not isinstance(reviewer, dict) or reviewer.get('mode') not in {'independent', 'self_review'} or not nonempty(reviewer.get('identity')):

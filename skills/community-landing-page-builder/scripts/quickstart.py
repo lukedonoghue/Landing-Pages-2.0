@@ -22,7 +22,7 @@ from urllib.request import urlopen
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import runtime_check
-from demo_project import SKILL, assert_demo, seed_sql, write_demo_sources, write_json
+from demo_project import SKILL, assert_current, assert_demo, seed_sql, write_demo_sources, write_json
 
 TEMPLATE = SKILL / "assets/cloudflare"
 
@@ -180,6 +180,7 @@ def build_demo(project, node):
     project = Path(project).expanduser().resolve()
     if (project / '.landing-pages-demo.json').is_file():
         assert_demo(project)
+        assert_current(project)
         for required in ['build/demo-catalogue.json', 'test-fixture.json', 'public/index.html']:
             if not (project / required).is_file():
                 raise ValueError('The demo source is incomplete. Use a new demo directory; existing files were preserved.')
@@ -263,6 +264,7 @@ def local_verification_access(project):
 
 def verify_demo(project, node, full=False):
     project = assert_demo(project)
+    assert_current(project)
     required = ['build/page-copy.json', 'scripts/copy_parity.py', 'scripts/capture-rendered-copy.mjs']
     if any(not (project / name).is_file() for name in required):
         raise ValueError('This demo predates rendered-copy verification or has missing evidence. Generate a new demo directory with the current skill; existing source and local data were preserved.')

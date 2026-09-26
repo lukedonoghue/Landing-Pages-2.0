@@ -460,4 +460,17 @@ class InstallationTests(unittest.TestCase):
         (self.root/'AGENTS.md').write_text(installer.MARKER_START)
         with self.assertRaises(nr.RoutingError): installer.install(self.root)
 
+
+class ScaffoldRoutingTests(unittest.TestCase):
+    def test_new_projects_get_native_routing_pointed_at_the_private_bundle(self):
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp) / 'client'
+            subprocess.run([sys.executable, str(SCRIPTS / 'scaffold_project.py'), str(project), '--client', 'Routing Co'],
+                           check=True, capture_output=True, text=True)
+            for name in ('AGENTS.md', 'CLAUDE.md'):
+                self.assertIn('`.community-builder/SKILL.md`', (project / name).read_text())
+            self.assertTrue((project / '.claude/agents/lp-builder.md').is_file())
+            self.assertTrue((project / '.codex/agents/lp-builder.toml').is_file())
+            self.assertEqual(installer.install(project, 'both', check=True)['status'], 'pass')
+
 if __name__=='__main__': unittest.main(verbosity=2)

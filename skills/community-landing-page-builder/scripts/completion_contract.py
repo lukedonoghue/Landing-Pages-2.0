@@ -48,6 +48,17 @@ def evidence(root, record):
     return path
 
 
+# Files the workflow rewrites after research; citing them makes research stale on
+# every later image review or gate run. Research evidence must cite captured sources.
+VOLATILE_EVIDENCE = {"image-plan.json", "build/gates.json", "build/gate-snapshot.json", "build/workflow.json", "build/progress.json"}
+
+
+def research_evidence(root, record):
+    if isinstance(record, dict) and isinstance(record.get("path"), str) and Path(record["path"]).as_posix().lstrip("./") in VOLATILE_EVIDENCE:
+        raise ValueError("Research evidence cites " + record["path"] + ", which later steps rewrite; cite the captured source (for example research/*.html) instead")
+    return evidence(root, record)
+
+
 def text(value):
     return isinstance(value, str) and bool(value.strip())
 
@@ -77,7 +88,7 @@ def research(root):
         if not sources or not any(s.get("kind") == "official_site" for s in sources if isinstance(s, dict)):
             raise ValueError("Research needs retained official-site evidence")
         for source in sources:
-            evidence(root, source)
+            research_evidence(root, source)
         angles = record.get("positioning_angles", [])
         if not isinstance(angles, list) or not 1 <= len(angles) <= 3:
             raise ValueError("Compare up to three supported positioning angles")
@@ -89,7 +100,7 @@ def research(root):
         for angle in angles:
             if not isinstance(angle, dict) or any(not text(angle.get(k)) for k in ("id", "angle", "buyer_relevance", "specificity", "rationale")):
                 raise ValueError("Every positioning angle needs buyer relevance, specificity and a reasoned decision")
-            evidence(root, angle.get("evidence"))
+            research_evidence(root, angle.get("evidence"))
         # This acknowledges discovery is not acquisition. A failure is retained;
         # the image gate separately verifies the chosen permitted fallback bytes.
         attempts = record.get("first_party_image_attempts", [])
@@ -98,12 +109,12 @@ def research(root):
         for attempt in attempts:
             if not isinstance(attempt, dict) or attempt.get("status") not in {"acquired", "unavailable", "unsuitable", "not_permitted"} or not text(attempt.get("reason")):
                 raise ValueError("Image attempts need an honest acquisition outcome and reason")
-            evidence(root, attempt.get("evidence"))
+            research_evidence(root, attempt.get("evidence"))
         for key in ("claim_scope_review", "copy_repetition_review", "buyer_questions_review"):
             review = record.get(key, {})
             if review.get("status") != "pass" or not text(review.get("observations")):
                 raise ValueError(key + " needs concrete editorial observations, not a bare pass")
-            evidence(root, review.get("evidence"))
+            research_evidence(root, review.get("evidence"))
         manifest = root / "research/reviews/review-manifest.json"
         if manifest.is_file():
             import review_workflow
@@ -130,7 +141,7 @@ def research(root):
                 # extract_brand paths are relative to the report directory.
                 linked = dict(item)
                 linked["path"] = (Path("build") / item["path"]).as_posix()
-                evidence(root, linked)
+                research_evidence(root, linked)
         else:
             exception(root, record.get("brand_exception"), "Rendered brand measurement unavailable")
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:

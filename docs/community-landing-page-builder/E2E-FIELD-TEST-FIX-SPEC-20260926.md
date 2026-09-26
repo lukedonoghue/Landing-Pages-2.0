@@ -27,13 +27,13 @@ Status key: **Done** = implemented and covered by a test or verified command in 
 | S1 | Visible honeypot field got first focus and both wizard steps showed; automated QA passed it | `measure_funnel.mjs` checks the `hidden` attribute, not rendered visibility, and has no honeypot check | New failures: `honeypot_not_visible`, `honeypot_not_focusable`, `wizard_one_step_visible` using computed style | Fixture page with a visible honeypot fails | Done |
 | S2 | Placeholder privacy page ("This is a development template…") passed every gate | No template-text detector in static validation | `validate_funnel.py` fails on known template/placeholder phrases in public HTML | Unit test | Done |
 | S3 | Editing an internal `docs/*.md` file invalidated the rendered-page control capture | `check_gates.EXCLUDED_DIRS` does not exclude `docs`, so workflow paperwork is part of the rendered-source fingerprint | Exclude `docs/` from the source fingerprint (workflow documents are validated separately by `process_contract.py`) | Unit test: docs edit keeps the fingerprint | Done |
-| S4 | Recording image reviews reopened the research gate | Research acceptance evidence pointed at `image-plan.json`, which changes on every review | Documented: image-attempt evidence must reference the captured source HTML; gate order documented (image reviews before final capture and snapshot) | Docs | Docs |
+| S4 | Recording image reviews reopened the research gate | Research acceptance evidence pointed at `image-plan.json`, which changes on every review | `completion_contract.research_evidence` rejects research evidence that cites files later steps rewrite (`image-plan.json`, gate and workflow state) and names the fix | `test_e2e_field_fixes` ResearchEvidenceTests | Done |
 | S5 | Template shipped a custom consent banner with `data-analytics-mode="consent"` and a public "Team login" link | Template defaults contradict SKILL.md and `funnel.json` | Template defaults to `data-analytics-mode="disabled"`; public header no longer links to the CRM login; example regenerated | `sync_crm_example.py --check`; validate_funnel on a fresh scaffold | Done |
 | S6 | After the lead-inbox re-scaffold, START-HERE still said "no CRM" and `funnel.json` kept `product_mode: static-only` | `scaffold_project.py` uses write-if-missing for both | `guide.local('scaffold')` reconciles `product_mode`, `publish_target` and replaces the static START-HERE | Unit test | Done |
-| S7 | No-long-dash rule forced dropping a genuine verbatim testimonial | Rule has no quotation exemption | Documented: normalise a reviewer's long dash to a spaced hyphen as typographic normalisation (wording unchanged) and keep the review | Docs | Docs |
+| S7 | No-long-dash rule forced dropping a genuine verbatim testimonial | Rule has no quotation exemption | The surface scan's finding now states the quote-safe fix (spaced hyphen, keep the quote); it also catches `\u2014`/`\u2013` escapes that `json.dumps` hid from the scan | `test_e2e_field_fixes` dash tests | Done |
 | S8 | Control reviewer proposals contained em dashes and re-introduced a claim removed as unsupported | `control_review.py` does not validate `proposed_change` | Reject U+2014/U+2013 in `proposed_change`/`after`; control-comparison.md requires checking proposals against the claim ledger | Unit test | Done |
 | S9 | Unsourced sentences shipped (PDF test mechanics passed five review rounds) | Review verifies ledger claims only | copy-acceptance.md requires sentence-level source anchoring for every factual sentence, including `brochure.text` | Docs | Docs |
-| S10 | Two validators disagree on the same review file (`context_sha256`) | `copy_acceptance.verify` does not check the structured-copy hashes that `copy_library.audit` requires | Documented in copy-workflow.md; the verify command now reports missing structured hashes | Docs | Docs |
+| S10 | Two validators disagree on the same review file (`context_sha256`) | `copy_acceptance.verify` did not check the structured-copy hashes that `copy_library.audit` requires | For JSON copy, `verify` now requires the same `copy_sha256`, `brief_sha256` and `context_sha256` against the same files | `test_copy_acceptance` agreement test | Done |
 | S11 | Copy audit scanned the writer's `edit_log` as customer copy | Skip list lacks `edit_log` | Add `edit_log`, `review_id` to the audit skip list | Unit test | Done |
 | S12 | `setup.mjs --help` ran setup | No argument handling | Print usage for `--help`/`-h` | Manual | Done |
 | S13 | macOS: 22 skill tests fail on `main` (paths under `/var` → `/private/var`) and projects under a symlinked parent are rejected | `relative_to()` on unresolved roots in `image_workflow.stored_image` and `build_guide.build_reader`; `ship.safe_project` rejects symlinked system parents | Resolve roots; ignore root-owned system aliases (`/var`, `/tmp`, `/etc`) while still rejecting a symlinked project | Full skill suite passes on macOS | Done |
@@ -55,7 +55,7 @@ Status key: **Done** = implemented and covered by a test or verified command in 
 | G11 | Research and RESEARCH-BRIEF/CLAIM-LEDGER duplicated | `process_contract.py` accepts `build/strategy-brief.md` and `build/claim-ledger.md` for those two documents | Unit test | Done |
 | G12 | Hero continuation check ignored fixed bottom bars | Subtract fixed bottom overlays from the usable viewport height | Manual measurement | Done |
 | G13 | Owner approves the whole copy each time | Per-passage approval hashes | `test_copy_approval_passages` | Done (X5) |
-| G14 | Native `lp-*` routing lost in generated projects | Documented `install_native.py --project` after scaffold; orchestration.md explains recording a Claude Agent-tool review as an `execution_artifact` | Docs | Docs |
+| G14 | Native `lp-*` routing lost in generated projects | The scaffold installs the routing profiles, pointed at the `.community-builder` bundle; the installer accepts that location | `test_native_routing` ScaffoldRoutingTests | Done |
 
 ## 4. Documentation and consistency
 
@@ -84,6 +84,15 @@ The publish gate still runs the application test suite inside generated projects
 ## 5a. Repository cleanup
 
 Removed about 670 MB of past test-run evidence, 60 historical audit notes, the superseded branded skill and its tests, the duplicated CRM example, the committed copy-library database (rebuilt in memory), a dead test script and five unreferenced references. The Python tests are one suite under the skill (two orphan test files that lived in `scripts/` joined it, one had never run), `install --copy-skill` no longer ships them, and three overlapping CI workflows became one `ci.yml`.
+
+## 5b. Defects found during the follow-up work
+
+| Defect | Fix |
+|---|---|
+| A demo built by an older skill version kept its old helper copies, so `verify-demo` mixed old and new code and failed with an unrelated "lost current evidence" message | `demo` and `verify-demo` compare the demo's helpers with the current skill and stop with a rebuild instruction |
+| The PDF's default scope note was not approved wording, so a guide without `scope_note` failed the rendered-copy gate | One shared `DEFAULT_SCOPE_NOTE`, allowed as fixed interface text |
+| `json.dumps` escapes hid long dashes in the copy master from the surface scan | Escaped `\u2013`/`\u2014` are detected |
+| The CRM exports were missing from `API-CONTRACT.md` | Both export endpoints documented |
 
 ## 6. Verification of this change set
 

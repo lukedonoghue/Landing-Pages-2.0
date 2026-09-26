@@ -78,12 +78,14 @@ Dates are inclusive, zero-filled and interpreted in the configured timezone; def
 
 ## Admin contact APIs
 
-- `GET /api/admin/config` → `{ brand: { name, color, logo }, stages: [{ id, label }], timezone, analytics_mode }`.
+- `GET /api/admin/config` → `{ brand: { name, color, logo }, stages: [{ id, label }], timezone, analytics_mode, google_ads_offline }`. `google_ads_offline` is true when offline conversion stages are configured.
 - `GET /api/admin/leads?q=&status=&source=all&page=1&limit=50` → `{ leads, total, page, limit }`. Search matches name/email/phone literally; limit is 1-500. All and an omitted status show all visible stages. Pagination is required for a complete export.
 - `GET /api/admin/leads/:id` → `{ lead, notes, activity }`.
 - `PATCH /api/admin/leads/:id` with `{ status, version }` → `{ lead }`. The version must match current state; a stale edit returns 409. The fixed IDs are `new`, `qualified`, `engaged`, `follow_up`, `won`, `lost`; only their display labels should be customized.
 - `POST /api/admin/leads/:id/notes` with `{ body }`, up to 4,000 characters → `{ note: { id, body, created_at } }`.
 - `DELETE /api/admin/leads/:id` → `{ ok: true }`. This is **soft removal**, hides the contact from list/detail and cancels pending webhook jobs. It preserves historic reporting and the underlying record. It is not a data-erasure endpoint. Apply the site's separate retention/deletion policy for permanent removal, including any receiver copies.
+- `GET /api/admin/leads/export.csv?q=&status=&source=&traffic=&device=` → CSV of up to 10,000 matching contacts (newest first) with `gclid`, `gbraid`, `wbraid`, `utm_source`, `utm_campaign` and `utm_term` from the latest touch. Admin role only, and the `X-CRM-Confirm-Password` step-up header is required. Headers `X-Export-Count`, `X-Export-Total`, `X-Export-Truncated`. Cells that could start a spreadsheet formula are prefixed with `'`. Audited as `leads-exported`.
+- `GET /api/admin/leads/export.csv?format=google_ads[&from=YYYY-MM-DD]` → Google Ads offline click-conversion upload file: `Parameters:TimeZone=<site timezone>`, then `Google Click ID,GBRAID,WBRAID,Conversion Name,Conversion Time,Conversion Value,Conversion Currency`. One row per configured stage a lead entered (time of first entry, in the site time zone), one click identifier per row; IDs outside Google's click-ID format are skipped and counted in `X-Export-Skipped`. Same role, step-up and audit rules (`google-ads-conversions-exported`); 409 until `tracking.google_ads.offline_conversions` is configured.
 
 Lead objects include `id`, `receipt_id`, `created_at`, `updated_at`, `reporting_day`, `name`, `email`, `phone`, `status`, `version`, `form_name`, `form_data`, full first/latest `attribution`, `landing_page`, `referrer` and flattened source/click/UTM fields. Internal idempotency keys, payload hashes and visitor hashes are never returned. Source falls back from latest touch to first touch, then referral/direct. Notes have `id`, `body`, `created_at`. Activity has `id`, `event_type`, `from_status`, `to_status`, `description`, `created_at`.
 

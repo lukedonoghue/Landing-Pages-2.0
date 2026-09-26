@@ -51,6 +51,21 @@ class CopyAcceptanceTests(unittest.TestCase):
         self.assertEqual(result['status'], 'pass')
         self.assertIn('self-review', result['warnings'][0])
 
+    def test_structured_copy_review_must_carry_the_hashes_copy_library_audit_checks(self):
+        (self.root / 'build').mkdir()
+        (self.root / 'build/page-copy.json').write_text(json.dumps({'h1': self.copy}))
+        (self.root / 'build/client-copy-brief.json').write_text(json.dumps({'offer': self.brief}))
+        (self.root / 'build/copy-context.json').write_text(json.dumps({'brief_sha256': 'x'}))
+        self.snapshot = MODULE.prepare(self.root, 'build/page-copy.json', 'brief.md', ['source.md'])
+        self.save('snapshot.json', self.snapshot)
+        self.review['inputs_sha256'] = MODULE.digest(self.root / 'snapshot.json')
+        blocked = self.verify()
+        self.assertEqual(blocked['status'], 'blocked')
+        self.assertTrue(any('structured-copy hashes (copy_sha256, brief_sha256, context_sha256)' in f for f in blocked['failures']))
+        self.review.update({key: MODULE.digest(self.root / 'build' / name) for key, name in
+                            (('copy_sha256', 'page-copy.json'), ('brief_sha256', 'client-copy-brief.json'), ('context_sha256', 'copy-context.json'))})
+        self.assertEqual(self.verify()['status'], 'pass')
+
     def test_canonical_customer_copy_blocks_research_and_operator_narration(self):
         for contaminated in (
             'The page adds no unsupported timing or outcome promise.',

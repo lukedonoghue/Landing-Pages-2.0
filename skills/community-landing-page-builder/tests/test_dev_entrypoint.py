@@ -81,5 +81,20 @@ class DevEntrypointTests(unittest.TestCase):
         ])
 
 
+    def test_a_demo_built_by_an_older_skill_is_refused_with_a_rebuild_message(self):
+        import shutil, tempfile
+        sys.path.insert(0, str(ROOT / "skills/community-landing-page-builder/scripts"))
+        import demo_project
+        with tempfile.TemporaryDirectory() as temp:
+            scripts = Path(temp) / "scripts"; scripts.mkdir()
+            for name in ("check_gates.py", "sync-config.mjs"):
+                source = demo_project.SKILL / ("scripts" if name.endswith(".py") else "assets/cloudflare/scripts") / name
+                shutil.copy(source, scripts / name)
+            (scripts / "client_note.txt").write_text("not a skill helper")
+            demo_project.assert_current(temp)
+            (scripts / "check_gates.py").write_text("# older version\n")
+            with self.assertRaisesRegex(ValueError, "earlier version of the skill.*check_gates.py"):
+                demo_project.assert_current(temp)
+
 if __name__ == "__main__":
     unittest.main()

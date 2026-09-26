@@ -221,5 +221,30 @@ class ProjectVerifyTests(unittest.TestCase):
             self.assertFalse(project_verify.ensure_fixture(root), 'An existing reviewed fixture is never overwritten')
 
 
+
+class ResearchEvidenceTests(unittest.TestCase):
+    def test_research_cannot_cite_files_that_later_steps_rewrite(self):
+        import completion_contract
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp).resolve()
+            (root / 'research').mkdir()
+            for name in ('image-plan.json', 'research/home.html'):
+                (root / name).write_text('{}' if name.endswith('.json') else '<h1>Captured</h1>')
+            digest = lambda name: completion_contract.digest(root / name)
+            with self.assertRaisesRegex(ValueError, 'later steps rewrite'):
+                completion_contract.research_evidence(root, {'path': './image-plan.json', 'sha256': digest('image-plan.json')})
+            self.assertEqual(completion_contract.research_evidence(root, {'path': 'research/home.html', 'sha256': digest('research/home.html')}), root / 'research/home.html')
+
+    def test_long_dash_finding_explains_the_quote_safe_fix(self):
+        import scan_surfaces
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / 'build').mkdir()
+            copy = {'sections': [{'id': 'reviews', 'testimonial': 'Great crew \u2014 on time and tidy.'}]}
+            (root / 'build/page-copy.json').write_text(json.dumps(copy, ensure_ascii=False))
+            self.assertTrue(any('verbatim customer quote' in item['reason'] for item in scan_surfaces.scan(root)['findings']))
+            (root / 'build/page-copy.json').write_text(json.dumps(copy))  # default escaping hides the character
+            self.assertTrue(any('escaped long dash' in item['reason'] for item in scan_surfaces.scan(root)['findings']))
+
 if __name__ == '__main__':
     unittest.main()

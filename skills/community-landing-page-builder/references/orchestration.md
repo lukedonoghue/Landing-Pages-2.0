@@ -187,5 +187,5 @@ Follow `completion-integrity.md` for canonical research/document inputs, split i
 
 ## Claude Code notes (field-tested, September 2026)
 
-* Native `lp-*` profiles load only from the folder Claude Code was opened in. For a generated project, install them with `python3 scripts/install_community.py --project PROJECT --runtime claude --copy-skill` (from the checkout) or open the checkout itself; otherwise emulate the role with a general subagent and disclose it.
+* Native `lp-*` profiles load only from the folder Claude Code was opened in. The scaffold installs them into every new CRM project (AGENTS.md/CLAUDE.md point at `.community-builder/SKILL.md`), so open the generated project folder itself. For an older project, run `python3 .community-builder/scripts/install_native.py --project . --runtime both` there. Otherwise emulate the role with a general subagent and disclose it.
 * To record a separate Agent-tool review as `independent`, save `build/reviews/<task-id>.json` with `status: completed`, `task_id` (the reviewer task you declare), `host: claude-code`, `dispatch_id` (the Agent tool's returned agent id) and `raw_result` (the returned report), and reference it as `execution_artifact` with its sha256. Never reuse the builder's task id.

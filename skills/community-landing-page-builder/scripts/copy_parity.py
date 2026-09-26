@@ -31,8 +31,10 @@ UI_TEXT = [
     "Your request has been received", "Read your guide now", "Open the on-page reader", "Reader unavailable?",
     "This page alone does not confirm a request. After a successful form submission, your confirmation will appear here. You can still read the guide below.",
     "What this guide will help you decide", "Put this to use", "Keep these questions handy", "Your next step",
-    "Questions?", "Sources and scope", "Call", "or"
+    "Questions?", "Sources and scope", "Call", "or",
 ]
+from guide_quality import DEFAULT_SCOPE_NOTE  # printed when a guide has no scope_note
+UI_TEXT.append(DEFAULT_SCOPE_NOTE)
 TRANSLATE = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"', "‐": "-", "‑": "-", "\u00ad": ""})
 
 

@@ -21,12 +21,14 @@ EXCLUDED_PARTS = {
     ".codex", ".claude", ".wrangler", ".venv", "test-results", "playwright-report",
 }
 PROHIBITED = (
-    (re.compile("\u2014"), "U+2014 long dash"),
-    (re.compile("\u2013"), "U+2013 long dash"),
+    (re.compile("\u2014"), "U+2014 long dash; replace it with a spaced hyphen ( - ). In a verbatim customer quote this is typographic normalisation: keep the quote, change only the dash"),
+    (re.compile("\u2013"), "U+2013 long dash; replace it with a spaced hyphen ( - ). In a verbatim customer quote this is typographic normalisation: keep the quote, change only the dash"),
     (
         re.compile(r"&(?:m|n)dash;|&#0*(?:8211|8212);?|&#x0*(?:2013|2014);?", re.I),
         "long-dash HTML entity",
     ),
+    # json.dumps escapes non-ASCII by default, so a JSON copy master can hide the dash.
+    (re.compile(r"\\u201[34]", re.I), "escaped long dash (\\u2013/\\u2014) in JSON; replace it with a spaced hyphen ( - )"),
 )
 TEMPLATE_PATTERNS = (
     (re.compile(r"\{\{\s*[A-Z][A-Z0-9_ -]{2,}\s*\}\}"), "template marker"),

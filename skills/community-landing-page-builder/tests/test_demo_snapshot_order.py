@@ -25,7 +25,7 @@ class DemoSnapshotOrderTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text('{}')
         for name, value in (
-            ('assert_demo', self.root), ('ensure_ready', None),
+            ('assert_demo', self.root), ('assert_current', None), ('ensure_ready', None),
             ('local_verification_access', ([], 'synthetic-owner')), ('local_env', {}),
             ('demo_server', nullcontext(('http://127.0.0.1:8793', None))),
         ):
