@@ -223,6 +223,9 @@ def verify_project(project, node, mode="preview", performance_runs=1, port=None)
             step("rendered copy capture", [node, "scripts/capture-rendered-copy.mjs", "--url", url, "--fixture", "test-fixture.json", "--project-root", "."], timeout=900)
             step("rendered copy comparison", [sys.executable, "scripts/copy_parity.py", "."], timeout=120)
             record("rendered_copy", "build/rendered-copy/result.json")
+        if mode in {"handoff", "live"}:
+            # The final review must cite current, executed captures of every form state.
+            step("final state captures", [node, "scripts/capture-final-states.mjs", "--url", url, "--project-root", "."], timeout=900)
     for gate, report in derived_reports(project, snapshot).items():
         path = project / f"build/{gate}-gate.json"
         path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
@@ -242,7 +245,8 @@ def verify_project(project, node, mode="preview", performance_runs=1, port=None)
         if value.get("status") not in {"pass", "pass_with_warnings"}:
             first = (value.get("failures") or ["blocked"])[0]
             hint = {"visual": "Inspect the captured screenshots and write build/visual-review.json (see references/measured-qa.md).",
-                    "control_review": "Complete the Blue Mountain comparison, repairs and acceptance (references/control-comparison.md)."}.get(name, first)
+                    "control_review": "Complete the Blue Mountain comparison, repairs and acceptance (references/control-comparison.md).",
+                    "final_review": "Review the final page and state captures and write build/final-review.json (references/remediation-contracts.md)."}.get(name, first)
             next_actions.append(f"{name}: {hint}")
     return {"status": "pass" if scoreboard and all(v in {"pass", "pass_with_warnings"} for v in scoreboard.values()) else "blocked",
             "mode": mode, "fixture_created": created_fixture, "gates": scoreboard, "next_actions": next_actions, "steps": steps,

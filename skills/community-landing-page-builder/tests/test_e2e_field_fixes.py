@@ -246,5 +246,17 @@ class ResearchEvidenceTests(unittest.TestCase):
             (root / 'build/page-copy.json').write_text(json.dumps(copy))  # default escaping hides the character
             self.assertTrue(any('escaped long dash' in item['reason'] for item in scan_surfaces.scan(root)['findings']))
 
+    def test_ad_keywords_question_qualifies_as_search_intent_under_contract_4(self):
+        import hashlib, question_log
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            guide.start(root, mode='guided', goal='preview', website='https://example.com', name='Example Roofing')
+            (root / 'research').mkdir(exist_ok=True); (root / 'research/home.html').write_text('<h1>Example Roofing</h1>')
+            evidence = [{'path': 'research/home.html', 'sha256': hashlib.sha256((root / 'research/home.html').read_bytes()).hexdigest()}]
+            (root / 'build/discovery.json').write_text(json.dumps({'unresolved_facts': [{'id': 'keywords', 'category': 'search_intent',
+                'reason': "Ad keywords are in the owner's account", 'material_effect': 'Headline repeats the search', 'evidence': evidence}]}))
+            accepted, errors = question_log.qualify(root, [guide.catalog()['keywords']])
+            self.assertEqual(([q['id'] for q in accepted], errors), (['keywords'], []))
+
 if __name__ == '__main__':
     unittest.main()

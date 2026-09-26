@@ -79,7 +79,7 @@ Status key: **Done** = implemented and covered by a test or verified command in 
 | X5 | Diff-only owner approvals | Copy approvals store per-passage hashes (hero, sections, modal, thank-you, brochure, interface text, contract). After an edit only changed passages need approval; metadata edits need none; the guide shows "what changed" | `test_copy_approval_passages` |
 | X6 | Benchmark regression | Instead of storing a third-party page, `verify-demo --full` (run in CI) fails if the template hero loses an unobscured action fully above the fold at any viewport; the fold-continuation check was already blocking | CI demo job |
 
-The publish gate still runs the application test suite inside generated projects. Replacing it with a template-integrity check (so projects carry no test code) was prototyped and reverted: it changes a release safeguard and needs an explicit owner decision.
+Publish gate (owner-approved on 27 September): generated projects no longer receive the application test suite. Before publishing, their application code must be byte-identical to the hash-locked template in `.community-builder`, whose full suite runs in CI; an edited copy blocks with the changed files. Projects that still contain `tests/` keep running them.
 
 ## 5a. Repository cleanup
 
@@ -93,6 +93,11 @@ Removed about 670 MB of past test-run evidence, 60 historical audit notes, the s
 | The PDF's default scope note was not approved wording, so a guide without `scope_note` failed the rendered-copy gate | One shared `DEFAULT_SCOPE_NOTE`, allowed as fixed interface text |
 | `json.dumps` escapes hid long dashes in the copy master from the surface scan | Escaped `\u2013`/`\u2014` are detected |
 | The CRM exports were missing from `API-CONTRACT.md` | Both export endpoints documented |
+
+## 5c. Open pull requests brought onto main
+
+- **PR #6 (remediation blueprint):** its two substantive commits were ported onto current main: release acceptance classes, the single copy contract, copy quality, research contract, dependency state, execution receipts, the final review gate, the owner question log, required records and read-only final state captures. `copy_contract.inspect` is the copy authority; per-passage approvals sit on top of it and use the contract it hashes. `quickstart.py verify` now runs the final state captures in handoff and live modes. The traceability matrix moved to `REMEDIATION-COVERAGE-20260924.md` in this folder.
+- **PR #2 (review intelligence):** closed as superseded by main's implementation. Its missing pieces were ported onto main's validator: the optional live Google reviews widget, manifest business matching, hash-bound local avatars, rendered reviewer details, and copy-role instructions for the review files.
 
 ## 6. Verification of this change set
 

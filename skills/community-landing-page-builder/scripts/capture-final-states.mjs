@@ -30,7 +30,10 @@ const fingerprint=()=>{
 };
 if(fingerprint()!==snapshot.source_fingerprint)throw new Error('Take one current source snapshot before capturing states');
 const require=createRequire(path.join(root,'package.json'));
-const {chromium}=await import(pathToFileURL(require.resolve('playwright-core')).href);
+// playwright-core is CommonJS; its exports may arrive on the default namespace.
+const runtime=await import(pathToFileURL(require.resolve('playwright-core')).href);
+const chromium=runtime.chromium||runtime.default?.chromium;
+if(!chromium)throw new Error('The installed playwright-core does not provide chromium');
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const report={schema_version:1,status:'blocked',kind:'rendered_final_states',source_fingerprint:snapshot.source_fingerprint,
  executed_at:new Date().toISOString(),target:{mode:snapshot.mode,url:url.href},tool:{name:'capture-final-states',version:'1'},

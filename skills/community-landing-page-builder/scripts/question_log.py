@@ -1,7 +1,8 @@
 """Evidence-backed necessary owner questions; pure planning and explicit presentation."""
 from pathlib import Path
 
-MATERIAL={'identity','offer','claim','primary_action','form_fields','destination','business_follow_up'}
+# search_intent: the Google Ads keywords live in the owner's ad account, not on the site.
+MATERIAL={'identity','offer','claim','primary_action','form_fields','destination','business_follow_up','search_intent'}
 
 
 def qualify(root, questions):
