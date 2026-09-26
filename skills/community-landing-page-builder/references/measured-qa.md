@@ -94,7 +94,7 @@ Preview and handoff require static, browser, visual, and enabled catalogue evide
 ## Regression checks
 
 ```bash
-python3 scripts/test_gates.py
+python3 -m unittest discover -s tests -p 'test_*.py'
 cd assets/cloudflare
 npm ci
 npm test

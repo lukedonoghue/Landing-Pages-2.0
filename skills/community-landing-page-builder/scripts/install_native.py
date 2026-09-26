@@ -96,7 +96,7 @@ def render(runtime="both", inherit_models=False):
 def instruction_block():
     return MARKER_START + "\n" + """## Community landing-page workflow
 
-For landing-page work use `skills/community-landing-page-builder/SKILL.md`, not the legacy branded skill. Read that skill's `references/orchestration.md` before starting.
+For landing-page work use `skills/community-landing-page-builder/SKILL.md`. Read that skill's `references/orchestration.md` before starting.
 
 Use the host's native subagents and native model/effort controls only when actually available. OpenAI profiles are in `.codex/agents/`; Claude profiles are in `.claude/agents/`. Choose the matching provider, never cross-provider calls. No Jev, new API key, gateway or paid fallback is required. Run normal tasks sequentially with the current model when delegation/model selection is unavailable, and disclose it. A skill cannot create a missing host tool.
 
@@ -130,7 +130,8 @@ def install(project, runtime="both", *, copy_skill=False, inherit_models=False, 
     if copy_skill:
         for source in sorted(SKILL.rglob("*")):
             rel = source.relative_to(SKILL)
-            if any(x in SKIP for x in rel.parts) or source.name.startswith((".env", ".dev.vars")) or source.name in {"credentials.json", "secrets.json"} or source.suffix.lower() in {".pem", ".key", ".p12", ".pfx"}:
+            # The skill's own regression suite stays in the repository.
+            if rel.parts[0] == "tests" or any(x in SKIP for x in rel.parts) or source.name.startswith((".env", ".dev.vars")) or source.name in {"credentials.json", "secrets.json"} or source.suffix.lower() in {".pem", ".key", ".p12", ".pfx"}:
                 continue
             if source.is_symlink():
                 raise RoutingError("Refusing symlink skill source: " + str(rel))

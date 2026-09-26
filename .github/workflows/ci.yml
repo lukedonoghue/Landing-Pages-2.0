@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  skill:
+    name: Skill scripts, routing and profiles
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install image and PDF tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y webp poppler-utils
+          python -m pip install -r skills/community-landing-page-builder/requirements-build.txt PyYAML
+      - name: Compile
+        run: python -m compileall -q skills/community-landing-page-builder/scripts
+      - name: Unit tests
+        run: python -m unittest discover -s skills/community-landing-page-builder/tests -p 'test_*.py'
+      - name: Committed agent profiles match policy
+        run: python scripts/install_community.py --project . --runtime both --check
+
+  app:
+    name: Worker, CRM, browsers and local demo
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: skills/community-landing-page-builder/assets/cloudflare
+    env:
+      CI: 'true'
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: skills/community-landing-page-builder/assets/cloudflare/package-lock.json
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y webp poppler-utils
+          python -m pip install -r ../../requirements-build.txt PyYAML
+          npm ci
+          npm audit --audit-level=high
+      - name: Install Chromium and WebKit
+        run: |
+          npx playwright-core install --with-deps chromium webkit
+          node --input-type=module -e "import {chromium} from 'playwright-core'; import {appendFileSync} from 'node:fs'; appendFileSync(process.env.GITHUB_ENV, 'CHROME_BIN=' + chromium.executablePath() + '\n');"
+      - name: Application and browser tests (no skips allowed)
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test --test-reporter=tap tests/*.test.mjs | tee node-results.tap
+          grep -q '^# skipped 0$' node-results.tap || { echo 'Every application test must execute; missing browsers cannot skip checks.'; exit 1; }
+      - name: Bundle the Worker without publishing
+        run: npm run deploy:dry
+      - name: Build and verify a fresh demo project
+        working-directory: .
+        run: |
+          python scripts/dev.py demo
+          python scripts/dev.py verify-demo --full
+      - name: Keep evidence on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-evidence
+          include-hidden-files: true
+          path: |
+            skills/community-landing-page-builder/assets/cloudflare/node-results.tap
+            .development/demo/build/
+          if-no-files-found: ignore
+          retention-days: 7

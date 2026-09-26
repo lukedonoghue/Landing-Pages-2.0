@@ -1,9 +1,7 @@
 # Publish your page with guidance
 
 The publishing wizard replaces the technical production checklist for the
-standard Cloudflare Worker + D1 CRM deployment. The supported profile is now
-installed and release-validated on `main`; read
-`GUIDED-PUBLISHING-IMPLEMENTATION-STATUS.md` for the exact tested commit and scope.
+standard Cloudflare Worker + D1 CRM deployment.
 
 ## Start
 

@@ -205,14 +205,6 @@ It should not invent reviews, ratings, guarantees, results, credentials, people,
 
 And if a page is visibly broken, a passing test report does not make it finished.
 
-## Testing this repository
-
-If you are testing Landing Pages 2.0 itself rather than building for a real business, start with [TESTING-START-HERE.md](TESTING-START-HERE.md).
-
-That guide covers the current tester flow, setup, feedback format, and known limitations.
-
----
-
 ## Developer and implementation reference
 
 The main implementation lives in the community skill:
@@ -252,9 +244,7 @@ python3 scripts/install_community.py --project /absolute/path/to/project --runti
 
 Existing project settings and unmanaged files are preserved. Conflicts stop the installation instead of silently overwriting customized work.
 
-For repository development, test commands, implementation details, and legacy workflows, see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-The previous branded workflow remains under `skills/branded-lead-funnel-builder/` and its historical README is preserved in [README-LEGACY.md](README-LEGACY.md).
+For repository development, test commands and implementation details, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Current scope
 

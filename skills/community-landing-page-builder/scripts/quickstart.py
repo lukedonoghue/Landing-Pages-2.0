@@ -119,20 +119,17 @@ def parse_node_summary(output):
 def check(node, repository=None):
     ensure_ready(node)
     suites = []
-    commands = [("evidence", [sys.executable, SKILL / "scripts/test_gates.py"]),
-                ("images", [sys.executable, SKILL / "tests/test_image_workflow.py"]),
-                ("catalogue", [sys.executable, SKILL / "tests/test_catalogue.py"])]
     if repository:
         repository = Path(repository).resolve()
         if (repository / "skills/community-landing-page-builder").resolve() != SKILL:
             raise ValueError("The repository test path does not match this skill.")
-        commands.insert(0, ("copy-and-tooling", [sys.executable, "-m", "unittest", "discover", "-s", repository / "tests", "-p", "test_*.py"]))
-    for name, command in commands:
-        output = run(command, SKILL, node, name + " tests")
-        match = re.search(r"Ran (\d+) tests?", output)
-        if not match or re.search(r"skipped[= ]", output, re.I):
-            raise ValueError(f"{name}: missing or skipped test results.")
-        suites.append({"suite": name, "passed": int(match.group(1))})
+    if not (SKILL / "tests").is_dir():
+        raise ValueError("Regression tests live in the skill repository; run check from a repository checkout.")
+    output = run([sys.executable, "-m", "unittest", "discover", "-s", SKILL / "tests", "-p", "test_*.py"], SKILL, node, "skill tests")
+    match = re.search(r"Ran (\d+) tests?", output)
+    if not match or re.search(r"skipped[= ]", output, re.I):
+        raise ValueError("skill: missing or skipped test results.")
+    suites.append({"suite": "skill", "passed": int(match.group(1))})
     env = runtime_check.run_env(node)
     code, browser_path = runtime_check.probe(
         [node, "-e", "console.log(require('playwright-core').chromium.executablePath())"], TEMPLATE)
@@ -143,7 +140,7 @@ def check(node, repository=None):
     output = run([node, "--test", "--test-reporter=tap", *tests], TEMPLATE, node, "Application regressions", env)
     suites.append({"suite": "application", "passed": parse_node_summary(output)["pass"]})
     return {"status": "pass", "suites": suites, "total_passed": sum(item["passed"] for item in suites),
-            "scope": "repository regressions" if repository else "installed skill regressions; repository-only tests were not requested"}
+            "scope": "repository regressions"}
 
 
 @contextmanager

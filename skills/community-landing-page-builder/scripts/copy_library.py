@@ -22,12 +22,8 @@ def dump(value,out=None):
     else:print(text,end='')
 def db_at(directory):
     directory = Path(directory)
-    path = directory / 'library.sqlite3'
-    if path.is_file():
-        return sqlite3.connect(path.resolve().as_uri() + '?mode=ro', uri=True)
-    # Portable handoffs exclude databases, including the bundled reference index.
-    # Recreate only the lookup tables in memory from the same normalized records;
-    # never write a new database into the project or change its QA fingerprint.
+    # The lookup tables are rebuilt in memory from the normalized records; no
+    # database file is shipped or written into the project.
     conn = sqlite3.connect(':memory:')
     try:
         conn.executescript('CREATE TABLE sources (id TEXT PRIMARY KEY, partition TEXT, status TEXT, record TEXT);'

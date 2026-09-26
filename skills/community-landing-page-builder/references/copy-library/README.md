@@ -4,9 +4,8 @@ This is a local retrieval and instruction database derived from the user's [Inst
 
 ## Files
 
-- `library.sqlite3`: SQLite tables plus FTS5 text search, requiring no server or paid database.
+- Search runs on an in-memory SQLite/FTS5 index built from these files on first use (about 0.1s), so no database file, server or paid service is needed.
 - `sources.jsonl`: portable source records, text, hashes, provenance, quality status and split assignment.
-- `sections.jsonl`: extracted heading/content blocks. Roles are heuristic and explicitly unreviewed; these are not all editorially annotated sections.
 - `annotations.json`: agent-authored lessons, cautions and exact evidence anchors for reviewed selections.
 - `patterns.json`: reusable instruction cards with source anchors, applicability and evidence requirements.
 - `source-index.json`: original sheet-row provenance and supplied Before/After figures.
