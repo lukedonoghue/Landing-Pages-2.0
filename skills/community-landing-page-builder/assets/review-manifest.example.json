@@ -36,11 +36,13 @@
       "reviewer": {
         "display_name": "Example Customer",
         "profile_url": null,
+        "public_details": null,
         "avatar": {
           "url": null,
           "local_path": null,
           "provenance": null,
-          "generated": false
+          "generated": false,
+          "sha256": null
         }
       },
       "rating": null,
@@ -82,5 +84,6 @@
         "proof_strength": 4
       }
     }
-  ]
+  ],
+  "providers": []
 }

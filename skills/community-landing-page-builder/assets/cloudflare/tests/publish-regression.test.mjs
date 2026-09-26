@@ -54,3 +54,30 @@ test('application regression diagnostics survive failures and only complete pass
   assert.deepEqual(readdirSync(path.join(root,'build')),['full-regression-publish.tap']);
   assert.match(readFileSync(logs[0],'utf8'),/private assertion detail/);
 });
+
+test('projects without a test suite publish only when application code matches the tested template',async t=>{
+  const { createHash } = await import('node:crypto');
+  const { templateIntegrity } = await import('../scripts/publish-driver.mjs');
+  const root=mkdtempSync(path.join(tmpdir(),'publish-template-integrity-'));
+  t.after(()=>rmSync(root,{recursive:true,force:true}));
+  const template={'src/worker.js':'export default {};\n','src/site-config.json':'{}\n','migrations/0001_crm.sql':'CREATE TABLE leads(id TEXT);\n',
+    'public/admin/app.js':'console.log(1);\n','public/admin/index.html':'<h1>Your business</h1>\n'};
+  const put=(file,body)=>{mkdirSync(path.dirname(path.join(root,file)),{recursive:true});writeFileSync(path.join(root,file),body);};
+  const files={};
+  for(const [name,body] of Object.entries(template)){put('.community-builder/assets/cloudflare/'+name,body);put(name,body);files['assets/cloudflare/'+name]=createHash('sha256').update(body).digest('hex');}
+  put('.community-builder/runtime-manifest.json',JSON.stringify({schema_version:1,files}));
+  mkdirSync(path.join(root,'build'));
+  // Project content may differ: the site config and pages are the client's own.
+  put('src/site-config.json','{"name":"Client"}\n'); put('public/admin/index.html','<h1>Client</h1>\n');
+  const run=()=>{throw new Error('No test suite should run for a project without tests');};
+  assert.equal(await applicationRegressions(root,run),'template-integrity-verified');
+  assert.deepEqual(JSON.parse(readFileSync(path.join(root,'build/template-integrity.json'),'utf8')),{status:'passed',template_files:3});
+  put('src/worker.js','export default { fetch(){} };\n');
+  assert.throws(()=>templateIntegrity(root),/differs from the tested template.*src\/worker\.js/);
+  put('src/worker.js',template['src/worker.js']); put('src/extra.js','export const x=1;\n');
+  assert.throws(()=>templateIntegrity(root),/src\/extra\.js/);
+  rmSync(path.join(root,'src/extra.js')); put('.community-builder/assets/cloudflare/migrations/0001_crm.sql','DROP TABLE leads;\n');
+  assert.throws(()=>templateIntegrity(root),/bundle was modified/);
+  rmSync(path.join(root,'.community-builder/runtime-manifest.json'));
+  assert.throws(()=>templateIntegrity(root),/bundle is missing/);
+});

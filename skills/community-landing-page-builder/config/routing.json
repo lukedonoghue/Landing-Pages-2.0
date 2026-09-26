@@ -33,7 +33,7 @@
           {"model": "sonnet", "effort": "high"}
         ]
       },
-      "instruction": "Own the complete conversion argument, evidence-backed advantage and copy master. Perform the existing editorial acceptance procedure before layout; do not create new human approval requirements. Stay on the active provider: use Astra then Sol within Codex, or Sonnet within Claude."
+      "instruction": "Own the complete conversion argument, evidence-backed advantage and copy master. When research/reviews exists, draw proof and objection copy from build/review-insights.json and quote only testimonials listed in build/testimonial-selection.json, verbatim. Perform the existing editorial acceptance procedure before layout; do not create new human approval requirements. Stay on the active provider: use Astra then Sol within Codex, or Sonnet within Claude."
     },
     "assets": {"agent": "lp-assets", "tier": "standard", "instruction": "Source, prepare and review purposeful imagery. Use scripts for derivatives. Preserve independent-original lineage and distinguish illustration from proof. Use only image tools actually available; no API-key dependency."},
     "frontend": {"agent": "lp-builder", "tier": "standard", "instruction": "Implement the frozen production contract. Preserve exact copy, CTA semantics, source conversion intent, responsive imagery and accessible form states. Never hide required content to pass a measurement."},

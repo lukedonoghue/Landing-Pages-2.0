@@ -46,6 +46,25 @@ def validate_manifest(manifest):
             if key not in terms or not isinstance(terms[key], bool):
                 errors.append(f"source {sid}: terms.{key} must be boolean")
 
+    providers = {}
+    for provider in manifest.get("providers", []):
+        pid = provider.get("id") if isinstance(provider, dict) else None
+        if not pid or pid in providers:
+            errors.append(f"duplicate or missing provider id: {pid!r}")
+            continue
+        providers[pid] = provider
+        if provider.get("kind") != "google_places":
+            errors.append(f"provider {pid}: unsupported kind; only google_places live reviews are supported")
+        if not isinstance(provider.get("enabled"), bool):
+            errors.append(f"provider {pid}: enabled must be boolean")
+        if provider.get("enabled"):
+            if not normalize_space(provider.get("place_id")):
+                errors.append(f"provider {pid}: an enabled Google Places provider needs place_id")
+            if not str(provider.get("source_url", "")).startswith("https://"):
+                errors.append(f"provider {pid}: record the public Google Maps listing URL")
+            if not normalize_space(provider.get("terms_checked_at")):
+                errors.append(f"provider {pid}: record when the current Google Maps Platform terms were checked")
+
     reviews = {}
     for review in manifest.get("reviews", []):
         rid = review.get("id")
@@ -82,6 +101,8 @@ def validate_manifest(manifest):
         avatar = reviewer.get("avatar", {}) or {}
         if avatar.get("generated"):
             errors.append(f"review {rid}: generated reviewer avatars are prohibited")
+        if avatar.get("local_path") and not normalize_space(avatar.get("sha256")):
+            errors.append(f"review {rid}: a local reviewer avatar needs its sha256 so a swapped file is detected")
         if state == "publishable_full" and not (avatar.get("url") or avatar.get("local_path")):
             warnings.append(f"review {rid}: publishable_full has no avatar; render without image or downgrade status")
 
@@ -150,6 +171,9 @@ def validate_rendered(root, reviews, sources=None):
             errors.append(f"rendered testimonial {rid}: rating mismatch")
         if item.get("published_date") is not None and item.get("published_date") != review.get("published_date"):
             errors.append(f"rendered testimonial {rid}: published date mismatch")
+        details = normalize_space(review.get("reviewer", {}).get("public_details"))
+        if item.get("public_details") is not None and normalize_space(item.get("public_details")) != details:
+            errors.append(f"rendered testimonial {rid}: reviewer public details differ from the source")
 
         avatar = item.get("avatar") or {}
         source_avatar = review.get("reviewer", {}).get("avatar", {}) or {}
@@ -175,6 +199,40 @@ def validate_rendered(root, reviews, sources=None):
 
     return errors, warnings
 
+def business_errors(root, business):
+    """The review manifest must describe the business this page is for."""
+    from urllib.parse import urlsplit
+    funnel_path = root / "funnel.json"
+    client = load(funnel_path).get("client", {}) if funnel_path.is_file() else {}
+    host = lambda url: (urlsplit(str(url or "")).hostname or "").removeprefix("www.")
+    errors = []
+    if host(client.get("website")) and host(business.get("website")) and host(client["website"]) != host(business["website"]):
+        errors.append("review manifest business website does not match funnel.json client.website")
+    if normalize_space(client.get("name")) and normalize_space(business.get("name")) and normalize_space(client["name"]).lower() != normalize_space(business["name"]).lower():
+        errors.append("review manifest business name does not match funnel.json client.name")
+    return errors
+
+
+def widget_errors(root, providers):
+    """An enabled live-review provider must render the maintained widget and its notice."""
+    enabled = [p for p in providers if isinstance(p, dict) and p.get("enabled") and p.get("id")]
+    if not enabled:
+        return []
+    page = root / "public/index.html"
+    html = page.read_text(encoding="utf-8") if page.is_file() else ""
+    errors = []
+    for provider in enabled:
+        pid = provider["id"]
+        if "data-google-reviews-widget" not in html or str(provider.get("place_id")) not in html:
+            errors.append(f"provider {pid}: the page lacks the live Google reviews widget for this place_id")
+        if "google-reviews-widget.js" not in html:
+            errors.append(f"provider {pid}: the page does not load assets/google-reviews-widget.js")
+        notice = normalize_space(provider.get("display_notice"))
+        if notice and notice not in normalize_space(html):
+            errors.append(f"provider {pid}: the review ordering/filter notice is not on the page")
+    return errors
+
+
 def validate_project(root, stage="research"):
     root = Path(root).resolve()
     manifest_path = root / "research/reviews/review-manifest.json"
@@ -185,6 +243,13 @@ def validate_project(root, stage="research"):
 
     manifest = load(manifest_path)
     errors, warnings, sources, reviews = validate_manifest(manifest)
+    errors += business_errors(root, manifest.get("business", {}))
+    for rid, review in reviews.items():
+        avatar = review.get("reviewer", {}).get("avatar", {}) or {}
+        if avatar.get("local_path") and avatar.get("sha256"):
+            path = (root / avatar["local_path"]).resolve()
+            if not path.is_relative_to(root) or not path.is_file() or file_hash(path) != avatar["sha256"]:
+                errors.append(f"review {rid}: local reviewer avatar is missing or changed")
     more_errors, more_warnings = validate_selection(root, manifest_path, reviews)
     errors += more_errors
     warnings += more_warnings
@@ -198,6 +263,7 @@ def validate_project(root, stage="research"):
         warnings.append("build/review-insights.json not present")
 
     if stage == "rendered":
+        errors += widget_errors(root, manifest.get("providers", []))
         more_errors, more_warnings = validate_rendered(root, reviews, sources)
         errors += more_errors
         warnings += more_warnings

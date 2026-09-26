@@ -154,6 +154,14 @@ Google review support is optional and provider-dependent. When enabled:
 
 If compliant publication cannot be established, classify the record `research_only` or `blocked` and use another proof source.
 
+**Live Google reviews widget (optional).** When the owner chooses live Google reviews, do not copy review text into the page. Instead:
+
+1. Add a provider to the review manifest: `"providers": [{"id": "google", "kind": "google_places", "enabled": true, "place_id": "<Place ID>", "source_url": "<public Google Maps listing URL>", "terms_checked_at": "<date you re-read the current terms>", "display_notice": "Reviews are shown in the order Google returns them."}]`.
+2. Copy `.community-builder/assets/google-reviews-widget.js` (or the skill's `assets/google-reviews-widget.js`) to `public/assets/`, load it with `defer`, and place `<section data-google-reviews-widget data-google-reviews-place-id="<Place ID>" data-google-reviews-limit="3"></section>` where proof supports the decision. Put the `display_notice` text visibly on the page.
+3. The owner loads the Google Maps JavaScript API with their own key, restricted to their domain, and dispatches `google-maps-ready` (or the widget starts once `google.maps.importLibrary` exists). The widget holds no key, fetches reviews live, stores nothing, and shows Google Maps attribution, each author's name and link, and a link to the review.
+
+The rendered-stage review check blocks an enabled provider whose widget, Place ID, script or notice is missing from the page. The widget is off by default and never a prerequisite for the ordinary build.
+
 ### 8. Claim-adjacent placement
 
 Place proof where it supports the decision:

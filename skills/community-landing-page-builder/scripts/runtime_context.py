@@ -15,7 +15,7 @@ import tempfile
 BUNDLE = '.community-builder'
 MANIFEST = 'runtime-manifest.json'
 PARTS = ('SKILL.md', 'requirements-build.txt', 'scripts', 'references', 'assets', 'config', 'agents')
-EXCLUDED = {'.git', '.secrets', '.wrangler', 'node_modules', '__pycache__', '.pytest_cache', '.venv', 'build', 'screenshots', 'test-results', 'playwright-report', BUNDLE}
+EXCLUDED = {'.git', '.secrets', '.wrangler', 'node_modules', '__pycache__', '.pytest_cache', '.venv', 'build', 'screenshots', 'test-results', 'playwright-report', 'tests', BUNDLE}
 
 
 def sha(path):

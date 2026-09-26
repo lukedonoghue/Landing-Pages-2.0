@@ -145,5 +145,61 @@ class ReviewWorkflowTests(unittest.TestCase):
         errors, _, _, _ = validator.validate_manifest(data)
         self.assertTrue(any("non-matched source" in e for e in errors))
 
+class PortedReviewChecksTests(unittest.TestCase):
+    """Checks ported from the superseded review-intelligence branch onto this validator."""
+
+    def project(self, data, funnel=None, html=""):
+        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        (root / "research/reviews").mkdir(parents=True); (root / "build").mkdir(); (root / "public").mkdir()
+        (root / "research/reviews/review-manifest.json").write_text(json.dumps(data))
+        (root / "funnel.json").write_text(json.dumps({"client": funnel or {"name": "Example", "website": "https://www.example.com"}}))
+        (root / "public/index.html").write_text(html)
+        (root / "build/rendered-testimonials.json").write_text(json.dumps({"testimonials": []}))
+        return root
+
+    def test_live_google_provider_is_validated_and_must_render_the_widget(self):
+        data = manifest()
+        data["providers"] = [{"id": "google", "kind": "google_places", "enabled": True}]
+        errors = validator.validate_manifest(data)[0]
+        for text in ("needs place_id", "Google Maps listing URL", "terms were checked"):
+            self.assertTrue(any(text in e for e in errors), text)
+        data["providers"][0].update(place_id="ChIJexample", source_url="https://maps.google.com/?cid=1", terms_checked_at="2026-09-27",
+                                    display_notice="Shown in Google's order.")
+        self.assertEqual(validator.validate_manifest(data)[0], [])
+        blocked = validator.validate_project(self.project(data), "rendered")
+        self.assertTrue(any("live Google reviews widget" in e for e in blocked["errors"]))
+        html = '<section data-google-reviews-widget data-google-reviews-place-id="ChIJexample"><p>Shown in Google\'s order.</p></section><script src="/assets/google-reviews-widget.js" defer></script>'
+        self.assertFalse(any("provider google" in e for e in validator.validate_project(self.project(data, html=html), "rendered")["errors"]))
+
+    def test_manifest_business_must_match_the_client(self):
+        result = validator.validate_project(self.project(manifest(), funnel={"name": "Other Co", "website": "https://other.test"}))
+        self.assertTrue(any("website does not match" in e for e in result["errors"]))
+        self.assertTrue(any("name does not match" in e for e in result["errors"]))
+        self.assertFalse(any("does not match" in e for e in validator.validate_project(self.project(manifest()))["errors"]))
+
+    def test_local_avatars_are_hash_bound(self):
+        data = manifest()
+        avatar = data["reviews"][0]["reviewer"]["avatar"]
+        avatar.update(url=None, local_path="public/assets/reviews/a.png")
+        self.assertTrue(any("needs its sha256" in e for e in validator.validate_manifest(data)[0]))
+        root = self.project(data)
+        (root / "public/assets/reviews").mkdir(parents=True); (root / "public/assets/reviews/a.png").write_bytes(b"original")
+        avatar["sha256"] = validator.file_hash(root / "public/assets/reviews/a.png")
+        (root / "research/reviews/review-manifest.json").write_text(json.dumps(data))
+        self.assertFalse(any("avatar is missing or changed" in e for e in validator.validate_project(root)["errors"]))
+        (root / "public/assets/reviews/a.png").write_bytes(b"swapped")
+        self.assertTrue(any("avatar is missing or changed" in e for e in validator.validate_project(root)["errors"]))
+
+    def test_rendered_public_details_must_match_the_source(self):
+        data = manifest(); data["reviews"][0]["reviewer"]["public_details"] = "Local Guide · 12 reviews"
+        item = {"review_id": "r1", "quote": data["reviews"][0]["text"], "display_name": data["reviews"][0]["reviewer"]["display_name"], "public_details": "Top reviewer"}
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); (root / "build").mkdir()
+            (root / "build/rendered-testimonials.json").write_text(json.dumps({"testimonials": [item]}))
+            errors, _ = validator.validate_rendered(root, {r["id"]: r for r in data["reviews"]})
+            self.assertTrue(any("public details differ" in e for e in errors))
+
+
 if __name__ == "__main__":
     unittest.main()

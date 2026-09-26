@@ -9,7 +9,7 @@ The canonical source is `skills/community-landing-page-builder`. Edit it here, t
 | skills/community-landing-page-builder/SKILL.md | Agent's entry point and workflow requirements |
 | skills/community-landing-page-builder/references/ | Stage-specific guidance and portable copy library |
 | skills/community-landing-page-builder/scripts/ | Research, copy, evidence, PDF/image, scaffold and onboarding helpers |
-| skills/community-landing-page-builder/assets/cloudflare/ | Worker, D1 migrations, public/admin assets and the application tests the publish gate runs |
+| skills/community-landing-page-builder/assets/cloudflare/ | Worker, D1 migrations, public/admin assets and the application test suite (repository only; generated projects are checked against this tested template at publish time) |
 | skills/community-landing-page-builder/tests/ | The Python regression suite (never installed into projects) |
 | skills/community-landing-page-builder/assets/demo.json | Fictional demo contract and reviewed form selectors |
 | scripts/dev.py | Convenience wrapper around the skill quickstart |

@@ -338,9 +338,9 @@ export async function runOperation(operation,input,{root=ROOT}={}){
     success(await python(root,['scripts/check_gates.py','check','.','--mode','handoff'],{localOnly:true}),'quality');
     success(await command(root,process.execPath,['scripts/preflight.mjs'],{localOnly:true}),'quality');
     success(await command(root,process.platform==='win32'?'npm.cmd':'npm',['audit','--audit-level=high'],{timeout:180000,localOnly:true}),'quality');
-    await applicationRegressions(root,(exe,args,options)=>command(root,exe,args,{...options,localOnly:true}));
+    const application=await applicationRegressions(root,(exe,args,options)=>command(root,exe,args,{...options,localOnly:true}));
     success(await wrangler(root,['deploy','--dry-run'],{timeout:180000,localOnly:true}),'quality');
-    return result({handoff_gates:'passed',full_application_regressions:'passed-no-skips',dependency_audit:'passed-high-severity-gate',worker_bundle:'passed'});
+    return result({handoff_gates:'passed',full_application_regressions:application,dependency_audit:'passed-high-severity-gate',worker_bundle:'passed'});
   }
   if(operation==='sheets')return input.intent.sheets?await configuredSheets(root,input):result({status:'not-enabled'});
   const target=targetMatches(read(path.join(root,'wrangler.jsonc')),input.intent);

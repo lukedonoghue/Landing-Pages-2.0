@@ -161,6 +161,10 @@ def main() -> int:
             relative = source.relative_to(template)
             if relative.parts[0] == ".github" and not args.with_github:
                 continue
+            # The application regression suite stays in the skill; publishing verifies
+            # the project's application code against the tested template instead.
+            if relative.parts[0] == "tests":
+                continue
             if not source.is_file() or any(part in excluded for part in relative.parts) or source.name.startswith((".dev.vars", ".env")):
                 continue
             target = root / relative

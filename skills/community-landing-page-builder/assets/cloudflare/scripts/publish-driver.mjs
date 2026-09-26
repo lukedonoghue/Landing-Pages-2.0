@@ -10,7 +10,37 @@ import { UUID, read, atomic, inside, hash, validateTarget, chooseOrigin, origins
 const allowed=new Set(['resume','new-release','url','fixture','credentials-file','password-file','python','browser-executable']);
 export const APPLICATION_TEST_TIMEOUT_MS=720000;
 const success=result=>{if(result.code!==0)throw new Error('A required local/publishing command failed. Inspect the private release diagnostic; no success was assumed.');return result.stdout;};
+// Generated projects carry no test code. Their Worker, migrations, release scripts
+// and CRM scripts/styles must instead be byte-identical to the hash-locked template
+// in the private builder bundle, whose full regression suite runs in the skill's CI.
+// Pages and src/site-config.json are project content and are checked by QA gates.
+const BUNDLE='.community-builder';
+const TEMPLATE='assets/cloudflare/';
+const TEMPLATE_OWNED=[/^src\/.+\.js$/,/^migrations\/.+\.sql$/,/^scripts\/[^/]+\.mjs$/,/^public\/admin\/[^/]+\.(js|css)$/,/^public\/(login|account-action|confirmation|privacy-controls|funnel)\.(js|css)$/];
+const listed=(base,dir)=>existsSync(path.join(base,dir))?readdirSync(path.join(base,dir),{recursive:true,withFileTypes:true}).filter(entry=>entry.isFile()).map(entry=>path.relative(base,path.join(entry.parentPath??entry.path,entry.name)).split(path.sep).join('/')):[];
+export function templateIntegrity(root) {
+  const manifestFile=path.join(root,BUNDLE,'runtime-manifest.json');
+  if(!existsSync(manifestFile))throw new Error('The private builder bundle is missing, so the application code cannot be matched to its tested template. Re-scaffold from the installed skill without overwriting client files.');
+  const locked=read(manifestFile).files||{};
+  const reference=Object.keys(locked).filter(name=>name.startsWith(TEMPLATE)).map(name=>name.slice(TEMPLATE.length)).filter(name=>TEMPLATE_OWNED.some(rule=>rule.test(name)));
+  if(!reference.includes('src/worker.js'))throw new Error('The private builder bundle has no Worker template. Re-scaffold from the installed skill without overwriting client files.');
+  const changed=[];
+  for(const name of reference){
+    const bundled=path.join(root,BUNDLE,TEMPLATE,name), project=path.join(root,name);
+    if(!existsSync(bundled)||hash(readFileSync(bundled))!==locked[TEMPLATE+name])throw new Error('The private builder bundle was modified; restore it before publishing: '+name);
+    if(!existsSync(project)||hash(readFileSync(project))!==locked[TEMPLATE+name])changed.push(name);
+  }
+  const known=new Set(reference);
+  for(const name of [...listed(root,'src'),...listed(root,'migrations'),...listed(root,'public/admin')])if(TEMPLATE_OWNED.some(rule=>rule.test(name))&&!known.has(name))changed.push(name);
+  if(changed.length)throw new Error('Application code differs from the tested template, so publishing is blocked: '+changed.sort().join(', ')+'. Make the change in the skill template, where its regression suite runs, then update the project.');
+  return reference.length;
+}
 export async function applicationRegressions(root,run) {
+  if(!existsSync(path.join(root,'tests'))){
+    const files=templateIntegrity(root);
+    writeFileSync(path.join(root,'build/template-integrity.json'),JSON.stringify({status:'passed',template_files:files},null,2)+'\n',{mode:0o600});
+    return 'template-integrity-verified';
+  }
   if(!existsSync(path.join(root,'tests/backend.test.mjs')))throw new Error('Application regressions are missing.');
   const tests=readdirSync(path.join(root,'tests')).filter(name=>name.endsWith('.test.mjs')).sort().map(name=>'tests/'+name);
   const log=inside(root,'.secrets/full-regression-publish-'+randomUUID()+'.log',true);
@@ -22,6 +52,7 @@ export async function applicationRegressions(root,run) {
     throw new Error('Application regressions did not complete and pass. Inspect the private diagnostic: '+log);
   }
   writeFileSync(path.join(root,'build/full-regression-publish.tap'),testOutput,{mode:0o600});
+  return 'passed-no-skips';
 }
 export function argumentsFor(argv) {
   const args=parseArgs(argv);
