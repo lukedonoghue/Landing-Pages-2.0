@@ -65,11 +65,17 @@ export async function exportLeads(env, url) {
     where += " AND (name LIKE ? ESCAPE '\\' OR email LIKE ? ESCAPE '\\' OR phone LIKE ? ESCAPE '\\')";
     const query = `%${q.replace(/[\\%_]/g, '\\$&')}%`; params.push(query, query, query);
   }
-  const columns = ['id', 'created_at', 'name', 'email', 'phone', 'status', 'traffic_source', 'traffic_type', 'device', 'landing_page'];
+  const base = ['id', 'created_at', 'name', 'email', 'phone', 'status', 'traffic_source', 'traffic_type', 'device', 'landing_page'];
+  // Click IDs and campaign terms let an owner import qualified leads into Google Ads as
+  // offline conversions. They come from the stored first-party attribution; malformed
+  // legacy JSON yields empty cells instead of failing the export.
+  const attribution = ['gclid', 'gbraid', 'wbraid', 'utm_source', 'utm_campaign', 'utm_term'];
+  const columns = [...base, ...attribution];
+  const selected = [...base, ...attribution.map(key => `CASE WHEN json_valid(attribution) THEN json_extract(attribution,'$.latest_touch.${key}') END AS ${key}`)];
   // A bounded export avoids Worker memory exhaustion from arbitrary form payloads.
   // It contains all matching contacts up to 10,000, not just the UI's current page.
   const results = await env.DB.batch([
-    env.DB.prepare(`SELECT ${columns.join(',')} FROM leads WHERE ${where} ORDER BY created_at DESC,id DESC LIMIT 10000`).bind(...params),
+    env.DB.prepare(`SELECT ${selected.join(',')} FROM leads WHERE ${where} ORDER BY created_at DESC,id DESC LIMIT 10000`).bind(...params),
     env.DB.prepare(`SELECT COUNT(*) AS total FROM leads WHERE ${where}`).bind(...params)
   ]);
   const rows = results[0].results; const total = results[1].results[0].total;

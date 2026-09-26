@@ -132,6 +132,10 @@ A complete enquiry-led project can include:
 - a project that can be resumed later without starting again;
 - the guided publishing flow when you are ready to launch.
 
+## Where to type the commands
+
+The commands below go in a terminal, not in the chat. On a Mac open **Terminal** (Applications > Utilities > Terminal), type `cd ` followed by a space, drag this repository folder onto the Terminal window, press Return, then paste each command. If `doctor` asks for system tools on a Mac, install [Homebrew](https://brew.sh) and run `brew install webp poppler`. In a Claude Code or Codex session you can simply ask the assistant to run them for you.
+
 ## Run the local demo
 
 If you want to see the workflow working with fictional data first:
@@ -146,6 +150,18 @@ python3 scripts/dev.py serve
 ```
 
 The first check may tell you that some dependencies are missing. Bootstrap installs the project's locked dependencies locally. It does not sign in to accounts or publish anything.
+
+## Check a generated project locally
+
+From the generated project folder:
+
+```sh
+python3 scripts/quickstart.py bootstrap --project .
+python3 scripts/quickstart.py verify --project .
+python3 scripts/quickstart.py preview --project .
+```
+
+`verify` runs every automated quality check (layout on ten screen sizes, speed, Chromium and WebKit, the real form-to-lead-inbox journey, copy parity, images and the guide) in one go and lists anything still needing a person, such as the final visual review. `preview` serves the page and the private lead inbox on your computer. Nothing is published.
 
 ## Publish a generated project
 

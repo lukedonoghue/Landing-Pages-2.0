@@ -69,8 +69,6 @@ def build(root, config_path, output, data):
         for paragraph in chapter['paragraphs']: story.append(p(paragraph))
         story.append(p('Put this to use', 'h2'))
         story.extend(checklist(chapter['takeaways']))
-        citations = sorted({source_order[e['source_id']] for e in chapter['evidence']})
-        story.append(p('Research notes: '+', '.join('['+str(n)+']' for n in citations), 'small'))
         for image in images[1:]: story.extend(photo(image, 180))
     story.extend([CondPageBreak(245), Spacer(1, 20), p(data.get('checklist_title', 'Keep these questions handy'), 'h1')])
     story.extend(checklist(data['checklist']))

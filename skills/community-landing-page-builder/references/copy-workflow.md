@@ -90,3 +90,11 @@ Usually one draft and one or two focused revisions are sufficient. If a blocker 
 Read the actual desktop and mobile page and the conversion flow. Compare the rendered wording with the master and derivative. Check heading wraps, missing text, proof adjacency, highlighted testimonial meaning, modal promises, brochure contents and thank-you delivery. Correct copy in the master and regenerate affected representations; do not quietly remove qualifiers inside HTML.
 
 Run and record the required [rendered-copy comparison](rendered-copy.md) for complete Worker funnels. A pre-build editorial pass does not prove the built page matches. Keep operational launch checks separate from editorial quality.
+
+## Schema details that validators enforce (field-tested, September 2026)
+
+* `required_sections` in the client brief are matched literally against `sections[].id`; use the section IDs you will write (for example `hero`, `proof-strip`, `faq`).
+* Put every custom visible string that is not a section, modal or thank-you field (header trust line, photo badge, footer line, select placeholder) in `interface_text` so rendered-copy parity can approve it.
+* Modal state copy uses `failure` and `uncertain`; other modal keys must be visible in a captured modal state. `thank_you.delivery` and `brochure.delivery` describe the delivery contract and need not appear verbatim.
+* Keep writer notes, benefit maps and edit logs in a sidecar such as `build/copy-edit-notes.json`. The audit and parity checks ignore `notes`, `edit_log` and `review_id`, but a sidecar keeps the master clean.
+* The editorial review must carry `copy_sha256`, `brief_sha256`, `context_sha256` and `inputs_sha256`. Both `copy_acceptance.py verify` and `copy_library.py audit` must pass; recompute all four hashes after any change.

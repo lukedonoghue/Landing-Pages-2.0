@@ -101,3 +101,9 @@ npm test
 ```
 
 Run the commands above from the skill folder. The application regressions use isolated synthetic fixtures, including real browser and local Worker/D1 tests. They do not edit client pages or perform live submissions. Run the generated project's measured browser tools separately against its actual page; see performance-and-browser-qa.md.
+
+## One command for a generated project (September 2026)
+
+From the generated project folder run `python3 scripts/quickstart.py verify --project .` (add `--runs 3` for the full Lighthouse median, `--mode handoff` for handoff evidence). It creates `test-fixture.json` from `funnel.json` when missing, starts the local Worker and D1, takes one snapshot, then runs and records: static (`validate_funnel.py`), browser (`measure_funnel.mjs`, 10 viewports including honeypot and wizard visibility), performance (`performance-audit.mjs`), browser_compat (`browser-compat.mjs`), local_journey (`live-verify.mjs`, one synthetic local lead), rendered_copy (`capture-rendered-copy.mjs` plus `copy_parity.py`), and assembles images, copy and catalogue reports from their current evidence. It records `visual` and `control_review` when their current evidence exists and otherwise lists them as next actions. It never publishes.
+
+Order: finish all copy, image reviews, guide review and control repairs first; the final control capture and the verify snapshot come last. Static validation now fails on visible starter text such as the template privacy page.

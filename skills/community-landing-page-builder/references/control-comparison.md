@@ -53,3 +53,7 @@ The controlled browser helper records actual 390- and 1440-pixel viewports, rend
 ## Revisions and scope
 
 Preserve the immutable initial baseline and comparison within a build. Later source changes invalidate final capture/acceptance and the normal gates. Repair against that preserved checklist and rerun the final review; a wholly new design/business build should use a new project/round rather than silently replacing the original evidence. The helper validates integrity and workflow completeness; semantic copy/pixel judgments remain the responsibility of the actual reviewer. No automatic conversion-uplift percentage is inferred.
+
+## Proposals must be publishable (field-tested, September 2026)
+
+Each `proposed_change` is wording a builder may paste into the page. `control_review.py` rejects Unicode long dashes in proposals. Before recording a proposal, check it against `build/claim-ledger.md`: never propose a claim the copy review removed or one the sources do not support (in the field test a proposal re-introduced "No Subcontractors"). A reviewer that is a genuinely separate native subagent may be recorded as `independent` only with an `execution_artifact` (see orchestration.md); otherwise label it `self_review`.

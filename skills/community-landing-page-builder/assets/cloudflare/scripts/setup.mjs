@@ -7,6 +7,10 @@ import path from 'node:path';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 process.chdir(root);
 const args = process.argv.slice(2);
+if (args.includes('--help') || args.includes('-h')) {
+  console.log('Usage: npm run setup            Prepare the local D1 database and local owner login (no cloud changes)\n       npm run setup -- --cloudflare  Configure the Cloudflare database for publishing (trusted operator shell only)\nThe local password is written to .secrets/local-admin-password.txt and is never printed.');
+  process.exit(0);
+}
 const option = name => { const i=args.indexOf(name); return i < 0 ? null : args[i+1]; };
 const run = (command, args, capture=false) => {
   const result=spawnSync(command,args,{stdio:capture?'pipe':'inherit',encoding:'utf8'});

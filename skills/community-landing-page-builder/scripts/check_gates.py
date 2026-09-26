@@ -40,6 +40,17 @@ def excluded(path):
         return secret
     return secret or any(part in EXCLUDED_DIRS for part in path.parts)
 
+# docs/ holds workflow paperwork validated separately by process_contract.py. It stays in
+# the snapshot's file list (so exports carry it) but editing it must not invalidate
+# rendered-page captures and browser evidence, so it is left out of the fingerprint.
+FINGERPRINT_EXEMPT_DIRS = {'docs'}
+
+
+def fingerprint(files):
+    rendered = {name: value for name, value in files.items() if Path(name).parts[:1] and Path(name).parts[0] not in FINGERPRINT_EXEMPT_DIRS}
+    return hashlib.sha256(json.dumps(rendered, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+
 def source_snapshot(root):
     root = root.resolve()
     files = {}
@@ -64,8 +75,7 @@ def source_snapshot(root):
             files[name] = file_hash(path)
     if not files:
         raise ValueError('Project has no source files')
-    packed = json.dumps(files, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()
-    return {'files': files, 'source_fingerprint': hashlib.sha256(packed).hexdigest()}
+    return {'files': files, 'source_fingerprint': fingerprint(files)}
 
 def resolve_inside(root, value):
     path = Path(value)
@@ -250,7 +260,12 @@ def validate_report(root, report, snapshot, gate):
             plan_path = root/'image-plan.json'
             if file_hash(plan_path) != report.get('plan_sha256'):
                 errors.append('Image acceptance refers to a stale plan')
-            errors += image_workflow.gate(image_workflow.load_plan(plan_path), root)['errors']
+            loaded = image_workflow.load_plan(plan_path)
+            errors += image_workflow.gate(loaded, root)['errors']
+            if snapshot.get('mode') in {'handoff', 'live'}:
+                preview_only = [a['id'] for a in loaded['assets'] if a.get('provenance', {}).get('rights') == 'local-preview-only']
+                if preview_only:
+                    errors.append('Resolve reuse rights before handoff or publication; local-preview-only images: ' + ', '.join(preview_only))
         except (OSError, ValueError, KeyError, TypeError) as error:
             errors.append('Image acceptance: ' + str(error))
     elif gate == 'control_review':

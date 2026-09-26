@@ -90,6 +90,7 @@ test('CSV exports all matching pages, excludes deleted contacts and prevents spr
   const response = await call('/api/admin/leads/export.csv?source=google&status=new&page=999'); assert.equal(response.status, 200);
   assert.equal(response.headers.get('X-Export-Count'), '2'); assert.equal(response.headers.get('X-Export-Truncated'), 'false');
   const csv = await response.text(); assert.ok(csv.includes(formulaId)); assert.ok(csv.includes("'=SUM(1,1)")); assert.ok(!csv.includes('Removed')); assert.ok(!csv.includes('Two'));
+  assert.ok(csv.split('\r\n')[0].endsWith('"gclid","gbraid","wbraid","utm_source","utm_campaign","utm_term"'), 'Offline-conversion columns are exported');
   assert.equal((await call('/api/admin/leads/export.csv?source=untrusted')).status, 400);
   assert.equal((await call('/api/admin/leads/export.csv?q=One')).headers.get('X-Export-Count'), '1');
   for (const value of ['=CMD()', '+1', '-2', '@SUM()', ' \t=CMD()', '\tanything']) assert.ok(csvCell(value).startsWith('"\''), value);

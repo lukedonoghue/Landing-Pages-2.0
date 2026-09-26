@@ -88,8 +88,11 @@ def object_file(path):
 
 def safe_project(raw):
     original=Path(raw).expanduser().absolute()
+    # macOS aliases /var, /tmp and /etc to /private/*. Those root-owned system
+    # links are not project redirection; any other symlinked component is refused.
+    system_aliases={Path('/var'),Path('/tmp'),Path('/etc')}
     for parent in [original,*original.parents]:
-        if parent.is_symlink(): raise ValueError('Use a real project directory, not a symlink.')
+        if parent.is_symlink() and parent not in system_aliases: raise ValueError('Use a real project directory, not a symlink.')
     root=original.resolve()
     for item in ('funnel.json','wrangler.jsonc','scripts/publish.mjs','scripts/ship-provider.mjs'):
         p=storage.path_inside(root,item)

@@ -189,6 +189,8 @@ def comparison(root):
         for field in ('problem', 'why_it_matters', 'proposed_change', 'acceptance_test'):
             if not nonempty(issue.get(field)):
                 failures.append('Actionable ' + field + ' is required: ' + issue['id'])
+        if any(ch in str(issue.get('proposed_change', '')) for ch in ('\u2014', '\u2013')):
+            failures.append('Proposed change uses a Unicode long dash; rewrite it with a hyphen, comma or new sentence: ' + issue['id'])
         if not issue.get('selector') or not anchored(issue.get('before'), corpus):
             failures.append('Issue needs a selector and exact initial rendered excerpt: ' + issue['id'])
     for row in draft.get('checks', []):

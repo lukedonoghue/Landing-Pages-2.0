@@ -58,6 +58,9 @@ def write_json(path: Path, value: dict) -> None:
 
 def build_reader(root, config_path, data):
     from build_reader_guide import build
+    # Callers may pass an unresolved temporary path; macOS aliases /var to /private/var.
+    root = Path(root).resolve()
+    config_path = Path(config_path).resolve()
     from PIL import Image
     inputs = quality.validate_content(root, data)
     inputs[config_path.relative_to(root).as_posix()] = sha256(config_path)

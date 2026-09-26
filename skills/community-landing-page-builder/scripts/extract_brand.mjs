@@ -28,7 +28,10 @@ if (suppliedModule) runtime = await import(isAbsolute(suppliedModule) ? pathToFi
 else {
   const require = createRequire(pathToFileURL(resolve(process.cwd(), 'package.json')));
   try { runtime = await import(pathToFileURL(require.resolve('playwright')).href); }
-  catch { runtime = await import(pathToFileURL(require.resolve('playwright-core')).href); }
+  catch {
+    try { runtime = await import(pathToFileURL(require.resolve('playwright-core')).href); }
+    catch { console.error('Browser dependencies are not installed for this project. From the project folder run: python3 scripts/quickstart.py bootstrap --project . (then retry). No account or publishing action is taken.'); process.exit(2); }
+  }
 }
 const chromium = runtime.chromium || runtime.default?.chromium;
 if (!chromium) throw new Error('The selected module does not export Playwright chromium');

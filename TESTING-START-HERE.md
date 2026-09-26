@@ -18,7 +18,7 @@ All three required PR workflows passed on candidate `4bbb5044f5c1e9f0758197f5e00
 |---|---|
 | [Community release, run 35876928034](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35876928034) | Passed: 304 Python tests; 333 Node/application tests, zero failures and zero skips; regenerated-example parity; dependency-audit gate; Chromium/WebKit launch; Worker dry bundle. |
 | [Native routing, run 35876928161](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35876928161) | Passed: routing, reservations, safe installation and provider-profile parity. |
-| [Fresh end-to-end demo, run 35876928187](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35876928187) | Passed: fresh fictional project, 78 browser checks, 102 journey checks, three rendered PDF pages, layout/performance and portable export/import. Publication disabled. |
+| [Fresh end-to-end demo, run 35876928187](https://github.com/lukedonoghue/Landing-Pages-2.0/actions/runs/35876928187) | Passed: fresh fictional project, 78 browser checks (the count grows as checks are added; a local run on 26 September reported 120), 102 journey checks, three rendered PDF pages, layout/performance and portable export/import. Publication disabled. |
 | Focused local regressions | 39 passed / 0 failed / 0 skipped. All eight new checks passed; against the previous runtime five of those eight failed, reproducing both defects and additional header cases. |
 | Source and evidence integrity | All 338 reviewable CI source files matched the manifest and local candidate. Downloaded Python, application and demo artifacts matched their GitHub SHA256 digests. |
 

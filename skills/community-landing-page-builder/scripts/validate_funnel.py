@@ -89,6 +89,10 @@ def parse_html(path: Path) -> FunnelParser:
     return parser
 
 
+# Scaffold wording that must never reach a visitor (Absolute rule 5: no visible sample content).
+PLACEHOLDER_TEXT = re.compile(r"This is a development template|Replace this starter with your approved client content|Replace it with the client's approved privacy policy|WORKFLOW_TEMPLATE_INCOMPLETE|lorem ipsum", re.I)
+
+
 def main() -> int:
     argp = argparse.ArgumentParser(description=__doc__)
     argp.add_argument("project_root", type=Path)
@@ -189,6 +193,9 @@ def main() -> int:
         stripped = re.sub(r"<!--.*?-->", "", content, flags=re.S)
         if re.search(r"\{\{\s*[A-Z][A-Z0-9_]*\s*\}\}|\[\[(?:HEADLINE|CTA|CLIENT_NAME)\]\]", stripped):
             failures.append(f"Unresolved template marker in {path.name}")
+        placeholder = PLACEHOLDER_TEXT.search(re.sub(r"<[^>]+>", " ", stripped))
+        if placeholder:
+            failures.append(f"Visible starter/placeholder text in {path.name}: {placeholder.group(0)!r}. Replace it with the business's approved content before QA.")
     if not re.search(r'<meta[^>]+(?:name=[\"\']robots[\"\'][^>]+content=[\"\'][^\"\']*noindex|content=[\"\'][^\"\']*noindex[^>]+name=[\"\']robots)', thank_text, re.I):
         warnings.append("Thank-you page should declare noindex")
     missing_assets: list[str] = []

@@ -101,3 +101,10 @@ For each image confirm:
 - file size and dimensions are reasonable.
 
 If a suitable image cannot be sourced or generated honestly, redesign the section. Do not silently remove a needed proof role or fill it with fabricated evidence.
+
+## Rights, classes and slots (field-tested, September 2026)
+
+* Use `--rights local-preview-only` when reuse is not yet authorised (for example an uncommissioned demonstration). It is honest for local previews and blocked for handoff and live gates until replaced with a real basis.
+* `trust_class` accepts the SKILL.md role words as aliases (`proof` = `client-proof`; `portrait`, `diagram`, `screenshot` = `illustrative`). The rendered `<img>` still needs `data-image-role` with the role word.
+* Add a placement to an existing plan with `image_workflow.py add-asset --spec slot.json`, then acquire and optimise it. Inventory reads lazy-loading attributes (`data-src`, `data-lazy-src`, `bv-orig-srcset`, `data-srcset`). Optimisation converts CMYK and other modes to sRGB before encoding; the original stays hash-locked.
+* Treat portfolio photos labelled with suburbs outside the service area, or manufacturer "lifestyle" shots, as illustrative product imagery, never as the client's own job.

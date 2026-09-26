@@ -33,7 +33,12 @@ MODELS = {"gpt-image-2.5-sunburst", "gpt-image-2.5-flare"}
 MAX_BYTES = 12 * 1024 * 1024
 MAX_PIXELS = 32_000_000
 TRUST_CLASSES = {"client-proof", "illustrative", "decorative"}
-RIGHTS = {"client-provided", "client-authorized", "licensed", "generated"}
+# SKILL.md describes image roles (proof, portrait, diagram, screenshot); the plan
+# stores the trust class. Accept those role words as aliases so both vocabularies work.
+TRUST_CLASS_ALIASES = {"proof": "client-proof", "portrait": "illustrative", "diagram": "illustrative", "screenshot": "illustrative"}
+# local-preview-only records an honest, unresolved reuse basis (for example an
+# uncommissioned demonstration). Handoff and live gates refuse it.
+RIGHTS = {"client-provided", "client-authorized", "licensed", "generated", "local-preview-only"}
 STAGES = {"planned", "acquired", "generation-pending", "generation-failed", "optimized", "reviewed"}
 MIME_EXT = {"image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp"}
 
@@ -143,7 +148,7 @@ def stored_image(root, relative_dir, image_id, data):
     else:
         with target.open("xb") as stream:
             stream.write(data)
-    return {"path": str(target.relative_to(root)), **info}
+    return {"path": str(target.resolve().relative_to(Path(root).resolve())), **info}
 
 
 def normalize_host(host):
@@ -171,9 +176,23 @@ def validate_url(url, allowed_hosts, resolver=socket.getaddrinfo):
     return parts, host, addresses[0]
 
 
+def tls_context():
+    """Verified TLS; prefer certifi so python.org macOS installs without system CA links still verify."""
+    try:
+        import certifi
+        return ssl.create_default_context(cafile=certifi.where())
+    except ImportError:
+        return ssl.create_default_context()
+
+
+CERTIFICATE_HELP = ("TLS certificate verification failed. Install the pinned build requirements "
+                    "(python3 -m pip install -r requirements-build.txt, which includes certifi) or run the "
+                    "Python 'Install Certificates.command'. Verification is never disabled.")
+
+
 class PinnedHTTPSConnection(http.client.HTTPSConnection):
     def __init__(self, host, address):
-        super().__init__(host, timeout=25, context=ssl.create_default_context())
+        super().__init__(host, timeout=25, context=tls_context())
         self.address = address
 
     def connect(self):
@@ -191,8 +210,11 @@ def fetch_image(url, allowed_hosts, resolver=socket.getaddrinfo, connection_fact
             path = parts.path or "/"
             if parts.query:
                 path += "?" + parts.query
-            connection.request("GET", path, headers={"Accept": "image/png,image/jpeg,image/webp", "User-Agent": "LandingPages-ImageInventory/1.0"})
-            response = connection.getresponse()
+            try:
+                connection.request("GET", path, headers={"Accept": "image/png,image/jpeg,image/webp", "User-Agent": "LandingPages-ImageInventory/1.0"})
+                response = connection.getresponse()
+            except ssl.SSLCertVerificationError as error:
+                raise WorkflowError(CERTIFICATE_HELP) from error
             if response.status in {301, 302, 303, 307, 308}:
                 location = response.getheader("Location")
                 require(nonempty(location), "Image redirect has no location")
@@ -221,11 +243,16 @@ class ImageInventory(HTMLParser):
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         values = []
-        if tag == "img":
-            values += [attrs.get("src"), attrs.get("data-src")]
         if tag in {"img", "source"}:
-            # Normal raster srcsets; data URLs are intentionally excluded.
-            values += [part.strip().split()[0] for part in attrs.get("srcset", "").split(",") if part.strip()]
+            # Lazy loaders keep the real URL in data-src, data-lazy-src, bv-orig-src,
+            # data-srcset, bv-orig-srcset and similar; read every *src/*srcset attribute.
+            for name, value in attrs.items():
+                if not value or not isinstance(value, str):
+                    continue
+                if name.endswith("srcset"):
+                    values += [part.strip().split()[0] for part in value.split(",") if part.strip()]
+                elif name == "src" or name.endswith("-src") or name.endswith("_src"):
+                    values.append(value)
         if tag == "meta" and attrs.get("property") == "og:image":
             values.append(attrs.get("content"))
         for value in values:
@@ -260,7 +287,9 @@ def validate_plan(plan):
         require(re.fullmatch(r"[a-z][a-z0-9-]{0,63}", image_id) is not None, "Use a short, lowercase hyphenated image id")
         require(image_id not in ids, "Duplicate asset id")
         ids.add(image_id)
-        require(item.get("trust_class") in TRUST_CLASSES, "Each image needs a trust_class")
+        if item.get("trust_class") in TRUST_CLASS_ALIASES:
+            item["trust_class"] = TRUST_CLASS_ALIASES[item["trust_class"]]
+        require(item.get("trust_class") in TRUST_CLASSES, "Each image needs a trust_class: " + ", ".join(sorted(TRUST_CLASSES)) + " (aliases: " + ", ".join(f"{k}={v}" for k, v in sorted(TRUST_CLASS_ALIASES.items())) + ")")
         require(item.get("stage", "planned") in STAGES, "Unknown image stage")
         require(type(item.get("required")) is bool, "Set required true or false for every image")
         for key in ("section", "purpose", "role"):
@@ -298,6 +327,19 @@ def validate_plan(plan):
 
 def load_plan(path):
     return validate_plan(json.loads(path.read_text(encoding="utf-8")))
+
+
+def add_asset(plan, spec):
+    """Append one planned placement; the complete plan is revalidated before saving."""
+    require(isinstance(spec, dict) and nonempty(spec.get("id")), "The asset spec needs an id")
+    require(all(item.get("id") != spec["id"] for item in plan["assets"]), "Asset id already exists")
+    require(spec.get("stage", "planned") == "planned" and not spec.get("source") and not spec.get("variants"),
+            "Add a planned placement only; acquire and optimize it with the normal commands")
+    candidate = json.loads(json.dumps(plan))
+    candidate["assets"].append({**spec, "stage": "planned"})
+    validate_plan(candidate)
+    plan["assets"].append(candidate["assets"][-1])
+    return plan["assets"][-1]
 
 
 def save_plan(path, plan, event, image_id=None):
@@ -697,6 +739,8 @@ def main():
     rev = sub.add_parser("review")
     rev.add_argument("--id", required=True)
     rev.add_argument("--report", type=Path, required=True)
+    add = sub.add_parser("add-asset", help="Add one planned placement to an existing plan")
+    add.add_argument("--spec", type=Path, required=True, help="JSON object with the same fields as an assets[] entry")
     sub.add_parser("validate")
     args = parser.parse_args()
     path = args.plan.expanduser().resolve()
@@ -750,6 +794,9 @@ def main():
                 attempt.update({"status": "failed", "finished_at": now(), "reason": args.reason})
                 get_asset(plan, args.id)["stage"] = "generation-failed"
                 output = attempt
+            elif args.command == "add-asset":
+                output = add_asset(plan, json.loads(args.spec.read_text(encoding="utf-8")))
+                args.id = output["id"]
             elif args.command == "optimize":
                 output = optimize(plan, root, args.id)
             elif args.command == "review":

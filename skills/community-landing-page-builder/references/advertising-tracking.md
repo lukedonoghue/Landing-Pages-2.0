@@ -85,3 +85,7 @@ An import is not proof of delivery. In an isolated test destination:
 6. Record the destination IDs, test receipt, time, screenshots, result, and recovery behavior in the tracking evidence. Remove or clearly label test data.
 
 Never mark B23 complete from local tests alone. Each enabled provider needs a real destination test.
+
+## Google Ads offline conversions from the built-in CRM (September 2026)
+
+When no tag is installed, owners can still report results to Google Ads: the CRM export (`/api/admin/leads/export.csv`, owner and manager roles) includes `gclid`, `gbraid`, `wbraid`, `utm_source`, `utm_campaign` and `utm_term` from the stored first-party attribution. Filter to qualified or won leads and upload them as offline click conversions in Google Ads with the conversion time and value. Enhanced conversions and GTM remain optional, consent-aware add-ons.

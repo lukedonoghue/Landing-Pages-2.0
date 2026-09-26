@@ -203,7 +203,11 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           }else{
             check(report,`${label}: built-in privacy choices stay hidden in ${privacyMode} mode`,(await privacyTrigger.count()===0||!await privacyTrigger.isVisible())&&await privacyDialog.count()===0);
           }
-          const trigger = page.locator(fixture.selectors.openModal).first(); await trigger.scrollIntoViewIfNeeded(); await trigger.focus(); await page.keyboard.press('Enter');
+          // A header CTA hidden on mobile is common; exercise the first trigger a visitor can see.
+          const triggers = page.locator(fixture.selectors.openModal); let trigger = null;
+          for (let i = 0; i < await triggers.count(); i++) { if (await triggers.nth(i).isVisible()) { trigger = triggers.nth(i); break; } }
+          if (!trigger) throw new Error(`No visible ${fixture.selectors.openModal} trigger at this viewport`);
+          await trigger.scrollIntoViewIfNeeded(); await trigger.focus(); await page.keyboard.press('Enter');
           const modal = page.locator(fixture.selectors.modal); await modal.waitFor({ state: 'visible' });
           check(report, `${label}: dialog receives keyboard focus`, await modal.evaluate(el => el.contains(document.activeElement)));
           const initialFile = path.join(out, `${engine}-${viewport.width}-modal-initial.png`);
@@ -255,7 +259,7 @@ export async function runBrowserCompat(args, suppliedRuntime) {
           const modalFile = path.join(out, `${engine}-${viewport.width}-modal.png`);
           await page.screenshot({ path: modalFile }); report.artifacts.push({ ...artifact(modalFile, 'screenshot', args['project-root']), viewport: page.viewportSize(), engine, state: 'modal_focused', device_pixel_ratio: 1 });
           check(report, `${label}: no runtime exceptions`, errors.length === 0);
-        } catch { check(report, `${label}: complete interaction journey`, false, 'Inspect the saved screenshots and the reviewed fixture; no submission was sent.'); }
+        } catch (error) { check(report, `${label}: complete interaction journey`, false, `Inspect the saved screenshots and the reviewed fixture; no submission was sent. Cause: ${String(error?.message || error).split('\n')[0].slice(0, 240)}`); }
         finally { await context.close(); }
         if (report.failures.length > before) engineFailed = true;
       }

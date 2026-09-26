@@ -710,9 +710,7 @@ def verify_archive(archive_path):
                 if not check_gates.excluded(Path(relative)):
                     source[relative] = digest(data)
         snapshot = manifest["source_snapshot"]
-        computed = digest(
-            json.dumps(source, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
-        )
+        computed = check_gates.fingerprint(source)
         if source != snapshot["files"] or computed != snapshot["source_fingerprint"]:
             raise ValueError("Archive does not reproduce its declared project source.")
         return {"manifest": manifest, "prefix": prefix, "sha256": file_digest(archive_path)}

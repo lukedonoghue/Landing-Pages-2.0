@@ -60,12 +60,24 @@ def meaningful_text(value: str) -> str:
     return "\n".join(lines)
 
 
+# The canonical research brief and claim ledger already live in build/. Accept them
+# instead of requiring a second hand-maintained copy under docs/.
+CANONICAL_ALIASES = {
+    "RESEARCH-BRIEF.md": "build/strategy-brief.md",
+    "CLAIM-LEDGER.md": "build/claim-ledger.md",
+}
+
+
 def validate_documents(root: Path, names=BUILD_GATE_DOCS) -> list[str]:
     root = Path(root).resolve()
     failures = []
     for name in names:
         path = root / "docs" / name
         relative = f"docs/{name}"
+        alias = CANONICAL_ALIASES.get(name)
+        docs_unusable = not path.is_file() or TEMPLATE_MARKER in path.read_text(encoding="utf-8")
+        if alias and docs_unusable and (root / alias).is_file():
+            path, relative = root / alias, alias
         if not path.is_file():
             failures.append(f"Missing required workflow document: {relative}")
             continue

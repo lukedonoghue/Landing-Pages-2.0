@@ -47,6 +47,26 @@ def probe(command, cwd=None, timeout=30):
         return 1, ""
 
 
+def https_certificates_available():
+    """Offline check that Python can verify TLS (python.org macOS builds ship without CA links)."""
+    try:
+        import certifi
+        return Path(certifi.where()).is_file()
+    except ImportError:
+        pass
+    import ssl
+    paths = ssl.get_default_verify_paths()
+    return any(value and Path(value).exists() for value in (paths.cafile, paths.capath))
+
+
+def certificate_detail():
+    try:
+        import certifi
+        return "certifi " + getattr(certifi, "__version__", "")
+    except ImportError:
+        return "System certificate store" if https_certificates_available() else "No CA bundle found for this Python"
+
+
 def inspect(project=None, node=None, launch_browsers=True):
     project = Path(project or SKILL / "assets/cloudflare").expanduser().resolve()
     node = node_path(node)
@@ -67,6 +87,9 @@ def inspect(project=None, node=None, launch_browsers=True):
             version = ""
         add(package, bool(version), version or "Not installed in this Python environment",
             "Run the quickstart bootstrap, or install requirements-build.txt in a private virtual environment.")
+
+    add("HTTPS certificates", https_certificates_available(), certificate_detail(),
+        "Install the pinned build requirements (includes certifi) with the quickstart bootstrap, or run the python.org 'Install Certificates.command'. Image acquisition verifies TLS and never disables it.")
 
     try:
         directory = SKILL / 'assets/pdf-fonts'

@@ -49,7 +49,13 @@ const sourceNow = () => {
   return JSON.parse(result.stdout).source_fingerprint;
 };
 if (root) {
-  snapshot = JSON.parse(await readFile(resolve(root, option('snapshot', 'build/gate-snapshot.json')), 'utf8'));
+  const snapshotPath = resolve(root, option('snapshot', 'build/gate-snapshot.json'));
+  try { snapshot = JSON.parse(await readFile(snapshotPath, 'utf8')); }
+  catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+    console.error(`No source snapshot at ${snapshotPath}. Create it after the last source change, then rerun:\n  python3 scripts/check_gates.py snapshot . --mode ${mode} --out build/gate-snapshot.json`);
+    process.exit(2);
+  }
   sourceFingerprint = sourceNow();
   if (snapshot.source_fingerprint !== sourceFingerprint) throw new Error('Source changed since snapshot; take a new snapshot before browser QA');
   if (snapshot.mode !== mode) throw new Error('Snapshot and browser report mode differ');
@@ -64,7 +70,10 @@ if (modulePath) runtime = await import(isAbsolute(modulePath) ? pathToFileURL(mo
 else {
   const require = createRequire(pathToFileURL(resolve(root || process.cwd(), 'package.json')));
   try { runtime = await import(pathToFileURL(require.resolve('playwright')).href); }
-  catch { runtime = await import(pathToFileURL(require.resolve('playwright-core')).href); }
+  catch {
+    try { runtime = await import(pathToFileURL(require.resolve('playwright-core')).href); }
+    catch { console.error('Browser dependencies are not installed for this project. From the project folder run: python3 scripts/quickstart.py bootstrap --project . (then retry). No account or publishing action is taken.'); process.exit(2); }
+  }
 }
 const chromium = runtime.chromium || runtime.default?.chromium;
 if (!chromium) throw new Error('The selected module does not provide Playwright chromium');
@@ -234,9 +243,15 @@ async function measure(page) {
     while (next && !visible(next)) next = next.nextElementSibling;
     const nextText = next && [...next.querySelectorAll('h2,h3,p,li,span')].filter(visible).find(el => el.textContent.trim());
     const nextBox = nextText?.getBoundingClientRect();
+    // Fixed/sticky bars pinned to the bottom (mobile call/CTA bars) cover the fold.
+    const bottomCover = Math.max(0, ...[...document.querySelectorAll('body *')].filter((el) => {
+      const s = getComputedStyle(el); if (s.position !== 'fixed' || !visible(el)) return false;
+      const r = el.getBoundingClientRect(); return r.bottom >= innerHeight - 1 && r.top > innerHeight / 2 && r.width >= innerWidth * 0.5;
+    }).map((el) => innerHeight - el.getBoundingClientRect().top));
+    const usableHeight = innerHeight - bottomCover;
     return { pageWidth: document.documentElement.scrollWidth, viewportWidth: innerWidth, viewportHeight: innerHeight,
       typography: { heading: sample(document.querySelector('h1')), body: sample([...document.querySelectorAll('main p,article p,p')].filter(visible).find(el => el.textContent.trim().length >= 60 && getComputedStyle(el).textTransform !== 'uppercase')) },
-      continuation: next ? { visibleText: Boolean(nextBox && nextBox.top + Math.min(nextBox.height, 24) <= innerHeight), selector: nextText ? describe(nextText) : null } : null,
+      continuation: next ? { visibleText: Boolean(nextBox && nextBox.top + Math.min(nextBox.height, 24) <= usableHeight), selector: nextText ? describe(nextText) : null, bottomCover } : null,
       heroMedia,
       overflow, headings, images, ctas, fontStatus: document.fonts.status,
       loadedFonts: [...document.fonts].map((font) => ({ family: font.family, style: font.style, weight: font.weight, status: font.status })),
@@ -264,6 +279,18 @@ async function inspectModal(page, viewport, screenshotName) {
       inspectedVisibleTrigger = true;
       const chrome = await inspectModalChrome(page, modal);
       check('modal_close_has_clear_space', chrome.present && chrome.conflicts.length === 0, JSON.stringify(chrome), { viewport });
+      // The hidden attribute alone proves nothing: CSS can override it. Inspect rendered visibility.
+      const formState = await page.evaluate(() => {
+        const dialog = document.getElementById('lead-modal');
+        const shown = (el) => { if (!el) return false; const s = getComputedStyle(el), r = el.getBoundingClientRect(); return s.display !== 'none' && s.visibility !== 'hidden' && Number(s.opacity) !== 0 && r.width > 1 && r.height > 1; };
+        const traps = [...dialog.querySelectorAll('input[name="website"], [data-honeypot] input, input[data-honeypot]')];
+        const steps = [...dialog.querySelectorAll('.wizard__step')];
+        return { traps: traps.length, visibleTraps: traps.filter((el) => shown(el) || shown(el.closest('label'))).map((el) => el.name || el.id || 'honeypot'),
+          focusableTraps: traps.filter((el) => el.tabIndex >= 0).map((el) => el.name || el.id || 'honeypot'), steps: steps.length, visibleSteps: steps.filter(shown).length };
+      });
+      check('honeypot_not_visible', formState.visibleTraps.length === 0, JSON.stringify(formState), { viewport });
+      check('honeypot_not_focusable', formState.focusableTraps.length === 0, JSON.stringify(formState), { viewport });
+      if (formState.steps > 1) check('wizard_one_step_visible', formState.visibleSteps === 1, JSON.stringify(formState), { viewport });
       let escaped = false;
       for (let tab = 0; tab < 18; tab++) {
         await page.keyboard.press(tab < 12 ? 'Tab' : 'Shift+Tab');
@@ -382,7 +409,11 @@ try {
       const source = [...brand.measurements].sort((a,b) => Math.abs(a.viewport.width - viewport.width) - Math.abs(b.viewport.width - viewport.width))[0];
       const expected = { heading: source.typography?.heading || source.roles?.hero_heading?.[0], body: source.typography?.body || source.roles?.body?.find(item => item.text?.length >= 60 && item.textTransform !== 'uppercase') };
       const rendered = await readRenderedFonts(page, landing.typography);
-      const family = value => (value || '').split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase();
+      // Some font builds append weight/width/style words to the internal family name
+      // ("Montserrat Thin ExtraBold"); compare the typeface, not the file naming.
+      const family = value => (value || '').split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase()
+        .replace(/\b(hairline|thin|extra ?light|ultra ?light|light|regular|book|normal|medium|semi ?bold|demi ?bold|bold|extra ?bold|ultra ?bold|black|heavy|italic|oblique|variable|vf|condensed|expanded)\b/g, ' ')
+        .replace(/\s+/g, ' ').trim();
       landing.typographyComparison = [];
       for (const role of ['heading','body']) {
         const actual = landing.typography[role], fonts = rendered.fonts[role] || [];

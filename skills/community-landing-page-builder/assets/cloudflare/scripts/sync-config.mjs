@@ -1,4 +1,4 @@
-import {readFileSync,writeFileSync} from 'node:fs';
+import {existsSync,readFileSync,writeFileSync} from 'node:fs';
 const funnel=JSON.parse(readFileSync('funnel.json','utf8'));
 const current=JSON.parse(readFileSync('src/site-config.json','utf8'));
 if(!funnel.client?.name||!Array.isArray(funnel.form_fields)||!funnel.form_fields.length)throw new Error('Set client.name and the exact form_fields in funnel.json before syncing.');
@@ -29,6 +29,14 @@ for(const [label,host] of [['public',publicHost],['crm',crmHost],['pages_gateway
 if(Boolean(publicHost)!==Boolean(crmHost)||(publicHost&&publicHost===crmHost))throw new Error('Two-host routing requires distinct public and CRM hostnames, or neither hostname.');
 if(pagesGatewayHost&&!pagesGatewayHost.endsWith('.pages.dev'))throw new Error('requested_hosts.pages_gateway must be the exact production pages.dev hostname.');
 if(pagesGatewayHost&&(!publicHost||!crmHost))throw new Error('requested_hosts.pages_gateway requires both public and CRM hostnames.');
+// Keep the browser attribute in step with funnel.json so a page never shows a
+// consent banner (or collects measurement) the server configuration did not select.
+for (const page of ['public/index.html','public/thank-you.html']) {
+  if (!existsSync(page)) continue;
+  const html = readFileSync(page, 'utf8');
+  const synced = html.replace(/(<script[^>]*src="[^"]*funnel\.js"[^>]*data-analytics-mode=")[a-z]+(")/, `$1${mode}$2`);
+  if (synced !== html) writeFileSync(page, synced);
+}
 writeFileSync('src/site-config.json',JSON.stringify({...current,name:funnel.client.name,color:funnel.client.color||current.color,logo:funnel.client.logo||'',timezone,analyticsMode:mode,attributionMode,advertisingUserDataMode,consentUiMode,sensitiveCategory,gtmContainerId,publicHost,crmHost,pagesGatewayHost,formFields:fields,allowedPaths:funnel.allowed_paths||['/','/index.html']},null,2)+'\n');
 if(crmHost){
   const wrangler=JSON.parse(readFileSync('wrangler.jsonc','utf8'));

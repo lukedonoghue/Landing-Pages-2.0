@@ -1,18 +1,159 @@
 {
   "schema_version": 1,
   "questions": [
-    {"id":"business_name","field":"client.name","type":"text","label":"What is the business called?","reason":"I need to identify the right business, not infer it from a similar name.","required":true},
-    {"id":"website","field":"client.website","type":"url","label":"What is your website?","reason":"This lets me research existing facts and avoid asking you to repeat them. Leave it blank when there is no website.","required":false},
-    {"id":"service","field":"brief.service_focus","type":"text","label":"Which service or product should this page promote?","reason":"This determines the offer, examples and qualification questions.","required":true},
-    {"id":"audience","field":"audience","type":"text","label":"Who is the page for?","reason":"The copy should speak to the actual customer's needs.","required":true},
-    {"id":"region","field":"client.region","type":"text","label":"Where do you serve customers?","reason":"Use a service area, country, or say worldwide when that is accurate.","required":true},
-    {"id":"offer","field":"offer","type":"text","label":"What are you offering this customer?","reason":"I will not invent a discount, guarantee or service promise.","required":true},
-    {"id":"conversion","field":"conversion.type","type":"choice","label":"What should visitors do next?","reason":"This preserves the intended customer journey and selects only the tools it needs.","required":true,"options":[{"value":"enquire","label":"Send an enquiry to a private lead inbox"},{"value":"book","label":"Use our existing booking page"},{"value":"call","label":"Call us"},{"value":"buy","label":"Use our existing checkout"},{"value":"download","label":"Download a useful file"}]},
-    {"id":"destination","field":"conversion.destination","type":"destination","label":"Where should that action lead?","reason":"Booking, buying, calling or downloading needs a real destination; a placeholder cannot pass launch checks.","required":true,"when":{"field":"conversion.type","not":"enquire"}},
-    {"id":"follow_up","field":"follow_up_promise","type":"text","label":"What happens after someone enquires?","reason":"Confirm who responds and any timing you can genuinely promise.","required":true,"when":{"field":"conversion.type","equals":"enquire"}},
-    {"id":"follow_up_owner","field":"brief.follow_up_owner","type":"text","label":"Who handles enquiries?","reason":"This belongs in the owner handoff, not as invented public copy.","required":false},
-    {"id":"cta","field":"cta","type":"text","label":"Primary action wording","reason":"The guide proposes this from the selected action; you can edit it.","required":false},
-    {"id":"public_host","field":"requested_hosts.public","type":"hostname","label":"Which address should the public page use?","reason":"A temporary provider address will not silently replace a requested custom address.","required":false},
-    {"id":"crm_host","field":"requested_hosts.crm","type":"hostname","label":"Which address should the private lead inbox use?","reason":"Use only a domain you control; the guide preserves existing DNS and email.","required":false}
+    {
+      "id": "business_name",
+      "field": "client.name",
+      "type": "text",
+      "label": "What is the business called?",
+      "reason": "I need to identify the right business, not infer it from a similar name.",
+      "required": true
+    },
+    {
+      "id": "website",
+      "field": "client.website",
+      "type": "url",
+      "label": "What is your website?",
+      "reason": "This lets me research existing facts and avoid asking you to repeat them. Leave it blank when there is no website.",
+      "required": false
+    },
+    {
+      "id": "service",
+      "field": "brief.service_focus",
+      "type": "text",
+      "label": "Which service or product should this page promote?",
+      "reason": "This determines the offer, examples and qualification questions.",
+      "required": true
+    },
+    {
+      "id": "audience",
+      "field": "audience",
+      "type": "text",
+      "label": "Who is the page for?",
+      "reason": "The copy should speak to the actual customer's needs.",
+      "required": true
+    },
+    {
+      "id": "region",
+      "field": "client.region",
+      "type": "text",
+      "label": "Where do you serve customers?",
+      "reason": "Use a service area, country, or say worldwide when that is accurate.",
+      "required": true
+    },
+    {
+      "id": "phone",
+      "field": "client.phone_display",
+      "type": "text",
+      "label": "What phone number should customers call?",
+      "reason": "Local-service visitors often call instead of filling in a form. Research fills this from your website when it is published there; leave it blank if you do not take calls.",
+      "required": false
+    },
+    {
+      "id": "offer",
+      "field": "offer",
+      "type": "text",
+      "label": "What are you offering this customer?",
+      "reason": "I will not invent a discount, guarantee or service promise.",
+      "required": true
+    },
+    {
+      "id": "conversion",
+      "field": "conversion.type",
+      "type": "choice",
+      "label": "What should visitors do next?",
+      "reason": "This preserves the intended customer journey and selects only the tools it needs.",
+      "required": true,
+      "options": [
+        {
+          "value": "enquire",
+          "label": "Send an enquiry to a private lead inbox"
+        },
+        {
+          "value": "book",
+          "label": "Use our existing booking page"
+        },
+        {
+          "value": "call",
+          "label": "Call us"
+        },
+        {
+          "value": "buy",
+          "label": "Use our existing checkout"
+        },
+        {
+          "value": "download",
+          "label": "Download a useful file"
+        }
+      ]
+    },
+    {
+      "id": "keywords",
+      "field": "search_intent",
+      "type": "text",
+      "label": "Which Google Ads keywords or ad headline will send people to this page?",
+      "reason": "The headline should repeat the words people searched (ad scent). Paste your main keywords or ad headline. If you are not sure, say so and I will infer them from your website and label them as inferred.",
+      "required": true,
+      "when": {
+        "field": "conversion.type",
+        "equals": "enquire"
+      }
+    },
+    {
+      "id": "destination",
+      "field": "conversion.destination",
+      "type": "destination",
+      "label": "Where should that action lead?",
+      "reason": "Booking, buying, calling or downloading needs a real destination; a placeholder cannot pass launch checks.",
+      "required": true,
+      "when": {
+        "field": "conversion.type",
+        "not": "enquire"
+      }
+    },
+    {
+      "id": "follow_up",
+      "field": "follow_up_promise",
+      "type": "text",
+      "label": "What happens after someone enquires?",
+      "reason": "Confirm who responds and any timing you can genuinely promise.",
+      "required": true,
+      "when": {
+        "field": "conversion.type",
+        "equals": "enquire"
+      }
+    },
+    {
+      "id": "follow_up_owner",
+      "field": "brief.follow_up_owner",
+      "type": "text",
+      "label": "Who handles enquiries?",
+      "reason": "This belongs in the owner handoff, not as invented public copy.",
+      "required": false
+    },
+    {
+      "id": "cta",
+      "field": "cta",
+      "type": "text",
+      "label": "Primary action wording",
+      "reason": "The guide proposes this from the selected action; you can edit it.",
+      "required": false
+    },
+    {
+      "id": "public_host",
+      "field": "requested_hosts.public",
+      "type": "hostname",
+      "label": "Which address should the public page use?",
+      "reason": "A temporary provider address will not silently replace a requested custom address.",
+      "required": false
+    },
+    {
+      "id": "crm_host",
+      "field": "requested_hosts.crm",
+      "type": "hostname",
+      "label": "Which address should the private lead inbox use?",
+      "reason": "Use only a domain you control; the guide preserves existing DNS and email.",
+      "required": false
+    }
   ]
 }

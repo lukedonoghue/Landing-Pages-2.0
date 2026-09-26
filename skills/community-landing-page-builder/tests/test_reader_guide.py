@@ -146,7 +146,7 @@ class ReaderGuideTests(unittest.TestCase):
         for n in derived.nodes:
             if 'data-guide-download' in n.attrs or 'data-guide-embed' in n.attrs:
                 target=thankyou.same_local(self.root,self.root/'public/thank-you.html',n.attrs.get('href') or n.attrs['src'])
-                self.assertEqual(target,self.root/'public/assets/brochure/service-guide.pdf')
+                self.assertEqual(target.resolve(),(self.root/'public/assets/brochure/service-guide.pdf').resolve())
 
     def test_main_page_edit_invalidates_and_requires_rederivation(self):
         self.build();path=self.root/'public/index.html';path.write_text(path.read_text().replace('task list','agreed task checklist'))

@@ -87,7 +87,7 @@ class GuideTests(unittest.TestCase):
         event=self.event({'service':'Commercial'});event['answers'][0]['other']=True;guide.answer(self.root,event)
         self.assertEqual(guide.config(self.root)['brief']['service_focus'],'Commercial')
     def test_lead_profile_is_selected_explicitly(self):
-        self.complete_business();guide.answer(self.root,self.event({'conversion':'enquire','follow_up':'The owner calls back during office hours'}));self.confirm()
+        self.complete_business();guide.answer(self.root,self.event({'conversion':'enquire','keywords':'roof inspection near me','follow_up':'The owner calls back during office hours'}));self.confirm()
         self.assertEqual(guide.next_action(self.root)['operation'],'scaffold');guide.local(self.root,'scaffold')
         self.assertTrue((self.root/'src/worker.js').is_file());self.assertEqual(guide.config(self.root)['backend']['provider'],'cloudflare-d1')
     def test_preview_does_not_request_unneeded_hosting(self):

@@ -184,3 +184,8 @@ Provider formats and account features can change. Prefer observed capabilities a
 ## Completion evidence repair
 
 Follow `completion-integrity.md` for canonical research/document inputs, split image preflight/final acceptance, genuine host-result linkage, current local QA and export. The integrator owns the aggregate result. A specialist pass never overrides a missing/stale mandatory gate. Only the supported exporter can issue a verified local-final package.
+
+## Claude Code notes (field-tested, September 2026)
+
+* Native `lp-*` profiles load only from the folder Claude Code was opened in. For a generated project, install them with `python3 scripts/install_community.py --project PROJECT --runtime claude --copy-skill` (from the checkout) or open the checkout itself; otherwise emulate the role with a general subagent and disclose it.
+* To record a separate Agent-tool review as `independent`, save `build/reviews/<task-id>.json` with `status: completed`, `task_id` (the reviewer task you declare), `host: claude-code`, `dispatch_id` (the Agent tool's returned agent id) and `raw_result` (the returned report), and reference it as `execution_artifact` with its sha256. Never reuse the builder's task id.

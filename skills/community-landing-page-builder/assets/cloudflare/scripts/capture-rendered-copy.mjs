@@ -174,6 +174,13 @@ export async function runCopyCapture(args) {
         }
         if (![fixture.thank_you_path, fixture.thank_you_path.replace(/\.html$/, '')].includes(new URL(page.url()).pathname)) throw new Error('The configured thank-you path redirected; use an authorized real-flow capture if it requires a receipt.');
         await capture('thank_you', 'confirmation');
+        if (!allowWrites && await page.locator('[data-confirmed-only]').count()) {
+          // Read-only runs cannot submit, so preview the confirmed state with an obviously
+          // synthetic receipt held only in this browser context. No lead, POST or conversion occurs.
+          await page.evaluate(() => sessionStorage.setItem('funnel_v2_receipt', JSON.stringify({ receipt_id: 'synthetic-read-only-preview', created_at: Date.now() })));
+          await page.reload({ waitUntil: 'networkidle' });
+          await capture('thank_you', 'confirmation-preview');
+        }
         if (funnel.catalogue?.enabled !== false) {
           let linked = false;
           for (const link of await page.locator('a[href]').all()) {

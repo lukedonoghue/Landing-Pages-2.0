@@ -174,6 +174,15 @@ def native_environment():
     return {k:v for k,v in os.environ.items() if not any(x in k.upper() for x in ('TOKEN','API_KEY','SECRET','PASSWORD','CLOUDFLARE','AWS_','AZURE_','GOOGLE_APPLICATION_CREDENTIALS','OPENAI_BASE_URL','ANTHROPIC_BASE_URL'))}
 
 
+def detect_provider(env=None):
+    """Prefer the active host; never switch vendors merely because a CLI is installed."""
+    env=os.environ if env is None else env
+    if env.get('CLAUDECODE') or env.get('CLAUDE_CODE_ENTRYPOINT'):return 'claude'
+    if env.get('CODEX_SANDBOX') or env.get('CODEX_HOME') or env.get('CODEX_THREAD_ID'):return 'codex'
+    if shutil.which('claude') and not shutil.which('codex'):return 'claude'
+    return 'codex'
+
+
 def probe(provider):
     executable=shutil.which(provider)
     if not executable:raise ValueError(provider+' is not installed. Use active-session handoffs or install/sign into the supported native CLI.')
@@ -330,17 +339,22 @@ def reconcile_worker(root,name,reason):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('command',choices=['run','next','claim','finish','reopen','reconcile'])
-    p.add_argument('project',type=Path);p.add_argument('--provider',choices=['codex','claude'],default='codex')
+    p.add_argument('project',type=Path);p.add_argument('--provider',choices=['codex','claude'],default=None,help='Defaults to the host running this command (Claude Code sets CLAUDECODE)')
     p.add_argument('--max-steps',type=int,default=30);p.add_argument('--task');p.add_argument('--token');p.add_argument('--receipt',type=Path);p.add_argument('--stage');p.add_argument('--reason',default='')
     a=p.parse_args()
     try:
         root=a.project.resolve()
         if not 1<=a.max_steps<=100:raise ValueError('Use a bounded 1..100 step interval')
-        if a.command=='run':result=drive(root,a.provider,a.max_steps)
+        if a.command=='run':result=drive(root,a.provider or detect_provider(),a.max_steps)
         elif a.command=='next':result=guide.next_action(root)
         elif a.command=='claim':
-            action=guide.next_action(root)
-            if action['kind']!='work':result=action
+            # Local transitions (scaffold, discovery, recovery, local export) need no
+            # model work; perform them here so an in-chat host never dead-ends on them.
+            action=guide.next_action(root);performed=[]
+            for _ in range(10):
+                if action['kind']!='local':break
+                guide.local(root,action['operation']);performed.append(action['operation']);action=guide.next_action(root)
+            if action['kind']!='work':result={**action,'performed_local_operations':performed} if performed else action
             else:
                 name,token,work,route=begin(root,action,'active-native-session')
                 result={'task':name,'claim_token':token,'packet':work,'route':route,'instruction':'Use actual host tools, then finish and immediately claim the next eligible task until human input or completion.'}

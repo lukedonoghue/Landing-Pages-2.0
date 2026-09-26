@@ -329,7 +329,7 @@ def audit(copy_path,brief_path,context_path,review_path=None):
         failures.append('Modal submit label differs from '+('brief form_submit_label' if 'form_submit_label' in brief else 'primary CTA'))
     # Only customer-facing fields are scanned; evidence IDs and metadata are not rendered copy.
     visible=[]
-    skip={'id','claim_ids','source_ids','cta_role','evidence','notes','approved_asset'}
+    skip={'id','claim_ids','source_ids','cta_role','evidence','notes','approved_asset','edit_log','review_id'}
     def visit(v):
         if isinstance(v,str):visible.append(v)
         elif isinstance(v,list):

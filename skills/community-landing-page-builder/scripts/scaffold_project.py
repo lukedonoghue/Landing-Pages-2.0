@@ -170,7 +170,7 @@ def main() -> int:
                 if args.client and target.suffix == ".html" and relative.parts[0] == "public":
                     target.write_text(target.read_text().replace("Your business", html.escape(args.client)))
                 created.append(str(relative))
-        for name in ("ship.py", "ship_ui.py", "guide_image_handoff.py", "runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "review_workflow.py", "validate_reviews.py", "package_handoff.py", "portable_handoff.py"):
+        for name in ("ship.py", "ship_ui.py", "guide_image_handoff.py", "runtime_context.py", "control_review.py", "capture-control.mjs", "guide.py", "guide_ui.py", "workflow_runner.py", "static_publish.py", "copy_acceptance.py", "native_routing.py", "check_gates.py", "copy_parity.py", "measure_funnel.mjs", "extract_brand.mjs", "rendered_fonts.mjs", "modal_chrome.mjs", "validate_funnel.py", "build_gtm_container.py", "workflow.py", "workflow_progress.py", "workflow_storage.py", "process_contract.py", "release_state.py", "copy_library.py", "image_workflow.py", "optimize_images.py", "review_workflow.py", "validate_reviews.py", "package_handoff.py", "portable_handoff.py", "project_verify.py", "quickstart.py", "runtime_check.py", "demo_project.py"):
             source = skill_root / "scripts" / name
             target = root / "scripts" / name
             if source.exists() and not target.exists():
@@ -287,7 +287,11 @@ Never share .secrets/, .dev.vars or local .wrangler data. Production admin acces
         shutil.copy2(source_js, target_js)
         created.append(str(target_js.relative_to(root)))
 
-    print(json.dumps({"project_root": str(root), "created": created, "web_root": str(web_root), "backend": config["backend"]}, indent=2))
+    next_steps = [] if args.static_only else [
+        "Install the local tools once: python3 scripts/quickstart.py bootstrap --project .",
+        "Verify every automated gate later with: python3 scripts/quickstart.py verify --project .",
+    ]
+    print(json.dumps({"project_root": str(root), "created": created, "web_root": str(web_root), "backend": config["backend"], "next_steps": next_steps}, indent=2))
     return 0
 
 

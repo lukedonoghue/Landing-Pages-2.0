@@ -267,7 +267,7 @@ def inspect_review(root, report=None):
         if not all(item.get(k) for k in ('problem', 'before', 'after', 'verification')) or norm(item['after']) not in text or norm(item['before']) == norm(item['after']) and item.get('kind') != 'layout':
             raise ValueError('Guide fixes need actual changed wording and fresh verification')
     for saved in sorted(local(root, 'build/guide-review-history', 'build').glob('*.json')):
-        old = read(root, saved.relative_to(root).as_posix())
+        old = read(root, saved.relative_to(Path(root).resolve()).as_posix())
         if hashlib.sha256(old['baseline_text'].encode()).hexdigest() != old.get('text_sha256'):
             raise ValueError('Preserved guide-review baseline was modified')
         for issue in old['review'].get('unresolved_findings', []):

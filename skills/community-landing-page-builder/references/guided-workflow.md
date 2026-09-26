@@ -84,3 +84,9 @@ Unit, synthetic-provider and local browser tests establish mechanical behavior, 
 ## Explicit native guide-image handoff
 
 Use [guide-image-handoff.md](guide-image-handoff.md) when a PDF needs an explanatory image not available from permitted sources. The persisted `image_handoff` action returns the actual native request once; an unavailable tool is a precise handoff, not a repeated model run or new API-key requirement. Resume after registering and linking the real output, or explicitly reconcile a permitted source fallback.
+
+## Local operations and intake (field-tested, September 2026)
+
+* `guide.py next` may return `kind: local` (scaffold, discover, recover, finalize_local). Run it with `python3 scripts/guide.py local PROJECT` (the operation defaults to the current one) or let `workflow_runner.py claim PROJECT` perform it; claim now executes pending local operations before returning the next work, question or approval. `workflow_runner.py run` defaults `--provider` to the host that is running it (Claude Code sets `CLAUDECODE`).
+* The lead-inbox scaffold reconciles `product_mode` and replaces the static START-HERE. Install the project tools once afterwards with `python3 scripts/quickstart.py bootstrap --project .`; browser helpers print that command when dependencies are missing.
+* The catalog includes `phone` (discoverable from the site; sets `client.phone_uri`) and, for enquiry pages, `keywords` (stored as `search_intent`) so the H1 can repeat the searcher's words. Default enquiry fields are name, phone and email; the default CTA is offer-led ("Get my free quote" when the offer is a quote, otherwise "Request a call back"). The owner can edit both.

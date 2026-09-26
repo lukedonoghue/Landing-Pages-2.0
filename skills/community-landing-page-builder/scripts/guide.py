@@ -147,7 +147,25 @@ def start(root, mode=None, goal=None, website='', name=''):
     return {'status':'started','revision':0,'next':next_action(root)}
 
 
+def phone_uri(display):
+    """Dialable tel: URI from the displayed number; keeps a leading + and digits only."""
+    digits = re.sub(r'[^0-9+]', '', display or '')
+    digits = ('+' + digits.replace('+', '')) if digits.startswith('+') else digits.replace('+', '')
+    return 'tel:' + digits if len(digits.lstrip('+')) >= 6 else ''
+
+
+def default_cta(value, action):
+    if action != 'enquire':
+        return {'book':'Book an appointment','call':'Call us','buy':'Shop now','download':'Download the guide'}[action]
+    offer = (get(value, 'offer') or '').lower()
+    # Offer-led defaults; the owner can still edit the wording.
+    return 'Get my free quote' if 'quote' in offer else 'Request a call back'
+
+
 def project_conversion(value):
+    display = get(value, 'client.phone_display')
+    if display and not get(value, 'client.phone_uri'):
+        put(value, 'client.phone_uri', phone_uri(display))
     action = get(value, 'conversion.type')
     if not action:
         return
@@ -157,14 +175,15 @@ def project_conversion(value):
     value['guided_workflow']['profile'] = 'lead_inbox' if lead else 'static_action'
     value['guided_workflow']['copy_format'] = 'structured' if lead else 'markdown'
     if lead and not value.get('form_fields'):
-        value['form_fields'] = [{'name':'name','type':'text','required':True},{'name':'email','type':'email','required':True}]
+        # Local-service lead forms need a callback number; keep the default short.
+        value['form_fields'] = [{'name':'name','type':'text','required':True},{'name':'phone','type':'tel','required':True},{'name':'email','type':'email','required':True}]
     if not lead:
         value['form_fields'] = []
         value['webhook_url'] = ''
     else:
         value['webhook_url'] = '/api/leads'
     if not value.get('cta'):
-        value['cta'] = {'enquire':'Send an enquiry','book':'Book an appointment','call':'Call us','buy':'Shop now','download':'Download the guide'}[action]
+        value['cta'] = default_cta(value, action)
 
 
 def answer(root, event):
@@ -413,18 +432,28 @@ def local(root, operation):
         if current.get('operation')!='scaffold':
             raise ValueError('Scaffolding is not the current selected action')
         subprocess.run([sys.executable,str(SKILL/'scripts/scaffold_project.py'),str(root),'--profile','lead_inbox','--client',get(config(root),'client.name')],check=True,capture_output=True,text=True)
-        return {'status':'scaffolded','remote_changes':False}
+        # The first static scaffold wrote funnel.json and START-HERE.md with
+        # write-if-missing semantics; reconcile them with the selected lead inbox.
+        with storage.lock(root):
+            value=config(root)
+            if value.get('product_mode')!='form-crm':
+                value['product_mode']='form-crm';storage.write(root,'funnel.json',value)
+        start_here=root/'START-HERE.md'
+        if start_here.is_file() and start_here.read_text(encoding='utf-8').startswith('# Your guided static page'):
+            start_here.write_text('# Your guided lead page\n\nMarketing files live in public/. The form sends enquiries to the built-in private lead inbox (Cloudflare Worker + D1 CRM), tested locally first. Owner tools and guide state never belong in public/.\n\nInstall the local tools once with `python3 scripts/quickstart.py bootstrap --project .`, then ask the active agent to resume the guide. Publishing needs your separate, explicit approval.\n',encoding='utf-8')
+        return {'status':'scaffolded','remote_changes':False,'next':'Run python3 scripts/quickstart.py bootstrap --project . before helpers that use a browser.'}
     raise ValueError('Unknown local operation')
 
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('command',choices=['start','next','status','answer','approve','discover','resume','pause','help'])
+    p.add_argument('command',choices=['start','next','status','answer','approve','discover','resume','pause','help','local'])
     p.add_argument('project',type=Path)
     p.add_argument('--mode',choices=['guided','automatic'])
     p.add_argument('--goal',choices=['preview','publish'])
     p.add_argument('--website',default='');p.add_argument('--name',default='')
     p.add_argument('--event',type=Path);p.add_argument('--question')
+    p.add_argument('--operation',help='For local: the operation named by guide.py next (scaffold, discover, recover, finalize_local)')
     a=p.parse_args()
     try:
         if a.command=='start':result=start(a.project,a.mode,a.goal,a.website,a.name)
@@ -433,6 +462,10 @@ def main():
             event=json.loads(a.event.read_text())
             result=answer(a.project,event) if a.command=='answer' else approve(a.project,event)
         elif a.command=='discover':result=discover(a.project)
+        elif a.command=='local':
+            operation=a.operation or next_action(a.project).get('operation')
+            if not operation:raise ValueError('The current guided action is not a local operation')
+            result={**local(a.project,operation),'next':next_action(a.project)}
         elif a.command in {'pause','resume'}:
             with storage.lock(a.project):
                 recover(a.project);record=state(a.project);record['paused']=a.command=='pause';storage.write(a.project,STATE,record)

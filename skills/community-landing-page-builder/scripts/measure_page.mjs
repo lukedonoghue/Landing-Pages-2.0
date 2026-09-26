@@ -535,7 +535,10 @@ try {
         heading: source.typography?.heading || source.roles?.hero_heading?.[0],
         body: source.typography?.body || source.roles?.body?.find((item) => item.text?.length >= 60 && item.textTransform !== 'uppercase'),
       };
-      const family = (value) => (value || '').split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase();
+      // Compare the typeface, not weight/style words some font builds add to the family name.
+      const family = (value) => (value || '').split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase()
+        .replace(/\b(hairline|thin|extra ?light|ultra ?light|light|regular|book|normal|medium|semi ?bold|demi ?bold|bold|extra ?bold|ultra ?bold|black|heavy|italic|oblique|variable|vf|condensed|expanded)\b/g, ' ')
+        .replace(/\s+/g, ' ').trim();
       for (const role of ['heading', 'body']) {
         const observed = metrics.typography[role];
         if (!expected[role]?.fontFamily || !observed?.fontFamily) {

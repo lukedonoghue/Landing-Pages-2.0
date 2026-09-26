@@ -65,3 +65,7 @@ python3 scripts/copy_acceptance.py verify --project /absolute/project
 Missing/stale inputs, absent real quotations, unresolved findings or failed criteria block the pre-build gate. The checker cannot tell whether an explanation is insightful, prove reviewer independence or predict conversions. That is why the reviewer must inspect and challenge the argument first. A structurally valid report without that work is not acceptance.
 
 Budget: one full draft, one benefit revision, one evidence-based review, then targeted corrections only. Stop polishing when material criteria pass. If they cannot pass, narrow the offer to supported facts or report the specific missing evidence; do not build a polished page around copy still marked weak. After layout, reuse the same accepted master and check rendered parity and readability, not another full writing cycle.
+
+## Sentence-level grounding, including the guide (field-tested, September 2026)
+
+In the field test, three invented passages in `brochure.text` (test mechanics, a regulatory claim and quote contents) passed five review rounds because the review only verified claims listed in the ledger. Before passing `claim_support`, read every factual sentence of the page, FAQ, modal, thank-you and `brochure.text` and point to its source excerpt or the owner instruction. A sentence that is plausible general knowledge but absent from the sources fails. Check scope qualifiers on approved claims too: a ForceField-only property must not be written as true of every product.

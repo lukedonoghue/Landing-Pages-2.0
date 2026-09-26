@@ -383,13 +383,16 @@ def main():
     if python.is_file() and Path(sys.prefix).resolve() != environment.resolve():
         os.execv(str(python), [str(python), __file__, *sys.argv[1:]])
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["doctor", "bootstrap", "check", "demo", "serve", "verify-demo", "reset-demo"])
+    parser.add_argument("command", choices=["doctor", "bootstrap", "check", "demo", "serve", "verify-demo", "reset-demo", "verify", "preview"],
+                        help="verify/preview act on a generated project (--project, default: current folder)")
     parser.add_argument("--node", help="Supported Node executable; otherwise FUNNEL_NODE or PATH.")
     parser.add_argument("--project", type=Path, help="Demo output for demo/serve/verify/reset; existing application for doctor/bootstrap. Omit when bootstrapping a new skill installation.")
     parser.add_argument("--repository", type=Path, help=argparse.SUPPRESS)
     parser.add_argument("--port", type=int)
     parser.add_argument("--full", action="store_true", help="Include the nine-viewport matrix and three-run Lighthouse audit.")
     parser.add_argument("--json", action="store_true")
+    parser.add_argument("--mode", choices=["preview", "handoff"], default="preview", help="verify: evidence mode")
+    parser.add_argument("--runs", type=int, default=1, help="verify: Lighthouse runs (1-5)")
     args = parser.parse_args()
     try:
         if args.command == "doctor":
@@ -402,6 +405,18 @@ def main():
         project = (args.project or Path.cwd() / ".development/demo").expanduser().resolve()
         if args.command == "bootstrap":
             bootstrap(node, args.project or TEMPLATE)
+            return 0
+        if args.command in {"verify", "preview"}:
+            import project_verify
+            target = (args.project or Path.cwd()).expanduser().resolve()
+            ensure_ready(node, target)
+            if args.command == "verify":
+                result = project_verify.verify_project(target, node, args.mode, max(1, min(5, args.runs)), args.port)
+                print(json.dumps(result, indent=2))
+                return 0 if result["status"] == "pass" else 1
+            with project_verify.project_server(target, node, args.port or 8788) as (url, process):
+                print(f"Local preview: {url}\nPrivate lead inbox: {url}/login.html (password in .secrets/local-admin-password.txt)\nNothing is published. Press Ctrl+C to stop.", flush=True)
+                process.wait()
             return 0
         if args.command == "check":
             result = check(node, args.repository)
