@@ -123,6 +123,23 @@ Check the actual image box after loading, including `contain` previews: width pl
 
 Before treating an image-load failure as a page defect, scroll the named placement into view and wait for that image to decode within a bounded interval. Check its response and pixels. Report a confirmed broken asset separately from a capture-timing failure; do not repair a valid page to satisfy a premature screenshot. Include tablet overlays and every repeated image placement in the existing pixel review, and inspect both compact success and long form states.
 
+### Category fit and media strategy (contract 4, and every local trade)
+
+A technically clean page can still read as the wrong kind of business, such as a SaaS product instead of a plumber. `build/visual-review.json` must answer that in `category_fit`, judged on the actual page for this buyer:
+
+```json
+"category_fit": {
+  "category": "residential plumbing",
+  "target_buyer": "Lancaster homeowners with a repair or a quote to arrange",
+  "reads_as_category_without_brand": true,
+  "reasoning": "Hide the logo and name: job photos, a trade palette and plain service language still say local plumber, not software.",
+  "media_strategy": "Two real job photos carry the hero and services; one realistic illustration supports the process.",
+  "first_party_proof": "used"
+}
+```
+
+`first_party_proof` must agree with the image plan's proof ledger (`used` when a candidate is used, otherwise `none_available`), and every candidate must be resolved first. A `false` answer blocks acceptance: change the direction, not the answer. For a `local_trade` whose design uses none of the business's own photos, a self-review also needs the owner's explicit visual sign-off, `owner_visual_signoff: {"message_id": "...", "statement": "<their words>"}`, or an independent review.
+
 ## 4. Conversion gate
 
 Test the selected real action, not a substitute.

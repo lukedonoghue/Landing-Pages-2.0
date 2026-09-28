@@ -120,11 +120,21 @@
       member.setAttribute('aria-describedby', [...ids].join(' '));
     }
   };
+  // Same rule as the Worker: allowed characters and at least seven real digits,
+  // so a value like "-------" is caught here instead of failing after submission.
+  const valid = (field) => {
+    if (field.type === 'tel') {
+      const value = field.value.trim();
+      const digits = value.replace(/\D/g, '').length;
+      field.setCustomValidity(value && (digits < 7 || !/^[+\d\s().-]{7,40}$/.test(value)) ? 'Enter a phone number with at least 7 digits.' : '');
+    }
+    return field.checkValidity();
+  };
   const validateCurrentStep = () => {
     const fields = Array.from(steps[currentStep].querySelectorAll('input, select, textarea'));
     let firstInvalid = null;
     fields.forEach((field) => {
-      if (!field.checkValidity()) {
+      if (!valid(field)) {
         showFieldError(field);
         firstInvalid ||= field;
       } else clearFieldError(field);
@@ -212,7 +222,7 @@
     if (submitting || erased || terminalConflict) return;
     if (currentStep < steps.length - 1 && !uncertainBody) { if (validateCurrentStep()) showStep(currentStep + 1); return; }
     for (let i = 0; i < steps.length; i++) {
-      if (Array.from(steps[i].querySelectorAll('input, select, textarea')).some(field => !field.checkValidity())) {
+      if (Array.from(steps[i].querySelectorAll('input, select, textarea')).some(field => !valid(field))) {
         showStep(i); validateCurrentStep(); return;
       }
     }

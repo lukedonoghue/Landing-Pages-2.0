@@ -107,3 +107,10 @@ Run the commands above from the skill folder. The application regressions use is
 From the generated project folder run `python3 scripts/quickstart.py verify --project .` (add `--runs 3` for the full Lighthouse median, `--mode handoff` for handoff evidence). It creates `test-fixture.json` from `funnel.json` when missing, starts the local Worker and D1, takes one snapshot, then runs and records: static (`validate_funnel.py`), browser (`measure_funnel.mjs`, 10 viewports including honeypot and wizard visibility), performance (`performance-audit.mjs`), browser_compat (`browser-compat.mjs`), local_journey (`live-verify.mjs`, one synthetic local lead), rendered_copy (`capture-rendered-copy.mjs` plus `copy_parity.py`), and assembles images, copy and catalogue reports from their current evidence. It records `visual` and `control_review` when their current evidence exists and otherwise lists them as next actions. It never publishes.
 
 Order: finish all copy, image reviews, guide review and control repairs first; the final control capture and the verify snapshot come last. Static validation now fails on visible starter text such as the template privacy page.
+
+## Narrow screens, phones and chat previews (field-tested, 28 September 2026)
+
+- Browser evidence must include the exact 320x700 viewport (with 1024x800 and 1280x600). Readable continuation, CTA visibility and overflow are separate checks; do not substitute other sizes.
+- `displayed_phone_readable` requires every visible telephone link to be at least 14px at every viewport, not just one copy of the number.
+- Static validation now also fails a phone `pattern` that accepts punctuation only, a required select that preselects a real answer without a declared `default`, a thank-you page that still offers the enquiry form or its buttons, a CRM page whose `script.js` loads without `funnel.js` first, and any page with a repeated `<!DOCTYPE html>` or document element.
+- To show a page in chat, build `python3 scripts/self_contained_preview.py build .` and send that file; `check FILE` must pass before any HTML is described as openable on its own.

@@ -14,7 +14,7 @@ The canonical source is `skills/community-landing-page-builder`. Edit it here, t
 | skills/community-landing-page-builder/assets/demo.json | Fictional demo contract and reviewed form selectors |
 | scripts/dev.py | Convenience wrapper around the skill quickstart |
 | scripts/install_community.py | Installs the skill and native Codex/Claude profiles into a project |
-| docs/community-landing-page-builder/ | The current fix specification |
+| docs/community-landing-page-builder/ | Field-test fix specifications and the remediation coverage matrix |
 | .development/demo/ | Ignored generated local demo and its private runtime state |
 
 ## Start

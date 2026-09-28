@@ -35,16 +35,19 @@ class ImageWorkflowTests(unittest.TestCase):
         self.image_id = self.plan["assets"][0]["id"]
         self.supplied = self.root / "supplied.png"
         self.supplied.write_bytes(png())
-        self.evidence = self.root / "source-instruction.txt"
-        self.evidence.write_text("Client supplied this photo of their real land-clearing project and authorized its use.")
+        self.evidence = self.root / "source-instruction.json"
+        # A typed user-attachment record: the owner's upload message and the file it covers.
+        self.evidence.write_text(json.dumps({"kind": "user_attachment", "message_id": "synthetic-upload-1",
+            "statement": "Client supplied this photo of their real land-clearing project and authorized its use.",
+            "files": [workflow.sha(self.supplied.read_bytes())]}))
         self.plan["content_minimum_exception"] = {"reason": "Focused one-asset workflow fixture, not a complete page.", "evidence": workflow.artifact(self.root, self.evidence)}
-        self.plan["inventory"] = [{"id": "supplied-1", "local_file": str(self.supplied), "source_sha256": workflow.sha(self.supplied.read_bytes()), "origin": "client-supplied", "evidence": workflow.artifact(self.root, self.evidence)}]
+        self.plan["inventory"] = [{"id": "supplied-1", "local_file": str(self.supplied), "source_sha256": workflow.sha(self.supplied.read_bytes()), "origin": "client-supplied", "authority": "user_attachment", "evidence": workflow.artifact(self.root, self.evidence)}]
 
     def tearDown(self):
         self.temporary.cleanup()
 
     def acquire(self):
-        return workflow.acquire(self.plan, self.root, self.image_id, "supplied-1", "client-provided", "source-instruction.txt", "Client identifies this as its project")
+        return workflow.acquire(self.plan, self.root, self.image_id, "supplied-1", "client-provided", "source-instruction.json", "Client identifies this as its project")
 
     def allow_generation(self):
         item = self.plan["assets"][0]
@@ -87,7 +90,12 @@ class ImageWorkflowTests(unittest.TestCase):
         for device, width in (("desktop", 1200), ("mobile", 390)):
             screenshot = self.root / (device + ".png")
             screenshot.write_bytes(png(width, 900, (90, 40, 120)))
-            report[device] = {"screenshot": screenshot.name, "viewport": {"width": width, "height": 900}, "served_variant": item["variants"][0]["path"], "subject_visible": True, "crop_appropriate": True, "alt_appropriate": True, "no_false_claim": True, "page_layout_checked": True}
+            crop = self.root / (device + "-element.png")
+            crop.write_bytes(png(300, 200, (20, 90, 60)))
+            variant = item["variants"][0]
+            report[device] = {"screenshot": screenshot.name, "viewport": {"width": width, "height": 900}, "served_variant": variant["path"],
+                              "element": {"selector": "main img[data-image-id]", "bbox": {"x": 10, "y": 40, "width": 300, "height": 200}, "resource_sha256": variant["sha256"]},
+                              "element_screenshot": crop.name, "subject_visible": True, "crop_appropriate": True, "alt_appropriate": True, "no_false_claim": True, "page_layout_checked": True}
         report_path = self.root / "image-review.json"
         report_path.write_text(json.dumps(report))
         return report_path, report
@@ -116,7 +124,7 @@ class ImageWorkflowTests(unittest.TestCase):
 
     def test_source_requires_specific_proof_evidence(self):
         with self.assertRaisesRegex(workflow.WorkflowError, "require evidence"):
-            workflow.acquire(self.plan, self.root, self.image_id, "supplied-1", "client-provided", "authorized")
+            workflow.acquire(self.plan, self.root, self.image_id, "supplied-1", "client-provided", "source-instruction.json")
 
     def test_reference_images_are_not_client_proof(self):
         self.plan["inventory"][0]["origin"] = "reference-website"
@@ -193,8 +201,10 @@ class ImageWorkflowTests(unittest.TestCase):
     def test_reported_model_must_appear_in_tool_evidence(self):
         self.allow_generation()
         attempt = workflow.prepare_generation(self.plan, self.image_id, "Illustration")
+        note = self.root / "raster-note.txt"
+        note.write_text("Created a raster for this slot.")
         with self.assertRaisesRegex(workflow.WorkflowError, "structured retained tool result"):
-            workflow.register_generation(self.plan, self.root, self.image_id, attempt["attempt_id"], self.supplied, self.evidence, "gpt-image-2.5-sunburst")
+            workflow.register_generation(self.plan, self.root, self.image_id, attempt["attempt_id"], self.supplied, note, "gpt-image-2.5-sunburst")
 
     def test_native_unknown_model_is_recorded_honestly(self):
         self.native_fixture()
@@ -300,6 +310,19 @@ class ImageWorkflowTests(unittest.TestCase):
         self.assertTrue(workflow.gate(self.plan, self.root)["passed"])
         (self.root / variants[0]["path"]).write_bytes(b"stale")
         self.assertFalse(workflow.gate(self.plan, self.root)["passed"])
+
+    @unittest.skipUnless(shutil.which("cwebp"), "cwebp is required for real optimization")
+    def test_review_needs_element_evidence_not_just_a_page_screenshot(self):
+        self.acquire()
+        workflow.optimize(self.plan, self.root, self.image_id)
+        report_path, report = self.create_review()
+        for broken, message in ((lambda view: view.pop("element"), "name the rendered element"),
+                                (lambda view: view["element"].update(resource_sha256="0" * 64), "not serving the recorded variant"),
+                                (lambda view: view.update(element_screenshot=view["screenshot"]), "capture of the element")):
+            changed = json.loads(json.dumps(report)); broken(changed["desktop"])
+            report_path.write_text(json.dumps(changed))
+            with self.assertRaisesRegex(workflow.WorkflowError, message):
+                workflow.review_asset(self.plan, self.root, self.image_id, report_path)
 
     @unittest.skipUnless(shutil.which("cwebp"), "cwebp is required for real optimization")
     def test_missing_mobile_review_or_changed_screenshot_fails(self):

@@ -151,6 +151,24 @@ def sync_guide(root):
     return derived
 
 
+# Researcher/QA narration: reporting what a source says or what the page does not claim,
+# instead of telling the reader what to do or decide.
+NARRATION = (
+    r"\b(?:is|are) (?:not )?(?:promised|claimed|stated|guaranteed) (?:by|on|in) this (?:page|guide|document)\b",
+    r"\bthis (?:page|guide|document) (?:does not|doesn't|cannot|can't|makes no) (?:promise|claim|guarantee|verify)",
+    r"\b(?:according to|as (?:listed|stated|shown) on) (?:the|their|its|our) (?:web)?site\b",
+    r"\b(?:the|their|its) (?:web)?site (?:lists|states|says|mentions|claims)\b",
+    r"\b(?:our research|the research|we) (?:found|could not (?:find|verify|confirm))\b",
+)
+
+
+def research_narration(text, brand=''):
+    patterns = list(NARRATION)
+    if norm(brand):
+        patterns.append(r"\b" + re.escape(norm(brand)) + r" (?:lists|states|says|mentions|claims)\b")
+    return [match.group(0) for pattern in patterns for match in [re.search(pattern, text, re.I)] if match]
+
+
 def validate_content(root, data):
     """Return hashes of every input used, or reject an incomplete reader guide."""
     if data.get('content_source') and derive_content(root, data) != data:
@@ -163,6 +181,9 @@ def validate_content(root, data):
         raise ValueError('Record the actual guide author task/session IDs for honest review independence')
     if PLACEHOLDER.search(text):
         raise ValueError('Replace generic scaffold/instruction wording with actual buyer-facing advice')
+    narration = research_narration(text, data.get('brand', {}).get('name', ''))
+    if narration:
+        raise ValueError('Guide text reads like research or QA notes (' + '; '.join(narration) + '). Write it as advice to the reader; keep sources in the sources section')
     for key in ('title', 'subtitle', 'audience', 'reader_promise'):
         if len(norm(data.get(key, ''))) < 10:
             raise ValueError('A specific ' + key + ' is required')

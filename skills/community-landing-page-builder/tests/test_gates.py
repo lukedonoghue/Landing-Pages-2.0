@@ -36,7 +36,7 @@ class GatesTest(unittest.TestCase):
                   'source_fingerprint': self.snapshot['source_fingerprint'], 'tool': {'name': 'regression-fixture', 'version': '1'},
                   'target': {'mode': self.snapshot['mode']}, 'checks': [{'name': 'fixture', 'status': 'pass', 'detail': 'Known fixture'}]}
         if gate == 'browser':
-            report.update(execution={'kind': 'automated'}, viewports=[{'width': w, 'height': 600 if w == 1280 else 844} for w in [360, 390, 768, 1024, 1180, 1280, 1440]], artifacts=[self.artifact('screen.png', 'screenshot')])
+            report.update(execution={'kind': 'automated'}, viewports=[{'width': w, 'height': 600 if w == 1280 else 700 if w == 320 else 844} for w in [320, 360, 390, 768, 1024, 1180, 1280, 1440]], artifacts=[self.artifact('screen.png', 'screenshot')])
         if gate == 'visual':
             report.update(
                 reviewer='test reviewer', observations=['Inspected fixture screenshot'],

@@ -32,13 +32,39 @@ Stages are `planned → acquired → optimized → reviewed`. Generated images f
 ## Inspect the client assets first
 
 1. Inspect the client site in the browser and save the observed DOM/HTML in `research/`. Include lazy-loaded image attributes, `srcset`, asset URLs and the page where each asset occurs. Scrolling/rendering the client page is necessary when useful imagery appears only after interaction.
-2. Save the supplied-file instruction or source/license evidence locally. Review whether the photo actually depicts the client work the copy claims. Public availability alone does not establish permission.
+2. Save authority as typed JSON records, never as a sentence you wrote. A file's location proves nothing about who supplied it.
+   - Owner upload: `{"kind": "user_attachment", "message_id": "<chat/message reference>", "files": ["<sha256>"]}`.
+   - Owner instruction to reuse website photos: `{"kind": "owner_authorization", "message_id": "...", "statement": "<their words>"}`.
+   - License: `{"kind": "license", "license_id": "...", "terms": "..."}`.
+   `client-provided` and `client-authorized` rights require one of these; `local-preview-only` needs none and is refused at handoff. Review whether each photo actually depicts the client work the copy claims. Public availability alone does not establish permission.
 3. Create candidates from the observed markup or an actual supplied image:
 
 ```bash
 python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" inventory-html --html "$PROJECT/research/client-rendered.html" --page-url https://client.example/services/ --origin client-website
-python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" inventory-file --file /absolute/path/to/supplied-photo.jpg --evidence "$PROJECT/research/client-asset-instruction.txt"
+python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" inventory-file --file /absolute/path/to/supplied-photo.jpg --authority user_attachment --evidence "$PROJECT/research/owner-upload.json"
 ```
+
+`--authority agent_created` records a file the agent made (it becomes `origin: agent-created`, rights `agent-created`, and can never be client proof). Only `user_attachment` or `owner_instruction` makes a file client-supplied.
+
+**Proof-candidate ledger.** Register every relevant first-party project, service, team or result photo that research finds, even ones you expect not to use:
+
+```bash
+python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" candidate --id source-EXACT_ID --subject "Finished bathroom remodel, Lancaster"
+```
+
+Each candidate must end with one disposition, and the images gate refuses the plan until it does:
+
+| Disposition | How it is recorded | Evidence |
+|---|---|---|
+| `used` | `acquire` into a `client-proof` asset | The photo must also be served on `public/index.html` |
+| `acquisition-failed` | `acquire` writes it when the download fails | The tool's receipt in `research/acquisition-receipts/` (URL, method, time, error class). A `host-not-allowed` failure is not accepted: add the host and retry |
+| `unsuitable` | `dispose --disposition unsuitable` | A specific visual reason and an evidence file (for example the inspected crop) |
+| `reuse-not-authorized` | `dispose --disposition reuse-not-authorized` | The rights evidence |
+| `no-download-tool` | `dispose --disposition no-download-tool` | A capability record. This is not a failed download; it stays unresolved, blocks handoff, and becomes an owner request to attach the photos |
+
+Research and design are bound: every attempt in `build/research-acceptance.json` and every client-site image URL listed in `docs/IMAGE-RESEARCH.md` must be a candidate. Illustration or generated media never resolves a candidate. The image count and the proof role are reported separately; four illustrations can meet the count but cannot close a known proof candidate.
+
+If this environment cannot download (a sandbox without network access), say exactly that, record `no-download-tool`, and ask the owner to attach the photos. Never write that a download failed without the tool's receipt, and never replace the business's own photos with illustrations to finish faster. Hosts with normal network access (for example a local Codex or Claude Code session) should download with `acquire`.
 
 The HTML extractor recognizes `<img>` sources, normal raster `srcset` attributes, `<source>` variants and `og:image`. It does not invent paths or blindly crawl a domain. CSS background images or images exposed by other lazy-loading attributes require browser inspection and a recorded observed inventory entry using the same `source_url`, `observed_page`, `origin` and hashed evidence fields. Logo SVG files stay in the normal brand/vector workflow; do not treat executable markup as a downloadable raster.
 
@@ -46,7 +72,7 @@ The HTML extractor recognizes `<img>` sources, normal raster `srcset` attributes
 5. Download or copy the chosen source, with a specific rights basis and proof evidence where needed:
 
 ```bash
-python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" acquire --id hero-client-project --candidate source-EXACT_ID --rights client-authorized --rights-evidence "Client authorized website asset reuse in the build brief" --proof-evidence "The supplied project gallery identifies this photograph as the client's River Road job"
+python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" acquire --id hero-client-project --candidate source-EXACT_ID --rights client-authorized --rights-evidence research/owner-authorization.json --proof-evidence "The supplied project gallery identifies this photograph as the client's River Road job"
 ```
 
 The download helper accepts only HTTPS with exact host allowlisting, verifies every redirect, rejects non-public DNS addresses, connects to the checked IP with TLS verification for the original hostname, enforces MIME/byte/size limits, and checks raster signatures/dimensions. It never executes downloaded content. Source originals are copied into `research/image-originals/` with content-addressed filenames and SHA-256 records. Existing files are not overwritten. Full decode happens during optimization; corrupt images must not advance to the rendered stage.
@@ -150,6 +176,14 @@ Use the recorded variant paths in the rendered page. Include width and height, `
 
 ## Review in the actual page, then enforce the gate
 
+Capture each image in its own placement first; one full-page screenshot cannot stand in for several images' reviews:
+
+```bash
+node "$PROJECT/scripts/capture-image-reviews.mjs" --url http://127.0.0.1:8787/ --project-root "$PROJECT"
+```
+
+It writes `build/image-reviews/<asset>.json` per asset with, for desktop and mobile, the selector, bounding box, served variant, the hash of the bytes actually served, an element capture and a placement screenshot. The judgment fields start empty. Inspect the captures, set each judgment honestly, record the reviewer, then run `review` on that file. The review is refused without the element evidence, and the gate refuses two assets that share an element capture.
+
 Inspect the original and final files, then view the complete rendered page at desktop and mobile sizes. Scroll to load lazy images and inspect the exact files delivered in the network panel. Check focal subject visibility, meaningful crop, skin/material/text artifacts, visual consistency, contrast behind overlaid copy, actual loaded file weight, and whether image plus caption/copy implies an unsupported claim. Test a narrow mobile width as well as desktop; do not reuse a desktop screenshot and label it mobile.
 
 Save a report inside the project, with this shape (fill hashes and paths from the manifest; use actual screenshots and honest review results):
@@ -168,6 +202,8 @@ Save a report inside the project, with this shape (fill hashes and paths from th
     "viewport": {"width": 1440, "height": 1000},
     "device_pixel_ratio": 1,
     "served_variant": "public/assets/images/optimized/EXACT_VARIANT_1600.webp",
+    "element": {"selector": "img[data-image-id=\"hero-client-project\"]", "bbox": {"x": 720, "y": 96, "width": 560, "height": 420}, "current_src": "/assets/images/optimized/EXACT_VARIANT_1600.webp", "resource_sha256": "EXACT_SHA256"},
+    "element_screenshot": "build/image-reviews/hero-client-project-desktop-element.png",
     "subject_visible": true,
     "crop_appropriate": true,
     "alt_appropriate": true,
@@ -179,6 +215,8 @@ Save a report inside the project, with this shape (fill hashes and paths from th
     "viewport": {"width": 390, "height": 844},
     "device_pixel_ratio": 1,
     "served_variant": "public/assets/images/optimized/EXACT_VARIANT_480.webp",
+    "element": {"selector": "img[data-image-id=\"hero-client-project\"]", "bbox": {"x": 16, "y": 412, "width": 358, "height": 268}, "current_src": "/assets/images/optimized/EXACT_VARIANT_480.webp", "resource_sha256": "EXACT_SHA256"},
+    "element_screenshot": "build/image-reviews/hero-client-project-mobile-element.png",
     "subject_visible": true,
     "crop_appropriate": true,
     "alt_appropriate": true,

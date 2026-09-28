@@ -95,6 +95,18 @@ class PassageApprovalTest(unittest.TestCase):
         exported = json.loads(portable_handoff.sanitize_workflow((self.root / 'build/workflow.json').read_bytes()))
         self.assertEqual(exported['approvals']['copy']['passages'], approvals['copy']['passages'])
 
+    def test_copy_surface_scan_precedes_approval(self):
+        self.edited(lambda copy: copy['sections'][0].update(body='Clear photos \u2014 of every issue.'))
+        with self.assertRaisesRegex(ValueError, 'surface scan found'):
+            workflow.record(self.root, 'copy', 'I approve this copy.', 'msg-1')
+        self.assertNotIn('copy', workflow.load(self.root).get('approvals', {}))
+        self.write(COPY)
+        workflow.record(self.root, 'copy', 'I approve this copy.', 'msg-2')
+        self.assertEqual(workflow.check_copy_approval(self.root)['status'], 'pass')
+        # A later edit re-runs the same scan rather than relying on the earlier approval.
+        self.edited(lambda copy: copy.update(h1='Roof inspections \u2013 booked this week'))
+        self.assertTrue(any('long dash' in f for f in workflow.check_copy_approval(self.root)['failures']))
+
     def test_markdown_copy_is_split_by_heading(self):
         (self.root / 'funnel.json').write_text(json.dumps({'backend': {'provider': 'none'}, 'guided_workflow': {'copy_format': 'markdown'}}))
         (self.root / 'build/page-copy.md').write_text('# Headline\nRoof inspections\n\n## FAQ\nHow long?\n\n## FAQ\nWho comes?\n')

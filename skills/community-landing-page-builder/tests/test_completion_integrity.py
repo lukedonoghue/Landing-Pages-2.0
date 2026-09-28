@@ -54,9 +54,11 @@ class CompletionIntegrityTests(unittest.TestCase):
         proof = self.artifact()
         plan['content_minimum_exception'] = {'reason': 'One-asset regression fixture, not a complete landing page.', 'evidence': proof}
         source = self.root/'supplied.png'; source.write_bytes(png())
-        plan['inventory'] = [{'id': 'source', 'origin': 'client-supplied', 'local_file': str(source), 'source_sha256': images.sha(source.read_bytes()), 'evidence': proof}]
+        upload = self.artifact('research/upload-record.json', json.dumps({'kind': 'user_attachment', 'message_id': 'synthetic-upload',
+                               'files': [images.sha(source.read_bytes())]}))
+        plan['inventory'] = [{'id': 'source', 'origin': 'client-supplied', 'authority': 'user_attachment', 'local_file': str(source), 'source_sha256': images.sha(source.read_bytes()), 'evidence': upload}]
         item = plan['assets'][0]
-        images.acquire(plan, self.root, item['id'], 'source', 'client-provided', 'Synthetic test rights', 'Synthetic test project, not real proof')
+        images.acquire(plan, self.root, item['id'], 'source', 'client-provided', 'research/upload-record.json', 'Synthetic test project, not real proof')
         item['variants'] = [dict(item['source'])]
         item['stage'] = 'optimized'
         return plan

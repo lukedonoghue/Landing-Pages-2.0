@@ -449,3 +449,18 @@ test('terminal submission conflict requires an explicit restart, unknown conflic
     }finally{await page.close();}
   }
 });
+test('punctuation-only and short phone numbers are stopped on their step with a field error',browserOptions,async()=>{
+  const page = await browser.newPage(); page.setDefaultTimeout(5000);
+  try {
+    await page.goto(base); await page.locator('[data-open-modal]').click();
+    await page.locator('[name=first_name]').fill('Alex'); await page.locator('[name=last_name]').fill('Example');
+    await page.locator('[name=email]').fill('alex@example.invalid');
+    for (const phone of ['-------', '12 34', '(((  )))']) {
+      await page.locator('[name=phone]').fill(phone); await page.locator('[data-next]').click();
+      assert.equal(await page.locator('[name=phone]').evaluate(field => field.validationMessage), 'Enter a phone number with at least 7 digits.', phone);
+      assert.equal(await page.locator('[name=service]').isVisible(), false, phone + ' must not advance');
+    }
+    await page.locator('[name=phone]').fill('+44 7700 900123'); await page.locator('[data-next]').click();
+    assert.equal(await page.locator('[name=service]').isVisible(), true);
+  } finally { await page.close(); }
+});

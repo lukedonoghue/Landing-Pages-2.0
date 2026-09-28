@@ -88,6 +88,19 @@ def copy_state(root):
         result = {**result, 'passages': copy_passages(Path(root).resolve(), result['contract'])}
     return result
 
+def copy_approval_required(config):
+    """Guided mode's complete-copy checkpoint is the owner's; a config flag cannot switch it off."""
+    return bool(config.get('approvals', {}).get('copy_before_design')) or (config.get('guided_workflow') or {}).get('mode') == 'guided'
+
+def copy_surface_failures(root):
+    """Deterministic absolute surface rules (long dashes, placeholders) on the exact copy."""
+    import scan_surfaces
+    root = Path(root).resolve()
+    path = root / copy_files(root)['copy']
+    if not path.is_file():
+        return []
+    return [f"{item['path']}:{item['line']}: {item['reason']} ({item['excerpt']})" for item in scan_surfaces.findings_for(path, root, [])]
+
 def check_copy_approval(root, allow_fixture=False):
     current = copy_state(root)
     if current['status'] == 'blocked': return current
@@ -101,12 +114,14 @@ def check_copy_approval(root, allow_fixture=False):
         elif changed:
             failures.append('Copy changed since the owner approved it. Show only these changed passages and wait for approval: ' + ', '.join(changed))
     current = {**current, 'changed_passages': changed or []}
+    # The same scan that gates recording re-runs here, so a later edit cannot slip a prohibited surface past approval.
+    failures += copy_surface_failures(root)
     if approval.get('actor') != 'user' and not (allow_fixture and approval.get('actor') == 'fixture'): failures.append('A real user copy approval is required; automated review is not approval.')
     return {**current,'status':'blocked' if failures else current['status'],'failures':failures}
 
 def check_build(root, allow_fixture=False):
     config = read(root/'funnel.json')
-    approval = check_copy_approval(root, allow_fixture) if config.get('approvals',{}).get('copy_before_design') else copy_state(root)
+    approval = check_copy_approval(root, allow_fixture) if copy_approval_required(config) else copy_state(root)
     if approval['status'] == 'blocked': return approval
     documents = {'status':'pass','failures':[]} if lightweight(root) else process_contract.check_build_documents(root)
     if documents['status'] == 'blocked': return documents
@@ -156,7 +171,7 @@ def check_publish_approval(root):
     if not read(root/'funnel.json').get('quality',{}).get('complete_workflow'):
         return {'status':'blocked','failures':['Complete workflow verification is required before publishing.']}
     config = read(root/'funnel.json')
-    copy_result = check_copy_approval(root) if config.get('approvals',{}).get('copy_before_design') else copy_state(root)
+    copy_result = check_copy_approval(root) if copy_approval_required(config) else copy_state(root)
     if copy_result['status'] == 'blocked': return copy_result
     gates = check_gates.check(root,'handoff',root/'build/gates.json')
     if gates['status'] == 'blocked': return gates
@@ -172,10 +187,13 @@ def record(root, kind, message, message_id, fixture=False, allow_test_lead=False
         if kind not in {'copy', 'publish'}: raise ValueError('Unknown approval kind')
         if not message.strip() or not message_id.strip(): raise ValueError('Record the actual user approval message and its conversation/message reference.')
         if fixture and kind == 'publish': raise ValueError('Fixture approvals can never authorize publishing.')
-        if kind == 'copy': current = copy_state(root)
+        if kind == 'copy':
+            surface = copy_surface_failures(root)
+            if surface: raise ValueError('Fix the copy before approval; the surface scan found: ' + '; '.join(surface))
+            current = copy_state(root)
         else:
             config = read(root/'funnel.json')
-            copy_result = check_copy_approval(root) if config.get('approvals',{}).get('copy_before_design') else copy_state(root)
+            copy_result = check_copy_approval(root) if copy_approval_required(config) else copy_state(root)
             if copy_result['status'] == 'blocked': raise ValueError('; '.join(copy_result['failures']))
             current = check_gates.check(root,'handoff',root/'build/gates.json')
         if current['status'] == 'blocked': raise ValueError('; '.join(current['failures']))
@@ -245,7 +263,7 @@ def main():
             audit=copy_library.audit(paths['copy'],paths['brief'],paths['context'],paths['review'])
             result={'schema_version':1,'gate':'copy','status':current['status'],'source_fingerprint':snapshot['source_fingerprint'],'executed_at':now(),'target':{'mode':snapshot['mode'],'url':''},'tool':{'name':'copy_library audit','version':'1'},'checks':{'current_editorial_review':True},'copy_audit':audit,'artifacts':[{'path':str(path.relative_to(root)),'type':key,'sha256':sha(path)} for key,path in paths.items()],'failures':[],'warnings':audit['warnings']}
             (root/'build/copy-audit.json').write_text(json.dumps(result,indent=2)+'\n')
-        elif args.command=='check-copy': result=check_copy_approval(root,args.allow_fixture) if read(root/'funnel.json').get('approvals',{}).get('copy_before_design') else copy_state(root)
+        elif args.command=='check-copy': result=check_copy_approval(root,args.allow_fixture) if copy_approval_required(read(root/'funnel.json')) else copy_state(root)
         elif args.command=='check-build': result=check_build(root,args.allow_fixture)
         elif args.command=='check-publish': result=check_publish_approval(root)
         elif args.command.startswith('approve') or args.command=='authorize-publish':

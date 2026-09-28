@@ -26,6 +26,32 @@
       "required": true
     },
     {
+      "id": "business_type",
+      "field": "business.archetype",
+      "type": "choice",
+      "label": "What kind of business is this?",
+      "reason": "A trade that works on customers' homes or sites (plumbing, roofing, cleaning, landscaping) is judged on photos of real jobs, so the page leads with them. Research usually settles this from your website.",
+      "required": false,
+      "options": [
+        {
+          "value": "local_trade",
+          "label": "A local trade or on-site service"
+        },
+        {
+          "value": "professional_service",
+          "label": "A professional or advisory service"
+        },
+        {
+          "value": "retail",
+          "label": "A shop or product business"
+        },
+        {
+          "value": "other",
+          "label": "Something else"
+        }
+      ]
+    },
+    {
       "id": "audience",
       "field": "audience",
       "type": "text",

@@ -245,6 +245,8 @@ def validate_report(root, report, snapshot, gate):
             errors.append('Browser evidence does not cover every required width')
         if not any(item.get('width') == 1280 and item.get('height', 10000) <= 600 for item in viewports if isinstance(item, dict)):
             errors.append('Browser evidence must include low-height laptop coverage')
+        if not any(item.get('width') == 320 and item.get('height', 10000) <= 700 for item in viewports if isinstance(item, dict)):
+            errors.append('Browser evidence must include the 320x700 narrow-phone viewport')
     elif gate == 'performance':
         if report.get('execution', {}).get('kind') != 'automated' or not {'lighthouse_json'}.intersection(kinds):
             errors.append('Performance needs an executed Lighthouse audit and its raw JSON artifact')
@@ -266,7 +268,13 @@ def validate_report(root, report, snapshot, gate):
             if file_hash(plan_path) != report.get('plan_sha256'):
                 errors.append('Image acceptance refers to a stale plan')
             loaded = image_workflow.load_plan(plan_path)
-            errors += image_workflow.gate(loaded, root)['errors']
+            result = image_workflow.gate(loaded, root)
+            errors += result['errors']
+            errors += image_workflow.research_binding_errors(loaded, root)
+            errors += image_workflow.rendered_proof_errors(loaded, root)
+            unresolved = result.get('proof_role', {}).get('unresolved', [])
+            if unresolved and snapshot.get('mode') in {'handoff', 'live'}:
+                errors.append('First-party proof photos still wait for the owner (no download tool in this environment): ' + ', '.join(unresolved) + '. Ask the owner to attach them, then inventory them with --authority user_attachment.')
             if snapshot.get('mode') in {'handoff', 'live'}:
                 preview_only = [a['id'] for a in loaded['assets'] if a.get('provenance', {}).get('rights') == 'local-preview-only']
                 if preview_only:
@@ -341,6 +349,8 @@ def validate_report(root, report, snapshot, gate):
                 errors.append('Visual retests must refer to a recorded finding')
         if not isinstance(report.get('limits'), list):
             errors.append('Visual acceptance must state unresolved limits')
+        import visual_direction
+        errors += visual_direction.category_fit_errors(root, report, mode)
     elif gate == 'catalogue':
         config = read_json(root / 'funnel.json')
         if config.get('quality', {}).get('reader_guide_version', 0) >= 1:

@@ -248,6 +248,24 @@ def verify_project(project, node, mode="preview", performance_runs=1, port=None)
                     "control_review": "Complete the Blue Mountain comparison, repairs and acceptance (references/control-comparison.md).",
                     "final_review": "Review the final page and state captures and write build/final-review.json (references/remediation-contracts.md)."}.get(name, first)
             next_actions.append(f"{name}: {hint}")
+    # First-party photos the environment could not download are the owner's to supply.
+    try:
+        import image_workflow
+        waiting = image_workflow.proof_role(json.loads((project / "image-plan.json").read_text()), project).get("unresolved", []) if (project / "image-plan.json").is_file() else []
+    except (OSError, ValueError, KeyError, TypeError):
+        waiting = []
+    if waiting:
+        next_actions.append("proof photos: ask the owner to attach these first-party photos (" + ", ".join(waiting) + "), then inventory them with image_workflow.py inventory-file --authority user_attachment")
+    # A preview can pass while handoff records are missing; say so now, not at export.
+    readiness = None
+    if mode == "preview":
+        try:
+            import completion_contract
+            found = completion_contract.inspect(project).get("failures", [])
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            found = [str(error)]
+        readiness = {"status": "blocked" if found else "pass", "blockers": found[:25], "more": max(0, len(found) - 25),
+                     "note": "Not required for this preview; handoff and publication will require these records."}
     return {"status": "pass" if scoreboard and all(v in {"pass", "pass_with_warnings"} for v in scoreboard.values()) else "blocked",
-            "mode": mode, "fixture_created": created_fixture, "gates": scoreboard, "next_actions": next_actions, "steps": steps,
+            "mode": mode, "fixture_created": created_fixture, "gates": scoreboard, "next_actions": next_actions, "handoff_readiness": readiness, "steps": steps,
             "publication": "not performed", "note": "The local journey leaves one synthetic lead in the local CRM."}

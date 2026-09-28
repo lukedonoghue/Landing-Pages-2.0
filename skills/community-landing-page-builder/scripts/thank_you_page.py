@@ -91,6 +91,10 @@ def derive(root, data):
     config=quality.read(root,'funnel.json')
     if quality.norm(data['follow_up'])!=quality.norm(config.get('follow_up_promise','')):
         raise ValueError('Confirmation follow-up must match the current approved operational promise')
+    master=root/'build/page-copy.json'
+    approved=(quality.read(root,'build/page-copy.json').get('thank_you') or {}).get('download_label') if master.is_file() else None
+    if approved and quality.norm(approved)!=quality.norm(data['download_label']):
+        raise ValueError(f"build/thank-you.json download_label {data['download_label']!r} differs from the approved copy {approved!r}; change one so they match, and record the change")
     text=source.read_text();doc=Document(text)
     mains=[n for n in doc.nodes if n.tag=='main']
     heads=[n for n in doc.nodes if n.tag=='head']

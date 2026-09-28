@@ -537,7 +537,7 @@ def inspect(root):
             status="blocked",
         )
     report["completed"].append("copy_review_passed")
-    if config.get("approvals", {}).get("copy_before_design"):
+    if workflow.copy_approval_required(config):
         approval = workflow.check_copy_approval(root)
         report["copy_approval"] = approval
         if approval["status"] not in PASS:

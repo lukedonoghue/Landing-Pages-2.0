@@ -93,6 +93,60 @@ def parse_html(path: Path) -> FunnelParser:
 PLACEHOLDER_TEXT = re.compile(r"This is a development template|Replace this starter with your approved client content|Replace it with the client's approved privacy policy|WORKFLOW_TEMPLATE_INCOMPLETE|lorem ipsum", re.I)
 
 
+# Attributes that open the enquiry form; the confirmation page must not keep any.
+ENQUIRY_OPENERS = ("data-open-modal", "data-form-open", "data-open-form", "data-enquiry-cta", "data-quote-cta")
+
+
+def script_sources(html: str) -> list[str]:
+    return [src.split("?")[0].rsplit("/", 1)[-1] for src in re.findall(r"<script\b[^>]*\bsrc=[\"']([^\"']+)[\"']", html, re.I)]
+
+
+def form_behavior_failures(project_root: Path, index_text: str, thank_text: str, has_form: bool) -> list[str]:
+    """Behavior the page must share with its conversion contract and the Worker."""
+    failures = []
+    funnel_path = project_root / "funnel.json"
+    funnel = json.loads(funnel_path.read_text()) if funnel_path.is_file() else {}
+    defaults = {field.get("name"): field.get("default") for field in funnel.get("form_fields", []) if isinstance(field, dict)}
+    for tag in re.findall(r"<input\b[^>]*>", index_text, re.I):
+        if not re.search(r"\btype=[\"']tel[\"']", tag, re.I):
+            continue
+        pattern = re.search(r"\bpattern=[\"']([^\"']*)[\"']", tag, re.I)
+        if not pattern:
+            continue
+        try:
+            accepts = [value for value in ("-------", "(((  )))", "+ + + +") if re.fullmatch(pattern.group(1), value)]
+        except re.error:
+            continue
+        if accepts:
+            failures.append(f"The phone pattern {pattern.group(1)!r} accepts {accepts[0]!r}; count digits (at least 7) the way the Worker does, or remove the pattern and rely on the bundled script")
+    for attrs, body in re.findall(r"<select\b([^>]*)>(.*?)</select>", index_text, re.I | re.S):
+        if not re.search(r"\brequired\b", attrs, re.I):
+            continue
+        name = (re.search(r"\bname=[\"']([^\"']+)[\"']", attrs) or [None, "select"])[1]
+        first = re.search(r"<option\b([^>]*)>(.*?)</option>", body, re.I | re.S)
+        if not first:
+            continue
+        value_attr = re.search(r"\bvalue=[\"']([^\"']*)[\"']", first.group(1))
+        value = value_attr.group(1) if value_attr else re.sub(r"<[^>]+>", "", first.group(2)).strip()
+        if value and defaults.get(name) != value:
+            failures.append(f"Required select {name!r} preselects {value!r}; start with an empty prompt option, or declare \"default\": {value!r} for it in funnel.json form_fields")
+    crm = (project_root / "src/site-config.json").is_file()
+    if has_form:
+        kept = [name for name in ENQUIRY_OPENERS if name in thank_text] + (["<form>"] if re.search(r"<form\b", thank_text, re.I) else []) + (["#lead-modal"] if 'id="lead-modal"' in thank_text else [])
+        if kept:
+            failures.append("thank-you.html still offers the enquiry (" + ", ".join(kept) + "); a confirmation page links to the guide instead of reopening the form")
+    if crm and has_form:
+        scripts = script_sources(index_text)
+        if "funnel.js" not in scripts or ("script.js" in scripts and scripts.index("funnel.js") > scripts.index("script.js")):
+            failures.append("index.html must load funnel.js before script.js; without it the form sends no attribution and never writes the confirmation receipt")
+        thank_scripts = script_sources(thank_text)
+        if "funnel.js" not in thank_scripts:
+            failures.append("thank-you.html must load funnel.js so the confirmation can read the receipt")
+        if "data-confirmed-only" in thank_text and "confirmation.js" not in thank_scripts:
+            failures.append("thank-you.html has confirmed-only content but does not load confirmation.js, so it can never show")
+    return failures
+
+
 def main() -> int:
     argp = argparse.ArgumentParser(description=__doc__)
     argp.add_argument("project_root", type=Path)
@@ -169,6 +223,8 @@ def main() -> int:
             else:
                 warnings.append(message + ("; local preview is explicit" if local_preview else ""))
 
+    failures += form_behavior_failures(project_root, index_text, thank_text, bool(index.forms))
+
     if args.cta:
         cta_texts = index.cta_texts
         checks["cta_texts"] = cta_texts
@@ -193,6 +249,13 @@ def main() -> int:
         stripped = re.sub(r"<!--.*?-->", "", content, flags=re.S)
         if re.search(r"\{\{\s*[A-Z][A-Z0-9_]*\s*\}\}|\[\[(?:HEADLINE|CTA|CLIENT_NAME)\]\]", stripped):
             failures.append(f"Unresolved template marker in {path.name}")
+        # Browsers recover from a repeated declaration, so only a structural check catches an export that concatenated pages.
+        structure = {name: len(re.findall(pattern, stripped, re.I)) for name, pattern in
+                     (("<!DOCTYPE html>", r"<!doctype\s+html\b"), ("<html>", r"<html\b"), ("<head>", r"<head\b"), ("<body>", r"<body\b"))}
+        # HTML5 allows omitted <head>/<body> tags, but never a missing or repeated declaration or a second document.
+        repeated = [name for name, count in structure.items() if count > 1 or (name == "<!DOCTYPE html>" and count != 1)]
+        if repeated:
+            failures.append(f"{path.relative_to(root)} must be one well-formed document; found " + ", ".join(f"{name} x{structure[name]}" for name in repeated))
         placeholder = PLACEHOLDER_TEXT.search(re.sub(r"<[^>]+>", " ", stripped))
         if placeholder:
             failures.append(f"Visible starter/placeholder text in {path.name}: {placeholder.group(0)!r}. Replace it with the business's approved content before QA.")

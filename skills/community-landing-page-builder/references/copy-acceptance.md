@@ -69,3 +69,13 @@ Budget: one full draft, one benefit revision, one evidence-based review, then ta
 ## Sentence-level grounding, including the guide (field-tested, September 2026)
 
 In the field test, three invented passages in `brochure.text` (test mechanics, a regulatory claim and quote contents) passed five review rounds because the review only verified claims listed in the ledger. Before passing `claim_support`, read every factual sentence of the page, FAQ, modal, thank-you and `brochure.text` and point to its source excerpt or the owner instruction. A sentence that is plausible general knowledge but absent from the sources fails. Check scope qualifiers on approved claims too: a ForceField-only property must not be written as true of every product.
+
+## Sentence classes and approval order (field-tested, 28 September 2026)
+
+Review every customer-facing sentence of the page and the guide by class, not only the claims already in the ledger:
+
+- **Factual assertion** (what the business does, has, charges or has done): needs a source anchor or a narrower rewrite.
+- **Question or instruction to the reader** ("Ask which tasks are included"): needs no source, but must not smuggle in a fact.
+- **Necessary disclosure**: keep it, written to the reader rather than about the page.
+
+Record a judgment for each declarative factual sentence. The deterministic surface scan (long dashes, placeholders) runs on the exact copy before approval is recorded: `workflow.py approve-copy` and the guide refuse approval while it fails, and every later approval check re-runs it.

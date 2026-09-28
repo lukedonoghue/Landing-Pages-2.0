@@ -92,6 +92,11 @@ class ReaderGuideTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'never infer prices'):
             self.build()
 
+    def test_confirmation_download_label_must_match_the_approved_copy(self):
+        build_guide.write_json(self.root/'build/page-copy.json', {'thank_you': {'download_label': 'Read the checklist'}})
+        with self.assertRaisesRegex(ValueError, 'differs from the approved copy'):
+            self.build()
+
     def test_actual_pdf_has_authored_text_rasters_cover_and_no_overflow(self):
         report = self.build()
         text = q.norm((self.root/report['text_output']).read_text())

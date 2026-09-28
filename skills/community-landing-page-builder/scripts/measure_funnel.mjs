@@ -405,6 +405,13 @@ try {
       }, funnel.client.phone_display);
       check('verified_phone_visible_near_top', contact, 'Configured public number appears at readable size in the first viewport', { viewport });
     }
+    // Every displayed telephone number must be readable, not just one copy of it.
+    const smallPhones = await page.evaluate(() => [...document.querySelectorAll('a[href^="tel:"]')].filter(link => {
+      const style = getComputedStyle(link), box = link.getBoundingClientRect();
+      const visible = style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) > 0 && box.width > 0 && box.height > 0;
+      return visible && link.textContent.replace(/\D/g, '').length >= 7 && parseFloat(style.fontSize) < 14;
+    }).map(link => `${link.textContent.trim()} at ${getComputedStyle(link).fontSize}`));
+    check('displayed_phone_readable', !smallPhones.length, smallPhones.length ? 'Telephone text below 14px: ' + smallPhones.join('; ') : 'Every visible telephone number is at least 14px', { viewport });
     if (brand?.measurements?.length) {
       const source = [...brand.measurements].sort((a,b) => Math.abs(a.viewport.width - viewport.width) - Math.abs(b.viewport.width - viewport.width))[0];
       const expected = { heading: source.typography?.heading || source.roles?.hero_heading?.[0], body: source.typography?.body || source.roles?.body?.find(item => item.text?.length >= 60 && item.textTransform !== 'uppercase') };

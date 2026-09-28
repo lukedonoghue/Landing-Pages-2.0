@@ -253,6 +253,8 @@ def inspect(root):
             failures.append('Final acceptance has unresolved or missing findings')
         if not nonempty(acceptance.get('headline_only_story')) or not nonempty(acceptance.get('cold_reader_summary')):
             failures.append('Read only the actual headlines and explain the offer as a first-time customer')
+        import visual_direction
+        failures += visual_direction.media_strategy_errors(root, acceptance)
         return {'status': 'blocked' if failures else 'pass', 'stage': 'control_retest',
                 'failures': failures, 'issue_count': len(rows), 'input': current,
                 'warnings': [], 'limits': ['Control copy and layout map derive from archived source, including the visually inspected 2024 screenshot. They do not represent a fresh live control render; retrieve the referenced screenshot for direct pixel comparison when available.',

@@ -25,7 +25,7 @@ function fixture(t) {
   const checker = [join(template, 'scripts/check_gates.py'), fileURLToPath(new URL('../../../scripts/check_gates.py', import.meta.url))].find(existsSync);
   assert.ok(checker, 'Evidence checker source exists');
   copyFileSync(checker, join(root, 'scripts/check_gates.py'));
-  for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','copy_parity','completion_contract','image_evidence','dependency_state','execution_receipts','copy_contract','copy_acceptance','research_contract','copy_quality','question_log','validate_required_records','release_acceptance','validate_owner_handoff','final_review']) {
+  for (const name of ['release_state','workflow','workflow_storage','workflow_progress','process_contract','copy_library','image_workflow','visual_direction','scan_surfaces','copy_parity','completion_contract','image_evidence','dependency_state','execution_receipts','copy_contract','copy_acceptance','research_contract','copy_quality','question_log','validate_required_records','release_acceptance','validate_owner_handoff','final_review']) {
     const source=[join(template, 'scripts', name+'.py'),fileURLToPath(new URL('../../../scripts/'+name+'.py',import.meta.url))].find(existsSync);
     assert.ok(source);copyFileSync(source,join(root,'scripts',name+'.py'));
   }
@@ -61,7 +61,7 @@ function evidence(root) {
   const manifest = {schema_version:1,snapshot,gates:{}};
   for (const gate of ['static','browser','visual']) {
     const report = {schema_version:1,gate,status:'pass',source_fingerprint:snapshot.source_fingerprint,executed_at:new Date().toISOString(),tool:{name:'synthetic workflow regression fixture',version:'1'},target:{mode:'handoff'},checks:[{name:'synthetic test fixture',status:'pass',detail:'Tests preflight integrity plumbing, not a client build'}]};
-    if(gate==='browser')Object.assign(report,{execution:{kind:'automated'},viewports:[360,390,768,1024,1180,1280,1440].map(width=>({width,height:600})),artifacts:[artifact]});
+    if(gate==='browser')Object.assign(report,{execution:{kind:'automated'},viewports:[320,360,390,768,1024,1180,1280,1440].map(width=>({width,height:width===320?700:600})),artifacts:[artifact]});
     if(gate==='visual')Object.assign(report,{reviewer:'synthetic workflow test',observations:['Synthetic fixture only'],review_provenance:{mode:'self_review',reviewer_identity:'fixture builder',reviewer_task_id:'fixture-task',builder_identity:'fixture builder',builder_task_id:'fixture-task'},reviewed_source_fingerprint:snapshot.source_fingerprint,findings:[],retests:[],limits:['Synthetic workflow fixture only'],artifacts:[artifact]});
     const text = JSON.stringify(report);
     write(root, `build/${gate}.json`, text);

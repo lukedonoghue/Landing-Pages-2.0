@@ -78,3 +78,7 @@ The original catalogue renderer remains for explicit catalogue/legacy work; it i
 ## Explicit native guide-image handoff
 
 Use [guide-image-handoff.md](guide-image-handoff.md) when a PDF needs an explanatory image not available from permitted sources. The persisted `image_handoff` action returns the actual native request once; an unavailable tool is a precise handoff, not a repeated model run or new API-key requirement. Resume after registering and linking the real output, or explicitly reconcile a permitted source fallback.
+
+## Write to the reader, not about the research (field-tested, 28 September 2026)
+
+Guide text must advise the reader. Source-reporting and claim-boundary narration such as "Bear Plumbing lists water treatment", "according to their website" or "no emergency attendance is promised by this page" is rejected by the guide build. Rewrite it as what the homeowner should do or decide; keep sources in the sources section and necessary limits in `scope_note`, addressed to the reader. The confirmation's `download_label` in `build/thank-you.json` must match the approved copy's `thank_you.download_label`.
