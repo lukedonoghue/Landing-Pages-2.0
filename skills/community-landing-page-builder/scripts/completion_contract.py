@@ -193,7 +193,13 @@ def inspect(root):
     import workflow
     root = Path(root).resolve()
     failures = []
-    failures += process_contract.validate_documents(root)
+    # Contract 4 completion checks every retained document, including the generated QA rows.
+    version = read(root / 'funnel.json').get('quality', {}).get('contract_version', 0) if (root / 'funnel.json').is_file() else 0
+    if version >= 4:
+        import validate_required_records
+        failures += validate_required_records.validate(root, 'handoff')
+    else:
+        failures += process_contract.validate_documents(root)
     failures += research(root)
     failures += coverage(root)
     import research_contract, copy_quality, dependency_state

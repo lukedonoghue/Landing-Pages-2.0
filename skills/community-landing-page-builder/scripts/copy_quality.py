@@ -26,6 +26,8 @@ def lint(root):
     for issue in copy_acceptance.customer_copy_issues(path):findings.append({'kind':'research_narration','excerpt':issue})
     for finding in findings:
         finding['id']=hashlib.sha256(json.dumps(finding,sort_keys=True).encode()).hexdigest()[:16]
+    # One finding per ID: a repeated risky word needs one disposition, not one per occurrence.
+    findings=list({finding['id']:finding for finding in findings}.values())
     return {'schema_version':1,'copy':{'path':name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()},
             'findings':findings,'scope':'Mechanical review prompts, not automatic semantic judgments'}
 

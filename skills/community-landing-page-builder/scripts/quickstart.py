@@ -70,6 +70,23 @@ def npm(node, arguments, project):
     return run([executable, *arguments], project, node, "Dependency installation")
 
 
+def requirements_file():
+    """The pinned build requirements: the skill's own, or a generated project's private runtime copy."""
+    for path in (SKILL / "requirements-build.txt", SKILL / ".community-builder/requirements-build.txt"):
+        if path.is_file():
+            return path
+    raise ValueError("requirements-build.txt is missing here. Run bootstrap from the installed skill, or install reportlab and Pillow in a private environment.")
+
+
+def private_python():
+    """The private environment's Python, used only when it can import the PDF libraries."""
+    environment = SKILL / ".venv"
+    python = environment / "bin/python"
+    if not python.is_file() or Path(sys.prefix).resolve() == environment.resolve():
+        return None
+    return python if runtime_check.probe([str(python), "-c", "import reportlab, PIL"])[0] == 0 else None
+
+
 def bootstrap(node, project):
     """Install only local dependencies; OS tools are reported, never sudo-installed."""
     for name in ("package.json", "package-lock.json"):
@@ -80,13 +97,19 @@ def bootstrap(node, project):
         import reportlab
         import PIL
     except ImportError:
+        requirements = requirements_file()
         environment = SKILL / ".venv"
         if environment.exists() and not (environment / "pyvenv.cfg").is_file():
             raise ValueError("An unrelated .venv directory exists; it was not modified.")
+        created = not environment.exists()
         subprocess.run([sys.executable, "-m", "venv", str(environment)], check=True)
         python = environment / "bin/python"
-        run([python, "-m", "pip", "install", "-r", SKILL / "requirements-build.txt"],
-            SKILL, label="Private Python environment setup")
+        try:
+            run([python, "-m", "pip", "install", "-r", requirements], SKILL, label="Private Python environment setup")
+        except ValueError:
+            if created:  # never leave a half-built environment for later commands to re-enter
+                shutil.rmtree(environment, ignore_errors=True)
+            raise
     npm(node, ["ci"], project)
     executable = shutil.which("npx", path=runtime_check.run_env(node)["PATH"])
     if not executable:
@@ -301,7 +324,7 @@ def verify_demo(project, node, full=False):
                 project, node, "Read-only final modal and confirmation state captures")
             run([node, "scripts/measure_funnel.mjs", url, "--out", "build/layout/result.json",
                  "--project-root", ".", "--mode", "handoff", "--thank-you", "/thank-you.html"],
-                project, node, "Nine-viewport layout verification")
+                project, node, "Ten-viewport layout verification")
             # Benchmark regression: the template hero must keep one unobscured action
             # fully above the fold at every viewport, as on the control page.
             hero = [w for w in json.loads((project / "build/layout/result.json").read_text()).get("warnings", []) if "above the fold" in w]
@@ -384,9 +407,8 @@ def main():
     if len(sys.argv)>1 and sys.argv[1]=='ship':
         import ship
         return ship.main(sys.argv[2:])
-    environment = SKILL / ".venv"
-    python = environment / "bin/python"
-    if python.is_file() and Path(sys.prefix).resolve() != environment.resolve():
+    python = private_python()
+    if python:
         os.execv(str(python), [str(python), __file__, *sys.argv[1:]])
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["doctor", "bootstrap", "check", "demo", "serve", "verify-demo", "reset-demo", "verify", "preview"],
@@ -395,10 +417,10 @@ def main():
     parser.add_argument("--project", type=Path, help="Demo output for demo/serve/verify/reset; existing application for doctor/bootstrap. Omit when bootstrapping a new skill installation.")
     parser.add_argument("--repository", type=Path, help=argparse.SUPPRESS)
     parser.add_argument("--port", type=int)
-    parser.add_argument("--full", action="store_true", help="Include the nine-viewport matrix and three-run Lighthouse audit.")
+    parser.add_argument("--full", action="store_true", help="Include the ten-viewport matrix and three-run Lighthouse audit.")
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--mode", choices=["preview", "handoff"], default="preview", help="verify: evidence mode")
-    parser.add_argument("--runs", type=int, default=1, help="verify: Lighthouse runs (1-5)")
+    parser.add_argument("--runs", type=int, default=1, help="verify: Lighthouse runs (1-5); handoff always runs at least three")
     args = parser.parse_args()
     try:
         if args.command == "doctor":

@@ -7,9 +7,11 @@ import re
 import sys
 
 
-def validate(root, stage='build'):
+def validate(root, stage='handoff'):
+    """Stage copy/build checks only the workflow docs that stage needs; handoff checks every retained doc."""
     import copy_contract
     import completion_contract as contract
+    import process_contract
     root = Path(root).resolve()
     required = list(copy_contract.copy_files(root).values())
     if stage != 'copy':
@@ -28,14 +30,15 @@ def validate(root, stage='build'):
                 raise ValueError('Empty canonical record: '+name)
         except (OSError,ValueError,TypeError) as error:
             errors.append('Required records: '+str(error))
-    # Existing docs are still checked. Migration does not delete template markers.
-    for path in sorted((root/'docs').glob('*.md')):
+    # Existing docs are still checked. Migration does not delete template markers. QA-REPORT.md
+    # is generated after QA, so the pre-build copy and build gates cannot require it.
+    names = {'copy': process_contract.COPY_GATE_DOCS, 'build': process_contract.BUILD_GATE_DOCS}.get(stage)
+    for path in sorted((root/'docs').glob('*.md')) if names is None else [root/'docs'/name for name in names if (root/'docs'/name).is_file()]:
         try:
             value=path.read_text()
             if 'WORKFLOW_TEMPLATE_INCOMPLETE' in value:
                 errors.append('Workflow template is still incomplete: '+path.relative_to(root).as_posix())
             else:
-                import process_contract
                 meaningful=process_contract.meaningful_text(value)
                 if not meaningful.strip():
                     errors.append('Empty workflow document: '+path.relative_to(root).as_posix())
@@ -57,7 +60,7 @@ def validate(root, stage='build'):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('project',type=Path);p.add_argument('--stage',choices=['copy','build'],default='build')
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('project',type=Path);p.add_argument('--stage',choices=['copy','build','handoff'],default='handoff')
     a=p.parse_args();errors=validate(a.project,a.stage)
     print(json.dumps({'status':'blocked' if errors else 'pass','failures':errors},indent=2));return bool(errors)
 
