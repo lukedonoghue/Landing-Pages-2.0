@@ -26,9 +26,30 @@ class FunnelParser(HTMLParser):
         self.local_refs: list[str] = []
         self.cta_stack: list[dict[str, object]] = []
         self.cta_texts: list[str] = []
+        self.elements: list[tuple[str, dict[str, str]]] = []
+        self.selects: list[dict[str, object]] = []
+        self.choices: list[dict[str, object]] = []
+        self.select: dict[str, object] | None = None
+        self.option: dict[str, object] | None = None
+        self.group_disabled = False
 
     def handle_starttag(self, tag: str, attrs) -> None:
         data = {key: (value or "") for key, value in attrs}
+        self.elements.append((tag, data))
+        required = bool(re.search(r"\brequired\b", self.get_starttag_text() or "", re.I))
+        # Option end tags are optional, so the next option, optgroup or select end closes one.
+        if tag in {"option", "optgroup"}:
+            self.option = None
+        if tag == "optgroup":
+            self.group_disabled = "disabled" in data
+        if tag == "select":
+            self.select = {"attrs": data, "required": required, "options": []}
+            self.selects.append(self.select)
+        if tag == "option" and self.select is not None:
+            self.option = {"attrs": data, "text": [], "disabled": "disabled" in data or self.group_disabled}
+            self.select["options"].append(self.option)
+        if tag == "input" and data.get("type", "").lower() in {"radio", "checkbox"}:
+            self.choices.append({"attrs": data, "required": required})
         ancestors = list(self.stack)
         if tag == "form":
             in_modal = any(
@@ -55,6 +76,12 @@ class FunnelParser(HTMLParser):
             self.stack.append((tag, data))
 
     def handle_endtag(self, tag: str) -> None:
+        if tag in {"option", "optgroup", "select"}:
+            self.option = None
+        if tag in {"optgroup", "select"}:
+            self.group_disabled = False
+        if tag == "select":
+            self.select = None
         if self.cta_stack and self.cta_stack[-1]["tag"] == tag:
             capture = self.cta_stack.pop()
             text = re.sub(r"\s+", " ", "".join(capture["text"])).strip()
@@ -68,6 +95,8 @@ class FunnelParser(HTMLParser):
     def handle_data(self, data: str) -> None:
         for capture in self.cta_stack:
             capture["text"].append(data)
+        if self.option is not None:
+            self.option["text"].append(data)
 
 
 def is_local_reference(value: str) -> bool:
@@ -119,20 +148,42 @@ def form_behavior_failures(project_root: Path, index_text: str, thank_text: str,
             continue
         if accepts:
             failures.append(f"The phone pattern {pattern.group(1)!r} accepts {accepts[0]!r}; count digits (at least 7) the way the Worker does, or remove the pattern and rely on the bundled script")
-    for attrs, body in re.findall(r"<select\b([^>]*)>(.*?)</select>", index_text, re.I | re.S):
-        if not re.search(r"\brequired\b", attrs, re.I):
+    page = FunnelParser()
+    page.feed(index_text)
+    for select in page.selects:
+        if not select["required"]:
             continue
-        name = (re.search(r"\bname=[\"']([^\"']+)[\"']", attrs) or [None, "select"])[1]
-        first = re.search(r"<option\b([^>]*)>(.*?)</option>", body, re.I | re.S)
-        if not first:
-            continue
-        value_attr = re.search(r"\bvalue=[\"']([^\"']*)[\"']", first.group(1))
-        value = value_attr.group(1) if value_attr else re.sub(r"<[^>]+>", "", first.group(2)).strip()
-        if value and defaults.get(name) != value:
-            failures.append(f"Required select {name!r} preselects {value!r}; start with an empty prompt option, or declare \"default\": {value!r} for it in funnel.json form_fields")
+        attrs, options = select["attrs"], select["options"]
+        name = attrs.get("name") or "select"
+        # What the browser preselects: the last `selected` option, else a drop-down's first enabled one.
+        chosen = [option for option in options if "selected" in option["attrs"]]
+        size = re.match(r"\s*(\d+)", attrs.get("size", ""))
+        if "multiple" not in attrs and not (size and int(size.group(1)) > 1):
+            chosen = chosen[-1:] or [option for option in options if not option["disabled"]][:1]
+        for option in chosen:
+            value = option["attrs"]["value"] if "value" in option["attrs"] else re.sub(r"\s+", " ", "".join(option["text"])).strip()
+            if value and defaults.get(name) != value:
+                failures.append(f"Required select {name!r} preselects {value!r}; start with an empty prompt option, or declare \"default\": {value!r} for it in funnel.json form_fields")
+    # A radio group is required when any member is, and a checked member already answers it.
+    groups: dict[object, list[dict[str, object]]] = {}
+    for choice in page.choices:
+        attrs = choice["attrs"]
+        radio = attrs.get("type", "").lower() == "radio" and attrs.get("name")
+        groups.setdefault(("radio", attrs["name"]) if radio else id(choice), []).append(choice)
+    for members in groups.values():
+        checked = [member["attrs"] for member in members if "checked" in member["attrs"]][-1:]
+        if checked and any(member["required"] for member in members):
+            kind = "radio group" if checked[0].get("type", "").lower() == "radio" else "checkbox"
+            name, value = checked[0].get("name") or kind, checked[0].get("value", "on")
+            if defaults.get(name) != value:
+                failures.append(f"Required {kind} {name!r} preselects {value!r}; leave it unchecked, or declare \"default\": {value!r} for it in funnel.json form_fields")
     crm = (project_root / "src/site-config.json").is_file()
     if has_form:
-        kept = [name for name in ENQUIRY_OPENERS if name in thank_text] + (["<form>"] if re.search(r"<form\b", thank_text, re.I) else []) + (["#lead-modal"] if 'id="lead-modal"' in thank_text else [])
+        # Elements only, as thank_you_page.py checks: comments and script text do not reopen the form.
+        thank = FunnelParser()
+        thank.feed(thank_text)
+        kept = ([name for name in ENQUIRY_OPENERS if any(name in attrs for _, attrs in thank.elements)] + (["<form>"] if thank.forms else [])
+                + (["#lead-modal"] if any(attrs.get("id") == "lead-modal" for _, attrs in thank.elements) else []))
         if kept:
             failures.append("thank-you.html still offers the enquiry (" + ", ".join(kept) + "); a confirmation page links to the guide instead of reopening the form")
     if crm and has_form:

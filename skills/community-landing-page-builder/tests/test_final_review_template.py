@@ -19,6 +19,7 @@ sys.path.insert(0, str(SCRIPTS))
 import build_guide  # noqa: E402
 import self_contained_preview as preview  # noqa: E402
 import thank_you_page as thankyou  # noqa: E402
+import validate_funnel  # noqa: E402
 
 spec = importlib.util.spec_from_file_location('final_review_reader_fixture', TEMPLATE / 'tests/fixtures/reader_guide_fixture.py')
 fixture = importlib.util.module_from_spec(spec)
@@ -81,6 +82,57 @@ class DerivedThankYouContractTests(TemplateThankYou):
         shutil.copy(TEMPLATE / 'public/privacy.html', self.root / 'public/privacy.html')
         run = subprocess.run([sys.executable, str(SCRIPTS / 'validate_page.py'), str(self.root)], capture_output=True, text=True)
         self.assertEqual(json.loads(run.stdout)['checks']['image_issues'], [])
+
+
+class FunnelFormBehaviorTests(unittest.TestCase):
+    PAGE = ('<!doctype html><html><head><script src="funnel.js" defer></script><script src="script.js" defer></script></head><body><form>'
+            '<select name="reason" required><option value="">Choose one</option><option>New project</option></select>'
+            '<label><input type="radio" name="contact_method" value="Phone" required> Phone</label>'
+            '<label><input type="radio" name="contact_method" value="Email" required> Email</label></form></body></html>')
+    THANKS = ('<!doctype html><html><head><script src="/funnel.js"></script><script src="/confirmation.js"></script></head>'
+              '<body><p data-confirmed-only hidden>Done</p><a data-guide-download href="/g.pdf">Download</a></body></html>')
+
+    def failures(self, page=PAGE, thanks=THANKS, defaults=()):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        (root / 'src').mkdir()
+        (root / 'src/site-config.json').write_text('{}')
+        (root / 'funnel.json').write_text(json.dumps({'form_fields': [{'name': name, 'default': value} for name, value in defaults]}))
+        return validate_funnel.form_behavior_failures(root, page, thanks, True)
+
+    def preselects(self, page, **options):
+        return [failure for failure in self.failures(page, **options) if 'preselects' in failure]
+
+    def test_required_select_uses_the_option_the_browser_selects(self):
+        self.assertEqual(self.failures(), [])
+        later = self.PAGE.replace('<option>New project</option>', '<option selected>New project</option>')
+        self.assertEqual(len(self.preselects(later)), 1)
+        self.assertEqual(self.preselects(later, defaults=[('reason', 'New project')]), [])
+        self.assertTrue(self.preselects(self.PAGE.replace('<option>New project</option>', '<option SELECTED="selected">New project</option>')))
+        # A disabled prompt is skipped, so the browser preselects the first enabled option, unless the prompt is selected.
+        self.assertTrue(self.preselects(self.PAGE.replace('<option value="">', '<option value="" disabled>')))
+        self.assertEqual(self.preselects(self.PAGE.replace('<option value="">', '<option value="" disabled selected>')), [])
+
+    def test_required_radio_group_must_arrive_unanswered(self):
+        checked = self.PAGE.replace('value="Email" required>', 'value="Email" required checked>')
+        self.assertEqual(self.preselects(checked), ["Required radio group 'contact_method' preselects 'Email'; leave it unchecked, or declare \"default\": 'Email' for it in funnel.json form_fields"])
+        self.assertEqual(self.preselects(checked, defaults=[('contact_method', 'Email')]), [])
+        # `required` on any member makes the whole group required.
+        self.assertTrue(self.preselects(checked.replace('value="Email" required checked', 'value="Email" checked')))
+
+    def test_select_attributes_follow_html_case_and_spacing(self):
+        for prompt in ('<option VALUE="">', '<option value = "">', "<option value=''>", '<option value>'):
+            self.assertEqual(self.failures(self.PAGE.replace('<option value="">', prompt)), [], prompt)
+        named = self.PAGE.replace('<option value="">Choose one</option>', '').replace('<select name="reason"', '<select NAME = "reason"')
+        self.assertTrue(any("'reason' preselects" in failure for failure in self.failures(named)))
+        self.assertEqual(self.failures(named, defaults=[('reason', 'New project')]), [])
+
+    def test_confirmation_check_reads_elements_not_comments_or_script_text(self):
+        mentions = self.THANKS.replace('</body>', '<!-- Each CTA used data-open-modal and <form id="lead-modal"> on the landing page. -->'
+                                       "<script>document.querySelectorAll('[data-open-modal]');const markup='<form>';</script></body>")
+        self.assertEqual(self.failures(thanks=mentions), [])
+        self.assertTrue(any('#lead-modal' in failure for failure in self.failures(thanks=self.THANKS.replace('<p ', "<div id='lead-modal'></div><p "))))
 
 
 class SelfContainedPreviewTests(unittest.TestCase):
