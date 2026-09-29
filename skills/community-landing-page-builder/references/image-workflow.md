@@ -245,10 +245,10 @@ python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" val
 
 The final command exits nonzero for missing source files, changed hashes, absent provenance, unknown exact-model status, missing desktop/mobile rendered reviews, wrong viewport screenshots, oversized delivered variants, unreviewed required placements, or fewer independent content originals than the plan minimum. An optional asset must either pass review or have a specific omission reason. Replacing an image or reoptimizing it invalidates its old review. A passing image gate supplements the complete visual review and measured load-speed report; it does not prove page LCP or whole-page quality by itself.
 
-Run offline regression checks with:
+Run offline regression checks from a repository checkout (installed copies and the project bundle carry no `tests/`), at the repository root:
 
 ```bash
-python3 -m unittest discover -s "$SKILL/tests" -p test_image_workflow.py
+python3 -m unittest discover -s skills/community-landing-page-builder/tests -p test_image_workflow.py
 ```
 
 The tests exercise observed-source inventory, local acquisition, MIME/host/redirect limits, native request payload shape, explicit bundled CLI selection and safe argv, budget and failure handling, source/model honesty, real WebP optimization when `cwebp` is installed, and stale review detection. Mock image registrations in tests verify bookkeeping only; they do not claim a model actually generated those test fixtures. No external image CLI or API executes in these tests.
