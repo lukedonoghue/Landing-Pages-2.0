@@ -274,7 +274,7 @@ def validate_report(root, report, snapshot, gate):
             errors += image_workflow.rendered_proof_errors(loaded, root)
             unresolved = result.get('proof_role', {}).get('unresolved', [])
             if unresolved and snapshot.get('mode') in {'handoff', 'live'}:
-                errors.append('First-party proof photos still wait for the owner (no download tool in this environment): ' + ', '.join(unresolved) + '. Ask the owner to attach them, then inventory them with --authority user_attachment.')
+                errors.append('First-party proof photos are unresolved: ' + ', '.join(unresolved) + '. For photos this environment could not download, ask the owner to attach them, run inventory-file --authority user_attachment, then acquire --candidate <attached id> --replaces <candidate id>.')
             if snapshot.get('mode') in {'handoff', 'live'}:
                 preview_only = [a['id'] for a in loaded['assets'] if a.get('provenance', {}).get('rights') == 'local-preview-only']
                 if preview_only:

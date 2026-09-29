@@ -45,8 +45,15 @@ AUTHORITIES = {"user_attachment", "owner_instruction", "agent_created"}
 RIGHTS_RECORDS = {"client-provided": {"user_attachment", "owner_instruction", "owner_authorization"},
                   "client-authorized": {"owner_instruction", "owner_authorization"},
                   "licensed": {"license"}}
+# A final "not authorized": the owner's refusal, or a license reserving the photo to someone else.
+REFUSAL_RECORDS = {"owner_refusal", "license"}
+FIRST_PARTY = {"client-website", "client-supplied"}
 # Every relevant first-party photo found in research ends in one of these.
 DISPOSITIONS = {"used", "unsuitable", "reuse-not-authorized", "acquisition-failed", "no-download-tool"}
+# This environment could not reach the host: the candidate stays open for the owner to supply.
+ENVIRONMENT_FAILURES = {"network", "timeout", "tls-certificate", "non-public-address", "no-address"}
+# The host answered for this URL: only these (and any HTTP status) close a candidate as acquisition-failed.
+CANDIDATE_FAILURES = {"mime-mismatch", "invalid-image", "oversize", "redirect-limit", "redirect-no-location"}
 STAGES = {"planned", "acquired", "generation-pending", "generation-failed", "optimized", "reviewed"}
 MIME_EXT = {"image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp"}
 
@@ -80,7 +87,7 @@ def safe_path(root, relative):
 
 def artifact(root, path):
     path = Path(path).expanduser().resolve()
-    require(path.is_file(), f"Missing evidence file: {path.name}")
+    require(path.is_file(), f"Missing evidence file: {path}")
     require(path.is_relative_to(root.resolve()), "Evidence must be copied into the project first")
     require(path.stat().st_size <= MAX_BYTES, "Evidence file exceeds 12 MiB")
     return {"path": str(path.relative_to(root.resolve())), "sha256": sha(path.read_bytes())}
@@ -167,6 +174,29 @@ def normalize_host(host):
     return value
 
 
+def url_host(url):
+    try:
+        return normalize_host(urlsplit(url or "").hostname or "")
+    except ValueError:
+        return ""
+
+
+def client_host(plan):
+    """The client's site host without a leading www., so www, apex and subdomains all match."""
+    host = url_host(plan.get("client_website")) if nonempty(plan.get("client_website")) else ""
+    return host[4:] if host.startswith("www.") else host
+
+
+def on_client_site(plan, url):
+    host, observed = client_host(plan), url_host(url)
+    return bool(host and observed) and (observed == host or observed.endswith("." + host))
+
+
+def site_bound(plan):
+    """A schema-1 plan written before client_website existed is not judged against a site it never named."""
+    return plan.get("schema_version") == SCHEMA_VERSION or nonempty(plan.get("client_website"))
+
+
 def validate_url(url, allowed_hosts, resolver=socket.getaddrinfo):
     parts = urlsplit(url)
     require(parts.scheme == "https" and parts.hostname and not parts.username and not parts.password, "Only HTTPS image URLs without credentials are supported")
@@ -243,6 +273,28 @@ def fetch_image(url, allowed_hosts, resolver=socket.getaddrinfo, connection_fact
     raise WorkflowError("Image exceeded three redirects")
 
 
+def srcset_urls(value):
+    """Candidate URLs by the HTML srcset rules: a URL may itself contain commas (Cloudinary, Wix)."""
+    urls, pos, size = [], 0, len(value)
+    while pos < size:
+        while pos < size and (value[pos].isspace() or value[pos] == ","):
+            pos += 1
+        start = pos
+        while pos < size and not value[pos].isspace():
+            pos += 1
+        url = value[start:pos]
+        if url.endswith(","):
+            url = url.rstrip(",")
+        else:
+            depth = 0  # Skip the descriptors up to the next comma outside parentheses.
+            while pos < size and (depth or value[pos] != ","):
+                depth = depth + 1 if value[pos] == "(" else max(depth - 1, 0) if value[pos] == ")" else depth
+                pos += 1
+        if url:
+            urls.append(url)
+    return urls
+
+
 class ImageInventory(HTMLParser):
     def __init__(self, page_url):
         super().__init__()
@@ -258,7 +310,7 @@ class ImageInventory(HTMLParser):
                 if not value or not isinstance(value, str):
                     continue
                 if name.endswith("srcset"):
-                    values += [part.strip().split()[0] for part in value.split(",") if part.strip()]
+                    values += srcset_urls(value)
                 elif name == "src" or name.endswith("-src") or name.endswith("_src"):
                     values.append(value)
         if tag == "meta" and attrs.get("property") == "og:image":
@@ -284,6 +336,11 @@ def validate_plan(plan):
     exception = plan.get("content_minimum_exception")
     if schema_version == SCHEMA_VERSION and minimum != 4:
         require(isinstance(exception, dict) and nonempty(exception.get("reason")) and isinstance(exception.get("evidence"), dict), "New complete-page plans require four originals; a different minimum needs a documented existing scope exception and artifact evidence")
+    if schema_version == SCHEMA_VERSION:
+        # Research binding and first-party labels are judged against the business's own site.
+        website = plan.get("client_website", "")
+        require(website is None or (nonempty(website) and urlsplit(website).scheme in {"http", "https"} and url_host(website)),
+                "Record client_website: the business's own site URL, or null when it has no website")
     for host in plan.get("allowed_hosts", []):
         require(normalize_host(host) == host, "Use normalized exact hostnames in allowed_hosts")
     budget = plan.get("generation_budget", {})
@@ -377,10 +434,11 @@ def authority_record(root, value, kinds, file_sha=None):
     return record
 
 
-def check_rights(root, rights, rights_evidence):
+def check_rights(root, rights, rights_evidence, file_sha=None):
+    """An upload or owner-instruction record authorises only the files it lists (file_sha: the image's bytes)."""
     require(rights in RIGHTS - {"generated"} and nonempty(rights_evidence), "Record source rights and the client instruction or license evidence")
     if rights in RIGHTS_RECORDS:
-        authority_record(root, rights_evidence, RIGHTS_RECORDS[rights])
+        authority_record(root, rights_evidence, RIGHTS_RECORDS[rights], file_sha)
 
 
 def inventory_file(plan, root, file, authority, evidence):
@@ -394,7 +452,13 @@ def inventory_file(plan, root, file, authority, evidence):
     origin = "agent-created" if authority == "agent_created" else "client-supplied"
     entry = {"id": "source-" + info["sha256"][:12], "local_file": str(source), "source_sha256": info["sha256"],
              "origin": origin, "authority": authority, "evidence": record}
-    require(not any(v["id"] == entry["id"] for v in plan["inventory"]), "Source is already in the inventory")
+    existing = next((v for v in plan["inventory"] if v["id"] == entry["id"]), None)
+    if existing is not None:
+        # An entry recorded before --authority existed is upgraded in place, so acquired assets keep their candidate_id.
+        require(not existing.get("authority") and existing.get("origin") == "client-supplied" and existing.get("source_sha256") == entry["source_sha256"]
+                and authority in {"user_attachment", "owner_instruction"}, "Source is already in the inventory")
+        existing.update(local_file=entry["local_file"], authority=authority, evidence=record)
+        return existing
     plan["inventory"].append(entry)
     return entry
 
@@ -411,6 +475,10 @@ def add_candidate(plan, inventory_id, subject):
     require(len(str(subject).strip()) >= 8, "Describe what the photo shows (for example: finished bathroom remodel)")
     require(proof_candidate(plan, inventory_id) is None, "Already a proof candidate")
     entry = {"inventory_id": inventory_id, "source_url": matches[0].get("source_url"), "subject": subject.strip(), "disposition": None, "added_at": now()}
+    # A photo a client-proof placement already holds (acquired before the ledger saw it) is used; no re-acquisition needed.
+    holder = next((a for a in plan.get("assets", []) if a.get("trust_class") == "client-proof" and a.get("provenance", {}).get("candidate_id") == inventory_id), None)
+    if holder is not None:
+        entry.update(disposition="used", asset_id=holder["id"], disposed_at=entry["added_at"])
     plan.setdefault("proof_candidates", []).append(entry)
     return entry
 
@@ -421,35 +489,52 @@ def dispose(plan, root, inventory_id, disposition, reason, evidence):
     require(disposition in {"unsuitable", "reuse-not-authorized", "no-download-tool"},
             "Use or attempt the image with acquire; used and acquisition-failed are recorded by that command")
     require(len(str(reason).strip()) >= 20, "Record the specific visual, rights or capability reason")
-    candidate.update(disposition=disposition, reason=reason.strip(), evidence=artifact(root, evidence), disposed_at=now())
+    record = artifact(root, evidence)
+    if disposition == "reuse-not-authorized":
+        # "Not yet authorized" is a local-preview-only acquisition, not this final disposition.
+        authority_record(root, record["path"], REFUSAL_RECORDS)
+    candidate.update(disposition=disposition, reason=reason.strip(), evidence=record, disposed_at=now())
     return candidate
+
+
+FAILURE_TEXT = (("certificate", "tls-certificate"), ("non-public address", "non-public-address"), ("no usable address", "no-address"),
+                ("mime type", "mime-mismatch"), ("three redirects", "redirect-limit"), ("redirect has no location", "redirect-no-location"),
+                ("too large", "oversize"), ("12 mib", "oversize"), ("megapixels", "oversize"), ("raster", "invalid-image"),
+                ("png", "invalid-image"), ("jpeg", "invalid-image"), ("webp", "invalid-image"), ("https", "invalid-url"),
+                ("fragment", "invalid-url"), ("port", "invalid-url"), ("hostname", "invalid-url"), ("local image hosts", "invalid-url"))
 
 
 def failure_class(error):
     text = str(error).lower()
     if "not allowlisted" in text:
         return "host-not-allowed"
-    if "certificate" in text:
-        return "tls-certificate"
-    code = re.search(r"http (\d{3})", text)
-    if code:
-        return "http-" + code.group(1)
+    if isinstance(error, WorkflowError):
+        code = re.search(r"http (\d{3})", text)
+        return "http-" + code.group(1) if code else next((kind for needle, kind in FAILURE_TEXT if needle in text), "WorkflowError")
     if isinstance(error, (TimeoutError, socket.timeout)) or "timed out" in text:
         return "timeout"
+    if isinstance(error, ssl.SSLCertVerificationError) or "certificate" in text:
+        return "tls-certificate"
     if isinstance(error, OSError):
         return "network"
     return type(error).__name__
 
 
+def candidate_failure(kind):
+    """The host answered for this URL, so the failure belongs to the candidate, not to this environment."""
+    return bool(re.fullmatch(r"http-\d{3}", str(kind))) or kind in CANDIDATE_FAILURES
+
+
 def acquisition_receipt(root, candidate, error):
     """Tool-written record of an actual failed attempt; narrative cannot stand in for it."""
-    folder = Path(root) / "research/acquisition-receipts"
-    folder.mkdir(parents=True, exist_ok=True)
     record = {"schema_version": 1, "candidate_id": candidate["id"], "source_url": candidate.get("source_url"),
               "tool": "image_workflow.acquire", "method": "https", "attempted_at": now(),
               "error_class": failure_class(error), "detail": str(error)[:500]}
     stamp = re.sub(r"[^0-9]", "", record["attempted_at"])[:20]
-    path = folder / f"{candidate['id']}-{stamp}.json"
+    # Inventory ids can be hand-recorded; the filename never carries one as a path.
+    slug = re.sub(r"[^a-z0-9-]+", "-", str(candidate["id"]).lower()).strip("-")[:48] or "candidate"
+    path = safe_path(Path(root), f"research/acquisition-receipts/{slug}-{sha(str(candidate['id']).encode())[:8]}-{stamp}.json")
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     return artifact(root, path)
 
@@ -461,7 +546,8 @@ def get_asset(plan, image_id):
     raise WorkflowError(f"Unknown image id: {image_id}")
 
 
-def acquire(plan, root, image_id, candidate_id, rights, rights_evidence, proof_evidence="", fetcher=fetch_image):
+def acquire(plan, root, image_id, candidate_id, rights, rights_evidence, proof_evidence="", fetcher=fetch_image, replaces=None):
+    """replaces: a no-download-tool proof candidate that this owner-supplied file stands in for."""
     item = get_asset(plan, image_id)
     if item.get("stage") == "generation-failed":
         require(item.get("generation", {}).get("allow_source_fallback") is True, "Source fallback after generation failure was not enabled in the image plan")
@@ -475,31 +561,58 @@ def acquire(plan, root, image_id, candidate_id, rights, rights_evidence, proof_e
         require(rights != "agent-created", "agent-created rights apply only to files the agent made")
     check_artifact(root, candidate["evidence"])
     if item["trust_class"] == "client-proof":
-        require(candidate.get("origin") in {"client-website", "client-supplied"}, "Proof must come from a client source")
+        require(candidate.get("origin") in FIRST_PARTY, "Proof must come from a client source")
         require(nonempty(proof_evidence), "Proof images require evidence of what real client work/person/project they depict")
+    require(rights != "client-provided" or candidate.get("origin") == "client-supplied", "client-provided rights cover files the owner supplied; reusing a website photo needs --rights client-authorized with an owner_authorization record")
+    proof = proof_candidate(plan, candidate_id)
+    replaced = proof_candidate(plan, replaces) if replaces else None
+    if replaces:
+        require(replaced is not None and replaced.get("disposition") == "no-download-tool", "--replaces closes a no-download-tool proof candidate (a photo this environment could not download)")
+        require(candidate.get("origin") == "client-supplied" and candidate.get("authority") in {"user_attachment", "owner_instruction"},
+                "--replaces needs the owner's own file, inventoried with inventory-file --authority user_attachment or owner_instruction")
+        require(item["trust_class"] == "client-proof", "--replaces fills a client-proof placement")
+    elif candidate.get("origin") in FIRST_PARTY:
+        require(proof is not None, "Register this business photo with `candidate` first; the proof ledger must see every first-party photo on the page")
+        require(item["trust_class"] == "client-proof" or proof.get("disposition") == "unsuitable",
+                "A business photo outside a client-proof placement needs its candidate disposed as unsuitable first (why it cannot serve as proof)")
     if candidate.get("local_file"):
         source = Path(candidate["local_file"]).expanduser().resolve()
         require(source.is_file() and source.stat().st_size <= MAX_BYTES, "Missing or oversized supplied file")
         require(sha(source.read_bytes()) == candidate.get("source_sha256"), "Supplied source changed since inventory")
         data, final_url = source.read_bytes(), None
     else:
-        proof = proof_candidate(plan, candidate_id)
         try:
             data, final_url = fetcher(candidate["source_url"], plan["allowed_hosts"])
         except (WorkflowError, OSError, http.client.HTTPException) as error:
-            if proof is not None:
-                receipt = acquisition_receipt(root, candidate, error)
+            # Only a proof attempt settles the candidate; a failed non-proof use keeps its unsuitable disposition.
+            if proof is None or item["trust_class"] != "client-proof":
+                raise
+            kind, receipt = failure_class(error), acquisition_receipt(root, candidate, error)
+            if kind not in ENVIRONMENT_FAILURES:
                 proof.update(disposition="acquisition-failed", receipt=receipt, disposed_at=now())
                 error.proof_receipt = receipt
-            raise
+                raise
+            # This environment could not reach the host: not a failure of the photo, and not a reason to drop it.
+            proof.update(disposition="no-download-tool", reason=f"This environment could not reach the image host ({kind}); the owner needs to supply this photo.",
+                         evidence=receipt, receipt=receipt, disposed_at=now())
+            failure = WorkflowError(f"{error} [{kind}] This environment could not download the photo, so {candidate_id} stays open for the owner: retry where downloads work, "
+                                    f"or ask the owner to attach it, run inventory-file --authority user_attachment, then acquire --candidate <attached id> --replaces {candidate_id}.")
+            failure.proof_receipt = receipt
+            raise failure from error
+    check_rights(root, rights, rights_evidence, sha(data))
     info = stored_image(root, "research/image-originals", item["id"], data)
     item.update({"stage": "acquired", "source": info, "provenance": {"kind": "actual", "candidate_id": candidate_id, "source_url": candidate.get("source_url"), "final_url": final_url, "evidence": candidate["evidence"], "rights": rights, "rights_evidence": rights_evidence, "client_proof_evidence": proof_evidence, "acquisition": {"status":"acquired", "retrieved_at":now(), "sha256":info["sha256"], "width":info.get("width"), "height":info.get("height"), "content_type":image_info(data).get("mime"), "http_status":None if candidate.get("local_file") else 200, "observed_page":candidate.get("observed_page"), "method":"supplied" if candidate.get("origin")=="client-supplied" else "https", "source_url":candidate.get("source_url"), "final_url":final_url}}, "generated_disclosure": None})
+    if replaced is not None:
+        item["provenance"]["replaces_candidate"] = replaces
     item.pop("variants", None)
     item.pop("review", None)
-    proof = proof_candidate(plan, candidate_id)
-    if proof is not None:
+    if proof is not None and item["trust_class"] == "client-proof":
         proof.update(disposition="used", asset_id=item["id"], disposed_at=now())
         proof.pop("receipt", None)
+        proof.pop("replacement_inventory_id", None)
+    if replaced is not None:
+        replaced.update(disposition="used", asset_id=item["id"], replacement_inventory_id=candidate_id, disposed_at=now())
+        replaced.pop("receipt", None)
     return info
 
 
@@ -647,6 +760,7 @@ def review_asset(plan, root, image_id, report_path):
     require(report.get("source_sha256") == sha(source.read_bytes()), "Review refers to a different original image")
     expected = {v["path"]: v["sha256"] for v in item["variants"]}
     require(report.get("variant_sha256") == expected, "Review must cover every exact optimized file")
+    plan_files = {a.get("source", {}).get("sha256") for a in plan["assets"]} | {v.get("sha256") for a in plan["assets"] for v in a.get("variants", [])}
     for variant in item["variants"]:
         variant_info = image_info(check_artifact(root, variant).read_bytes())
         require(all(variant.get(key) == value for key, value in variant_info.items()), "Optimized image metadata is stale")
@@ -677,6 +791,7 @@ def review_asset(plan, root, image_id, report_path):
         crop = artifact(root, root / view.get("element_screenshot", ""))
         crop_info = image_info(check_artifact(root, crop).read_bytes())
         require(crop["sha256"] != screenshot["sha256"], f"{device} element evidence must be a capture of the element, not the page screenshot")
+        require(crop["sha256"] not in plan_files, f"{device} element evidence must be a rendered capture of the element, not a source or optimized image file")
         require(abs(crop_info["width"] - round(box["width"] * pixel_ratio)) <= 2, f"{device} element capture does not match the element's bounding box")
         view["screenshot_evidence"] = screenshot
         view["element_evidence"] = crop
@@ -742,14 +857,17 @@ def preflight(plan, root):
                 require(len(candidates) == 1, "Sourced image has no unique inventory identity")
                 candidate = candidates[0]
                 check_artifact(root, candidate.get("evidence"))
-                check_rights(root, provenance.get("rights"), provenance.get("rights_evidence"))
+                check_rights(root, provenance.get("rights"), provenance.get("rights_evidence"), info["sha256"])
+                require(provenance.get("rights") != "client-provided" or candidate.get("origin") == "client-supplied", "client-provided rights cover files the owner supplied; a website photo needs client-authorized rights")
                 if candidate.get("origin") == "client-supplied":
-                    require(candidate.get("authority") in {"user_attachment", "owner_instruction"}, "A client-supplied file needs a user attachment or owner instruction record; re-inventory it with --authority")
+                    require(candidate.get("authority") in {"user_attachment", "owner_instruction"}, "A client-supplied file needs a user attachment or owner instruction record; run inventory-file again with --authority user_attachment or owner_instruction and its typed record")
                     authority_record(root, candidate["evidence"]["path"], {candidate["authority"]}, candidate.get("source_sha256"))
+                if candidate.get("origin") == "client-website" and site_bound(plan):
+                    require(on_client_site(plan, candidate.get("observed_page")), "A client-website image needs an observed_page on the plan's client_website; inventory other sites as reference-website")
                 if candidate.get("source_sha256"):
                     require(candidate["source_sha256"] == info["sha256"], "Acquired bytes differ from the supplied original")
                 if item.get("trust_class") == "client-proof":
-                    require(candidate.get("origin") in {"client-website", "client-supplied"} and nonempty(provenance.get("client_proof_evidence")), "Client proof needs a real identified client source")
+                    require(candidate.get("origin") in FIRST_PARTY and nonempty(provenance.get("client_proof_evidence")), "Client proof needs a real identified client source")
             else:
                 require(item.get("trust_class") != "client-proof" and nonempty(item.get("generated_disclosure")), "Generated imagery must be disclosed illustration, never client proof")
                 if provenance.get("mode", "native") == "native":
@@ -827,34 +945,88 @@ def gate(plan, root):
             "distinct_content_original_ids": sorted(distinct_originals), "proof_role": proof, "checked_at": now()}
 
 
-IMAGE_URL = re.compile(r"https://[^\s)\]\"'<>]+?\.(?:jpe?g|png|webp|avif)(?:\?[^\s)\]\"'<>]*)?", re.I)
+URL_TOKEN = re.compile(r"https?://[^\s<>()\[\]\"'`|]+", re.I)
+RASTER_PATH = re.compile(r"\.(?:jpe?g|png|webp|avif)(?![a-z0-9])", re.I)
+
+
+def url_key(url):
+    """One image however it is written: http or https, any host case, no fragment."""
+    parts = urlsplit(str(url).strip())
+    return (url_host(url) or (parts.hostname or "").lower(), parts.path or "/", parts.query)
+
+
+def bound_ids(plan):
+    """Inventory ids the proof ledger accounts for, including an owner file standing in for a candidate."""
+    return {key for c in plan.get("proof_candidates", []) for key in (c.get("inventory_id"), c.get("replacement_inventory_id")) if key}
 
 
 def research_binding_errors(plan, root):
     """First-party images named in research must reach the ledger; they cannot silently disappear."""
     root = Path(root)
-    candidates = {c.get("source_url") for c in plan.get("proof_candidates", [])}
+    keys = {url_key(c["source_url"]) for c in plan.get("proof_candidates", []) if nonempty(c.get("source_url"))}
+    files = {key[:2] for key in keys if RASTER_PATH.search(key[1])}
+
+    def listed(url):
+        # A cache-busting or resizing query on the same image file is still that candidate.
+        key = url_key(url)
+        return key in keys or bool(RASTER_PATH.search(key[1])) and key[:2] in files
+    inventory = [e for e in plan.get("inventory", []) if nonempty(e.get("source_url"))]
+    first_party = {url_key(e["source_url"]) for e in inventory if e.get("origin") == "client-website"}
+    elsewhere = {url_key(e["source_url"]) for e in inventory if e.get("origin") != "client-website"} - first_party
     errors = []
     record = root / "build/research-acceptance.json"
     if record.is_file():
+        assets, bound = {a.get("id"): a for a in plan.get("assets", [])}, bound_ids(plan)
         for attempt in json.loads(record.read_text(encoding="utf-8")).get("first_party_image_attempts", []):
-            url = attempt.get("source_url") if isinstance(attempt, dict) else None
-            if url and url not in candidates:
+            if not isinstance(attempt, dict):
+                continue
+            url = attempt.get("source_url")
+            if nonempty(url) and not listed(url):
                 errors.append(f"Research recorded first-party image {url} but the image plan has no proof candidate for it; register it with `candidate` and dispose of it")
+            if attempt.get("status") == "acquired" and attempt.get("asset_id"):
+                if assets.get(attempt["asset_id"], {}).get("provenance", {}).get("candidate_id") not in bound:
+                    errors.append(f"Research recorded first-party image {attempt['asset_id']} as acquired but no proof candidate holds its source; register it with `candidate`")
     notes = root / "docs/IMAGE-RESEARCH.md"
-    host = normalize_host(urlsplit(plan.get("client_website") or "").hostname or "") if plan.get("client_website") else ""
-    if notes.is_file() and host:
-        for url in sorted(set(IMAGE_URL.findall(notes.read_text(encoding="utf-8")))):
-            observed = normalize_host(urlsplit(url).hostname or "")
-            if (observed == host or observed.endswith("." + host)) and url not in candidates:
-                errors.append(f"docs/IMAGE-RESEARCH.md lists client image {url}; make it a proof candidate (unsuitable is a valid disposition)")
+    if notes.is_file():
+        # The client's site (www, apex and subdomains) plus the hosts its observed photos are served from.
+        host, hosts = client_host(plan), {key[0] for key in first_party}
+        for url in sorted({token.rstrip(".,;:!*") for token in URL_TOKEN.findall(notes.read_text(encoding="utf-8"))}):
+            key = url_key(url)
+            if key in elsewhere:
+                continue  # A recorded reference image, even on a CDN the client also uses.
+            on_site = bool(host) and (key[0] == host or key[0].endswith("." + host))
+            if (key in first_party or ((on_site or key[0] in hosts) and RASTER_PATH.search(key[1]))) and not listed(url):
+                errors.append(f"docs/IMAGE-RESEARCH.md lists client image {url}; make it a proof candidate (unsuitable is a valid disposition), or inventory it as reference-website if it is not the business's")
     return errors
+
+
+class ServedImages(HTMLParser):
+    """Paths an <img> or <source> can load; comments, hidden images and inert markup serve nothing."""
+    def __init__(self):
+        super().__init__()
+        self.paths, self.inert = set(), 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag in {"template", "noscript"}:
+            self.inert += 1
+            return
+        attrs = dict(attrs)
+        if self.inert or tag not in {"img", "source"} or "hidden" in attrs:
+            return
+        for url in [attrs.get("src") or ""] + srcset_urls(attrs.get("srcset") or ""):
+            if url:
+                self.paths.add(urlsplit(url).path.lstrip("/").removeprefix("./"))
+
+    def handle_endtag(self, tag):
+        if tag in {"template", "noscript"} and self.inert:
+            self.inert -= 1
 
 
 def rendered_proof_errors(plan, root):
     """A photo recorded as used must be served by the page, not just stored."""
     page = Path(root) / "public/index.html"
-    html = page.read_text(encoding="utf-8") if page.is_file() else ""
+    served = ServedImages()
+    served.feed(page.read_text(encoding="utf-8") if page.is_file() else "")
     assets = {a["id"]: a for a in plan.get("assets", [])}
     errors = []
     for candidate in plan.get("proof_candidates", []):
@@ -862,8 +1034,8 @@ def rendered_proof_errors(plan, root):
             continue
         asset = assets.get(candidate.get("asset_id"), {})
         paths = [v.get("path", "") for v in asset.get("variants", [])]
-        if not any(path and path.split("public/", 1)[-1] in html for path in paths):
-            errors.append(f"Proof candidate {candidate.get('inventory_id')} is marked used but its image is not on public/index.html")
+        if not any(path and path.split("public/", 1)[-1].lstrip("/") in served.paths for path in paths):
+            errors.append(f"Proof candidate {candidate.get('inventory_id')} is marked used but no <img> or <source> on public/index.html serves its image")
     return errors
 
 
@@ -889,7 +1061,10 @@ def proof_role(plan, root):
             require(disposition in DISPOSITIONS, f"{label} has no disposition; use it, or record why it is unsuitable, not authorized or could not be acquired")
             if disposition == "used":
                 asset = assets.get(candidate.get("asset_id"), {})
-                require(asset.get("provenance", {}).get("candidate_id") == ident, f"{label} is marked used but no asset holds it")
+                provenance, stand_in = asset.get("provenance", {}), candidate.get("replacement_inventory_id")
+                # The asset holds the candidate itself, or the owner's file recorded as its replacement.
+                require(provenance.get("candidate_id") is not None and (provenance["candidate_id"] == ident or (provenance["candidate_id"] == stand_in and provenance.get("replaces_candidate") == ident)),
+                        f"{label} is marked used but no asset holds it")
                 require(asset.get("trust_class") == "client-proof", f"{label} must carry the proof role (trust_class client-proof), not decoration or illustration")
                 used.append(ident)
             elif disposition == "acquisition-failed":
@@ -897,16 +1072,38 @@ def proof_role(plan, root):
                 require(receipt.get("candidate_id") == ident and receipt.get("source_url") == candidate.get("source_url") and nonempty(receipt.get("attempted_at")) and nonempty(receipt.get("error_class")) and nonempty(receipt.get("tool")),
                         f"{label} needs the tool's failed-attempt receipt for this candidate")
                 require(receipt["error_class"] != "host-not-allowed", f"{label}: the host was not allowlisted; add it to allowed_hosts and retry")
+                if not candidate_failure(receipt["error_class"]):
+                    unresolved.append(ident)  # This environment could not reach the host; the photo waits for the owner.
             else:
                 require(len(str(candidate.get("reason", "")).strip()) >= 20, f"{label} needs a specific reason")
                 check_artifact(root, candidate.get("evidence"))
+                if disposition == "reuse-not-authorized":
+                    authority_record(root, candidate["evidence"]["path"], REFUSAL_RECORDS)
                 if disposition == "no-download-tool":
                     unresolved.append(ident)
         except (WorkflowError, OSError, ValueError, KeyError, TypeError) as exc:
             errors.append(str(exc))
             unresolved.append(ident)
+    # Every business photo on the page is in the ledger, whatever placement it fills.
+    inventory, ledger = {e.get("id"): e for e in plan.get("inventory", [])}, {}
+    for candidate in plan.get("proof_candidates", []):
+        for key in (candidate.get("inventory_id"), candidate.get("replacement_inventory_id")):
+            if key:
+                ledger.setdefault(key, candidate)
+    for asset in plan.get("assets", []):
+        provenance = asset.get("provenance", {})
+        source = provenance.get("candidate_id")
+        if provenance.get("kind") != "actual" or inventory.get(source, {}).get("origin") not in FIRST_PARTY:
+            continue
+        candidate = ledger.get(source)
+        if candidate is None:
+            errors.append(f"{asset.get('id')} shows business photo {source}, which is not in the proof ledger; register it with `candidate`, then use it as proof or dispose of it")
+            unresolved.append(source)
+        elif asset.get("trust_class") != "client-proof" and candidate.get("disposition") not in {"used", "unsuitable"}:
+            errors.append(f"{asset.get('id')} shows business photo {source} outside a proof placement; dispose of its candidate as unsuitable (why it cannot be proof) or give the placement the proof role")
+            unresolved.append(candidate.get("inventory_id"))
     count = len(plan.get("proof_candidates", []))
-    status = "none_identified" if not count else "unresolved" if unresolved else "proof_used" if used else "no_usable_proof"
+    status = "unresolved" if unresolved else "none_identified" if not count else "proof_used" if used else "no_usable_proof"
     return {"errors": errors, "candidates": count, "used": used, "unresolved": sorted(set(unresolved)), "status": status}
 
 
@@ -930,7 +1127,7 @@ def main():
     inv.add_argument("--origin", choices=["client-website", "reference-website"], required=True)
     local = sub.add_parser("inventory-file")
     local.add_argument("--file", type=Path, required=True)
-    local.add_argument("--evidence", type=Path, required=True, help="user_attachment/owner_instruction: JSON record {kind, message_id, files:[sha256]}; agent_created: how the file was made")
+    local.add_argument("--evidence", type=Path, required=True, help="user_attachment/owner_instruction: JSON record whose kind equals --authority, {kind, message_id, files:[sha256]}; agent_created: how the file was made")
     local.add_argument("--authority", choices=sorted(AUTHORITIES), required=True, help="Who supplied or made the file; a local path never implies client supply")
     cand = sub.add_parser("candidate", help="Register a relevant first-party photo found in research as a proof candidate")
     cand.add_argument("--id", required=True, help="Inventory id")
@@ -946,6 +1143,7 @@ def main():
     acq.add_argument("--rights", choices=sorted(RIGHTS - {"generated"}), required=True)
     acq.add_argument("--rights-evidence", required=True)
     acq.add_argument("--proof-evidence", default="")
+    acq.add_argument("--replaces", help="A no-download-tool proof candidate this owner-attached file stands in for")
     prep = sub.add_parser("prepare-generation")
     prep.add_argument("--id", required=True)
     prep.add_argument("--prompt-file", type=Path, required=True)
@@ -973,6 +1171,11 @@ def main():
     path = args.plan.expanduser().resolve()
     root = path.parent
     require(root.is_dir(), "Create the project folder first")
+    # Like --rights-evidence, an evidence path may be written relative to the project.
+    for name in ("evidence", "html"):
+        value = getattr(args, name, None)
+        if value is not None and not value.expanduser().is_absolute() and not value.exists():
+            setattr(args, name, root / value)
     with plan_lock(path):
         if args.command == "init":
             require(not path.exists(), "Image plan exists; refusing to overwrite it")
@@ -984,6 +1187,8 @@ def main():
             if args.command == "inventory-html":
                 evidence = artifact(root, args.html)
                 require(urlsplit(args.page_url).scheme == "https", "Observed page must be HTTPS")
+                require(args.origin != "client-website" or not site_bound(plan) or on_client_site(plan, args.page_url),
+                        "--origin client-website needs a page on the plan's client_website; inventory other sites with --origin reference-website")
                 inventory = ImageInventory(args.page_url)
                 inventory.feed(args.html.read_text(encoding="utf-8"))
                 added = []
@@ -1004,7 +1209,7 @@ def main():
                 output = dispose(plan, root, args.id, args.disposition, args.reason, args.evidence)
             elif args.command == "acquire":
                 try:
-                    output = acquire(plan, root, args.id, args.candidate, args.rights, args.rights_evidence, args.proof_evidence)
+                    output = acquire(plan, root, args.id, args.candidate, args.rights, args.rights_evidence, args.proof_evidence, replaces=args.replaces)
                 except (WorkflowError, OSError, http.client.HTTPException) as error:
                     # Keep the tool's failed-attempt receipt even though the command fails.
                     if getattr(error, "proof_receipt", None):

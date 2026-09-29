@@ -10,7 +10,7 @@ Adapt `assets/image-plan.example.json` for the actual sections. Initialize it at
 python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" init --spec "$PROJECT/research/image-plan-draft.json"
 ```
 
-`SKILL` means the installed or repository skill directory. `PROJECT` means this client's generated project. Paths in the manifest are relative to that project. The helper uses Python 3.10+ and the existing `optimize_images.py`/`cwebp` for WebP creation. It does not install packages, call a paid image API, or require API keys. Keep the three helper files together when copying the workflow into a generated project: `image_workflow.py`, `optimize_images.py`, and the example manifest.
+`SKILL` means the installed or repository skill directory. `PROJECT` means this client's generated project. Paths in the manifest are relative to that project, and a relative `--evidence`, `--html` or `--rights-evidence` path may be written relative to it too. Set `client_website` to the business's own site URL (`null` only when it has no website); first-party labels and the research binding are judged against it. The helper uses Python 3.10+ and the existing `optimize_images.py`/`cwebp` for WebP creation. It does not install packages, call a paid image API, or require API keys. Keep the three helper files together when copying the workflow into a generated project: `image_workflow.py`, `optimize_images.py`, and the example manifest.
 
 For every placement, record:
 
@@ -34,9 +34,12 @@ Stages are `planned → acquired → optimized → reviewed`. Generated images f
 1. Inspect the client site in the browser and save the observed DOM/HTML in `research/`. Include lazy-loaded image attributes, `srcset`, asset URLs and the page where each asset occurs. Scrolling/rendering the client page is necessary when useful imagery appears only after interaction.
 2. Save authority as typed JSON records, never as a sentence you wrote. A file's location proves nothing about who supplied it.
    - Owner upload: `{"kind": "user_attachment", "message_id": "<chat/message reference>", "files": ["<sha256>"]}`.
-   - Owner instruction to reuse website photos: `{"kind": "owner_authorization", "message_id": "...", "statement": "<their words>"}`.
+   - Owner instruction naming specific local files (for example "use the photos in this folder"): `{"kind": "owner_instruction", "message_id": "...", "statement": "<their words>", "files": ["<sha256>"]}`.
+   - Owner authorization to reuse the photos observed on their website: `{"kind": "owner_authorization", "message_id": "...", "statement": "<their words>"}`.
    - License: `{"kind": "license", "license_id": "...", "terms": "..."}`.
-   `client-provided` and `client-authorized` rights require one of these; `local-preview-only` needs none and is refused at handoff. Review whether each photo actually depicts the client work the copy claims. Public availability alone does not establish permission.
+   - Owner refusal, for `reuse-not-authorized`: `{"kind": "owner_refusal", "message_id": "...", "statement": "<their words>"}`.
+
+   `inventory-file --authority X` needs a record whose `kind` is exactly `X` (`user_attachment` or `owner_instruction`) and whose `files` lists the file's sha256. Rights records: `client-provided` (only for files the owner supplied) takes `user_attachment`, `owner_instruction` or `owner_authorization`; `client-authorized` (reuse of website photos) takes `owner_authorization` or `owner_instruction`; `licensed` takes `license`. An upload or owner-instruction record authorises only the files its `files` list names, and `acquire` and the gate check the acquired bytes against it. `local-preview-only` needs no record and is refused at handoff. Review whether each photo actually depicts the client work the copy claims. Public availability alone does not establish permission.
 3. Create candidates from the observed markup or an actual supplied image:
 
 ```bash
@@ -44,9 +47,9 @@ python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" inv
 python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" inventory-file --file /absolute/path/to/supplied-photo.jpg --authority user_attachment --evidence "$PROJECT/research/owner-upload.json"
 ```
 
-`--authority agent_created` records a file the agent made (it becomes `origin: agent-created`, rights `agent-created`, and can never be client proof). Only `user_attachment` or `owner_instruction` makes a file client-supplied.
+`--authority agent_created` records a file the agent made (it becomes `origin: agent-created`, rights `agent-created`, and can never be client proof). Only `user_attachment` or `owner_instruction` makes a file client-supplied. A client-supplied entry recorded before `--authority` existed is upgraded in place by running `inventory-file` again on the same file with one of those authorities. `--origin client-website` accepts only a page on `client_website` (its `www`/apex form or a subdomain); inventory every other site with `--origin reference-website`.
 
-**Proof-candidate ledger.** Register every relevant first-party project, service, team or result photo that research finds, even ones you expect not to use:
+**Proof-candidate ledger.** Register every relevant first-party project, service, team or result photo that research finds, even ones you expect not to use. `acquire` refuses a business photo (origin `client-website` or `client-supplied`) that is not a candidate, and the gate refuses any on the page outside the ledger (registering one that a `client-proof` placement already holds records it as `used`):
 
 ```bash
 python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" candidate --id source-EXACT_ID --subject "Finished bathroom remodel, Lancaster"
@@ -56,17 +59,24 @@ Each candidate must end with one disposition, and the images gate refuses the pl
 
 | Disposition | How it is recorded | Evidence |
 |---|---|---|
-| `used` | `acquire` into a `client-proof` asset | The photo must also be served on `public/index.html` |
-| `acquisition-failed` | `acquire` writes it when the download fails | The tool's receipt in `research/acquisition-receipts/` (URL, method, time, error class). A `host-not-allowed` failure is not accepted: add the host and retry |
-| `unsuitable` | `dispose --disposition unsuitable` | A specific visual reason and an evidence file (for example the inspected crop) |
-| `reuse-not-authorized` | `dispose --disposition reuse-not-authorized` | The rights evidence |
-| `no-download-tool` | `dispose --disposition no-download-tool` | A capability record. This is not a failed download; it stays unresolved, blocks handoff, and becomes an owner request to attach the photos |
+| `used` | `acquire` into a `client-proof` asset, or `acquire --replaces` (below) | The photo must also be served by an `<img>` or `<source>` on `public/index.html`; a comment, preload link or hidden image does not count |
+| `acquisition-failed` | `acquire` writes it when the host answered but the photo failed: an HTTP error status, a MIME or raster mismatch, an oversized file or a redirect problem | The tool's receipt in `research/acquisition-receipts/` (URL, method, time, error class). A `host-not-allowed` failure is not accepted: add the host and retry |
+| `unsuitable` | `dispose --disposition unsuitable` | A specific visual reason and an evidence file (for example the inspected crop). A business photo may fill a decorative or illustrative placement only after this disposition |
+| `reuse-not-authorized` | `dispose --disposition reuse-not-authorized` | A typed record: the owner's refusal (`owner_refusal`) or a `license` reserving the photo to someone else. Reuse that is only not yet authorized is acquired with `--rights local-preview-only` instead |
+| `no-download-tool` | `dispose --disposition no-download-tool`, or `acquire` itself when this environment could not reach the host (DNS or network failure, timeout, local TLS trust, non-public address) | A capability record, or the tool's receipt. It stays unresolved, blocks handoff, and becomes an owner request to attach the photos |
 
-Research and design are bound: every attempt in `build/research-acceptance.json` and every client-site image URL listed in `docs/IMAGE-RESEARCH.md` must be a candidate. Illustration or generated media never resolves a candidate. The image count and the proof role are reported separately; four illustrations can meet the count but cannot close a known proof candidate.
+Research and design are bound: every attempt in `build/research-acceptance.json` (an `acquired` attempt through its `asset_id`) and every client image URL listed in `docs/IMAGE-RESEARCH.md` must be a candidate. A client image is one on the `client_website` host (with or without `www.`, or a subdomain), one on a host that the client-website inventory entries are served from (a CDN), or one matching a client-website inventory URL; `http`/`https` and host case do not matter. Record a reference image on a shared CDN as a `reference-website` inventory entry. Illustration or generated media never resolves a candidate. The image count and the proof role are reported separately; four illustrations can meet the count but cannot close a known proof candidate.
 
-If this environment cannot download (a sandbox without network access), say exactly that, record `no-download-tool`, and ask the owner to attach the photos. Never write that a download failed without the tool's receipt, and never replace the business's own photos with illustrations to finish faster. Hosts with normal network access (for example a local Codex or Claude Code session) should download with `acquire`.
+If this environment cannot download (a sandbox without network access), say exactly that, record `no-download-tool` (an `acquire` attempt that cannot reach the host records it for you), and ask the owner to attach the photos. When they do, inventory the attached file and let it stand in for the website candidate:
 
-The HTML extractor recognizes `<img>` sources, normal raster `srcset` attributes, `<source>` variants and `og:image`. It does not invent paths or blindly crawl a domain. CSS background images or images exposed by other lazy-loading attributes require browser inspection and a recorded observed inventory entry using the same `source_url`, `observed_page`, `origin` and hashed evidence fields. Logo SVG files stay in the normal brand/vector workflow; do not treat executable markup as a downloadable raster.
+```bash
+python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" inventory-file --file /absolute/path/to/attached-photo.jpg --authority user_attachment --evidence research/owner-upload.json
+python3 "$SKILL/scripts/image_workflow.py" --plan "$PROJECT/image-plan.json" acquire --id hero-client-project --candidate source-ATTACHED_ID --replaces source-WEBSITE_ID --rights client-provided --rights-evidence research/owner-upload.json --proof-evidence "The owner attached this photo of the job shown in their gallery"
+```
+
+`--replaces` accepts only a `no-download-tool` candidate, a client-supplied file with `user_attachment` or `owner_instruction` authority, and a `client-proof` placement; the website candidate is then recorded as `used` with the attached file as its replacement. Never write that a download failed without the tool's receipt, and never replace the business's own photos with illustrations to finish faster. Hosts with normal network access (for example a local Codex or Claude Code session) should download with `acquire`.
+
+The HTML extractor recognizes `<img>` sources, raster `srcset` attributes (a CDN URL containing commas stays whole), `<source>` variants and `og:image`. It does not invent paths or blindly crawl a domain. CSS background images or images exposed by other lazy-loading attributes require browser inspection and a recorded observed inventory entry using the same `source_url`, `observed_page`, `origin` and hashed evidence fields. Logo SVG files stay in the normal brand/vector workflow; do not treat executable markup as a downloadable raster.
 
 4. Add the exact observed client/CDN hostnames to `allowed_hosts`. A new redirect host must be observed and justified, not automatically trusted.
 5. Download or copy the chosen source, with a specific rights basis and proof evidence where needed:
@@ -182,7 +192,7 @@ Capture each image in its own placement first; one full-page screenshot cannot s
 node "$PROJECT/scripts/capture-image-reviews.mjs" --url http://127.0.0.1:8787/ --project-root "$PROJECT"
 ```
 
-It writes `build/image-reviews/<asset>.json` per asset with, for desktop and mobile, the selector, bounding box, served variant, the hash of the bytes actually served, an element capture and a placement screenshot. The judgment fields start empty. Inspect the captures, set each judgment honestly, record the reviewer, then run `review` on that file. The review is refused without the element evidence, and the gate refuses two assets that share an element capture.
+It writes `build/image-reviews/<asset>.json` per asset with, for desktop and mobile, the selector, bounding box, served variant, the hash of the bytes actually served, an element capture and a placement screenshot. An image it cannot capture (absent, not rendered at that viewport, or serving a file outside its variants) is listed in `missing_on_page` with the reason, and the other reports are still written. The judgment fields start empty. Inspect the captures, set each judgment honestly, record the reviewer, then run `review` on that file. The review is refused without the element evidence, the element capture must be a rendered capture rather than a source or optimized image file, and the gate refuses two assets that share an element capture.
 
 Inspect the original and final files, then view the complete rendered page at desktop and mobile sizes. Scroll to load lazy images and inspect the exact files delivered in the network panel. Check focal subject visibility, meaningful crop, skin/material/text artifacts, visual consistency, contrast behind overlaid copy, actual loaded file weight, and whether image plus caption/copy implies an unsupported claim. Test a narrow mobile width as well as desktop; do not reuse a desktop screenshot and label it mobile.
 

@@ -56,6 +56,12 @@ class ImageProofTests(Project):
         self.plan['inventory'].pop()
         with self.assertRaisesRegex(images.WorkflowError, 'authority record file'):
             images.inventory_file(self.plan, self.root, drawing, 'user_attachment', note)
+        # A typed upload record authorises only the files whose hashes it lists.
+        other = self.record('upload-other.json', {'kind': 'user_attachment', 'message_id': 'msg-1', 'files': ['0' * 64]})
+        with self.assertRaisesRegex(images.WorkflowError, "does not list this file's sha256"):
+            images.inventory_file(self.plan, self.root, drawing, 'user_attachment', self.root / other)
+        upload = self.record('upload.json', {'kind': 'user_attachment', 'message_id': 'msg-1', 'files': [images.sha(drawing.read_bytes())]})
+        self.assertEqual(images.inventory_file(self.plan, self.root, drawing, 'user_attachment', self.root / upload)['origin'], 'client-supplied')
 
     def test_client_authorized_requires_owner_receipt(self):
         with self.assertRaisesRegex(images.WorkflowError, 'not a sentence'):
@@ -95,6 +101,14 @@ class ImageProofTests(Project):
         receipt = json.loads((self.root / candidate['receipt']['path']).read_text())
         self.assertEqual((receipt['candidate_id'], receipt['source_url'], receipt['error_class']), ('source-gallery', GALLERY, 'http-403'))
         self.assertEqual(images.proof_role(self.plan, self.root)['errors'], [])
+        # One candidate's receipt cannot stand in for another's.
+        path = self.root / candidate['receipt']['path']
+        for field, value in (('candidate_id', 'source-other'), ('source_url', GALLERY + '?other')):
+            path.write_text(json.dumps({**receipt, field: value}))
+            candidate['receipt'] = images.artifact(self.root, path)
+            self.assertTrue(any('failed-attempt receipt' in e for e in images.proof_role(self.plan, self.root)['errors']))
+        path.write_text(json.dumps(receipt))
+        candidate['receipt'] = images.artifact(self.root, path)
         # A host that was never allowed is a configuration gap, not a failed download.
         def blocked(url, hosts):
             raise images.WorkflowError('Image host is not allowlisted: cdn.example')

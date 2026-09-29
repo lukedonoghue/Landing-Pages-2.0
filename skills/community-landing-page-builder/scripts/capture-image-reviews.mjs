@@ -37,54 +37,79 @@ const devices = { desktop: { width: 1440, height: 900 }, mobile: { width: 390, h
 const executable = option('browser-executable', process.env.FUNNEL_CHROMIUM || '');
 const browser = await chromium.launch({ headless: true, ...(executable ? { executablePath: executable } : {}) });
 const reports = {}, missing = [];
+const reason = error => String(error?.message || error).split('\n')[0];
 try {
   for (const [device, viewport] of Object.entries(devices)) {
     const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
-    await page.goto(url, { waitUntil: 'networkidle' });
-    for (const asset of plan.assets || []) {
-      const variants = served(asset);
-      if (!variants.size) continue;
-      const handle = await page.evaluateHandle(paths => [...document.querySelectorAll('img')].find(img => {
-        img.loading = 'eager';
-        return paths.includes(new URL(img.currentSrc || img.src, location.href).pathname);
-      }) || null, [...variants.keys()]);
-      const element = handle.asElement();
-      if (!element) { missing.push(`${asset.id} (${device})`); continue; }
-      await element.scrollIntoViewIfNeeded();
-      await element.evaluate(img => img.complete ? null : new Promise(done => img.addEventListener('load', done, { once: true })));
-      await page.waitForTimeout(250);
-      const found = await element.evaluate(img => {
-        const pathTo = node => {
-          if (node.id) return '#' + CSS.escape(node.id);
-          if (node.dataset?.imageId) return `img[data-image-id="${node.dataset.imageId}"]`;
-          const parts = [];
-          for (let current = node; current && current.nodeType === 1 && current !== document.body; current = current.parentElement) {
-            const siblings = [...(current.parentElement?.children || [])].filter(child => child.tagName === current.tagName);
-            parts.unshift(current.tagName.toLowerCase() + (siblings.length > 1 ? `:nth-of-type(${siblings.indexOf(current) + 1})` : ''));
+    try {
+      await page.goto(url, { waitUntil: 'networkidle' });
+      for (const asset of plan.assets || []) {
+        const variants = served(asset);
+        if (!variants.size) continue;
+        // An image the page cannot capture is reported in missing_on_page; it never stops the other captures.
+        try {
+          const handle = await page.evaluateHandle(paths => {
+            const pathOf = value => value ? new URL(value, location.href).pathname : '';
+            const images = [...document.querySelectorAll('img')];
+            images.forEach(img => { img.loading = 'eager'; });
+            // Prefer the copy actually rendered at this viewport (responsive duplicates are common).
+            const matches = images.filter(img => paths.includes(pathOf(img.currentSrc || img.src)));
+            const rendered = matches.find(img => img.getClientRects().length > 0 && getComputedStyle(img).visibility !== 'hidden');
+            if (rendered || matches.length) return rendered || 'present but not rendered at this viewport';
+            const other = images.find(img => paths.includes(pathOf(img.getAttribute('src'))) && img.currentSrc);
+            return other ? `serves ${pathOf(other.currentSrc)}, which is not one of its optimized variants` : null;
+          }, [...variants.keys()]);
+          const element = handle.asElement();
+          if (!element) {
+            const why = await handle.jsonValue();
+            missing.push(`${asset.id} (${device})` + (why ? ': ' + why : ''));
+            continue;
           }
-          return 'body > ' + parts.join(' > ');
-        };
-        const box = img.getBoundingClientRect();
-        return { selector: pathTo(img), bbox: { x: box.x, y: box.y, width: box.width, height: box.height },
-                 current_src: new URL(img.currentSrc || img.src, location.href).pathname };
-      });
-      const variant = variants.get(found.current_src);
-      const response = await page.request.get(new URL(found.current_src, url).href);
-      const crop = path.join(out, `${asset.id}-${device}-element.png`);
-      const placement = path.join(out, `${asset.id}-${device}-placement.png`);
-      await element.screenshot({ path: crop });
-      await page.screenshot({ path: placement });
-      reports[asset.id] ||= { reviewer: '', source_sha256: asset.source?.sha256 || null,
-        variant_sha256: Object.fromEntries((asset.variants || []).map(v => [v.path, v.sha256])),
-        instructions: 'Inspect each element capture and placement screenshot. Set every judgment to true only if it holds; otherwise fix the page and recapture. Record the reviewer.' };
-      reports[asset.id][device] = { screenshot: rel(placement), viewport, device_pixel_ratio: 1, served_variant: variant.path,
-        element: { ...found, resource_sha256: sha256(await response.body()) }, element_screenshot: rel(crop),
-        subject_visible: null, crop_appropriate: null, alt_appropriate: null, no_false_claim: null, page_layout_checked: null };
-    }
-    await page.close();
+          await element.scrollIntoViewIfNeeded({ timeout: 5000 });
+          await element.evaluate(img => img.complete ? null : new Promise(done => {
+            img.addEventListener('load', done, { once: true });
+            img.addEventListener('error', done, { once: true });
+            setTimeout(done, 10000);
+          }));
+          await page.waitForTimeout(250);
+          const found = await element.evaluate(img => {
+            const pathTo = node => {
+              if (node.id) return '#' + CSS.escape(node.id);
+              if (node.dataset?.imageId) return `img[data-image-id="${node.dataset.imageId}"]`;
+              const parts = [];
+              for (let current = node; current && current.nodeType === 1 && current !== document.body; current = current.parentElement) {
+                const siblings = [...(current.parentElement?.children || [])].filter(child => child.tagName === current.tagName);
+                parts.unshift(current.tagName.toLowerCase() + (siblings.length > 1 ? `:nth-of-type(${siblings.indexOf(current) + 1})` : ''));
+              }
+              return 'body > ' + parts.join(' > ');
+            };
+            const box = img.getBoundingClientRect();
+            return { selector: pathTo(img), bbox: { x: box.x, y: box.y, width: box.width, height: box.height },
+                     current_src: new URL(img.currentSrc || img.src, location.href).pathname };
+          });
+          const variant = variants.get(found.current_src);
+          if (!variant) { missing.push(`${asset.id} (${device}): serves ${found.current_src}, which is not one of its optimized variants`); continue; }
+          const response = await page.request.get(new URL(found.current_src, url).href);
+          const crop = path.join(out, `${asset.id}-${device}-element.png`);
+          const placement = path.join(out, `${asset.id}-${device}-placement.png`);
+          await element.screenshot({ path: crop, timeout: 10000 });
+          await page.screenshot({ path: placement });
+          reports[asset.id] ||= { reviewer: '', source_sha256: asset.source?.sha256 || null,
+            variant_sha256: Object.fromEntries((asset.variants || []).map(v => [v.path, v.sha256])),
+            instructions: 'Inspect each element capture and placement screenshot. Set every judgment to true only if it holds; otherwise fix the page and recapture. Record the reviewer.' };
+          reports[asset.id][device] = { screenshot: rel(placement), viewport, device_pixel_ratio: 1, served_variant: variant.path,
+            element: { ...found, resource_sha256: sha256(await response.body()) }, element_screenshot: rel(crop),
+            subject_visible: null, crop_appropriate: null, alt_appropriate: null, no_false_claim: null, page_layout_checked: null };
+        } catch (error) { missing.push(`${asset.id} (${device}): ${reason(error)}`); }
+      }
+    } catch (error) { missing.push(`page (${device}): ${reason(error)}`); }
+    finally { await page.close(); }
   }
-} finally { await browser.close(); }
-for (const [id, report] of Object.entries(reports)) writeFileSync(path.join(out, id + '.json'), JSON.stringify(report, null, 2) + '\n');
+} finally {
+  await browser.close().catch(() => {});
+  // Reports already captured are written even when another capture failed.
+  for (const [id, report] of Object.entries(reports)) writeFileSync(path.join(out, id + '.json'), JSON.stringify(report, null, 2) + '\n');
+}
 console.log(JSON.stringify({ status: missing.length ? 'blocked' : 'pass', reports: Object.keys(reports).map(id => rel(path.join(out, id + '.json'))),
   missing_on_page: missing, next: 'Fill in each report, then run image_workflow.py review --id ID --report build/image-reviews/ID.json' }, null, 2));
 process.exit(missing.length ? 1 : 0);

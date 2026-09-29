@@ -47,6 +47,9 @@ class ImageWorkflowTests(unittest.TestCase):
         self.temporary.cleanup()
 
     def acquire(self):
+        # A business photo is registered in the proof ledger before it is acquired.
+        if self.plan["inventory"][0]["origin"] in workflow.FIRST_PARTY and workflow.proof_candidate(self.plan, "supplied-1") is None:
+            workflow.add_candidate(self.plan, "supplied-1", "Client-supplied land-clearing project photo")
         return workflow.acquire(self.plan, self.root, self.image_id, "supplied-1", "client-provided", "source-instruction.json", "Client identifies this as its project")
 
     def allow_generation(self):

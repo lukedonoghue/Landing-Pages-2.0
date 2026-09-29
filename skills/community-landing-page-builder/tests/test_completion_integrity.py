@@ -58,6 +58,7 @@ class CompletionIntegrityTests(unittest.TestCase):
                                'files': [images.sha(source.read_bytes())]}))
         plan['inventory'] = [{'id': 'source', 'origin': 'client-supplied', 'authority': 'user_attachment', 'local_file': str(source), 'source_sha256': images.sha(source.read_bytes()), 'evidence': upload}]
         item = plan['assets'][0]
+        images.add_candidate(plan, 'source', 'Synthetic supplied project photo')
         images.acquire(plan, self.root, item['id'], 'source', 'client-provided', 'research/upload-record.json', 'Synthetic test project, not real proof')
         item['variants'] = [dict(item['source'])]
         item['stage'] = 'optimized'
