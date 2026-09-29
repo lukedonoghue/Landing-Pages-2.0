@@ -40,8 +40,7 @@ publisher and return a named action rather than being silently rewritten.
 The historical NetBean deployment is unrelated and is never a required test.
 
 This is implementation guidance, not evidence that this candidate has passed a
-real Cloudflare/Google deployment. See the root implementation-status file for
-actual validation and remaining release gates.
+real Cloudflare/Google deployment.
 
 ## Coding-agent boundary
 

@@ -35,4 +35,4 @@ Take a fresh snapshot and rerun affected checks after source changes. The gate r
 
 ## Limits
 
-This is text coverage at two explicit widths and recorded interaction states. It cannot prove every dynamic variant, contrast, image-baked text, semantic entailment, proof adjacency or conversion quality. Keep the separate nine-size layout check, actual screenshot inspection and complete PDF-page visual review. Audit unexercised variants explicitly. Copy-only/page-only work does not require this full-funnel capture.
+This is text coverage at two explicit widths and recorded interaction states. It cannot prove every dynamic variant, contrast, image-baked text, semantic entailment, proof adjacency or conversion quality. Keep the separate ten-viewport layout check, actual screenshot inspection and complete PDF-page visual review. Audit unexercised variants explicitly. Copy-only/page-only work does not require this full-funnel capture.

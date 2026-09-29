@@ -129,8 +129,10 @@ research fingerprint and actual source-bound suggestions. For an unavoidable
 owner question, add an `unresolved_facts` row: catalog question `id`, `category`
 (identity, offer, claim, primary_action, form_fields, destination,
 business_follow_up or search_intent, the Google Ads keywords that live in the
-owner's ad account rather than on the site), `reason`, `material_effect`, and
-prior searched evidence.
+owner's ad account rather than on the site; an unclear `business_type` is
+`identity`), `reason`, `material_effect`, and prior searched evidence. Cited
+evidence is hash-checked when the question is asked; later history keeps only
+its path and hash, so a legitimate later edit to the file does not block copy.
 Only unknown initial identity may have no prior evidence. The coordinator logs
 actual question presentation in `build/question-log.json`. Do not ask already
 answered or source-discoverable facts again. Automatic mode does not introduce

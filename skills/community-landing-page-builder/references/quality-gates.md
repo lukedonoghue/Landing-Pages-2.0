@@ -126,6 +126,8 @@ Before treating an image-load failure as a page defect, scroll the named placeme
 
 ### Category fit and media strategy (contract 4, and every local trade)
 
+Under contract 4, `funnel.json` must record `business.archetype` (`local_trade`, `professional_service`, `retail` or `other`), from research or the owner's `business_type` answer; the local-trade photo rules below depend on it.
+
 A technically clean page can still read as the wrong kind of business, such as a SaaS product instead of a plumber. `build/visual-review.json` must answer that in `category_fit`, judged on the actual page for this buyer:
 
 ```json
