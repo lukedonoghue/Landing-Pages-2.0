@@ -91,7 +91,7 @@ Never mark B23 complete from local tests alone. Each enabled provider needs a re
 When no tag is installed, owners can still report results to Google Ads from the CRM. Admins (the only role with export permission, and only after re-entering their password) get two files:
 
 - **Export contacts CSV** includes `gclid`, `gbraid`, `wbraid`, `utm_source`, `utm_campaign` and `utm_term` from the stored first-party attribution.
-- **Export Google Ads conversions** is a ready-to-upload offline click-conversion file: a `Parameters:TimeZone=` row, then `Google Click ID, GBRAID, WBRAID, Conversion Name, Conversion Time, Conversion Value, Conversion Currency`, one click identifier per row. Upload it in Google Ads under Goals > Conversions > Uploads.
+- **Export Google Ads conversions** is a ready-to-upload offline click-conversion file: a `Parameters:TimeZone=` row, then `Google Click ID, GBRAID, WBRAID, Conversion Name, Conversion Time, Conversion Value, Conversion Currency`, one click identifier per row. It covers the last 90 days in the site time zone and keeps each stage's newest 10,000 conversions; the CRM says so when it had to leave older ones out. Upload it in Google Ads under Goals > Conversions > Uploads.
 
 The second button appears once the owner sets which CRM stages count, in `funnel.json`, then runs `npm run configure` and publishes:
 
