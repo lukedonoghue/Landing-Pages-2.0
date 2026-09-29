@@ -32,6 +32,19 @@ def copy_files(root):
                 'review_inputs':'build/copy-review-inputs.json'}
     return COPY_FILES
 
+def guide_copy(root):
+    """page-copy.json brochure in a markdown-copy project whose guide derives its text from it."""
+    root = Path(root)
+    if not lightweight(root) or not (root/'build/guide.json').is_file() or not (root/'build/page-copy.json').is_file():
+        return None
+    from guide_quality import CONTENT_SOURCE
+    try:
+        if read(root/'build/guide.json').get('content_source') != CONTENT_SOURCE:
+            return None
+        return read(root/'build/page-copy.json').get('brochure')
+    except (OSError, ValueError, AttributeError):
+        return None  # An unreadable guide cannot be built; its later repair changes the fingerprint.
+
 def business_contract(config):
     return {**{key:config.get(key) for key in ['client','brief','audience','search_intent','offer','cta','follow_up_promise','form_fields','brochure_gated','conversion']}, **{key:config[key] for key in ('business_follow_up_promise','preview_disclosure','local_test_behavior') if key in config}}
 
@@ -65,7 +78,12 @@ def inspect_core(root):
             config = read(root/'funnel.json')
             contract = {key:config.get(key) for key in ['offer','cta','follow_up_promise','audience','search_intent','form_fields','brochure_gated','conversion']}
             contract.update({key:config[key] for key in ('business_follow_up_promise','preview_disclosure','local_test_behavior') if key in config})
-            fingerprint = hashlib.sha256(json.dumps({'copy':hashes['copy'],'contract':contract},sort_keys=True).encode()).hexdigest()
+            bound = {'copy':hashes['copy'],'contract':contract}
+            brochure = guide_copy(root)
+            if brochure is not None:
+                # The PDF guide text is approved copy even though it is kept beside the markdown master.
+                bound['brochure'] = hashlib.sha256(json.dumps(brochure,sort_keys=True).encode()).hexdigest()
+            fingerprint = hashlib.sha256(json.dumps(bound,sort_keys=True).encode()).hexdigest()
             return {**result,'fingerprint':fingerprint,'input_hashes':hashes,'contract':contract}
         except (OSError,ValueError,KeyError,TypeError) as error:
             return blocked(root, [str(error)])

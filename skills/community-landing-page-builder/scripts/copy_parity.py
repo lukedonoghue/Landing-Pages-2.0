@@ -181,12 +181,10 @@ def guide_wording(root):
     words += list(data.get("checklist", []))
     brand = data.get("brand", {})
     words += [brand.get("name", ""), brand.get("phone_display", ""), data.get("delivery", {}).get("download_label", "")]
-    thank_you = Path(root) / "build/thank-you.json"
-    if thank_you.is_file():
-        config = read(thank_you)
-        words += [config.get(key, "") for key in ("guide_title", "download_label", "guide_summary", "confirmed_headline", "follow_up")]
-        if data.get("title"):
-            words.append("Cover of " + data["title"])
+    # build/thank-you.json is authored delivery config, neither owner-approved nor reviewed:
+    # its hero headline and summary must be approved thank_you copy in the master.
+    if data.get("title"):
+        words.append("Cover of " + data["title"])
     if brand.get("phone_display"):
         words.append("Questions? " + brand["phone_display"])
     words += [image.get("caption", "") for image in data.get("images", [])]

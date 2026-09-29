@@ -94,21 +94,79 @@ def derive_content(root, data):
     return derived
 
 
+# Brand fields the build derived rather than an author chose; re-derived on every sync.
+AUTO = 'auto_defaults'
+
+
+def luminance(value):
+    """WCAG relative luminance of an RRGGBB colour."""
+    channels = [int(value.lstrip('#')[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+    r, g, b = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4 for c in channels]
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def contrast(a, b):
+    high, low = sorted((luminance(a), luminance(b)), reverse=True)
+    return (high + 0.05) / (low + 0.05)
+
+
 def brand_defaults(root, data):
     """Carry the site's brand colour and, when licensed TrueType files are present,
-    its rendered fonts into the guide. DejaVu remains the fallback for any gap."""
+    its rendered fonts into the guide. DejaVu and the maintained navy remain the fallback
+    for any gap. Derived values are marked and re-derived, so a later client.color or font
+    change reaches the PDF; values an author set are kept."""
     brand = dict(data.get('brand', {}))
+    auto = set(brand.pop(AUTO, []))
     colors = dict(brand.get('colors') or {})
+    if 'colors.primary' in auto:
+        colors.pop('primary', None)
+    if 'fonts' in auto:
+        brand.pop('fonts', None)
+    auto = set()
     client = read(root, 'funnel.json').get('client', {}) if local(root, 'funnel.json').is_file() else {}
-    if not colors.get('primary') and re.fullmatch(r'#[0-9A-Fa-f]{6}', str(client.get('color', ''))):
-        colors['primary'] = client['color']
-    if colors:
+    color = str(client.get('color', ''))
+    # The cover band prints white text on primary, and headings print primary on white.
+    if not colors.get('primary') and re.fullmatch(r'#[0-9A-Fa-f]{6}', color) and contrast(color, '#FFFFFF') >= 4.5:
+        colors['primary'] = color
+        auto.add('colors.primary')
+    if colors or 'colors' in brand:
         brand['colors'] = colors
     if not brand.get('fonts'):
-        fonts = matched_fonts(root, data)
+        fonts = matched_fonts(root, {**data, 'brand': brand})
         if fonts:
             brand['fonts'] = fonts
+            auto.add('fonts')
+    if auto:
+        brand[AUTO] = sorted(auto)
     return {**data, 'brand': brand} if brand != data.get('brand', {}) else data
+
+
+def reader_strings(value):
+    """Strings a reader sees; evidence rows, IDs and notes are review metadata, never printed."""
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, list):
+        for item in value:
+            yield from reader_strings(item)
+    elif isinstance(value, dict):
+        for key, item in value.items():
+            if key not in {'id', 'claim_ids', 'source_ids', 'notes', 'evidence'}:
+                yield from reader_strings(item)
+
+
+# Fixed labels build_reader_guide.py prints, plus the marks of its numbering and source lines.
+FIXED_TEXT = ('What this guide will help you decide', 'Put this to use', 'Keep these questions handy',
+              'Your next step', 'Questions?', 'Sources and scope', '0123456789 / . [ ] ,')
+
+
+def rendered_text(data):
+    """Everything the PDF draws, so an automatic font is chosen only when it covers all of it."""
+    brand = data.get('brand', {})
+    words = [*FIXED_TEXT, brand.get('name', ''), brand.get('phone_display', ''), data.get('scope_note') or DEFAULT_SCOPE_NOTE]
+    words += [image.get('caption', '') for image in data.get('images', [])]
+    words += [f"{s.get('title', '')} {str(s.get('kind', '')).capitalize()} source, reviewed {s.get('retrieved_at', '')}" for s in data.get('sources', [])]
+    words += reader_strings({k: data.get(k) for k in DERIVED_KEYS})
+    return ' '.join(str(w) for w in words)
 
 
 def matched_fonts(root, data):
@@ -133,19 +191,26 @@ def matched_fonts(root, data):
             role = 'bold' if style == 'bold' else 'regular' if style in {'regular', 'book', 'normal', 'roman'} else None
             if role:
                 faces.setdefault(face.familyName.decode(errors='ignore').lower(), {})[role] = (path, face)
-    text = json.dumps({k: data.get(k) for k in DERIVED_KEYS} | {'brand': data.get('brand', {}).get('name')}, ensure_ascii=False)
+    from build_catalogue import normalize_text
+    # The same text and glyph rule as Catalogue.check_glyphs (glyph 0 is missing).
+    wanted_chars = {ord(c) for c in normalize_text(rendered_text(data)) if not c.isspace()}
     for family in wanted:
         pair = faces.get(family, {})
-        if set(pair) == {'regular', 'bold'} and all(all(ord(c) in face.charToGlyph for c in text if not c.isspace()) for _, face in pair.values()):
+        if set(pair) == {'regular', 'bold'} and all(all(face.charToGlyph.get(c) for c in wanted_chars) for _, face in pair.values()):
             return {role: os.path.relpath(path, Path(root).resolve() / 'build') for role, (path, _) in pair.items()}
     return None
+
+
+def synced(root, data):
+    """build/guide.json as build_guide.py writes it: derived text plus brand defaults."""
+    return brand_defaults(root, derive_content(root, data))
 
 
 def sync_guide(root):
     """Rewrite build/guide.json only when derived text or brand defaults changed."""
     path = local(root, 'build/guide.json')
     data = read(root, 'build/guide.json')
-    derived = brand_defaults(root, derive_content(root, data))
+    derived = synced(root, data)
     if derived != data:
         path.write_text(json.dumps(derived, indent=2, ensure_ascii=False) + '\n')
     return derived
@@ -156,9 +221,13 @@ def sync_guide(root):
 NARRATION = (
     r"\b(?:is|are) (?:not )?(?:promised|claimed|stated|guaranteed) (?:by|on|in) this (?:page|guide|document)\b",
     r"\bthis (?:page|guide|document) (?:does not|doesn't|cannot|can't|makes no) (?:promise|claim|guarantee|verify)",
-    r"\b(?:according to|as (?:listed|stated|shown) on) (?:the|their|its|our) (?:web)?site\b",
+    # A bare "site" is often a work site ("priced according to the site access").
+    r"\b(?:according to|as (?:listed|stated|shown) on) (?:the|their|its|our) (?:web ?site|official site)\b",
     r"\b(?:the|their|its) (?:web)?site (?:lists|states|says|mentions|claims)\b",
-    r"\b(?:our research|the research|we) (?:found|could not (?:find|verify|confirm))\b",
+    # First-person business voice ("on a recent job we found rot") is advice, not research.
+    r"\b(?:our|the) research (?:found|could not (?:find|verify|confirm))\b",
+    r"\bwe (?:could not|couldn't) (?:find|verify|confirm)\b",
+    r"\bwe found no (?:evidence|mention|record|reviews?|information|details?)\b",
 )
 
 
@@ -169,13 +238,19 @@ def research_narration(text, brand=''):
     return [match.group(0) for pattern in patterns for match in [re.search(pattern, text, re.I)] if match]
 
 
+def figures(text):
+    """Numbers as printed, without thousands separators, so '$1,200' matches '1200'."""
+    return {re.sub(r',(?=\d{3}(?!\d))', '', f) for f in re.findall(r'\d+(?:[.,]\d+)*', str(text))}
+
+
 def validate_content(root, data):
     """Return hashes of every input used, or reject an incomplete reader guide."""
     if data.get('content_source') and derive_content(root, data) != data:
         raise ValueError('Guide text is derived from build/page-copy.json brochure.text and is out of date; rebuild the guide')
     if data.get('document_type') != 'buyer_guide' or data.get('workflow_ready') is not True:
         raise ValueError('Complete the researched buyer_guide, not the generic catalogue template')
-    text = norm(json.dumps({k: data.get(k) for k in ('title', 'subtitle', 'reader_promise', 'chapters', 'checklist', 'next_step')}, ensure_ascii=False))
+    # Only reader-facing text is linted; evidence excerpts and reviewer judgments are never printed.
+    text = '\n'.join(norm(s) for s in reader_strings({k: data.get(k) for k in ('title', 'subtitle', 'reader_promise', 'chapters', 'checklist', 'next_step')}))
     authors = data.get('author_task_ids')
     if not isinstance(authors, list) or not authors or any(not isinstance(a, str) or not a.strip() for a in authors):
         raise ValueError('Record the actual guide author task/session IDs for honest review independence')
@@ -237,11 +312,19 @@ def validate_content(root, data):
             table_text = norm(' '.join([table['caption'], *columns, *[c for r in rows for c in r], table.get('note', '')]))
             if not table.get('evidence'):
                 raise ValueError(ident + ': anchor every price table to captured sources; never infer prices')
+            v4 = read(root, 'funnel.json').get('quality', {}).get('contract_version', 0) >= 4
+            covered = set()
             for item in table['evidence']:
                 source = sources.get(item.get('source_id'))
                 quote, claim = norm(item.get('excerpt', '')), norm(item.get('claim', ''))
-                if not source or len(quote) < 10 or quote not in source[1] or len(claim) < 3 or claim not in table_text:
-                    raise ValueError(ident + ': price evidence needs a real source excerpt and an exact figure from the table')
+                # The claim is a figure printed in the table, and the cited words state that same figure.
+                if not source or len(quote) < 10 or quote not in source[1] or len(claim) < 3 or claim not in table_text or not figures(claim) or not figures(claim) <= figures(quote):
+                    raise ValueError(ident + ': price evidence needs a real source excerpt and an exact figure from the table that the excerpt states')
+                if v4 and (item.get('support_type') not in {'direct', 'qualified'} or not norm(item.get('reviewer_judgment', ''))):
+                    raise ValueError(ident + ': explain how the exact excerpt states this price; a price is never inferred from general context')
+                covered |= figures(claim)
+            if figures(table_text) - covered:
+                raise ValueError(ident + ': every figure in a price table needs a source excerpt that states it; never infer prices (' + ', '.join(sorted(figures(table_text) - covered)) + ')')
             blocks.append(table_text)
         chapter_text = norm(' '.join([chapter['headline'], chapter['why_it_matters'], *paragraphs, *chapter['takeaways'], *blocks]))
         evidence = chapter.get('evidence', [])
@@ -333,6 +416,9 @@ def inspect_build(root):
     if report.get('schema_version') != 2 or report.get('status') != 'pass':
         raise ValueError('Build and render the researched guide with the current helper')
     config = read(root, report.get('config'))
+    # Derived brand defaults follow funnel.json client.color and the site fonts; the build re-derives them.
+    if config.get('brand', {}).get(AUTO) and brand_defaults(root, config) != config:
+        raise ValueError('The guide brand colour or font defaults are out of date (funnel.json client.color or the site fonts changed); rebuild the guide')
     if report.get('font_hashes') != font_hashes(root, local(root, report['config']), local(root, report['output'])):
         raise ValueError('PDF fonts changed; rebuild and inspect the rendered guide')
     if report.get('business_fingerprint') != business_fingerprint(root):

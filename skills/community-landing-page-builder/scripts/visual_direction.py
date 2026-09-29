@@ -46,10 +46,13 @@ def category_fit_errors(root, report, review_mode):
     """Checks build/visual-review.json category_fit."""
     if not required(root):
         return []
+    errors = []
+    # The local-trade sign-off below depends on the archetype, so an unset one must not switch it off.
+    if config(root).get("quality", {}).get("contract_version", 0) >= 4 and archetype(root) not in ARCHETYPES:
+        errors.append("Record business.archetype (" + ", ".join(sorted(ARCHETYPES)) + ") from research or the owner's business_type answer before accepting the visual direction")
     fit = report.get("category_fit")
     if not isinstance(fit, dict):
-        return ["Visual acceptance must answer category fit: would this page read as the intended kind of business to its buyer without the brand name? Record category_fit (references/quality-gates.md)."]
-    errors = []
+        return errors + ["Visual acceptance must answer category fit: would this page read as the intended kind of business to its buyer without the brand name? Record category_fit (references/quality-gates.md)."]
     for key, minimum in (("category", 4), ("target_buyer", 8), ("reasoning", 40), ("media_strategy", 20)):
         if not text(fit.get(key), minimum):
             errors.append(f"category_fit.{key} needs a specific answer about this page")

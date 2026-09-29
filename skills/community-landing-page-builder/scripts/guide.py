@@ -306,7 +306,8 @@ def questions(root):
         condition = question.get('when', {})
         when = get(value, condition.get('field',''))
         applicable = not condition or ('equals' in condition and when == condition['equals']) or ('not' in condition and when is not None and when != condition['not'])
-        if applicable and question['required'] and (not get(value, question['field']) or question['id'] in record['questions']):
+        # Research can flag an optional question (such as business_type) as ambiguous for the owner.
+        if applicable and ((question['required'] and not get(value, question['field'])) or question['id'] in record['questions']):
             result.append({**question,'question_revision':digest(question),'current_value':get(value,question['field']) or ''})
     return result
 
@@ -513,7 +514,10 @@ def main():
         elif a.command=='local':
             operation=a.operation or next_action(a.project).get('operation')
             if not operation:raise ValueError('The current guided action is not a local operation')
-            result={**local(a.project,operation),'next':next_action(a.project)}
+            done=local(a.project,operation)
+            result={**done,'next':next_action(a.project)}
+            # Keep the operation's own follow-up (the lead-inbox scaffold's bootstrap step).
+            if isinstance(done.get('next'),str):result['setup']=done['next']
         elif a.command in {'pause','resume'}:
             with storage.lock(a.project):
                 recover(a.project);record=state(a.project);record['paused']=a.command=='pause';storage.write(a.project,STATE,record)

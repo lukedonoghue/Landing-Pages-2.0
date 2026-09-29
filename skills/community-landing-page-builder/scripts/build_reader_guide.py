@@ -15,7 +15,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, Image, PageBreak,
                                HRFlowable, CondPageBreak, Table, TableStyle)
 from build_catalogue import Catalogue, normalize_text
-from guide_quality import DEFAULT_SCOPE_NOTE, local
+from guide_quality import DEFAULT_SCOPE_NOTE, contrast, local
 
 
 def build(root, config_path, output, data):
@@ -25,6 +25,8 @@ def build(root, config_path, output, data):
     regular, bold = typesetter.fonts['regular'], typesetter.fonts['bold']
     width = A4[0] - 88
     primary, ink = typesetter.primary, typesetter.ink
+    # The small band caption keeps the accent only where it stays legible on the brand colour.
+    band_caption = typesetter.accent_light if contrast(typesetter.accent_light.hexval()[2:], primary.hexval()[2:]) >= 4.5 else colors.white
     styles = {
         'body': ParagraphStyle('Body', fontName=regular, fontSize=11, leading=15, textColor=ink, spaceAfter=8),
         'title': ParagraphStyle('Title', fontName=bold, fontSize=30, leading=35, textColor=primary, spaceAfter=18),
@@ -33,7 +35,7 @@ def build(root, config_path, output, data):
         'caption': ParagraphStyle('Caption', fontName=regular, fontSize=9, leading=13, textColor=typesetter.muted, spaceAfter=10),
         'small': ParagraphStyle('Small', fontName=regular, fontSize=8, leading=11, textColor=typesetter.muted, spaceAfter=6),
         # Designed cover band and chapter blocks.
-        'band_caption': ParagraphStyle('BandCaption', fontName=regular, fontSize=10, leading=14, textColor=typesetter.accent_light, spaceAfter=10),
+        'band_caption': ParagraphStyle('BandCaption', fontName=regular, fontSize=10, leading=14, textColor=band_caption, spaceAfter=10),
         'band_title': ParagraphStyle('BandTitle', fontName=bold, fontSize=30, leading=35, textColor=colors.white, spaceAfter=12),
         'band_body': ParagraphStyle('BandBody', fontName=regular, fontSize=12, leading=17, textColor=colors.white),
         'contents': ParagraphStyle('Contents', fontName=bold, fontSize=11, leading=15, textColor=ink),

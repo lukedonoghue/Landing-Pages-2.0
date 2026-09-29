@@ -72,12 +72,16 @@ def server(root,provider='codex',port=0,bridge=None):
                 if path=='/api/review':
                     value=guide.config(root);paths=guide.workflow.copy_files(root)
                     documents=[]
-                    for name in [paths['copy'],paths['brief']]:
+                    # A markdown project's PDF guide text is approved copy kept in page-copy.json.
+                    for name in [paths['copy'],paths['brief']]+(['build/page-copy.json'] if guide.workflow.guide_copy(root) is not None else []):
                         file=guide.storage.path_inside(root,name)
                         if file.is_file() and file.stat().st_size<=500000:documents.append({'path':name,'text':file.read_text()})
                     current=guide.workflow.copy_state(root).get('passages',{})
-                    approved=guide.workflow.load(root).get('approvals',{}).get('copy',{}).get('passages') or {}
+                    # Only the owner's own approval is a baseline; removed passages are shown too.
+                    stored=guide.workflow.load(root).get('approvals',{}).get('copy',{})
+                    approved=(stored.get('passages') or {}) if stored.get('actor')=='user' else {}
                     passages=[{'id':name,'text':item['text'],'status':'unchanged' if approved.get(name)==item['sha256'] else 'changed' if approved else 'new'} for name,item in current.items()]
+                    passages+=[{'id':name,'text':'This passage was in the copy you approved and has been removed.','status':'removed'} for name in approved if name not in current]
                     return self.respond(200,{'documents':documents,'passages':passages,'next':guide.present(root)})
                 return self.respond(404,{'error':'Not found'})
             except (ValueError,OSError,KeyError,TypeError) as error:return self.respond(409,{'error':str(error)})

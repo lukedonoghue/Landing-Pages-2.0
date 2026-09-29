@@ -449,7 +449,7 @@ try {
     await settle(page);
     const thankYou = await measure(page);
     thankYou.screenshot = await addShot(page, `${name}-thank-you`);
-    check('thank_you_overflow', thankYou.pageWidth <= viewport.width + 1, 'Thank-you page fits viewport', { viewport });
+    check('thank_you_overflow', thankYou.pageWidth <= viewport.width + 1, `${thankYou.pageWidth}px thank-you page in ${viewport.width}px viewport`, { viewport });
     check('thank_you_images', thankYou.images.every((img) => img.loaded), 'Thank-you images decode', { viewport });
     const pdfs = thankYou.links.filter((link) => new URL(link.href).pathname.toLowerCase().endsWith('.pdf'));
     if (pdfs.length) {

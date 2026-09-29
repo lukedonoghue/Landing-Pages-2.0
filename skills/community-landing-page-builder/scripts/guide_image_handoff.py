@@ -17,8 +17,10 @@ RECORD = 'build/guide-image-handoff.json'
 
 
 def fingerprint(root, guide):
+    # Bind to the guide as the build writes it, so the build's own sync of derived text
+    # and brand defaults is not an input change; a real copy or business edit still is.
     return storage_hash({'business': quality.business_fingerprint(root),
-                         'guide': {k: v for k, v in guide.items() if k != 'images'}})
+                         'guide': quality.synced(root, {k: v for k, v in guide.items() if k != 'images'})})
 
 
 def storage_hash(value):
@@ -29,7 +31,8 @@ def request(root, asset_id, placement, prompt, reason):
     root = Path(root).resolve()
     with storage.lock(root), images.plan_lock(root/'image-plan.json'):
         guide = quality.read(root, 'build/guide.json')
-        if placement not in {'cover', *[c['id'] for c in guide.get('chapters', [])]}:
+        # Chapters may live in the copy master (content_source) until the first build syncs them.
+        if placement not in {'cover', *[c['id'] for c in quality.derive_content(root, guide).get('chapters', [])]}:
             raise ValueError('Choose the actual guide cover or chapter ID')
         if len(prompt.strip()) < 30 or len(reason.strip()) < 25:
             raise ValueError('Describe the explanatory image and why sourced imagery is insufficient')
@@ -64,7 +67,11 @@ def inspect(root):
     if not record or record.get('resolved'):
         return None
     guide = quality.read(root, 'build/guide.json')
-    if record.get('schema_version') != 1 or record.get('input_fingerprint') != fingerprint(root, guide):
+    try:
+        current = fingerprint(root, guide)
+    except ValueError:
+        current = None  # the guide text the request was bound to can no longer be read
+    if record.get('schema_version') != 1 or record.get('input_fingerprint') != current:
         return {'stage': 'guide_image_handoff', 'kind': 'reconcile',
                 'instruction': 'Guide/business inputs changed. Preserve the original attempt and reconcile before generating again.'}
     plan = images.load_plan(Path(root)/'image-plan.json')

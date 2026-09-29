@@ -1,5 +1,6 @@
 """Evidence-backed necessary owner questions; pure planning and explicit presentation."""
 from pathlib import Path
+import re
 
 # search_intent: the Google Ads keywords live in the owner's ad account, not on the site.
 MATERIAL={'identity','offer','claim','primary_action','form_fields','destination','business_follow_up','search_intent'}
@@ -65,6 +66,11 @@ def validate(root):
             reason=row.get('necessity',{})
             if reason.get('category') not in MATERIAL or not c.text(reason.get('reason')):raise ValueError('Question was asked without a necessary material reason')
             if reason['category']!='identity' and (not reason.get('evidence') or not c.text(reason.get('material_effect'))):raise ValueError('Non-identity question lacks prior researched evidence')
-            for ref in reason.get('evidence',[]):c.evidence(root,ref)
+            # History records what was cited when the question was asked; qualify() checked
+            # those bytes then. A later legitimate change to the cited file is not a defect.
+            for ref in reason.get('evidence',[]):
+                if not isinstance(ref,dict) or not c.text(ref.get('path')) or Path(ref['path']).is_absolute() or not re.fullmatch(r'[0-9a-f]{64}',str(ref.get('sha256',''))):
+                    raise ValueError('Question evidence needs a project-relative path and sha256')
+                storage.path_inside(root,ref['path']);check_gates.resolve_inside(Path(root).resolve(),ref['path'])
         except (OSError,ValueError,TypeError,KeyError,AttributeError) as error:errors.append('Question history: '+str(error))
     return errors

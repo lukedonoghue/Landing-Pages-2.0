@@ -86,7 +86,8 @@ def build_reader(root, config_path, data):
     with tempfile.TemporaryDirectory(prefix='guide-render-', dir=root/'build') as directory:
         staging = Path(directory)
         subprocess.run(['pdftoppm', '-png', '-r', '120', str(output), str(staging/'page')], check=True)
-        subprocess.run(['pdftotext', '-layout', str(output), str(staging/'text.txt')], check=True)
+        # Reading order keeps each wrapped table cell contiguous, as the rendered-copy capture does.
+        subprocess.run(['pdftotext', '-raw', str(output), str(staging/'text.txt')], check=True)
         pages = sorted(staging.glob('page-*.png'))
         if not pages or not (staging/'text.txt').read_text().strip():
             raise ValueError('Guide page render or extracted text is empty')

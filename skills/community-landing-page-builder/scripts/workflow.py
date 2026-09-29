@@ -20,7 +20,7 @@ import process_contract
 import workflow_storage
 import workflow_progress
 
-from copy_contract import COPY_FILES, lightweight, copy_files, business_contract
+from copy_contract import COPY_FILES, lightweight, copy_files, business_contract, guide_copy
 
 def now(): return datetime.now(timezone.utc).isoformat()
 def read(path): return json.loads(path.read_text())
@@ -52,26 +52,37 @@ def copy_passages(root, contract):
     path = root / copy_files(root)['copy']
     passages = {'contract': {'sha256': _digest(contract), 'text': json.dumps(contract, indent=2, ensure_ascii=False)}}
     if path.suffix == '.md':
-        heading, lines, seen = 'opening', [], {}
+        heading, heading_line, lines, seen = 'opening', '', [], {}
         for line in path.read_text(encoding='utf-8').splitlines() + ['# ']:
             match = re.match(r'#{1,3}\s+(.*)', line)
             if not match:
                 lines.append(line); continue
-            body = '\n'.join(lines).strip()
-            if body:
+            # The heading line is visible copy, so a headline edit changes its passage.
+            text = '\n'.join([heading_line, *lines]).strip()
+            if text:
                 slug = re.sub(r'[^a-z0-9]+', '-', heading.lower()).strip('-') or 'section'
                 seen[slug] = seen.get(slug, 0) + 1
-                passages[f'{slug}-{seen[slug]}' if seen[slug] > 1 else slug] = {'sha256': _digest(body), 'text': body}
-            heading, lines = match.group(1), []
-        return passages
-    copy = read(path)
-    groups = {'hero': {key: copy.get(key) for key in ('h1', 'primary_cta')}}
-    for index, section in enumerate(copy.get('sections') or []):
-        groups['section:' + str(section.get('id') or index)] = section
-    groups.update({key: value for key, value in copy.items() if key not in {'h1', 'primary_cta', 'sections'} | PASSAGE_META})
-    for name, value in groups.items():
-        visible = _visible(value)
-        passages[name] = {'sha256': _digest(visible), 'text': '\n'.join(_text(visible))}
+                passages[f'{slug}-{seen[slug]}' if seen[slug] > 1 else slug] = {'sha256': _digest(text), 'text': text}
+            heading, heading_line, lines = match.group(1), line.strip(), []
+        order = [name for name in passages if name != 'contract']
+        brochure = guide_copy(root)
+        if brochure is not None:
+            # A markdown project's PDF guide text lives in page-copy.json; the owner approves it too.
+            # Underscored IDs cannot collide with heading slugs.
+            visible = _visible(brochure)
+            passages['pdf_guide'] = {'sha256': _digest(visible), 'text': '\n'.join(_text(visible))}
+    else:
+        copy = read(path)
+        groups = {'hero': {key: copy.get(key) for key in ('h1', 'primary_cta')}}
+        for index, section in enumerate(copy.get('sections') or []):
+            groups['section:' + str(section.get('id') or index)] = section
+        groups.update({key: value for key, value in copy.items() if key not in {'h1', 'primary_cta', 'sections'} | PASSAGE_META})
+        for name, value in groups.items():
+            visible = _visible(value)
+            passages[name] = {'sha256': _digest(visible), 'text': '\n'.join(_text(visible))}
+        order = [name for name in groups if name.startswith('section:')]
+    # Reordering sections changes the approved narrative without changing any one passage.
+    passages['section_order'] = {'sha256': _digest(order), 'text': '\n'.join(order)}
     return passages
 
 def changed_passages(approved, current):
@@ -96,10 +107,8 @@ def copy_surface_failures(root):
     """Deterministic absolute surface rules (long dashes, placeholders) on the exact copy."""
     import scan_surfaces
     root = Path(root).resolve()
-    path = root / copy_files(root)['copy']
-    if not path.is_file():
-        return []
-    return [f"{item['path']}:{item['line']}: {item['reason']} ({item['excerpt']})" for item in scan_surfaces.findings_for(path, root, [])]
+    paths = [root / copy_files(root)['copy']] + ([root / 'build/page-copy.json'] if guide_copy(root) is not None else [])
+    return [f"{item['path']}:{item['line']}: {item['reason']} ({item['excerpt']})" for path in paths if path.is_file() for item in scan_surfaces.findings_for(path, root, [])]
 
 def check_copy_approval(root, allow_fixture=False):
     current = copy_state(root)
@@ -108,7 +117,10 @@ def check_copy_approval(root, allow_fixture=False):
     failures = []
     changed = []
     if approval.get('fingerprint') != current['fingerprint']:
-        changed = changed_passages(approval.get('passages'), current.get('passages', {}))
+        # Only the owner's own approval can anchor a per-passage delta; after a fixture
+        # or unknown record the owner reviews the complete copy.
+        trusted = approval.get('actor') == 'user' or (allow_fixture and approval.get('actor') == 'fixture')
+        changed = changed_passages(approval.get('passages') if trusted else None, current.get('passages', {}))
         if changed is None:
             failures.append('Copy approval is missing or stale. Show the complete current copy and wait for the user to approve it before designing.')
         elif changed:

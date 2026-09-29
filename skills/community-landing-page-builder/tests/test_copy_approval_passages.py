@@ -52,7 +52,7 @@ class PassageApprovalTest(unittest.TestCase):
 
     def test_passages_cover_every_customer_facing_part(self):
         self.assertEqual(sorted(workflow.copy_passages(self.root, self.contract)),
-                         ['contract', 'hero', 'modal', 'section:benefits', 'section:faq', 'thank_you'])
+                         ['contract', 'hero', 'modal', 'section:benefits', 'section:faq', 'section_order', 'thank_you'])
 
     def test_only_changed_passages_need_reapproval(self):
         first = workflow.check_copy_approval(self.root)
@@ -79,7 +79,7 @@ class PassageApprovalTest(unittest.TestCase):
         workflow.record(self.root, 'copy', 'I approve this copy.', 'msg-1')
         self.edited(lambda copy: copy['sections'].pop())
         self.contract = {'offer': 'Free roof and gutter inspection'}
-        self.assertEqual(workflow.check_copy_approval(self.root)['changed_passages'], ['contract', 'removed:section:faq'])
+        self.assertEqual(workflow.check_copy_approval(self.root)['changed_passages'], ['contract', 'removed:section:faq', 'section_order'])
         workflow.record(self.root, 'copy', 'Automated check', 'fixture-1', fixture=True)
         self.assertIn('real user copy approval', ' '.join(workflow.check_copy_approval(self.root)['failures']))
 
@@ -110,7 +110,7 @@ class PassageApprovalTest(unittest.TestCase):
     def test_markdown_copy_is_split_by_heading(self):
         (self.root / 'funnel.json').write_text(json.dumps({'backend': {'provider': 'none'}, 'guided_workflow': {'copy_format': 'markdown'}}))
         (self.root / 'build/page-copy.md').write_text('# Headline\nRoof inspections\n\n## FAQ\nHow long?\n\n## FAQ\nWho comes?\n')
-        self.assertEqual(sorted(workflow.copy_passages(self.root, self.contract)), ['contract', 'faq', 'faq-2', 'headline'])
+        self.assertEqual(sorted(workflow.copy_passages(self.root, self.contract)), ['contract', 'faq', 'faq-2', 'headline', 'section_order'])
 
 
 if __name__ == '__main__':

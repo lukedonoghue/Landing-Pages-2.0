@@ -536,6 +536,15 @@ def inspect(root):
             "Resolve the reported copy/source/review findings in the existing project. Refresh only the affected evidence; do not discard the draft or invent approval.",
             status="blocked",
         )
+    # Copy the surface scan rejects is repair work; recording its approval always fails.
+    surface = workflow.copy_surface_failures(root)
+    if surface:
+        report["blockers"] += surface
+        return at(
+            "copy_review",
+            "Fix the prohibited surfaces the scan reported in the canonical copy (replace long dashes with a spaced hyphen, resolve placeholders), then refresh only the affected review evidence. Do not ask the owner to approve copy the scan rejects.",
+            status="blocked",
+        )
     report["completed"].append("copy_review_passed")
     if workflow.copy_approval_required(config):
         approval = workflow.check_copy_approval(root)
