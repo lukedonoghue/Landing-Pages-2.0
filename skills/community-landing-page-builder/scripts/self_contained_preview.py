@@ -3,10 +3,11 @@
 
 Chat and file viewers often open an HTML file without its sibling CSS, scripts
 and images, so a multi-file page renders unstyled or blank. `build` inlines
-every local stylesheet, script, image and font as the page would load it and
-adds a visible preview-only notice. `check` reports the relative resources a
-file still depends on, so it is never presented as a standalone preview while
-it would break. The multi-file project remains the editable handoff.
+every local stylesheet, script, image, font and embedded document (such as the
+guide reader's PDF) as the page would load it and adds a visible preview-only
+notice. `check` reports the relative resources a file still depends on, so it
+is never presented as a standalone preview while it would break. The multi-file
+project remains the editable handoff.
 """
 from __future__ import annotations
 import argparse
@@ -22,7 +23,8 @@ EXTRA_TYPES = {".webp": "image/webp", ".avif": "image/avif", ".woff2": "font/wof
 REMOTE = re.compile(r"^(?:[a-z][a-z0-9+.-]*:|//|#)", re.I)
 STYLESHEET = re.compile(r"<link\b[^>]*\brel=[\"']?stylesheet[\"']?[^>]*>", re.I)
 SCRIPT = re.compile(r"<script\b([^>]*)\bsrc=[\"']([^\"']+)[\"']([^>]*)>\s*</script>", re.I)
-MEDIA = re.compile(r"<(?:img|source|video|audio)\b[^>]*>", re.I)
+# Embedded documents (the thank-you guide reader) load like media, so they are inlined too.
+MEDIA = re.compile(r"<(?:img|source|video|audio|iframe|embed|object)\b[^>]*>", re.I)
 CSS_URL = re.compile(r"url\(\s*([\"']?)([^\"')]+)\1\s*\)", re.I)
 NOTICE = ('<div data-preview-notice style="position:sticky;top:0;z-index:2147483647;padding:6px 12px;'
           'background:#fff3cd;color:#3d2e00;font:13px/1.4 system-ui,sans-serif;text-align:center">'
@@ -41,7 +43,7 @@ def local_references(html):
         found.append(attribute(tag, "href"))
     found += [match.group(2) for match in SCRIPT.finditer(html)]
     for tag in MEDIA.findall(html):
-        found.append(attribute(tag, "src"))
+        found += [attribute(tag, "src"), attribute(tag, "data")]
         for candidates in (attribute(tag, "srcset"), attribute(tag, "poster")):
             # Candidates are comma+space separated; a data: URI contains a bare comma.
             found += [part.strip().split()[0] for part in re.split(r",\s+", candidates or "") if part.strip()]
@@ -83,7 +85,8 @@ class Inliner:
             if not href or REMOTE.match(href):
                 return match.group(0)
             sheet = self.resolve(href, base)
-            return "<style>" + self.css(sheet.read_text(encoding="utf-8"), sheet.parent) + "</style>"
+            # HTML ends raw text on </style or </script in any letter case; <\/ is the same text in CSS and JS.
+            return "<style>" + re.sub(r"</(style)", r"<\\/\1", self.css(sheet.read_text(encoding="utf-8"), sheet.parent), flags=re.I) + "</style>"
 
         html = STYLESHEET.sub(stylesheet, html)
         deferred = []
@@ -92,7 +95,7 @@ class Inliner:
             src = match.group(2)
             if REMOTE.match(src):
                 return match.group(0)
-            body = self.resolve(src, base).read_text(encoding="utf-8").replace("</script", "<\\/script")
+            body = re.sub(r"</(script)", r"<\\/\1", self.resolve(src, base).read_text(encoding="utf-8"), flags=re.I)
             attributes = (match.group(1) + match.group(3)).strip()
             keep = re.sub(r"\b(?:defer|async)\b", "", attributes).strip()
             tag = f"<script {keep}>".replace("<script >", "<script>") + body + "</script>"
@@ -106,7 +109,7 @@ class Inliner:
 
         def media(match):
             tag = match.group(0)
-            for name in ("src", "poster"):
+            for name in ("src", "poster", "data"):
                 value = attribute(tag, name)
                 if value and not REMOTE.match(value):
                     tag = tag.replace(f'{name}="{value}"', f'{name}="{self.data_uri(value, base)}"').replace(f"{name}='{value}'", f"{name}='{self.data_uri(value, base)}'")

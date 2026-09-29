@@ -1,5 +1,6 @@
 """Regressions for the final-review template findings (Worker template, helpers, validators)."""
 import contextlib
+from html.parser import HTMLParser
 import importlib.util
 import io
 import json
@@ -16,6 +17,7 @@ SCRIPTS = SKILL / 'scripts'
 TEMPLATE = SKILL / 'assets/cloudflare'
 sys.path.insert(0, str(SCRIPTS))
 import build_guide  # noqa: E402
+import self_contained_preview as preview  # noqa: E402
 import thank_you_page as thankyou  # noqa: E402
 
 spec = importlib.util.spec_from_file_location('final_review_reader_fixture', TEMPLATE / 'tests/fixtures/reader_guide_fixture.py')
@@ -71,6 +73,49 @@ class ConfigureAfterDerivingTests(TemplateThankYou):
         self.assertNotIn('confirmation-phone', header)
         self.configure()
         thankyou.inspect(self.root)
+
+
+class DerivedThankYouContractTests(TemplateThankYou):
+    def test_guide_cover_satisfies_the_static_image_contract(self):
+        self.derive()
+        shutil.copy(TEMPLATE / 'public/privacy.html', self.root / 'public/privacy.html')
+        run = subprocess.run([sys.executable, str(SCRIPTS / 'validate_page.py'), str(self.root)], capture_output=True, text=True)
+        self.assertEqual(json.loads(run.stdout)['checks']['image_issues'], [])
+
+
+class SelfContainedPreviewTests(unittest.TestCase):
+    def build(self, page, files):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        (root / 'public/assets').mkdir(parents=True)
+        (root / 'public/index.html').write_text(page)
+        for name, body in files.items():
+            (root / 'public' / name).write_bytes(body if isinstance(body, bytes) else body.encode())
+        return Path(preview.build(root)['preview']).read_text()
+
+    def test_inlined_script_and_style_cannot_close_their_element_in_any_case(self):
+        html = self.build('<!doctype html><html><head><link rel="stylesheet" href="styles.css"></head><body><p>Page</p><script src="a.js"></script></body></html>',
+                          {'a.js': 'const snippet = "</SCRIPT><img src=x onerror=alert(1)>" + "</Script >";',
+                           'styles.css': 'p::after{content:"</STYLE><i>leak</i>"}'})
+        tags, parser = [], HTMLParser()
+        parser.handle_starttag = lambda tag, attrs: tags.append(tag)
+        parser.feed(html)
+        self.assertNotIn('img', tags, 'Inlined script text became markup')
+        self.assertNotIn('i', tags, 'Inlined stylesheet text became markup')
+        self.assertIn('"<\\/SCRIPT><img', html)
+        self.assertIn('"<\\/STYLE><i>', html)
+
+    def test_embedded_guide_reader_is_inlined_and_checked(self):
+        page = ('<!doctype html><html><body><details><summary>Read</summary><iframe data-guide-embed src="/assets/guide.pdf" title="Guide"></iframe></details>'
+                '<object data="assets/plan.pdf" type="application/pdf"></object><embed src="assets/plan.pdf" type="application/pdf"></body></html>')
+        # The raw page cannot open on its own: its reader loads a sibling file.
+        self.assertEqual(preview.local_references(page), ['/assets/guide.pdf', 'assets/plan.pdf'])
+        html = self.build(page, {'assets/guide.pdf': b'%PDF-1.7 guide fixture', 'assets/plan.pdf': b'%PDF-1.7 plan fixture'})
+        self.assertEqual(preview.local_references(html), [])
+        self.assertIn('iframe data-guide-embed src="data:application/pdf;base64,', html)
+        self.assertIn('object data="data:application/pdf;base64,', html)
+        self.assertIn('embed src="data:application/pdf;base64,', html)
 
 
 if __name__ == '__main__':

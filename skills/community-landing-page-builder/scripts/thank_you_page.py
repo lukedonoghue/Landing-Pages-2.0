@@ -124,7 +124,7 @@ def derive(root, data):
 <a class="button" data-guide-download href="{escape(pdf_url,quote=True)}" download>{escape(data['download_label'])}</a>
 {phone_link}
 </div><a class="guide-cover-link" href="{escape(pdf_url,quote=True)}" aria-label="Open {title}" download>
-<img data-guide-cover src="{escape(cover_url,quote=True)}" alt="Cover of {title}" width="480" height="679" fetchpriority="high"></a>
+<img data-guide-cover data-image-role="screenshot" data-content-bearing="true" src="{escape(cover_url,quote=True)}" alt="Cover of {title}" width="480" height="679" fetchpriority="high"></a>
 </section>'''
     edits=[(hero.start,hero.end,new_hero)]
     forms=[n for n in doc.nodes if n.tag=='form']
