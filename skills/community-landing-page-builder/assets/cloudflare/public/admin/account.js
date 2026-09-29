@@ -1,6 +1,11 @@
 import { secureFetch } from './secure-fetch.js';
 const node = (tag, text, cls) => { const el = document.createElement(tag); if (text) el.textContent = text; if (cls) el.className = cls; return el; };
-export function initAccountPanel(host, { onSessionEnded = () => window.location.assign('/login.html'), onNotifications = () => {}, currentUser = null, permissions = {}, googleAdsOffline = false } = {}) {
+// The Worker reads `from` as a day in the site time zone.
+const siteDaysAgo = (timezone, days) => {
+  const part = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date()).map(item => [item.type, item.value]));
+  return new Date(Date.UTC(+part.year, part.month - 1, part.day - days)).toISOString().slice(0, 10);
+};
+export function initAccountPanel(host, { onSessionEnded = () => window.location.assign('/login.html'), onNotifications = () => {}, currentUser = null, permissions = {}, googleAdsOffline = false, timezone = 'UTC' } = {}) {
   let disposed = false; let marker = 0; let pending = false; let exportParams = new URLSearchParams();
   const canAcknowledge = permissions.edit_leads === true;
   const canExport = permissions.export_leads === true;
@@ -83,9 +88,12 @@ export function initAccountPanel(host, { onSessionEnded = () => window.location.
   if (canExport && googleAdsOffline) adsButton.addEventListener('click', async () => {
     adsButton.disabled = true; status.textContent = 'Preparing Google Ads conversions…';
     try {
-      const response = await download('format=google_ads', 'google-ads-conversions');
+      // Google Ads rejects clicks older than 90 days, so older conversions cannot be imported.
+      const from = siteDaysAgo(timezone, 90);
+      const response = await download(`format=google_ads&from=${from}`, 'google-ads-conversions');
       const skipped = Number(response.headers.get('X-Export-Skipped'));
-      status.textContent = `Downloaded ${response.headers.get('X-Export-Count')} conversions. Upload the file in Google Ads under Goals > Conversions > Uploads.${skipped ? ` ${skipped} leads had an unrecognised click ID and were left out.` : ''}`;
+      const truncated = response.headers.get('X-Export-Truncated') === 'true' ? ' Only the newest 10,000 per stage fit in one file, so older ones were left out.' : '';
+      status.textContent = `Downloaded ${response.headers.get('X-Export-Count')} conversions from the last 90 days (since ${from}).${truncated} Upload the file in Google Ads under Goals > Conversions > Uploads.${skipped ? ` ${skipped} leads had an unrecognised click ID and were left out.` : ''}`;
     } catch (error) { report(error); } finally { adsButton.disabled = false; }
   });
   if (currentUser) {

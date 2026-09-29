@@ -18,3 +18,13 @@ test('scheduler contract matches the selected five-minute cron', async () => {
   assert.match(contract,/Account-action email delivery is at-least-once/);
   assert.doesNotMatch(contract,/cron trigger must run every minute/i);
 });
+
+test('contract states the analytics default that new builds actually ship', async () => {
+  const [contract, config, sync, page] = await Promise.all(['API-CONTRACT.md', 'src/site-config.json', 'scripts/sync-config.mjs', 'public/index.html'].map(text));
+  const shipped = JSON.parse(config).analyticsMode;
+  assert.equal(shipped, 'disabled');
+  assert.match(sync, /const mode=funnel\.analytics\?\.mode\|\|'disabled';/);
+  assert.match(page, /data-analytics-mode="disabled"/);
+  assert.match(contract, new RegExp(`New builds default to \`analytics\\.mode: "${shipped}"\``));
+  assert.doesNotMatch(contract, /Analytics mode is `consent` by default|`essential` permits measurement without that flag/);
+});

@@ -120,13 +120,43 @@ test('Google Ads upload file uses stage entry time, valid click IDs and the site
       'EAIaIQobChMIexampleClickId,,,Qualified lead,2026-09-17 10:30:00,50,USD',
       'EAIaIQobChMIexampleClickId,,,"Won job, signed",2026-09-18 10:30:00,500,USD', '']);
     assert.equal(response.headers.get('X-Export-Count'), '3'); assert.equal(response.headers.get('X-Export-Skipped'), '1', 'A formula-shaped click ID is never exported');
+    assert.equal(response.headers.get('X-Export-Truncated'), 'false');
     const recent = await exportGoogleAdsConversions({ DB: db }, new URL('https://site.test/?from=2026-09-18'), config);
     assert.equal(recent.headers.get('X-Export-Count'), '1');
-    await assert.rejects(exportGoogleAdsConversions({ DB: db }, new URL('https://site.test/?from=yesterday'), config), /YYYY-MM-DD/);
+    for (const day of ['yesterday', '2026-13-01', '2026-02-30']) await assert.rejects(exportGoogleAdsConversions({ DB: db }, new URL(`https://site.test/?from=${day}`), config), /YYYY-MM-DD/, day);
   } finally {
     for (const table of ['activity', 'lead_notifications']) await db.prepare(`DELETE FROM ${table} WHERE lead_id IN (${created.map(() => '?').join(',')})`).bind(...created).run();
     await db.prepare(`DELETE FROM leads WHERE id IN (${created.map(() => '?').join(',')})`).bind(...created).run();
   }
+});
+const clickLead = (id, at) => db.prepare('INSERT INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,name,email,status,form_name,form_data,attribution,landing_page) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(id, crypto.randomUUID(), crypto.randomUUID(), 'test', at, at, at.slice(0, 10), 'Ads', 'synthetic@example.invalid', 'new', 'enquiry', '{}', JSON.stringify({ first_touch: {}, latest_touch: { gclid: `EAIaIQobChMI${id.replaceAll('-', '')}` } }), '/').run();
+async function removeLeads(where) { for (const table of ['activity', 'lead_notifications']) await db.prepare(`DELETE FROM ${table} WHERE lead_id IN (SELECT id FROM leads WHERE ${where})`).run(); await db.prepare(`DELETE FROM leads WHERE ${where}`).run(); }
+test('Google Ads upload file keeps the newest 10,000 conversions per stage and says when older ones were left out', async () => {
+  const config = { timezone: 'UTC', googleAdsOffline: { currency: 'USD', stages: { new: { conversion_name: 'Enquiry' } } } };
+  try {
+    // 10,001 click-attributed enquiries, one a minute from 2026-01-01T00:01Z.
+    await db.prepare(`INSERT INTO leads(id,receipt_id,idempotency_key,payload_hash,created_at,updated_at,reporting_day,name,email,status,form_name,form_data,attribution,landing_page)
+      WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i+1 FROM n WHERE i<10001)
+      SELECT 'bulk-'||i,'bulk-receipt-'||i,'bulk-key-'||i,'test',strftime('%Y-%m-%dT%H:%M:%fZ','2026-01-01','+'||i||' minutes'),strftime('%Y-%m-%dT%H:%M:%fZ','2026-01-01','+'||i||' minutes'),'2026-01-01','Bulk','synthetic@example.invalid','new','enquiry','{}',json_object('first_touch',json_object(),'latest_touch',json_object('gclid','EAIaIQobChMIbulk'||i)),'/' FROM n`).run();
+    const all = await exportGoogleAdsConversions({ DB: db }, new URL('https://site.test/?format=google_ads'), config);
+    const rows = (await all.text()).trim().split('\r\n').slice(2);
+    assert.equal(all.headers.get('X-Export-Truncated'), 'true'); assert.equal(all.headers.get('X-Export-Count'), '10000'); assert.equal(rows.length, 10000);
+    assert.equal(rows[0], 'EAIaIQobChMIbulk2,,,Enquiry,2026-01-01 00:02:00,,', 'The oldest conversion is the one left out');
+    assert.equal(rows.at(-1), 'EAIaIQobChMIbulk10001,,,Enquiry,2026-01-07 22:41:00,,', 'The newest conversion is kept, in chronological order');
+    const recent = await exportGoogleAdsConversions({ DB: db }, new URL('https://site.test/?format=google_ads&from=2026-01-07'), config);
+    assert.equal(recent.headers.get('X-Export-Truncated'), 'false'); assert.equal(recent.headers.get('X-Export-Count'), String(10001 - 8640 + 1));
+  } finally { await removeLeads("id LIKE 'bulk-%'"); }
+});
+test('Google Ads `from` is a calendar day in the site time zone the upload file declares', async () => {
+  const stages = { new: { conversion_name: 'Enquiry' } };
+  const leads = { 'tz-sydney-morning': '2026-09-17T22:00:00.000Z', 'tz-sydney-previous': '2026-09-17T13:00:00.000Z', 'tz-chicago-previous': '2026-09-18T02:00:00.000Z', 'tz-chicago-morning': '2026-09-18T05:30:00.000Z' };
+  try {
+    for (const [id, at] of Object.entries(leads)) await clickLead(id, at);
+    const exported = async timezone => (await (await exportGoogleAdsConversions({ DB: db }, new URL('https://site.test/?format=google_ads&from=2026-09-18'), { timezone, googleAdsOffline: { stages } })).text()).trim().split('\r\n').slice(2).map(line => line.split(',')[4]);
+    // Every Conversion Time in the file is on or after the requested local day, and none is missing.
+    assert.deepEqual(await exported('Australia/Sydney'), ['2026-09-18 08:00:00', '2026-09-18 12:00:00', '2026-09-18 15:30:00']);
+    assert.deepEqual(await exported('America/Chicago'), ['2026-09-18 00:30:00']);
+  } finally { await removeLeads("id LIKE 'tz-%'"); }
 });
 test('missing or invalid named-owner configuration fails closed before credentials can be loaded', async () => {
   // Configuration behavior is also directly checked without depending on env injection.

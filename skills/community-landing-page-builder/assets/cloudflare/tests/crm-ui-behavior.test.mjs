@@ -52,6 +52,7 @@ const lead = {
 async function adminPage(viewport = { width: 1280, height: 900 }, options = {}) {
   const page = await browser.newPage({ viewport });
   page.setDefaultTimeout(6000);
+  if (options.now) await page.clock.setFixedTime(options.now);
   await page.route('**/api/**', async route => {
     const request = route.request();
     const url = new URL(request.url());
@@ -59,7 +60,7 @@ async function adminPage(viewport = { width: 1280, height: 900 }, options = {}) 
     if (url.pathname === '/api/auth/session') {
       json = { authenticated: true, user: { id: 'owner', username: 'owner', email: 'owner@example.invalid', role: 'admin' }, permissions: { manage_users: true, edit_leads: true, export_leads: true, manage_settings: true } };
     } else if (url.pathname === '/api/admin/config') {
-      json = { brand: { name: 'Synthetic CRM fixture' }, timezone: 'UTC', earliest_date: '2026-09-01' };
+      json = { brand: { name: 'Synthetic CRM fixture' }, timezone: 'UTC', earliest_date: '2026-09-01', ...options.config };
     } else if (url.pathname === '/api/admin/metrics') {
       if (options.metricsFailure) { await route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({error:'Metrics unavailable'})}); return; }
       json = { days: [], totals: { visitors: 0, conversions: 0, leads: 1 }, timezone: 'UTC' };
@@ -178,6 +179,26 @@ test('login and forgot-password modes hide, show, and focus the expected control
     assert.equal(await reset.isHidden(), true);
     assert.equal(await forgot.isVisible(), true);
     assert.equal(await page.locator('#username').evaluate(node => node === document.activeElement), true);
+  } finally {
+    await page.close();
+  }
+});
+
+test('Google Ads export asks for the last 90 site-time-zone days and reports a truncated file', browserOptions, async () => {
+  // 20:00 UTC is already the next day in Pacific/Kiritimati (UTC+14), so a UTC date would start a day early.
+  const page = await adminPage({ width: 1280, height: 900 }, { now: new Date('2026-09-29T20:00:00Z'), config: { timezone: 'Pacific/Kiritimati', google_ads_offline: true } });
+  try {
+    const requests = [];
+    await page.route('**/api/admin/leads/export.csv?*', route => {
+      requests.push([...new URL(route.request().url()).searchParams]);
+      return route.fulfill({ status: 200, contentType: 'text/csv', headers: { 'X-Export-Count': '10000', 'X-Export-Skipped': '0', 'X-Export-Truncated': 'true' }, body: 'Parameters:TimeZone=Pacific/Kiritimati\r\n' });
+    });
+    await page.locator('[data-view=account]').click();
+    await page.getByRole('button', { name: 'Export Google Ads conversions' }).click();
+    const status = page.locator('.account-status').filter({ hasText: 'Downloaded' });
+    await status.waitFor();
+    assert.deepEqual(requests, [[['format', 'google_ads'], ['from', '2026-07-02']]]);
+    assert.match(await status.textContent(), /last 90 days \(since 2026-07-02\)\. Only the newest 10,000 per stage fit in one file, so older ones were left out\./);
   } finally {
     await page.close();
   }
