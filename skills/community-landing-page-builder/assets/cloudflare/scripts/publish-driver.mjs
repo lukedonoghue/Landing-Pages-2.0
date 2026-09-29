@@ -11,12 +11,13 @@ const allowed=new Set(['resume','new-release','url','fixture','credentials-file'
 export const APPLICATION_TEST_TIMEOUT_MS=720000;
 const success=result=>{if(result.code!==0)throw new Error('A required local/publishing command failed. Inspect the private release diagnostic; no success was assumed.');return result.stdout;};
 // Generated projects carry no test code. Their Worker, migrations, release scripts
-// and CRM scripts/styles must instead be byte-identical to the hash-locked template
-// in the private builder bundle, whose full regression suite runs in the skill's CI.
-// Pages and src/site-config.json are project content and are checked by QA gates.
+// and CRM (admin/, login and account-action shells, scripts and styles) must instead
+// be byte-identical to the hash-locked template in the private builder bundle, whose
+// full regression suite runs in the skill's CI. Landing pages, their assets and
+// src/site-config.json are project content and are checked by QA gates.
 const BUNDLE='.community-builder';
 const TEMPLATE='assets/cloudflare/';
-const TEMPLATE_OWNED=[/^src\/.+\.js$/,/^migrations\/.+\.sql$/,/^scripts\/[^/]+\.mjs$/,/^public\/admin\/[^/]+\.(js|css)$/,/^public\/(login|account-action|confirmation|privacy-controls|funnel)\.(js|css)$/];
+const TEMPLATE_OWNED=[/^src\/.+\.js$/,/^migrations\/.+\.sql$/,/^scripts\/[^/]+\.mjs$/,/^public\/admin\/.+$/,/^public\/(login|account-action)\.html$/,/^public\/(login|account-action|confirmation|privacy-controls|funnel)\.(js|css)$/];
 const listed=(base,dir)=>existsSync(path.join(base,dir))?readdirSync(path.join(base,dir),{recursive:true,withFileTypes:true}).filter(entry=>entry.isFile()).map(entry=>path.relative(base,path.join(entry.parentPath??entry.path,entry.name)).split(path.sep).join('/')):[];
 export function templateIntegrity(root) {
   const manifestFile=path.join(root,BUNDLE,'runtime-manifest.json');
@@ -35,8 +36,25 @@ export function templateIntegrity(root) {
   if(changed.length)throw new Error('Application code differs from the tested template, so publishing is blocked: '+changed.sort().join(', ')+'. Make the change in the skill template, where its regression suite runs, then update the project.');
   return reference.length;
 }
+// The bundle decides, not the presence of tests/: a current bundle carries no template
+// tests, so adding a tests/ folder cannot replace the template check. Only a project
+// scaffolded before tests left the template (its bundle still hashes them) runs its
+// suite, and only when that suite is exactly the locked one. No bundle at all is the
+// template's own CI.
+export function regressionMode(root) {
+  const manifestFile=path.join(root,BUNDLE,'runtime-manifest.json');
+  if(!existsSync(manifestFile))return existsSync(path.join(root,'tests'))?'suite':'integrity';
+  const locked=read(manifestFile).files||{};
+  const tests=Object.keys(locked).filter(name=>name.startsWith(TEMPLATE+'tests/'));
+  if(!tests.length)return 'integrity';
+  const project=new Set(listed(root,'tests').filter(name=>name.endsWith('.test.mjs')));
+  const changed=tests.map(name=>name.slice(TEMPLATE.length)).filter(name=>!existsSync(path.join(root,name))||hash(readFileSync(path.join(root,name)))!==locked[TEMPLATE+name]);
+  for(const name of project)if(!locked[TEMPLATE+name])changed.push(name);
+  if(changed.length)throw new Error('The project test suite differs from the template suite it was scaffolded with, so it cannot stand in for the template check: '+[...new Set(changed)].sort().join(', ')+'.');
+  return 'suite';
+}
 export async function applicationRegressions(root,run) {
-  if(!existsSync(path.join(root,'tests'))){
+  if(regressionMode(root)==='integrity'){
     const files=templateIntegrity(root);
     writeFileSync(path.join(root,'build/template-integrity.json'),JSON.stringify({status:'passed',template_files:files},null,2)+'\n',{mode:0o600});
     return 'template-integrity-verified';

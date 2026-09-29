@@ -39,3 +39,21 @@ class BackendReuseTests(unittest.TestCase):
                 target.write_text('client-specific replacement')
                 self.assertEqual([item['path'] for item in module.verify(project, template)['files'] if not item['matches']], [relative])
                 target.write_text('shared core')
+
+    def test_every_admin_file_and_crm_shell_is_shared_core(self):
+        with tempfile.TemporaryDirectory() as directory:
+            template, project = Path(directory) / 'template', Path(directory) / 'project'
+            for root in (template, project):
+                for relative in ('public/funnel.js', 'public/privacy-controls.js', 'public/privacy-controls.css', 'public/admin/index.html', 'public/admin/lib/chart.mjs', 'public/login.html'):
+                    file = root / relative
+                    file.parent.mkdir(parents=True, exist_ok=True)
+                    file.write_text('shared core')
+            self.assertEqual(module.verify(project, template)['status'], 'pass')
+            for relative in ('public/admin/index.html', 'public/admin/lib/chart.mjs', 'public/login.html'):
+                (project / relative).write_text('<script src="/extra.js"></script>')
+                self.assertEqual([item['path'] for item in module.verify(project, template)['files'] if not item['matches']], [relative])
+                (project / relative).write_text('shared core')
+            (project / 'public/admin/lib/extra.js').write_text('unreviewed')
+            extra = [item for item in module.verify(project, template)['files'] if not item['matches']]
+            self.assertEqual([(item['path'], item['expected_sha256']) for item in extra], [('public/admin/lib/extra.js', None)])
+

@@ -1,12 +1,12 @@
 # CRM security remediation and deployment runbook — 22 September 2026
 
-Basis: the supplied CRM / Google Sheets / publishing security analysis (F0–F11, S1–S5). The source of truth is the latest maintained community skill, not the historical `examples/all-skill-test-pages` CRM. These changes are repository remediation; they do not assert any live Netbean deployment is updated or secure.
+Basis: the supplied CRM / Google Sheets / publishing security analysis (F0–F11, S1–S5). The source of truth is the latest maintained community skill, not any historical example CRM or branch. These changes are repository remediation; they do not assert any live Netbean deployment is updated or secure.
 
 ## Finding coverage
 
 | Finding | Repository change | Required operator / residual work |
 |---|---|---|
-| F0 | Preserve current main account/outbox/atomic-erasure fixes; regenerate the example from the maintained template; CI parity check | Redeploy each affected installation using approved publishing; never deploy the old example branch |
+| F0 | Preserve current main account/outbox/atomic-erasure fixes; the maintained template in `assets/cloudflare` is the only CRM source, and the publish gate hash-checks project application code against it (`templateIntegrity`) | Redeploy each affected installation using approved publishing; never deploy the old example branch |
 | F1 | Block all manual owner/admin reset links, including review overrides; owner-only admin creation/role changes; invalidate outstanding reset links | Privileged recovery uses verified email or trusted Cloudflare-owner recovery, not an admin-visible bearer link |
 | F2 | Connections, exports, retention and erasure admin-only; manager retains ordinary lead editing; server-side password confirmation for sensitive changes | Review existing team roles and outbound connections |
 | F3 | Disable workers.dev and preview URLs when CRM custom hosts are configured; fail closed on fallback aliases | Apply configuration to live Worker; check zone Access/WAF coverage and aliases |
@@ -23,7 +23,7 @@ Basis: the supplied CRM / Google Sheets / publishing security analysis (F0–F11
 | S3 | Persistent pre-send receipts and independent signed erasure queue, including after connection removal; anti-resurrection tombstones | Resolve failed deletions and purge historical untracked copies/backups separately |
 | S5 | Explicit acknowledgements, status/rotation CLI and UI, bounded errors, versioned manifest | GET status is not row-persistence evidence; authorized synthetic create/erase is still required before release |
 
-Identity-attribution migrations 0009/0010 remain a separately reviewed feature rather than replacing main's repository code. Migration 0011 is additive to either lineage. Deployments using contact-based cross-submission attribution must disclose that linking in their privacy notice. The regenerated example contains generic configuration, not live Netbean domains or client phone numbers.
+Identity-attribution migrations 0009/0010 remain a separately reviewed feature rather than replacing main's repository code. Migration 0011 is additive to either lineage. Deployments using contact-based cross-submission attribution must disclose that linking in their privacy notice. The maintained template contains generic configuration, not live Netbean domains or client phone numbers.
 
 ## Deployment sequence (operator approval required)
 
@@ -43,4 +43,4 @@ Enable MFA for Cloudflare and the client-owned Google automation account, review
 
 ## Verification
 
-`node --test tests/security-hardening.test.mjs` exercises the actual Worker modules/migrations with synthetic SQLite and network stubs, plus Apps Script signature compatibility. Existing Worker, browser, release and Python suites remain required; do not treat a mocked status check as a production penetration test. `python scripts/sync_crm_example.py --check` prevents new source divergence. Inspect both CRM and downstream deletion status before stating that all managed copies were erased. No live deployment, account-MFA change, sharing change, credential upload or real lead has been performed merely by merging this remediation.
+From the skill's `assets/cloudflare` template, where the regression suite lives (scaffolded projects no longer ship tests), `node --test tests/security-hardening.test.mjs` exercises the actual Worker modules/migrations with synthetic SQLite and network stubs, plus Apps Script signature compatibility. Existing Worker, browser, release and Python suites remain required; do not treat a mocked status check as a production penetration test. Template divergence is blocked at publish time: `scripts/publish-driver.mjs` (`templateIntegrity`) refuses to publish when template-owned Worker, migration, release-script or CRM files (everything under `public/admin/`, the login and account-action pages and their scripts) differ from the hash-locked copy in `.community-builder/runtime-manifest.json`, and `validateTarget` refuses another Worker entry point, migrations directory or bundling override. A `tests/` folder never replaces that check. `python3 scripts/verify_backend_reuse.py <project> --report <project>/build/backend-reuse.json` reports per-file drift of the shared CRM core, including extra admin files. Inspect both CRM and downstream deletion status before stating that all managed copies were erased. No live deployment, account-MFA change, sharing change, credential upload or real lead has been performed merely by merging this remediation.

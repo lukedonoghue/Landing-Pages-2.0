@@ -5,16 +5,24 @@ import json
 from pathlib import Path
 
 
+def admin_files(root):
+    base = root / 'public/admin'
+    return {p.relative_to(root) for p in base.rglob('*') if p.is_file()} if base.is_dir() else set()
+
+
 def verify(project, template):
+    # Every CRM file (any depth or type under admin/) and both CRM shells: an edited
+    # shell or an extra admin file can load unreviewed script on the CRM origin.
     paths = sorted({p.relative_to(template) for pattern in
-        ('src/*.js', 'migrations/*.sql', 'public/admin/*.js', 'public/admin/*.css',
+        ('src/*.js', 'migrations/*.sql', 'public/login.html', 'public/account-action.html',
          'public/login.js', 'public/login.css', 'public/account-action.js')
-        for p in template.glob(pattern)} | {Path(p) for p in
+        for p in template.glob(pattern)} | admin_files(template) | {Path(p) for p in
         ('public/funnel.js', 'public/privacy-controls.js', 'public/privacy-controls.css')})
+    paths += sorted(admin_files(project) - set(paths))
     files = []
     for relative in paths:
         source, target = template / relative, project / relative
-        expected = hashlib.sha256(source.read_bytes()).hexdigest()
+        expected = hashlib.sha256(source.read_bytes()).hexdigest() if source.is_file() else None
         actual = hashlib.sha256(target.read_bytes()).hexdigest() if target.is_file() and not target.is_symlink() else None
         files.append({'path': relative.as_posix(), 'expected_sha256': expected,
                       'actual_sha256': actual, 'matches': actual == expected})

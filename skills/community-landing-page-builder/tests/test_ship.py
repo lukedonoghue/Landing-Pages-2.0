@@ -48,6 +48,15 @@ class CoordinatorTests(unittest.TestCase):
         self.to_prepare({'sheets':sheets});self.action('prepare',True)
         self.action('attest',{'mfa':True,'privacy':True,'trusted_host':True,**({'google_access':True} if sheets else {})})
         self.assertEqual(self.app.status()['stage'],'approve')
+    def test_template_integrity_is_accepted_as_quality_evidence(self):
+        # Current projects carry no test suite; the publisher proves their application
+        # code by template integrity, which previously stalled the wizard at quality.
+        self.to_prepare();quality={'handoff_gates':'passed','worker_bundle':'passed'}
+        self.adapter.stop['quality']={'status':'pass','evidence':{**quality,'full_application_regressions':'template-integrity-verified'}}
+        self.assertIn('quality',self.action('prepare',True)['completed'])
+    def test_unknown_application_evidence_cannot_pass_quality(self):
+        self.to_prepare();self.adapter.stop['quality']={'status':'pass','evidence':{'handoff_gates':'passed','worker_bundle':'passed','full_application_regressions':'skipped'}}
+        with self.assertRaisesRegex(ValueError,'incomplete evidence'):self.action('prepare',True)
     def test_status_is_local_and_does_not_touch_provider(self):
         self.assertEqual(self.app.status()['stage'],'inputs');self.assertFalse(self.adapter.calls)
         self.assertFalse((self.root/ship.STATE).exists())

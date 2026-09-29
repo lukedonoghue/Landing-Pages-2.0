@@ -29,7 +29,7 @@ function fixture(t) {
     const source=[join(template, 'scripts', name+'.py'),fileURLToPath(new URL('../../../scripts/'+name+'.py',import.meta.url))].find(existsSync);
     assert.ok(source);copyFileSync(source,join(root,'scripts',name+'.py'));
   }
-  write(root, 'wrangler.jsonc', {name:'workflow-fixture', account_id:'a'.repeat(32), assets:{directory:'public',run_worker_first:true}, version_metadata:{binding:'CF_VERSION_METADATA'}, d1_databases:[{binding:'DB',database_name:'workflow-fixture-crm',database_id:'11111111-1111-4111-8111-111111111111'}]});
+  write(root, 'wrangler.jsonc', {name:'workflow-fixture', main:'src/worker.js', account_id:'a'.repeat(32), assets:{directory:'public',run_worker_first:true}, version_metadata:{binding:'CF_VERSION_METADATA'}, d1_databases:[{binding:'DB',database_name:'workflow-fixture-crm',database_id:'11111111-1111-4111-8111-111111111111'}]});
   write(root, 'src/site-config.json', {name:'Workflow fixture',attributionMode:'disabled'});
   write(root, 'funnel.json', {catalogue:{enabled:false},analytics:{attribution_mode:'disabled',required_attribution_mode:'disabled'}});
   write(root, 'public/index.html', '<!doctype html><title>Workflow fixture</title><script src="funnel.js" defer></script><h1>Fixture</h1>');

@@ -14,7 +14,7 @@ const fingerprint='a'.repeat(64), url='https://protocol.example';
 const attributionKeys=['utm_source','utm_medium','utm_campaign','utm_id','utm_term','utm_content','utm_source_platform','utm_creative_format','utm_marketing_tactic','gclid','dclid','gbraid','wbraid','fbclid','msclkid','ttclid'];
 const campaignQuery=Object.fromEntries(attributionKeys.map(key=>[key,`release-${key}`]));campaignQuery.utm_source='google';campaignQuery.utm_medium='cpc';
 test('mandatory serial application regression has a bounded twelve-minute publish budget',()=>assert.equal(APPLICATION_TEST_TIMEOUT_MS,720000));
-const config={name:'protocol-fixture',account_id:'b'.repeat(32),routes:[{pattern:'protocol.example',custom_domain:true}],d1_databases:[{binding:'DB',database_id:db}],assets:{directory:'public',run_worker_first:true},version_metadata:{binding:'CF_VERSION_METADATA'}};
+const config={name:'protocol-fixture',main:'src/worker.js',account_id:'b'.repeat(32),routes:[{pattern:'protocol.example',custom_domain:true}],d1_databases:[{binding:'DB',database_id:db}],assets:{directory:'public',run_worker_first:true},version_metadata:{binding:'CF_VERSION_METADATA'}};
 const target=validateTarget(config);
 const identity={schema_version:1,evidence_source:'cloudflare-wrangler-deployments-and-version-api',...target,version_id:version,release_id:id,source_fingerprint:fingerprint,url,script_etag:'synthetic-etag',active_versions:[{version_id:version,percentage:100}]};
 
@@ -118,6 +118,14 @@ test('origin and source guards reject unrelated targets',()=>{
   assert.throws(()=>expectedIdentity({...identity,source_fingerprint:'c'.repeat(64)},target,id,fingerprint,url),/does not show/);
   assert.throws(()=>sameReleaseIdentity({...identity,script_etag:'changed'},identity),/active release/);
   assert.throws(()=>validateTarget({...config,env:{production:{}}}),/flat Workers/);
+});
+test('the published Worker is built from the tested entry point and migrations only',()=>{
+  // Any other entry, SQL directory or bundling override deploys code the template check never saw.
+  for(const main of [undefined,'app/worker.js','src/worker2.mjs','src/worker.ts'])assert.throws(()=>validateTarget({...config,main}),/tested Worker entry/);
+  assert.throws(()=>validateTarget({...config,d1_databases:[{...config.d1_databases[0],migrations_dir:'db'}]}),/migrations directory/);
+  assert.equal(validateTarget({...config,d1_databases:[{...config.d1_databases[0],migrations_dir:'migrations'}]}).database_id,db);
+  for(const key of ['alias','define','rules','find_additional_modules','no_bundle','base_dir','tsconfig','minify','node_compat','compatibility_flags','tail_consumers'])
+    assert.throws(()=>validateTarget({...config,[key]:key==='no_bundle'||key==='minify'?true:{}}),new RegExp('overrides before publishing: '+key));
 });
 test('initial secrets must match current login and all tests must actually run',()=>{
   const password='synthetic-initial-password',salt='1'.repeat(32);

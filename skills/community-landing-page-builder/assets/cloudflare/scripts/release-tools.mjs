@@ -42,10 +42,15 @@ export function origin(raw) {
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || url.pathname !== '/') throw new Error('Use a clean reviewed HTTPS origin.');
   return url.origin;
 }
+// Keys that change how the hash-locked template is bundled or run without changing a locked file.
+export const BUILD_OVERRIDES = ['alias','define','rules','find_additional_modules','no_bundle','base_dir','tsconfig','minify','node_compat','legacy_env','compatibility_flags','tail_consumers','streaming_tail_consumers'];
 export function validateTarget(config) {
   const db = config.d1_databases;
   if (!/^[a-f0-9]{32}$/.test(config.account_id || '') || !/^[a-z][a-z0-9-]{2,48}$/.test(config.name || '') || config.name === 'branded-lead-funnel') throw new Error('Pin the intended Cloudflare account and unique Worker name before final review.');
   if (!Array.isArray(db) || db.length !== 1 || db[0].binding !== 'DB' || !UUID.test(db[0].database_id || '')) throw new Error('The reviewed Worker needs one real D1 binding named DB.');
+  if (config.main !== 'src/worker.js' || (db[0].migrations_dir ?? 'migrations') !== 'migrations') throw new Error('Publish the tested Worker entry (src/worker.js) and migrations directory (migrations); another entry point or SQL path bypasses the template check.');
+  const overrides = BUILD_OVERRIDES.filter(key => config[key] !== undefined);
+  if (overrides.length) throw new Error('Remove Worker build or runtime overrides before publishing: ' + overrides.join(', ') + '.');
   if (config.version_metadata?.binding !== 'CF_VERSION_METADATA') throw new Error('Add the supported version metadata binding before final QA and approval.');
   if (config.env || config.build?.command || config.assets?.directory !== 'public' || config.assets?.run_worker_first !== true) throw new Error('Use the reviewed flat Workers/static-assets profile for this beta release; environment overrides and custom build commands need a separate validated adapter.');
   const domains = (config.routes || []).map(route => {

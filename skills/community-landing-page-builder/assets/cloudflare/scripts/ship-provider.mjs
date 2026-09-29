@@ -130,7 +130,7 @@ async function configuredSheets(root,input){
   must(!check.lead_present&&!check.erased,'sheets_probe');
   return result({protocol:2,key_version:version,read_only_signed_probe:'passed',lead_data_sent:false});
 }
-async function edgeProtection(root,input,write=false){
+export async function edgeProtection(root,input,write=false){
   const token=process.env.CLOUDFLARE_API_TOKEN;
   if(!token){must(input.attestations?.edge?.value===true,'edge');return {status:'owner-confirmed',automatically_verified:false};}
   const call=async(endpoint,method='GET',body)=>{
@@ -155,7 +155,11 @@ async function edgeProtection(root,input,write=false){
     const added=await call('/zones/'+zone.id+'/rulesets/'+ruleset.value.id+'/rules','POST',rule);must(added.ok,'edge');
   }else if(ruleset.status===404){
     const added=await call('/zones/'+zone.id+'/rulesets','POST',{name:'Landing Pages form protection',kind:'zone',phase:'http_ratelimit',rules:[rule]});must(added.ok,'edge');
-  }else throw new NeedsAction('edge');
+  }else{
+    // The token cannot read the rules, so the owner's confirmation is the only evidence;
+    // without accepting it the wizard would ask again forever.
+    must(input.attestations?.edge?.value===true,'edge');return {status:'owner-confirmed',automatically_verified:false};
+  }
   ruleset=await call(endpoint);must(ruleset.ok&&ruleset.value.rules?.some(correct),'edge');
   return {status:'api-verified',automatically_verified:true,zone_id:zone.id};
 }

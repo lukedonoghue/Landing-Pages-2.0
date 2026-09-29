@@ -61,17 +61,26 @@ test('projects without a test suite publish only when application code matches t
   const root=mkdtempSync(path.join(tmpdir(),'publish-template-integrity-'));
   t.after(()=>rmSync(root,{recursive:true,force:true}));
   const template={'src/worker.js':'export default {};\n','src/site-config.json':'{}\n','migrations/0001_crm.sql':'CREATE TABLE leads(id TEXT);\n',
-    'public/admin/app.js':'console.log(1);\n','public/admin/index.html':'<h1>Your business</h1>\n'};
+    'public/admin/app.js':'console.log(1);\n','public/admin/index.html':'<h1>CRM</h1>\n','public/login.html':'<form>Sign in</form>\n','public/index.html':'<h1>Your business</h1>\n'};
   const put=(file,body)=>{mkdirSync(path.dirname(path.join(root,file)),{recursive:true});writeFileSync(path.join(root,file),body);};
   const files={};
   for(const [name,body] of Object.entries(template)){put('.community-builder/assets/cloudflare/'+name,body);put(name,body);files['assets/cloudflare/'+name]=createHash('sha256').update(body).digest('hex');}
   put('.community-builder/runtime-manifest.json',JSON.stringify({schema_version:1,files}));
   mkdirSync(path.join(root,'build'));
-  // Project content may differ: the site config and pages are the client's own.
-  put('src/site-config.json','{"name":"Client"}\n'); put('public/admin/index.html','<h1>Client</h1>\n');
+  // Project content may differ: the site config and landing pages are the client's own.
+  put('src/site-config.json','{"name":"Client"}\n'); put('public/index.html','<h1>Client</h1>\n');
   const run=()=>{throw new Error('No test suite should run for a project without tests');};
   assert.equal(await applicationRegressions(root,run),'template-integrity-verified');
-  assert.deepEqual(JSON.parse(readFileSync(path.join(root,'build/template-integrity.json'),'utf8')),{status:'passed',template_files:3});
+  assert.deepEqual(JSON.parse(readFileSync(path.join(root,'build/template-integrity.json'),'utf8')),{status:'passed',template_files:5});
+  // The CRM shells are template-owned: an edited shell, or a new file anywhere under
+  // admin/, could load unreviewed script under the CRM's own origin.
+  for(const [file,body] of [['public/admin/index.html','<script src="lib/x.js"></script>\n'],['public/login.html','<script src="/login-helper.js"></script>\n']]){
+    put(file,body);assert.throws(()=>templateIntegrity(root),new RegExp('differs from the tested template.*'+file.replace(/[./]/g,'\\$&')));put(file,template[file]);
+  }
+  for(const file of ['public/admin/lib/x.js','public/admin/extra.mjs']){
+    put(file,'export {};\n');assert.throws(()=>templateIntegrity(root),new RegExp(file.replace(/[./]/g,'\\$&')));rmSync(path.join(root,file));
+  }
+  assert.equal(templateIntegrity(root),5);
   put('src/worker.js','export default { fetch(){} };\n');
   assert.throws(()=>templateIntegrity(root),/differs from the tested template.*src\/worker\.js/);
   put('src/worker.js',template['src/worker.js']); put('src/extra.js','export const x=1;\n');
@@ -80,4 +89,32 @@ test('projects without a test suite publish only when application code matches t
   assert.throws(()=>templateIntegrity(root),/bundle was modified/);
   rmSync(path.join(root,'.community-builder/runtime-manifest.json'));
   assert.throws(()=>templateIntegrity(root),/bundle is missing/);
+});
+
+test('a tests folder cannot replace the template check; only an exact legacy suite runs',async t=>{
+  const { createHash } = await import('node:crypto');
+  const { regressionMode } = await import('../scripts/publish-driver.mjs');
+  const root=mkdtempSync(path.join(tmpdir(),'publish-regression-mode-'));
+  t.after(()=>rmSync(root,{recursive:true,force:true}));
+  const put=(file,body)=>{mkdirSync(path.dirname(path.join(root,file)),{recursive:true});writeFileSync(path.join(root,file),body);};
+  const sha=body=>createHash('sha256').update(body).digest('hex');
+  const worker='export default {};\n',suite="import test from 'node:test'; test('backend',()=>{});\n";
+  put('.community-builder/assets/cloudflare/src/worker.js',worker);put('src/worker.js',worker);mkdirSync(path.join(root,'build'));
+  const manifest=files=>put('.community-builder/runtime-manifest.json',JSON.stringify({schema_version:1,files:{'assets/cloudflare/src/worker.js':sha(worker),...files}}));
+  // Current bundle: a trivial tests/ suite beside modified Worker code is still refused.
+  manifest({});put('tests/backend.test.mjs',"import test from 'node:test'; test('ok',()=>{});\n");put('src/worker.js','export default {fetch(){return new Response("modified")}};\n');
+  assert.equal(regressionMode(root),'integrity');
+  await assert.rejects(applicationRegressions(root,()=>{throw new Error('The project suite must not run');}),/differs from the tested template.*src\/worker\.js/);
+  put('src/worker.js',worker);
+  // Legacy bundle (it still hashes the template tests): only that exact suite may run.
+  manifest({'assets/cloudflare/tests/backend.test.mjs':sha(suite)});
+  assert.throws(()=>regressionMode(root),/differs from the template suite.*tests\/backend\.test\.mjs/);
+  put('tests/backend.test.mjs',suite);assert.equal(regressionMode(root),'suite');
+  put('tests/extra.test.mjs',"import test from 'node:test'; test('extra',()=>{});\n");
+  assert.throws(()=>regressionMode(root),/tests\/extra\.test\.mjs/);
+  rmSync(path.join(root,'tests/extra.test.mjs'));rmSync(path.join(root,'tests/backend.test.mjs'));
+  assert.throws(()=>regressionMode(root),/tests\/backend\.test\.mjs/);
+  // No bundle at all is the template's own CI, which runs its suite.
+  rmSync(path.join(root,'.community-builder'),{recursive:true});put('tests/backend.test.mjs',suite);
+  assert.equal(regressionMode(root),'suite');
 });

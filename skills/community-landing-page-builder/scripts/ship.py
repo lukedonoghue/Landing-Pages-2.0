@@ -348,7 +348,9 @@ class Ship:
             'prerequisites':lambda:e.get('copy_and_build')=='checked',
             'cloudflare':lambda:bool(re.fullmatch(r'[a-f0-9]{32}',result.get('account_id',''))),
             'configure':lambda:e.get('database_bound') is True and e.get('preview_aliases')=='disabled',
-            'quality':lambda:e.get('handoff_gates')=='passed' and e.get('full_application_regressions')=='passed-no-skips' and e.get('worker_bundle')=='passed',
+            # Current projects prove their application code by template integrity; only
+            # projects scaffolded with the template tests still run their own suite.
+            'quality':lambda:e.get('handoff_gates')=='passed' and e.get('full_application_regressions') in {'passed-no-skips','template-integrity-verified'} and e.get('worker_bundle')=='passed',
             'sheets':lambda:e.get('status')=='not-enabled' if not state['intent']['sheets'] else e.get('read_only_signed_probe')=='passed' and e.get('protocol')==2,
             'preflight':lambda:e.get('target',{}).get('worker')==state['intent']['site'],
             'protect':lambda:e.get('recovery_point')=='cloudflare-time-travel-bookmark-recorded',
