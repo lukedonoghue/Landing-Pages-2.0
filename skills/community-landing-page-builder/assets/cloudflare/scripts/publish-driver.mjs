@@ -19,7 +19,17 @@ const BUNDLE='.community-builder';
 const TEMPLATE='assets/cloudflare/';
 const TEMPLATE_OWNED=[/^src\/.+\.js$/,/^migrations\/.+\.sql$/,/^scripts\/[^/]+\.mjs$/,/^public\/admin\/.+$/,/^public\/(login|account-action)\.html$/,/^public\/(login|account-action|confirmation|privacy-controls|funnel)\.(js|css)$/];
 const listed=(base,dir)=>existsSync(path.join(base,dir))?readdirSync(path.join(base,dir),{recursive:true,withFileTypes:true}).filter(entry=>entry.isFile()).map(entry=>path.relative(base,path.join(entry.parentPath??entry.path,entry.name)).split(path.sep).join('/')):[];
+// The Worker serves its assets through ASSETS, which applies public/_redirects, so a rule
+// could serve other bytes at a locked CRM URL. Rules may name only literal landing paths.
+const CRM_URL=/^\/(?:admin(?:\/|$)|api(?:\/|$)|(?:login|account-action)(?:\.html)?$|(?:login|account-action|confirmation|privacy-controls|funnel)\.(?:js|css)$)/i;
+export function redirectFailures(text) {
+  return String(text).split('\n').map(line=>line.replace(/#.*/,'').trim()).filter(Boolean).map(line=>line.split(/\s+/)[0])
+    .filter(source=>!/^\/[A-Za-z0-9._~/-]*$/.test(source)||/\/\/|(?:^|\/)\.\.?(?:\/|$)/.test(source)||CRM_URL.test(source));
+}
 export function templateIntegrity(root) {
+  const redirects=path.join(root,'public/_redirects');
+  const rerouted=existsSync(redirects)?redirectFailures(readFileSync(redirects,'utf8')):[];
+  if(rerouted.length)throw new Error('public/_redirects could reroute the tested CRM, so publishing is blocked: '+rerouted.join(', ')+'. Use literal landing-page paths only, with no wildcards, placeholders, hosts or CRM/API paths.');
   const manifestFile=path.join(root,BUNDLE,'runtime-manifest.json');
   if(!existsSync(manifestFile))throw new Error('The private builder bundle is missing, so the application code cannot be matched to its tested template. Re-scaffold from the installed skill without overwriting client files.');
   const locked=read(manifestFile).files||{};

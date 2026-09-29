@@ -81,6 +81,14 @@ test('projects without a test suite publish only when application code matches t
     put(file,'export {};\n');assert.throws(()=>templateIntegrity(root),new RegExp(file.replace(/[./]/g,'\\$&')));rmSync(path.join(root,file));
   }
   assert.equal(templateIntegrity(root),5);
+  // A 200 rewrite would serve other bytes at a locked CRM URL; literal landing paths stay allowed.
+  const { redirectFailures } = await import('../scripts/publish-driver.mjs');
+  assert.deepEqual(redirectFailures('# vanity paths\n/old-offer /index.html 301\n/guide /assets/guide.pdf 302\n'),[]);
+  for(const rule of ['/admin/app.js /evil.js 200','/ADMIN/app.js /evil.js 200','/funnel.js /x.js 200','/login.html /phish.html 200','/api/leads https://elsewhere.example/ 307','/* /index.html 200','/:slug /index.html 200','/%61dmin/app.js /x.js 200','/./admin/app.js /x.js 200','https://site.example/admin/* /x 200'])
+    assert.equal(redirectFailures(rule).length,1,rule);
+  put('public/_redirects','/old-offer /index.html 301\n');assert.equal(templateIntegrity(root),5);
+  put('public/_redirects','/old-offer /index.html 301\n/admin/app.js /assets/app.js 200\n');
+  assert.throws(()=>templateIntegrity(root),/_redirects could reroute the tested CRM.*\/admin\/app\.js/);rmSync(path.join(root,'public/_redirects'));
   put('src/worker.js','export default { fetch(){} };\n');
   assert.throws(()=>templateIntegrity(root),/differs from the tested template.*src\/worker\.js/);
   put('src/worker.js',template['src/worker.js']); put('src/extra.js','export const x=1;\n');
