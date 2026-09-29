@@ -1,10 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
-import { spawnSync } from 'node:child_process';
+import { spawnSync, execFile } from 'node:child_process';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 import { checkedTarget, sameOriginUrl, loadFixture, makeReport, parseArgs, runBrowserCompat, waitForPageImages } from '../scripts/browser-compat.mjs';
 import { DEFAULT_BUDGETS, extractMetrics, budgetChecks, runPerformance, readBudgets, browserLaunchFlags } from '../scripts/performance-audit.mjs';
 import { ATTRIBUTION_KEYS, credentials, testRunOptions, verifyAttribution, verifyCorrelation, expectedStoredDimensions, publicChecks, runLiveVerify } from '../scripts/live-verify.mjs';
@@ -266,4 +269,33 @@ test('double-slash probe detects an exposed alias without changing the target or
   const report=makeReport('deployment',target);await publicChecks(target,fixture,report);
   assert.ok(requests.some(row=>row.url==='//admin/index.html'));
   assert.ok(report.failures.includes('//admin/index.html is protected'));
+});
+test('benchmark hero with the documented media figure keeps the next heading in the first screen at every QA viewport',{timeout:180000},async t=>{
+  // The actual QA harness, not a copy of its geometry: its 320x700 fold check is mandatory in check_gates.
+  const harness=[new URL('../scripts/measure_funnel.mjs',import.meta.url),new URL('../../../scripts/measure_funnel.mjs',import.meta.url)].map(fileURLToPath).find(existsSync);
+  const { chromium }=await import('playwright-core');
+  if(!harness||!existsSync(chromium.executablePath())){t.skip('measure_funnel.mjs or Playwright Chromium is unavailable');return;}
+  const root=temporary(t),site=path.join(root,'public');mkdirSync(site);
+  for(const name of ['index.html','styles.css','funnel.js'])copyFileSync(new URL(`../public/${name}`,import.meta.url),path.join(site,name));
+  // The layout SKILL.md documents: a 3:2 job photo after .hero__copy, plus the header phone npm run configure fills in.
+  const page=readFileSync(path.join(site,'index.html'),'utf8');
+  const documented=page.replace('<p class="micro">A useful guide. A conversation about your project.</p></div>',match=>match+'<figure class="hero__media"><img data-primary-media src="job.svg" width="1200" height="800" alt="Completed job" data-image-role="proof"></figure>')
+    .replace('<a class="brand" href="/">Your business</a><a class="header-phone" data-header-phone href="tel:" hidden>Call</a>','<a class="brand" href="/">Synthetic Office Care</a><a class="header-phone" data-header-phone href="tel:02079460000">020 7946 0000</a>');
+  assert.match(documented,/hero__media.*020 7946 0000|020 7946 0000.*hero__media/s);
+  writeFileSync(path.join(site,'index.html'),documented);
+  writeFileSync(path.join(site,'job.svg'),'<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800"><rect width="1200" height="800" fill="#3a6a55"/></svg>');
+  const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml'};
+  const server=http.createServer((request,response)=>{
+    const name=new URL(request.url,'http://fixture').pathname.replace(/^\/$/,'/index.html').slice(1);
+    const file=path.join(site,name);
+    if(!/^[a-z0-9.-]+$/i.test(name)||!existsSync(file)){response.writeHead(404);response.end();return;}
+    response.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream'});response.end(readFileSync(file));
+  });
+  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));t.after(()=>new Promise(resolve=>server.close(resolve)));
+  const out=path.join(root,'build/layout-audit.json');
+  // Other checks (the modal script, the guide PDF) have no fixture here; only the hero checks are asserted.
+  await promisify(execFile)(process.execPath,[harness,`http://127.0.0.1:${server.address().port}/`,'--out',out,'--playwright-module',createRequire(import.meta.url).resolve('playwright-core')],{timeout:150000}).catch(error=>{if(!existsSync(out))throw error;});
+  const checks=JSON.parse(readFileSync(out,'utf8')).checks.filter(check=>['hero_reveals_following_content','hero_media_visible'].includes(check.name));
+  assert.equal(checks.length,20,JSON.stringify(checks));
+  assert.deepEqual(checks.filter(check=>check.status!=='pass').map(check=>`${check.name} ${check.viewport.width}x${check.viewport.height} ${check.detail}`),[]);
 });

@@ -101,3 +101,45 @@ for (const [engineName, engine] of Object.entries({chromium, webkit})) {
     }
   });
 }
+
+test('a thank-you page derived from the unmodified template keeps its download action and reader in the page column', {timeout: 120000}, async () => {
+  const root = await mkdtemp(join(tmpdir(), 'reader-template-'));
+  let server, browser;
+  try {
+    const python = process.env.PYTHON || 'python3';
+    await exec(python, [fixture, root, scripts], {timeout: 60000});
+    for (const name of ['index.html', 'styles.css', 'funnel.js']) await copyFile(new URL(`../public/${name}`, import.meta.url), join(root, 'public', name));
+    await exec(python, [join(scripts, 'thank_you_page.py'), root], {timeout: 60000});
+    const publicRoot = resolve(root, 'public');
+    server = http.createServer(async (request, response) => {
+      const file = resolve(publicRoot, '.' + decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname));
+      try {
+        if (!file.startsWith(publicRoot + sep)) throw new Error('outside');
+        const bytes = await readFile(file);
+        response.writeHead(200, {'Content-Type': {'.html':'text/html','.css':'text/css','.js':'application/javascript','.pdf':'application/pdf','.png':'image/png'}[extname(file)] || 'application/octet-stream'});
+        response.end(bytes);
+      } catch {response.writeHead(404);response.end();}
+    });
+    await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+    browser = await chromium.launch({headless:true});
+    for (const [width, height] of [[1440, 900], [390, 844]]) {
+      const page = await browser.newPage({viewport:{width, height}});
+      await page.goto(`http://127.0.0.1:${server.address().port}/thank-you.html`, {waitUntil:'load'});
+      await page.locator('[data-guide-reader] summary').click();
+      const layout = await page.evaluate(() => {
+        const box = selector => document.querySelector(selector).getBoundingClientRect();
+        const link = box('main > a[data-guide-download]');
+        return {linkCentre: Math.round(link.x + link.width / 2), column: Math.round(box('.support h2').x),
+          reader: Math.round(box('.guide-reader h2').x), frame: Math.round(box('.guide-reader iframe').x), frameRight: Math.round(box('.guide-reader iframe').right), columnRight: Math.round(box('.support h2').right)};
+      });
+      // The bare second CTA became a download link, and the appended reader has no column of its own.
+      assert.ok(Math.abs(layout.linkCentre - width / 2) <= 1, `${width}: ${JSON.stringify(layout)}`);
+      assert.deepEqual([layout.reader, layout.frame, layout.frameRight], [layout.column, layout.column, layout.columnRight], `${width}: ${JSON.stringify(layout)}`);
+      await page.close();
+    }
+  } finally {
+    await browser?.close();
+    if (server) await new Promise(resolve => server.close(resolve));
+    await rm(root, {recursive:true, force:true});
+  }
+});
