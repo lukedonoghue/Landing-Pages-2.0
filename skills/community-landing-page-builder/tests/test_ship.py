@@ -57,6 +57,34 @@ class CoordinatorTests(unittest.TestCase):
     def test_unknown_application_evidence_cannot_pass_quality(self):
         self.to_prepare();self.adapter.stop['quality']={'status':'pass','evidence':{'handoff_gates':'passed','worker_bundle':'passed','full_application_regressions':'skipped'}}
         with self.assertRaisesRegex(ValueError,'incomplete evidence'):self.action('prepare',True)
+    def test_database_placement_is_validated_before_any_provider_call(self):
+        self.assertEqual(ship.validate_intent({**INTENT,'database_jurisdiction':'eu'})['database_jurisdiction'],'eu')
+        self.assertNotIn('database_location',ship.validate_intent({**INTENT,'database_location':''}))
+        for bad in ({'database_jurisdiction':'us'},{'database_location':'moon'},{'database_jurisdiction':'eu','database_location':'weur'}):
+            with self.assertRaises(ValueError):ship.validate_intent({**INTENT,**bad})
+    def test_account_choice_shows_cloudflare_names_for_offered_accounts_only(self):
+        other='b'*32
+        self.adapter.stop['cloudflare']={'status':'action','code':'account','choices':[ACCOUNT,other],
+            'details':{'labels':{ACCOUNT:'Acme Plumbing Ltd\u0007',other:'Agency','c'*32:'Not offered'}}}
+        card=self.to_prepare()['card']
+        self.assertEqual(card['code'],'account');self.assertEqual(card['details']['labels'],{ACCOUNT:'Acme Plumbing Ltd',other:'Agency'})
+    def test_destination_problems_show_only_their_non_secret_facts(self):
+        self.adapter.stop['cloudflare']={'status':'action','code':'dns_conflict','details':{'host':'landing.acme.com','zone':'acme.com',
+            'records':[{'type':'CNAME','content':'old-site.example.net','proxied':True},{'type':'TXT','content':'token=secret'}],'token':'never shown'}}
+        card=self.to_prepare()['card']
+        self.assertEqual(card['title'],'This address is already in use')
+        self.assertEqual(card['details'],{'host':'landing.acme.com','zone':'acme.com','records':[{'type':'CNAME','content':'old-site.example.net','proxied':True}]})
+        self.assertNotIn('secret',json.dumps(card))
+    def test_hosting_consent_names_the_destination_cf_confirmed(self):
+        self.adapter.stop['cloudflare']={'status':'pass','account_id':ACCOUNT,'evidence':{'account_checked':True,'destination':{
+            'account':{'id':ACCOUNT,'name':'Acme Plumbing Ltd'},'zone':{'id':'z'*32,'name':'acme.com','status':'active'},
+            'hostname':'landing.acme.com','worker':'new','dns':'clear'}}}
+        view=self.to_prepare({'database_jurisdiction':'eu'})
+        self.assertEqual(view['stage'],'prepare');self.assertEqual(view['destination']['zone']['name'],'acme.com')
+        text=view['card']['text']
+        for part in ('Acme Plumbing Ltd','landing.acme.com','acme.com','a new site acme-page','kept inside the EU','does not publish'):self.assertIn(part,text)
+        self.action('prepare',True)
+        self.assertEqual(json.loads((self.root/ship.STATE).read_text())['consents']['prepare']['message'],text)
     def test_status_is_local_and_does_not_touch_provider(self):
         self.assertEqual(self.app.status()['stage'],'inputs');self.assertFalse(self.adapter.calls)
         self.assertFalse((self.root/ship.STATE).exists())

@@ -9,13 +9,14 @@ import {createHash,randomUUID,randomBytes,createHmac} from 'node:crypto';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {read,atomic,inside,validateTarget,provider,runtimeIdentity,localRunner,currentSourceFingerprint,UUID,SHA} from './release-tools.mjs';
 import {access,publish,applicationRegressions} from './publish-driver.mjs';
+import {cfInstalled,cfBin,client as cfClient,destination as cfDestination,environment as cfEnvironment,profileName,placement,zoneFor,CF_VERSION} from './cloudflare-cli.mjs';
 import {sheetsEndpoint,signedSheetsPayload,readAppsScriptAck} from '../src/sheets-protocol.js';
 import {assertPublicDestination} from '../src/webhooks.js';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const ACTIONS=new Set(['prerequisites','cloudflare','login','configure','quality','sheets','preflight','protect','publish','cleanup','verify','open_handoff']);
 const result=(evidence={})=>({status:'pass',evidence});
-export class NeedsAction extends Error {constructor(code,choices=[]){super(code);this.code=code;this.choices=choices;}}
+export class NeedsAction extends Error {constructor(code,choices=[],details){super(code);this.code=code;this.choices=choices;this.details=details;}}
 const hex=value=>createHash('sha256').update(value).digest('hex');
 const pack=value=>JSON.stringify(value,Object.keys(value).sort());
 function must(condition,code='destination'){if(!condition)throw new NeedsAction(code);}
@@ -25,7 +26,8 @@ export function validateInput(input){
   const v=input.intent;
   must(!Object.keys(input).some(k=>!['run_id','source','intent','consents','attestations','handoff','previous_release'].includes(k)));
   must(v && typeof v==='object' && !Array.isArray(v));
-  must(!Object.keys(v).some(k=>!['domain','owner','site','sheets','environment','account_id','existing_database_id','sheets_url','sheet_id'].includes(k)));
+  must(!Object.keys(v).some(k=>!['domain','owner','site','sheets','environment','account_id','existing_database_id','sheets_url','sheet_id','database_jurisdiction','database_location'].includes(k)));
+  try{placement(v);}catch{throw new NeedsAction('destination');}
   must(typeof v.domain==='string' && v.domain.length<=253 && /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(v.domain));
   must(!/\.(?:localhost|local|invalid|test|example|internal)$/.test(v.domain));
   must(typeof v.owner==='string' && /^[a-z0-9][a-z0-9._+\-]{0,63}@[a-z0-9.-]+\.[a-z]{2,63}$/.test(v.owner) && v.owner.length<=80);
@@ -71,6 +73,8 @@ function success(res,code='destination'){must(res.code===0,code);return res.stdo
 function jsonResult(res,code='destination'){try{return JSON.parse(success(res,code));}catch(error){if(error instanceof NeedsAction)throw error;throw new NeedsAction(code);}}
 function cli(root){const p=path.join(root,'node_modules/wrangler/bin/wrangler.js');must(existsSync(p),'prerequisites');return p;}
 const wrangler=(root,args,options)=>command(root,process.execPath,[cli(root),...args],options);
+// cf is the person's own Cloudflare connection for setup and checks; see cloudflare-cli.mjs.
+const cf=(root,account)=>{must(cfInstalled(root),'prerequisites');return cfClient((exe,args,options)=>command(root,exe,args,options),cfBin(root),{account});};
 const python=(root,args,options)=>command(root,process.env.FUNNEL_PYTHON||'python3',args,options);
 async function cloudIdentity(root,target){const run=localRunner(root);return provider(root,root,target,run,path.join(privateDir(root),'identity.log')).inspect();}
 export function ownerHandoff(root,target){
@@ -130,38 +134,34 @@ async function configuredSheets(root,input){
   must(!check.lead_present&&!check.erased,'sheets_probe');
   return result({protocol:2,key_version:version,read_only_signed_probe:'passed',lead_data_sent:false});
 }
-export async function edgeProtection(root,input,write=false){
-  const token=process.env.CLOUDFLARE_API_TOKEN;
-  if(!token){must(input.attestations?.edge?.value===true,'edge');return {status:'owner-confirmed',automatically_verified:false};}
-  const call=async(endpoint,method='GET',body)=>{
-    const r=await fetch('https://api.cloudflare.com/client/v4'+endpoint,{method,redirect:'error',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(15000)});
-    let value;try{value=await r.json();}catch{throw new NeedsAction('edge');}return {ok:r.ok&&value.success===true,status:r.status,value:value.result};
-  };
-  const zones=await call('/zones?account.id='+encodeURIComponent(input.intent.account_id)+'&per_page=50');
-  if(!zones.ok){must(input.attestations?.edge?.value===true,'edge');return {status:'owner-confirmed',automatically_verified:false};}
-  const matches=zones.value.filter(z=>z.status==='active'&&(input.intent.domain===z.name||input.intent.domain.endsWith('.'+z.name))).sort((a,b)=>b.name.length-a.name.length);
-  must(matches.length>0,'destination');const zone=matches[0];must(/^[a-f0-9]{32}$/.test(zone.id),'edge');
-  const endpoint='/zones/'+zone.id+'/rulesets/phases/http_ratelimit/entrypoint';
-  let ruleset=await call(endpoint);const rule=rateRule();
+// cf runs with the person's own Cloudflare login (or an API token in their environment),
+// so the rule can be read back and verified without exposing any credential here.
+export async function edgeProtection(root,input,write=false,api=cf(root,input.intent.account_id)){
+  const confirmed=()=>{must(input.attestations?.edge?.value===true,'edge');return {status:'owner-confirmed',automatically_verified:false};};
+  const zones=await api.zones(input.intent.domain);if(!zones)return confirmed();
+  const zone=zoneFor(input.intent.domain,zones,input.intent.account_id);
+  must(zone?.status==='active','destination');
+  let ruleset=await api.entrypoint(zone.id);const rule=rateRule();
   const correct=r=>r.ref===rule.ref&&r.enabled!==false&&r.action===rule.action&&r.expression===rule.expression&&
     JSON.stringify(r.ratelimit?.characteristics)===JSON.stringify(rule.ratelimit.characteristics)&&
     r.ratelimit?.period===10&&r.ratelimit?.requests_per_period===10&&r.ratelimit?.mitigation_timeout===10;
-  if(ruleset.ok&&ruleset.value.rules?.some(correct))return {status:'api-verified',automatically_verified:true,zone_id:zone.id};
+  const verified={status:'api-verified',automatically_verified:true,zone_id:zone.id};
+  if(ruleset.ok&&ruleset.value?.rules?.some(correct))return verified;
   if(!write)return {status:'configuration-needed',automatically_verified:false,zone_id:zone.id};
   if(ruleset.ok){
     // Never overwrite another rule or silently consume an unavailable plan slot.
-    if(ruleset.value.rules?.length){must(input.attestations?.edge?.value===true,'edge');return {status:'owner-confirmed',automatically_verified:false};}
-    must(/^[a-f0-9]{32}$/.test(ruleset.value.id),'edge');
-    const added=await call('/zones/'+zone.id+'/rulesets/'+ruleset.value.id+'/rules','POST',rule);must(added.ok,'edge');
+    if(ruleset.value?.rules?.length)return confirmed();
+    must(/^[a-f0-9]{32}$/.test(ruleset.value?.id||''),'edge');
+    const added=await api.addRule(zone.id,ruleset.value.id,rule);must(added.ok,'edge');
   }else if(ruleset.status===404){
-    const added=await call('/zones/'+zone.id+'/rulesets','POST',{name:'Landing Pages form protection',kind:'zone',phase:'http_ratelimit',rules:[rule]});must(added.ok,'edge');
+    const added=await api.createRuleset(zone.id,{name:'Landing Pages form protection',kind:'zone',phase:'http_ratelimit',rules:[rule]});must(added.ok,'edge');
   }else{
-    // The token cannot read the rules, so the owner's confirmation is the only evidence;
+    // The login cannot read the rules, so the owner's confirmation is the only evidence;
     // without accepting it the wizard would ask again forever.
-    must(input.attestations?.edge?.value===true,'edge');return {status:'owner-confirmed',automatically_verified:false};
+    return confirmed();
   }
-  ruleset=await call(endpoint);must(ruleset.ok&&ruleset.value.rules?.some(correct),'edge');
-  return {status:'api-verified',automatically_verified:true,zone_id:zone.id};
+  ruleset=await api.entrypoint(zone.id);must(ruleset.ok&&ruleset.value?.rules?.some(correct),'edge');
+  return verified;
 }
 async function withAdmin(root,input,identity,fn){
   const config=read(path.join(root,'wrangler.jsonc')),target=targetMatches(config,input.intent),url='https://'+input.intent.domain;
@@ -303,19 +303,38 @@ export async function runOperation(operation,input,{root=ROOT}={}){
   }
   if(operation==='prerequisites'){
     const [major,minor]=process.versions.node.split('.').map(Number);must(major>22||(major===22&&minor>=19),'prerequisites');
-    must(existsSync(path.join(root,'node_modules/wrangler/package.json'))&&read(path.join(root,'node_modules/wrangler/package.json')).version==='4.115.0','prerequisites');
+    must(existsSync(path.join(root,'node_modules/wrangler/package.json'))&&read(path.join(root,'node_modules/wrangler/package.json')).version==='4.115.0'&&cfInstalled(root),'prerequisites');
     must(existsSync(path.join(root,'test-fixture.json'))&&funnel.quality?.complete_workflow===true,'quality');
     success(await python(root,['scripts/workflow.py','check-copy','.'],{localOnly:true}),'quality');success(await python(root,['scripts/workflow.py','check-build','.'],{localOnly:true}),'quality');
     if(funnel.requested_hosts?.public||funnel.requested_hosts?.crm||funnel.requested_hosts?.pages_gateway)throw new NeedsAction('split_host');
-    return result({copy_and_build:'checked',credential_access:false});
+    return result({copy_and_build:'checked',credential_access:false,cloudflare_cli:'cf '+CF_VERSION});
   }
-  if(operation==='login'){const r=await wrangler(root,['login'],{timeout:300000});must(r.code===0,'login');return result({login:'completed'});}
+  if(operation==='login'){
+    // The person publishing connects their own Cloudflare account. cf keeps a profile
+    // bound to this project, so a later client's login never leaks into this one. Until
+    // cf's upload can carry the release identity, Wrangler signs in once more for it.
+    // An API token in the environment already authorizes both.
+    if(!process.env.CLOUDFLARE_API_TOKEN){
+      must(cfInstalled(root),'prerequisites');
+      const profile=profileName(input.intent.site),bin=cfBin(root);
+      must((await command(root,process.execPath,[bin,'auth','create',profile,'--no-device'],{timeout:300000,env:cfEnvironment(null,{interactive:true})})).code===0,'login');
+      must((await command(root,process.execPath,[bin,'auth','activate',profile,root],{env:cfEnvironment(null)})).code===0,'login');
+      const r=await wrangler(root,['login'],{timeout:300000});must(r.code===0,'login');
+    }
+    return result({login:'completed',cloudflare_cli:'cf '+CF_VERSION});
+  }
   if(operation==='cloudflare'){
-    const who=await wrangler(root,['whoami']);must(who.code===0,'login');const accounts=accountsFromWhoami(who.stdout);must(accounts.length>0,'login');
+    const listed=await cf(root).accounts();if(!listed)throw new NeedsAction('login');
+    const who=await wrangler(root,['whoami']);must(who.code===0,'login');const uploads=accountsFromWhoami(who.stdout);must(uploads.length>0,'login');
+    // cf prepares the account and Wrangler uploads to it, so both must reach it.
+    const accounts=listed.filter(a=>uploads.includes(a.id));if(!accounts.length)throw new NeedsAction('login_mismatch');
     const wanted=input.intent.account_id||read(path.join(root,'wrangler.jsonc')).account_id;
-    if(wanted&&accounts.includes(wanted))return {...result({account_checked:true}),account_id:wanted};
-    if(accounts.length===1&&!wanted)return {...result({account_checked:true}),account_id:accounts[0]};
-    throw new NeedsAction('account',accounts);
+    const chosen=wanted?accounts.find(a=>a.id===wanted):accounts.length===1?accounts[0]:null;
+    if(!chosen)throw new NeedsAction('account',accounts.map(a=>a.id),{labels:Object.fromEntries(accounts.map(a=>[a.id,a.name]))});
+    const where=await cfDestination(cf(root,chosen.id),{account:chosen.id,host:input.intent.domain,worker:input.intent.site});
+    if(where.status==='unavailable')throw new NeedsAction('destination');
+    if(where.status!=='ready')throw new NeedsAction(where.status,[],{host:input.intent.domain,zone:where.zone?.name,records:where.dns?.records});
+    return {...result({account_checked:true,cloudflare_cli:'cf '+CF_VERSION,destination:{account:chosen,zone:where.zone,hostname:input.intent.domain,worker:where.worker,dns:where.dns.state}}),account_id:chosen.id};
   }
   if(operation==='configure'){
     const consent=requireConsent(input,'prepare');must(/^[a-f0-9]{32}$/.test(input.intent.account_id||''));
@@ -330,6 +349,9 @@ export async function runOperation(operation,input,{root=ROOT}={}){
     const authorization=path.join(privateDir(root),'prepare-consent.txt');writeFileSync(authorization,consent.message,{mode:0o600});
     const args=['scripts/setup.mjs','--cloudflare','--site',input.intent.site,'--account-id',input.intent.account_id,'--domain',input.intent.domain,'--admin-username',input.intent.owner,'--authorization-file',authorization,'--authorization-message-id',consent.message_id];
     if(input.intent.existing_database_id)args.push('--database-id',input.intent.existing_database_id);
+    const where=placement(input.intent);
+    if(where.jurisdiction)args.push('--database-jurisdiction',where.jurisdiction);
+    if(where.location)args.push('--database-location',where.location);
     success(await command(root,process.execPath,args,{env:{CLOUDFLARE_ACCOUNT_ID:input.intent.account_id}}));
     success(await command(root,process.execPath,['scripts/sync-config.mjs']));
     const target=targetMatches(read(path.join(root,'wrangler.jsonc')),input.intent);ownerHandoff(root,target);
@@ -358,7 +380,7 @@ export async function runOperation(operation,input,{root=ROOT}={}){
     if(backup)must(JSON.stringify(backup.target)===JSON.stringify(target),'recovery');
     else {
       const observed=await cloudIdentity(root,target);
-      const info=jsonResult(await wrangler(root,['d1','time-travel','info','DB','--json']));
+      const info=await cf(root,target.account_id).bookmark(target.database_id);
       backup={target,bookmark:bookmarkFrom(info),recorded_at:new Date().toISOString(),prior_deployment:observed,source:input.source};
       privateJson(root,backupFile,backup);
     }
@@ -412,8 +434,7 @@ export async function publishSaved(root=ROOT){
     },
     beforeMigrations:async ({target,observed,release_id,source_fingerprint})=>{
       must(source_fingerprint===input.source,'approval_stale');
-      const info=jsonResult(await wrangler(root,['d1','time-travel','info','DB','--json']));
-      const bookmark=bookmarkFrom(info);
+      const bookmark=bookmarkFrom(await cf(root,target.account_id).bookmark(target.database_id));
       privateJson(root,'pre-migration-'+release_id+'.json',{target,bookmark,recorded_at:new Date().toISOString(),prior_deployment:observed,release_id,source:source_fingerprint,restore_authorized:false});
     },
     beforeVerify:identity=>connectBeforeVerify(root,input,identity),
@@ -427,6 +448,6 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1]
   }catch(error){
     const code=error instanceof NeedsAction?error.code:'recovery';
     const uncertain=['configure','protect','publish','cleanup'].includes(process.argv[2])&&['recovery','destination','cleanup','verification'].includes(code);
-    process.stdout.write(JSON.stringify({status:uncertain?'uncertain':'action',code,...(error instanceof NeedsAction&&error.choices.length?{choices:error.choices}:{})})+'\n');process.exitCode=1;
+    process.stdout.write(JSON.stringify({status:uncertain?'uncertain':'action',code,...(error instanceof NeedsAction&&error.choices.length?{choices:error.choices}:{}),...(error instanceof NeedsAction&&error.details?{details:error.details}:{})})+'\n');process.exitCode=1;
   }
 }

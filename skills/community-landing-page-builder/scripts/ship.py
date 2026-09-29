@@ -42,9 +42,17 @@ ACTION_TEXT = {
         'Run the displayed command in a trusted terminal outside your coding agent. No password belongs in chat.'),
     'prerequisites': ('One local setup step is needed',
         'Ask your coding assistant to run the project doctor and bootstrap using the supported Node runtime, then continue here.'),
-    'login': ('Sign in to Cloudflare',
-        'Open the Cloudflare login from this wizard, approve access in your browser, then continue.'),
+    'login': ('Connect your Cloudflare account',
+        'Open the sign-in from this wizard and approve access in your browser. Cloudflare asks twice: once for the Cloudflare CLI that sets up your site, once for the upload tool. Then continue.'),
+    'login_mismatch': ('Sign in with the same Cloudflare user twice',
+        'The two Cloudflare sign-ins reach different accounts. Sign in again and approve both with the Cloudflare user that owns this site.'),
     'account': ('Choose your Cloudflare account', 'Select the account that should own this site.'),
+    'zone_missing': ('Add your domain to Cloudflare first',
+        'The selected account has no Cloudflare zone for this domain. Add the domain in the Cloudflare dashboard (Add a domain), switch its nameservers at your registrar as Cloudflare shows, then continue. Nothing has been created yet.'),
+    'zone_pending': ('Finish moving your domain to Cloudflare',
+        'Cloudflare is still waiting for this domain\u2019s nameservers to change at your registrar. Once the domain shows as active in Cloudflare, continue. Nothing has been created yet.'),
+    'dns_conflict': ('This address is already in use',
+        'Your domain already has DNS records at this exact address, such as an existing website, so the page cannot take it over. Remove or rename those records in Cloudflare DNS, or choose another subdomain, then continue. Nothing has been changed.'),
     'quality': ('The page needs a local quality check',
         'Your coding assistant should repair or refresh the current local quality evidence. Publication stays paused; no quality check is waived.'),
     'staging_isolation': ('Use a separate staging site and database',
@@ -79,6 +87,21 @@ ACTION_TEXT = {
 
 
 def now(): return datetime.now(timezone.utc).isoformat()
+def printable(value,limit):return ''.join(c for c in str(value) if ord(c)>=32)[:limit]
+def action_details(value,choices):
+    """Only the small, non-secret facts an action card shows: account names, the domain and DNS records."""
+    if not isinstance(value,dict):return {}
+    out={}
+    if isinstance(value.get('labels'),dict):
+        out['labels']={k:printable(v,80) for k,v in value['labels'].items() if k in choices and isinstance(v,str)}
+    for key in ('host','zone'):
+        if isinstance(value.get(key),str):out[key]=printable(value[key],253)
+    if isinstance(value.get('records'),list):
+        out['records']=[{'type':r['type'],'content':printable(r.get('content',''),120),'proxied':r.get('proxied') is True}
+                        for r in value['records'][:5] if isinstance(r,dict) and r.get('type') in {'A','AAAA','CNAME'}]
+    return out
+PLACES={'eu':'kept inside the EU','fedramp':'kept in FedRAMP data centres','weur':'hosted near Western Europe','eeur':'hosted near Eastern Europe',
+        'apac':'hosted near Asia Pacific','oc':'hosted near Oceania','wnam':'hosted near western North America','enam':'hosted near eastern North America'}
 def digest(value): return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 def object_file(path):
     value=json.loads(path.read_text())
@@ -101,7 +124,7 @@ def safe_project(raw):
 
 
 def validate_intent(value):
-    allowed={'domain','owner','sheets','environment','site','account_id','existing_database_id','sheets_url','sheet_id'}
+    allowed={'domain','owner','sheets','environment','site','account_id','existing_database_id','sheets_url','sheet_id','database_jurisdiction','database_location'}
     if not isinstance(value,dict) or set(value)-allowed: raise ValueError('Unknown publishing setting.')
     result=dict(value)
     result.setdefault('environment','production');result.setdefault('sheets',False)
@@ -126,6 +149,12 @@ def validate_intent(value):
     if result.get('sheets_url') and not re.fullmatch(r'https://script\.google\.com/macros/s/[A-Za-z0-9_-]+/exec',result['sheets_url']):
         raise ValueError('Use the clean Google /exec address without a secret, query or fragment.')
     if result.get('sheet_id') and not re.fullmatch(r'[A-Za-z0-9_-]{20,160}',result['sheet_id']):raise ValueError('Enter the spreadsheet identifier only.')
+    # Where a new D1 database keeps its data; fixed at creation (cloudflare-cli.mjs placement).
+    for key in ('database_jurisdiction','database_location'):
+        if result.get(key) in (None,''):result.pop(key,None)
+    if result.get('database_jurisdiction') not in {None,'eu','fedramp'} or result.get('database_location') not in {None,'weur','eeur','apac','oc','wnam','enam'}:
+        raise ValueError('Choose a supported database location.')
+    if result.get('database_jurisdiction') and result.get('database_location'):raise ValueError('Choose a data jurisdiction or a location, not both.')
     return result
 
 
@@ -209,15 +238,27 @@ class Ship:
         stage=state['stage'];code=state.get('blocked')
         if code:
             title,text=ACTION_TEXT.get(code,ACTION_TEXT['destination'])
-            return {'kind':'action','code':code,'title':title,'text':text,'choices':state.get('choices',[])}
+            return {'kind':'action','code':code,'title':title,'text':text,'choices':state.get('choices',[]),'details':state.get('details',{})}
         defaults={
             'inputs':('form','Your domain, owner email and an optional Google Sheets connection are enough to start.'),
-            'prepare':('prepare','Allow this wizard to prepare this exact Cloudflare account, domain and site database. This does not publish the page.'),
+            'prepare':('prepare',self.prepare_text(state)),
             'operator':('attest','Confirm account MFA, the privacy/retention notice, and a trusted publishing computer. These are owner confirmations, not automated proof.'),
             'approve':('publish','Publish this exact page to the displayed domain, run one labelled synthetic enquiry, then permanently remove only that test contact and its managed copies.'),
             'ready':('complete','Deployment, the saved live journey and test-contact cleanup were verified. See the release receipt for the exact scope and any owner-confirmed controls.')}
         kind,text=defaults.get(stage,('working','Routine checks run automatically. You can close and reopen this wizard to resume.'))
         return {'kind':kind,'title':LABELS[stage],'text':text}
+    def destination(self,state):
+        where=state['completed'].get('cloudflare',{}).get('evidence',{}).get('destination')
+        return where if isinstance(where,dict) and isinstance(where.get('zone'),dict) else None
+    def prepare_text(self,state):
+        # The consent names the exact destination the Cloudflare CLI confirmed.
+        where,intent=self.destination(state),state['intent']
+        if not where:return 'Allow this wizard to prepare this exact Cloudflare account, domain and site database. This does not publish the page.'
+        account=where.get('account') or {}
+        place=PLACES.get(intent.get('database_jurisdiction') or intent.get('database_location'),'placed by Cloudflare near you')
+        return (f"Allow this wizard to prepare Cloudflare account {printable(account.get('name',''),80)} ({printable(account.get('id',''),8)}\u2026) "
+                f"for {intent['domain']} in the zone {printable(where['zone'].get('name',''),253)}: "
+                f"{'a new' if where.get('worker')=='new' else 'the existing'} site {intent['site']} and its database, {place}. This does not publish the page.")
     def view(self,state=None):
         state=state or self.load()
         state=dict(state)
@@ -226,7 +267,7 @@ class Ship:
         return {'schema_version':VERSION,'id':state['id'],'revision':state['revision'],'stage':state['stage'],
                 'title':LABELS[state['stage']],'intent':state['intent'],'card':self.card(state),
                 'completed':list(state['completed']),'updated_at':state['updated_at'],
-                'receipt':state.get('receipt'),'busy':bool(state.get('pending')),
+                'receipt':state.get('receipt'),'busy':bool(state.get('pending')),'destination':self.destination(state),
                 'operator_command':f'python3 scripts/ship.py --project . --operator --ui'}
     def status(self):return self.view()
     def _drift(self,state):
@@ -334,7 +375,7 @@ class Ship:
                 if state.get('blocked')!='edge' or value is not True or not operator:raise ValueError('Confirm only the displayed rule after configuring it.')
                 state['attestations']['edge']={'value':True,'evidence':'owner-confirmed-not-api-verified','at':now(),'target':digest(state['intent'])}
             elif action!='continue':raise ValueError('Unknown wizard action.')
-            state.pop('blocked',None);state.pop('choices',None);self.save(state)
+            state.pop('blocked',None);state.pop('choices',None);state.pop('details',None);self.save(state)
             return self._advance(state,operator)
     def advance(self,operator=False):
         with shipping_lock(self.root):
@@ -383,6 +424,7 @@ class Ship:
                 state['blocked']=result.get('code') if result.get('code') in ACTION_TEXT else 'recovery'
                 choices=result.get('choices',[])
                 state['choices']=[v for v in choices if isinstance(v,str) and re.fullmatch(r'[a-f0-9-]{32,36}',v)][:50]
+                state['details']=action_details(result.get('details'),state['choices'])
                 state['pending']=None if result.get('status')=='action' else state.get('pending')
                 self.save(state);return self.view(state)
             self.validate_result(stage,result,state)

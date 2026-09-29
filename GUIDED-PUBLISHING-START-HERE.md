@@ -34,8 +34,12 @@ replace their private bundled builder.
 
 Enter your website domain and CRM owner email. The wizard fills a site name;
 advanced settings are optional. Leave Google Sheets unchecked unless you need it.
-Sign in to Cloudflare when asked and select the correct account when more than one
-is available. Approve preparation, confirm the few account safeguards that cannot
+Connect your own Cloudflare account when asked. Cloudflare shows two approval
+screens, one for the Cloudflare CLI that sets up your site and one for the upload
+tool. Pick the account by name when you have several. Before anything is
+created, the wizard checks that your domain is active in that account and that the
+address you chose is not already serving another site. In advanced settings you
+can keep the database's data inside the EU. Approve preparation, confirm the few account safeguards that cannot
 be inspected automatically, then choose **Publish and verify** for the displayed
 destination and labelled synthetic test.
 

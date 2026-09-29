@@ -261,7 +261,10 @@ When the user asks to publish a form-led project, read
 [the guided shipping controller](references/guided-ship.md). Inspect
 `python3 scripts/ship.py --json` without provider credentials. Give the owner the
 trusted local launcher `python3 scripts/ship.py --operator --ui` (or the root
-`dev.py ship --project …` equivalent). The local wizard advances preparation,
+`dev.py ship --project …` equivalent). The owner connects their own Cloudflare
+account there through the pinned Cloudflare CLI (`cf`), which confirms the
+account, zone and hostname before any change and creates the database where they
+choose; you never run authenticated `cf` commands. The local wizard advances preparation,
 quality checks, recovery point, upload, live verification and synthetic cleanup;
 Google Sheets appears only when enabled. If it requests local repair, consume
 `build/ship/agent-task.json` through the normal coding workflow and return to the

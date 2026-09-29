@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 import {createHmac,randomUUID} from 'node:crypto';
-import {accountsFromWhoami,rateRule,bookmarkFrom,validateInput,localEnvironment,pollExisting,edgeProtection} from '../scripts/ship-provider.mjs';
+import {accountsFromWhoami,rateRule,bookmarkFrom,validateInput,localEnvironment,pollExisting} from '../scripts/ship-provider.mjs';
 import {signedSheetsPayload,connectionKey} from '../src/sheets-protocol.js';
 import {runtimeIdentity} from '../scripts/release-tools.mjs';
 const base={run_id:randomUUID(),source:'a'.repeat(64),intent:{domain:'landing.acme.com',owner:'owner@acme.com',site:'acme-site',sheets:false,environment:'production'}};
@@ -117,15 +117,4 @@ test('polling returns immediately on proof and never masks an actual provider fa
  assert.equal(await pollExisting(async()=>true,v=>v,{sleep:never}),true);
  await assert.rejects(pollExisting(async()=>{throw new Error('provider rejected');},v=>v,{sleep:never}),/provider rejected/);
  await assert.rejects(pollExisting(async()=>false,v=>v,{attempts:0}),/Invalid polling budget/);
-});
-test('owner confirmation settles the edge rule when the token can list zones but not read rules',async t=>{
- const saved=process.env.CLOUDFLARE_API_TOKEN,original=globalThis.fetch;
- t.after(()=>{if(saved===undefined)delete process.env.CLOUDFLARE_API_TOKEN;else process.env.CLOUDFLARE_API_TOKEN=saved;globalThis.fetch=original;});
- process.env.CLOUDFLARE_API_TOKEN='synthetic-token-not-real';const zone='c'.repeat(32),calls=[];
- globalThis.fetch=async url=>{calls.push(String(url));return String(url).includes('/rulesets/')?new Response(JSON.stringify({success:false,errors:[{code:10000}],result:null}),{status:403}):Response.json({success:true,result:[{id:zone,name:'acme.com',status:'active'}]});};
- const input={...base,intent:{...base.intent,account_id:'a'.repeat(32)}};
- await assert.rejects(edgeProtection('/unused',input,true),error=>error.code==='edge');
- // Previously this asked again forever: the confirmation was never accepted.
- assert.deepEqual(await edgeProtection('/unused',{...input,attestations:{edge:{value:true}}},true),{status:'owner-confirmed',automatically_verified:false});
- assert.ok(calls.every(url=>url.startsWith('https://api.cloudflare.com/client/v4/zones')),'only the synthetic stub was called');
 });

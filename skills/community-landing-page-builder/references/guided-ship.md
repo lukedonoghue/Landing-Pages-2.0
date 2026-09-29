@@ -18,8 +18,11 @@ python3 scripts/dev.py ship --project /path/to/generated-page --operator --ui
 
 The page asks for a domain and CRM owner email. It derives a site name; advanced
 destination settings can override it. Google Sheets is unchecked by default.
-Sign in to Cloudflare when asked, choose an account only when it is ambiguous,
-allow hosting preparation, and approve the displayed publish/test/cleanup scope.
+Connect your own Cloudflare account when asked: Cloudflare shows two approval
+screens, one for the Cloudflare CLI that sets up the site and one for the upload
+tool. Choose the account by name when you have several, allow the hosting
+preparation shown for the confirmed domain, and approve the displayed
+publish/test/cleanup scope.
 Account facts that cannot be verified automatically are clearly owner-confirmed.
 The browser form never accepts a password or token.
 
@@ -32,7 +35,9 @@ the browser does not cancel an operation already running in the terminal.
 
 The standard adapter targets **one explicit custom domain in the selected
 Cloudflare account, one Worker with static assets, and one D1 binding named DB**.
-Use the locked dependency set and supported Node runtime (CI uses Node 24).
+Use the locked dependency set, including the pinned Cloudflare CLI (`cf`
+1.0.0-beta.5, installed by `npm ci`), and the supported Node runtime (CI uses
+Node 24).
 The initial operator UI supports macOS and Linux. Staging uses a separate site
 and database; changing a label is not isolation. Advanced two-host, Pages-gateway,
 external-DNS, static-only and workers.dev-only profiles retain their existing
@@ -41,6 +46,39 @@ The historical NetBean deployment is unrelated and is never a required test.
 
 This is implementation guidance, not evidence that this candidate has passed a
 real Cloudflare/Google deployment.
+
+## Cloudflare CLI (cf)
+
+The person publishing connects their own Cloudflare account through `cf`. The
+sign-in is a `cf` profile named after the site and bound to the project folder
+(`cf auth create lp-<site>`, `cf auth activate`), so work for one business never
+uses another's login. An API token already in the operator's environment
+authorizes both tools instead. `cf` is used for:
+
+- **Account:** the accounts reachable by both sign-ins, chosen by name.
+- **Destination:** before hosting consent, the domain's zone must be active in
+  that account and, for a new site, the exact hostname must have no address
+  records (on an apex these are usually the owner's current website). The
+  consent text names the account, zone, hostname and database placement it
+  confirmed.
+- **Database:** created as JSON with the chosen placement (EU or FedRAMP
+  jurisdiction, or a location hint; otherwise Cloudflare's nearest location). A
+  database's placement cannot move after creation.
+- **Recovery point:** the D1 Time Travel bookmark before protection and before
+  migrations.
+- **Form protection:** the rate-limit rule, read back through the owner's own
+  sign-in.
+
+The pinned Wrangler still uploads the frozen release, applies migrations,
+stores secrets over stdin and reads the deployed version. `cf deploy` cannot yet
+attach the per-release identity that live verification checks, and `cf` takes
+secret values as command arguments. Move those steps to `cf` only after a real
+account pilot proves an equivalent.
+
+The coding agent never runs authenticated `cf` commands. `cf --help` and
+`cf cli search` need no sign-in. Generated agent policies deny the `cf` profile
+stores (`~/.config/cloudflare`, `~/Library/Preferences/cloudflare`) as they do
+Wrangler's.
 
 ## Coding-agent boundary
 
@@ -102,9 +140,10 @@ predecessor, with the previous receipt archived and fresh authorization.
 
 ## What is automated
 
-Preparation checks the intended Cloudflare account, detects same-name database
-conflicts, invokes the reviewed setup command, synchronizes configuration and
-moves the owner-password handoff outside the project. Existing databases require
+Preparation checks the intended Cloudflare account and destination through
+`cf`, detects same-name database conflicts, invokes the reviewed setup command
+(which creates the database with the chosen placement), synchronizes
+configuration and moves the owner-password handoff outside the project. Existing databases require
 an explicit identity choice; they are never adopted by name alone. Existing users
 and connections are summarized for review, not removed automatically.
 
@@ -118,12 +157,13 @@ A fresh bookmark is taken immediately before migrations. This is a recovery poin
 **not** an encrypted export or a tested restore; automatic destructive database
 rollback is not authorized. Restore/reconcile is a separate trusted operation.
 
-Where a suitably scoped API token is already available to the trusted operator,
-edge configuration reads the existing rate-limit entrypoint and appends the
-supported rule without replacing other rules. Conflicts, insufficient permissions
-or plan limits produce one action card. OAuth-only sessions do not expose their
-cached token to the bridge. No paid upgrade, new service or broader privilege is
-silently enabled. The owner-confirmed fallback is never labelled API-verified.
+Edge configuration runs through `cf` with the owner's own sign-in (or an
+operator API token). It reads the existing rate-limit entrypoint and appends the
+supported rule without replacing other rules. Conflicts, insufficient
+permissions or plan limits produce one action card; when the sign-in cannot read
+the rules, the owner's confirmation is recorded instead. No paid upgrade, new
+service or broader privilege is silently enabled. The owner-confirmed fallback
+is never labelled API-verified.
 
 The guarded live verifier checks the actual deployed page/form/thank-you/PDF/CRM
 journey. It now receives the private release-health proof internally, without
@@ -188,6 +228,7 @@ do not use earlier tester-release results as proof for this new implementation.
 
 ## Provider documentation used during implementation
 
+- Cloudflare CLI (`cf`): https://github.com/cloudflare/cf and https://blog.cloudflare.com/cloudflare-cf-cli-launch/
 - Cloudflare D1 Time Travel: https://developers.cloudflare.com/d1/reference/time-travel/
 - D1 Wrangler commands: https://developers.cloudflare.com/d1/wrangler-commands/
 - Rate-limit creation API: https://developers.cloudflare.com/waf/rate-limiting-rules/create-api/

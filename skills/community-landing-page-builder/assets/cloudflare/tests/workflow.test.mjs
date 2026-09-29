@@ -17,7 +17,7 @@ function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'funnel-workflow-test-'));
   t.after(() => rmSync(root, {recursive:true, force:true}));
   write(root, 'package.json', {type:'module'});
-  for (const name of ['setup','preflight','free-plan','publish','publish-driver','release-tools','journey-state','browser-compat','live-verify','github']) {
+  for (const name of ['setup','preflight','free-plan','publish','publish-driver','release-tools','cloudflare-cli','journey-state','browser-compat','live-verify','github']) {
     mkdirSync(join(root, 'scripts'), {recursive:true});
     copyFileSync(join(template, 'scripts', `${name}.mjs`), join(root, 'scripts', `${name}.mjs`));
   }
@@ -38,7 +38,13 @@ function fixture(t) {
   for(const name of ['funnel.js','privacy-controls.js','privacy-controls.css'])copyFileSync(join(template,'public',name),join(root,'public',name));
   // This executable logs requests instead of using the network or mutating Cloudflare.
   write(root, 'node_modules/wrangler/bin/wrangler.js', `import {appendFileSync} from 'node:fs';appendFileSync('wrangler-calls.log',JSON.stringify(process.argv.slice(2))+'\\n');if(process.argv.includes('list'))console.log('[]');`);
+  // The pinned Cloudflare CLI, replaced the same way: it logs and answers database listings.
+  fakeCf(root,'[]');
   return root;
+}
+function fakeCf(root,listing) {
+  write(root,'node_modules/cf/package.json',{name:'cf',version:'1.0.0-beta.5'});
+  write(root,'node_modules/cf/bin/cf',`require('node:fs').appendFileSync('cf-calls.log',JSON.stringify(process.argv.slice(2))+'\\n');if(process.argv.includes('list'))console.log(${JSON.stringify(listing)});`);
 }
 function execute(root, script, args=[], env={}) {
   return spawnSync(node, [`scripts/${script}.mjs`, ...args], {cwd:root, encoding:'utf8', env:{...process.env, CI:'', ...env}});
@@ -105,6 +111,7 @@ test('fictional demos reject remote setup before configuration or Cloudflare cha
   assert.match(result.stderr + result.stdout, /Fictional development fixtures/);
   assert.equal(readFileSync(join(root, 'wrangler.jsonc'), 'utf8'), before);
   assert.equal(existsSync(join(root, 'wrangler-calls.log')), false);
+  assert.equal(existsSync(join(root, 'cf-calls.log')), false);
   assert.equal(existsSync(join(root, '.secrets/production.json')), false);
 });
 
@@ -115,12 +122,13 @@ test('remote setup rejects the shared starter name before any Cloudflare command
   assert.notEqual(result.status,0);
   assert.match(result.stderr,/unique|starter/i);
   assert.equal(existsSync(join(root,'wrangler-calls.log')),false);
+  assert.equal(existsSync(join(root,'cf-calls.log')),false);
 });
 
 test('existing exact-name database is not silently adopted', t => {
   const root=fixture(t);
   const config=JSON.parse(readFileSync(join(root,'wrangler.jsonc')));config.d1_databases[0].database_id='00000000-0000-0000-0000-000000000000';write(root,'wrangler.jsonc',config);
-  write(root,'node_modules/wrangler/bin/wrangler.js',`if(process.argv.includes('list'))console.log(JSON.stringify([{name:'workflow-fixture-crm',uuid:'11111111-1111-4111-8111-111111111111'}]));`);
+  fakeCf(root,JSON.stringify([{name:'workflow-fixture-crm',uuid:'11111111-1111-4111-8111-111111111111'}]));
   const result=execute(root,'setup',['--cloudflare','--account-id','a'.repeat(32),...setupScope(root)]);
   assert.notEqual(result.status,0);
   assert.match(result.stderr,/database-id/);

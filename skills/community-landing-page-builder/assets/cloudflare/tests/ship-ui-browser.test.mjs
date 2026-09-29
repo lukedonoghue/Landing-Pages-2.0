@@ -24,7 +24,15 @@ for(const [name,engine] of Object.entries({chromium,webkit})){
    assert.equal(page.url(),parsed.origin+'/');assert.equal(await page.getByLabel('Also send enquiries to Google Sheets (optional)').isChecked(),false);
    await page.getByLabel('Your website domain').fill('landing.example.org');await page.getByLabel('CRM owner email').fill('owner@example.org');
    for(const width of [320,390,1440]){await page.setViewportSize({width,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await page.screenshot({path:dir+`inputs-${width}.png`,fullPage:true});}
-   await page.getByRole('button',{name:'Check my setup',exact:true}).click();await page.getByRole('button',{name:'Prepare this site',exact:true}).waitFor();
+   await page.locator('details.advanced summary').click();await page.getByLabel('Where a new database keeps its data').selectOption('eu');
+   await page.getByRole('button',{name:'Check my setup',exact:true}).click();await page.getByRole('button',{name:'Use this account',exact:true}).waitFor();
+   // Accounts are offered by their Cloudflare names, and the choice drives the confirmed destination.
+   assert.deepEqual(await page.locator('#choice option').allInnerTexts(),['Fixture Plumbing Ltd (aaaaaaaa…)','Fixture Agency (cccccccc…)']);
+   await page.locator('#choice').selectOption('c'.repeat(32));await page.getByRole('button',{name:'Use this account',exact:true}).click();
+   await page.getByRole('button',{name:'Prepare this site',exact:true}).waitFor();
+   const destination=await page.locator('#destination').innerText();
+   for(const part of ['Cloudflare account: Fixture Agency (cccccccc…)','Cloudflare zone: example.org','Database location: EU jurisdiction (data stays in the EU)'])assert.ok(destination.includes(part),part);
+   assert.match(await page.locator('#description').innerText(),/Fixture Agency .*landing\.example\.org.*example\.org.*kept inside the EU/);
    await page.reload();await page.getByRole('button',{name:'Prepare this site',exact:true}).waitFor();
    await page.getByRole('button',{name:'Prepare this site',exact:true}).click();await page.getByRole('button',{name:'Confirm and continue',exact:true}).waitFor();
    await page.getByRole('button',{name:'Confirm and continue',exact:true}).click();await page.getByRole('alert').waitFor({state:'visible'});assert.match(await page.getByRole('alert').innerText(),/confirm/);

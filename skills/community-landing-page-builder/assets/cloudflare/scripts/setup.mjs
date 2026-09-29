@@ -3,12 +3,13 @@ import {randomBytes,pbkdf2Sync} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
+import {cfBin,environment,outcome,databaseFrom,placement,createArgs,CF_VERSION} from './cloudflare-cli.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 process.chdir(root);
 const args = process.argv.slice(2);
 if (args.includes('--help') || args.includes('-h')) {
-  console.log('Usage: npm run setup            Prepare the local D1 database and local owner login (no cloud changes)\n       npm run setup -- --cloudflare  Configure the Cloudflare database for publishing (trusted operator shell only)\nThe local password is written to .secrets/local-admin-password.txt and is never printed.');
+  console.log('Usage: npm run setup            Prepare the local D1 database and local owner login (no cloud changes)\n       npm run setup -- --cloudflare  Configure the Cloudflare database for publishing (trusted operator shell only)\n         [--database-jurisdiction eu|fedramp | --database-location weur|eeur|apac|oc|wnam|enam]  Where a new D1 database keeps its data\nThe local password is written to .secrets/local-admin-password.txt and is never printed.');
   process.exit(0);
 }
 const option = name => { const i=args.indexOf(name); return i < 0 ? null : args[i+1]; };
@@ -70,20 +71,24 @@ try {
     if(!existsSync('scripts/workflow.py'))throw new Error('The current workflow gate checker is missing. Re-scaffold the project.');
     run('python3',['scripts/workflow.py','check-copy','.']);
     run('python3',['scripts/workflow.py','check-build','.']);
+    const where=placement({...(option('--database-jurisdiction')?{database_jurisdiction:option('--database-jurisdiction')}:{}),...(option('--database-location')?{database_location:option('--database-location')}:{})});
+    const account=config.account_id||process.env.CLOUDFLARE_ACCOUNT_ID,bin=cfBin(root);
     mkdirSync('build',{recursive:true});
-    writeFileSync('build/setup-authorization.json',JSON.stringify({actor:'user',message:authorization,message_id:authorizationMessageId.trim(),recorded_at:new Date().toISOString(),scope:'Cloudflare infrastructure setup; publication uses this instruction when it already includes publish scope; controlled test lead permission is recorded separately',target:{worker:config.name,account_id:config.account_id||process.env.CLOUDFLARE_ACCOUNT_ID,domains:config.routes||[]}},null,2)+'\n',{mode:0o600});
+    writeFileSync('build/setup-authorization.json',JSON.stringify({actor:'user',message:authorization,message_id:authorizationMessageId.trim(),recorded_at:new Date().toISOString(),scope:'Cloudflare infrastructure setup; publication uses this instruction when it already includes publish scope; controlled test lead permission is recorded separately',target:{worker:config.name,account_id:account,domains:config.routes||[],database_placement:where,cloudflare_cli:'cf '+CF_VERSION}},null,2)+'\n',{mode:0o600});
     wrangler(['whoami']);
     if(config.d1_databases[0].database_id==='00000000-0000-0000-0000-000000000000'){
-      const databases=JSON.parse(wrangler(['d1','list','--json'],true));
-      const existing=databases.find(db=>db.name===config.d1_databases[0].database_name);
+      // cf, signed in with the owner's own account, returns the database as JSON. The
+      // placement is fixed at creation and cannot move later.
+      const name=config.d1_databases[0].database_name;
+      const cf=cfArgs=>{const r=spawnSync(process.execPath,[bin,...cfArgs],{encoding:'utf8',env:{...process.env,...environment(account)}});const value=outcome({code:r.status,stdout:r.stdout,stderr:r.stderr});if(!value.ok)throw new Error(`cf ${cfArgs.slice(0,2).join(' ')} failed. Check the Cloudflare sign-in and selected account, then rerun; no database was assumed.`);return value.value;};
+      const existing=[].concat(cf(['d1','list','--name',name,'--per-page','20'])).map(db=>databaseFrom(db,name)).filter(Boolean)[0];
       if(existing) {
-        if(option('--database-id')!==existing.uuid) throw new Error(`A database named ${existing.name} already exists. To bind that verified existing client database, rerun with --database-id ${existing.uuid}; otherwise choose a different --site name.`);
-        config.d1_databases[0].database_id=existing.uuid;
+        if(option('--database-id')!==existing.id) throw new Error(`A database named ${name} already exists. To bind that verified existing client database, rerun with --database-id ${existing.id}; otherwise choose a different --site name.`);
+        config.d1_databases[0].database_id=existing.id;
       }
       else {
-        const output=wrangler(['d1','create',config.d1_databases[0].database_name,'--no-update-config'],true);
-        const id=output.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)?.[0];
-        if(!id) throw new Error('Database creation returned no ID. Check wrangler d1 list; do not create another database.');
+        const id=databaseFrom(cf(createArgs(name,where)),name)?.id;
+        if(!id) throw new Error('Database creation returned no ID. Check the D1 database list; do not create another database.');
         config.d1_databases[0].database_id=id;
       }
       saveConfig(config);

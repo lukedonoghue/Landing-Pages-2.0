@@ -5,6 +5,8 @@
       "Read(~/.landing-pages-publishing/**)",
       "Read(~/.wrangler/**)",
       "Read(~/.config/.wrangler/**)",
+      "Read(~/.config/cloudflare/**)",
+      "Read(~/Library/Preferences/cloudflare/**)",
       "Read(.dev.vars*)",
       "Read(.env*)",
       "Edit(.claude/settings*)",
@@ -28,6 +30,8 @@
         "~/.config/.wrangler",
         "~/.config/wrangler",
         "~/Library/Preferences/.wrangler",
+        "~/.config/cloudflare",
+        "~/Library/Preferences/cloudflare",
         "~/.ssh",
         "~/.aws",
         "~/.config/gcloud"
@@ -44,6 +48,8 @@
         "~/.config/.wrangler",
         "~/.config/wrangler",
         "~/Library/Preferences/.wrangler",
+        "~/.config/cloudflare",
+        "~/Library/Preferences/cloudflare",
         "~/.ssh",
         "~/.aws",
         "~/.config/gcloud",
@@ -64,6 +70,18 @@
         },
         {
           "name": "CLOUDFLARE_EMAIL",
+          "mode": "deny"
+        },
+        {
+          "name": "CF_API_TOKEN",
+          "mode": "deny"
+        },
+        {
+          "name": "CF_API_KEY",
+          "mode": "deny"
+        },
+        {
+          "name": "CLOUDFLARE_ACCESS_CLIENT_SECRET",
           "mode": "deny"
         },
         {
