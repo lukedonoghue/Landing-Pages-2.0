@@ -170,6 +170,18 @@ class CategoryFitTests(Project):
         signed = {**self.FIT, 'owner_visual_signoff': {'message_id': 'msg-9', 'statement': 'I like this direction, go ahead.'}}
         self.assertEqual(visual_direction.category_fit_errors(self.root, {'category_fit': signed}, 'self_review'), [])
 
+    def test_photos_waiting_for_the_owner_block_handoff_not_the_preview(self):
+        # A sandbox that cannot download leaves the candidate unresolved for the owner; the
+        # preview is judged on the photos it shows, the handoff waits for the decision.
+        (self.root / 'funnel.json').write_text(json.dumps({'business': {'archetype': 'local_trade'}}))
+        images.add_candidate(self.plan, 'source-gallery', 'Finished bathroom remodel')
+        (self.root / 'image-plan.json').write_text(json.dumps(self.plan))
+        report = {'category_fit': self.FIT}
+        self.assertEqual(visual_direction.category_fit_errors(self.root, report, 'self_review', 'preview'), [])
+        self.assertTrue(any('Resolve every first-party proof candidate' in e for e in visual_direction.category_fit_errors(self.root, report, 'self_review', 'handoff')))
+        used = {**self.FIT, 'first_party_proof': 'used'}
+        self.assertTrue(any("must be 'none_available'" in e for e in visual_direction.category_fit_errors(self.root, {'category_fit': used}, 'self_review', 'preview')))
+
     def test_comparison_records_media_strategy_separately(self):
         (self.root / 'funnel.json').write_text(json.dumps({'business': {'archetype': 'local_trade'}}))
         self.assertTrue(visual_direction.media_strategy_errors(self.root, {}))

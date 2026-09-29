@@ -350,7 +350,7 @@ def validate_report(root, report, snapshot, gate):
         if not isinstance(report.get('limits'), list):
             errors.append('Visual acceptance must state unresolved limits')
         import visual_direction
-        errors += visual_direction.category_fit_errors(root, report, mode)
+        errors += visual_direction.category_fit_errors(root, report, mode, snapshot.get('mode', 'preview'))
     elif gate == 'catalogue':
         config = read_json(root / 'funnel.json')
         if config.get('quality', {}).get('reader_guide_version', 0) >= 1:

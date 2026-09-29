@@ -42,8 +42,8 @@ def proof(root):
     return image_workflow.proof_role(json.loads(path.read_text()), root)
 
 
-def category_fit_errors(root, report, review_mode):
-    """Checks build/visual-review.json category_fit."""
+def category_fit_errors(root, report, review_mode, gate_mode="handoff"):
+    """Checks build/visual-review.json category_fit; gate_mode is the snapshot mode."""
     if not required(root):
         return []
     errors = []
@@ -59,12 +59,15 @@ def category_fit_errors(root, report, review_mode):
     if fit.get("reads_as_category_without_brand") is not True:
         errors.append("The page does not yet read as a " + str(fit.get("category") or "category") + " business without its name; change the media, palette, type or iconography before accepting the direction")
     ledger = proof(root)
-    expected = "used" if ledger["status"] == "proof_used" else "none_available"
-    if ledger["status"] == "unresolved":
+    # Like the images gate, photos still waiting for the owner (or a decision) block
+    # handoff, not a preview; the preview is judged on the photos it actually shows.
+    pending = ledger["status"] == "unresolved"
+    expected = "used" if ledger["used"] else "none_available"
+    if pending and gate_mode in {"handoff", "live"}:
         errors.append("Resolve every first-party proof candidate before accepting the visual direction")
     elif fit.get("first_party_proof") != expected:
         errors.append(f"category_fit.first_party_proof must be '{expected}' to match the image plan's proof ledger")
-    abandoned = ledger["candidates"] and not ledger["used"]
+    abandoned = ledger["candidates"] and not ledger["used"] and not pending
     if archetype(root) in PHOTO_LED and abandoned and review_mode == "self_review":
         signoff = fit.get("owner_visual_signoff") or {}
         if not (text(signoff.get("message_id")) and text(signoff.get("statement"), 10)):

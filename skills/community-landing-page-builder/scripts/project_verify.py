@@ -310,7 +310,7 @@ def verify_project(project, node, mode="preview", performance_runs=1, port=None)
         proof, waiting = {}, []
     next_actions += ["proof photos: " + error for error in proof.get("errors", [])]
     if waiting:
-        next_actions.append("proof photos: ask the owner to attach these first-party photos (" + ", ".join(waiting) + "), then inventory them with image_workflow.py inventory-file --authority user_attachment")
+        next_actions.append("proof photos: ask the owner to attach these first-party photos (" + ", ".join(waiting) + "), then inventory them with image_workflow.py inventory-file --authority user_attachment and run acquire --candidate <attached id> --replaces <candidate id>")
     # A preview can pass while handoff records are missing; say so now, not at export.
     readiness = None
     if mode == "preview":
