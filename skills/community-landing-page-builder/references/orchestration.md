@@ -18,7 +18,7 @@ No credentials belong in capability JSON, task packets, receipts, source control
 
 ## Start in the latest project
 
-This repository's main entrypoint is the community skill. The older branded skill and its historical notes are retained, not overwritten. For an existing checkout the committed `.codex/agents/` and `.claude/agents/` profiles are ready to discover on a fresh host session. `AGENTS.md` and `CLAUDE.md` point to this skill.
+This repository's main entrypoint is the community skill. The earlier branded skill and its historical notes have been removed; this skill is the only maintained entrypoint. For an existing checkout the committed `.codex/agents/` and `.claude/agents/` profiles are ready to discover on a fresh host session. `AGENTS.md` and `CLAUDE.md` point to this skill.
 
 For a new project, run from the repository checkout (the target must exist):
 
@@ -155,7 +155,7 @@ Once all non-acceptance tasks are done and fresh, freeze actual product source p
 python3 "$SKILL_ROOT/scripts/native_routing.py" freeze "$PROJECT_ROOT" --input build/production-contract.json --input build/page-copy.json --input build/visual-review.json
 ```
 
-Use the actual existing evidence paths; missing paths block freezing. A final acceptance task uses role `review`, phase `acceptance`, no writes and dependencies on completed production/QA tasks. It cannot run before the current freeze, alongside another worker, or under a recorded builder identity when native independence is available. Record distinct host task provenance; naming the same agent differently is not independence. In a sequential host, use a fresh isolated reread and `review_mode: self_review`.
+Use the actual existing evidence paths; missing paths block freezing. A final acceptance task uses role `review`, phase `acceptance`, no writes and dependencies on completed production/QA tasks. It cannot run before the current freeze, alongside another worker, or under a recorded builder identity when native independence is available. Record distinct host task provenance; naming the same agent differently is not independence. In a sequential host, use a fresh isolated reread, `review_mode: self_review` in the finish receipt and `self_review` provenance in the review report.
 
 Any source/evidence change invalidates the freeze. The coordinator uses `thaw PROJECT --reason ...`, then bounded targeted repairs, current evidence and another final review. Acceptance receipts and scheduler status always state `release_approved: false`: use the existing guarded authorization/publishing flow separately. The scheduler never deploys, changes DNS or submits live leads.
 
@@ -188,7 +188,7 @@ Follow `completion-integrity.md` for canonical research/document inputs, split i
 ## Claude Code notes (field-tested, September 2026)
 
 * Native `lp-*` profiles load only from the folder Claude Code was opened in. The scaffold installs them into every new CRM project (AGENTS.md/CLAUDE.md point at `.community-builder/SKILL.md`), so open the generated project folder itself. For an older project, run `python3 .community-builder/scripts/install_native.py --project . --runtime both` there. Otherwise emulate the role with a general subagent and disclose it.
-* To record a separate Agent-tool review as `independent`, save `build/reviews/<task-id>.json` with `status: completed`, `task_id` (the reviewer task you declare), `host: claude-code`, `dispatch_id` (the Agent tool's returned agent id) and `raw_result` (the returned report), and reference it as `execution_artifact` with its sha256. Never reuse the builder's task id.
+* An Agent-tool review counts as `independent` only through the coordinator. `configure` the observed capabilities (`provider: claude`, `native_subagents: true`), `add` a `role: review` task, `claim` it, dispatch the Agent tool, then `finish` it with `review_mode: independent`, the returned agent id as `host_task_id`, `runtime_evidence`, and the returned report in `outputs` or, for a read-only reviewer the coordinator persisted, `review_artifacts` (`[{path, sha256}]`). `finish` writes the receipt `build/orchestration/tasks/<task-id>.json`. The report names that task as its reviewer task (`review_provenance.reviewer_task_id`, `reviewer_provenance.reviewer_task_id` in the final review, `reviewer.task_id` in control and guide reviews); an optional `execution_artifact` must point at that same receipt. Never hand-write a receipt or reuse the builder's task id; without a real dispatch record `self_review`.
 
 ## Coordinator receipts and final release
 

@@ -6,7 +6,7 @@ Run these stages after the copy/editorial gate, design and image work. Keep desi
 
 The generated Cloudflare project includes:
 
-- `npm run qa:performance -- --url http://127.0.0.1:8787 --project-root .`: real Lighthouse mobile runs, raw JSON and measured budgets.
+- `npm run qa:performance -- --url http://127.0.0.1:8787 --project-root . --server-command "<command that serves the page>"`: real Lighthouse mobile runs (three by default), raw JSON and measured budgets. Handoff acceptance needs at least three runs and the recorded server command; `quickstart.py verify --mode handoff` supplies both.
 - `npm run qa:browsers -- --url http://127.0.0.1:8787 --fixture test-fixture.json --project-root .`: Chromium and WebKit public-page, dialog, keyboard and responsive checks.
 - `npm run verify:live -- --url http://127.0.0.1:8787 --fixture test-fixture.json --read-only --project-root .`: health, anonymous access boundaries, public resources and brochure checks only.
 - `npm run verify:live -- --url http://127.0.0.1:8787 --fixture test-fixture.json --allow-test-lead --credentials-file .secrets/admin.json --project-root .`: the actual local public form, thank-you page, receipt, CRM and reporting journey.
@@ -29,7 +29,7 @@ Default destinations:
 
 ## Site-specific fixture
 
-The builder must generate and inspect `test-fixture.json` against the finished page and configured form. Do not guess a service option, selector, brochure path, or required field. Use synthetic identities and a reserved `example.invalid` email. Never place real lead details or admin credentials in this fixture. Match the site's actual selectors and form schema; omit fields the page does not contain.
+The builder must generate and inspect `test-fixture.json` against the finished page and configured form (`quickstart.py verify` writes a starting fixture from `funnel.json` when none exists). Do not guess a service option, selector, brochure path, or required field. Use synthetic identities and a reserved `example.invalid` email. Never place real lead details or admin credentials in this fixture. Match the site's actual selectors and form schema; omit fields the page does not contain. With first-party attribution on (the default `lead` mode), `query` needs a value for every campaign field in `ATTRIBUTION_KEYS` (`scripts/live-verify.mjs`), and `expected_policy`/`expected_features` must match `funnel.json` analytics.
 
 ```json
 {
@@ -47,10 +47,15 @@ The builder must generate and inspect `test-fixture.json` against the finished p
     "contact_method": "Email"
   },
   "query": {
-    "utm_source": "google",
-    "utm_medium": "cpc",
-    "utm_campaign": "synthetic-launch-verification"
+    "utm_source": "google", "utm_medium": "cpc", "utm_campaign": "synthetic-launch", "utm_id": "synthetic-id",
+    "utm_term": "synthetic-term", "utm_content": "synthetic-content", "utm_source_platform": "synthetic-platform",
+    "utm_creative_format": "synthetic-format", "utm_marketing_tactic": "synthetic-tactic", "gclid": "synthetic-gclid",
+    "dclid": "synthetic-dclid", "gbraid": "synthetic-gbraid", "wbraid": "synthetic-wbraid", "fbclid": "synthetic-fbclid",
+    "msclkid": "synthetic-msclkid", "ttclid": "synthetic-ttclid"
   },
+  "excluded_query": {"email": "excluded@example.invalid", "token": "synthetic-secret-not-captured"},
+  "expected_policy": {"analytics_mode": "disabled", "attribution_mode": "lead", "advertising_user_data_mode": "disabled", "browser_opt_out": false},
+  "expected_features": {"first_party_attribution": true, "measured_visit": false},
   "expected_dimensions": {"source": "google", "traffic": "paid", "device": "desktop"},
   "selectors": {
     "openModal": "[data-open-modal]",
@@ -65,7 +70,7 @@ The builder must generate and inspect `test-fixture.json` against the finished p
 }
 ```
 
-If the production page is a different path, configure it in `allowedPaths` and the fixture. Fixture resources must stay on the checked origin. For a mobile source check use `device: "mobile"`; for Facebook use an actual supported attribution combination (for example `utm_source: "facebook", utm_medium: "paid_social"`). The expected source and traffic type must agree with classification rules. The real tracking script supplies consent, browser ID and visit event ID; the verifier does not invent a matching analytics record after submission.
+If the production page is a different path, configure it in `allowedPaths` and the fixture. Fixture resources must stay on the checked origin. For a mobile source check use `device: "mobile"`; for Facebook use an actual supported attribution combination (for example `utm_source: "facebook", utm_medium: "paid_social"`). The expected source and traffic type must agree with classification rules; a Google click ID (`gclid`, `dclid`, `gbraid`, `wbraid`) classifies the visit as Google paid. The real tracking script supplies consent, browser ID and visit event ID; the verifier does not invent a matching analytics record after submission.
 
 ## Performance pass
 

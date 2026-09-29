@@ -29,7 +29,7 @@ All QA output belongs under project `build/`. Source fingerprinting includes HTM
 
 ## Browser coverage
 
-The harness tests widths 360, 390, 768, 1024, 1180, 1280, and 1440 CSS pixels plus 1280×600 and 1440×720. Each uses its own isolated browser context. It scrolls to trigger real lazy loading, waits for fonts/images, measures landing and thank-you pages, and captures full-page and modal screenshots. Before a full-page capture it visits every rendered `content-visibility:auto` region, waits for layout, and temporarily holds those already visited regions at `content-visibility:visible` for the capture only. The artifact records visited and held-visible counts; mismatched counts block acceptance. This capture-only stabilization prevents Chromium from replacing offscreen content with intrinsic placeholders and does not authorize a pass from blank or uninspected pixels. It records:
+The harness tests ten viewports: 320×700, widths 360, 390, 768, 1024, 1180, 1280 and 1440 CSS pixels, plus 1280×600 and 1440×720. Each uses its own isolated browser context. It scrolls to trigger real lazy loading, waits for fonts/images, measures landing and thank-you pages, and captures full-page and modal screenshots. Before a full-page capture it visits every rendered `content-visibility:auto` region, waits for layout, and temporarily holds those already visited regions at `content-visibility:visible` for the capture only. The artifact records visited and held-visible counts; mismatched counts block acceptance. This capture-only stabilization prevents Chromium from replacing offscreen content with intrinsic placeholders and does not authorize a pass from blank or uninspected pixels. It records:
 
 - horizontal overflow, image decoding, font loading and HTTP/console errors;
 - real text line rectangles, short last lines, plain-background heading contrast estimates, cover-image crop fraction and object position;
@@ -81,11 +81,23 @@ Additional gate evidence requirements:
 |---|---|
 | static | Actual nonempty static check results |
 | browser | `execution.kind: automated`, `viewports`, screenshot artifacts |
-| visual | Reviewer identity, specific observations, screenshot artifacts |
+| visual | `reviewer`, specific `observations`, screenshot artifacts; `review_provenance` {`mode` (`independent` or `self_review`), `reviewer_identity`, `reviewer_task_id`, `builder_identity`, `builder_task_id`}; `reviewed_source_fingerprint` equal to the snapshot's; `findings` [{`id`, `finding`, `evidence`, `disposition` (`fixed`, `accepted_limit`, `blocked` or `no_change`), `severity`}]; `retests` [{`finding_id`, `result: pass`, `evidence`}]; `limits` list; `category_fit` (quality-gates.md) under contract 4 or for a `local_trade` archetype |
 | catalogue | Positive `page_count`, `reviewed_pages: [1,2,...]` covering every page, PDF and rendered_page artifacts |
 | crm (live only) | Executed command/exit code; `observations.receipt_id` equals `stored_receipt_id`; `database_id`; redacted http_trace and db_receipt artifacts |
 | tracking (live only) | Executed command/exit code; event_trace and dashboard_result artifacts establishing the denominator and numerator |
 | deployment (live only) | Executed command/exit code; http_trace and deployment_record artifacts establishing URL, revision, domain and HTTPS |
+
+Visual keys beyond the envelope, as a schema example:
+
+```json
+{"review_provenance": {"mode": "self_review", "reviewer_identity": "ACTUAL_REVIEWER", "reviewer_task_id": "ACTUAL_TASK_ID", "builder_identity": "ACTUAL_BUILDER", "builder_task_id": "ACTUAL_TASK_ID"},
+ "reviewed_source_fingerprint": "COPY_FROM_CURRENT_SNAPSHOT",
+ "findings": [{"id": "hero-crop", "finding": "ACTUAL_FINDING", "evidence": "build/screenshots/390x844-landing.png", "disposition": "fixed", "severity": "p2"}],
+ "retests": [{"finding_id": "hero-crop", "result": "pass", "evidence": "build/screenshots/390x844-retest.png"}],
+ "limits": []}
+```
+
+Self-review names the same reviewer and builder task. Independent review needs a different reviewer task with a coordinator receipt at `build/orchestration/tasks/<reviewer_task_id>.json` (orchestration.md). Every fixed finding needs a passing retest; a `blocked` finding, or a critical/high/p0/p1 finding that is not fixed, blocks the gate. This key is `review_provenance`; `reviewer_provenance` belongs only to `build/final-review.json`. Handoff screenshots also need `viewport`, `device_pixel_ratio` and `state` (completion-integrity.md).
 
 Live reports also require the actual HTTPS target and `execution: {"kind":"automated","command":["ACTUAL","COMMAND"],"exit_code":0}`. Do not invent a command or receipt to satisfy schema. Store redacted structured response/query output, no tokens or lead PII. Gate checking enforces report/artifact integrity and minimum evidence shape; it does not cryptographically authenticate the report author or independently query Cloudflare. A human or agent still has to execute the named check and tell the truth about its limitations.
 
@@ -100,11 +112,11 @@ npm ci
 npm test
 ```
 
-Run the commands above from the skill folder. The application regressions use isolated synthetic fixtures, including real browser and local Worker/D1 tests. They do not edit client pages or perform live submissions. Run the generated project's measured browser tools separately against its actual page; see performance-and-browser-qa.md.
+Run the commands above from the repository skill folder; installed copies and generated projects do not ship `tests/`. The application regressions use isolated synthetic fixtures, including real browser and local Worker/D1 tests. They do not edit client pages or perform live submissions. Run the generated project's measured browser tools separately against its actual page; see performance-and-browser-qa.md.
 
 ## One command for a generated project (September 2026)
 
-From the generated project folder run `python3 scripts/quickstart.py verify --project .` (add `--runs 3` for the full Lighthouse median, `--mode handoff` for handoff evidence). It creates `test-fixture.json` from `funnel.json` when missing, starts the local Worker and D1, takes one snapshot, then runs and records: static (`validate_funnel.py`), browser (`measure_funnel.mjs`, 10 viewports including honeypot and wizard visibility), performance (`performance-audit.mjs`), browser_compat (`browser-compat.mjs`), local_journey (`live-verify.mjs`, one synthetic local lead), rendered_copy (`capture-rendered-copy.mjs` plus `copy_parity.py`), and assembles images, copy and catalogue reports from their current evidence. It records `visual` and `control_review` when their current evidence exists and otherwise lists them as next actions. It never publishes.
+From the generated project folder run `python3 scripts/quickstart.py verify --project .` (add `--runs 3` for the full Lighthouse median in preview, `--mode handoff` for handoff evidence). It creates `test-fixture.json` from `funnel.json` when missing, with every campaign field the journey requires, starts the local Worker and D1, takes one snapshot, then runs and records: static (`validate_funnel.py`), browser (`measure_funnel.mjs`, 10 viewports including honeypot and wizard visibility), performance (`performance-audit.mjs`; handoff always runs at least three audits and records the actual `--server-command`), browser_compat (`browser-compat.mjs`), local_journey (`live-verify.mjs`, one synthetic local lead), rendered_copy (`capture-rendered-copy.mjs` plus `copy_parity.py`), the handoff final-state captures (`capture-final-states.mjs`), and assembles images, copy and catalogue reports from their current evidence. It records `control_review`, `visual` and, in handoff, `final_review` when their current evidence exists and otherwise lists them as next actions. A visual or final review written since the last run is recorded first, against that run's snapshot, and verify keeps the evidence it cites instead of regenerating it. It never publishes.
 
 Order: finish all copy, image reviews, guide review and control repairs first; the final control capture and the verify snapshot come last. Static validation now fails on visible starter text such as the template privacy page.
 

@@ -28,13 +28,14 @@ Static checks do not prove claim truth, visual quality, or real conversion deliv
 
 Serve the project over local HTTP. Test at least:
 
+- 320 x 700 narrow phone;
 - 390 x 844 mobile;
 - 768 x 1024 tablet;
 - 1024 x 800 laptop;
 - 1280 x 600 short-height laptop;
 - 1440 x 900 desktop.
 
-For a text-heavy stacked mobile hero, add one 320 x 700 first-screen spot capture to this pass. Check readable continuation and useful image scale, not only horizontal overflow; this does not require another full interaction matrix or report. Mark the primary hero image, video or background-media container with `data-primary-media`; do not misuse image truth roles to remove it from QA. Planned hero media must remain visibly painted at 320, mobile, tablet, laptop and desktop widths. Do not meet a fold target by hiding primary imagery, action-destination explanations, offer qualifiers or necessary disclosures. Resize or reorder media, shorten supporting copy, and redistribute spacing while preserving the information needed to decide or act. Inspect that content at the smallest breakpoint, not just its presence in the HTML.
+The 320 x 700 capture is a first-screen spot check, and the browser gate rejects evidence without it. Check readable continuation and useful image scale, not only horizontal overflow; this does not require another full interaction matrix or report. Mark the primary hero image, video or background-media container with `data-primary-media`; do not misuse image truth roles to remove it from QA. Planned hero media must remain visibly painted at 320, mobile, tablet, laptop and desktop widths. Do not meet a fold target by hiding primary imagery, action-destination explanations, offer qualifiers or necessary disclosures. Resize or reorder media, shorten supporting copy, and redistribute spacing while preserving the information needed to decide or act. Inspect that content at the smallest breakpoint, not just its presence in the HTML.
 
 Use `scripts/measure_page.mjs` when Playwright is available:
 
@@ -177,7 +178,7 @@ Run an automated accessibility scan when available, then manually test keyboard 
 
 Include existing navigation and FAQ disclosures in that keyboard pass. After Escape closes a mobile menu from one of its links, focus must return to the visible menu toggle; inspect expanded FAQ text for clipping or overlap.
 
-Run one local mobile Lighthouse pass before delivery. Target:
+Run the mobile Lighthouse audit before delivery with `scripts/performance-audit.mjs` (`npm run qa:performance`, three runs by default); `quickstart.py verify --mode handoff` runs it with the actual `--server-command`. Handoff and local final need at least three retained raw runs and that server command; a single run is only a preview diagnostic. Target:
 
 - Performance at least 90;
 - LCP at most 2.5 seconds;
@@ -186,7 +187,7 @@ Run one local mobile Lighthouse pass before delivery. Target:
 
 Repeat failing or marginal measurements after fixes. Do not delete needed proof or content merely to improve a score.
 
-An absent executable or failed `require.resolve` means not installed, not unavailable. Attempt a run-local installation before skipping. Use a supported Node runtime and keep dependencies/cache outside published assets. For example, from the run workspace:
+An absent executable or failed `require.resolve` means not installed, not unavailable. Attempt a run-local installation before skipping. Use a supported Node runtime and keep dependencies/cache outside published assets. For example, from the run workspace (a diagnostic only: its single `build/lighthouse.json` is not performance-gate evidence):
 
 ```bash
 npm install --prefix qa-tools --cache qa-tools/npm-cache --no-audit --no-fund lighthouse

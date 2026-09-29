@@ -1,10 +1,10 @@
-# Optional copy review and required publication authorization
+# Copy approval and required publication authorization
 
-The default builder does not pause between copy and design. It autonomously creates and tests a complete local final. Copy approval remains available only when the user explicitly requests an approval-gated workflow. Publication requires real authorization because it changes an external account, but the original request satisfies that requirement when it explicitly included publication. Missing business facts, launch IDs or account access can still require a specific question; do not ask generic permission repeatedly.
+In automatic mode the builder does not pause between copy and design unless the user explicitly requests an approval-gated workflow; it autonomously creates and tests a complete local final. Guided mode always stops for the owner's complete-copy approval, and `approvals.copy_before_design` cannot switch it off (`workflow.copy_approval_required`). Publication requires real authorization because it changes an external account, but the original request satisfies that requirement when it explicitly included publication. Missing business facts, launch IDs or account access can still require a specific question; do not ask generic permission repeatedly.
 
-## Optional copy checkpoint
+## Copy checkpoint
 
-Create the structured master, client brief, selected reference context and actual editorial review using `copy-workflow.md`. Run `workflow.py check-copy`; a passing default project continues directly to design. Only when `funnel.json` sets `approvals.copy_before_design` to true should the agent present the full wording, stop, and save the user's real approval message:
+Create the structured master, client brief, selected reference context and actual editorial review using `copy-workflow.md`. Run `workflow.py check-copy`; a passing automatic-mode project without `approvals.copy_before_design` continues directly to design. In guided mode, or when that flag is true, present the full wording, stop, and save the user's real approval message:
 
 ```sh
 python3 scripts/workflow.py approve-copy PROJECT --message-file PROJECT/build/user-copy-approval.txt --message-id ACTUAL_MESSAGE_REFERENCE
@@ -13,7 +13,7 @@ python3 scripts/workflow.py check-copy PROJECT
 
 This records the copy/offer revision, not just a boolean, plus a hash of each passage (hero, each section by id, modal, thank-you, brochure, interface text and the offer/form contract). After an edit, `check-copy` lists only the changed passages in `changed_passages`; show the owner those passages (the guide's "Show what changed" view) and record their approval the same way. The first approval always covers the complete copy. Metadata such as claim ids, notes and review ids is not approvable text, so editing it never asks the owner again. Research and editorial checks remain independently fresh.
 
-After the copy gate (and optional approval when configured), complete the substantive design system and image plan. Before creating or editing client HTML or generating the brochure PDF, run:
+After the copy gate (and the copy approval where guided mode or the flag requires it), complete the substantive design system and image plan. Before creating or editing client HTML or generating the brochure PDF, run:
 
 ```sh
 python3 scripts/workflow.py check-build PROJECT
@@ -40,7 +40,7 @@ After a current `check_gates.py snapshot`, run `workflow.py record-copy-evidence
 
 ## Resuming
 
-Use [resuming-work.md](resuming-work.md) at the start of a resumed task. It derives current stages and preserves optional copy approval and exact-revision publication authorization. Material source changes invalidate publication eligibility. Operator checkpoints and a local status view cannot create external-action authorization.
+Use [resuming-work.md](resuming-work.md) at the start of a resumed task. It derives current stages and preserves copy approval (always required in guided mode, optional in automatic mode) and exact-revision publication authorization. Material source changes invalidate publication eligibility. Operator checkpoints and a local status view cannot create external-action authorization.
 
 ## Limits and tests
 

@@ -118,7 +118,7 @@ Run the existing browser and compatibility tools against the final snapshot.
 Captures retain actual viewport width/height, device scale factor and hash;
 full-page screenshot height is not viewport height. Cover the guarded widths
 360, 390, 768, 1024, 1180, 1280 and 1440, the 1280 short-height state, and the
-320 first-screen check where applicable. Keep configured engine/version evidence,
+required 320x700 first-screen check. Keep configured engine/version evidence,
 including Chromium and WebKit when selected. Capture modal initial/error/focus,
 server error and result states, not just a closed page. Keep the title and close
 control in a non-scrolling header with a separately scrolling body. Inline field
@@ -156,8 +156,12 @@ that result. It must remain a preview while mandatory evidence is blocked,
 missing or stale. Accepted local checks are `local-quality-ready`, not production
 readiness or yet a verified archive.
 
-Use `portable_handoff.py export` (also called by both modern static and Worker
-packaging routes). It checks source identity, actual restored gate/copy evidence,
+Export with
+`python3 scripts/package_handoff.py PROJECT --output build/handoff/<name>.zip --client "<client name>"`,
+or in a guided run with `python3 scripts/guide.py local PROJECT` when `guide.py next`
+names `finalize_local`. Both use the same `portable_handoff` exporter for modern
+static and Worker projects; `portable_handoff.py` itself only offers `verify` and
+`extract`. The exporter checks source identity, actual restored gate/copy evidence,
 archive paths and hashes, and records the real clean-restore outcome in
 `build/export-verification.json`. Only a successful reviewed export can report
 `local-final`. Its hash is retained outside the ZIP to avoid a circular self-hash.

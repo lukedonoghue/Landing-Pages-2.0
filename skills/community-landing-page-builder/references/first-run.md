@@ -12,7 +12,7 @@ Use this guide when installing the skill, checking its local tools, or demonstra
 6. Inspect the captured page/modal/thank-you and all PDF page renders. Automated verification deliberately leaves visual review pending.
 7. For a real project, continue research and copy drafting. Do not reuse fictional approval/content or remove the fixture flag to publish the demo.
 
-There is no routine approval checkpoint for reversible local work. Default real-client builds continue through the tested local final. Copy approval is optional when explicitly requested; publication still needs an actual user instruction and controlled live test leads need explicit permission.
+There is no routine approval checkpoint for reversible local work. Default real-client builds continue through the tested local final. In automatic mode copy approval is optional when explicitly requested; guided mode always stops for the owner's copy approval. Publication still needs an actual user instruction and controlled live test leads need explicit permission.
 
 ## Commands
 
@@ -28,7 +28,7 @@ python3 scripts/dev.py demo
 python3 scripts/dev.py serve
 ~~~
 
-Use Node 24 (minimum 22.19). If it is not on PATH, append --node /absolute/path/to/node, or set FUNNEL_NODE. Bootstrap creates a private Python environment inside the skill only if the current Python lacks the PDF dependencies; later quickstart calls discover that environment automatically.
+Use Node 24 (minimum 22.19). If it is not on PATH, append --node /absolute/path/to/node, or set FUNNEL_NODE. Bootstrap creates a private Python environment (`.venv` in the skill, or in the project with `--project`) only if the current Python lacks the PDF dependencies, installing the pinned `requirements-build.txt` (a generated project uses its `.community-builder` copy). A failed install removes the environment it created; later quickstart calls use the environment only when it imports those dependencies.
 
 From an installed skill, use the same commands through its own scripts/quickstart.py. No repository checkout is needed for the fictional demo. The default demo directory is .development/demo under the current working directory. Supply --project /path/to/new-demo to choose another location.
 
@@ -46,9 +46,9 @@ python3 scripts/dev.py verify-demo --full
 python3 scripts/dev.py reset-demo
 ~~~
 
-- check runs the repository's Python and application regressions and rejects skipped application tests. From an installed skill without the repository, its output explicitly identifies the narrower installed-skill suite scope.
+- check runs the repository's Python and application regressions and rejects skipped application tests. It needs a repository checkout: installed copies and generated projects do not ship `tests/`, so check stops there with that explanation.
 - verify-demo creates its own loopback-only server and stops it afterward. It runs Chromium/WebKit and a real local form-to-D1-backed-CRM journey, captures actual desktop/mobile wording without submitting another lead, compares page/modal/thank-you/PDF against the authored synthetic master, records both release gates, then renders every PDF page. These fixture checks are never human copy approval.
-- --full adds the nine-viewport layout matrix and three mobile Lighthouse runs.
+- --full adds the ten-viewport layout matrix and three mobile Lighthouse runs.
 - Reports and screenshots remain under the demo's build directory. No Cloudflare account is needed.
 - The tests create a synthetic visit/contact that remains in local historical metrics. A soft-deleted contact would not remove that history.
 - reset-demo only accepts a marked local demo with no account/domain/remote database binding. It preserves the old database state privately under .secrets/demo-backups before rebuilding/seeding the local database.

@@ -59,5 +59,4 @@ its native embedded preview. No paid service is automatically enabled.
 The validated standard adapter covers a single custom domain, one Worker and one
 D1 database on macOS/Linux. Separate public/CRM domains, external-DNS gateways,
 static-only and workers.dev-only profiles retain their advanced publishing paths;
-the wizard does not rewrite them. See the implementation status for the exact
-release evidence and scope.
+the wizard does not rewrite them.

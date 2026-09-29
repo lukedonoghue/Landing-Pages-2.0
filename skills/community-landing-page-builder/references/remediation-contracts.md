@@ -65,8 +65,11 @@ New contract-4 projects use structured canonical records as authorities. Existin
 retained Markdown documents still must be nonempty and free of scaffold markers.
 Render declared views with `completion_contract.render_documents`, using
 `build/document-sources.json`; do not remove template markers just to pass.
-`validate_required_records.py .` checks the selected records and retained views.
-Generated QA must have actual result rows. A missing document source is a blocker.
+`validate_required_records.py . --stage copy|build|handoff` (default handoff)
+checks the selected records and that stage's retained views: the copy gate reads
+`process_contract.COPY_GATE_DOCS`, the build gate `BUILD_GATE_DOCS`, and handoff every
+`docs/*.md`. Generated QA must have actual result rows at handoff. A missing
+document source is a blocker.
 
 ## Research before questions, and before accepted copy
 
@@ -124,8 +127,10 @@ A missing measurement is not excused by a fallback-font note.
 The guided research worker writes `build/discovery.json` with the current
 research fingerprint and actual source-bound suggestions. For an unavoidable
 owner question, add an `unresolved_facts` row: catalog question `id`, `category`
-(identity, offer, claim, primary_action, form_fields, destination or
-business_follow_up), `reason`, `material_effect`, and prior searched evidence.
+(identity, offer, claim, primary_action, form_fields, destination,
+business_follow_up or search_intent, the Google Ads keywords that live in the
+owner's ad account rather than on the site), `reason`, `material_effect`, and
+prior searched evidence.
 Only unknown initial identity may have no prior evidence. The coordinator logs
 actual question presentation in `build/question-log.json`. Do not ask already
 answered or source-discoverable facts again. Automatic mode does not introduce
@@ -225,7 +230,7 @@ pixel height is not viewport height. Exercise every configured browser engine.
 
 Run at least three real mobile Lighthouse audits, keep raw tool/version, URL,
 throttling and numeric results, and provide the actual server command with
-`--server-command`. Budgets come from funnel quality settings; final validation
+`--server-command`; `quickstart.py verify --mode handoff` does both. Budgets come from funnel quality settings; final validation
 recomputes medians and enforces those settings. A missing run/tool is a blocker,
 not a warning. Any accepted limit needs `scope`, `reason`, `owner_impact`,
 `retest_trigger`, exact warning identity and current evidence.
