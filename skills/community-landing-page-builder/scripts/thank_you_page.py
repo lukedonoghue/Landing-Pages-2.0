@@ -6,7 +6,7 @@ never a reason to silently ship an unrelated success card.
 """
 from __future__ import annotations
 import argparse
-from html import escape
+from html import escape, unescape
 from html.parser import HTMLParser
 import json
 from pathlib import Path
@@ -158,6 +158,13 @@ def derive(root, data):
     result=apply(text,edits)
     final=Document(result)
     if any(n.tag=='form' or OPENERS.intersection(n.attrs) for n in final.nodes):raise ValueError('Remove remaining enquiry forms/actions before delivery')
+    if master.is_file():
+        # The rendered-copy gate expects every approved thank_you phrase on this page; report a mismatch now, not after capture.
+        import copy_parity
+        shown=copy_parity.normalize(unescape(re.sub(r'<[^>]+>',' ',re.sub(r'<(script|style)\b.*?</\1\s*>|<!--.*?-->',' ',result,flags=re.S|re.I))))
+        wording={key:value for key,value in (quality.read(root,'build/page-copy.json').get('thank_you') or {}).items() if key!='delivery'}
+        unshown=[key for key,value in copy_parity.leaves(wording,'/thank_you') if not copy_parity.contains(shown,value)]
+        if unshown:raise ValueError('The derived page would not show the approved wording at build/page-copy.json '+', '.join(unshown)+'. It shows confirmed_headline, follow_up, guide_summary and download_label from build/thank-you.json with fixed confirmation text; change one so they match, and record the change')
     return source,output,result,{'source_main_sha256':quality.sha(source),'guide_build_sha256':quality.sha(root/'build/guide-build.json'),
         'reused_sections':len(useful),'download_path':pdf_url,'cover_path':cover_url,'follow_up':data['follow_up']}
 

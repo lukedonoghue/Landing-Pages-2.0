@@ -77,6 +77,17 @@ class ConfigureAfterDerivingTests(TemplateThankYou):
 
 
 class DerivedThankYouContractTests(TemplateThankYou):
+    def test_approved_thank_you_wording_the_page_cannot_show_is_reported_when_deriving(self):
+        config = json.loads((self.root / 'build/thank-you.json').read_text())
+        shown = {'label': 'Your request has been received', 'headline': config['confirmed_headline'], 'follow_up_promise': config['follow_up'],
+                 'download_label': config['download_label'], 'reader_heading': 'Read your guide now', 'delivery': 'Not rendered: the delivery contract'}
+        (self.root / 'build/page-copy.json').write_text(json.dumps({'thank_you': {**shown, 'eyebrow': 'Thanks for getting in touch', 'body': 'We will call you today.'}}))
+        # Previously this surfaced only at the rendered-copy gate, after a browser capture.
+        with self.assertRaisesRegex(ValueError, r'build/page-copy\.json /thank_you/eyebrow, /thank_you/body\. It shows confirmed_headline'):
+            self.derive()
+        (self.root / 'build/page-copy.json').write_text(json.dumps({'thank_you': shown}))
+        self.assertIn(config['confirmed_headline'], self.derive())
+
     def test_guide_cover_satisfies_the_static_image_contract(self):
         self.derive()
         shutil.copy(TEMPLATE / 'public/privacy.html', self.root / 'public/privacy.html')
