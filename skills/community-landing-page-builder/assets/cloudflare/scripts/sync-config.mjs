@@ -55,12 +55,16 @@ const headerPhone=phoneDisplay&&phoneUri?`<a class="header-phone" data-header-ph
 // Keep the browser attribute in step with funnel.json so a page never shows a
 // consent banner (or collects measurement) the server configuration did not select,
 // and show the header phone only when a verified number is configured.
+let mainChanged=false;
 for (const page of ['public/index.html','public/thank-you.html']) {
   if (!existsSync(page)) continue;
   const html = readFileSync(page, 'utf8');
+  // thank_you_page.py derives this page from index.html and binds its hash; editing it
+  // here would make it unregenerable, so re-deriving carries these settings across.
+  if (page==='public/thank-you.html'&&html.includes('data-confirmation-hero')) { if (mainChanged) console.log('public/thank-you.html is derived from public/index.html; run python3 scripts/thank_you_page.py . to carry these settings across.'); continue; }
   const synced = html.replace(/(<script[^>]*src="[^"]*funnel\.js"[^>]*data-analytics-mode=")[a-z]+(")/, `$1${mode}$2`)
-    .replace(/<a class="header-phone" data-header-phone href="[^"]*"(?: hidden)?>[^<]*<\/a>/, headerPhone);
-  if (synced !== html) writeFileSync(page, synced);
+    .replace(/<a class="header-phone" data-header-phone href="[^"]*"(?: hidden)?>[^<]*<\/a>/, () => headerPhone);
+  if (synced !== html) { writeFileSync(page, synced); mainChanged ||= page==='public/index.html'; }
 }
 writeFileSync('src/site-config.json',JSON.stringify({...current,name:funnel.client.name,color:funnel.client.color||current.color,logo:funnel.client.logo||'',timezone,analyticsMode:mode,attributionMode,advertisingUserDataMode,consentUiMode,sensitiveCategory,gtmContainerId,googleAdsOffline,publicHost,crmHost,pagesGatewayHost,formFields:fields,allowedPaths:funnel.allowed_paths||['/','/index.html']},null,2)+'\n');
 if(crmHost){

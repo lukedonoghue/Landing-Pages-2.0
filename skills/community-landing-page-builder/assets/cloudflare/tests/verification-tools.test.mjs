@@ -168,6 +168,20 @@ test('sync config enforces requested attribution and supports unified or distinc
   result=run({...base,analytics:{mode:'disabled',attribution_mode:'disabled'}});assert.notEqual(result.status,0);assert.match(result.stderr,/required_attribution_mode explicitly/);
   result=run({...base,analytics:{mode:'disabled',attribution_mode:'disabled',required_attribution_mode:'disabled'}});assert.equal(result.status,0,result.stderr);assert.equal(JSON.parse(readFileSync(path.join(root,'src/site-config.json'))).attributionMode,'disabled');
 });
+test('sync config writes the header phone literally and leaves a derived thank-you page to thank_you_page.py',t=>{
+  const root=temporary(t);for(const dir of ['scripts','src','public'])mkdirSync(path.join(root,dir),{recursive:true});
+  copyFileSync(new URL('../scripts/sync-config.mjs',import.meta.url),path.join(root,'scripts/sync-config.mjs'));writeFileSync(path.join(root,'src/site-config.json'),'{}');
+  const template=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');writeFileSync(path.join(root,'public/index.html'),template);
+  const derived='<!doctype html><html><head><script src="funnel.js" data-analytics-mode="consent" data-measure="false" defer></script></head><body><header><a class="brand" href="/">Synthetic</a><a class="header-phone" data-header-phone href="tel:" hidden>Call</a><a class="confirmation-phone" href="tel:+611300555">1300 555</a></header><main><section class="hero thank-you-hero" data-confirmation-hero></section></main></body></html>';
+  writeFileSync(path.join(root,'public/thank-you.html'),derived);
+  // String.prototype.replace expands $' $& $$ in a replacement string; the display text must stay literal.
+  writeFileSync(path.join(root,'funnel.json'),JSON.stringify({client:{name:'Synthetic',phone_display:"1300 $' $& $$ 555",phone_uri:'tel:+611300555'},form_fields:[{name:'email',type:'email',required:true}],analytics:{mode:'disabled',attribution_mode:'lead',required_attribution_mode:'lead'}}));
+  const result=spawnSync(process.execPath,['scripts/sync-config.mjs'],{cwd:root,encoding:'utf8'});assert.equal(result.status,0,result.stderr);
+  const expected=template.replace('<a class="header-phone" data-header-phone href="tel:" hidden>Call</a>',()=>'<a class="header-phone" data-header-phone href="tel:+611300555">1300 $\' $&amp; $$ 555</a>');
+  assert.notEqual(expected,template);assert.equal(readFileSync(path.join(root,'public/index.html'),'utf8'),expected);
+  assert.equal(readFileSync(path.join(root,'public/thank-you.html'),'utf8'),derived,'A derived confirmation page is re-derived, never edited in place');
+  assert.match(result.stdout,/run python3 scripts\/thank_you_page\.py \./);
+});
 test('preflight blocks attribution drift without selecting a global policy',t=>{
   const root=temporary(t);for(const dir of ['scripts','src','public'])mkdirSync(path.join(root,dir),{recursive:true});
   for(const name of ['preflight','free-plan'])copyFileSync(new URL(`../scripts/${name}.mjs`,import.meta.url),path.join(root,`scripts/${name}.mjs`));
